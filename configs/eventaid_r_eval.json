@@ -1,0 +1,33 @@
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventaid_r_zip",
+    "root": "data/EventAid-R",
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "target_offset": 1,
+    "tone_map": "none"
+  },
+  "model": {
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "causal_candidates": 32,
+    "spatial_radius": 0.12,
+    "temporal_radius": 0.30,
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "eval": {
+    "batch_size": 1,
+    "num_workers": 2,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "max_samples": null,
+    "save_predictions": 20,
+    "output_dir": "runs/eventaid_r_external"
+  }
+}

@@ -1,0 +1,20 @@
+services:
+  experiment:
+    build:
+      context: .
+      args:
+        TORCH_INDEX_URL: ${TORCH_INDEX_URL:-}
+    image: asgcn-event-reconstruction:local
+    working_dir: /workspace
+    volumes:
+      - ${DATA_DIR:-./data}:/workspace/data:ro
+      - ${RUNS_DIR:-./runs}:/workspace/runs
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: ["inspect", "--config", "configs/eventhdr_train.json"]

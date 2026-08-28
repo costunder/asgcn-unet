@@ -1,0 +1,20 @@
+{
+  "source": "https://sites.google.com/view/eventaid-benchmark",
+  "displayed_total_gb": 24.68024,
+  "files": [
+    {"scene":"R-ball","size":"5.64GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AOa2ZA-ZO27IWfKur1SU_Fw/EventAid-R/R-ball.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-bear","size":"25.81MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKpsAqhaQuAlRGnY2FhAKqE/EventAid-R/R-bear.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-blocks","size":"365.33MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AL4wHVG3Df2bbfNCghWyJaM/EventAid-R/R-blocks.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-box","size":"119.89MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AGvV-9JnNptwOaI-KVIUSK0/EventAid-R/R-box.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-building","size":"3.03GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ADhYTCmHnEkAwfhHaEWgzCk/EventAid-R/R-building.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-outdoor","size":"19.07MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKP0sOL3pENW3wtyNRAX26k/EventAid-R/R-outdoor.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-playball","size":"2.47GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AF8acN06ce8FSBdw159Znk8/EventAid-R/R-playball.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-room1","size":"869.19MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKuYq0bLROmpyoeqj7zbvSI/EventAid-R/R-room1.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-room2","size":"1.07GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ADW-5jFnZ_JUkLGPEE1OrvI/EventAid-R/R-room2.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-sculpture","size":"526.32MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ACFkV3fjjREExbn-KA9g-eA/EventAid-R/R-sculpture.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-toy","size":"104.63MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AD7BEyswPqPVaMi9yRXf4jw/EventAid-R/R-toy.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-traffic","size":"6.96GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/APAzVk_7JK12KIm2KSqSWb8/EventAid-R/R-traffic.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-umbrella","size":"1.48GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AFHQxXlstNbGerXeh_sFujI/EventAid-R/R-umbrella.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-wall","size":"2GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AFj-qvqZ7f8Ma9Q2tWXrb5k/EventAid-R/R-wall.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"}
+  ]
+}

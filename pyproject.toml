@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "asgcn-reconstruction"
+version = "0.1.0"
+description = "ASGCN-style event-to-frame reconstruction for EventHDR and EventAid-R"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "h5py>=3.11,<4",
+  "numpy>=1.26,<3",
+  "Pillow>=10.2,<13",
+  "torch>=2.3,<3",
+  "tqdm>=4.66,<5",
+]
+
+[project.optional-dependencies]
+eval = ["lpips>=0.1.4"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+asgcn-recon = "asgcn_recon.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

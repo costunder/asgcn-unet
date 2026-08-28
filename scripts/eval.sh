@@ -3,7 +3,7 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/eventhdr_eval.json}}"
+CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_ann.json}}"
 CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}}"
 INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
@@ -18,7 +18,7 @@ INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 cd "${PROJECT_ROOT}"
 if [[ ! -x "${PYTHON_BIN}" ]]; then
   echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
-  echo "Run ./scripts/setup_server.sh first, or set PYTHON_BIN." >&2
+  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
   exit 1
 fi
 

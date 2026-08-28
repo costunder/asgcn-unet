@@ -17,4 +17,4 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
-    command: ["inspect", "--config", "configs/eventhdr_train.json"]
+    command: ["inspect", "--config", "configs/hdr_train.json"]

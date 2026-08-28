@@ -24,7 +24,7 @@ cd asgcn-event-reconstruction
 read -r -p "PyTorch wheel index URL (Enter=PyPI default): " TORCH_INDEX_URL
 export TORCH_INDEX_URL
 export PROJECT_EXTRAS=dev,eval
-bash scripts/setup_server.sh
+bash scripts/setup.sh
 source .venv/bin/activate
 ```
 
@@ -32,9 +32,8 @@ CPU 전용 설치나 PyPI 기본 wheel을 사용할 때는 `TORCH_INDEX_URL`을 
 보여야 하는 compute node에서 설치를 검사하려면 다음과 같이 실행한다.
 
 ```bash
-python scripts/check_environment.py --require-cuda
+python scripts/check_env.py --require-cuda
 python -m pytest -q
-python -m asgcn_recon.smoke --workspace /tmp/asgcn-smoke
 ```
 
 환경 진단 결과에는 Python/PyTorch/CUDA/cuDNN/GPU 이름, 데이터 파일 수, 출력 폴더 쓰기 권한과
@@ -63,14 +62,21 @@ data/
     └── R-*.zip
 ```
 
+공식 EventHDR 파일을 배치한 뒤 train과 eval 구조를 CLI로 검사한다.
+
+```bash
+asgcn-recon inspect --config configs/hdr_train.json --samples 2
+asgcn-recon inspect --config configs/hdr_ann.json --samples 2
+```
+
 EventAid-R는 ZIP을 풀지 않고 직접 읽는다. 로더만 확인할 때는 작은 장면 하나만 받는다.
 
 ```bash
-bash scripts/download_eventaid_r.sh R-bear
-python -m asgcn_recon.cli inspect --config configs/eventaid_r_eval.json --samples 2
+bash scripts/get_aid.sh R-bear
+asgcn-recon inspect --config configs/aid_ann.json --samples 2
 ```
 
-전체 14개 장면이 필요할 때만 `bash scripts/download_eventaid_r.sh --all`을 사용한다.
+전체 14개 장면이 필요할 때만 `bash scripts/get_aid.sh --all`을 사용한다.
 
 ## 4. 단일 GPU 서버
 
@@ -78,7 +84,7 @@ SSH 연결이 끊겨도 학습이 유지되도록 `tmux` 안에서 실행한다.
 
 ```bash
 tmux new -s asgcn
-bash scripts/run_train.sh configs/eventhdr_train.json
+bash scripts/train.sh configs/hdr_train.json
 ```
 
 분리: `Ctrl-b`, `d`
@@ -88,21 +94,20 @@ bash scripts/run_train.sh configs/eventhdr_train.json
 
 ```bash
 python -m asgcn_recon.cli train \
-  --config configs/eventhdr_train.json \
+  --config configs/hdr_train.json \
   --resume runs/eventhdr_asgcn/last.pt
 ```
 
 평가:
 
 ```bash
-bash scripts/run_eval.sh \
-  configs/eventhdr_eval.json \
+bash scripts/eval.sh \
+  configs/hdr_ann.json \
   runs/eventhdr_asgcn/best.pt
 ```
 
-EventAid-R 외부평가는 첫 번째 인자만 `configs/eventaid_r_eval.json`으로 바꾼다.
-SNN 평가는 결과 덮어쓰기를 막기 위해 각각 `configs/eventhdr_snn_eval.json`,
-`configs/eventaid_r_snn_eval.json`을 사용한다.
+EventAid-R 외부평가는 첫 번째 인자만 `configs/aid_ann.json`으로 바꾼다. SNN 평가는 결과
+덮어쓰기를 막기 위해 각각 `configs/hdr_snn.json`, `configs/aid_snn.json`을 사용한다.
 
 ## 5. SLURM 클러스터
 
@@ -110,10 +115,10 @@ SNN 평가는 결과 덮어쓰기를 막기 위해 각각 `configs/eventhdr_snn_
 값을 수정한다.
 
 ```bash
-sbatch server/slurm_train.sbatch
+sbatch server/train.sbatch
 
-sbatch --export=ALL,CONFIG_PATH=configs/eventaid_r_eval.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt server/slurm_eval.sbatch
+sbatch --export=ALL,CONFIG_PATH=configs/aid_ann.json,\
+CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt server/eval.sbatch
 ```
 
 로그는 기본적으로 `slurm-<job-name>-<job-id>.out/.err`에 기록되고 Git에서는 제외된다.
@@ -128,7 +133,7 @@ docker build \
   -t asgcn-event-reconstruction .
 
 docker compose run --rm experiment \
-  inspect --config configs/eventhdr_train.json
+  inspect --config configs/hdr_train.json
 ```
 
 `compose.yaml`은 `DATA_DIR`을 읽기 전용 `/workspace/data`, `RUNS_DIR`을 쓰기 가능한

@@ -3,7 +3,7 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/eventhdr_train.json}}"
+CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_train.json}}"
 PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
@@ -13,7 +13,7 @@ RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
 cd "${PROJECT_ROOT}"
 if [[ ! -x "${PYTHON_BIN}" ]]; then
   echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
-  echo "Run ./scripts/setup_server.sh first, or set PYTHON_BIN." >&2
+  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
   exit 1
 fi
 if [[ ! -f "${CONFIG_PATH}" ]]; then

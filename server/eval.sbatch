@@ -23,7 +23,7 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/eventhdr_eval.json}"
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_ann.json}"
 export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
@@ -41,5 +41,5 @@ echo "Config: ${CONFIG_PATH}"
 echo "Checkpoint: ${CHECKPOINT_PATH}"
 nvidia-smi || true
 
-srun bash "${PROJECT_ROOT}/scripts/run_eval.sh" \
+srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}"

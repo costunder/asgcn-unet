@@ -6,7 +6,7 @@
 
 - [ ] `python -m ruff check .`
 - [ ] `python -m pytest -q`
-- [ ] `python -m asgcn_recon.smoke --workspace data/smoke`
+- [ ] 데이터 로더/config 변경 시 공식 데이터에서 `asgcn-recon inspect`를 실행했습니다.
 
 ## 실험 영향
 

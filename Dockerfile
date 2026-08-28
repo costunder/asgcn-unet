@@ -28,7 +28,6 @@ COPY configs ./configs
 COPY manifests ./manifests
 COPY scripts ./scripts
 COPY server ./server
-COPY tests ./tests
 
 RUN mkdir -p /workspace/data /workspace/runs
 

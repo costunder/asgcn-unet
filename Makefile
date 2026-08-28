@@ -1,12 +1,12 @@
 PYTHON ?= .venv/bin/python
 
-.PHONY: setup doctor test lint smoke inspect train
+.PHONY: setup doctor test lint inspect train
 
 setup:
-	bash scripts/setup_server.sh
+	bash scripts/setup.sh
 
 doctor:
-	$(PYTHON) scripts/check_environment.py
+	$(PYTHON) scripts/check_env.py
 
 test:
 	$(PYTHON) -m pytest -q
@@ -14,11 +14,8 @@ test:
 lint:
 	$(PYTHON) -m ruff check .
 
-smoke:
-	$(PYTHON) -m asgcn_recon.smoke --workspace data/smoke
-
 inspect:
-	$(PYTHON) -m asgcn_recon.cli inspect --config configs/eventhdr_train.json
+	$(PYTHON) -m asgcn_recon.cli inspect --config configs/hdr_train.json
 
 train:
-	$(PYTHON) -m asgcn_recon.cli train --config configs/eventhdr_train.json
+	$(PYTHON) -m asgcn_recon.cli train --config configs/hdr_train.json

@@ -16,12 +16,7 @@ class EventGraph:
 
 
 def _safe_batch_norm(norm: nn.BatchNorm1d, values: torch.Tensor) -> torch.Tensor:
-    """Use running statistics for a singleton graph during training.
-
-    An empty event crop is represented by one dummy node. BatchNorm cannot estimate
-    variance from that one node, so the fallback keeps the forward pass defined while
-    ordinary graphs continue updating their running statistics.
-    """
+    """Use running statistics when a graph has fewer than two real events."""
     if norm.training and values.shape[0] < 2:
         return F.batch_norm(
             values,
@@ -42,10 +37,9 @@ def prepare_event_nodes(
     """Normalize raw [x,y,t,p] while retaining event order."""
     height, width = sensor_size
     if events.numel() == 0:
-        events = torch.tensor(
-            [[(width - 1) / 2.0, (height - 1) / 2.0, 0.0, 0.0]],
-            device=events.device,
-            dtype=torch.float32,
+        return (
+            torch.empty((0, 4), device=events.device, dtype=torch.float32),
+            torch.empty((0, 3), device=events.device, dtype=torch.float32),
         )
     events = events.float()
     x = events[:, 0] / max(width - 1, 1)
@@ -93,7 +87,7 @@ def build_causal_graph(
             )
         )
 
-    # Self edges guarantee a defined degree even in a sparse or empty crop.
+    # Self edges guarantee a defined degree for sparse non-empty crops.
     self_nodes = torch.arange(n, device=device)
     src_parts.append(self_nodes)
     dst_parts.append(self_nodes)
@@ -199,6 +193,8 @@ class SplineMessageLayer(nn.Module):
     def rate_convert(
         self, z: torch.Tensor, simulation_steps: int
     ) -> tuple[torch.Tensor, torch.Tensor]:
+        if z.numel() == 0:
+            return z, torch.zeros((), device=z.device, dtype=z.dtype)
         threshold = self.threshold.to(dtype=z.dtype, device=z.device).clamp_min(1e-6)
         normalized = torch.clamp(torch.relu(z) / threshold, 0.0, 1.0)
         spike_count = torch.floor(normalized * simulation_steps + 1e-6)
@@ -274,6 +270,8 @@ class ASGCNEncoder(nn.Module):
         if len(activations) != len(self.layers):
             raise ValueError("Activation count does not match graph layer count")
         for layer, activation in zip(self.layers, activations, strict=True):
+            if activation.numel() == 0:
+                continue
             maxima = activation.amax(dim=0).clamp_min(1e-6)
             if momentum < 0:
                 layer.threshold.copy_(torch.maximum(layer.threshold, maxima))

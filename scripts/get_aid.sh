@@ -10,7 +10,7 @@ DESTINATION="${EVENTAID_ROOT:-${PROJECT_ROOT}/data/EventAid-R}"
 usage() {
   cat <<'EOF'
 Usage:
-  ./scripts/download_eventaid_r.sh [options] [SCENE ...]
+  ./scripts/get_aid.sh [options] [SCENE ...]
 
 With no SCENE, only the small R-bear sample is downloaded. ZIP files stay
 compressed because the loader reads them directly.
@@ -21,9 +21,9 @@ Options:
   -h, --help             Show this help
 
 Examples:
-  ./scripts/download_eventaid_r.sh
-  ./scripts/download_eventaid_r.sh R-bear R-outdoor
-  ./scripts/download_eventaid_r.sh --all
+  ./scripts/get_aid.sh
+  ./scripts/get_aid.sh R-bear R-outdoor
+  ./scripts/get_aid.sh --all
 EOF
 }
 

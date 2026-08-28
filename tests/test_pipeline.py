@@ -12,15 +12,15 @@ from asgcn_recon.engine import _data_loader, benchmark, train
 from asgcn_recon.graph import build_causal_graph, prepare_event_nodes
 from asgcn_recon.losses import ReconstructionLoss
 from asgcn_recon.model import ASGCNReconstructor
-from asgcn_recon.smoke import create_eventaid_smoke, create_eventhdr_smoke
 from asgcn_recon.utils import (
     load_json,
     resolve_experiment_paths,
 )
+from tests.fixtures import make_eventaid, make_eventhdr
 
 
 def test_eventhdr_loader(tmp_path):
-    create_eventhdr_smoke(tmp_path / "hdr")
+    make_eventhdr(tmp_path / "hdr")
     dataset = EventHDRDataset(tmp_path / "hdr", max_events=32)
     sample = dataset[0]
     assert sample["events"].shape == (32, 4)
@@ -31,7 +31,7 @@ def test_eventhdr_loader(tmp_path):
 
 
 def test_eventhdr_stride_aggregates_intervals(tmp_path):
-    create_eventhdr_smoke(tmp_path / "hdr")
+    make_eventhdr(tmp_path / "hdr")
     dataset = EventHDRDataset(tmp_path / "hdr", max_events=None, frame_stride=2)
     assert len(dataset) == 2
     assert dataset.samples[1]["end_idx"] - dataset.samples[1]["start_idx"] == 192
@@ -39,7 +39,7 @@ def test_eventhdr_stride_aggregates_intervals(tmp_path):
 
 
 def test_eventaid_next_frame_alignment(tmp_path):
-    create_eventaid_smoke(tmp_path / "eventaid")
+    make_eventaid(tmp_path / "eventaid")
     dataset = EventAidRZipDataset(tmp_path / "eventaid", max_events=32)
     assert len(dataset) == 3
     assert dataset.samples[0]["frame_id"] == 1
@@ -56,7 +56,7 @@ def test_causal_graph_has_no_future_sources():
     assert torch.all(edge_index[0] <= edge_index[1])
 
 
-def test_singleton_graph_can_train():
+def test_empty_event_interval_uses_zero_node_graph():
     sample = {
         "events": torch.empty((0, 4), dtype=torch.float32),
         "target": torch.zeros((1, 8, 8), dtype=torch.float32),
@@ -73,13 +73,15 @@ def test_singleton_graph_can_train():
         raster_downsample=4,
         decoder_channels=4,
     )
-    prediction, _ = model.forward_sample(sample)
+    prediction, diagnostics = model.forward_sample(sample)
     prediction.mean().backward()
     assert torch.isfinite(prediction).all()
+    assert diagnostics["nodes"] == 0
+    assert diagnostics["edges"] == 0
 
 
 def test_model_forward_backward(tmp_path):
-    create_eventhdr_smoke(tmp_path / "hdr")
+    make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
     model = ASGCNReconstructor(
         hidden_dim=8,
@@ -99,7 +101,7 @@ def test_model_forward_backward(tmp_path):
 
 
 def test_bn_folding_and_snn_rate_path(tmp_path):
-    create_eventhdr_smoke(tmp_path / "hdr")
+    make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
     model = ASGCNReconstructor(
         hidden_dim=8,
@@ -139,7 +141,7 @@ def test_bn_folding_and_snn_rate_path(tmp_path):
 
 
 def test_cpu_autocast_keeps_raster_dtypes_compatible(tmp_path):
-    create_eventhdr_smoke(tmp_path / "hdr")
+    make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=16)[0]
     model = ASGCNReconstructor(
         hidden_dim=4,
@@ -184,7 +186,7 @@ def test_config_paths_are_independent_of_shell_cwd(tmp_path):
 
 def test_eventhdr_split_names_all_missing_files(tmp_path):
     data_root = tmp_path / "hdr"
-    create_eventhdr_smoke(data_root)
+    make_eventhdr(data_root)
     manifest_path = tmp_path / "split.json"
     manifest_path.write_text(
         json.dumps({"train_files": ["1.h5", "2.h5"], "val_files": ["3.h5"]}),
@@ -201,12 +203,12 @@ def test_eventhdr_split_names_all_missing_files(tmp_path):
 
 def test_inspect_training_config_validates_both_manifest_splits(tmp_path):
     data_root = tmp_path / "hdr"
-    create_eventhdr_smoke(data_root)
+    make_eventhdr(data_root)
     manifest_path = tmp_path / "split.json"
     manifest_path.write_text(
         json.dumps(
             {
-                "train_files": ["smoke_scene.h5"],
+                "train_files": ["test.h5"],
                 "val_files": ["missing_validation.h5"],
             }
         ),
@@ -261,7 +263,7 @@ def _tiny_training_config(tmp_path, data_root):
 
 def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     data_root = tmp_path / "hdr"
-    create_eventhdr_smoke(data_root)
+    make_eventhdr(data_root)
     config = _tiny_training_config(tmp_path, data_root)
     train(config)
     first = torch.load(tmp_path / "run/last.pt", map_location="cpu", weights_only=False)
@@ -283,8 +285,8 @@ def test_benchmark_rejects_empty_measurement(tmp_path):
 def test_hdf5_and_zip_loaders_are_multiprocess_safe(tmp_path):
     hdr = tmp_path / "hdr"
     eventaid = tmp_path / "eventaid"
-    create_eventhdr_smoke(hdr)
-    create_eventaid_smoke(eventaid)
+    make_eventhdr(hdr)
+    make_eventaid(eventaid)
     datasets = [
         EventHDRDataset(hdr, max_events=8),
         EventAidRZipDataset(eventaid, max_events=8),

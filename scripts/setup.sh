@@ -3,10 +3,10 @@ set -Eeuo pipefail
 
 # Clone 후 한 번 실행하는 Linux 서버 설치 스크립트.
 # https://pytorch.org/get-started/locally/ 에서 서버 드라이버에 맞는 wheel을 고른 뒤:
-#   TORCH_INDEX_URL=<official-wheel-index> ./scripts/setup_server.sh
+#   TORCH_INDEX_URL=<official-wheel-index> ./scripts/setup.sh
 # 재현용으로 버전을 고정할 때:
 #   TORCH_VERSION=<version> TORCH_INDEX_URL=<official-wheel-index> \
-#     PROJECT_EXTRAS=eval ./scripts/setup_server.sh
+#     PROJECT_EXTRAS=eval ./scripts/setup.sh
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
@@ -26,7 +26,6 @@ TORCH_VERSION="${TORCH_VERSION:-}"
 TORCH_INDEX_URL="${TORCH_INDEX_URL:-}"
 PROJECT_EXTRAS="${PROJECT_EXTRAS:-}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-0}"
-RUN_SMOKE_TEST="${RUN_SMOKE_TEST:-1}"
 
 if [[ "${VENV_DIR}" != /* ]]; then
   VENV_DIR="${PROJECT_ROOT}/${VENV_DIR}"
@@ -106,14 +105,8 @@ else:
     print("NOTE: no GPU is visible in this shell; login nodes commonly hide GPUs.")
 PY
 
-if [[ "${RUN_SMOKE_TEST}" == "1" ]]; then
-  echo "Running data-free end-to-end smoke test"
-  "${VENV_PYTHON}" -m asgcn_recon.smoke \
-    --workspace "${PROJECT_ROOT}/data/smoke"
-fi
-
 echo
 echo "Installation complete."
 echo "Python: ${VENV_PYTHON}"
-echo "Next: ./scripts/download_eventaid_r.sh R-bear"
+echo "Next: ./scripts/get_aid.sh R-bear"
 echo "Then place EventHDR H5 files under data/EventHDR/train and data/EventHDR/eval."

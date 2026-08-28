@@ -17,31 +17,31 @@ EventHDR 공개 train H5와 논문의 물리 장면 사이 공식 대응표가 �
 
 ```bash
 # 1. 데이터 구조
-asgcn-recon inspect --config configs/eventhdr_train.json
+asgcn-recon inspect --config configs/hdr_train.json
 
 # 2. ANN 학습
-asgcn-recon train --config configs/eventhdr_train.json
+asgcn-recon train --config configs/hdr_train.json
 
 # 3. EventHDR train으로만 BN folding 및 SNN threshold calibration
 asgcn-recon calibrate \
-  --config configs/eventhdr_train.json \
+  --config configs/hdr_train.json \
   --checkpoint runs/eventhdr_asgcn/best.pt \
   --output runs/eventhdr_asgcn/best_snn.pt \
   --samples 500
 
 # 4. ANN/SNN 내부시험
 asgcn-recon evaluate \
-  --config configs/eventhdr_eval.json \
+  --config configs/hdr_ann.json \
   --checkpoint runs/eventhdr_asgcn/best.pt
 
 asgcn-recon evaluate \
-  --config configs/eventhdr_snn_eval.json \
+  --config configs/hdr_snn.json \
   --checkpoint runs/eventhdr_asgcn/best_snn.pt \
   --inference-mode snn --simulation-steps 16
 
 # 5. 잠근 외부시험
 asgcn-recon evaluate \
-  --config configs/eventaid_r_snn_eval.json \
+  --config configs/aid_snn.json \
   --checkpoint runs/eventhdr_asgcn/best_snn.pt \
   --inference-mode snn --simulation-steps 16
 ```
@@ -55,8 +55,8 @@ asgcn-recon evaluate \
 - SNN: simulation step과 layer 평균 firing rate
 - 시스템: GPU 모델, PyTorch/CUDA/cuDNN, peak allocated GPU memory
 
-`evaluate`는 품질과 frame별 CSV를 저장한다. `benchmark`는 파일 I/O를 timer 밖에 두어
-연산 latency를 측정한다. 처음 한 번의 임의 가중치 forward 시간은 성능 결과로 사용하지 않는다.
+`evaluate`는 품질과 frame별 CSV를 저장한다. `benchmark`는 파일 I/O를 timer 밖에 두고 지정한
+warmup 반복을 제외한 연산 latency를 측정한다.
 
 ## 필수 비교 실험
 

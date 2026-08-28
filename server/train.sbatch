@@ -16,7 +16,7 @@ PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 cd "${PROJECT_ROOT}"
 
 # Cluster-specific modules remain opt-in:
-#   sbatch --export=ALL,CUDA_MODULE=cuda/12.4 server/slurm_train.sbatch
+#   sbatch --export=ALL,CUDA_MODULE=cuda/12.4 server/train.sbatch
 if [[ -n "${CUDA_MODULE:-}" ]]; then
   if ! command -v module >/dev/null 2>&1; then
     echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
@@ -25,7 +25,7 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/eventhdr_train.json}"
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
@@ -39,4 +39,4 @@ if [[ -n "${RESUME_CHECKPOINT:-}" ]]; then
 fi
 nvidia-smi || true
 
-srun bash "${PROJECT_ROOT}/scripts/run_train.sh" "${CONFIG_PATH}"
+srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"

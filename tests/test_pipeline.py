@@ -5,6 +5,7 @@ import json
 import pytest
 import torch
 
+from asgcn_recon.cli import inspect_dataset
 from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
 from asgcn_recon.data.factory import build_dataset
 from asgcn_recon.engine import _data_loader, benchmark, train
@@ -196,6 +197,30 @@ def test_eventhdr_split_names_all_missing_files(tmp_path):
     }
     with pytest.raises(FileNotFoundError, match=r"1\.h5, 2\.h5"):
         build_dataset(config, split="train")
+
+
+def test_inspect_training_config_validates_both_manifest_splits(tmp_path):
+    data_root = tmp_path / "hdr"
+    create_eventhdr_smoke(data_root)
+    manifest_path = tmp_path / "split.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "train_files": ["smoke_scene.h5"],
+                "val_files": ["missing_validation.h5"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    config = {
+        "dataset": {
+            "type": "eventhdr",
+            "root": str(data_root),
+            "split_manifest": str(manifest_path),
+        }
+    }
+    with pytest.raises(FileNotFoundError, match=r"missing_validation\.h5"):
+        inspect_dataset(config, samples=1)
 
 
 def _tiny_training_config(tmp_path, data_root):

@@ -9,8 +9,7 @@ from .engine import benchmark, calibrate, evaluate, train
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
 
 
-def inspect_dataset(config: dict[str, Any], samples: int = 3) -> dict[str, Any]:
-    dataset = build_dataset(config["dataset"], split="eval")
+def _inspect_one_split(dataset: Any, samples: int) -> dict[str, Any]:
     details = []
     for index in range(min(samples, len(dataset))):
         item = dataset[index]
@@ -23,16 +22,39 @@ def inspect_dataset(config: dict[str, Any], samples: int = 3) -> dict[str, Any]:
                 "metadata": item["metadata"],
             }
         )
-    result: dict[str, Any] = {
-        "dataset_type": config["dataset"]["type"],
-        "root": config["dataset"]["root"],
-        "samples": len(dataset),
-        "preview": details,
-    }
+    result: dict[str, Any] = {"samples": len(dataset), "preview": details}
     if hasattr(dataset, "scene_info"):
         result["scenes"] = dataset.scene_info
     if hasattr(dataset, "files"):
         result["files"] = len(dataset.files)
+    return result
+
+
+def inspect_dataset(config: dict[str, Any], samples: int = 3) -> dict[str, Any]:
+    data_config = config["dataset"]
+    result: dict[str, Any] = {
+        "dataset_type": data_config["type"],
+        "root": data_config["root"],
+    }
+    if data_config["type"] == "eventhdr" and data_config.get("split_manifest"):
+        split_details: dict[str, Any] = {}
+        for split in ("train", "val"):
+            dataset = build_dataset(data_config, split=split)
+            try:
+                split_details[split] = _inspect_one_split(dataset, samples)
+            finally:
+                if hasattr(dataset, "close"):
+                    dataset.close()
+        result["splits"] = split_details
+        result["samples"] = sum(detail["samples"] for detail in split_details.values())
+        return result
+
+    dataset = build_dataset(data_config, split="eval")
+    try:
+        result.update(_inspect_one_split(dataset, samples))
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
     return result
 
 

@@ -29,6 +29,6 @@
     "prefetch_factor": 2,
     "max_samples": null,
     "save_predictions": 20,
-    "output_dir": "runs/eventhdr_official_eval"
+    "output_dir": "runs/eventhdr_official_eval_ann"
   }
 }

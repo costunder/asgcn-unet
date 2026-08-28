@@ -30,136 +30,216 @@ MLP 분류기를 `graph feature rasterization -> 경량 U-Net decoder`로 교체
 통일한다. EventHDR 결과에는 configurable log tone mapping을 적용해 HDR의 밝은 영역이 손실을
 지배하지 않게 한다.
 
-## Linux GPU 서버 빠른 시작
+## MobaXterm/Linux GPU 서버: 처음부터 끝까지
+
+MobaXterm은 SSH 접속 프로그램이고 아래 명령은 **접속한 Linux 서버**에서 실행한다. 서버에는
+Git, `curl`, Python 3.10 이상과 `venv`, NVIDIA 드라이버가 필요하다. 전체 데이터는 약
+50.4GB이고 가상환경·checkpoint·결과를 포함해 70GB 이상의 여유 공간을 권장한다.
+
+사용자가 직접 결정해야 하는 항목은 두 가지다.
+
+1. 비공개 GitHub 저장소에 접근할 SSH key 또는 HTTPS token
+2. 서버 드라이버에 맞는 PyTorch wheel과 EventHDR 공식 파일의 다운로드·업로드
+
+### 1. 저장소 clone
+
+GitHub에 서버의 SSH key를 등록했다면:
+
+```bash
+git clone git@github.com:costunder/asgcn-event-reconstruction.git
+cd asgcn-event-reconstruction
+```
+
+HTTPS를 사용한다면 다음 명령에서 GitHub 비밀번호가 아니라 token으로 인증한다.
 
 ```bash
 git clone https://github.com/costunder/asgcn-event-reconstruction.git
 cd asgcn-event-reconstruction
-
-# 서버 드라이버에 맞는 값은 PyTorch 공식 설치 선택기에서 확인한다.
-export TORCH_INDEX_URL=<PYTORCH_WHEEL_INDEX_URL>
-export PROJECT_EXTRAS=dev,eval
-bash scripts/setup_server.sh
-source .venv/bin/activate
-
-python scripts/check_environment.py --require-cuda
-python -m pytest -q
-python -m asgcn_recon.smoke --workspace /tmp/asgcn-smoke
 ```
 
-MobaXterm, 외부 데이터 심볼릭 링크, tmux, Docker, SLURM과 장애 대응은
-[Linux GPU 서버 가이드](docs/SERVER_SETUP.md)에 정리했다. 데이터 역할, ANN→SNN 순서와
-필수 ablation은 [실험 프로토콜](docs/EXPERIMENT_PROTOCOL.md)을 따른다.
+### 2. Python·PyTorch 환경 구성
+
+먼저 GPU와 기본 명령을 확인한다.
+
+```bash
+git --version
+curl --version
+python3 --version
+nvidia-smi
+```
+
+[PyTorch 공식 설치 선택기](https://pytorch.org/get-started/locally/)에서 서버 드라이버와 호환되는
+wheel index를 확인한다. 아래 블록을 그대로 실행하고, 별도 index가 필요 없으면 질문에서
+Enter만 누른다. 입력값은 셸 redirection으로 오인되지 않도록 스크립트에 안전하게 전달된다.
+
+```bash
+read -r -p "PyTorch wheel index URL (Enter=PyPI default): " TORCH_INDEX_URL
+export TORCH_INDEX_URL
+export PROJECT_EXTRAS="dev,eval"
+export REQUIRE_CUDA=0
+
+bash scripts/setup_server.sh
+source .venv/bin/activate
+python scripts/check_environment.py
+python -m pytest -q
+```
+
+설치 스크립트는 `.venv` 생성, 의존성 설치, 데이터 폴더 생성과 합성 H5/ZIP end-to-end smoke
+test까지 수행한다. 로그인 노드에서 GPU가 숨겨지는 클러스터도 있으므로 `REQUIRE_CUDA=0`은
+설치 단계에만 사용한다. 실제 GPU node 또는 SLURM allocation에서는 반드시 다음 검사를 통과해야
+한다.
+
+```bash
+source .venv/bin/activate
+python scripts/check_environment.py --require-cuda
+```
+
+반복 설치용 값을 파일로 보존하려면 `.env.example`을 `.env`로 복사해 같은 값을 적으면 된다.
+
+### 3. 데이터 준비
+
+최종 구조는 다음과 같아야 한다.
+
+```text
+data/
+├── EventHDR/
+│   ├── train/1.h5 ... 51.h5
+│   └── eval/*.h5
+└── EventAid-R/
+    ├── R-ball.zip
+    ├── R-bear.zip
+    └── ... R-wall.zip
+```
+
+EventHDR는 배포처가 OneDrive이므로 자동 downloader를 제공하지 않는다. [EventHDR 공식
+저장소](https://github.com/yunhao-zou/EventHDR)에서 train 51개와 공식 eval 19개 H5를 받은 뒤,
+MobaXterm 왼쪽 SFTP 패널로 각각 `data/EventHDR/train/`, `data/EventHDR/eval/`에 업로드한다.
+공유 스토리지에 이미 있다면 이 디렉터리로 심볼릭 링크해도 된다.
+
+```bash
+find data/EventHDR/train -maxdepth 1 -type f -name '*.h5' | wc -l
+find data/EventHDR/eval -maxdepth 1 -type f -name '*.h5' | wc -l
+```
+
+기대 출력은 각각 `51`, `19`다. 기본 manifest는 `1.h5`–`47.h5`를 학습, `48.h5`–`51.h5`를
+검증에 사용하며, 개선된 `inspect`가 두 split의 누락 파일을 모두 검사한다.
+
+EventAid-R은 먼저 작은 `R-bear`만 받아 로더를 확인한다. ZIP은 압축 해제하지 않는다.
+
+```bash
+bash scripts/download_eventaid_r.sh R-bear
+python -m asgcn_recon.cli inspect \
+  --config configs/eventaid_r_eval.json --samples 2
+```
+
+최종 외부평가 전에는 전체 14개 장면을 받는다. 이미 받은 유효 ZIP은 자동으로 건너뛴다.
+
+```bash
+bash scripts/download_eventaid_r.sh --all
+```
+
+두 공식 데이터의 로딩과 random-weight model forward를 먼저 검사한다.
+
+```bash
+python -m asgcn_recon.cli inspect \
+  --config configs/eventhdr_train.json --samples 2
+python -m asgcn_recon.cli inspect \
+  --config configs/eventhdr_eval.json --samples 2
+python scripts/verify_real_samples.py --device cuda
+```
+
+### 4. EventHDR ANN 학습
+
+SSH가 끊겨도 유지되도록 `tmux` 안에서 실행한다.
+
+```bash
+tmux new-session -s asgcn -c "$PWD" \
+  "bash -lc 'source .venv/bin/activate && bash scripts/run_train.sh configs/eventhdr_train.json'"
+```
+
+분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다. 중단된 epoch 이후부터 재개하려면:
+
+```bash
+source .venv/bin/activate
+RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  bash scripts/run_train.sh configs/eventhdr_train.json
+```
+
+학습 결과는 `runs/eventhdr_asgcn/{config.json,history.json,best.pt,last.pt}`에 저장된다.
+
+### 5. ANN→SNN 보정
+
+EventHDR train만 사용해 graph encoder의 BatchNorm을 folding하고 채널별 activation threshold를
+구한다. EventAid-R은 보정에 사용하지 않는다.
+
+```bash
+source .venv/bin/activate
+python -m asgcn_recon.cli calibrate \
+  --config configs/eventhdr_train.json \
+  --checkpoint runs/eventhdr_asgcn/best.pt \
+  --output runs/eventhdr_asgcn/best_snn.pt \
+  --samples 500
+```
+
+현재 SNN 경로는 graph encoder ReLU의 spike-rate 근사이며 U-Net·ConvGRU decoder는 analog로
+유지되는 hybrid ANN–SNN이다.
+
+### 6. EventHDR·EventAid-R ANN/SNN 평가
+
+`run_eval.sh`는 품질 평가 후 I/O를 제외한 latency benchmark까지 연속 실행한다. 모든 console
+출력도 보존한다.
+
+```bash
+mkdir -p logs
+
+INFERENCE_MODE=ann RUN_BENCHMARK=1 \
+  bash scripts/run_eval.sh \
+  configs/eventhdr_eval.json runs/eventhdr_asgcn/best.pt \
+  2>&1 | tee logs/eventhdr_ann.log
+
+INFERENCE_MODE=snn SIMULATION_STEPS=16 RUN_BENCHMARK=1 \
+  bash scripts/run_eval.sh \
+  configs/eventhdr_snn_eval.json runs/eventhdr_asgcn/best_snn.pt \
+  2>&1 | tee logs/eventhdr_snn_t16.log
+
+INFERENCE_MODE=ann RUN_BENCHMARK=1 \
+  bash scripts/run_eval.sh \
+  configs/eventaid_r_eval.json runs/eventhdr_asgcn/best.pt \
+  2>&1 | tee logs/eventaid_r_ann.log
+
+INFERENCE_MODE=snn SIMULATION_STEPS=16 RUN_BENCHMARK=1 \
+  bash scripts/run_eval.sh \
+  configs/eventaid_r_snn_eval.json runs/eventhdr_asgcn/best_snn.pt \
+  2>&1 | tee logs/eventaid_r_snn_t16.log
+```
+
+ANN/SNN별 출력 디렉터리가 분리되어 서로 덮어쓰지 않는다.
+
+```text
+runs/
+├── eventhdr_official_eval_ann/
+├── eventhdr_official_eval_snn/
+├── eventaid_r_external_ann/
+└── eventaid_r_external_snn/
+```
+
+각 디렉터리에는 `metrics.json`, `frames.csv`, `predictions/`가 생긴다. benchmark JSON은
+console에 출력되며 위 명령의 `logs/*.log`에도 남는다. 품질 평가만 실행하려면
+`RUN_BENCHMARK=0`을 사용한다.
+
+SLURM, Docker, 외부 데이터 심볼릭 링크와 장애 대응은 [Linux GPU 서버
+가이드](docs/SERVER_SETUP.md), 데이터 역할과 ablation은 [실험
+프로토콜](docs/EXPERIMENT_PROTOCOL.md)을 따른다.
 
 ## Windows 개발 환경
 
-PowerShell에서:
+PowerShell에서는 다음으로 합성 smoke test까지 실행한다.
 
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\.venv\Scripts\python.exe -m pip install -e ".[dev]"
-```
-
-이 PC처럼 `py` 명령이 없으면 Codex 번들 Python 또는 설치된 Python 3.10 이상으로 같은 명령을
-실행하면 된다. CUDA PyTorch를 사용할 경우에는 먼저 PyTorch 공식 설치 명령으로 CUDA wheel을
-설치한 뒤 `pip install -e ".[dev]"`를 실행한다.
-
-## 데이터 배치
-
-```text
-data/
-  EventHDR/
-    train/*.h5
-    eval/*.h5
-  EventAid-R/
-    R-ball.zip
-    R-bear.zip
-    ...
-    R-wall.zip
-```
-
-EventHDR는 [공식 OneDrive](https://github.com/yunhao-zou/EventHDR)의 `train`과 `eval` H5를
-각 폴더에 둔다. EventAid-R은 다음 명령으로 장면별 ZIP을 재개 가능한 방식으로 받는다.
-
-```powershell
-.\scripts\download_eventaid_r.ps1 -Destination .\data\EventAid-R
-```
-
-처음에는 작은 `R-bear`만 받아 파이프라인을 점검할 수 있다.
-
-```powershell
-.\scripts\download_eventaid_r.ps1 -Destination .\data\EventAid-R -Scenes R-bear
-```
-
-받아 둔 공식 H5/ZIP으로 실제 모델 forward까지 확인한다.
-
-```powershell
-.\.venv\Scripts\python.exe .\scripts\verify_real_samples.py
-```
-
-## 빠른 검증
-
-실제 데이터 없이도 H5와 ZIP의 공식 구조를 본뜬 작은 자료로 전체 경로를 검사한다.
-
-```powershell
+.\.venv\Scripts\python.exe -m pip install -e ".[dev,eval]"
 .\scripts\smoke_test.ps1
-```
-
-## 실행
-
-데이터 구조 검사:
-
-```powershell
-asgcn-recon inspect --config configs/eventhdr_train.json
-asgcn-recon inspect --config configs/eventaid_r_eval.json
-```
-
-EventHDR 학습:
-
-```powershell
-asgcn-recon train --config configs/eventhdr_train.json
-```
-
-중단된 서버 학습 재개:
-
-```bash
-asgcn-recon train --config configs/eventhdr_train.json \
-  --resume runs/eventhdr_asgcn/last.pt
-```
-
-EventHDR 공식 eval 최종시험:
-
-```powershell
-asgcn-recon evaluate --config configs/eventhdr_eval.json `
-  --checkpoint runs/eventhdr_asgcn/best.pt
-```
-
-EventAid-R 외부 평가:
-
-```powershell
-asgcn-recon evaluate --config configs/eventaid_r_eval.json `
-  --checkpoint runs/eventhdr_asgcn/best.pt
-```
-
-ANN 학습이 끝난 뒤 graph encoder의 BatchNorm을 folding하고 EventHDR train activation으로
-채널별 IF threshold를 보정한다. EventAid-R은 이 보정에 사용하지 않는다.
-
-```powershell
-asgcn-recon calibrate --config configs/eventhdr_train.json `
-  --checkpoint runs/eventhdr_asgcn/best.pt `
-  --output runs/eventhdr_asgcn/best_snn.pt --samples 500
-
-asgcn-recon evaluate --config configs/eventaid_r_eval.json `
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt `
-  --inference-mode snn --simulation-steps 16
-```
-
-지연시간/FPS 측정:
-
-```powershell
-asgcn-recon benchmark --config configs/eventaid_r_eval.json `
-  --checkpoint runs/eventhdr_asgcn/best.pt --warmup 10 --steps 100
 ```
 
 ## 비교 실험

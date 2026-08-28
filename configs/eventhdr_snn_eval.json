@@ -2,13 +2,14 @@
   "seed": 2026,
   "device": "auto",
   "dataset": {
-    "type": "eventaid_r_zip",
-    "root": "data/EventAid-R",
+    "type": "eventhdr",
+    "root": "data/EventHDR/eval",
     "target_channels": 1,
     "max_events": 8192,
     "crop_size": null,
-    "target_offset": 1,
-    "tone_map": "none"
+    "frame_stride": 1,
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
   },
   "model": {
     "hidden_dim": 64,
@@ -28,6 +29,6 @@
     "prefetch_factor": 2,
     "max_samples": null,
     "save_predictions": 20,
-    "output_dir": "runs/eventaid_r_external_ann"
+    "output_dir": "runs/eventhdr_official_eval_snn"
   }
 }

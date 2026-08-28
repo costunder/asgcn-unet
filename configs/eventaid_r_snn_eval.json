@@ -28,6 +28,6 @@
     "prefetch_factor": 2,
     "max_samples": null,
     "save_predictions": 20,
-    "output_dir": "runs/eventaid_r_external_ann"
+    "output_dir": "runs/eventaid_r_external_snn"
   }
 }

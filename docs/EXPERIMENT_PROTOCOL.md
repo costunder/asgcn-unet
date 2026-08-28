@@ -35,13 +35,13 @@ asgcn-recon evaluate \
   --checkpoint runs/eventhdr_asgcn/best.pt
 
 asgcn-recon evaluate \
-  --config configs/eventhdr_eval.json \
+  --config configs/eventhdr_snn_eval.json \
   --checkpoint runs/eventhdr_asgcn/best_snn.pt \
   --inference-mode snn --simulation-steps 16
 
 # 5. 잠근 외부시험
 asgcn-recon evaluate \
-  --config configs/eventaid_r_eval.json \
+  --config configs/eventaid_r_snn_eval.json \
   --checkpoint runs/eventhdr_asgcn/best_snn.pt \
   --inference-mode snn --simulation-steps 16
 ```

@@ -20,8 +20,9 @@ Linux 서버에 로그인한 뒤 저장소 루트에서 실행한다.
 git clone https://github.com/costunder/asgcn-event-reconstruction.git
 cd asgcn-event-reconstruction
 
-# 공식 선택기가 제시한 CUDA wheel index가 있다면 지정한다.
-export TORCH_INDEX_URL=<PYTORCH_WHEEL_INDEX_URL>
+# 공식 선택기가 제시한 CUDA wheel index가 있다면 입력하고, 없으면 Enter를 누른다.
+read -r -p "PyTorch wheel index URL (Enter=PyPI default): " TORCH_INDEX_URL
+export TORCH_INDEX_URL
 export PROJECT_EXTRAS=dev,eval
 bash scripts/setup_server.sh
 source .venv/bin/activate
@@ -42,9 +43,11 @@ python -m asgcn_recon.smoke --workspace /tmp/asgcn-smoke
 ## 3. 데이터 연결
 
 대용량 데이터는 Git 저장소 밖의 공유 스토리지에 보관하고 심볼릭 링크로 연결하는 편이 좋다.
+아래 `rmdir`는 설치 스크립트가 만든 **빈 디렉터리만** 제거하며, 파일이 들어 있으면 안전하게
+실패한다.
 
 ```bash
-mkdir -p data
+rmdir data/EventHDR/train data/EventHDR/eval data/EventHDR data/EventAid-R
 ln -s /shared/datasets/EventHDR data/EventHDR
 ln -s /shared/datasets/EventAid-R data/EventAid-R
 ```
@@ -98,6 +101,8 @@ bash scripts/run_eval.sh \
 ```
 
 EventAid-R 외부평가는 첫 번째 인자만 `configs/eventaid_r_eval.json`으로 바꾼다.
+SNN 평가는 결과 덮어쓰기를 막기 위해 각각 `configs/eventhdr_snn_eval.json`,
+`configs/eventaid_r_snn_eval.json`을 사용한다.
 
 ## 5. SLURM 클러스터
 

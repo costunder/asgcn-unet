@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import torch
 
-from asgcn_recon.graph import build_radius_graph
+from asgcn_unet.graph import build_radius_graph
 
 
 def _reference_radius_graph(

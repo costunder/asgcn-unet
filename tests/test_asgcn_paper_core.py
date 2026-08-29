@@ -5,7 +5,7 @@ from unittest.mock import patch
 import pytest
 import torch
 
-from asgcn_recon.graph import (
+from asgcn_unet.graph import (
     ASGCNEncoder,
     EventGraph,
     PaperSplineConv,
@@ -15,7 +15,8 @@ from asgcn_recon.graph import (
     prepare_event_nodes,
     uniformly_sample_events,
 )
-from asgcn_recon.model import ASGCNReconstructor
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.unet import RecurrentUNetDecoder
 
 
 def _single_node_graph() -> EventGraph:
@@ -175,6 +176,82 @@ def test_spline_mean_aggregation_matches_hand_calculation_and_gradients() -> Non
     torch.testing.assert_close(layer.weight.grad, torch.tensor([[[4.0]], [[5.0]]]))
 
 
+def test_chunked_spline_matches_unchunked_output_and_gradients() -> None:
+    generator = torch.Generator().manual_seed(901)
+    reference = PaperSplineConv(
+        3,
+        4,
+        kernel_size=3,
+        root_weight=True,
+        bias=True,
+        edge_chunk_size=None,
+    )
+    chunked = PaperSplineConv(
+        3,
+        4,
+        kernel_size=3,
+        root_weight=True,
+        bias=True,
+        edge_chunk_size=2,
+    )
+    chunked.load_state_dict(reference.state_dict())
+    edge_index = torch.tensor(
+        [[0, 1, 2, 3, 0, 2, 1], [1, 1, 1, 2, 3, 3, 3]], dtype=torch.long
+    )
+    degree = torch.bincount(edge_index[1], minlength=4)
+    reference_features = torch.rand((4, 3), generator=generator, requires_grad=True)
+    chunked_features = reference_features.detach().clone().requires_grad_(True)
+    reference_attr = torch.rand((7, 1), generator=generator, requires_grad=True)
+    chunked_attr = reference_attr.detach().clone().requires_grad_(True)
+
+    reference_output = reference.affine(
+        reference_features, edge_index, reference_attr, in_degree=degree
+    )
+    chunked_output = chunked.affine(
+        chunked_features, edge_index, chunked_attr, in_degree=degree
+    )
+    reference_output.square().sum().backward()
+    chunked_output.square().sum().backward()
+
+    torch.testing.assert_close(chunked_output, reference_output, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(
+        chunked_features.grad, reference_features.grad, atol=1e-6, rtol=1e-6
+    )
+    torch.testing.assert_close(chunked_attr.grad, reference_attr.grad, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(chunked.weight.grad, reference.weight.grad, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(chunked.root.grad, reference.root.grad, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(chunked.bias.grad, reference.bias.grad, atol=1e-6, rtol=1e-6)
+
+
+def test_event_graph_caches_in_degree_for_all_encoder_layers() -> None:
+    graph = EventGraph(
+        node_features=torch.rand((4, 4)),
+        positions=torch.rand((4, 4)),
+        edge_index=torch.tensor([[0, 1, 2, 3, 0], [1, 1, 1, 2, 3]]),
+        edge_attr=torch.full((5, 1), 0.25),
+    )
+    torch.testing.assert_close(graph.in_degree, torch.tensor([0, 3, 1, 1]))
+    encoder = ASGCNEncoder(hidden_dim=3, graph_layers=3, spline_kernel_size=2).eval()
+
+    with patch("asgcn_unet.graph.torch.bincount", wraps=torch.bincount) as bincount:
+        encoder.forward_ann(graph)
+
+    assert bincount.call_count == 0
+
+
+def test_model_uses_named_recurrent_unet_decoder() -> None:
+    model = ASGCNUNet(
+        hidden_dim=2,
+        graph_layers=3,
+        decoder_channels=4,
+        spline_chunk_size=7,
+    )
+    assert isinstance(model.decoder, RecurrentUNetDecoder)
+    assert [layer.edge_chunk_size for layer in model.encoder.layers] == [7, 7, 7]
+    with pytest.raises(ValueError, match="spline_chunk_size"):
+        ASGCNUNet(hidden_dim=2, graph_layers=1, spline_chunk_size=0)
+
+
 def test_batch_norm_folding_preserves_preactivation() -> None:
     generator = torch.Generator().manual_seed(33)
     layer = PaperSplineConv(2, 3, kernel_size=3, root_weight=True, bias=True).eval()
@@ -207,6 +284,7 @@ def test_equation_6_scales_kernel_root_and_bias_per_feature() -> None:
     folded_bias = layer.bias.detach().clone()
     input_scale = torch.tensor([2.0, 4.0])
     output_scale = torch.tensor([5.0, 10.0])
+    layer.calibration_activation_max.copy_(output_scale)
     layer.apply_parameter_normalization(input_scale, output_scale)
 
     torch.testing.assert_close(
@@ -218,7 +296,9 @@ def test_equation_6_scales_kernel_root_and_bias_per_feature() -> None:
         folded_root * input_scale.view(-1, 1) / output_scale.view(1, -1),
     )
     torch.testing.assert_close(layer.bias, folded_bias / output_scale)
-    torch.testing.assert_close(layer.activation_max, output_scale)
+    torch.testing.assert_close(layer.calibration_activation_max, output_scale)
+    torch.testing.assert_close(layer.normalization_scale, output_scale)
+    assert not bool(layer.dead_channel_mask.any())
     torch.testing.assert_close(layer.threshold, torch.ones(2))
     assert layer.snn_normalized.item() is True
 
@@ -248,9 +328,46 @@ def test_equation_6_requires_nonempty_calibration_and_uses_unit_for_dead_channel
     encoder.calibration_samples_seen.fill_(1)
     encoder.apply_parameter_normalization()
     torch.testing.assert_close(
-        encoder.layers[0].activation_max,
+        encoder.layers[0].calibration_activation_max,
+        torch.tensor([2.0, 0.0]),
+    )
+    torch.testing.assert_close(
+        encoder.layers[0].normalization_scale,
         torch.tensor([2.0, 1.0]),
     )
+    assert torch.equal(
+        encoder.layers[0].dead_channel_mask,
+        torch.tensor([False, True]),
+    )
+    assert encoder.calibration_summary()["dead_channels_per_layer"] == [1]
+
+
+def test_split_calibration_state_preserves_strict_legacy_loading() -> None:
+    source = PaperSplineConv(2, 2, kernel_size=2, root_weight=True, bias=True).eval()
+    source.fold_batch_norm()
+    source.calibration_activation_max.copy_(torch.tensor([2.0, 3.0]))
+    source.apply_parameter_normalization(torch.ones(2), torch.tensor([2.0, 3.0]))
+
+    legacy_state = source.state_dict()
+    legacy_state["activation_max"] = legacy_state.pop("calibration_activation_max")
+    legacy_state.pop("normalization_scale")
+    legacy_state.pop("dead_channel_mask")
+    restored = PaperSplineConv(2, 2, kernel_size=2, root_weight=True, bias=True).eval()
+    restored.load_state_dict(legacy_state, strict=True)
+
+    torch.testing.assert_close(
+        restored.calibration_activation_max,
+        torch.tensor([2.0, 3.0]),
+    )
+    torch.testing.assert_close(restored.normalization_scale, torch.tensor([2.0, 3.0]))
+    assert not bool(restored.dead_channel_mask.any())
+    assert restored._snn_is_normalized is True
+
+    incomplete_state = source.state_dict()
+    incomplete_state.pop("dead_channel_mask")
+    incomplete = PaperSplineConv(2, 2, kernel_size=2, root_weight=True, bias=True).eval()
+    with pytest.raises(RuntimeError, match="dead_channel_mask"):
+        incomplete.load_state_dict(incomplete_state, strict=True)
 
 
 def test_explicit_if_uses_half_threshold_initialization_and_threshold_spikes() -> None:
@@ -291,7 +408,7 @@ def test_snn_reuses_one_spline_basis_across_all_timesteps() -> None:
     )
 
     with patch(
-        "asgcn_recon.graph.linear_open_bspline_basis",
+        "asgcn_unet.graph.linear_open_bspline_basis",
         wraps=linear_open_bspline_basis,
     ) as basis:
         encoder.forward_snn(graph, simulation_steps=16)
@@ -415,14 +532,14 @@ def test_empty_and_single_node_graphs_are_finite_and_differentiable() -> None:
 
 def test_legacy_edge_mlp_architecture_is_rejected() -> None:
     with pytest.raises(ValueError, match="legacy edge-MLP"):
-        ASGCNReconstructor(architecture_version=1)
+        ASGCNUNet(architecture_version=1)
 
     with pytest.raises(ValueError, match="distance_over_radius"):
-        ASGCNReconstructor(spline_pseudo="distance")
+        ASGCNUNet(spline_pseudo="distance")
 
 
 def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
-    model = ASGCNReconstructor(
+    model = ASGCNUNet(
         hidden_dim=2,
         graph_layers=1,
         spline_kernel_size=2,
@@ -454,7 +571,7 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
             "output_activation_scale",
             return_value=torch.tensor([2.0, 3.0]),
         ),
-        patch("asgcn_recon.model.rasterize_features", side_effect=capture_raster),
+        patch("asgcn_unet.model.rasterize_features", side_effect=capture_raster),
         patch.object(
             model.decoder,
             "forward",

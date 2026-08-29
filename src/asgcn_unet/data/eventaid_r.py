@@ -6,6 +6,7 @@ import re
 import zipfile
 import zlib
 from itertools import pairwise
+from numbers import Integral
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +23,7 @@ from .common import (
     pil_to_array,
     stratified_subsample,
     uniform_cap_ratio,
+    validate_target_normalization,
 )
 
 _EVENT_RE = re.compile(r"(?:^|/)event/(\d+)\.txt$", re.IGNORECASE)
@@ -55,6 +57,7 @@ class EventAidRZipDataset(Dataset):
         target_offset: int = 1,
         tone_map: str = "none",
         tone_map_mu: float = 5000.0,
+        target_normalization: dict[str, Any] | None = None,
         random_crop: bool = False,
         seed: int = 2026,
     ) -> None:
@@ -62,9 +65,12 @@ class EventAidRZipDataset(Dataset):
         self.target_channels = int(target_channels)
         self.max_events = max_events
         self.crop_size = tuple(crop_size) if crop_size else None
+        if isinstance(target_offset, bool) or not isinstance(target_offset, Integral):
+            raise TypeError("target_offset must be an integer and must not be bool")
         self.target_offset = int(target_offset)
         self.tone_map = tone_map
         self.tone_map_mu = float(tone_map_mu)
+        self.target_normalization = validate_target_normalization(target_normalization)
         self.random_crop = random_crop
         self.seed = int(seed)
         self._handles: dict[Path, zipfile.ZipFile] = {}
@@ -77,28 +83,88 @@ class EventAidRZipDataset(Dataset):
             raise RuntimeError(f"No paired EventAid-R samples found under {self.root}")
 
     @staticmethod
-    def _read_shape(zf: zipfile.ZipFile, names: list[str]) -> tuple[int, int] | None:
-        shape_name = next((name for name in names if name.lower().endswith("shape.txt")), None)
+    def _unique_metadata_member(names: list[str], basename: str, *, path: Path) -> str | None:
+        candidates = [
+            name
+            for name in names
+            if name.replace("\\", "/").rsplit("/", 1)[-1].casefold() == basename.casefold()
+        ]
+        if len(candidates) > 1:
+            raise ValueError(
+                f"Invalid EventAid-R scene {path}: duplicate {basename} members: "
+                + ", ".join(candidates)
+            )
+        return candidates[0] if candidates else None
+
+    @classmethod
+    def _read_shape(
+        cls, zf: zipfile.ZipFile, names: list[str], *, path: Path
+    ) -> tuple[int, int] | None:
+        shape_name = cls._unique_metadata_member(names, "shape.txt", path=path)
         if not shape_name:
             return None
-        values = zf.read(shape_name).decode("utf-8", errors="replace").split()
-        if len(values) < 2:
-            return None
-        width, height = int(values[0]), int(values[1])
+        try:
+            values = zf.read(shape_name).decode("utf-8").split()
+            if len(values) != 2:
+                raise ValueError("expected exactly two integer tokens")
+            width, height = (int(value) for value in values)
+        except (UnicodeDecodeError, ValueError) as error:
+            raise ValueError(
+                f"Invalid EventAid-R shape in {path}::{shape_name}: "
+                "expected exactly two integer tokens 'width height'"
+            ) from error
+        if width <= 0 or height <= 0:
+            raise ValueError(
+                f"Invalid EventAid-R shape in {path}::{shape_name}: dimensions must be positive"
+            )
         return height, width
+
+    @staticmethod
+    def _index_numbered_members(
+        names: list[str], pattern: re.Pattern[str], *, label: str, path: Path
+    ) -> dict[int, str]:
+        indexed: dict[int, str] = {}
+        for name in names:
+            match = pattern.search(name.replace("\\", "/"))
+            if match is None:
+                continue
+            numeric_id = int(match.group(1))
+            if numeric_id in indexed:
+                raise ValueError(
+                    f"Invalid EventAid-R scene {path}: duplicate numeric {label} ID "
+                    f"{numeric_id}: {indexed[numeric_id]}, {name}"
+                )
+            indexed[numeric_id] = name
+        return indexed
+
+    @staticmethod
+    def _validated_member_names(zf: zipfile.ZipFile, *, path: Path) -> list[str]:
+        names: list[str] = []
+        casefolded: dict[str, str] = {}
+        for info in zf.infolist():
+            if info.is_dir():
+                continue
+            normalized = info.filename.replace("\\", "/")
+            logical_name = normalized.casefold()
+            if logical_name in casefolded:
+                raise ValueError(
+                    f"Invalid EventAid-R scene {path}: case-insensitive duplicate ZIP "
+                    f"member: {casefolded[logical_name]}, {info.filename}"
+                )
+            casefolded[logical_name] = info.filename
+            names.append(info.filename)
+        return names
 
     def _build_index(self) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         samples: list[dict[str, Any]] = []
         scene_info: dict[str, Any] = {}
         for path in self.zip_paths:
             with zipfile.ZipFile(path) as zf:
-                names = zf.namelist()
-                events = {int(m.group(1)): name for name in names if (m := _EVENT_RE.search(name))}
-                targets = {int(m.group(1)): name for name in names if (m := _GT_RE.search(name))}
-                shape = self._read_shape(zf, names)
-                timestamps_name = next(
-                    (name for name in names if name.lower().endswith("timestamps.txt")), None
-                )
+                names = self._validated_member_names(zf, path=path)
+                events = self._index_numbered_members(names, _EVENT_RE, label="event", path=path)
+                targets = self._index_numbered_members(names, _GT_RE, label="GT", path=path)
+                shape = self._read_shape(zf, names, path=path)
+                timestamps_name = self._unique_metadata_member(names, "timestamps.txt", path=path)
                 if timestamps_name is None:
                     raise ValueError(f"Invalid EventAid-R scene {path}: timestamps.txt is missing")
                 try:
@@ -189,9 +255,26 @@ class EventAidRZipDataset(Dataset):
         return self._handles[path]
 
     @staticmethod
-    def _read_events(raw: bytes, source: str = "event file") -> np.ndarray:
+    def _read_events(
+        raw: bytes,
+        source: str = "event file",
+        *,
+        interval_t0: float,
+        interval_t1: float,
+    ) -> tuple[np.ndarray, dict[str, float | int | None]]:
         if not raw.strip():
-            return np.empty((0, 4), dtype=np.float32)
+            return np.empty((0, 4), dtype=np.float32), {
+                "event_timestamp_min": None,
+                "event_timestamp_max": None,
+                "event_timestamp_span": None,
+                "interval_t0": float(interval_t0),
+                "interval_t1": float(interval_t1),
+                "event_to_interval_span_ratio": None,
+                "event_min_offset_from_t0": None,
+                "outside_interval_count": 0,
+                "event_count": 0,
+                "strict_interval_validation": False,
+            }
         try:
             rows = np.loadtxt(io.BytesIO(raw), dtype=np.float64, comments=None, ndmin=2)
         except (UnicodeDecodeError, ValueError) as error:
@@ -211,6 +294,26 @@ class EventAidRZipDataset(Dataset):
                 f"Invalid EventAid-R event block {source}: timestamps must be monotonically "
                 "non-decreasing"
             )
+        event_span = float(timestamps[-1] - timestamps[0])
+        interval_span = float(interval_t1 - interval_t0)
+        timestamp_diagnostics: dict[str, float | int | None] = {
+            "event_timestamp_min": float(timestamps[0]),
+            "event_timestamp_max": float(timestamps[-1]),
+            "event_timestamp_span": event_span,
+            "interval_t0": float(interval_t0),
+            "interval_t1": float(interval_t1),
+            "event_to_interval_span_ratio": (
+                event_span / interval_span if interval_span > 0 else None
+            ),
+            "event_min_offset_from_t0": float(timestamps[0] - interval_t0),
+            "outside_interval_count": int(
+                np.count_nonzero((timestamps < interval_t0) | (timestamps > interval_t1))
+            ),
+            "event_count": int(timestamps.size),
+            # Promote this diagnostic to a hard contract only after the official
+            # 14-archive scan establishes a shared timestamp basis and unit.
+            "strict_interval_validation": False,
+        }
         polarity = rows[:, 3]
         if not np.all(np.isfinite(polarity)):
             raise ValueError(f"Invalid EventAid-R event block {source}: polarity must be finite")
@@ -225,19 +328,26 @@ class EventAidRZipDataset(Dataset):
             events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
         events = events.astype(np.float32, copy=False)
         events[:, 3] = normalize_polarity(events[:, 3])
-        return events
+        return events, timestamp_diagnostics
 
     def __getitem__(self, index: int) -> dict[str, Any]:
         item = self.samples[index]
         zf = self._get_handle(item["path"])
         source = f"{item['path']}::{item['event_name']}"
-        events = self._read_events(zf.read(item["event_name"]), source=source)
+        events, timestamp_diagnostics = self._read_events(
+            zf.read(item["event_name"]),
+            source=source,
+            interval_t0=float(item["t0_us"]),
+            interval_t1=float(item["t1_us"]),
+        )
         with Image.open(io.BytesIO(zf.read(item["target_name"]))) as image:
             target = image_array_to_tensor(
                 pil_to_array(image),
                 self.target_channels,
                 tone_map=self.tone_map,
                 tone_map_mu=self.tone_map_mu,
+                target_normalization=self.target_normalization,
+                source=f"{item['path']}::{item['target_name']}",
             )
         height, width = target.shape[-2:]
         if item["shape"] and item["shape"] != (height, width):
@@ -277,6 +387,7 @@ class EventAidRZipDataset(Dataset):
                 "cropped_event_count": cropped_event_count,
                 "retained_event_count": retained_event_count,
                 "dataset_sampling_ratio": dataset_sampling_ratio,
+                "event_timestamp_diagnostics": timestamp_diagnostics,
                 "crop": {
                     "left": crop.left,
                     "top": crop.top,

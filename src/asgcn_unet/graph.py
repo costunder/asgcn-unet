@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Iterator
 from dataclasses import dataclass
 
 import torch
@@ -16,6 +17,34 @@ class EventGraph:
     positions: torch.Tensor
     edge_index: torch.Tensor
     edge_attr: torch.Tensor
+    in_degree: torch.Tensor | None = None
+
+    def __post_init__(self) -> None:
+        """Cache topology-only normalization shared by every layer and timestep.
+
+        ``in_degree`` is optional so callers that construct the original four-field
+        graph remain source-compatible.  Materialized event graphs calculate it once
+        here instead of rebuilding the same destination histogram in every spline
+        layer (and every SNN timestep).
+        """
+        node_count = int(self.node_features.shape[0])
+        if self.edge_index.ndim != 2 or self.edge_index.shape[0] != 2:
+            raise ValueError("edge_index must have shape [2,E]")
+        if self.edge_index.dtype != torch.long:
+            raise TypeError("edge_index must use torch.long indices")
+        if self.in_degree is None:
+            destination = self.edge_index[1]
+            degree = torch.bincount(destination, minlength=node_count)
+            if degree.shape != (node_count,):
+                raise ValueError("edge_index contains a destination outside the graph")
+            self.in_degree = degree
+        assert self.in_degree is not None
+        if self.in_degree.shape != (node_count,):
+            raise ValueError("in_degree must contain one value per graph node")
+        if self.in_degree.device != self.node_features.device:
+            raise ValueError("in_degree and node_features must share a device")
+        if self.in_degree.dtype != torch.long:
+            raise TypeError("in_degree must use torch.long counts")
 
 
 def _safe_batch_norm(norm: nn.BatchNorm1d, values: torch.Tensor) -> torch.Tensor:
@@ -79,22 +108,14 @@ def prepare_event_nodes(
     return node_features, positions
 
 
-def build_radius_graph(
+def _radius_graph_candidate_chunks(
     positions: torch.Tensor,
     radius: float,
     *,
     position_dims: int = 3,
     chunk_size: int = 512,
-    max_edges: int | None = None,
-) -> tuple[torch.Tensor, torch.Tensor]:
-    """Build the paper's exact radius graph with a uniform-cell candidate search.
-
-    Every ordered edge direction is materialized so source-to-target aggregation is
-    equivalent to an undirected graph.  Cells have width ``radius``; therefore only
-    the 3^d adjacent cells can contain a valid neighbor.  Exact Euclidean filtering
-    after candidate generation preserves the brute-force graph while avoiding the
-    O(N^2) distance matrix on sparse event volumes.
-    """
+) -> Iterator[tuple[torch.Tensor, torch.Tensor, torch.Tensor]]:
+    """Yield bounded adjacent-cell candidate chunks for an exact radius search."""
     radius = float(radius)
     if not math.isfinite(radius) or radius <= 0:
         raise ValueError("graph_radius must be positive")
@@ -104,20 +125,11 @@ def build_radius_graph(
     chunk_size = int(chunk_size)
     if chunk_size < 1:
         raise ValueError("graph_chunk_size must be at least 1")
-    if max_edges is not None:
-        if isinstance(max_edges, bool) or int(max_edges) != max_edges:
-            raise ValueError("max_graph_edges must be an integer or null")
-        max_edges = int(max_edges)
-        if max_edges < 1:
-            raise ValueError("max_graph_edges must be at least 1 or null")
 
     count = int(positions.shape[0])
     device = positions.device
     if count == 0:
-        return (
-            torch.empty((2, 0), device=device, dtype=torch.long),
-            torch.empty((0, 1), device=device, dtype=positions.dtype),
-        )
+        return
 
     coordinates = positions[:, :position_dims]
     if not bool(torch.isfinite(coordinates).all()):
@@ -142,10 +154,6 @@ def build_radius_graph(
         -1, position_dims
     )
 
-    sources: list[torch.Tensor] = []
-    destination_chunks: list[torch.Tensor] = []
-    distances_kept: list[torch.Tensor] = []
-    retained_edge_count = 0
     # Bound worst-case candidate materialization even if every event occupies one cell.
     effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
     for start in range(0, count, effective_chunk_size):
@@ -178,6 +186,47 @@ def build_radius_graph(
         candidate_distances = torch.linalg.vector_norm(
             coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
         )
+        yield expanded_sources, candidate_destinations, candidate_distances
+
+
+def build_radius_graph(
+    positions: torch.Tensor,
+    radius: float,
+    *,
+    position_dims: int = 3,
+    chunk_size: int = 512,
+    max_edges: int | None = None,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Build the paper's exact radius graph with a uniform-cell candidate search.
+
+    Every ordered edge direction is materialized so source-to-target aggregation is
+    equivalent to an undirected graph.  Cells have width ``radius``; therefore only
+    the 3^d adjacent cells can contain a valid neighbor.  Exact Euclidean filtering
+    after candidate generation preserves the brute-force graph while avoiding the
+    O(N^2) distance matrix on sparse event volumes.
+    """
+    radius = float(radius)
+    if max_edges is not None:
+        if isinstance(max_edges, bool) or int(max_edges) != max_edges:
+            raise ValueError("max_graph_edges must be an integer or null")
+        max_edges = int(max_edges)
+        if max_edges < 1:
+            raise ValueError("max_graph_edges must be at least 1 or null")
+
+    count = int(positions.shape[0])
+    device = positions.device
+    sources: list[torch.Tensor] = []
+    destination_chunks: list[torch.Tensor] = []
+    distances_kept: list[torch.Tensor] = []
+    retained_edge_count = 0
+    for expanded_sources, candidate_destinations, candidate_distances in (
+        _radius_graph_candidate_chunks(
+            positions,
+            radius,
+            position_dims=position_dims,
+            chunk_size=chunk_size,
+        )
+    ):
         within_radius = (expanded_sources != candidate_destinations) & (
             candidate_distances < radius
         )
@@ -214,6 +263,53 @@ def build_radius_graph(
     edge_index = torch.stack((source, destination), dim=0)
     edge_attr = (distance / radius).clamp(0.0, 1.0).unsqueeze(-1)
     return edge_index, edge_attr
+
+
+def radius_graph_topology(
+    positions: torch.Tensor,
+    radius: float,
+    *,
+    position_dims: int = 3,
+    chunk_size: int = 512,
+) -> dict[str, int | float]:
+    """Count the exact directed topology without materializing the complete edge list.
+
+    ``candidate_directed_edges`` excludes self-pairs and counts adjacent-cell pairs
+    before the exact radius predicate. No edge cap is accepted here: a pre-training
+    scan must measure an over-limit graph rather than truncate or abort halfway.
+    """
+    count = int(positions.shape[0])
+    in_degree = torch.zeros(count, device=positions.device, dtype=torch.long)
+    candidate_count = 0
+    edge_count = 0
+    radius = float(radius)
+    for expanded_sources, candidate_destinations, candidate_distances in (
+        _radius_graph_candidate_chunks(
+            positions,
+            radius,
+            position_dims=position_dims,
+            chunk_size=chunk_size,
+        )
+    ):
+        nonself = expanded_sources != candidate_destinations
+        candidate_count += int(nonself.sum().item())
+        within_radius = nonself & (candidate_distances < radius)
+        chunk_edge_count = int(within_radius.sum().item())
+        edge_count += chunk_edge_count
+        if chunk_edge_count:
+            in_degree.add_(
+                torch.bincount(candidate_destinations[within_radius], minlength=count)
+            )
+
+    isolated_nodes = int((in_degree == 0).sum().item()) if count else 0
+    return {
+        "nodes": count,
+        "candidate_directed_edges": candidate_count,
+        "actual_directed_edges": edge_count,
+        "max_degree": int(in_degree.max().item()) if count else 0,
+        "isolated_nodes": isolated_nodes,
+        "isolate_ratio": isolated_nodes / count if count else 0.0,
+    }
 
 
 def build_event_graph(
@@ -285,6 +381,7 @@ class PaperSplineConv(nn.Module):
         degree: int = 1,
         root_weight: bool = True,
         bias: bool = True,
+        edge_chunk_size: int | None = 65_536,
     ) -> None:
         super().__init__()
         if int(degree) != 1:
@@ -295,6 +392,15 @@ class PaperSplineConv(nn.Module):
         self.degree = int(degree)
         if self.kernel_size < 2:
             raise ValueError("spline_kernel_size must be at least 2")
+        if edge_chunk_size is not None:
+            if (
+                isinstance(edge_chunk_size, bool)
+                or int(edge_chunk_size) != edge_chunk_size
+                or int(edge_chunk_size) < 1
+            ):
+                raise ValueError("spline_chunk_size must be a positive integer or null")
+            edge_chunk_size = int(edge_chunk_size)
+        self.edge_chunk_size = edge_chunk_size
         self.weight = nn.Parameter(
             torch.empty(self.kernel_size, self.in_channels, self.out_channels)
         )
@@ -305,11 +411,30 @@ class PaperSplineConv(nn.Module):
         self.norm = nn.BatchNorm1d(self.out_channels)
         self.register_buffer("bn_bypassed", torch.tensor(False), persistent=True)
         self.register_buffer("snn_normalized", torch.tensor(False), persistent=True)
-        self.register_buffer("activation_max", torch.ones(self.out_channels), persistent=True)
+        self.register_buffer(
+            "calibration_activation_max",
+            torch.ones(self.out_channels),
+            persistent=True,
+        )
+        self.register_buffer(
+            "normalization_scale",
+            torch.ones(self.out_channels),
+            persistent=True,
+        )
+        self.register_buffer(
+            "dead_channel_mask",
+            torch.zeros(self.out_channels, dtype=torch.bool),
+            persistent=True,
+        )
         self.register_buffer("threshold", torch.ones(self.out_channels), persistent=True)
         self._bn_is_folded = False
         self._snn_is_normalized = False
         self.reset_parameters()
+
+    @property
+    def activation_max(self) -> torch.Tensor:
+        """Compatibility alias for the raw, observed calibration maximum."""
+        return self.calibration_activation_max
 
     def reset_parameters(self) -> None:
         weight_bound = 1.0 / math.sqrt(self.kernel_size * self.in_channels)
@@ -322,7 +447,9 @@ class PaperSplineConv(nn.Module):
         self.norm.reset_parameters()
         self.bn_bypassed.fill_(False)
         self.snn_normalized.fill_(False)
-        self.activation_max.fill_(1.0)
+        self.calibration_activation_max.fill_(1.0)
+        self.normalization_scale.fill_(1.0)
+        self.dead_channel_mask.fill_(False)
         self.threshold.fill_(1.0)
         self._bn_is_folded = False
         self._snn_is_normalized = False
@@ -337,6 +464,35 @@ class PaperSplineConv(nn.Module):
         unexpected_keys,
         error_msgs,
     ) -> None:
+        # Architecture-v2 checkpoints written before the calibration-state split
+        # stored either the raw ANN maximum (unconverted checkpoints) or the
+        # effective Eq. (6) scale (converted checkpoints) under ``activation_max``.
+        # The no-dead-channel case is exactly recoverable. A legacy converted
+        # checkpoint that reported dead channels remains rejected later because
+        # their channel identities were not present in its tensor state.
+        legacy_key = prefix + "activation_max"
+        split_keys = (
+            prefix + "calibration_activation_max",
+            prefix + "normalization_scale",
+            prefix + "dead_channel_mask",
+        )
+        if legacy_key in state_dict and all(key not in state_dict for key in split_keys):
+            legacy_max = state_dict.get(legacy_key)
+            normalized_flag = state_dict.get(prefix + "snn_normalized")
+            if isinstance(legacy_max, torch.Tensor):
+                state_dict.pop(legacy_key)
+                state_dict[split_keys[0]] = legacy_max
+                is_normalized = (
+                    isinstance(normalized_flag, torch.Tensor)
+                    and normalized_flag.numel() == 1
+                    and bool(normalized_flag.item())
+                )
+                state_dict[split_keys[1]] = (
+                    legacy_max.clone()
+                    if is_normalized
+                    else torch.ones_like(legacy_max)
+                )
+                state_dict[split_keys[2]] = legacy_max <= 0
         super()._load_from_state_dict(
             state_dict,
             prefix,
@@ -355,6 +511,7 @@ class PaperSplineConv(nn.Module):
         edge_index: torch.Tensor,
         edge_attr: torch.Tensor,
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+        in_degree: torch.Tensor | None = None,
     ) -> torch.Tensor:
         source, destination = edge_index
         output = torch.zeros((x.shape[0], self.out_channels), device=x.device, dtype=x.dtype)
@@ -367,19 +524,30 @@ class PaperSplineConv(nn.Module):
             # Project nodes once for every control point, then gather only the two
             # degree-1 basis terms that are active on each edge.
             projected = torch.einsum("ni,kio->nko", x, self.weight)
+            edge_count = int(source.numel())
+            chunk_size = edge_count if self.edge_chunk_size is None else self.edge_chunk_size
             for active_basis in range(2):
-                messages = projected[source, indices[:, active_basis]]
-                messages = messages * basis[:, active_basis, None].to(messages.dtype)
-                # CPU autocast can produce bfloat16 projections while ``x``
-                # (and therefore ``output``) remains float32. ``index_add_``
-                # requires matching dtypes, so accumulate in the output dtype.
-                output.index_add_(0, destination, messages.to(output.dtype))
-            degree = torch.zeros((x.shape[0], 1), device=x.device, dtype=x.dtype)
-            degree.index_add_(
-                0,
-                destination,
-                torch.ones((destination.numel(), 1), device=x.device, dtype=x.dtype),
-            )
+                for start in range(0, edge_count, chunk_size):
+                    stop = min(start + chunk_size, edge_count)
+                    messages = projected[
+                        source[start:stop], indices[start:stop, active_basis]
+                    ]
+                    messages = messages * basis[start:stop, active_basis, None].to(
+                        messages.dtype
+                    )
+                    # CPU autocast can produce bfloat16 projections while ``x``
+                    # (and therefore ``output``) remains float32. ``index_add_``
+                    # requires matching dtypes, so accumulate in the output dtype.
+                    output.index_add_(
+                        0,
+                        destination[start:stop],
+                        messages.to(output.dtype),
+                    )
+            if in_degree is None:
+                in_degree = torch.bincount(destination, minlength=x.shape[0])
+            if in_degree.shape != (x.shape[0],):
+                raise ValueError("in_degree must contain one value per graph node")
+            degree = in_degree.to(device=x.device, dtype=x.dtype).unsqueeze(-1)
             output = output / degree.clamp_min(1.0)
         return output
 
@@ -389,8 +557,9 @@ class PaperSplineConv(nn.Module):
         edge_index: torch.Tensor,
         edge_attr: torch.Tensor,
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+        in_degree: torch.Tensor | None = None,
     ) -> torch.Tensor:
-        output = self.spline_aggregate(x, edge_index, edge_attr, basis_cache)
+        output = self.spline_aggregate(x, edge_index, edge_attr, basis_cache, in_degree)
         if self.root is not None:
             output = output + x @ self.root
         if self.bias is not None:
@@ -403,8 +572,9 @@ class PaperSplineConv(nn.Module):
         edge_index: torch.Tensor,
         edge_attr: torch.Tensor,
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+        in_degree: torch.Tensor | None = None,
     ) -> torch.Tensor:
-        output = self.affine(x, edge_index, edge_attr, basis_cache)
+        output = self.affine(x, edge_index, edge_attr, basis_cache, in_degree)
         return output if self._bn_is_folded else _safe_batch_norm(self.norm, output)
 
     def forward(
@@ -413,8 +583,11 @@ class PaperSplineConv(nn.Module):
         edge_index: torch.Tensor,
         edge_attr: torch.Tensor,
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+        in_degree: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, torch.Tensor]:
-        preactivation = self.preactivation(x, edge_index, edge_attr, basis_cache)
+        preactivation = self.preactivation(
+            x, edge_index, edge_attr, basis_cache, in_degree
+        )
         return torch.relu(preactivation), preactivation
 
     @torch.no_grad()
@@ -451,6 +624,23 @@ class PaperSplineConv(nn.Module):
             raise ValueError("Output activation scale does not match spline output channels")
         input_scale = input_scale.clamp_min(1e-6)
         output_scale = output_scale.clamp_min(1e-6)
+        raw_max = self.calibration_activation_max.to(
+            device=self.weight.device,
+            dtype=self.weight.dtype,
+        )
+        if not bool(torch.isfinite(raw_max).all()) or bool((raw_max < 0).any()):
+            raise ValueError("Calibration activation maximum must be finite and non-negative")
+        dead_mask = raw_max <= 0
+        expected_output_scale = torch.where(
+            dead_mask,
+            torch.ones_like(raw_max),
+            raw_max,
+        ).clamp_min(1e-6)
+        if not torch.equal(output_scale, expected_output_scale):
+            raise ValueError(
+                "Output activation scale must be the effective scale derived from "
+                "the raw calibration maximum"
+            )
         self.weight.mul_(input_scale.view(1, -1, 1))
         self.weight.div_(output_scale.view(1, 1, -1))
         if self.root is not None:
@@ -458,14 +648,15 @@ class PaperSplineConv(nn.Module):
             self.root.div_(output_scale.view(1, -1))
         if self.bias is not None:
             self.bias.div_(output_scale)
-        self.activation_max.copy_(output_scale)
+        self.normalization_scale.copy_(output_scale)
+        self.dead_channel_mask.copy_(dead_mask)
         self.threshold.fill_(1.0)
         self.snn_normalized.fill_(True)
         self._snn_is_normalized = True
 
 
 class ASGCNEncoder(nn.Module):
-    """Equation-faithful ASGCN graph core adapted to a reconstruction decoder."""
+    """Public-equation-derived static ASGCN graph core for reconstruction."""
 
     def __init__(
         self,
@@ -475,6 +666,7 @@ class ASGCNEncoder(nn.Module):
         spline_kernel_size: int = 5,
         spline_degree: int = 1,
         spline_root_weight: bool = True,
+        spline_chunk_size: int | None = 65_536,
     ) -> None:
         super().__init__()
         hidden_dim = int(hidden_dim)
@@ -492,6 +684,7 @@ class ASGCNEncoder(nn.Module):
                     degree=spline_degree,
                     root_weight=spline_root_weight,
                     bias=True,
+                    edge_chunk_size=spline_chunk_size,
                 )
                 for index in range(graph_layers)
             ]
@@ -518,14 +711,17 @@ class ASGCNEncoder(nn.Module):
         activations: list[torch.Tensor] = []
         basis_cache = self._basis_cache(graph)
         for layer in self.layers:
-            hidden, preactivation = layer(
+            hidden, _preactivation = layer(
                 hidden,
                 graph.edge_index,
                 graph.edge_attr,
                 basis_cache,
+                graph.in_degree,
             )
             if return_activations:
-                activations.append(torch.relu(preactivation))
+                # ``hidden`` is already ReLU(preactivation); retain that tensor
+                # instead of launching and storing an identical second ReLU.
+                activations.append(hidden)
         return hidden, activations
 
     def forward_snn(
@@ -554,10 +750,17 @@ class ASGCNEncoder(nn.Module):
             layer.threshold.to(graph.node_features).expand(node_count, -1).clone() * 0.5
             for layer in self.layers
         ]
-        previous_spikes = [
-            graph.node_features.new_zeros((node_count, layer.out_channels)) for layer in self.layers
-        ]
-        spike_sums = [torch.zeros_like(spikes) for spikes in previous_spikes]
+        previous_spikes = (
+            [
+                graph.node_features.new_zeros((node_count, layer.out_channels))
+                for layer in self.layers
+            ]
+            if dynamics == "literal_eq15"
+            else None
+        )
+        output_spike_sum = graph.node_features.new_zeros(
+            (node_count, self.layers[-1].out_channels)
+        )
         active_counts = [graph.node_features.new_zeros(()) for _ in self.layers]
         basis_cache = self._basis_cache(graph)
 
@@ -569,9 +772,10 @@ class ASGCNEncoder(nn.Module):
                     graph.edge_index,
                     graph.edge_attr,
                     basis_cache,
+                    graph.in_degree,
                 )
                 integrated = membranes[index] + current
-                if dynamics == "literal_eq15":
+                if previous_spikes is not None:
                     # This is the paper's written +h_i^l(t-1) recurrence. It is
                     # intentionally separate from the standard rate-conversion IF
                     # control because the paper does not resolve their mismatch.
@@ -581,16 +785,19 @@ class ASGCNEncoder(nn.Module):
                     integrated >= threshold, threshold, torch.zeros_like(integrated)
                 )
                 membranes[index] = integrated - spikes
-                previous_spikes[index] = spikes
-                spike_sums[index] = spike_sums[index] + spikes
+                if previous_spikes is not None:
+                    previous_spikes[index] = spikes
+                if index == len(self.layers) - 1:
+                    output_spike_sum = output_spike_sum + spikes
                 active_counts[index] = active_counts[index] + (spikes != 0).sum()
                 hidden = spikes
 
         firing_rates = [
-            active.to(graph.node_features.dtype) / float(simulation_steps * max(1, spikes.numel()))
-            for active, spikes in zip(active_counts, spike_sums, strict=True)
+            active.to(graph.node_features.dtype)
+            / float(simulation_steps * max(1, node_count * layer.out_channels))
+            for active, layer in zip(active_counts, self.layers, strict=True)
         ]
-        return spike_sums[-1] / float(simulation_steps), firing_rates
+        return output_spike_sum / float(simulation_steps), firing_rates
 
     @torch.no_grad()
     def update_activation_maxima(self, activations: list[torch.Tensor]) -> None:
@@ -604,13 +811,18 @@ class ASGCNEncoder(nn.Module):
             if not bool(torch.isfinite(activation).all()):
                 raise FloatingPointError("Non-finite activation encountered during calibration")
             maxima = activation.amax(dim=0)
-            layer.activation_max.copy_(torch.maximum(layer.activation_max, maxima))
+            layer.calibration_activation_max.copy_(
+                torch.maximum(layer.calibration_activation_max, maxima)
+            )
+            layer.dead_channel_mask.copy_(layer.calibration_activation_max <= 0)
             self.calibration_samples_seen[index].add_(1)
 
     @torch.no_grad()
     def reset_activation_maxima(self) -> None:
         for layer in self.layers:
-            layer.activation_max.zero_()
+            layer.calibration_activation_max.zero_()
+            layer.normalization_scale.fill_(1.0)
+            layer.dead_channel_mask.fill_(True)
         self.calibration_samples_seen.zero_()
 
     @torch.no_grad()
@@ -629,15 +841,22 @@ class ASGCNEncoder(nn.Module):
             )
         previous_scale = self.layers[0].weight.new_ones(self.layers[0].in_channels)
         for layer in self.layers:
-            measured = layer.activation_max.detach().clone()
+            measured = layer.calibration_activation_max.detach().clone()
             # A ReLU channel that stayed identically zero has no usable lambda.
             # Keep it at unit scale instead of dividing its parameters by epsilon.
-            output_scale = torch.where(measured > 0, measured, torch.ones_like(measured))
+            output_scale = torch.where(
+                measured > 0,
+                measured,
+                torch.ones_like(measured),
+            ).clamp_min(1e-6)
             layer.apply_parameter_normalization(previous_scale, output_scale)
-            previous_scale = output_scale
+            previous_scale = layer.normalization_scale.detach().clone()
 
     def calibration_summary(self) -> dict[str, list[int] | int]:
-        dead_channels = [int((layer.activation_max <= 0).sum().item()) for layer in self.layers]
+        dead_channels = [
+            int((layer.calibration_activation_max <= 0).sum().item())
+            for layer in self.layers
+        ]
         valid_samples = [int(value) for value in self.calibration_samples_seen.tolist()]
         return {
             "valid_samples_per_layer": valid_samples,
@@ -649,4 +868,4 @@ class ASGCNEncoder(nn.Module):
         """Return lambda_L used to express spikes in the analog decoder's units."""
         if not self.layers[-1]._snn_is_normalized:
             raise RuntimeError("Output activation scale is available after Eq. (6) conversion")
-        return self.layers[-1].activation_max.to(reference)
+        return self.layers[-1].normalization_scale.to(reference)

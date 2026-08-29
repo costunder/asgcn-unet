@@ -1,22 +1,384 @@
-# .dockerignore
+<!-- code-summary-metadata
+{
+  "format_version": 1,
+  "generator": "python scripts/build_code_summary.py",
+  "provenance": {
+    "branch_at_generation": "main",
+    "generated_utc": "2026-08-29T10:04:27Z",
+    "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
+    "source_commit_at_generation": null,
+    "source_tree_at_generation": null,
+    "timestamp_source": "source_commit_time",
+    "tracked_tree_dirty_at_generation": true
+  },
+  "snapshot": {
+    "canonicalization": "UTF-8 text with LF newlines",
+    "excluded_output": "code_summary.md",
+    "files": [
+      {
+        "bytes": 213,
+        "path": ".editorconfig",
+        "sha256": "bdf605af17b69fe16fc72214ce40679edc278901fbc05d75ad67f1f989ba9dcd"
+      },
+      {
+        "bytes": 464,
+        "path": ".env.example",
+        "sha256": "9059448414b46c7eaffee1f72c9797396c1f418eaaa92fd06eb960d061c6584f"
+      },
+      {
+        "bytes": 315,
+        "path": ".gitattributes",
+        "sha256": "fc3f3ff8c4e4301eb4da6750eb8ffdf1d890311e0fa756a96e87d691400ce1c9"
+      },
+      {
+        "bytes": 3508,
+        "path": ".github/workflows/ci.yml",
+        "sha256": "87cb700a27aeca0a73430c09b72bae9149d4ffc5e8a70e9a3b20ba758f222a5e"
+      },
+      {
+        "bytes": 360,
+        "path": ".gitignore",
+        "sha256": "4c4365a9b1bd8dff65b884fd50e0ed301601640602187ae011d9f1eb7a5fac95"
+      },
+      {
+        "bytes": 3234,
+        "path": "CONTRIBUTING.md",
+        "sha256": "84a999d703d3cddb94c4909ce8f14815ec9b7f624b33600bade93e5fc6dfa1c2"
+      },
+      {
+        "bytes": 32724,
+        "path": "README.md",
+        "sha256": "ddbcf2d5624edb1145936347945ba34330366ee6f1bc08e8b413762187a22520"
+      },
+      {
+        "bytes": 1339,
+        "path": "configs/aid.json",
+        "sha256": "b87085811b8c925f8a9e0fe00736e04342369bf508c4a05672df5566ae9bfad0"
+      },
+      {
+        "bytes": 1340,
+        "path": "configs/hdr.json",
+        "sha256": "6725274add032bd4b0f993a5608a9b729344421f28971dc4f8ada808f800abdb"
+      },
+      {
+        "bytes": 1730,
+        "path": "configs/train.json",
+        "sha256": "665a09b1420dda5ff8da96d8087e9e093eea7616897c006c57ec89ccefa75cc4"
+      },
+      {
+        "bytes": 491,
+        "path": "constraints/py312.txt",
+        "sha256": "e238c7a9673c896370cea24b9cdb41469e435fd6e9633164e698ae12a60bc08c"
+      },
+      {
+        "bytes": 12857,
+        "path": "docs/ASGCN.md",
+        "sha256": "c678c5c0a1ddaa26ad7985ed5efdddcfd9f00cc2edf915585681d4d62444048f"
+      },
+      {
+        "bytes": 24135,
+        "path": "docs/EXPERIMENT.md",
+        "sha256": "5253e4043315ae27b4f0a5ae66c0260a79961b58d7ad09ecfec032759595d1bd"
+      },
+      {
+        "bytes": 26448,
+        "path": "docs/SERVER.md",
+        "sha256": "164174991c365b10fff230ed34f0b226fd3a0a4f8aaacea3b4a5edd5543cd118"
+      },
+      {
+        "bytes": 54292,
+        "path": "hand_off.md",
+        "sha256": "80624b717de970b8d9ae216b8bc1853f404b63f5dc6e4f40c1092fee43500955"
+      },
+      {
+        "bytes": 2753,
+        "path": "manifests/eventaid_r.json",
+        "sha256": "5d756f5474d7b8c8da1964cbff5e4406886d18db0fba64c72b4029ec3f2b9b5c"
+      },
+      {
+        "bytes": 1100,
+        "path": "manifests/eventhdr_split.json",
+        "sha256": "603517c8a09c8874b8b0c15756e911b2f88071da9de62ac3ffb4712330de3fa0"
+      },
+      {
+        "bytes": 767,
+        "path": "pyproject.toml",
+        "sha256": "a7dea41f5b9f8daae84b3344f4d17c88433ae06cecd7f21ae8becee406817994"
+      },
+      {
+        "bytes": 15327,
+        "path": "scripts/build_code_summary.py",
+        "sha256": "a81f609be764659f9a72f5e9a3c38f6f9be6f71bcb0bfe2591ab98131ad1bc8d"
+      },
+      {
+        "bytes": 4630,
+        "path": "scripts/calibrate.sh",
+        "sha256": "854eca838807595edb76c769efc0e65cb7e01c5b2f41f0fc2cba14657adf9937"
+      },
+      {
+        "bytes": 14539,
+        "path": "scripts/check_env.py",
+        "sha256": "2e67e93ac34d2ae72afb8a8c993cc5369030b8c99251e8b4a4e1ddf0ba42d980"
+      },
+      {
+        "bytes": 4082,
+        "path": "scripts/eval.sh",
+        "sha256": "12109e93338025b30b73114a7d5497f41d6e54999560d339dbf1802dd7c0dc12"
+      },
+      {
+        "bytes": 3650,
+        "path": "scripts/get_aid.sh",
+        "sha256": "0e05cd4565fcf81bc83a529b74a6a43dc1ab013a635231adfa13eb6ec88243c6"
+      },
+      {
+        "bytes": 16680,
+        "path": "scripts/get_hdr.py",
+        "sha256": "ca582ad69ced3efcc80ce808d45874ec931cdc190491f6e1715d0acfca535a8a"
+      },
+      {
+        "bytes": 399,
+        "path": "scripts/get_hdr.sh",
+        "sha256": "38aeb6e94ff5f717b850a59c2507ac719319e1361acfbfac9a4b59f3388b23d9"
+      },
+      {
+        "bytes": 11460,
+        "path": "scripts/run.sh",
+        "sha256": "13c7363c26c75e786d2641ffca84d9e3c86b33faeb2058c9899fcbe71f374f61"
+      },
+      {
+        "bytes": 21790,
+        "path": "scripts/scan_private_text.py",
+        "sha256": "505f78a421d0d2e97dd4756c1eeacfb0cd183c11b4e1bdb8259f27b7b5e09e92"
+      },
+      {
+        "bytes": 6697,
+        "path": "scripts/setup.sh",
+        "sha256": "52dc94c3e7350e3eb6faa9c8bec8e8cec57446f4106e5384ffc71452d48a6540"
+      },
+      {
+        "bytes": 3680,
+        "path": "scripts/train.sh",
+        "sha256": "a4a2e1fdc2a6bb3dcc7419ca883727f95f2cb0674c6a395d061c5b40e60b164c"
+      },
+      {
+        "bytes": 2955,
+        "path": "server/calibrate.pbs",
+        "sha256": "50618edd87c9d7e5d5261617189f9df19bc3bdc285615e73c1137f80fdfc782d"
+      },
+      {
+        "bytes": 3329,
+        "path": "server/calibrate.sbatch",
+        "sha256": "28a97766c3afb4cb9865879e79de8e1ad9999d6f195ce8f03f29f079e9e052a0"
+      },
+      {
+        "bytes": 2608,
+        "path": "server/eval.pbs",
+        "sha256": "3c045f83225411e1933d9cbda3d295d5419f9012c140695fc98e76f963229cfc"
+      },
+      {
+        "bytes": 2914,
+        "path": "server/eval.sbatch",
+        "sha256": "fa579366a41c8c28ec367348586a23554e000d09ddd4a9f2ca417046aa12cbe3"
+      },
+      {
+        "bytes": 2230,
+        "path": "server/profile.pbs",
+        "sha256": "4b20bd7bdb6e27152e6b936cfeb58a5cbd17d3da864fb3336938a843872c3c24"
+      },
+      {
+        "bytes": 2547,
+        "path": "server/profile.sbatch",
+        "sha256": "3cc80fd2e5c21abd68bcb390e648e3fe0cc315290f8d206212c534d4c9059e11"
+      },
+      {
+        "bytes": 2402,
+        "path": "server/train.pbs",
+        "sha256": "495a44969690ef924d016b7924b25d4a8d6b0e577bc05aed879b63839ed1dae3"
+      },
+      {
+        "bytes": 2814,
+        "path": "server/train.sbatch",
+        "sha256": "e96fe73777be78ebe5542e6f18e0d6bc3ea6c64c24e32af85f8fe2d7a4151790"
+      },
+      {
+        "bytes": 49,
+        "path": "src/asgcn_unet/__init__.py",
+        "sha256": "f2dc65b5bcc61a0f90a890075ae84da48d115380756adb0b643839c011370c46"
+      },
+      {
+        "bytes": 21751,
+        "path": "src/asgcn_unet/cli.py",
+        "sha256": "bb4b412aab844ac5f422137603ed142356464d6e1abf3ff9bc5d72d5dbe02082"
+      },
+      {
+        "bytes": 309,
+        "path": "src/asgcn_unet/data/__init__.py",
+        "sha256": "4b24dc7e861593989b5f820a50c35fbfeade1383fae97efb6691e3a1de7a09ec"
+      },
+      {
+        "bytes": 9754,
+        "path": "src/asgcn_unet/data/common.py",
+        "sha256": "0591d6bd2abee38f7834cf81219d36d2dbfe64cd3992c12f6de06fe2b85a5e5b"
+      },
+      {
+        "bytes": 18200,
+        "path": "src/asgcn_unet/data/eventaid_r.py",
+        "sha256": "99b86d4a5c0272e5c0321a2a09369cf23f25f58d520e9cc9f9a7c46376c7f166"
+      },
+      {
+        "bytes": 17779,
+        "path": "src/asgcn_unet/data/eventhdr.py",
+        "sha256": "1e0b257e8bd2ae57181efad8bc59f19791974650445cb4a50a70871c6ca6265c"
+      },
+      {
+        "bytes": 11088,
+        "path": "src/asgcn_unet/data/factory.py",
+        "sha256": "5ef139427badf8664679002b8f5a90e728465002435998349f78735ef292104d"
+      },
+      {
+        "bytes": 190600,
+        "path": "src/asgcn_unet/engine.py",
+        "sha256": "2e30d0189c73dda7fda0397c93765ee15ddbd083afa6a3478d2e06dd3f5737da"
+      },
+      {
+        "bytes": 36977,
+        "path": "src/asgcn_unet/graph.py",
+        "sha256": "5cec4df7d1198d71bdb269e76b80a63230e73475a9694b5e33eba0faecd4c9bf"
+      },
+      {
+        "bytes": 2863,
+        "path": "src/asgcn_unet/losses.py",
+        "sha256": "90c3b1e9099394a83db1b5b3dc1058f7e2024b056cbe6fcc371dc39b4a47374e"
+      },
+      {
+        "bytes": 8723,
+        "path": "src/asgcn_unet/metrics.py",
+        "sha256": "b8c0ecd4f7a8d271dd8d8a160c6c42b93915ceabfb835069fb1d82e16b83d6b4"
+      },
+      {
+        "bytes": 13508,
+        "path": "src/asgcn_unet/model.py",
+        "sha256": "fcd5bd70bfb4a5b04fc985ee3289980213a83717c41a191bd937b39eb0d96d45"
+      },
+      {
+        "bytes": 29493,
+        "path": "src/asgcn_unet/preflight.py",
+        "sha256": "8e773a8b6a51dc726cdef6e96709412109d39bdabb8ad06fea45d6cb3f0cd5d3"
+      },
+      {
+        "bytes": 3720,
+        "path": "src/asgcn_unet/unet.py",
+        "sha256": "fec44e04051e57dbd8adb098c92cbc50db5a28a6755cd89a3aa0f41b400519bf"
+      },
+      {
+        "bytes": 8697,
+        "path": "src/asgcn_unet/utils.py",
+        "sha256": "6cd8856803230f017735e6a0ecdacff3ba8e03ec737899aaae2b891c8ead9343"
+      },
+      {
+        "bytes": 58,
+        "path": "tests/__init__.py",
+        "sha256": "e736ab8a02a47b18cb9d05f58e61203601e1338c21b2cf1acd58cfd156e11967"
+      },
+      {
+        "bytes": 3101,
+        "path": "tests/fixtures.py",
+        "sha256": "5cb5ebff9b794834a77fd38d6402aab04ce413e7f0d464789f9abbafebe30661"
+      },
+      {
+        "bytes": 22409,
+        "path": "tests/test_asgcn_paper_core.py",
+        "sha256": "ad2754e5d252bdbdceb318db797e5ca937d9588e18d1970caf01211d79676a96"
+      },
+      {
+        "bytes": 9677,
+        "path": "tests/test_data_config_hardening.py",
+        "sha256": "6abbe0fb75f82f69e73012258b0ff2f0ac4f6bc611c366558651a046ee397ec3"
+      },
+      {
+        "bytes": 17966,
+        "path": "tests/test_data_validation.py",
+        "sha256": "3989d4b59f9280b8e336cf2976b333ebf6b216adc9fe148841d718f94c162b5e"
+      },
+      {
+        "bytes": 17401,
+        "path": "tests/test_e2e.py",
+        "sha256": "38367499c1a1bab3acda5091ff069039bf86ca5555184dbed74b066bd97b6807"
+      },
+      {
+        "bytes": 18485,
+        "path": "tests/test_engine_integrity.py",
+        "sha256": "8b080d7b09bf52feffb34e74fdeafd1496553404054671eca9881197ce507ac6"
+      },
+      {
+        "bytes": 6084,
+        "path": "tests/test_get_hdr.py",
+        "sha256": "3ba0339c3e0b380a07bae6a57c3e330dbb633b51f79519d3d4c7ba51789a0c97"
+      },
+      {
+        "bytes": 10637,
+        "path": "tests/test_gpu_preflight.py",
+        "sha256": "2e0735e9c203fe5d484e9668bba2a5c86461927e9fbd1b9cadcf2b81c8fe4335"
+      },
+      {
+        "bytes": 1878,
+        "path": "tests/test_graph_vectorized.py",
+        "sha256": "3ef547d03a2b412fbe8eba1d5e909801c33d75c4ff2d2e3dee3f972247daaf4d"
+      },
+      {
+        "bytes": 2070,
+        "path": "tests/test_inspect_all.py",
+        "sha256": "4f2bde00e6fc80e3e898611e8b6d9319efe63eb83ac204a915b672bec0dbe4a7"
+      },
+      {
+        "bytes": 5199,
+        "path": "tests/test_metrics_ssim.py",
+        "sha256": "d4f8e6da6d6ea92f9d70723b34d61016b4230c66d067bfe242329834005c84ae"
+      },
+      {
+        "bytes": 45514,
+        "path": "tests/test_p0_engine.py",
+        "sha256": "d00916678082cf669352ab679400721ce01f1a39cb8ad22fdc6a238f7e6ae174"
+      },
+      {
+        "bytes": 22816,
+        "path": "tests/test_pipeline.py",
+        "sha256": "572a20837c8dcdfde47915c188fd6b9a5d557bcea1d6f44434ead738b89aef52"
+      },
+      {
+        "bytes": 14834,
+        "path": "tests/test_public_provenance.py",
+        "sha256": "b70b26b4f4231fdc1bcaf605550a41c526aefc771b64d80169421bfbeed09d63"
+      },
+      {
+        "bytes": 16504,
+        "path": "tests/test_repo_hygiene.py",
+        "sha256": "614443298ba706381b494b4005754de940e8ca6f1747107f372b96f309f29403"
+      },
+      {
+        "bytes": 9390,
+        "path": "tests/test_server_orchestration.py",
+        "sha256": "6a439e42b9467a486af1aaabdfbdad94b089a299008bb6639384f6e1b6b1c7a5"
+      },
+      {
+        "bytes": 1176,
+        "path": "tests/test_temporal_metric.py",
+        "sha256": "606b9d6097b82bca902993e18153d1e424f0332e4d064e33374ef50c72cbc1e2"
+      },
+      {
+        "bytes": 2742,
+        "path": "tests/test_utils_atomic.py",
+        "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
+      }
+    ],
+    "included_file_count": 71,
+    "skipped_binary_paths": [],
+    "snapshot_sha256": "95d6fbd7694a2da34c4a810681383eff54dd21f76919332ef2b22c3c758e4c8b"
+  }
+}
+-->
 
-~~~~~~~~text
-/.git
-/.github
-/.venv
-.pytest_cache
-.ruff_cache
-__pycache__
-*.pyc
-*.h5
-*.zip
-*.pt
-*.pth
-/data
-/runs
-/logs
-*.hwp
-~~~~~~~~
+# Repository code snapshot
 
 # .editorconfig
 
@@ -36,18 +398,11 @@ indent_size = 4
 [*.{json,yml,yaml}]
 indent_style = space
 indent_size = 2
-
-[*.ps1]
-end_of_line = crlf
 ~~~~~~~~
 
 # .env.example
 
 ~~~~~~~~text
-# Host paths mounted by Docker Compose.
-DATA_DIR=./data
-RUNS_DIR=./runs
-
 # Optional PyTorch wheel index selected for the server driver.
 # Obtain the current value from https://pytorch.org/get-started/locally/
 TORCH_INDEX_URL=
@@ -77,10 +432,6 @@ EXPECTED_PYTHON_MINOR=3.12
 *.json text eol=lf
 *.txt text eol=lf
 *.md text eol=lf
-*.ps1 text eol=crlf
-Dockerfile text eol=lf
-Makefile text eol=lf
-.dockerignore text eol=lf
 .editorconfig text eol=lf
 .env.example text eol=lf
 .gitattributes text eol=lf
@@ -88,126 +439,6 @@ Makefile text eol=lf
 *.hwp binary
 *.h5 binary
 *.zip binary
-~~~~~~~~
-
-# .github/ISSUE_TEMPLATE/bug_report.yml
-
-~~~~~~~~yaml
-name: 버그 보고
-description: 재현 가능한 오류나 잘못된 결과를 보고합니다.
-title: "[Bug]: "
-labels:
-  - bug
-body:
-  - type: markdown
-    attributes:
-      value: |
-        민감한 정보나 대용량 데이터 파일은 첨부하지 마세요. 가능한 경우 합성 스모크 데이터로 재현해 주세요.
-
-  - type: textarea
-    id: summary
-    attributes:
-      label: 문제 설명
-      description: 발생한 문제와 기대했던 동작을 설명해 주세요.
-      placeholder: 무엇이 잘못되었으며 원래 어떻게 동작해야 하나요?
-    validations:
-      required: true
-
-  - type: textarea
-    id: reproduce
-    attributes:
-      label: 재현 방법
-      description: 실행한 명령과 최소 재현 절차를 순서대로 적어 주세요.
-      placeholder: |
-        1. ...
-        2. ...
-        3. ...
-    validations:
-      required: true
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: 오류 로그
-      description: 전체 traceback 또는 관련 로그를 붙여 넣어 주세요.
-      render: shell
-
-  - type: dropdown
-    id: dataset
-    attributes:
-      label: 관련 데이터 경로
-      options:
-        - 합성 스모크 데이터
-        - EventHDR
-        - EventAid-R
-        - 데이터와 무관함
-        - 확인하지 못함
-    validations:
-      required: true
-
-  - type: input
-    id: os
-    attributes:
-      label: 운영체제
-      placeholder: 예) Ubuntu 22.04, Windows 11
-    validations:
-      required: true
-
-  - type: input
-    id: python
-    attributes:
-      label: Python 및 PyTorch 버전
-      placeholder: 예) Python 3.11.9, PyTorch 2.4.0+cu121
-    validations:
-      required: true
-
-  - type: input
-    id: hardware
-    attributes:
-      label: 하드웨어
-      description: CPU, GPU 모델과 GPU 사용 시 CUDA 버전을 적어 주세요.
-      placeholder: 예) RTX 4090, CUDA 12.1
-
-  - type: textarea
-    id: config
-    attributes:
-      label: 설정 및 추가 정보
-      description: 사용한 config, commit SHA, 수정 사항 등 원인 파악에 필요한 내용을 적어 주세요.
-
-  - type: checkboxes
-    id: checks
-    attributes:
-      label: 확인 사항
-      options:
-        - label: 최신 기본 브랜치에서도 문제가 재현됩니다.
-          required: true
-        - label: 이슈에 개인 정보, 인증 정보 또는 비공개 데이터가 포함되지 않았습니다.
-          required: true
-~~~~~~~~
-
-# .github/pull_request_template.md
-
-~~~~~~~~markdown
-## 변경 내용
-
-- 무엇을 변경했고 왜 필요한지 적어 주세요.
-
-## 검증
-
-- [ ] `python -m ruff check .`
-- [ ] `python -m pytest -q`
-- [ ] 데이터 로더/config 변경 시 공식 데이터에서 `asgcn-recon inspect`를 실행했습니다.
-
-## 실험 영향
-
-- [ ] 데이터 로더 또는 데이터 정렬 규칙을 변경하지 않았습니다.
-- [ ] 모델 구조, 손실 함수 또는 평가 지표 변경 사항을 문서화했습니다.
-- [ ] 설정이나 재현 방법이 달라진 경우 README와 config를 갱신했습니다.
-- [ ] 대용량 데이터, 체크포인트, 실행 결과를 커밋하지 않았습니다.
-
-## 추가 정보
-
-관련 이슈, 실험 결과 또는 호환성 관련 참고 사항이 있다면 적어 주세요.
 ~~~~~~~~
 
 # .github/workflows/ci.yml
@@ -233,10 +464,13 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: "3.12"
           cache: pip
@@ -250,11 +484,48 @@ jobs:
           python -m pip install -c constraints/py312.txt -e ".[dev]"
           python scripts/check_env.py --lock constraints/py312.txt
 
+      - name: Exercise the Linux server setup entrypoint
+        env:
+          ENV_FILE: /dev/null
+          PYTHON_BIN: python
+          VENV_DIR: ${{ env.pythonLocation }}
+          TORCH_VERSION: 2.13.0
+          CONSTRAINTS_FILE: constraints/py312.txt
+          PROJECT_EXTRAS: dev
+          REQUIRE_CUDA: 0
+        run: bash scripts/setup.sh
+
       - name: Run Ruff
         run: python -m ruff check .
 
+      - name: Run tests with the locked Python 3.12 profile
+        run: python -m pytest -q
+
+      - name: Verify deterministic code snapshot
+        run: python scripts/build_code_summary.py --check
+
+      - name: Verify trusted main clean snapshot provenance
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: python scripts/build_code_summary.py --check --require-clean-provenance
+
+      - name: Scan tracked text with generic privacy rules
+        run: python scripts/scan_private_text.py --all-tracked
+
+      - name: Scan trusted main history with the required private denylist
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          PRIVATE_MARKERS_B64: ${{ secrets.PRIVATE_MARKERS_B64 }}
+        run: >
+          python scripts/scan_private_text.py
+          --all-tracked
+          --all-history
+          --require-external-patterns
+
       - name: Validate Linux shell entrypoints
-        run: bash -n scripts/*.sh server/*.sbatch server/*.pbs
+        run: |
+          for script in scripts/*.sh server/*.sbatch server/*.pbs; do
+            bash -n "$script" || exit 1
+          done
 
   test:
     name: ${{ matrix.os }} / Python ${{ matrix.python-version }}
@@ -268,10 +539,12 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -310,348 +583,14 @@ slurm-*.err
 asgcn-*.o*
 asgcn-*.e*
 .data_hash_cache.json
+/.private_markers.txt
+/private_markers.txt
 *.pt
 *.pth
 *.onnx
 
 # Local project source documents may contain non-public application details.
 *.hwp
-~~~~~~~~
-
-# compose.yaml
-
-~~~~~~~~yaml
-services:
-  experiment:
-    build:
-      context: .
-      args:
-        TORCH_INDEX_URL: ${TORCH_INDEX_URL:-}
-        TORCH_VERSION: ${TORCH_VERSION:-2.13.0}
-    image: asgcn-event-reconstruction:local
-    working_dir: /workspace
-    volumes:
-      - ${DATA_DIR:-./data}:/workspace/data:ro
-      - ${RUNS_DIR:-./runs}:/workspace/runs
-    ipc: host
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-    command: ["inspect", "--config", "configs/hdr_train.json"]
-~~~~~~~~
-
-# configs/aid_ann.json
-
-~~~~~~~~json
-{
-  "seed": 2026,
-  "device": "auto",
-  "dataset": {
-    "type": "eventaid_r_zip",
-    "root": "data/EventAid-R",
-    "file_manifest": "manifests/eventaid_r.json",
-    "expected_file_count": 14,
-    "target_channels": 1,
-    "max_events": 8192,
-    "crop_size": null,
-    "target_offset": 1,
-    "tone_map": "log",
-    "tone_map_mu": 5000.0
-  },
-  "model": {
-    "architecture_version": 2,
-    "hidden_dim": 64,
-    "graph_layers": 6,
-    "graph_operator": "spline",
-    "spline_backend": "torch",
-    "spline_pseudo": "distance_over_radius",
-    "spline_is_open": true,
-    "event_sampling_factor": 1,
-    "graph_radius": 0.08,
-    "graph_position_dims": 3,
-    "graph_chunk_size": 512,
-    "max_graph_edges": 2000000,
-    "spline_kernel_size": 5,
-    "spline_degree": 1,
-    "spline_root_weight": true,
-    "snn_dynamics": "literal_eq15",
-    "raster_downsample": 4,
-    "decoder_channels": 48,
-    "output_channels": 1,
-    "recurrent": true
-  },
-  "eval": {
-    "batch_size": 1,
-    "num_workers": 2,
-    "persistent_workers": true,
-    "prefetch_factor": 2,
-    "recurrent_context_frames": 32,
-    "max_samples": null,
-    "save_predictions": 20,
-    "output_dir": "runs/eventaid_r_external_ann"
-  }
-}
-~~~~~~~~
-
-# configs/aid_snn.json
-
-~~~~~~~~json
-{
-  "seed": 2026,
-  "device": "auto",
-  "dataset": {
-    "type": "eventaid_r_zip",
-    "root": "data/EventAid-R",
-    "file_manifest": "manifests/eventaid_r.json",
-    "expected_file_count": 14,
-    "target_channels": 1,
-    "max_events": 8192,
-    "crop_size": null,
-    "target_offset": 1,
-    "tone_map": "log",
-    "tone_map_mu": 5000.0
-  },
-  "model": {
-    "architecture_version": 2,
-    "hidden_dim": 64,
-    "graph_layers": 6,
-    "graph_operator": "spline",
-    "spline_backend": "torch",
-    "spline_pseudo": "distance_over_radius",
-    "spline_is_open": true,
-    "event_sampling_factor": 1,
-    "graph_radius": 0.08,
-    "graph_position_dims": 3,
-    "graph_chunk_size": 512,
-    "max_graph_edges": 2000000,
-    "spline_kernel_size": 5,
-    "spline_degree": 1,
-    "spline_root_weight": true,
-    "snn_dynamics": "literal_eq15",
-    "raster_downsample": 4,
-    "decoder_channels": 48,
-    "output_channels": 1,
-    "recurrent": true
-  },
-  "eval": {
-    "batch_size": 1,
-    "num_workers": 2,
-    "persistent_workers": true,
-    "prefetch_factor": 2,
-    "recurrent_context_frames": 32,
-    "max_samples": null,
-    "save_predictions": 20,
-    "output_dir": "runs/eventaid_r_external_snn"
-  }
-}
-~~~~~~~~
-
-# configs/hdr_ann.json
-
-~~~~~~~~json
-{
-  "seed": 2026,
-  "device": "auto",
-  "dataset": {
-    "type": "eventhdr",
-    "root": "data/EventHDR/eval",
-    "expected_file_count": 19,
-    "target_channels": 1,
-    "max_events": 8192,
-    "crop_size": null,
-    "frame_stride": 1,
-    "tone_map": "log",
-    "tone_map_mu": 5000.0
-  },
-  "model": {
-    "architecture_version": 2,
-    "hidden_dim": 64,
-    "graph_layers": 6,
-    "graph_operator": "spline",
-    "spline_backend": "torch",
-    "spline_pseudo": "distance_over_radius",
-    "spline_is_open": true,
-    "event_sampling_factor": 1,
-    "graph_radius": 0.08,
-    "graph_position_dims": 3,
-    "graph_chunk_size": 512,
-    "max_graph_edges": 2000000,
-    "spline_kernel_size": 5,
-    "spline_degree": 1,
-    "spline_root_weight": true,
-    "snn_dynamics": "literal_eq15",
-    "raster_downsample": 4,
-    "decoder_channels": 48,
-    "output_channels": 1,
-    "recurrent": true
-  },
-  "eval": {
-    "batch_size": 1,
-    "num_workers": 2,
-    "persistent_workers": true,
-    "prefetch_factor": 2,
-    "recurrent_context_frames": 32,
-    "max_samples": null,
-    "save_predictions": 20,
-    "output_dir": "runs/eventhdr_official_eval_ann"
-  }
-}
-~~~~~~~~
-
-# configs/hdr_snn.json
-
-~~~~~~~~json
-{
-  "seed": 2026,
-  "device": "auto",
-  "dataset": {
-    "type": "eventhdr",
-    "root": "data/EventHDR/eval",
-    "expected_file_count": 19,
-    "target_channels": 1,
-    "max_events": 8192,
-    "crop_size": null,
-    "frame_stride": 1,
-    "tone_map": "log",
-    "tone_map_mu": 5000.0
-  },
-  "model": {
-    "architecture_version": 2,
-    "hidden_dim": 64,
-    "graph_layers": 6,
-    "graph_operator": "spline",
-    "spline_backend": "torch",
-    "spline_pseudo": "distance_over_radius",
-    "spline_is_open": true,
-    "event_sampling_factor": 1,
-    "graph_radius": 0.08,
-    "graph_position_dims": 3,
-    "graph_chunk_size": 512,
-    "max_graph_edges": 2000000,
-    "spline_kernel_size": 5,
-    "spline_degree": 1,
-    "spline_root_weight": true,
-    "snn_dynamics": "literal_eq15",
-    "raster_downsample": 4,
-    "decoder_channels": 48,
-    "output_channels": 1,
-    "recurrent": true
-  },
-  "eval": {
-    "batch_size": 1,
-    "num_workers": 2,
-    "persistent_workers": true,
-    "prefetch_factor": 2,
-    "recurrent_context_frames": 32,
-    "max_samples": null,
-    "save_predictions": 20,
-    "output_dir": "runs/eventhdr_official_eval_snn"
-  }
-}
-~~~~~~~~
-
-# configs/hdr_train.json
-
-~~~~~~~~json
-{
-  "seed": 2026,
-  "device": "auto",
-  "dataset": {
-    "type": "eventhdr",
-    "root": "data/EventHDR/train",
-    "val_root": "data/EventHDR/eval",
-    "split_manifest": "manifests/eventhdr_split.json",
-    "target_channels": 1,
-    "max_events": 8192,
-    "crop_size": null,
-    "frame_stride": 1,
-    "tone_map": "log",
-    "tone_map_mu": 5000.0
-  },
-  "model": {
-    "architecture_version": 2,
-    "hidden_dim": 64,
-    "graph_layers": 6,
-    "graph_operator": "spline",
-    "spline_backend": "torch",
-    "spline_pseudo": "distance_over_radius",
-    "spline_is_open": true,
-    "event_sampling_factor": 1,
-    "graph_radius": 0.08,
-    "graph_position_dims": 3,
-    "graph_chunk_size": 512,
-    "max_graph_edges": 2000000,
-    "spline_kernel_size": 5,
-    "spline_degree": 1,
-    "spline_root_weight": true,
-    "snn_dynamics": "literal_eq15",
-    "raster_downsample": 4,
-    "decoder_channels": 48,
-    "output_channels": 1,
-    "recurrent": true
-  },
-  "train": {
-    "epochs": 40,
-    "batch_size": 1,
-    "num_workers": 4,
-    "persistent_workers": true,
-    "prefetch_factor": 2,
-    "optimizer": "adam_gc",
-    "learning_rate": 0.001,
-    "weight_decay": 0.005,
-    "lr_milestones": [20, 30],
-    "lr_gamma": 0.1,
-    "grad_clip": 1.0,
-    "amp": true,
-    "log_every": 20,
-    "validate_every": null,
-    "resume": null,
-    "max_train_samples": null,
-    "max_val_samples": null,
-    "validation_context_frames": 64,
-    "rehash_data": false,
-    "loss_weights": {
-      "charbonnier": 1.0,
-      "ssim": 0.2,
-      "gradient": 0.1,
-      "temporal": 0.2
-    }
-  },
-  "output": {
-    "run_dir": "runs/eventhdr_asgcn"
-  }
-}
-~~~~~~~~
-
-# constraints/py312.txt
-
-~~~~~~~~text
-# Reproducible core/dev profile validated with Python 3.12.13.
-# Select the CUDA build of torch from the official PyTorch wheel index via
-# TORCH_INDEX_URL; the public version remains fixed here.
-filelock==3.32.4
-fsspec==2026.7.0
-h5py==3.16.0
-iniconfig==2.3.0
-Jinja2==3.1.6
-MarkupSafe==3.0.3
-mpmath==1.3.0
-networkx==3.6.1
-numpy==2.5.2
-packaging==26.3
-pillow==12.3.0
-pluggy==1.6.0
-Pygments==2.21.0
-pytest==9.1.1
-ruff==0.16.5
-sympy==1.14.0
-torch==2.13.0
-tqdm==4.70.0
-typing_extensions==4.16.0
 ~~~~~~~~
 
 # CONTRIBUTING.md
@@ -699,9 +638,9 @@ Windows와 Linux의 Python 3.10, 3.11, 3.12 조합은 GitHub Actions에서 `test
 다음 CLI 검사도 수행합니다.
 
 ```bash
-asgcn-recon inspect --config configs/hdr_train.json --samples 2
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2
-asgcn-recon inspect --config configs/aid_ann.json --samples 2
+asgcn-unet inspect --config configs/train.json --samples 2
+asgcn-unet inspect --config configs/hdr.json --samples 2
+asgcn-unet inspect --config configs/aid.json --samples 2
 ```
 
 ## Pull request 원칙
@@ -731,1509 +670,22 @@ asgcn-recon inspect --config configs/aid_ann.json --samples 2
 - 데이터 형식 검증 실패는 가능한 한 파일명과 기대한 구조를 포함한 명확한 오류로 보고합니다.
 ~~~~~~~~
 
-# Dockerfile
-
-~~~~~~~~dockerfile
-FROM python:3.12-slim
-
-ARG TORCH_INDEX_URL=""
-ARG TORCH_VERSION="2.13.0"
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_NO_CACHE_DIR=1
-
-WORKDIR /workspace
-
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y ca-certificates curl git \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY pyproject.toml README.md requirements.txt ./
-COPY constraints ./constraints
-COPY src ./src
-
-RUN python -m pip install -c constraints/py312.txt --upgrade pip setuptools wheel \
-    && if [ -n "$TORCH_INDEX_URL" ]; then \
-         python -m pip install -c constraints/py312.txt \
-           "torch==$TORCH_VERSION" --index-url "$TORCH_INDEX_URL"; \
-       else \
-         python -m pip install -c constraints/py312.txt "torch==$TORCH_VERSION"; \
-       fi \
-    && python -m pip install -c constraints/py312.txt -e . \
-    && python -m pip check
-
-COPY configs ./configs
-COPY manifests ./manifests
-COPY scripts ./scripts
-COPY server ./server
-
-RUN mkdir -p /workspace/data /workspace/runs
-
-ENTRYPOINT ["asgcn-recon"]
-CMD ["--help"]
-~~~~~~~~
-
-# docs/ASGCN.md
-
-~~~~~~~~markdown
-# ASGCN paper-core 구현 범위
-
-이 저장소는 AAAI 2025 ASGCN 논문의 공개 수식에서 확인할 수 있는 event graph와 ANN→SNN
-변환 핵심을 구현한 뒤, event-to-frame 복원용 decoder를 연결한 연구 코드다. 원 논문은 event
-classification을 다루지만 이 프로젝트의 출력은 luminance frame이다. 따라서 이 코드는 저자 공식
-구현, 원 논문의 classification pipeline, 또는 공식 성능표의 완전 재현본이 아니다.
-
-근거로 삼은 공개 자료는 [AAAI 논문 페이지](https://ojs.aaai.org/index.php/AAAI/article/view/32154)와
-[공식 PDF](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)다. 확인 가능한 논문에는
-저자 코드와 checkpoint 링크가 없으며, 복원 과제에 필요한 graph·spline·decoder 설정도 모두
-주어지지 않는다. 문서와 결과에서는 반드시 `ASGCN paper-core 기반 복원 적응` 또는 `공개 수식
-기반 구현`으로 표현하고, `저자 공식 코드`, `공식 ASGCN 완전 재현`, `논문 성능 재현`이라고
-표현하지 않는다.
-
-## 1. 논문 수식에서 가져온 core
-
-현재 `architecture_version=2`의 graph encoder가 다음 항목을 구현한다.
-
-1. event sequence를 고정 정수 sampling factor `R`로 균일하게 선택한다.
-2. event를 node로 만들고, 좌표 거리 조건 `d(i,j) < D`를 만족하는 node 쌍을 잇는다.
-3. scalar edge distance를 pseudo-coordinate로 쓰는 weighted B-spline graph convolution과 실제
-   incoming degree 기반 mean aggregation을 적용한다.
-4. ANN 경로에서는 graph affine update, BatchNorm, ReLU를 순서대로 실행한다.
-5. ANN 학습 뒤 식 (13)–(14)의 BatchNorm folding과 식 (6)의 layer-wise parameter
-   normalization을 적용한다.
-6. SNN 경로에서는 별도 stochastic/rate input encoder 없이 IF membrane을 명시적 timestep으로
-   전개한다. 초기 membrane은 threshold의 절반, spike amplitude는 threshold이며 발화 뒤 soft
-   reset을 사용한다.
-
-원 논문의 graph clustering, graph pooling, edge remapping과 classification head는 구현하지 않았다.
-이 프로젝트는 graph encoder의 node feature를 raster로 바꿔 복원 decoder에 전달한다.
-
-## 2. 논문에 없는 명시적 가정
-
-논문만으로 결정할 수 없는 값은 config에 노출했고 checkpoint의 `model_config`에 보존한다. 기본
-본실험 설정은 다음과 같다.
-
-| 항목 | 저장소의 선택 | 해석 |
-|---|---:|---|
-| node feature | `[x,y,t,p]` | `x,y,t`는 `[0,1]`, polarity는 `-1/+1` |
-| graph distance | 정규화된 `x,y,t` 3차원 | polarity는 기본 거리에서 제외 |
-| radius | `D=0.08` | 원 논문의 복원 과제용 공식값이 아님 |
-| edge pseudo | `u=d/D` | 원시 distance를 SplineConv의 `[0,1]` 정의역으로 재매개화 |
-| graph width/depth | 64 features, 6 layers | 복원 과제 가정 |
-| spline | scalar, open, degree 1, `K=5` | degree/kernel/open 여부는 논문 미공개 |
-| update terms | mean message + root transform + bias | root/bias는 PyG 계열 동작을 참고한 선택 |
-| paper sampling `R` | `event_sampling_factor=1` | dataset의 8,192-event cap과 별개 |
-| raster | 4배 downsample grid에서 cell mean | 논문에 없는 event-to-frame bridge |
-| decoder | base 48 residual U-Net + analog ConvGRU | 논문에 없는 복원 확장 |
-| SNN dynamics | `literal_eq15` | 공개 식을 우선한 선택; 아래 모호성 참조 |
-| edge guard | directed edge 2,000,000개 | 초과 시 graph를 자르지 않고 실패 |
-
-dataset loader의 `max_events=8192`는 논문의 `R`이 아니다. crop 뒤 event가 cap을 넘으면
-`np.linspace(0, N-1, 8192)`로 정확히 8,192개를 시간축 전체에서 결정적으로 선택하며 양 끝 event를
-포함한다. 그 뒤 model의 고정 factor `R`이 `events[::R]`로 적용된다. 결과에는 raw/cropped/retained
-event 수, dataset sampling ratio, model factor와 두 비율의 곱을 따로 기록한다.
-
-## 3. exact cell radius graph
-
-`build_radius_graph`는 dense `N×N` distance matrix를 만들지 않고 uniform-cell candidate search를
-사용하지만, 만들어지는 graph의 의미는 brute-force strict radius graph와 같다.
-
-- 선택한 `d`차원 좌표에서 cell 폭을 정확히 `D`로 둔다.
-- 각 source node의 cell과 축별 offset `{-1,0,1}`의 조합인 `3^d` 인접 cell만 검색한다. cell 폭이
-  `D`이므로 그 밖의 cell에는 `d < D`인 이웃이 존재할 수 없다.
-- sorted cell hash의 범위를 `searchsorted`로 찾아 후보를 만들고, 모든 후보에 대해 Euclidean
-  distance를 다시 계산한다.
-- `source != destination`와 `distance < D`를 모두 만족할 때만 edge를 남긴다. 경계 `distance=D`는
-  포함하지 않는다.
-- 모든 node를 source로 처리하므로 각 유효한 무방향 쌍의 두 ordered direction을 모두
-  materialize한다. self-loop와 중복 edge는 없다.
-- 최종 edge는 `(source,destination)` 순서로 정렬하며 edge attribute는 `distance/D`다.
-
-`graph_chunk_size=512`와 내부 candidate chunk 축소는 계산을 나누는 메모리 최적화일 뿐 neighbor를
-근사하거나 누락하지 않는다. 다만 한 cell에 event가 몰리는 최악의 경우 후보 수와 실제 edge 수는
-여전히 `O(N²)`가 될 수 있다. `max_graph_edges`는 이 경우 조용히 edge를 버리지 않고 오류를 내는
-fail-fast 장치다. radius가 만든 graph를 강제로 연결하지 않으므로 isolated node는 root transform과
-bias만 받으며 isolate ratio와 maximum degree가 결과에 기록된다.
-
-## 4. degree-1 open B-spline과 계산 최적화
-
-scalar pseudo-coordinate `u`에 대해 `scaled=u(K-1)`를 계산한다. degree 1이므로 edge마다 활성
-basis는 인접한 두 control point뿐이고, 가중치는 `1-frac(scaled)`와 `frac(scaled)`다. 두 가중치의
-합은 endpoint를 포함해 1이다. `u=1`에서는 마지막 control point의 가중치가 정확히 1이 되도록
-endpoint 동작과 pseudo-coordinate gradient를 테스트로 고정했다.
-
-각 `PaperSplineConv` layer의 계산은 다음과 같다.
-
-```text
-node projection for every control point: [N,Cin] x [K,Cin,Cout] -> [N,K,Cout]
-edge gather: source node의 활성 control point 두 개만 선택
-weighted message: 두 basis weight로 합산
-aggregation: destination의 실제 incoming degree로 평균
-update: mean message + optional root transform + bias
-ANN activation: BatchNorm -> ReLU
-```
-
-edge마다 작은 matrix multiplication을 반복하지 않고 node를 `K`개 control point에 한 번씩 projection한
-뒤 두 활성 항만 gather한다. 고정 graph의 basis index와 weight도 sample당 한 번 계산해 6개 graph
-layer와 모든 IF timestep에서 재사용한다. 이는 연산 중복을 줄이는 exact optimization이며 graph나
-spline 값을 바꾸지 않는다. 구현은 순수 PyTorch라 `torch-spline-conv` binary extension에
-의존하지 않는다.
-
-weight 초기화 bound는 `1/sqrt(K*Cin)`, root bound는 `1/sqrt(Cin)`으로 고정했다. open degree 1,
-scalar pseudo-coordinate, mean aggregation, root weight와 bias 범위에서만 구현·테스트했으며 이를
-ASGCN 저자의 미공개 hyperparameter와 동일하다고 주장하지 않는다.
-
-## 5. ANN 학습과 ANN→SNN 변환
-
-ANN graph layer는 B-spline affine update, BatchNorm, ReLU로 학습한다. 기본 optimizer는 Adam에
-gradient centralization을 추가한 `adam_gc`이며 learning rate `1e-3`, weight decay `5e-3`, epoch
-20/30의 MultiStepLR과 gamma `0.1`을 사용한다. milestone과 gamma, tensor별 centralization 축은
-저자 코드로 검증된 공식값이 아니라 config 선택이다.
-
-변환 순서는 다음과 같다.
-
-1. 학습된 ANN checkpoint를 불러온다.
-2. 각 graph layer의 BatchNorm scale을 spline kernel, root와 bias에 fold한다.
-3. EventHDR train 전체에서 각 graph layer의 feature별 ReLU maximum `lambda_l`를 측정한다.
-4. 식 (6)에 따라 kernel과 root에 `lambda_(l-1)/lambda_l`, bias에 `1/lambda_l`를 적용한다.
-5. 첫 layer의 입력 scale `lambda_0`은 `[1,1,1,1]`로 둔다.
-6. calibration에서 항상 0인 channel은 epsilon으로 폭증시키지 않고 unit scale을 사용한다.
-7. 변환 뒤 threshold를 정확히 1로 두고, 마지막 spike rate에 `lambda_L`를 곱해 analog decoder의
-   학습 단위로 복원한다.
-
-각 layer의 persistent BN-fold/normalization flag, valid calibration count, dead-channel 수, threshold,
-model tensor SHA-256과 checkpoint metadata를 load 시 교차검증한다. ANN checkpoint와 변환된 SNN
-checkpoint의 inference mode를 서로 바꿔 사용하는 것도 거부한다.
-
-## 6. IF dynamics와 식 (15)의 모호성
-
-논문 식 (15)는 다음 self-feedback 항을 포함한다.
-
-```text
-v_tilde(t) = v(t-1) + c(t) + h(t-1)
-```
-
-`literal_eq15`는 이 `+h(t-1)`을 문자 그대로 실행한다. 각 timestep에서 threshold 이상이면 threshold
-크기의 spike를 내고 membrane에서 그 값을 빼는 soft reset을 한다. 그러나 이전 spike의 재주입은
-작은 양의 정전류도 첫 발화 뒤 장기 firing rate 1에 가깝게 만들 수 있어 표준 ANN rate-conversion
-유도와 충돌한다. 저자 코드나 정정 자료가 없으므로 임의로 오타 처리하지 않았다.
-
-- `literal_eq15`: 기본 경로. 공개 식 (15)–(17)을 문자 그대로 실행한다.
-- `standard_if`: `+h(t-1)`을 제거한 대조군이다. 공식 ASGCN 설정이 아니다.
-
-마지막 `lambda_L` 곱은 decoder 입력의 단위 변환이지, `literal_eq15`가 유한 timestep에서 ANN과
-동등하다는 증명이 아니다. 두 dynamics는 같은 calibrated checkpoint로 비교할 수 있지만 결과는
-반드시 별도 dynamics와 timestep으로 표기한다.
-
-## 7. hybrid event-to-frame decoder
-
-전체 forward는 다음과 같다.
-
-```text
-event interval [N,x,y,t,p]
-  -> exact-size dataset cap
-  -> fixed paper sampling factor R
-  -> strict undirected radius graph
-  -> B-spline graph encoder (ANN 또는 explicit IF-SNN)
-  -> downsampled feature raster: pixel-cell별 node feature mean
-  -> residual U-Net encoder
-  -> bottleneck analog ConvGRU
-  -> bilinear upsampling + skip connections
-  -> sigmoid luminance frame, 원 sensor size로 interpolation
-```
-
-U-Net은 두 번 downsample하고 bottleneck에 residual block 두 개를 둔다. ConvGRU state는 같은 H5/ZIP
-sequence group, 연속 sequence index, 같은 sensor shape일 때만 전달되고 불연속에서는 초기화된다.
-학습 시 state와 이전 prediction은 frame마다 detach하므로 전체 sequence backpropagation이 아니라
-frame 단위 truncated recurrence다. SNN 변환 대상은 graph encoder뿐이며 rasterization, U-Net,
-ConvGRU와 output head는 모두 analog 연산이다.
-
-EventHDR의 zero-event target interval도 버리지 않는다. 빈 event tensor는 zero-node/zero-edge graph와
-zero raster를 만들고 recurrent decoder가 해당 target frame을 학습·평가하도록 한다. `frame_stride>1`을
-사용하면 건너뛴 interval의 event를 다음 선택 frame까지 합치지만 기본 본실험은 `frame_stride=1`이다.
-
-## 8. 구현하지 않은 범위와 주장 한계
-
-- 새 event에 영향받는 K-hop subgraph만 갱신하는 asynchronous incremental 실행
-- sliding window node 만료와 graph/SNN state의 하드웨어 친화적 관리
-- 논문 식 (18)–(19)의 clustering, pooling, edge remapping
-- 원 논문의 classification MLP, 원 데이터셋 전처리와 성능표
-- 실제 DVS sensor ingest, event compression·전송 protocol
-- FPGA/ASIC RTL, synthesis, 실제 latency·전력·에너지 측정
-- analog U-Net/ConvGRU까지 포함한 완전한 spiking network
-
-현재 구현으로 보고할 수 있는 것은 PyTorch GPU/CPU에서의 paper-core 기반 복원 품질, graph 통계,
-compute latency와 firing-rate 통계다. 이를 저자 공식 재현, neuromorphic hardware latency, 반도체
-전력·에너지 또는 통합 칩 구현 완료로 확대해 해석하면 안 된다.
-~~~~~~~~
-
-# docs/EXPERIMENT.md
-
-~~~~~~~~markdown
-# 본실험 프로토콜
-
-이 문서는 `configs/hdr_train.json`, `configs/hdr_{ann,snn}.json`,
-`configs/aid_{ann,snn}.json`과 현재 실행 코드를 기준으로 한다. 전체 기본 실행은
-`bash scripts/full.sh`이며, 일부 파일이나 일부 frame만 사용한 결과는 본실험 결과로 합치지 않는다.
-ASGCN 수식과 이 저장소의 과제용 확장 범위는 [ASGCN.md](ASGCN.md)를 함께 참고한다.
-
-## 1. 연구 질문과 데이터 역할
-
-1. EventHDR 실제 event로 luminance frame을 얼마나 잘 복원하는가?
-2. 동일 ANN checkpoint를 보정한 뒤 `literal_eq15`와 `standard_if`가
-   `T=4,8,16,32`에서 보이는 품질·지연 차이는 무엇인가?
-3. 학습과 보정에 쓰지 않은 EventAid-R 14개 scene에서 성능이 얼마나 유지되는가?
-
-| 단계 | 고정 데이터 | 코드상 역할 |
-|---|---|---|
-| 학습 | EventHDR 공식 train root의 `1.h5`–`51.h5` | 40 epoch weight 최적화 |
-| 내부 평가 | EventHDR 공식 eval root의 `1.h5`–`19.h5` | 마지막 epoch에서만 ANN 평가하고 `best.pt` 생성 |
-| ANN→SNN 보정 | EventHDR train 51개 H5의 모든 선택 frame | BN folding, activation maximum, 식 (6) 정규화 |
-| 내부 비교 | 동일 EventHDR eval 19개 H5 | ANN과 두 IF dynamics × 네 T 비교 |
-| 외부 비교 | EventAid-R manifest의 14개 ZIP | 고정 checkpoint의 외부 일반화 평가 |
-
-`manifests/eventhdr_split.json`은 `status=final`,
-`split_schema=official_separate_roots_v1`이다. train과 eval은 별도 root이고 숫자 basename이 겹치는
-공식 배포 구조다. H5 하나를 recurrent state와 metric의 sequence group으로 사용할 뿐, 공개 자료에
-물리 scene 대응표가 없으므로 두 root가 물리 scene-disjoint이거나 통계적으로 독립이라고 주장하지
-않는다. JSON의 `macro`/`per_scene`도 EventHDR에서는 물리 scene이 아니라 H5 sequence-file 단위다.
-
-`train.validate_every=null`이므로 1–39 epoch에는 내부 평가를 하지 않고 40번째 마지막 epoch에서만
-EventHDR eval 전체를 평가한다. 따라서 현재 `best.pt`는 여러 epoch를 비교해 고른 checkpoint가 아니라
-마지막 epoch checkpoint다. 파일명 `best.pt`와 `best_metric=macro_ssim`은 공통 checkpoint 계약을 위한
-것이다. 이후 같은 eval root에서 생성하는 ANN/SNN 표는 내부 비교이며 독립 잠금시험으로 표현하지
-않는다. EventAid-R 결과를 본 뒤 설정·보정·threshold를 바꾸면 그 결과 역시 외부시험으로 해석할 수
-없다.
-
-## 2. 고정 전처리
-
-두 dataset의 target은 다음 순서로 `[0,1]` luminance domain에 놓는다.
-
-```text
-integer image / dtype maximum
-  -> RGB이면 BT.709 luminance
-  -> y = log1p(5000*x) / log1p(5000)
-```
-
-EventAid-R은 event block `i`와 GT `i+1`을 짝짓는 `target_offset=1`을 사용한다. 이는 이 과제를
-위한 정렬 가정이며 다른 offset 결과와 섞지 않는다. 두 dataset의 sensor response와 exposure가 같다는
-보장은 없으므로 절대 PSNR/SSIM을 동일 분포의 수치처럼 직접 비교하지 않는다.
-
-event 전처리는 다음 순서다.
-
-1. 설정된 sensor crop을 적용한다. 본실험 config는 `crop_size=null`이라 전체 sensor를 쓴다.
-2. crop 뒤 event 수가 `max_events=8192`를 넘으면, 양 끝 timestamp를 포함하는 결정적 `linspace`
-   index로 **정확히 8,192개**를 시간 전역에서 남긴다. 8,192개 이하면 그대로 둔다.
-3. model의 논문식 균일 sampling factor `R=event_sampling_factor=1`을 적용한다.
-
-두 번째 단계는 graph memory를 제한하기 위한 과제용 cap이며 ASGCN 논문의 공식 `R`이 아니다.
-`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_ratio`를 분리해
-기록한다. 동일 source sequence의 crop은 seed와 상대 sequence identity로 결정되므로 worker 수와
-resume 여부에 따라 바뀌지 않는다.
-
-EventHDR에서 연속 target 사이 event가 0개인 interval도 sample로 보존한다. EventAid-R의 빈 event
-text도 빈 `[0,4]` tensor로 유지한다. 빈 sample은 0 node·0 edge graph와 zero raster를 거쳐 analog
-decoder/ConvGRU로 처리되며 임의 event를 합성하지 않는다. 보정에서는 비어 있는 activation이 layer의
-유효 calibration observation으로 집계되지 않고, 어느 graph layer든 non-empty observation이 0개면
-변환을 거부한다.
-
-## 3. graph와 모델 고정값
-
-기본 graph node feature는 정규화한 `(x,y,t,polarity)`이고, 거리 계산은 `[0,1]`로 정규화한
-`(x,y,t)` 3차원에서 한다. `graph_radius=0.08`보다 Euclidean 거리가 **엄격히 작은** 서로 다른 node를
-연결하고 양 방향 directed edge를 저장한다. edge pseudo-coordinate는 `distance/radius` 한 값이다.
-
-구현은 폭이 radius인 uniform cell과 인접 `3^3` cell로 후보를 찾은 뒤 exact Euclidean 조건을 다시
-적용한다. 이는 근사 k-NN이나 edge truncation이 아니다. directed edge 수가
-`max_graph_edges=2,000,000`을 넘으면 일부 edge를 버리지 않고 실패한다. isolated node도 유지하며
-비율과 최대 degree를 결과에 기록한다.
-
-고정 모델은 6-layer, hidden 64의 pure-PyTorch open degree-1 B-spline graph encoder, feature
-rasterization, residual U-Net과 analog ConvGRU decoder다. ANN→SNN 변환과 IF timestep은 graph
-encoder에만 적용된다. decoder는 두 모드 모두 analog이다.
-
-## 4. 학습과 checkpoint 선택
-
-본학습 설정은 다음과 같다.
-
-- 40 epochs, chronological `batch_size=1`, shuffle 없음
-- Adam + gradient centralization, learning rate `1e-3`, weight decay `5e-3`
-- MultiStepLR milestones 20/30, gamma 0.1
-- CUDA에서 AMP, gradient norm clip 1.0
-- Charbonnier 1.0 + SSIM 0.2 + gradient 0.1 + temporal 0.2
-- train/validation sample cap 없음, 마지막 epoch에서만 전체 EventHDR eval 평가
-
-ConvGRU state와 temporal loss는 같은 H5 sequence에서 index가 1씩 이어지고 sensor shape가 같을 때만
-이어진다. 경계에서는 state와 이전 prediction/target을 초기화한다. 내부 평가도 모든 frame을
-사용하므로 별도 표본 추출은 없다.
-
-training artifact는 `runs/eventhdr_asgcn/`에 기록한다.
-
-- `config.json`: 실행 시 resolve된 전체 config
-- `history.json`: epoch별 loss, 마지막 epoch validation, learning rate, CUDA peak memory
-- `last.pt`: 매 epoch 끝에 저장하는 model/optimizer/scheduler/scaler/RNG 포함 재개 checkpoint
-- `best.pt`: 현재 protocol에서는 마지막 epoch의 clean ANN inference checkpoint
-- `.data_hash_cache.json`: full source hash 계산을 가속하는 로컬 cache
-
-새 학습은 위 핵심 artifact가 이미 있는 run directory를 덮어쓰지 않는다. 중단된 run은 `last.pt`로
-재개한다.
-
-## 5. 전체 ANN→SNN 보정
-
-기본 본실험은 EventHDR train의 모든 frame을 사용한다.
-
-```bash
-bash scripts/calibrate.sh \
-  configs/hdr_train.json \
-  runs/eventhdr_asgcn/best.pt \
-  runs/eventhdr_asgcn/best_snn.pt
-```
-
-wrapper 기본값 `CALIBRATION_SAMPLES=all`은 모든 training frame을 선택한다. model을 eval mode로
-전환해 graph BN을 convolution parameter에 fold하고, non-empty sample의 layer별 feature-wise ReLU
-maximum을 측정한 뒤 식 (6) parameter normalization과 unit threshold를 적용한다. 출력
-`best_snn.pt`는 optimizer와 training history를 제거한 SNN inference checkpoint이며 calibration
-표본 수·유효 표본 수·dead channel 수·sampling summary와 model tensor SHA-256을 포함한다.
-
-기존 출력은 기본적으로 보호한다. 명시적으로 다시 보정해야 할 때만
-`OVERWRITE_CALIBRATION=1`을 wrapper에 전달한다. engine은 새 checkpoint를 끝까지 만든 뒤 atomic
-replace하므로 변환 실패 전에 기존 파일을 먼저 삭제하지 않는다. ANN 평가는 변환 전 `best.pt`, SNN
-평가는 `best_snn.pt`를 써야 하며 서로 바꾸면 checkpoint 검증에서 거부된다.
-
-## 6. 고정 평가·benchmark 행렬
-
-`scripts/full.sh`는 full data/environment 검사와 모든 선택 sample의 decode 검증, 학습 또는 재개,
-전체 보정, 아래 행렬의 evaluate와 benchmark를 순서대로 실행한다.
-
-| dataset | mode | dynamics | T | checkpoint |
-|---|---|---|---|---|
-| EventHDR eval 19 | ANN | 해당 없음 | 해당 없음 | `best.pt` |
-| EventHDR eval 19 | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
-| EventHDR eval 19 | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
-| EventAid-R 14 | ANN | 해당 없음 | 해당 없음 | `best.pt` |
-| EventAid-R 14 | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
-| EventAid-R 14 | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
-
-즉 dataset마다 ANN 1개와 SNN 8개, 전체 18개 quality evaluation과 18개 compute benchmark를 만든다.
-benchmark 기본값은 warmup 10 frame, 측정 100 frame이다. recurrent benchmark는 각 측정 window 앞의
-같은 H5/ZIP sequence predecessor를 최대 32개까지 timer 밖에서 replay한다. dataset read와
-host-to-device 이동도 timer 밖이며, CUDA에서는 CUDA Event로 model forward를 측정한다. graph 생성은
-model forward 안에 있으므로 측정에 포함된다.
-
-`literal_eq15`는 공개 식 (15)의 `+h(t-1)`까지 문자 그대로 실행한다. `standard_if`는 그 항을 뺀
-rate-conversion 대조군이며 저자 공식 dynamics라고 주장하지 않는다. 두 모드 모두 T회의 IF
-recurrence를 실제 실행하지만 analog decoder 때문에 결과를 완전 SNN hardware 성능으로 해석하지
-않는다.
-
-## 7. 지표와 산출물
-
-quality는 frame별 PSNR, Gaussian-window SSIM, RMSE와 연속 frame 사이의 `temporal_l1`을 기록한다.
-`temporal_l1`은
-`L1((pred_t-pred_{t-1}), (target_t-target_{t-1}))`이며 sequence 경계의 첫 frame은 집계에서 제외되고
-CSV에는 null이다. 요약은 모든 frame의 `micro`, H5/ZIP group 평균을 다시 평균한 `macro`, 호환 key
-`per_scene`으로 나뉜다. LPIPS는 `eval.lpips=true`와 optional dependency를 명시한 별도 run에서만
-계산한다.
-
-evaluate는 quality, model-forward latency, RTF/deadline miss, graph topology, dataset coverage와
-CUDA peak allocated/reserved memory를 기록한다. benchmark는 mean/p50/p90/p95/p99/max latency, FPS,
-raw/retained event rate, graph node rate, event retention, node/edge/isolated-node 수, SNN firing rate,
-RTF, state reset과 peak GPU memory를 기록한다.
-
-```text
-runs/eventhdr_official_eval_ann/ann/
-runs/eventhdr_official_eval_snn/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
-runs/eventaid_r_external_ann/ann/
-runs/eventaid_r_external_snn/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
-```
-
-각 directory의 `metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고
-`benchmark.json`은 benchmark가 만든다. prediction은 config 기본값에 따라 처음 20 frame의 pred/GT
-PNG를 저장한다. 같은 mode/dynamics/T artifact가 있으면 묵시적으로 덮어쓰지 않고 실패하므로 재실행
-전 기존 결과를 보존 위치로 옮기거나 별도 `eval.output_dir` config를 사용한다.
-
-## 8. epoch-boundary exact resume
-
-```bash
-RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  bash scripts/full.sh
-```
-
-`last.pt`는 완료된 epoch 뒤에만 저장된다. 따라서 중간에 종료된 epoch의 일부 step부터 이어가는 것이
-아니라 마지막으로 완료된 epoch 다음부터 동일 trajectory를 재개한다. resume checkpoint는 configured
-`run_dir` 안에 있어야 하고, 검증 score가 이미 있으면 같은 run의 historical `best.pt`도 필요하다.
-
-exact resume은 다음 항목의 일치를 강제한다.
-
-- model, optimizer/GC, scheduler, loss, batch/order/worker, AMP·TF32·determinism 설정
-- seed, validation protocol, official manifest, transform와 선택 sample identity
-- train 51개와 eval 19개 source의 상대 파일 identity·size·full SHA-256
-- `src/**/*.py` byte의 SHA-256, Git commit과 source dirty 상태
-- device type, PyTorch/CUDA/cuDNN, GPU 이름·compute capability와 CUDA backend flags
-- CUDA RNG state 수와 현재 visible CUDA device 수
-
-따라서 다른 GPU 종류, CUDA/PyTorch 조합, source checkout, worker protocol이나 dataset byte로 옮긴
-checkpoint는 “exact” 재개로 허용되지 않는다. 절대 data mount path와 mtime/ctime 자체는 checkpoint
-protocol에 넣지 않는다. 같은 상대 파일과 byte를 다른 mount에 복사하면 다시 full hash한 뒤 일치할
-수 있다. `.data_hash_cache.json`은 같은 절대 경로의 size/mtime/ctime이 모두 같을 때만 기존 full
-hash를 재사용하며, 원본을 교체·복원했으면 `train.rehash_data=true`인 별도 config로 cache를 무시한다.
-
-## 9. 과학적 한계와 중단 조건
-
-- 공개된 저자 공식 코드가 확인되지 않아 논문에 없는 graph normalization, spline hyperparameter,
-  threshold 세부값은 이 저장소의 명시적 가정이다. “공식 ASGCN 완전 재현”으로 표현하지 않는다.
-- 원 ASGCN의 classification pooling/MLP와 dynamic asynchronous K-hop update는 구현하지 않았다.
-  현재 graph는 frame interval마다 정적으로 다시 만든다.
-- residual U-Net, rasterization, analog ConvGRU, 복원 loss, tone mapping, 정확한 `max_events` cap과
-  EventAid-R offset은 과제용 확장이다.
-- graph encoder만 IF로 변환된다. PyTorch GPU latency·발화율은 FPGA/ASIC latency, power 또는 energy
-  측정이 아니며 event 전송·압축 protocol이나 RTL도 구현하지 않았다.
-- EventHDR 공식 train/eval의 물리 scene 독립성을 입증하지 못했으므로 내부 결과에 독립 test-set
-  일반화 주장을 붙이지 않는다. EventAid-R도 sensor/domain 차이를 통제한 benchmark는 아니다.
-- `literal_eq15`의 self-feedback은 표준 rate conversion과 수학적으로 동등하지 않을 수 있다.
-  dynamics와 T를 생략한 ANN↔SNN 비교는 보고하지 않는다.
-- file coverage/HDF5·ZIP decode 실패, non-finite loss/metric, 비단조 timestamp, 좌표 범위 오류,
-  `max_graph_edges` 초과 또는 OOM이 발생하면 해당 sample을 조용히 제외하지 말고 run을 폐기해 원인과
-  설정을 고친 뒤 새 artifact로 실행한다.
-~~~~~~~~
-
-# docs/SERVER.md
-
-~~~~~~~~markdown
-# MobaXterm·Linux GPU 서버 실행 가이드
-
-MobaXterm은 Windows PC에서 Linux 서버에 접속하는 SSH terminal/SFTP client다. 학습과 평가는
-MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node에서 실행한다. 아래 명령은
-저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 본실험 경로만 설명한다.
-
-## 1. clone과 환경 설치
-
-MobaXterm에서 SSH session을 열고 서버 terminal에서 실행한다.
-
-```bash
-git clone git@github.com:costunder/asgcn-event-reconstruction.git
-cd asgcn-event-reconstruction
-
-python3.12 --version
-python3.12 -c "import venv, ensurepip; print('venv/ensurepip: OK')"
-curl --version | head -n 1
-ldd --version | head -n 1
-
-cp .env.example .env
-# .env의 TORCH_INDEX_URL을 서버 driver에 맞는 PyTorch 공식 CUDA wheel index로 설정
-bash scripts/setup.sh
-
-source .venv/bin/activate
-python -m pip check
-python scripts/check_env.py --lock constraints/py312.txt
-python -m pytest -q
-```
-
-공식 wheel index는 서버의 `nvidia-smi`와
-[PyTorch 설치 선택기](https://pytorch.org/get-started/locally/)를 기준으로 정한다. 명령행 환경변수가
-`.env`보다 우선하므로 GPU allocation 안에서 설치까지 검증하려면 다음처럼 실행할 수 있다.
-
-```bash
-REQUIRE_CUDA=1 TORCH_INDEX_URL=https://download.pytorch.org/whl/cuXYZ \
-  bash scripts/setup.sh
-```
-
-`constraints/py312.txt`는 Python 3.12 profile과 core/dev package version을 고정한다. setup script는
-Python, 기존 venv, constraints, Linux glibc와 선택한 torch wheel을 검사하고 마지막에 `pip check`를
-실행한다. login node에서 GPU가 보이지 않는 것은 정상일 수 있으므로 `--require-cuda` 검사는 실제 GPU
-allocation 안에서 수행한다. cluster가 module을 쓴다면 Python/CUDA module을 먼저 load한다. Slurm
-wrapper들은 필요할 때 `CUDA_MODULE=cuda/<version>`도 받는다.
-
-## 2. 전체 데이터 배치
-
-최종 layout은 다음과 같다.
-
-```text
-data/
-├── EventHDR/
-│   ├── train/1.h5 ... 51.h5
-│   └── eval/1.h5 ... 19.h5
-└── EventAid-R/
-    └── R-*.zip                 # manifest의 14개 ZIP
-```
-
-### EventHDR: browser download 뒤 import
-
-공식 EventHDR OneDrive folder는 현재 unattended `curl` download를 허용하지 않는다.
-`scripts/get_hdr.sh`도 이를 우회한다고 주장하지 않으며, 이미 받은 archive/extracted directory를
-검사해 가져오는 도구다.
-
-1. Windows browser에서 공식 OneDrive의 train/eval release를 내려받는다.
-2. MobaXterm 왼쪽 SFTP panel로 서버의 예: `$HOME/uploads/`에 ZIP을 전송한다.
-3. 배포가 train/eval 별도 archive이면 각각 import한다.
-
-```bash
-bash scripts/get_hdr.sh \
-  --archive "$HOME/uploads/EventHDR-train.zip" --split train
-bash scripts/get_hdr.sh \
-  --archive "$HOME/uploads/EventHDR-eval.zip" --split eval
-```
-
-train/eval을 함께 담은 한 archive이면 `--split` 없이 한 번 실행한다.
-
-```bash
-bash scripts/get_hdr.sh --archive "$HOME/uploads/EventHDR.zip"
-```
-
-이미 압축을 푼 directory는 안전하게 copy할 수 있다. source는 그 자체가 `train/`·`eval/`을
-포함하거나 상위 `EventHDR/` directory여도 된다.
-
-```bash
-bash scripts/get_hdr.sh --source /shared/imports/EventHDR
-```
-
-shared storage의 검증된 H5를 복사하지 않고 쓸 때는 split directory symlink를 만든다.
-
-```bash
-bash scripts/get_hdr.sh --source /shared/datasets/EventHDR --link
-```
-
-`--link`는 source가 정확한 파일 집합인지 먼저 검사하고, destination split이 비어 있지 않으면
-교체하지 않는다. 현재 destination만 재검사하려면 다음 명령을 쓴다.
-
-```bash
-bash scripts/get_hdr.sh --check
-```
-
-import/check는 train `1.h5`–`51.h5`, eval `1.h5`–`19.h5`의 누락·추가 파일, nested H5, HDF5 magic과
-합계 100 GB 미만 조건을 검사한다. 기존 이름의 크기가 다른 파일을 덮어쓰지 않으며 archive extraction은
-temporary file과 atomic replace를 사용한다. 다른 위치를 쓰려면 모든 명령에
-`--destination /absolute/path/EventHDR`를 추가하고 config의 root도 그 위치에 맞춰야 한다.
-
-### EventAid-R 14개 ZIP
-
-```bash
-bash scripts/get_aid.sh --all
-```
-
-manifest의 14개 scene, 표시 합계 약 24.68 GB를 내려받는다. 각 파일이 ZIP container인지 검사하며
-loader가 archive member를 직접 읽으므로 압축을 풀지 않는다. shared storage를 쓰면
-`EVENTAID_ROOT=/shared/datasets/EventAid-R bash scripts/get_aid.sh --all`로 destination을 바꾸거나,
-config가 기대하는 `data/EventAid-R`를 해당 directory에 연결한다.
-
-### full-data와 decode 검사
-
-GPU allocation 안에서 다음 검사를 한 번 통과시킨다.
-
-```bash
-source .venv/bin/activate
-python scripts/check_env.py \
-  --require-cuda --require-full-data --lock constraints/py312.txt
-
-asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
-```
-
-`hdr_train.json` inspect는 manifest에 따라 EventHDR train 51개와 eval 19개 root를 모두 검사한다.
-EventAid 명령은 manifest의 14개 ZIP에 있는 모든 선택 event block과 target을 decode한다.
-`--validate-all`은 metadata만 세는 명령이 아니므로 dataset 크기에 따라 오래 걸린다. 실패한 file을
-제외해 진행하지 말고 원본을 다시 전송·검증한다.
-
-## 3. 직접 서버에서 전체 실행
-
-실행 순서를 먼저 확인하려면 data/GPU 작업을 실제 수행하지 않는 schedule 출력을 본다.
-
-```bash
-DRY_RUN=1 bash scripts/full.sh
-```
-
-GPU shell 또는 allocation 안에서 전체 protocol을 시작한다.
-
-```bash
-source .venv/bin/activate
-mkdir -p logs
-bash scripts/full.sh 2>&1 | tee logs/full.log
-```
-
-SSH 연결 종료에 대비하려면 tmux를 사용한다.
-
-```bash
-mkdir -p logs
-tmux new-session -s asgcn -c "$PWD" \
-  "bash -lc 'source .venv/bin/activate && bash scripts/full.sh 2>&1 | tee logs/full.log'"
-```
-
-`full.sh`는 다음을 순서대로 수행한다.
-
-1. `check_env.py --require-full-data --lock constraints/py312.txt`와 기본 CUDA 검사
-2. EventHDR train/eval과 EventAid-R 전체 `inspect --validate-all`
-3. EventHDR ANN 40-epoch 학습 또는 `RESUME_CHECKPOINT` 재개
-4. EventHDR train 모든 frame을 이용한 `best.pt`→`best_snn.pt` 보정
-5. EventHDR/EventAid-R ANN과 `literal_eq15`/`standard_if` × `T=4,8,16,32` evaluate+benchmark
-
-기본 benchmark는 warmup 10, 측정 100 frame이다. 필요하면 실행 전에
-`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, `SIMULATION_STEPS_LIST`를 설정한다. 본실험 기본 행렬을 바꾼
-결과는 별도 protocol로 기록한다.
-
-기존 training/evaluation artifact는 묵시적으로 덮어쓰지 않는다. 기존 SNN checkpoint만 의도적으로
-다시 만들 때는 `OVERWRITE_CALIBRATION=1`을 사용하며 새 checkpoint가 완성된 뒤 atomic replace된다.
-evaluation directory가 이미 있으면 결과를 다른 보존 위치로 옮기거나 config의 `eval.output_dir`을
-바꾼 뒤 실행한다.
-
-## 4. 중단 후 epoch-boundary resume
-
-직접 실행은 다음과 같다.
-
-```bash
-RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  bash scripts/full.sh 2>&1 | tee logs/full-resume.log
-```
-
-학습만 재개하려면 다음 wrapper를 쓴다.
-
-```bash
-RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  bash scripts/train.sh configs/hdr_train.json
-```
-
-`last.pt`는 각 완료 epoch 뒤에 저장되므로 종료된 epoch 내부 step은 되풀이된다. checkpoint는 같은
-configured run directory 안에 있어야 하며, source tree/Git 상태, model·optimizer·scheduler·AMP,
-validation/data full SHA-256과 PyTorch/CUDA/cuDNN·GPU 이름/compute capability·visible CUDA RNG state가
-일치해야 한다. 다른 GPU나 source checkout으로 옮기는 것은 일반 weight load가 아니라 exact resume
-요청이므로 거부될 수 있다. 상세 계약은 [EXPERIMENT.md](EXPERIMENT.md)의 resume 절을 따른다.
-
-## 5. Slurm: train → calibrate → evaluation matrix
-
-header의 partition/account/GPU type/walltime은 cluster 정책에 맞춰 수정한다. 기본 요청은 GPU 1개,
-CPU 8개, RAM 32 GB이며 train 48시간, calibration 12시간, evaluation 8시간이다. 저장소 root에서
-제출하면 `SLURM_SUBMIT_DIR`을 project root로 사용한다. 다른 위치에서 제출할 때는
-`--export=ALL,PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
-
-앞 절의 full-data/decode 검사를 완료한 뒤 다음 dependency chain을 제출한다.
-
-```bash
-unset SNN_DYNAMICS
-
-train_id=$(sbatch --parsable \
-  --export=ALL,VALIDATE_DATASET=0 \
-  server/train.sbatch)
-
-cal_id=$(sbatch --parsable \
-  --dependency="afterok:${train_id}" \
-  --export=ALL,VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
-  server/calibrate.sbatch)
-
-for cfg in configs/hdr_ann.json configs/aid_ann.json; do
-  sbatch --dependency="afterok:${cal_id}" \
-    --export="ALL,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt,INFERENCE_MODE=ann" \
-    server/eval.sbatch
-done
-
-for cfg in configs/hdr_snn.json configs/aid_snn.json; do
-  for dynamics in literal_eq15 standard_if; do
-    for steps in 4 8 16 32; do
-      sbatch --dependency="afterok:${cal_id}" \
-        --export="ALL,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
-        server/eval.sbatch
-    done
-  done
-done
-```
-
-모든 evaluation job은 calibration 성공 후 열리며 mode/dynamics/T와 dataset별 output directory가 달라
-서로의 artifact를 덮어쓰지 않는다. Slurm log는 기본적으로 `slurm-<job-name>-<job-id>.out/.err`다.
-학습 재개 job으로 chain을 시작할 때는 첫 제출에 다음 값을 더한다.
-
-```bash
-train_id=$(sbatch --parsable \
-  --export=ALL,VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  server/train.sbatch)
-```
-
-## 6. PBS/Torque: train → calibrate → evaluation matrix
-
-`select`, `ngpus`, queue/project resource 이름은 site마다 다르므로 `server/*.pbs` header를 제출 전에
-확인한다. 저장소 root에서 제출하면 `PBS_O_WORKDIR`을 project root로 사용한다. 외부에서 제출할 때는
-`-v PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
-
-```bash
-unset SNN_DYNAMICS
-
-train_id=$(qsub \
-  -v VALIDATE_DATASET=0 \
-  server/train.pbs)
-
-cal_id=$(qsub \
-  -W depend="afterok:${train_id}" \
-  -v VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
-  server/calibrate.pbs)
-
-for cfg in configs/hdr_ann.json configs/aid_ann.json; do
-  qsub -W depend="afterok:${cal_id}" \
-    -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt,INFERENCE_MODE=ann \
-    server/eval.pbs
-done
-
-for cfg in configs/hdr_snn.json configs/aid_snn.json; do
-  for dynamics in literal_eq15 standard_if; do
-    for steps in 4 8 16 32; do
-      qsub -W depend="afterok:${cal_id}" \
-        -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
-        server/eval.pbs
-    done
-  done
-done
-```
-
-PBS에서 resume chain을 시작할 때는 다음처럼 `RESUME_CHECKPOINT`를 넘긴다.
-
-```bash
-train_id=$(qsub \
-  -v VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  server/train.pbs)
-```
-
-PBS는 login environment 전체를 전달하는 `#PBS -V`를 사용하지 않는다. site module이 필수이면
-해당 cluster용 `module load`를 job script에 추가한다. 별도 venv나 checkout을 쓸 때는
-`PYTHON_BIN`, `PROJECT_ROOT`를 `-v`로 명시한다.
-
-## 7. 산출물 확인과 운영상 오류
-
-학습이 끝나면 다음 파일을 먼저 확인한다.
-
-```bash
-ls -lh runs/eventhdr_asgcn/{last.pt,best.pt,best_snn.pt,history.json,config.json}
-find runs -name metrics.json -o -name benchmark.json | sort
-```
-
-평가 artifact는 다음 위치에 있다.
-
-```text
-runs/eventhdr_official_eval_ann/ann/
-runs/eventhdr_official_eval_snn/snn_<dynamics>_T<steps>/
-runs/eventaid_r_external_ann/ann/
-runs/eventaid_r_external_snn/snn_<dynamics>_T<steps>/
-```
-
-각 run의 `metrics.json`, `frames.csv`, `predictions/`, `benchmark.json`을 config, Git commit, scheduler
-log, `check_env.py` 출력과 함께 보존한다.
-
-자주 중단되는 조건은 다음과 같다.
-
-- `CUDA available: false`: login node가 아닌 GPU allocation인지, CUDA wheel과 driver가 맞는지 확인한다.
-- `EventHDR ... exact official file set`: OneDrive 전송이 끝났는지, train 51/eval 19 외 H5가 섞이지
-  않았는지 `get_hdr.sh --check`로 확인한다.
-- `eventaid_r_zip must contain exactly 14`: `get_aid.sh --all`을 완료하고 ZIP을 압축 해제하지 않는다.
-- `Fresh training run_dir is not empty`: 새 run이면 별도 `output.run_dir`, 중단 run이면 `last.pt` resume를
-  사용한다.
-- resume protocol mismatch: source/GPU/software/data를 원래 run과 일치시킨다. 단순 checkpoint weight
-  이식과 exact training resume를 혼동하지 않는다.
-- calibrated checkpoint 오류: ANN `best.pt`를 `scripts/calibrate.sh`로 변환한 뒤 SNN 평가에
-  `best_snn.pt`를 사용한다.
-- evaluation output exists: 기존 artifact를 보존 위치로 옮기거나 별도 output directory를 쓴다.
-- `max_graph_edges=2,000,000` 또는 OOM: edge를 조용히 잘라 진행하지 않는다. 별도 config에서
-  `max_events`, `graph_radius`, model width를 변경하고 peak memory를 다시 측정해 다른 실험으로 기록한다.
-- SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.
-~~~~~~~~
-
-# hand_off.md
-
-~~~~~~~~markdown
-# ASGCN Event Reconstruction 프로젝트 인계서
-
-이 문서는 다른 ChatGPT나 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
-이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-29의 현재
-구현과 일치하도록 다시 대조했다.
-
-## 1. 한 줄 결론과 주장 범위
-
-이 프로젝트는 EventHDR로 event-to-frame ANN을 학습하고, ASGCN 논문의 공개 graph/SNN 수식을
-적용해 변환한 뒤 EventHDR 공식 eval과 EventAid-R에서 평가하는 연구 코드다. graph encoder 뒤에는
-과제용 residual U-Net과 analog ConvGRU가 붙는다.
-
-저자 공식 저장소나 공식 checkpoint를 실행한 것이 아니며 원 논문의 classification pipeline도
-재현하지 않는다. 사용할 수 있는 표현은 `ASGCN paper-core 기반 event-to-frame 복원 적응` 또는
-`공개 수식 기반 graph/SNN core 구현`이다. 다음 주장은 금지한다.
-
-- 저자 공식 ASGCN 코드 또는 공식 checkpoint
-- 공식 ASGCN 완전 재현
-- 원 논문의 classification 성능 재현
-- 완전한 spiking network
-- FPGA/ASIC latency·전력·에너지 실측 또는 반도체 통합 구현 완료
-
-원격 origin은 다음 주소로 설정돼 있다.
-
-```text
-https://github.com/costunder/asgcn-event-reconstruction.git
-```
-
-## 2. 프로젝트 목표와 전체 파이프라인
-
-목표는 DVS event interval을 저지연 graph 연산으로 처리해 luminance frame을 복원하고, ANN과
-ANN→SNN graph encoder의 품질·지연·발화율을 같은 조건에서 비교하는 것이다.
-
-```text
-EventHDR H5 / EventAid-R ZIP
-  -> event interval [N, x, y, t, p] + target luminance frame
-  -> spatial crop (기본 full frame)
-  -> exact-size max_events cap (기본 8,192)
-  -> ASGCN 고정 event sampling factor R (기본 1)
-  -> normalized node feature [x,y,t,p]
-  -> strict d(i,j)<D undirected radius graph
-  -> scalar u=d/D degree-1 open B-spline graph encoder
-       ANN: affine -> BatchNorm -> ReLU
-       SNN: BN fold -> Eq.(6) normalization -> explicit IF timesteps
-  -> graph feature rasterization
-  -> residual U-Net + bottleneck analog ConvGRU
-  -> sigmoid [0,1] luminance frame
-  -> quality / temporal / latency / graph / firing-rate metrics
-```
-
-SNN으로 바뀌는 부분은 graph encoder뿐이다. rasterization, U-Net, ConvGRU와 output head는 analog다.
-세부 수식 대응과 공개 논문 대비 가정은 `docs/ASGCN.md`가 기준이다.
-
-## 3. 데이터셋의 정확한 역할과 용량
-
-| 데이터 | 공식 배포 구조 | 표시 용량 | 현재 프로토콜의 역할 |
-|---|---|---:|---|
-| EventHDR train | `1.h5`–`51.h5`, 51개 | EventHDR 전체 약 25.72 GB | ANN gradient 학습, ANN→SNN calibration |
-| EventHDR eval | `1.h5`–`19.h5`, 19개 | 위 전체에 포함 | 마지막 epoch 1회 내부 검증, ANN/SNN 공식 eval 내부 결과 |
-| EventAid-R | `R-*.zip`, 14개 | 약 24.68024 GB | 학습·calibration 뒤 외부 일반화 평가 |
-
-두 데이터셋의 공식 배포 표시 용량 합은 약 50.40 GB로 100 GB 미만이다. EventAid-R은 ZIP을
-추출하지 않고 직접 읽어 중복 저장을 피한다. EventHDR를 browser archive에서 복사할 때는 archive와
-배치된 H5가 일시적으로 함께 존재할 수 있으므로 서버의 실제 여유 공간은 별도로 확인한다.
-
-### 3.1 EventHDR 획득과 배치
-
-공식 배포는 [EventHDR 저장소](https://github.com/yunhao-zou/EventHDR)의 OneDrive 링크다. OneDrive가
-비대화형 `curl` 요청을 거부하므로 이 저장소는 동작하지 않는 자동 downloader를 제공하지 않는다.
-사용자가 browser로 받은 ZIP, 이미 풀어 둔 directory 또는 shared filesystem directory를 아래
-도구로 안전하게 배치한다.
-
-```bash
-# browser로 받은 train/eval 포함 ZIP을 직접 읽어 data/EventHDR로 복사
-bash scripts/get_hdr.sh --archive /absolute/path/EventHDR.zip
-
-# 이미 풀어 둔 EventHDR/{train,eval} 또는 {train,eval} root에서 복사
-bash scripts/get_hdr.sh --source /absolute/path/EventHDR
-
-# shared storage를 복사하지 않고 split directory symlink로 연결
-bash scripts/get_hdr.sh --source /shared/datasets/EventHDR --link
-
-# train/eval을 따로 받았을 때
-bash scripts/get_hdr.sh --source /downloads/train --split train
-bash scripts/get_hdr.sh --source /downloads/eval --split eval
-
-# 현재 목적지 재검사
-bash scripts/get_hdr.sh --check
-```
-
-`scripts/get_hdr.py`는 train의 정확한 51개 이름, eval의 정확한 19개 이름, missing/extra/nested H5,
-archive 중복·경로 이탈, HDF5 magic과 선택 데이터 100 GB 미만을 검사한다. 복사는 `.part` 임시 파일
-뒤 atomic replace로 완료하며 기존의 다른 크기 파일은 덮어쓰지 않는다. 공식 checksum이 공개되지
-않았으므로 이 검사는 배포자 cryptographic checksum 검증을 대신하지 않는다.
-
-### 3.2 EventAid-R 획득과 배치
-
-`manifests/eventaid_r.json`에는 공식 benchmark page가 연결한 14개 Dropbox URL, scene 이름과 표시
-용량이 고정돼 있다. Linux에서는 인자 없이 실행하면 전체 14개를 받는다.
-
-```bash
-bash scripts/get_aid.sh
-```
-
-Windows PowerShell에서는 다음을 쓴다.
-
-```powershell
-.\scripts\get_aid.ps1
-```
-
-Linux downloader는 재개 가능한 `curl`, retry와 ZIP container 검사를 사용한다. 공식 checksum이
-없으므로 최종 내용 검사는 뒤의 `inspect --validate-all` 단계에서 모든 event block과 target을
-decode하는 방식이다.
-
-### 3.3 loader 의미론
-
-EventHDR loader는 H5의 `events/{xs,ys,ts,ps}`와 `images/image*`의 `event_idx`, `timestamp`를 검사한다.
-timestamp·event boundary가 단조롭고 좌표·polarity가 유효한지 확인한다. `frame_stride=1`에서 모든
-target interval을 유지하며 event가 0개인 interval도 삭제하지 않는다. 빈 interval은 zero-node graph와
-zero raster를 거쳐 recurrent decoder로 전달된다. `frame_stride>1`이면 건너뛴 interval의 event를
-다음 선택 target까지 합치지만 기본값은 1이다.
-
-EventAid-R loader는 ZIP 안의 `event/i.txt`, `gt/j_img.png`, `timestamps.txt`, `shape.txt`를 직접
-읽는다. config의 `target_offset=1`은 event interval `i`를 다음 GT `i+1`과 짝짓는 구현 가정이다.
-연속 ID, timestamp coverage, shape, 좌표와 polarity를 검증한다. 이 pairing을 저자 공식 코드로
-확인한 것은 아니므로 보고서에서 가정으로 표시하고 offset이 다른 실험과 결과를 섞지 않는다.
-
-두 dataset 모두 target을 `[0,1]` luminance로 만든 뒤 기본 config에서
-`log1p(5000*x)/log1p(5000)`를 적용한다. EventAid-R의 8-bit 영상에 같은 log mapping을 쓰는 것은
-출력 수치 domain을 맞추기 위한 cross-domain 선택이지 두 센서의 radiometric response가 같다는
-뜻이 아니다.
-
-## 4. EventHDR manifest의 진실
-
-`manifests/eventhdr_split.json`은 다음 의미를 갖는다.
-
-```json
-{
-  "status": "final",
-  "split_schema": "official_separate_roots_v1",
-  "group_semantics": "h5_sequence_file_not_physical_scene",
-  "train_files": ["1.h5", "...", "51.h5"],
-  "val_files": ["1.h5", "...", "19.h5"]
-}
-```
-
-여기서 `final`은 공식 배포 file set과 separate root manifest가 확정됐다는 뜻이다. H5 번호가 물리
-scene ID라는 뜻이 아니며, 공개 자료에서 51개 train H5와 물리 촬영 scene 사이의 대응표는 확인되지
-않았다. 따라서 이 split으로 physical-scene-disjoint 일반화를 주장할 수 없다.
-
-train과 eval은 서로 다른 directory라 `1.h5` 같은 basename이 겹친다. factory는
-`official-train-h5::1.h5`와 `official-eval-h5::1.h5`처럼 split-local sequence group ID를 자동으로
-만들어 recurrent state와 macro metric을 분리한다. 공식 schema에 임의의 physical-scene field를
-추가하면 거부한다. root의 missing/undeclared H5도 학습 전에 거부한다.
-
-`configs/hdr_train.json`의 `validate_every=null`은 EventHDR 공식 eval을 매 epoch 보지 않고 마지막
-40번째 epoch에서 단 한 번만 실행한다. 그 하나의 candidate를 `best.pt`로 export하므로 epoch 간
-selection은 하지 않는다. 그래도 같은 eval에서 산출한 수치는 독립 test나 physical-scene test가
-아니며 `EventHDR official eval internal result`로만 보고한다. 이 결과를 보고 hyperparameter를
-바꾸면 이후 run에서는 사실상 개발 정보로 사용한 것이므로 독립성 주장을 더 할 수 없다.
-
-EventAid-R은 training과 calibration에 사용하지 않는다. 외부 결과를 본 뒤 radius, cap, threshold,
-tone mapping 또는 checkpoint를 바꾸면 기존 EventAid-R 결과를 잠긴 외부 일반화 평가로 부를 수 없다.
-
-## 5. 기본 config와 학습 규칙
-
-`configs/hdr_train.json`의 핵심값은 다음과 같다.
-
-| 영역 | 기본값 |
-|---|---|
-| seed / device | `2026` / `auto` |
-| data | train 51 H5, eval 19 H5, full frame, stride 1, log tone map |
-| event cap | crop 뒤 정확히 최대 8,192개 |
-| graph | `x,y,t`, radius 0.08, chunk 512, directed edge guard 2,000,000 |
-| spline encoder | hidden 64, 6 layers, open degree 1, K=5, root weight |
-| decoder | raster downsample 4, base 48, output 1, ConvGRU on |
-| training | 40 epoch, batch 1, chronological, workers 4, persistent/prefetch 2 |
-| optimizer | Adam + gradient centralization, lr `1e-3`, weight decay `5e-3` |
-| scheduler | MultiStepLR epoch 20/30, gamma 0.1 |
-| stability | CUDA AMP, L2 grad clip 1.0, non-finite loss/gradient fail-fast |
-| validation | 마지막 epoch 1회, 전체 19 H5, recurrent context policy 기록 |
-
-event cap은 `N>8192`일 때 `np.linspace(0,N-1,8192)`로 시간축 전체에서 정확히 8,192개를 선택한다.
-8,193개 입력이 절반으로 급락하는 ceil-stride 경계 문제를 피하며 양 끝 event를 포함한다. cap이
-필요 없으면 원본을 그대로 쓴다. metadata의 `raw_event_count`, `cropped_event_count`,
-`retained_event_count`, `dataset_sampling_ratio`와 model diagnostics의 `event_sampling_factor`,
-`effective_sampling_ratio`가 provenance와 CSV에 남는다.
-
-batch size는 recurrent chronology 때문에 1이고 shuffle하지 않는다. H5/ZIP group, sensor shape,
-sequence index가 정확히 이어질 때만 ConvGRU state와 temporal reference를 유지한다. 불연속에서는
-초기화한다. state와 이전 prediction은 매 frame detach하므로 full-sequence BPTT가 아니다.
-
-### 5.1 loss
-
-기본 loss는 다음 합이다.
-
-```text
-L = 1.0 * Charbonnier(epsilon=1e-3)
-  + 0.2 * (1 - Gaussian SSIM)
-  + 0.1 * spatial gradient L1
-  + 0.2 * frame-delta temporal L1
-```
-
-temporal term은 같은 group·shape에서 sequence index가 1 증가할 때만
-`L1((pred_t-pred_t-1),(gt_t-gt_t-1))`로 계산한다. optical-flow warp metric이 아니며 이전
-prediction은 detach돼 있다. SSIM은 `[0,1]`, Gaussian 11×11, sigma 1.5, valid convolution이고 작은
-영상에는 들어맞는 가장 큰 홀수 window를 쓴다.
-
-## 6. graph, B-spline, decoder 요약
-
-좌표는 `x/(W-1)`, `y/(H-1)`, interval 내 normalized `t`이고 polarity는 `-1/+1` node feature다.
-기본 거리에는 `x,y,t`만 쓴다. radius graph는 cell 폭을 정확히 `D`로 두고 `3^d` 인접 cell에서
-후보를 찾은 뒤 Euclidean `distance<D`를 다시 검사한다. 모든 ordered source를 처리해 무방향 쌍의
-양 방향 edge를 만들고 self-loop는 제외한다. chunking은 exact 계산 분할이며 approximation이 아니다.
-
-edge pseudo-coordinate `u=distance/D`에 open degree-1 B-spline basis 두 개만 활성화된다. layer는
-node를 K=5 control point에 한 번 projection하고 edge마다 두 control point만 gather한 뒤 destination
-incoming degree로 평균한다. 고정 graph의 basis/index는 graph layer와 IF timestep 전체에서
-재사용한다. mean message에 root transform과 bias를 더하고 ANN에서는 BatchNorm과 ReLU를 적용한다.
-
-node feature는 downsample 4의 raster cell 안에서 평균된다. decoder는 stem, 두 residual encoder
-level, 두 residual block bottleneck, analog ConvGRU, bilinear upsampling과 skip connection, sigmoid
-head로 구성된다. 자세한 구현 가정과 식 (15) 모호성은 `docs/ASGCN.md`를 본다.
-
-## 7. ANN→SNN calibration과 IF 경로
-
-`best.pt`는 변환되지 않은 ANN inference checkpoint다. calibration은 EventHDR train만 사용하며
-기본 wrapper는 모든 train sample을 사용한다.
-
-1. ANN graph layer의 BatchNorm을 kernel/root/bias에 fold한다.
-2. 각 layer의 feature별 ReLU maximum `lambda_l`를 측정한다.
-3. 식 (6)의 `lambda_(l-1)/lambda_l`와 `1/lambda_l` scaling을 적용한다.
-4. dead channel은 unit scale로 두고, 모든 threshold를 정확히 1로 둔다.
-5. `best_snn.pt`에 valid sample count, dead-channel summary, persistent conversion flag와 tensor
-   SHA-256을 저장한다.
-
-SNN inference는 threshold/normalization/calibration metadata와 layer state가 모두 일치해야 열린다.
-초기 membrane은 0.5 threshold, spike amplitude는 threshold, soft reset을 쓴다.
-
-- `literal_eq15`: 논문 식 (15)의 `+previous_spike` self-feedback까지 문자 그대로 실행한다.
-- `standard_if`: 그 항을 제거한 비공식 rate-conversion 대조군이다.
-
-두 dynamics는 같은 `best_snn.pt`에서 inference-only override로 비교한다. 마지막 graph layer의 spike
-rate에는 `lambda_L`를 곱해 analog decoder 단위로 보낸다. 이는 `literal_eq15`의 ANN parity 증명이
-아니다.
-
-## 8. `scripts/full.sh`의 전체 실행 순서
-
-이 script는 설치나 데이터 다운로드를 하지 않는다. 환경과 전체 데이터가 이미 준비된 뒤 저장소
-루트에서 실행한다.
-
-```bash
-bash scripts/full.sh
-```
-
-실행 단계는 정확히 다음 5개다.
-
-1. `check_env.py --require-full-data --lock constraints/py312.txt`와 선택적 CUDA 검사
-2. `hdr_train`, `hdr_ann`, `aid_ann` 세 config에 대해 `inspect --validate-all`
-3. EventHDR ANN 40-epoch 학습 또는 `RESUME_CHECKPOINT` exact resume
-4. EventHDR train 전체를 사용한 ANN→SNN calibration
-5. EventHDR와 EventAid-R의 전체 quality evaluation + compute benchmark matrix
-
-2단계에서 `hdr_train` inspect는 manifest의 train 51개와 eval 19개 split을 모두 decode한다.
-`hdr_ann`은 standalone EventHDR eval config를, `aid_ann`은 14개 ZIP 전체를 다시 검증한다. 오래 걸려도
-파일을 조용히 제외하지 않는다.
-
-5단계 matrix는 다음 18개 run이며 각 run마다 `evaluate`와 `benchmark`를 둘 다 실행한다.
-
-| dataset | mode | dynamics | T | checkpoint |
-|---|---|---|---|---|
-| EventHDR | ANN | 해당 없음 | 해당 없음 | `best.pt` |
-| EventHDR | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
-| EventHDR | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
-| EventAid-R | ANN | 해당 없음 | 해당 없음 | `best.pt` |
-| EventAid-R | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
-| EventAid-R | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
-
-전체 schedule만 확인하려면 다음을 사용한다.
-
-```bash
-DRY_RUN=1 bash scripts/full.sh
-```
-
-중요 override는 `RESUME_CHECKPOINT`, `CALIBRATION_SAMPLES`, `SIMULATION_STEPS_LIST`,
-`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, 다섯 config path, ANN/SNN checkpoint path와
-`REQUIRE_CUDA`다. calibration output과 evaluation artifact는 기본적으로 덮어쓰지 않는다. fresh
-training도 run directory에 기존 핵심 artifact가 있으면 중단한다. 기존 결과를 보존한 채 새 output
-directory/config를 쓰는 것이 원칙이다.
-
-## 9. 평가 지표와 artifact
-
-quality는 frame별 PSNR, Gaussian SSIM, RMSE와 조건부 `temporal_l1`이다. `eval.lpips=true`와 optional
-dependency가 있을 때만 LPIPS를 계산한다. 결과는 다음 세 수준으로 집계한다.
-
-- `micro`: 모든 frame 평균
-- `macro`: group별 평균을 다시 같은 가중치로 평균
-- `per_scene`: 호환성을 위해 유지된 JSON key; EventHDR에서는 H5 sequence-file group,
-  EventAid-R에서는 ZIP scene group이다
-
-EventHDR의 `macro`를 physical scene macro라고 부르면 안 된다. standalone evaluation은 H5 filename을
-group으로 쓰고, training final validation은 split-local H5 group ID를 쓴다.
-
-evaluate latency는 dataset read와 host-to-device copy 뒤에 graph construction+model forward를
-동기화해 잰다. benchmark는 dataset I/O와 H2D를 timer 밖에 두고 warmup 뒤 CUDA Event 또는 CPU
-`perf_counter`를 쓴다. benchmark가 기록하는 항목은 mean/p50/p90/p95/p99/max latency, FPS,
-raw/retained events per second, graph nodes per second, event retention, 평균 node/edge, isolate ratio,
-max degree, SNN layer별 firing rate, 전체 firing rate, RTF p95, deadline miss ratio와 peak allocated/
-reserved GPU memory다.
-
-`eval.output_dir` 아래 run label은 다음과 같다.
-
-```text
-ann/
-snn_literal_eq15_T4/
-snn_literal_eq15_T8/
-...
-snn_standard_if_T32/
-```
-
-`metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고 `benchmark.json`은 benchmark가 만든다.
-동일 run label의 기존 artifact가 있으면 덮어쓰지 않고 실패한다. prediction filename은 순번, 안전한
-slug와 sample ID hash를 조합해 OS 금지 문자와 충돌을 피한다.
-
-## 10. provenance, checkpoint integrity와 exact resume
-
-학습 directory의 핵심 artifact는 `config.json`, `history.json`, `last.pt`, `best.pt`와 hidden data hash
-cache다. `validate_every=null`이므로 `history.json`의 validation은 마지막 epoch에서만 채워지고
-`best.pt`는 그 마지막 candidate다.
-
-validation protocol에는 dataset transform, manifest schema와 모든 file 목록/group mapping,
-validation sample identity/context policy, SSIM 정의, selection rule과 train/eval 원본 전체 file의
-SHA-256 결합 digest가 저장된다. 절대 root와 mtime은 checkpoint 비교 identity가 아니어서 같은 byte의
-복사본을 다른 mount에서 쓸 수 있다. hash cache는 같은 절대 path의 size/mtime/ctime이 모두 같을 때
-기존 full hash를 재사용한다. 원본을 교체·복원했거나 강제 전수 hash가 필요하면
-`train.rehash_data=true`를 둔다.
-
-training protocol에는 optimizer/GC 축, scheduler, loss weights, gradient clip, data order/workers,
-effective AMP, final-only validation rule, recurrent detach, torch/CUDA/cuDNN/GPU/TF32/determinism,
-`src/**/*.py` tree hash, Git commit과 source dirty 여부가 들어간다. checkpoint의 model tensor bytes도
-이름·dtype·shape를 포함해 SHA-256으로 묶는다.
-
-exact resume은 다음을 모두 요구한다.
-
-- resume checkpoint가 같은 configured run directory 안에 있을 것
-- model config, validation protocol, training protocol과 source/data digest가 일치할 것
-- optimizer, scheduler, GradScaler, history, epoch와 best score가 있을 것
-- Python, NumPy, torch와 visible CUDA device별 RNG state가 유효할 것
-- 과거 `best.pt`가 존재하고 `last.pt`의 best digest/protocol과 일치할 것
-- ANN/SNN conversion state와 checkpoint type이 일치할 것
-
-학습만 이어갈 때는 다음을 사용한다.
-
-```bash
-RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  bash scripts/train.sh configs/hdr_train.json
-```
-
-provenance가 엄격하므로 commit이나 source/runtime 변경 뒤에는 resume이 거부될 수 있다. 또한 runtime
-상태를 기록하고 비교하더라도 PyTorch/CUDA의 모든 kernel이 bitwise deterministic하다는 보장은
-없다. exact resume은 저장된 state와 protocol의 정확한 복원을 뜻하며 서로 다른 hardware에서의
-bitwise 동일성을 과장하지 않는다.
-
-## 11. MobaXterm/Linux GPU 서버 절차
-
-MobaXterm은 SSH/SFTP client이고 실제 연산은 접속한 Linux server에서 수행한다.
-
-```bash
-git clone https://github.com/costunder/asgcn-event-reconstruction.git
-cd asgcn-event-reconstruction
-
-python3.12 --version
-ldd --version | head -n 1
-nvidia-smi
-
-cp .env.example .env
-# .env에서 server driver와 맞는 공식 TORCH_INDEX_URL 등을 설정
-bash scripts/setup.sh
-source .venv/bin/activate
-
-python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-python -m pip check
-python -m ruff check .
-python -m pytest -q
-```
-
-프로젝트는 Python 3.10 이상을 지원한다. 재현용 lock은 Python 3.12.13에서 검증됐고 core/dev package와
-torch public version을 `constraints/py312.txt`에 고정한다. 현재 lock의 핵심은 torch 2.13.0,
-numpy 2.5.2, h5py 3.16.0, Pillow 12.3.0, pytest 9.1.1, Ruff 0.16.5다. Linux torch 2.13.0 lock
-profile은 glibc 2.28 이상을 요구한다. CUDA build는 `nvidia-smi` driver와 PyTorch 공식 selector에
-맞는 `TORCH_INDEX_URL`에서 먼저 설치한다.
-
-core runtime dependency는 torch, NumPy, h5py, Pillow와 tqdm이다. development extra는 pytest와
-Ruff다. LPIPS만 필요할 때 optional eval extra를 설치한다.
-
-```bash
-python -m pip install -e '.[eval]'
-```
-
-데이터 배치 뒤 전체 readiness를 검사한다.
-
-```bash
-python scripts/check_env.py --require-cuda --require-full-data \
-  --lock constraints/py312.txt
-
-asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
-```
-
-`check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, lock mismatch, glibc, data와 runs의 남은
-공간, runs 쓰기 가능 여부, EventHDR exact 51/19 이름과 EventAid-R exact 14 ZIP을 출력·검사한다.
-`--validate-all`은 모든 target/event block을 실제 decode하므로 전체 데이터에서는 오래 걸린다.
-
-## 12. scheduler와 container
-
-SLURM과 PBS/Torque 각각 train, calibration, evaluation entrypoint가 있다.
-
-```text
-server/train.sbatch        server/train.pbs
-server/calibrate.sbatch    server/calibrate.pbs
-server/eval.sbatch         server/eval.pbs
-```
-
-기본 요청은 GPU 1개, CPU 8개, RAM 32 GB다. train은 48시간, calibration은 12시간, evaluation은
-8시간으로 작성돼 있으나 partition/account/GPU type/resource 이름과 walltime은 cluster 규칙과 실제
-측정에 맞춰 바꿔야 한다. wrapper는 `PROJECT_ROOT` 또는 scheduler submit directory를 검증하고 잘못된
-checkout에서 실행하지 않는다. `CUDA_MODULE`은 opt-in이다.
-
-SLURM dependency 예시:
-
-```bash
-train_id=$(sbatch --parsable server/train.sbatch)
-cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
-sbatch --dependency=afterok:${cal_id} \
-  --export=ALL,CONFIG_PATH=configs/hdr_snn.json,CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
-  server/eval.sbatch
-```
-
-PBS/Torque dependency 예시:
-
-```bash
-train_id=$(qsub server/train.pbs)
-cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
-qsub -W depend=afterok:${cal_id} \
-  -v CONFIG_PATH=configs/hdr_snn.json,CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
-  server/eval.pbs
-```
-
-전체 18-run matrix를 scheduler로 돌리려면 dataset/dynamics/T별 eval job을 각각 제출해야 한다.
-단일 allocation에서 순차 실행할 때만 `scripts/full.sh`를 직접 사용한다.
-
-Dockerfile은 Python 3.12와 같은 lock을 쓰며 compose는 data를 read-only, runs를 writable로 mount한다.
-
-```bash
-docker build \
-  --build-arg TORCH_VERSION=2.13.0 \
-  --build-arg TORCH_INDEX_URL="$TORCH_INDEX_URL" \
-  -t asgcn-event-reconstruction .
-
-docker compose run --rm experiment \
-  inspect --config configs/hdr_train.json --samples 2
-```
-
-## 13. 파일별 책임
-
-| 경로 | 책임 |
-|---|---|
-| `src/asgcn_recon/graph.py` | node 정규화, exact radius graph, B-spline layer, BN fold, Eq.(6), IF loop |
-| `src/asgcn_recon/model.py` | graph build 연결, rasterization, residual U-Net, ConvGRU, diagnostics |
-| `src/asgcn_recon/data/eventhdr.py` | H5 index/검증, zero-event 보존, frame interval 구성 |
-| `src/asgcn_recon/data/eventaid_r.py` | ZIP 직접 읽기, next-GT pairing, timestamp/shape 검증 |
-| `src/asgcn_recon/data/common.py` | luminance/tone map, crop, exact-size event cap, sample schema |
-| `src/asgcn_recon/data/factory.py` | manifest schema, exact coverage, split-local H5 group |
-| `src/asgcn_recon/losses.py` | Charbonnier, SSIM loss, gradient loss |
-| `src/asgcn_recon/metrics.py` | Gaussian SSIM, PSNR, RMSE, temporal metric, micro/macro 집계 |
-| `src/asgcn_recon/engine.py` | train/validation/calibration/evaluate/benchmark, checkpoint·resume·provenance |
-| `src/asgcn_recon/cli.py` | inspect/train/calibrate/evaluate/benchmark CLI |
-| `configs/hdr_train.json` | EventHDR 51 train + 19 final-only internal eval 학습 protocol |
-| `configs/hdr_ann.json`, `configs/hdr_snn.json` | EventHDR official eval ANN/SNN 실행 |
-| `configs/aid_ann.json`, `configs/aid_snn.json` | EventAid-R 14-scene ANN/SNN 외부 실행 |
-| `manifests/eventhdr_split.json` | official separate roots와 H5 sequence-file semantics |
-| `manifests/eventaid_r.json` | 14 ZIP 이름, URL, 표시 용량 |
-| `scripts/setup.sh`, `scripts/check_env.py` | server 설치와 환경/data inventory |
-| `scripts/get_hdr.py`, `scripts/get_hdr.sh` | browser/source/shared EventHDR 안전 import/check |
-| `scripts/get_aid.sh`, `scripts/get_aid.ps1` | EventAid-R 다운로드 |
-| `scripts/train.sh`, `scripts/calibrate.sh`, `scripts/eval.sh` | 개별 GPU wrapper |
-| `scripts/full.sh` | 전체 5단계, 18-run matrix orchestration |
-| `server/` | SLURM/PBS train→calibrate→eval entrypoint |
-| `docs/ASGCN.md` | 논문 core와 구현 가정의 경계 |
-| `docs/EXPERIMENT.md`, `docs/SERVER.md` | 실험 protocol과 server 운용 보조 문서 |
-| `tests/` | fixture 기반 CPU unit/integration/end-to-end 회귀검사 |
-
-## 14. 테스트 상태와 검증 범위
-
-현재 test collection은 159개이며 로컬 Windows CPU 환경에서 `158 passed, 1 skipped`가 기준이다.
-skip은 Windows symlink privilege가 없는 경우의 shared-storage link test다. Ruff도 통과해야 한다.
-
-```bash
-python -m ruff check .
-python -m pytest -q
-bash -n scripts/*.sh server/*.sbatch server/*.pbs
-```
-
-주요 회귀 범위는 다음과 같다.
-
-- strict undirected radius graph와 cell implementation의 pairwise reference parity
-- degree-1 open B-spline endpoint, gradient, 초기화, hand calculation과 autograd
-- BN fold, 식 (6), dead channel, IF soft reset, dynamics 차이, basis cache
-- EventHDR/EventAid 구조·timestamp·좌표·polarity·pairing·multiprocess safety
-- exact-size event cap 경계와 zero-event frame
-- manifest separate-root/physical-scene claim 차단과 exact file coverage
-- final-only validation, balanced/context schedule, loss/gradient non-finite guard
-- checkpoint tensor digest, conversion state, provenance와 exact resume 거부 조건
-- evaluate/benchmark artifact, metrics, temporal continuity와 전체 orchestration matrix
-
-GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
-syntax job을 정의한다. unit test는 공식 대용량 데이터나 GPU 없이 fixture로 실행된다. 따라서 test
-통과는 전체 데이터 GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
-
-## 15. 현재 한계와 교차검증 체크리스트
-
-현재 저장소에 전체 데이터 GPU run 결과나 A6000/A100 benchmark artifact가 커밋돼 있지 않다. 다음
-항목은 실제 server에서 `scripts/full.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
-
-- EventHDR/EventAid-R 전체 decode 성공과 총 frame 수
-- 40-epoch loss/history, 마지막 epoch internal eval과 checkpoint digest
-- all-sample calibration의 layer별 valid count/dead channel
-- 18개 mode/dynamics/T의 quality, latency, memory, graph와 firing-rate artifact
-- A6000/A100별 driver, CUDA wheel, torch, peak memory와 walltime
-
-알고 있어야 할 구조적 한계:
-
-- cell search는 exact지만 dense event cell의 최악 복잡도는 여전히 `O(N²)`다.
-- single-GPU, chronological batch 1, sample별 Python loop라 전체 실행 시간이 길 수 있다.
-- 8,192-event cap은 메모리 안전 선택이며 고이벤트 interval 정보를 줄인다.
-- EventHDR H5는 물리 scene ID가 아니며 official eval은 독립 test가 아니다.
-- EventAid-R `target_offset=1`과 log tone mapping은 명시적 cross-domain 가정이다.
-- `literal_eq15`의 self-feedback은 표준 rate-conversion과 수학적 긴장이 있다.
-- decoder가 analog라 firing-rate/latency를 완전한 neuromorphic system 수치로 해석할 수 없다.
-- downloader 검사는 공식 checksum을 대체하지 못한다.
-- optional LPIPS는 core lock에 포함되지 않는다.
-- 실제 sensor ingest, network transport, compression, RTL, synthesis와 power 측정은 범위 밖이다.
-
-다른 ChatGPT가 교차검증할 때는 최소한 다음 질문에 답해야 한다.
-
-1. 결과 설명이 `paper-core 기반 복원 적응` 범위를 넘어 공식 재현을 주장하는가?
-2. EventHDR가 정확히 train 51/eval 19이고 EventAid-R이 정확히 14 ZIP인가?
-3. H5 sequence group을 physical scene으로 잘못 해석했는가?
-4. `validate_every=null`과 마지막 epoch 단 1회 internal eval이 실제 checkpoint에 기록됐는가?
-5. event cap이 정확히 8,192개를 선택하고 zero-event interval을 보존하는가?
-6. graph가 strict `<D`, 양방향, self-loop 없음이며 cell optimization이 pairwise reference와 같은가?
-7. ANN과 SNN checkpoint type, BN fold, Eq.(6), threshold와 tensor digest가 일치하는가?
-8. EventAid-R을 본 뒤 model/config를 바꾸지 않았는가?
-9. 보고한 숫자가 실제 `metrics.json`, `benchmark.json`, `history.json`과 server provenance에 있는가?
-
-이 아홉 항목 중 하나라도 확인되지 않으면 해당 수치는 예비 내부 결과로만 취급한다.
-~~~~~~~~
-
-# Makefile
-
-~~~~~~~~makefile
-PYTHON ?= .venv/bin/python
-
-.PHONY: setup data doctor test lint inspect train full
-
-setup:
-	bash scripts/setup.sh
-
-data:
-	bash scripts/get_aid.sh --all
-
-doctor:
-	$(PYTHON) scripts/check_env.py
-
-test:
-	$(PYTHON) -m pytest -q
-
-lint:
-	$(PYTHON) -m ruff check .
-
-inspect:
-	$(PYTHON) -m asgcn_recon.cli inspect --config configs/hdr_train.json
-
-train:
-	$(PYTHON) -m asgcn_recon.cli train --config configs/hdr_train.json
-
-full:
-	bash scripts/full.sh
-~~~~~~~~
-
-# manifests/eventaid_r.json
-
-~~~~~~~~json
-{
-  "source": "https://sites.google.com/view/eventaid-benchmark",
-  "displayed_total_gb": 24.68024,
-  "files": [
-    {"scene":"R-ball","size":"5.64GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AOa2ZA-ZO27IWfKur1SU_Fw/EventAid-R/R-ball.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-bear","size":"25.81MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKpsAqhaQuAlRGnY2FhAKqE/EventAid-R/R-bear.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-blocks","size":"365.33MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AL4wHVG3Df2bbfNCghWyJaM/EventAid-R/R-blocks.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-box","size":"119.89MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AGvV-9JnNptwOaI-KVIUSK0/EventAid-R/R-box.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-building","size":"3.03GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ADhYTCmHnEkAwfhHaEWgzCk/EventAid-R/R-building.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-outdoor","size":"19.07MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKP0sOL3pENW3wtyNRAX26k/EventAid-R/R-outdoor.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-playball","size":"2.47GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AF8acN06ce8FSBdw159Znk8/EventAid-R/R-playball.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-room1","size":"869.19MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKuYq0bLROmpyoeqj7zbvSI/EventAid-R/R-room1.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-room2","size":"1.07GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ADW-5jFnZ_JUkLGPEE1OrvI/EventAid-R/R-room2.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-sculpture","size":"526.32MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ACFkV3fjjREExbn-KA9g-eA/EventAid-R/R-sculpture.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-toy","size":"104.63MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AD7BEyswPqPVaMi9yRXf4jw/EventAid-R/R-toy.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-traffic","size":"6.96GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/APAzVk_7JK12KIm2KSqSWb8/EventAid-R/R-traffic.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-umbrella","size":"1.48GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AFHQxXlstNbGerXeh_sFujI/EventAid-R/R-umbrella.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
-    {"scene":"R-wall","size":"2GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AFj-qvqZ7f8Ma9Q2tWXrb5k/EventAid-R/R-wall.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"}
-  ]
-}
-~~~~~~~~
-
-# manifests/eventhdr_split.json
-
-~~~~~~~~json
-{
-  "status": "final",
-  "split_schema": "official_separate_roots_v1",
-  "group_semantics": "h5_sequence_file_not_physical_scene",
-  "source": "https://github.com/yunhao-zou/EventHDR",
-  "note": "Official OneDrive distribution split. Train and eval are distinct roots whose numeric basenames intentionally overlap. H5 files are recurrent/metric sequence groups, not claimed physical-scene identities.",
-  "train_files": [
-    "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
-    "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
-    "18.h5", "19.h5", "20.h5", "21.h5", "22.h5", "23.h5", "24.h5", "25.h5",
-    "26.h5", "27.h5", "28.h5", "29.h5", "30.h5", "31.h5", "32.h5", "33.h5",
-    "34.h5", "35.h5", "36.h5", "37.h5", "38.h5", "39.h5", "40.h5", "41.h5",
-    "42.h5", "43.h5", "44.h5", "45.h5", "46.h5", "47.h5", "48.h5", "49.h5",
-    "50.h5", "51.h5"
-  ],
-  "val_files": [
-    "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
-    "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
-    "18.h5", "19.h5"
-  ]
-}
-~~~~~~~~
-
-# pyproject.toml
-
-~~~~~~~~toml
-[build-system]
-requires = ["setuptools>=69", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "asgcn-reconstruction"
-version = "0.2.0"
-description = "ASGCN paper-core event-to-frame reconstruction for EventHDR and EventAid-R"
-readme = "README.md"
-requires-python = ">=3.10"
-dependencies = [
-  "h5py>=3.11,<4",
-  "numpy>=1.26,<3",
-  "Pillow>=10.2,<13",
-  "torch>=2.3,<3",
-  "tqdm>=4.66,<5",
-]
-
-[project.optional-dependencies]
-eval = ["lpips>=0.1.4"]
-dev = ["pytest>=8.0", "ruff>=0.6"]
-
-[project.scripts]
-asgcn-recon = "asgcn_recon.cli:main"
-
-[tool.setuptools]
-package-dir = {"" = "src"}
-
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-
-[tool.ruff]
-line-length = 100
-target-version = "py310"
-~~~~~~~~
-
 # README.md
 
 ~~~~~~~~markdown
-# ASGCN paper-core 기반 전체 Event-to-Frame 실험
+# ASGCN-U-Net: Event-to-Frame 복원 실험
 
-[![CI](https://github.com/costunder/asgcn-event-reconstruction/actions/workflows/ci.yml/badge.svg)](https://github.com/costunder/asgcn-event-reconstruction/actions/workflows/ci.yml)
+[![CI](https://github.com/costunder/asgcn-unet/actions/workflows/ci.yml/badge.svg)](https://github.com/costunder/asgcn-unet/actions/workflows/ci.yml)
 
 EventHDR 전체 공개 배포본으로 학습하고 EventHDR 공식 eval과 EventAid-R 전체에서 평가하는
 event-to-frame 연구 코드다. MobaXterm으로 Linux GPU 서버에 SSH 접속한 뒤 clone, 설치, 데이터
-구축, 학습, ANN→SNN 보정, 전체 평가를 한 번에 재현할 수 있다.
+구축, GPU 사전검증, 학습, ANN→SNN 보정, 전체 평가를 한 번에 재현할 수 있다.
 
 기본 실험 범위는 다음과 같다.
 
 - EventHDR `train/1.h5`–`51.h5` 전체로 40 epoch ANN 학습
 - EventHDR `eval/1.h5`–`19.h5` 전체로 마지막 epoch에 한 번 내부 평가
+- 학습 전 EventHDR train 전체 graph topology를 조사하고 최고 밀도 표본에서 CUDA 학습 step 측정
 - EventHDR train의 모든 calibration sample로 BN folding·parameter normalization 수행
 - EventHDR eval과 EventAid-R 14개 ZIP 전체에서 ANN 평가
 - 두 SNN dynamics(`literal_eq15`, `standard_if`)를 각각 `T=4,8,16,32`로 전체 평가
@@ -2288,36 +740,152 @@ EventHDR 공식 배포는 train 51 H5와 eval 19 H5를 서로 다른 root로 제
 state와 macro metric의 group 단위로 사용한다. 확인되지 않은 physical-scene 대응을 만들어내지
 않는다.
 
-`configs/hdr_train.json`의 `validate_every: null`은 EventHDR eval을 **40번째(마지막) epoch에 단 한 번만**
+`configs/train.json`의 `validate_every: null`은 EventHDR eval을 **40번째(마지막) epoch에 단 한 번만**
 평가한다는 뜻이다. eval loss는 gradient에 들어가지 않고 여러 epoch 중 checkpoint를 고르는 데도
 사용되지 않는다. 호환성을 위해 파일명은 `best.pt`지만, 이 설정에서는 마지막 epoch에서 한 번
 계산한 finite macro SSIM을 가진 모델이다. EventAid-R은 그 이후 외부 일반화 평가에만 사용한다.
 
-두 loader는 target을 `[0,1]` luminance로 만든 뒤 동일한
-`log1p(5000*x)/log1p(5000)` tone mapping을 적용한다. EventAid-R은 event block `i`를 다음 GT
-`i+1`과 짝짓는 `target_offset: 1`을 사용한다. 이는 이 저장소의 정렬 가정이지 ASGCN 논문 값은
-아니다.
+두 loader는 config에 명시된 `target_normalization.mode=integer_dtype_max`로 정수 target을
+`[0,1]`에 놓은 뒤 동일한 `log1p(5000*x)/log1p(5000)` tone mapping을 적용한다. float target은
+`known_scale` 또는 `already_normalized`를 명시해야 하며 NaN/Inf와 범위 위반은 즉시 거부한다.
+frame별 percentile 보정은 `percentile_debug_only`와 `debug_only=true`를 함께 지정한 비보고용
+진단에서만 열린다. EventAid-R은 event block `i`를 다음 GT `i+1`과 짝짓는 `target_offset: 1`을
+사용한다. offset은 bool·실수가 아닌 정확한 정수만 받는다. 이는 이 저장소의 정렬 가정이지 ASGCN 논문
+값은 아니다. EventHDR `images/image<index>`는 numeric suffix가 유일해야 하며 문자열순이 아닌 숫자순으로
+읽는다. EventAid-R full inspect는 event text의 원 timestamp min/max와 `timestamps.txt` interval의 span
+ratio·offset·범위 이탈 수를 기록하되, 공식 14 ZIP의 단위가 실측으로 확인되기 전에는 이를 임의로 hard
+fail 조건으로 만들지 않는다.
 
 ## MobaXterm/Linux GPU 서버 재현
 
 MobaXterm은 SSH/SFTP 접속에만 사용한다. 아래 명령은 접속한 Linux 서버의 저장소 root에서
 실행한다.
 
-### 1. 비공개 저장소 clone
+### 1. 비공개 저장소 인증과 clone
 
-서버 SSH key가 GitHub 계정에 등록되어 있으면:
+> 저장소는 private로 유지한다. 서버 본실험용 clone/pull 전에는 sanitized history와 과거 CI
+> run/artifact 정리 기록, 원격 `main`의 배포 commit SHA, **같은 SHA의 GitHub Actions 필수 gate 통과**를
+> 확인한다. 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
+
+서버 SSH 로그인과 GitHub private repository 인증은 서로 별개다. 공유 GPU 서버에서는 GitHub 계정
+전체가 아니라 이 repository에만 적용되는 읽기 전용 Deploy key를 권장한다. 아래 명령에는 서버
+계정명, hostname 또는 사용자별 절대 경로를 기록하지 않는다.
+
+다음 블록은 기존 key pair가 둘 다 있으면 재사용하고, 둘 중 하나만 있는 불완전 상태는 즉시
+거부한다. 개인키를 자동으로 덮어쓰지 않는다. 새 키의 passphrase 사용 여부는 서버 운영 정책에 맞춘다.
 
 ```bash
-git clone git@github.com:costunder/asgcn-event-reconstruction.git
-cd asgcn-event-reconstruction
+prepare_asgcn_deploy_key() {
+  local key="$HOME/.ssh/asgcn_unet_deploy"
+  local derived_pub stored_pub
+
+  mkdir -p "$HOME/.ssh" || return 1
+  chmod 700 "$HOME/.ssh" || return 1
+
+  if [[ -e "$key" || -e "$key.pub" ]]; then
+    if [[ ! -f "$key" || ! -f "$key.pub" ]]; then
+      echo "ERROR: incomplete deploy key pair; inspect it manually" >&2
+      return 1
+    fi
+    derived_pub="$(ssh-keygen -y -f "$key")" || return 1
+    stored_pub="$(awk 'NF >= 2 { print $1 " " $2; exit }' "$key.pub")"
+    if [[ -z "$stored_pub" || "$derived_pub" != "$stored_pub" ]]; then
+      echo "ERROR: deploy public key does not match the private key" >&2
+      return 1
+    fi
+    echo "Using the verified existing deploy key pair."
+  else
+    ssh-keygen -t ed25519 \
+      -C "asgcn-unet read-only deploy key" \
+      -f "$key" || return 1
+  fi
+
+  chmod 600 "$key" || return 1
+  chmod 644 "$key.pub" || return 1
+  cat "$key.pub"
+}
+
+prepare_asgcn_deploy_key
+unset -f prepare_asgcn_deploy_key
 ```
 
-HTTPS를 사용하면 GitHub 계정 비밀번호가 아니라 private repository 접근 token이 필요하다.
+마지막 명령이 출력한 `ssh-ed25519 ...` 한 줄을 repository의
+[Settings > Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 추가한다. 실험 서버는
+clone과 pull만 필요하므로 `Allow write access`는 체크하지 않는다. `.pub`이 없는 개인키는 GitHub,
+문서, 채팅 어디에도 붙여 넣지 않는다.
+
+등록 후 해당 키로 인증과 repository 읽기를 차례로 검사한다. 기본 SSH 파일명이 아닌 전용 키이므로
+`IdentityFile`과 `IdentitiesOnly`를 생략하면 `Permission denied (publickey)`가 날 수 있다.
+`-o "IdentityFile=..."` 형태는 드문 경우지만 Unix home 경로에 공백이 있어도 하나의 SSH option으로
+전달된다.
+최초 연결에서 fingerprint가 표시되면 `yes`를 입력하기 전에 algorithm과 값을
+[GitHub 공식 SSH fingerprint 목록](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)과
+대조한다.
+
+`ssh -T`는 사람이 인증 메시지와 fingerprint를 확인하기 위한 독립 명령이다. 인증에 성공해도 GitHub가
+shell을 제공하지 않으므로 종료 코드 1이 정상이다. 따라서 `set -e` one-shot block에 넣지 않는다.
 
 ```bash
-git clone https://github.com/costunder/asgcn-event-reconstruction.git
-cd asgcn-event-reconstruction
+ssh -o "IdentityFile=$HOME/.ssh/asgcn_unet_deploy" \
+  -o IdentitiesOnly=yes \
+  -T git@github.com
 ```
+
+최종 자동 판정은 정확한 repository의 `HEAD`를 읽는 다음 명령이다.
+
+```bash
+git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
+  ls-remote git@github.com:costunder/asgcn-unet.git HEAD
+```
+
+검증한 fingerprint에 `yes`로 답하는 것은 GitHub 서버를 `known_hosts`에 추가하는 절차일 뿐 사용자 키
+인증 성공을 뜻하지 않는다. `ssh -T`는 성공 메시지를 출력하고도 종료 코드 1을 반환할 수 있으므로
+`ls-remote`가 `HEAD`를 출력하는 것을 최종 통과 조건으로 삼는다.
+
+검사가 성공하면 사용자가 선택한 위치에 프로젝트 directory를 만든다. 아래 기본값은 명령을 실행한
+directory 아래 `asgcn-unet`이며, 다른 위치를 원하면 `ASGCN_DIR`만 지정한다.
+
+```bash
+ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
+(
+  set -e
+  mkdir -p "$ASGCN_DIR"
+  cd "$ASGCN_DIR"
+  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+    echo "ERROR: clone target is not empty" >&2
+    exit 1
+  fi
+  git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
+    clone git@github.com:costunder/asgcn-unet.git .
+  git config core.sshCommand \
+    "ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes"
+)
+```
+
+HTTPS를 사용한다면 GitHub 계정 비밀번호가 아니라 이 private repository에 접근 가능한 token을 암호
+입력란에 넣는다. token을 URL이나 shell history에 직접 적지 않는다.
+
+```bash
+ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
+(
+  set -e
+  mkdir -p "$ASGCN_DIR"
+  cd "$ASGCN_DIR"
+  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+    echo "ERROR: clone target is not empty" >&2
+    exit 1
+  fi
+  git clone https://github.com/costunder/asgcn-unet.git .
+)
+```
+
+마지막 `.` 때문에 별도의 하위 폴더를 만들지 않는다. 실패한 clone을 포함해 대상 폴더에 기존 파일이나
+숨김 파일이 있으면 `ls -la`로 확인하고, clone을 강행하거나 임의 삭제하지 말고 먼저 보존·정리한다.
+데이터와 upload archive, 가상환경, 결과를 함께 둘 공간은 실행 전에 `df -h .`로 확인한다.
+clone block이 성공하면 `git -C "$ASGCN_DIR" rev-parse HEAD`를 CI에서 확인한 배포 SHA와 대조한다.
+같은 SHA일 때만 `cd "$ASGCN_DIR"`로 들어가 다음 설치 절차를 실행한다. 이후 pull 뒤에도 다시 대조한다.
+실험 종료 후 이 서버에서 더 이상 pull이 필요 없다면 GitHub의 Deploy keys에서 해당 키를 revoke한 뒤,
+서버 정책에 따라 전용 private/public key pair를 폐기한다. Deploy key는 자동 만료되지 않는다.
 
 ### 2. Python/CUDA 환경 설치
 
@@ -2427,7 +995,7 @@ GPU allocation 안에서 다음 한 명령을 실행한다.
 ```bash
 source .venv/bin/activate
 mkdir -p logs
-bash scripts/full.sh 2>&1 | tee logs/full.log
+bash scripts/run.sh all 2>&1 | tee logs/run.log
 ```
 
 MobaXterm 연결이 끊겨도 계속 실행하려면 `tmux` 안에서 시작한다.
@@ -2436,28 +1004,39 @@ MobaXterm 연결이 끊겨도 계속 실행하려면 `tmux` 안에서 시작한�
 tmux new-session -s asgcn
 source .venv/bin/activate
 mkdir -p logs
-bash scripts/full.sh 2>&1 | tee logs/full.log
+bash scripts/run.sh all 2>&1 | tee logs/run.log
 ```
 
 분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다.
 
-`scripts/full.sh`은 다음 순서를 fail-fast로 실행한다.
+`scripts/run.sh all`은 다음 순서를 fail-fast로 실행한다.
 
-1. CUDA, locked dependencies, EventHDR 51+19 H5, EventAid-R 14 ZIP coverage 검사
-2. EventHDR train/eval과 EventAid-R의 모든 sample을 실제 decode하고 event/target 구조 검사
-3. EventHDR train 전체 40 epoch ANN 학습
-4. EventHDR train의 모든 calibration sample로 `best_snn.pt` 생성
-5. EventHDR eval과 EventAid-R 전체에 대해 ANN 1회 및
+1. `check`: CUDA·locked dependency·전체 파일 coverage를 확인하고 두 데이터의 모든 sample을 decode
+2. `profile`: EventHDR train graph를 전수 조사하고 edge 수 상위 표본 3개에서 CUDA forward/backward,
+   optimizer step, peak allocated/reserved VRAM과 step time 측정
+3. `train`: 검증된 `runs/profile.json`을 현재 config·data·source·CUDA runtime에 다시 결합한 뒤
+   EventHDR train 전체 40 epoch ANN 학습
+4. `calibrate`: EventHDR train의 모든 calibration sample로 `best_snn.pt` 생성
+5. `eval`: EventHDR eval과 EventAid-R 전체에 대해 ANN 1회 및
    `literal_eq15`/`standard_if` × `T=4,8,16,32` 평가·benchmark
+
+기본 `PROFILE_TOP_DENSITY=10`은 edge 수 상위 10개 interval의 topology를 상세 기록하고,
+`PROFILE_SAMPLES=3`은 그중 3개를 실제 학습 step으로 측정한다. 이 profile은 기록된 GPU에서 선택된
+최고 밀도 표본이 통과했다는 실측 gate이지 전체 40 epoch의 모든 미래 step에 대한 절대 VRAM 보증은
+아니다. profile artifact에도 `absolute_vram_guarantee=false`가 고정된다.
 
 전체 품질 평가는 모든 sample을 사용한다. 기본 `BENCHMARK_STEPS=100`은 GPU compute latency를 재는
 별도 timing 반복 수이며 품질 평가를 100 sample로 줄이는 설정이 아니다. `save_predictions: 20`도
 PNG 저장 수만 제한하고 metric 계산 범위는 제한하지 않는다.
+보고 가능한 `metrics.json`은 `eval.max_samples=null`인 quality evaluation에서만 생성된다. 값이
+설정된 부분 quality 실행은 기본적으로 시작 전에 거부하며, 합성 테스트용 명시적 non-reporting
+우회로 실행해도 `report_eligible=false`와 그 이유가 기록된다. 표본 수를 갖는 compute-only
+benchmark는 이 quality 계약과 별도로 sampling provenance를 기록한다.
 
 실행될 명령표만 확인하려면 데이터와 GPU 없이 다음을 사용할 수 있다.
 
 ```bash
-DRY_RUN=1 bash scripts/full.sh
+DRY_RUN=1 bash scripts/run.sh all
 ```
 
 ## 중단 후 재개와 결과 보호
@@ -2465,14 +1044,43 @@ DRY_RUN=1 bash scripts/full.sh
 학습은 매 epoch 종료 시 `last.pt`를 원자적으로 갱신한다. 중단 후 같은 run을 epoch 경계에서 재개한다.
 
 ```bash
-RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  bash scripts/full.sh 2>&1 | tee -a logs/full.log
+RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  bash scripts/run.sh train 2>&1 | tee -a logs/train.log
 ```
 
-resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
-전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다. 일치하지 않으면 조용히 다른 실험을
-이어 붙이지 않고 중단한다.
+`run.sh`은 `check`, `profile`, `train`, `calibrate`, `eval`, `all` stage를 각각 실행할 수 있다. `train`은
+기본적으로 통과한 `runs/profile.json`을 요구하고, 이를 현재 config·전체 train data digest·source·GPU
+runtime에 다시 결합한다. 학습 재개가 끝나면 `bash scripts/run.sh calibrate`, 이어서
+`bash scripts/run.sh eval`을 실행한다. 기존 artifact를 발견해도 자동으로 건너뛰거나 덮어쓰지 않으므로,
+부분 실행을 복구할 때 완료된 stage를 임의로 다시 실행하지 않는다. 합성 fixture용
+`--allow-unverified-preflight` 우회는 checkpoint에 비보고용으로 영구 기록되고 `all` 및 scheduler
+wrapper에서는 허용되지 않는다.
 
+resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
+전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다. `validate_every: null`인 run은
+계획한 terminal epoch도 protocol에 봉인하므로 마지막 평가를 마친 뒤 epochs만 늘려 같은 run을
+재개할 수 없다. 연장 학습은 새 output directory의 새 protocol로 시작한다. 계약이 일치하지 않으면
+조용히 다른 실험을 이어 붙이지 않고 중단한다.
+EventHDR 보고용 ANN은 문법적으로 유효한 반복 `best_validation_macro_ssim` checkpoint도 허용하지 않고,
+계획 epoch에서 완료된 `single_final_epoch` terminal validation을 반드시 요구한다.
+
+calibration은 clean `ann_inference` checkpoint만 받고, 학습 당시 EventHDR train 전체 byte digest,
+transform, final split manifest와 source tree가 현재 실행과 일치해야 한다. 또한 manifest가 가리키는
+모든 training sample을 dataset index `0..N-1` 순서로 정확히 한 번씩 사용해야 `sealed=true`가 된다.
+일부 sample만 지정하면 기본 실행은 변환 전에 실패한다. 테스트용 `--allow-unsealed-calibration`으로만
+부분 보정을 만들 수 있고, 결과에는 불일치 이유와 `report_eligible=false`가 영구 기록된다.
+이 override를 명시한 사실 자체가 taint이므로 sample이 우연히 전체여도 `sealed=false`다.
+validation protocol v7은 train/validation index의 sample 수·group별 수·ordered identity SHA-256도
+봉인하며, 보고용 ANN은 `max_train_samples=max_val_samples=null`인 전체 학습·검증만 허용한다.
+SNN model state에는 실제 시도 수 `calibration_attempts`, 32-byte
+`calibration_commitment_digest`, `calibration_commitment_sealed`를 persistent buffer로 저장한다.
+protocol·선택 수·sampling과 valid/minimum/dead-channel summary core의 commitment를 metadata summary,
+layer별 valid count와 `calibration_activation_max`(관측 raw maximum),
+`normalization_scale`(식 (6)의 effective scale), `dead_channel_mask`까지 대조한다. dead channel은 raw
+maximum과 mask에는 그대로 남고 effective scale만 1이므로 저장 후 strict reload에서도 summary가
+변하지 않는다. 따라서
+부분 보정 tensor에 전체 보정 metadata만 이식하거나 선택 metadata만 사후 재라벨링한 checkpoint는
+load 단계에서 거부된다.
 기존 calibration 또는 평가 결과도 자동 덮어쓰지 않는다. 의도적으로 calibration만 다시 만들 때는
 `OVERWRITE_CALIBRATION=1`을 명시할 수 있지만, 이미 완료된 평가 artifact는 보존하거나 config의
 `eval.output_dir`를 새 경로로 바꿔 별도 run으로 실행해야 한다.
@@ -2480,69 +1088,147 @@ resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 co
 주요 출력은 다음과 같다.
 
 ```text
-runs/eventhdr_asgcn/
+runs/train/
 ├── config.json
 ├── history.json
 ├── last.pt                       # 학습 재개용 전체 상태
 ├── best.pt                       # ANN inference용 clean checkpoint
 └── best_snn.pt                   # 보정된 SNN graph encoder checkpoint
 
-runs/eventhdr_official_eval_ann/ann/
-runs/eventhdr_official_eval_snn/snn_literal_eq15_T{4,8,16,32}/
-runs/eventhdr_official_eval_snn/snn_standard_if_T{4,8,16,32}/
-runs/eventaid_r_external_ann/ann/
-runs/eventaid_r_external_snn/snn_literal_eq15_T{4,8,16,32}/
-runs/eventaid_r_external_snn/snn_standard_if_T{4,8,16,32}/
+runs/profile.json                 # 전체 topology + 최고 밀도 CUDA 학습-step 사전검증
+
+runs/status/
+├── check.json
+├── profile.json
+├── train.json
+├── calibrate.json
+└── eval.json                     # RUNNING/COMPLETED/FAILED stage 상태
+
+runs/eval/hdr/ann/
+runs/eval/hdr/snn_literal_eq15_T{4,8,16,32}/
+runs/eval/hdr/snn_standard_if_T{4,8,16,32}/
+runs/eval/aid/ann/
+runs/eval/aid/snn_literal_eq15_T{4,8,16,32}/
+runs/eval/aid/snn_standard_if_T{4,8,16,32}/
 ```
 
-각 평가 폴더에는 `metrics.json`, `frames.csv`, `predictions/`, `benchmark.json`이 생긴다. 품질 지표는
-PSNR, Gaussian SSIM, RMSE, temporal L1과 micro/H5-or-ZIP-group macro 집계를 포함한다. benchmark는
-data I/O와 host-to-device 이동을 제외한 model compute latency, FPS, percentile, graph 처리량, spike
-rate와 GPU peak memory를 기록한다. PyTorch GPU latency를 FPGA/ASIC latency나 에너지로 해석하면 안
-된다.
+각 평가 폴더에는 `metrics.json`, `frames.csv`, `predictions/`, `benchmark.json`이 생긴다. 보고용 ANN은
+검증된 CUDA preflight를 통과한 clean `ann_inference` lineage를, 보고용 SNN은 그 ANN에서 생성한
+`calibration_protocol.sealed=true` lineage를 요구한다. config/model/checkpoint file·tensor,
+현재 eval data content·transform·manifest·coverage·sampling, source/runtime/precision 계약과 SHA-256을
+`metrics.json`과 `benchmark.json`에 기록한다. 평가 시에도 calibration의 transform·final manifest·전체
+sample identity/sampling·runtime을 ANN train index commitment와 비교하고, source ANN의 epoch·selection·
+terminal validation을 포함한 reporting contract도 다시 검증한다. 합성 테스트에서만 쓰는 명시적 unsealed-checkpoint
+우회는 결과의 `report_eligible=false`와 이유를 영구 기록하며 public wrapper에는 노출하지 않는다.
+EventHDR lineage는 planned/completed/checkpoint epoch가 같고 validation selection이
+`single_final_epoch_macro_ssim`인 경우만 보고 가능하다.
+source ANN의 training dataset type도 EventHDR로 고정하고 training protocol의 seed·optimizer·scheduler·
+loss·data order·AMP·runtime을 public training config와 교차검증한다. 평가 dataset은 명시적
+`expected_file_count`와 final/fixed manifest의 정확한 파일 집합을 가져야 하며, EventHDR quality/benchmark는
+현재 file bytes·transform·manifest가 source ANN validation 계약과 같아야 한다. protocol SHA-256에는
+실제 inference mode, SNN T와 effective dynamics도 포함된다.
+quality evaluation은 추가로 `eval.max_samples=null`을 요구하므로 부분 `metrics.json`이 보고 가능 상태로
+표시되지 않는다. benchmark의 고정 warmup/측정 step은 품질 표본 제한과 다른 compute protocol이다.
+JSON/CSV와
+checkpoint는 temporary file을 완성한 뒤 원자적으로 교체하며 JSON은 NaN/Infinity를 허용하지 않는다.
+SHA-256 seal은 재현 identity와 우발적·부분적 metadata 변조 탐지용이지 전자서명이 아니다. 악의적 주체가
+checkpoint와 모든 내부 hash를 함께 다시 작성하는 상황까지 인증하려면 산출물 hash를 별도 immutable
+실험 원장이나 서명 저장소에 보존해야 한다.
+평가 직후 target, prediction, metric, graph diagnostic, latency와 `dt_us`의 비정상 수치도 거부한다.
+품질 지표는 PSNR(완전 일치 시 120 dB 상한), Gaussian SSIM, RMSE, temporal L1과
+micro/H5-or-ZIP-group macro 집계를 포함한다. `configs/hdr.json`과 `configs/aid.json`은 품질 비교의
+기본 precision을 FP32/TF32 off로 명시하며, `amp_fp16`과 `bf16`을 선택한 별도 run은 요청값·실제
+autocast dtype·parameter dtype·TF32 적용 여부를 결과에 기록한다. benchmark는 data I/O와
+host-to-device 이동을 제외한 model compute latency, FPS, percentile, graph 처리량, spike rate와 GPU
+peak memory를 기록한다. 이 compute-only memory 범위에는 GPU event input과 model 실행은 포함하지만
+품질 계산에만 쓰는 ground-truth target은 CPU에 유지해 제외한다. PyTorch GPU latency를 FPGA/ASIC
+latency나 에너지로 해석하면 안 된다.
 
 ## SLURM/PBS scheduler
 
-클러스터 batch job은 저장소 root에서 제출한다. SLURM에서 학습→전체 calibration 의존성은 다음과
+클러스터 batch job은 저장소 root에서 제출한다. SLURM에서 profile→학습→전체 calibration 의존성은 다음과
 같이 건다.
 
 ```bash
-train_id=$(sbatch --parsable --export=ALL,PROJECT_ROOT="$PWD" server/train.sbatch)
+profile_id=$(sbatch --parsable --export=PROJECT_ROOT="$PWD" server/profile.sbatch)
+train_id=$(sbatch --parsable --dependency=afterok:${profile_id} \
+  --export=PROJECT_ROOT="$PWD" server/train.sbatch)
 cal_id=$(sbatch --parsable --dependency=afterok:${train_id} \
-  --export=ALL,PROJECT_ROOT="$PWD" server/calibrate.sbatch)
+  --export=PROJECT_ROOT="$PWD" server/calibrate.sbatch)
 ```
 
 ANN 두 평가와 SNN 전체 행렬을 dependency로 제출한다.
 
 ```bash
-for config in configs/hdr_ann.json configs/aid_ann.json; do
+for config in configs/hdr.json configs/aid.json; do
   sbatch --dependency=afterok:${train_id} \
-    --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt,INFERENCE_MODE=ann \
+    --export=PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
     server/eval.sbatch
 done
 
-for config in configs/hdr_snn.json configs/aid_snn.json; do
+for config in configs/hdr.json configs/aid.json; do
   for dynamics in literal_eq15 standard_if; do
     for timestep in 4 8 16 32; do
       sbatch --dependency=afterok:${cal_id} \
-        --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
+        --export=PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
         server/eval.sbatch
     done
   done
 done
 ```
 
-학습 resume job에는 `RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt"`를 `--export`에 추가한다.
-PBS/Torque용 동등 wrapper는 `server/train.pbs`, `server/calibrate.pbs`, `server/eval.pbs`이며
+SLURM `--export`에는 각 job이 실제로 쓰는 변수만 명시한다. login shell 전체를 전달하면 token, proxy,
+credential 같은 무관한 환경변수도 compute node와 job 환경에 복제될 수 있으므로 `ALL`은 사용하지 않는다.
+학습 resume job에는 `RESUME_CHECKPOINT="$PWD/runs/train/last.pt"`를 `--export`에 추가한다.
+PBS/Torque용 동등 wrapper는 `server/profile.pbs`, `server/train.pbs`, `server/calibrate.pbs`,
+`server/eval.pbs`이며
 `qsub -W depend=afterok:<job-id>`로 같은 의존성을 건다. `#SBATCH`/`#PBS`의 GPU, memory, walltime,
 queue, account는 학교 scheduler 정책에 맞게 조정해야 한다. 자세한 서버 운용은
 [docs/SERVER.md](docs/SERVER.md), 실험 정의는 [docs/EXPERIMENT.md](docs/EXPERIMENT.md)에 있다.
+wrapper log는 기본적으로 hostname/job ID를 생략하고 config/checkpoint는 basename만 남긴다. 로컬 진단에서
+정확한 host와 경로가 꼭 필요할 때만 `INCLUDE_PRIVATE_HOST_PROVENANCE=1`을 제출 변수에 추가하고, 그 log는
+공개하거나 첨부하지 않는다. 다만 Slurm의 `slurm-...-<job-id>.out/.err`와 PBS의
+`<job-name>.o<job-id>` 같은 raw scheduler log는 **파일명 자체에 job ID가 있으므로 그대로 공개하지 않는다.**
+공개 전에는 기본 provenance로 생성한 raw log를 `logs/public/train.stdout.log` 같은 중립 파일명으로 복사하고,
+저장소 밖 denylist를 사용해 그 공개 후보의 내용도 검사한다. scan 실패 파일과
+`INCLUDE_PRIVATE_HOST_PROVENANCE=1`로 만든 opt-in log는 중립명으로 바꿔도 비공개다.
+
+```bash
+python scripts/scan_private_text.py logs/public/train.stdout.log \
+  --root "$PWD" --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+```
 
 ## 현재 검증 상태와 한계
 
+- 저장소의 개인정보 gate는 모든 Git tracked UTF-8 text와 생성된 `code_summary.md`를 검사한다.
+  generic Unix/macOS/Windows home path와 labelled identity를 기본 탐지하고, 실제 계정·host marker는
+  저장소 밖 denylist 또는 `PRIVATE_MARKERS_B64` CI secret으로 전달한다. 문자열 결합·constant f-string과
+  Base64 표현도 복원 검사하며 탐지 로그에는 marker 내용을 출력하지 않는다. trusted `main` push는
+  `--require-external-patterns --all-history`를 강제하므로 secret이 비었거나 shallow history이면 실패하고,
+  모든 local ref에서 도달 가능한 unique Git blob을 검사한다. 현재 checkout 검사와 history 정리는 서로
+  다른 gate이며, 오염된 과거 history가 남은 동안 history gate가 실패하는 것이 정상이다. history 열거는
+  신·구 Git에서 공통인 `git rev-list --objects --all`의 LF 레코드를 사용하며 `-z` 지원 차이에 의존하지
+  않는다. 경로 출력은 진단용 hint이고 실제 blob 내용은 object ID로 읽는다.
+- `code_summary.md`는 `python scripts/build_code_summary.py`로 생성한 결정적 전체 text snapshot이다.
+  파일별 SHA-256, snapshot SHA-256, 포함 파일 수와 생성 당시 commit/tree/branch/dirty provenance를
+  기록하고 CI에서 `--check`로 working tree와의 일치를 확인한다. dirty working tree의 snapshot은
+  superseded commit을 가리키지 않도록 commit/tree를 `null`로 기록하며 snapshot SHA-256을 검증
+  identity로 사용한다. 배포 때는 코드·문서·검증 수치 수정과 history 정리를 마쳐 최종 sanitized source
+  commit을 확정하고, clean source에서 summary를 재생성한 뒤 summary-only commit을 만든다.
+  `--check --require-clean-provenance`는 source commit이 현재 HEAD의 ancestor이고 그 이후 summary
+  이외의 tracked source가 바뀌지 않았는지 확인한다. 생성 뒤 문서 수정이나 history rewrite가 필요하면
+  source commit 확정부터 다시 수행한다. 배포 결과는 본문을 고쳐 적기보다 최종 SHA의 Actions와 별도
+  배포 기록으로 확인한다.
+- 2026-08-30 Windows CPU 검증은 **265 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
+  없는 경우의 shared-storage link test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
+  실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
+  원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와
+  GitHub Actions 결과로 별도 확인한다.
 - 코드의 unit/integration test와 Linux 의존성 검사는 구성되어 있지만, EventHDR+EventAid-R 전체
-  실데이터를 사용한 CUDA 학습·전체 행렬 실행, A6000/A100 peak memory·runtime·latency 실측은 아직
-  수행하지 않았다. 따라서 README는 실행 절차를 보장하는 코드 경로이지 측정 완료 보고서가 아니다.
+  실데이터를 사용한 `runs/profile.json`, CUDA 40-epoch 학습·전체 행렬 실행, A6000/A100 peak
+  memory·runtime·latency artifact는 이 로컬 검증에서 생성하지 않았다. 따라서 README는 실행 절차
+  설명이지 측정 완료 보고서가 아니다.
 - 공개 자료에 EventHDR H5↔physical-scene 완전 대응표가 없어 공식 train/eval root 이상의
   scene-disjoint 주장을 하지 않는다.
 - 원 논문의 동적 asynchronous K-hop update, pooling/classifier, energy model은 포함하지 않는다.
@@ -2554,11 +1240,2669 @@ queue, account는 학교 scheduler 정책에 맞게 조정해야 한다. 자세�
 [hand_off.md](hand_off.md)를 참조한다.
 ~~~~~~~~
 
-# requirements.txt
+# configs/aid.json
+
+~~~~~~~~json
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventaid_r_zip",
+    "root": "data/EventAid-R",
+    "file_manifest": "manifests/eventaid_r.json",
+    "expected_file_count": 14,
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "target_offset": 1,
+    "target_normalization": {
+      "mode": "integer_dtype_max"
+    },
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
+  },
+  "model": {
+    "architecture_version": 2,
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "spline_chunk_size": 65536,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "eval": {
+    "batch_size": 1,
+    "precision": "fp32",
+    "tf32": false,
+    "num_workers": 2,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "recurrent_context_frames": 32,
+    "max_samples": null,
+    "save_predictions": 20,
+    "output_dir": "runs/eval/aid"
+  }
+}
+~~~~~~~~
+
+# configs/hdr.json
+
+~~~~~~~~json
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventhdr",
+    "root": "data/EventHDR/eval",
+    "split_manifest": "manifests/eventhdr_split.json",
+    "expected_file_count": 19,
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "frame_stride": 1,
+    "target_normalization": {
+      "mode": "integer_dtype_max"
+    },
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
+  },
+  "model": {
+    "architecture_version": 2,
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "spline_chunk_size": 65536,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "eval": {
+    "batch_size": 1,
+    "precision": "fp32",
+    "tf32": false,
+    "num_workers": 2,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "recurrent_context_frames": 32,
+    "max_samples": null,
+    "save_predictions": 20,
+    "output_dir": "runs/eval/hdr"
+  }
+}
+~~~~~~~~
+
+# configs/train.json
+
+~~~~~~~~json
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventhdr",
+    "root": "data/EventHDR/train",
+    "val_root": "data/EventHDR/eval",
+    "split_manifest": "manifests/eventhdr_split.json",
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "frame_stride": 1,
+    "target_normalization": {
+      "mode": "integer_dtype_max"
+    },
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
+  },
+  "model": {
+    "architecture_version": 2,
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "spline_chunk_size": 65536,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "train": {
+    "epochs": 40,
+    "batch_size": 1,
+    "num_workers": 4,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "optimizer": "adam_gc",
+    "learning_rate": 0.001,
+    "weight_decay": 0.005,
+    "lr_milestones": [20, 30],
+    "lr_gamma": 0.1,
+    "grad_clip": 1.0,
+    "amp": true,
+    "log_every": 20,
+    "validate_every": null,
+    "resume": null,
+    "max_train_samples": null,
+    "max_val_samples": null,
+    "validation_context_frames": 64,
+    "rehash_data": true,
+    "loss_weights": {
+      "charbonnier": 1.0,
+      "ssim": 0.2,
+      "gradient": 0.1,
+      "temporal": 0.2
+    }
+  },
+  "output": {
+    "run_dir": "runs/train"
+  }
+}
+~~~~~~~~
+
+# constraints/py312.txt
 
 ~~~~~~~~text
--c constraints/py312.txt
--e .[dev]
+# Reproducible core/dev profile validated with Python 3.12.13.
+# Select the CUDA build of torch from the official PyTorch wheel index via
+# TORCH_INDEX_URL; the public version remains fixed here.
+filelock==3.32.4
+fsspec==2026.7.0
+h5py==3.16.0
+iniconfig==2.3.0
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+mpmath==1.3.0
+networkx==3.6.1
+numpy==2.5.2
+packaging==26.3
+pillow==12.3.0
+pluggy==1.6.0
+Pygments==2.21.0
+pytest==9.1.1
+ruff==0.16.5
+sympy==1.14.0
+torch==2.13.0
+tqdm==4.70.0
+typing_extensions==4.16.0
+~~~~~~~~
+
+# docs/ASGCN.md
+
+~~~~~~~~markdown
+# ASGCN-U-Net의 ASGCN paper-core 구현 범위
+
+이 저장소는 AAAI 2025 ASGCN 논문의 공개 수식에서 확인할 수 있는 event graph와 ANN→SNN
+변환 핵심을 구현한 뒤, event-to-frame 복원용 decoder를 연결한 연구 코드다. 원 논문은 event
+classification을 다루지만 이 프로젝트의 출력은 luminance frame이다. 따라서 이 코드는 저자 공식
+구현, 원 논문의 classification pipeline, 또는 공식 성능표의 완전 재현본이 아니다.
+
+근거로 삼은 공개 자료는 [AAAI 논문 페이지](https://ojs.aaai.org/index.php/AAAI/article/view/32154)와
+[공식 PDF](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)다. 확인 가능한 논문에는
+저자 코드와 checkpoint 링크가 없으며, 복원 과제에 필요한 graph·spline·decoder 설정도 모두
+주어지지 않는다. 문서와 결과에서는 반드시 `ASGCN paper-core 기반 복원 적응` 또는 `공개 수식
+기반 구현`으로 표현하고, `저자 공식 코드`, `공식 ASGCN 완전 재현`, `논문 성능 재현`이라고
+표현하지 않는다.
+
+## 1. 논문 수식에서 가져온 core
+
+현재 `architecture_version=2`의 graph encoder가 다음 항목을 구현한다.
+
+1. event sequence를 고정 정수 sampling factor `R`로 균일하게 선택한다.
+2. event를 node로 만들고, 좌표 거리 조건 `d(i,j) < D`를 만족하는 node 쌍을 잇는다.
+3. scalar edge distance를 pseudo-coordinate로 쓰는 weighted B-spline graph convolution과 실제
+   incoming degree 기반 mean aggregation을 적용한다.
+4. ANN 경로에서는 graph affine update, BatchNorm, ReLU를 순서대로 실행한다.
+5. ANN 학습 뒤 식 (13)–(14)의 BatchNorm folding과 식 (6)의 layer-wise parameter
+   normalization을 적용한다.
+6. SNN 경로에서는 별도 stochastic/rate input encoder 없이 IF membrane을 명시적 timestep으로
+   전개한다. 초기 membrane은 threshold의 절반, spike amplitude는 threshold이며 발화 뒤 soft
+   reset을 사용한다.
+
+원 논문의 graph clustering, graph pooling, edge remapping과 classification head는 구현하지 않았다.
+이 프로젝트는 graph encoder의 node feature를 raster로 바꿔 복원 decoder에 전달한다.
+
+## 2. 논문에 없는 명시적 가정
+
+논문만으로 결정할 수 없는 값은 config에 노출했고 checkpoint의 `model_config`에 보존한다. 기본
+본실험 설정은 다음과 같다.
+
+| 항목 | 저장소의 선택 | 해석 |
+|---|---:|---|
+| node feature | `[x,y,t,p]` | `x,y,t`는 `[0,1]`, polarity는 `-1/+1` |
+| graph distance | 정규화된 `x,y,t` 3차원 | polarity는 기본 거리에서 제외 |
+| radius | `D=0.08` | 원 논문의 복원 과제용 공식값이 아님 |
+| edge pseudo | `u=d/D` | 원시 distance를 SplineConv의 `[0,1]` 정의역으로 재매개화 |
+| graph width/depth | 64 features, 6 layers | 복원 과제 가정 |
+| spline | scalar, open, degree 1, `K=5` | degree/kernel/open 여부는 논문 미공개 |
+| update terms | mean message + root transform + bias | root/bias는 PyG 계열 동작을 참고한 선택 |
+| paper sampling `R` | `event_sampling_factor=1` | dataset의 8,192-event cap과 별개 |
+| raster | 4배 downsample grid에서 cell mean | 논문에 없는 event-to-frame bridge |
+| decoder | base 48 residual U-Net + analog ConvGRU | 논문에 없는 복원 확장 |
+| SNN dynamics | `literal_eq15` | 공개 식을 우선한 선택; 아래 모호성 참조 |
+| edge guard | directed edge 2,000,000개 | 초과 시 graph를 자르지 않고 실패 |
+
+dataset loader의 `max_events=8192`는 논문의 `R`이 아니다. crop 뒤 event가 cap을 넘으면
+`np.linspace(0, N-1, 8192)`로 정확히 8,192개를 시간축 전체에서 결정적으로 선택하며 양 끝 event를
+포함한다. 그 뒤 model의 고정 factor `R`이 `events[::R]`로 적용된다. 결과에는 raw/cropped/retained
+event 수, dataset sampling ratio, model factor와 두 비율의 곱을 따로 기록한다.
+
+## 3. exact cell radius graph
+
+`build_radius_graph`는 dense `N×N` distance matrix를 만들지 않고 uniform-cell candidate search를
+사용하지만, 만들어지는 graph의 의미는 brute-force strict radius graph와 같다.
+
+- 선택한 `d`차원 좌표에서 cell 폭을 정확히 `D`로 둔다.
+- 각 source node의 cell과 축별 offset `{-1,0,1}`의 조합인 `3^d` 인접 cell만 검색한다. cell 폭이
+  `D`이므로 그 밖의 cell에는 `d < D`인 이웃이 존재할 수 없다.
+- sorted cell hash의 범위를 `searchsorted`로 찾아 후보를 만들고, 모든 후보에 대해 Euclidean
+  distance를 다시 계산한다.
+- `source != destination`와 `distance < D`를 모두 만족할 때만 edge를 남긴다. 경계 `distance=D`는
+  포함하지 않는다.
+- 모든 node를 source로 처리하므로 각 유효한 무방향 쌍의 두 ordered direction을 모두
+  materialize한다. self-loop와 중복 edge는 없다.
+- 최종 edge는 `(source,destination)` 순서로 정렬하며 edge attribute는 `distance/D`다.
+
+`graph_chunk_size=512`와 내부 candidate chunk 축소는 계산을 나누는 메모리 최적화일 뿐 neighbor를
+근사하거나 누락하지 않는다. 다만 한 cell에 event가 몰리는 최악의 경우 후보 수와 실제 edge 수는
+여전히 `O(N²)`가 될 수 있다. `max_graph_edges`는 이 경우 조용히 edge를 버리지 않고 오류를 내는
+fail-fast 장치다. radius가 만든 graph를 강제로 연결하지 않으므로 isolated node는 root transform과
+bias만 받으며 isolate ratio와 maximum degree가 결과에 기록된다.
+
+## 4. degree-1 open B-spline과 계산 최적화
+
+scalar pseudo-coordinate `u`에 대해 `scaled=u(K-1)`를 계산한다. degree 1이므로 edge마다 활성
+basis는 인접한 두 control point뿐이고, 가중치는 `1-frac(scaled)`와 `frac(scaled)`다. 두 가중치의
+합은 endpoint를 포함해 1이다. `u=1`에서는 마지막 control point의 가중치가 정확히 1이 되도록
+endpoint 동작과 pseudo-coordinate gradient를 테스트로 고정했다.
+
+각 `PaperSplineConv` layer의 계산은 다음과 같다.
+
+```text
+node projection for every control point: [N,Cin] x [K,Cin,Cout] -> [N,K,Cout]
+edge gather: source node의 활성 control point 두 개만 선택
+weighted message: 두 basis weight로 합산
+aggregation: destination의 실제 incoming degree로 평균
+update: mean message + optional root transform + bias
+ANN activation: BatchNorm -> ReLU
+```
+
+edge마다 작은 matrix multiplication을 반복하지 않고 node를 `K`개 control point에 한 번씩 projection한
+뒤 두 활성 항만 gather한다. 고정 graph의 basis index와 weight도 sample당 한 번 계산해 6개 graph
+layer와 모든 IF timestep에서 재사용한다. 이는 연산 중복을 줄이는 exact optimization이며 graph나
+spline 값을 바꾸지 않는다. 구현은 순수 PyTorch라 `torch-spline-conv` binary extension에
+의존하지 않는다.
+
+`EventGraph`의 destination incoming degree도 graph 생성 시 한 번 계산해 모든 layer와 IF timestep이
+공유한다. 기본 `spline_chunk_size=65536`은 최대 2,000,000개 edge의 message gather를 고정 크기
+chunk로 나눠 peak memory를 제한한다. chunk마다 같은 순서로 `index_add_`하므로 neighbor나 edge를
+줄이는 근사가 아니며, chunked/unchunked 출력과 gradient 동등성을 회귀검사한다.
+
+weight 초기화 bound는 `1/sqrt(K*Cin)`, root bound는 `1/sqrt(Cin)`으로 고정했다. open degree 1,
+scalar pseudo-coordinate, mean aggregation, root weight와 bias 범위에서만 구현·테스트했으며 이를
+ASGCN 저자의 미공개 hyperparameter와 동일하다고 주장하지 않는다.
+
+## 5. ANN 학습과 ANN→SNN 변환
+
+ANN graph layer는 B-spline affine update, BatchNorm, ReLU로 학습한다. 기본 optimizer는 Adam에
+gradient centralization을 추가한 `adam_gc`이며 learning rate `1e-3`, weight decay `5e-3`, epoch
+20/30의 MultiStepLR과 gamma `0.1`을 사용한다. milestone과 gamma, tensor별 centralization 축은
+저자 코드로 검증된 공식값이 아니라 config 선택이다.
+
+변환 순서는 다음과 같다.
+
+1. 학습된 ANN checkpoint를 불러온다.
+2. 각 graph layer의 BatchNorm scale을 spline kernel, root와 bias에 fold한다.
+3. EventHDR train 전체에서 각 graph layer의 feature별 ReLU maximum `lambda_l`를 측정한다.
+4. 식 (6)에 따라 kernel과 root에 `lambda_(l-1)/lambda_l`, bias에 `1/lambda_l`를 적용한다.
+5. 첫 layer의 입력 scale `lambda_0`은 `[1,1,1,1]`로 둔다.
+6. calibration에서 항상 0인 channel은 raw maximum 0과 dead mask를 보존하고, epsilon으로
+   폭증시키지 않도록 effective normalization scale만 1을 사용한다.
+7. 변환 뒤 threshold를 정확히 1로 두고, 마지막 spike rate에 `lambda_L`를 곱해 analog decoder의
+   학습 단위로 복원한다.
+
+각 layer는 관측 raw maximum `calibration_activation_max`, 식 (6)의 effective
+`normalization_scale`, `dead_channel_mask`를 별도 persistent buffer로 저장한다. BN-fold/normalization
+flag, valid calibration count, dead-channel summary, threshold, model tensor SHA-256과 checkpoint
+metadata를 load 시 교차검증한다. 따라서 dead channel이 있어도 저장·strict reload 뒤 raw summary가
+바뀌지 않으며 mask·scale·metadata 변조는 거부된다. ANN checkpoint와 변환된 SNN checkpoint의
+inference mode를 서로 바꿔 사용하는 것도 거부한다.
+
+## 6. IF dynamics와 식 (15)의 모호성
+
+논문 식 (15)는 다음 self-feedback 항을 포함한다.
+
+```text
+v_tilde(t) = v(t-1) + c(t) + h(t-1)
+```
+
+`literal_eq15`는 이 `+h(t-1)`을 문자 그대로 실행한다. 각 timestep에서 threshold 이상이면 threshold
+크기의 spike를 내고 membrane에서 그 값을 빼는 soft reset을 한다. 그러나 이전 spike의 재주입은
+작은 양의 정전류도 첫 발화 뒤 장기 firing rate 1에 가깝게 만들 수 있어 표준 ANN rate-conversion
+유도와 충돌한다. 저자 코드나 정정 자료가 없으므로 임의로 오타 처리하지 않았다.
+
+- `literal_eq15`: 기본 경로. 공개 식 (15)–(17)을 문자 그대로 실행한다.
+- `standard_if`: `+h(t-1)`을 제거한 대조군이다. 공식 ASGCN 설정이 아니다.
+
+마지막 `lambda_L` 곱은 decoder 입력의 단위 변환이지, `literal_eq15`가 유한 timestep에서 ANN과
+동등하다는 증명이 아니다. 두 dynamics는 같은 calibrated checkpoint로 비교할 수 있지만 결과는
+반드시 별도 dynamics와 timestep으로 표기한다.
+
+## 7. hybrid event-to-frame decoder
+
+전체 forward는 다음과 같다.
+
+```text
+event interval [N,x,y,t,p]
+  -> exact-size dataset cap
+  -> fixed paper sampling factor R
+  -> strict undirected radius graph
+  -> B-spline graph encoder (ANN 또는 explicit IF-SNN)
+  -> downsampled feature raster: pixel-cell별 node feature mean
+  -> residual U-Net encoder
+  -> bottleneck analog ConvGRU
+  -> bilinear upsampling + skip connections
+  -> sigmoid luminance frame, 원 sensor size로 interpolation
+```
+
+U-Net은 두 번 downsample하고 bottleneck에 residual block 두 개를 둔다. ConvGRU state는 같은 H5/ZIP
+sequence group, 연속 sequence index, 같은 sensor shape일 때만 전달되고 불연속에서는 초기화된다.
+학습 시 state와 이전 prediction은 frame마다 detach하므로 전체 sequence backpropagation이 아니라
+frame 단위 truncated recurrence다. SNN 변환 대상은 graph encoder뿐이며 rasterization, U-Net,
+ConvGRU와 output head는 모두 analog 연산이다.
+
+EventHDR의 zero-event target interval도 버리지 않는다. 빈 event tensor는 zero-node/zero-edge graph와
+zero raster를 만들고 recurrent decoder가 해당 target frame을 학습·평가하도록 한다. `frame_stride>1`을
+사용하면 건너뛴 interval의 event를 다음 선택 frame까지 합치지만 기본 본실험은 `frame_stride=1`이다.
+
+## 8. 구현하지 않은 범위와 주장 한계
+
+- 새 event에 영향받는 K-hop subgraph만 갱신하는 asynchronous incremental 실행
+- sliding window node 만료와 graph/SNN state의 하드웨어 친화적 관리
+- 논문 식 (18)–(19)의 clustering, pooling, edge remapping
+- 원 논문의 classification MLP, 원 데이터셋 전처리와 성능표
+- 실제 DVS sensor ingest, event compression·전송 protocol
+- FPGA/ASIC RTL, synthesis, 실제 latency·전력·에너지 측정
+- analog U-Net/ConvGRU까지 포함한 완전한 spiking network
+
+현재 구현으로 보고할 수 있는 것은 PyTorch GPU/CPU에서의 paper-core 기반 복원 품질, graph 통계,
+compute latency와 firing-rate 통계다. 이를 저자 공식 재현, neuromorphic hardware latency, 반도체
+전력·에너지 또는 통합 칩 구현 완료로 확대해 해석하면 안 된다.
+~~~~~~~~
+
+# docs/EXPERIMENT.md
+
+~~~~~~~~markdown
+# 본실험 프로토콜
+
+이 문서는 `configs/train.json`, `configs/hdr.json`, `configs/aid.json`과 현재 실행 코드를
+기준으로 한다. ANN/SNN 실행은 같은 평가 config를 공유하고 CLI 인자로 모드를 구분한다. 전체 기본 실행은
+`bash scripts/run.sh`이며, 일부 파일이나 일부 frame만 사용한 결과는 본실험 결과로 합치지 않는다.
+ASGCN 수식과 이 저장소의 과제용 확장 범위는 [ASGCN.md](ASGCN.md)를 함께 참고한다.
+
+## 1. 연구 질문과 데이터 역할
+
+1. EventHDR 실제 event로 luminance frame을 얼마나 잘 복원하는가?
+2. 동일 ANN checkpoint를 보정한 뒤 `literal_eq15`와 `standard_if`가
+   `T=4,8,16,32`에서 보이는 품질·지연 차이는 무엇인가?
+3. 학습과 보정에 쓰지 않은 EventAid-R 14개 scene에서 성능이 얼마나 유지되는가?
+
+| 단계 | 고정 데이터 | 코드상 역할 |
+|---|---|---|
+| 학습 | EventHDR 공식 train root의 `1.h5`–`51.h5` | 40 epoch weight 최적화 |
+| 내부 평가 | EventHDR 공식 eval root의 `1.h5`–`19.h5` | 마지막 epoch에서만 ANN 평가하고 `best.pt` 생성 |
+| ANN→SNN 보정 | EventHDR train 51개 H5의 모든 선택 frame | BN folding, activation maximum, 식 (6) 정규화 |
+| 내부 비교 | 동일 EventHDR eval 19개 H5 | ANN과 두 IF dynamics × 네 T 비교 |
+| 외부 비교 | EventAid-R manifest의 14개 ZIP | 고정 checkpoint의 외부 일반화 평가 |
+
+`manifests/eventhdr_split.json`은 `status=final`,
+`split_schema=official_separate_roots_v1`이다. train과 eval은 별도 root이고 숫자 basename이 겹치는
+공식 배포 구조다. H5 하나를 recurrent state와 metric의 sequence group으로 사용할 뿐, 공개 자료에
+물리 scene 대응표가 없으므로 두 root가 물리 scene-disjoint이거나 통계적으로 독립이라고 주장하지
+않는다. JSON의 `macro`/`per_scene`도 EventHDR에서는 물리 scene이 아니라 H5 sequence-file 단위다.
+
+`train.validate_every=null`이므로 1–39 epoch에는 내부 평가를 하지 않고 40번째 마지막 epoch에서만
+EventHDR eval 전체를 평가한다. 따라서 현재 `best.pt`는 여러 epoch를 비교해 고른 checkpoint가 아니라
+마지막 epoch checkpoint다. 파일명 `best.pt`와 `best_metric=macro_ssim`은 공통 checkpoint 계약을 위한
+것이다. 이후 같은 eval root에서 생성하는 ANN/SNN 표는 내부 비교이며 독립 잠금시험으로 표현하지
+않는다. EventAid-R 결과를 본 뒤 설정·보정·threshold를 바꾸면 그 결과 역시 외부시험으로 해석할 수
+없다.
+
+## 2. 고정 전처리
+
+두 dataset의 target은 config에 명시한 다음 고정 계약으로 `[0,1]` luminance domain에 놓는다.
+
+```text
+target_normalization.mode = integer_dtype_max
+  -> integer image / dtype maximum
+  -> RGB이면 BT.709 luminance
+  -> y = log1p(5000*x) / log1p(5000)
+```
+
+float target은 `known_scale` 또는 `already_normalized`를 명시해야 한다. NaN/Inf, 잘못된 dtype과
+정규화 후 `[0,1]` 범위 위반은 조용히 보정하지 않고 실패한다. frame별 percentile은
+`percentile_debug_only`와 `debug_only=true`를 함께 둔 비보고용 데이터 진단에서만 허용된다.
+
+EventAid-R은 event block `i`와 GT `i+1`을 짝짓는 `target_offset=1`을 사용한다. 이는 이 과제를
+위한 정렬 가정이며 bool·실수의 묵시적 정수 변환을 허용하지 않는다. full inspect는 event 원 timestamp
+min/max와 `timestamps.txt` interval의 span ratio, offset, 범위 이탈 수를 기록한다. 공식 14 ZIP의
+timestamp basis·단위가 확인되기 전에는 이 값을 hard rejection에 사용하지 않는다. 다른 offset 결과와
+섞지 않는다. 두 dataset의 sensor response와 exposure가 같다는
+보장은 없으므로 절대 PSNR/SSIM을 동일 분포의 수치처럼 직접 비교하지 않는다.
+
+event 전처리는 다음 순서다.
+
+1. 설정된 sensor crop을 적용한다. 본실험 config는 `crop_size=null`이라 전체 sensor를 쓴다.
+2. crop 뒤 event 수가 `max_events=8192`를 넘으면, 양 끝 timestamp를 포함하는 결정적 `linspace`
+   index로 **정확히 8,192개**를 시간 전역에서 남긴다. 8,192개 이하면 그대로 둔다.
+3. model의 논문식 균일 sampling factor `R=event_sampling_factor=1`을 적용한다.
+
+두 번째 단계는 graph memory를 제한하기 위한 과제용 cap이며 ASGCN 논문의 공식 `R`이 아니다.
+`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_ratio`를 분리해
+기록한다. 동일 source sequence의 crop은 seed와 상대 sequence identity로 결정되므로 worker 수와
+resume 여부에 따라 바뀌지 않는다.
+
+EventHDR에서 연속 target 사이 event가 0개인 interval도 sample로 보존한다. EventAid-R의 빈 event
+text도 빈 `[0,4]` tensor로 유지한다. 빈 sample은 0 node·0 edge graph와 zero raster를 거쳐 analog
+decoder/ConvGRU로 처리되며 임의 event를 합성하지 않는다. 보정에서는 비어 있는 activation이 layer의
+유효 calibration observation으로 집계되지 않고, 어느 graph layer든 non-empty observation이 0개면
+변환을 거부한다.
+EventHDR image dataset key는 `image<정수>` 형식과 numeric suffix uniqueness를 강제하고 숫자순으로
+읽는다. 따라서 zero-padding이 다른 key에서도 문자열 정렬로 frame 순서가 뒤집히지 않는다.
+
+## 3. graph와 모델 고정값
+
+기본 graph node feature는 정규화한 `(x,y,t,polarity)`이고, 거리 계산은 `[0,1]`로 정규화한
+`(x,y,t)` 3차원에서 한다. `graph_radius=0.08`보다 Euclidean 거리가 **엄격히 작은** 서로 다른 node를
+연결하고 양 방향 directed edge를 저장한다. edge pseudo-coordinate는 `distance/radius` 한 값이다.
+
+구현은 폭이 radius인 uniform cell과 인접 `3^3` cell로 후보를 찾은 뒤 exact Euclidean 조건을 다시
+적용한다. 이는 근사 k-NN이나 edge truncation이 아니다. directed edge 수가
+`max_graph_edges=2,000,000`을 넘으면 일부 edge를 버리지 않고 실패한다. isolated node도 유지하며
+비율과 최대 degree를 결과에 기록한다.
+
+graph의 incoming degree와 spline basis는 frame당 한 번 계산해 layer와 SNN timestep이 공유한다.
+`spline_chunk_size=65536`은 edge message gather의 peak memory만 제한하며 graph 의미나 집계를
+바꾸지 않는다.
+
+고정 모델은 6-layer, hidden 64의 pure-PyTorch open degree-1 B-spline graph encoder, feature
+rasterization, residual U-Net과 analog ConvGRU decoder다. ANN→SNN 변환과 IF timestep은 graph
+encoder에만 적용된다. decoder는 두 모드 모두 analog이다.
+
+## 4. 학습과 checkpoint 선택
+
+40 epoch 전에 다음 CUDA 사전검증을 먼저 완료한다.
+
+```bash
+bash scripts/run.sh profile
+```
+
+`profile`은 EventHDR train의 모든 frame interval에서 `raw/cropped/retained/model-sampled events`,
+radius cell search의 candidate pair, 실제 directed edge, 최대 incoming degree와 isolate ratio를 기록한다.
+실제 edge 수로 정렬한 상위 10개를 `runs/profile.json`에 남기고, 기본 상위 3개에는 현재
+model/loss/optimizer/AMP를 그대로 사용한 forward+backward와 optimizer step을 수행해 CUDA step time,
+peak allocated/reserved VRAM을 측정한다. 전체 topology scan, edge guard, selected step, CUDA OOM-free가
+모두 통과해야 `report_eligible=true`다.
+
+학습 직전 verifier는 profile을 현재 public config, EventHDR train 전체 content SHA-256·transform·manifest,
+source tree, PyTorch/CUDA/cuDNN과 GPU에 다시 결합한다. report가 없거나 하나라도 달라지면 본학습을
+열지 않는다. 명시적 `--allow-unverified-preflight`는 합성·진단 학습만 허용하고 그 사실을
+`preflight_gate.json`, public config와 checkpoint에 `report_eligible=false`로 영구 기록한다. `run.sh all`,
+`scripts/train.sh` 기본 경로와 scheduler wrapper는 이 우회를 사용하지 않는다.
+
+이 측정은 전수 topology scan과 **선택된 최고 밀도 표본의 실제 학습 step**을 결합한 경험적 gate다.
+profile의 `measurement_scope.absolute_vram_guarantee=false`처럼, 전체 40 epoch 중 발생할 모든 allocator
+상태나 미래 code/config까지 포괄하는 절대 VRAM 보증으로 해석하지 않는다.
+
+본학습 설정은 다음과 같다.
+
+- 40 epochs, chronological `batch_size=1`, shuffle 없음
+- Adam + gradient centralization, learning rate `1e-3`, weight decay `5e-3`
+- MultiStepLR milestones 20/30, gamma 0.1
+- CUDA에서 AMP, gradient norm clip 1.0
+- Charbonnier 1.0 + SSIM 0.2 + gradient 0.1 + temporal 0.2
+- train/validation sample cap 없음, 마지막 epoch에서만 전체 EventHDR eval 평가
+
+ConvGRU state와 temporal loss는 같은 H5 sequence에서 index가 1씩 이어지고 sensor shape가 같을 때만
+이어진다. 경계에서는 state와 이전 prediction/target을 초기화한다. 내부 평가도 모든 frame을
+사용하므로 별도 표본 추출은 없다.
+
+training artifact는 `runs/train/`에 기록한다.
+
+- `config.json`: host absolute path를 논리 label로 바꾼 shareable config
+- `history.json`: epoch별 loss, 마지막 epoch validation, learning rate, CUDA peak memory
+- `last.pt`: 매 epoch 끝에 저장하는 model/optimizer/scheduler/scaler/RNG 포함 재개 checkpoint
+- `best.pt`: 현재 protocol에서는 마지막 epoch의 clean ANN inference checkpoint
+- `preflight_gate.json`과 checkpoint의 `preflight_gate`: 검증된 CUDA profile identity
+- `.data_hash_cache.json`: full source hash 계산을 가속하는 로컬 cache
+
+새 학습은 위 핵심 artifact가 이미 있는 run directory를 덮어쓰지 않는다. 중단된 run은 `last.pt`로
+재개한다.
+
+## 5. 전체 ANN→SNN 보정
+
+기본 본실험은 EventHDR train의 모든 frame을 사용한다.
+
+```bash
+bash scripts/calibrate.sh \
+  configs/train.json \
+  runs/train/best.pt \
+  runs/train/best_snn.pt
+```
+
+wrapper 기본값 `CALIBRATION_SAMPLES=all`은 모든 training frame을 dataset index 순서로 정확히 한 번씩
+선택한다. 더 작은 숫자를 지정한 기본 실행은 reporting seal을 만들지 않고 변환 전에 실패한다. model을 eval mode로
+전환해 graph BN을 convolution parameter에 fold하고, non-empty sample의 layer별 feature-wise ReLU
+maximum을 `calibration_activation_max`에 보존한 뒤 식 (6) parameter normalization과 unit threshold를
+적용한다. 0인 dead channel은 `dead_channel_mask=true`로 남기고 실제 나눗셈에 쓰는
+`normalization_scale`만 1로 둔다. 출력
+`best_snn.pt`는 optimizer와 training history를 제거한 SNN inference checkpoint이며 calibration
+표본 수·유효 표본 수·dead channel 수·sampling summary와 model tensor SHA-256을 포함한다.
+
+보정은 clean `ann_inference`인 `best.pt`만 받는다. checkpoint의 학습 train content SHA-256,
+transform, final split manifest, source tree/Git 계약과 terminal validation 완료 상태를 현재 EventHDR train과
+대조해 모두 일치해야 `calibration_protocol.sealed=true`가 된다. source ANN의 검증된 CUDA preflight
+gate도 seal에 포함되어 비보고용 profile 우회가 SNN 결과에서 사라질 수 없다. protocol은 source ANN
+checkpoint와 model SHA-256, 전체 sample identity, data/transform/manifest, source와 runtime을 기록한다. CLI의
+`--allow-unsealed-calibration`은 합성 테스트 전용이며 `sealed=false`와 불일치 이유를 영구 기록하므로
+보고용 결과에 사용할 수 없다. override를 쓴 사실 자체가 taint이므로 전체 sample 실행도 봉인되지 않는다.
+validation protocol v7은 train/validation dataset index의 전체 sample 수, group별 수, ordered identity
+SHA-256과 source file fingerprint를 저장한다. 보고용 ANN은 두 sample cap이 `null`이고 full validation
+sampling이 validation index commitment와 같아야 한다. SNN은 calibration identity/sampling을 train
+commitment와 비교해 부분 calibration metadata의 사후 재라벨링을 거부한다.
+또한 SNN model state의 persistent `calibration_attempts`, 32-byte
+`calibration_commitment_digest`, `calibration_commitment_sealed`가 실제 시도 횟수와
+protocol/count/sampling 및 valid/minimum/dead-channel summary core commitment를 보존한다. load 시
+metadata summary와 layer별 `calibration_samples_seen`, raw maximum, effective scale, dead mask를
+대조한다. normalization 뒤에도 raw/mask가 바뀌지 않아 dead channel checkpoint를 저장·strict reload할
+수 있으며, 전체 metadata를 부분 보정 tensor에 이식하거나 mask/dead-channel 수만 바꿔도 거부된다.
+
+기존 출력은 기본적으로 보호한다. 명시적으로 다시 보정해야 할 때만
+`OVERWRITE_CALIBRATION=1`을 wrapper에 전달한다. engine은 새 checkpoint를 끝까지 만든 뒤 atomic
+replace하므로 변환 실패 전에 기존 파일을 먼저 삭제하지 않는다. ANN 평가는 변환 전 `best.pt`, SNN
+평가는 `best_snn.pt`를 써야 하며 서로 바꾸면 checkpoint 검증에서 거부된다.
+
+## 6. 고정 평가·benchmark 행렬
+
+`scripts/run.sh`는 full data/environment 검사와 모든 선택 sample의 decode 검증, GPU memory/topology
+preflight, 학습 또는 재개, 전체 보정, 아래 행렬의 evaluate와 benchmark를 순서대로 실행한다.
+
+| dataset | mode | dynamics | T | checkpoint |
+|---|---|---|---|---|
+| EventHDR eval 19 | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventHDR eval 19 | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventHDR eval 19 | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R 14 | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventAid-R 14 | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R 14 | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
+
+즉 dataset마다 ANN 1개와 SNN 8개, 전체 18개 quality evaluation과 18개 compute benchmark를 만든다.
+benchmark 기본값은 warmup 10 frame, 측정 100 frame이다. recurrent benchmark는 각 측정 window 앞의
+같은 H5/ZIP sequence predecessor를 최대 32개까지 timer 밖에서 replay한다. dataset read와
+host-to-device 이동도 timer 밖이며, CUDA에서는 CUDA Event로 model forward를 측정한다. graph 생성은
+model forward 안에 있으므로 측정에 포함된다. compute-only GPU peak memory에는 model과 event input은
+포함하지만 품질 계산용 ground-truth target은 CPU에 유지해 제외한다.
+quality evaluation은 `eval.max_samples=null`인 전체 dataset에서만 `report_eligible=true`가 될 수 있다.
+cap이 설정된 부분 quality 실행은 기본 거부되며 명시적 합성-test 우회도 비보고용으로 영구 표시된다.
+benchmark의 100 측정 frame은 품질 dataset cap이 아닌 별도 compute sampling이다.
+두 실행 모두 underlying root에 explicit expected file count와 final EventHDR/fixed EventAid-R manifest가
+필요하다. EventHDR는 현재 content SHA-256·transform·manifest가 source ANN validation 계약과 같아야 한다.
+
+`literal_eq15`는 공개 식 (15)의 `+h(t-1)`까지 문자 그대로 실행한다. `standard_if`는 그 항을 뺀
+rate-conversion 대조군이며 저자 공식 dynamics라고 주장하지 않는다. 두 모드 모두 T회의 IF
+recurrence를 실제 실행하지만 analog decoder 때문에 결과를 완전 SNN hardware 성능으로 해석하지
+않는다.
+
+## 7. 지표와 산출물
+
+quality는 frame별 PSNR, Gaussian-window SSIM, RMSE와 연속 frame 사이의 `temporal_l1`을 기록한다.
+`temporal_l1`은
+`L1((pred_t-pred_{t-1}), (target_t-target_{t-1}))`이며 sequence 경계의 첫 frame은 집계에서 제외되고
+CSV에는 null이다. 요약은 모든 frame의 `micro`, H5/ZIP group 평균을 다시 평균한 `macro`, 호환 key
+`per_scene`으로 나뉜다. LPIPS는 `eval.lpips=true`와 optional dependency를 명시한 별도 run에서만
+계산한다.
+
+target, prediction, metric, graph diagnostic, latency와 `dt_us`는 저장 전에 finite/range 계약을
+검사한다. 완전 일치의 PSNR은 문서화한 120 dB로 cap하며 strict JSON은 NaN/Infinity를 허용하지 않는다.
+JSON/CSV/checkpoint는 unique temporary file을 flush한 뒤 atomic replace한다. 기본 quality config는
+`precision=fp32`, `tf32=false`이고, 별도 `amp_fp16`/`bf16` run은 requested/effective precision,
+autocast dtype, parameter dtype, device와 TF32 적용 여부를 artifact에 기록한다.
+
+evaluate는 quality, model-forward latency, RTF/deadline miss, graph topology, dataset coverage와
+CUDA peak allocated/reserved memory를 기록한다. benchmark는 mean/p50/p90/p95/p99/max latency, FPS,
+raw/retained event rate, graph node rate, event retention, node/edge/isolated-node 수, SNN firing rate,
+RTF, state reset과 peak GPU memory를 기록한다. benchmark의 target finite 검사는 CPU에서 수행하고
+ground-truth target은 GPU로 옮기지 않으므로 peak GPU memory는 model과 GPU event input의 compute-only
+범위다. target을 사용하는 quality evaluate는 기존대로 target을 model device에 올린다.
+
+```text
+runs/eval/hdr/ann/
+runs/eval/hdr/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
+runs/eval/aid/ann/
+runs/eval/aid/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
+```
+
+각 directory의 `metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고
+`benchmark.json`은 benchmark가 만든다. prediction은 config 기본값에 따라 처음 20 frame의 pred/GT
+PNG를 저장한다. 같은 mode/dynamics/T artifact가 있으면 묵시적으로 덮어쓰지 않고 실패하므로 재실행
+전 기존 결과를 보존 위치로 옮기거나 별도 `eval.output_dir` config를 사용한다.
+
+보고용 ANN 평가에는 검증된 preflight gate를 가진 clean `ann_inference`, finite final selection과
+training/validation protocol이 필요하다. 보고용 SNN에는 `calibration_protocol.sealed=true`인
+`snn_inference`가 필요하다. `metrics.json`의 `evaluation_protocol`과 `benchmark.json`의
+`benchmark_protocol`은 public config, model config, checkpoint file/tensor와 ANN training/validation 또는
+SNN calibration lineage, 현재 eval data content·transform·manifest·coverage·sampling, source,
+runtime과 precision을 각각 canonical SHA-256에 결합한다. 18-run 연속 실행의 대용량 파일 hash는 host
+path를 저장하지 않는 path-token cache로 재사용하며 stat signature가 달라지면 파일을 다시 읽는다.
+SNN checkpoint를 열 때 calibration transform·final manifest·전체 selected identity/sampling·runtime,
+source ANN의 training data와 source 계약도 다시 검증하므로 해당 field의 삭제나 일관된 digest 재작성도
+기본 보고 평가를 통과하지 못한다.
+source ANN의 model/epoch/selection/terminal-validation 상태를 묶은 reporting contract도 calibration 때
+hash하고 SNN 평가 때 다시 실행 검증한다. 단, 내부 SHA-256은 전자서명이 아니므로 최종 checkpoint와
+결과 file hash는 별도 immutable log 또는 서명 archive에도 기록해야 한다.
+EventHDR source ANN은 계획 epoch에서 완료된 `single_final_epoch`만 보고 가능하며, 반복 검증의
+`best_validation_macro_ssim` 경로는 다른 항목이 모두 유효해도 거부한다. planned/completed/checkpoint
+epoch가 같고 selection rule이 `single_final_epoch_macro_ssim`이어야 한다.
+source ANN dataset type은 EventHDR로 고정하며 training protocol의 seed·optimizer·scheduler·loss·
+data order·mixed precision·runtime을 public config와 교차검증한다. reporting protocol은 top-level
+checkpoint lineage뿐 아니라 실제 inference mode, SNN simulation step T와 effective dynamics도 hash한다.
+
+합성 fixture용 `--allow-unsealed-checkpoint-for-non-reporting`은 누락·불일치 checkpoint를 진단할 수
+있게 하지만 결과에 `report_eligible=false`와 이유를 영구 기록한다. 이 옵션은 public shell/scheduler
+wrapper에서 사용하지 않으며 해당 산출물을 표에 포함하면 안 된다.
+
+## 8. epoch-boundary exact resume
+
+```bash
+RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  bash scripts/run.sh train
+```
+
+`last.pt`는 완료된 epoch 뒤에만 저장된다. 따라서 중간에 종료된 epoch의 일부 step부터 이어가는 것이
+아니라 마지막으로 완료된 epoch 다음부터 동일 trajectory를 재개한다. resume checkpoint는 configured
+`run_dir` 안에 있어야 하고, 검증 score가 이미 있으면 같은 run의 historical `best.pt`도 필요하다.
+
+exact resume은 다음 항목의 일치를 강제한다.
+
+- model, optimizer/GC, scheduler, loss, batch/order/worker, AMP·TF32·determinism 설정
+- seed, validation protocol, official manifest, transform와 선택 sample identity
+- train 51개와 eval 19개 source의 상대 파일 identity·size·full SHA-256
+- `src/**/*.py` byte의 SHA-256, Git commit과 source dirty 상태
+- device type, PyTorch/CUDA/cuDNN, GPU 이름·compute capability와 CUDA backend flags
+- CUDA RNG state 수와 현재 visible CUDA device 수
+- 검증된 CUDA preflight report와 현재 config/data/source/runtime의 동일성
+- final-only validation의 처음 계획한 terminal epoch와 완료 상태
+
+따라서 다른 GPU 종류, CUDA/PyTorch 조합, source checkout, worker protocol이나 dataset byte로 옮긴
+checkpoint는 “exact” 재개로 허용되지 않는다. 절대 data mount path와 mtime/ctime 자체는 checkpoint
+protocol에 넣지 않는다. 같은 상대 파일과 byte를 다른 mount에 복사하면 다시 full hash한 뒤 일치할
+수 있다. `.data_hash_cache.json`은 absolute path 자체가 아니라 path SHA token을 local key로 쓰며,
+같은 source의 size/mtime/ctime이 모두 같을 때만 기존 full hash를 재사용한다. 기본
+`train.rehash_data=true`는 첫 sealed run에서 cache를 무시하고 51+19 H5를 다시 읽는다.
+
+`validate_every=null`이면 training protocol에 `planned_epoch=40`을 포함하고 checkpoint가 terminal
+validation 완료 여부와 epoch를 봉인한다. 40 epoch 최종 평가를 이미 수행한 `last.pt`에 epochs만 늘려
+같은 run에서 eval을 다시 보는 것은 거부한다. 연장 학습은 새 output directory와 새 protocol로 시작한다.
+
+## 9. 과학적 한계와 중단 조건
+
+- 공개된 저자 공식 코드가 확인되지 않아 논문에 없는 graph normalization, spline hyperparameter,
+  threshold 세부값은 이 저장소의 명시적 가정이다. “공식 ASGCN 완전 재현”으로 표현하지 않는다.
+- 원 ASGCN의 classification pooling/MLP와 dynamic asynchronous K-hop update는 구현하지 않았다.
+  현재 graph는 frame interval마다 정적으로 다시 만든다.
+- residual U-Net, rasterization, analog ConvGRU, 복원 loss, tone mapping, 정확한 `max_events` cap과
+  EventAid-R offset은 과제용 확장이다.
+- graph encoder만 IF로 변환된다. PyTorch GPU latency·발화율은 FPGA/ASIC latency, power 또는 energy
+  측정이 아니며 event 전송·압축 protocol이나 RTL도 구현하지 않았다.
+- CUDA profile은 선택한 최고 밀도 표본에서의 empirical peak measurement이지 전체 학습의 절대 메모리
+  보증이 아니다. A100/A6000 각각에서 실제 `runs/profile.json`이 없으면 해당 GPU 통과를 주장하지 않는다.
+- EventHDR 공식 train/eval의 물리 scene 독립성을 입증하지 못했으므로 내부 결과에 독립 test-set
+  일반화 주장을 붙이지 않는다. EventAid-R도 sensor/domain 차이를 통제한 benchmark는 아니다.
+- `literal_eq15`의 self-feedback은 표준 rate conversion과 수학적으로 동등하지 않을 수 있다.
+  dynamics와 T를 생략한 ANN↔SNN 비교는 보고하지 않는다.
+- file coverage/HDF5·ZIP decode 실패, non-finite loss/metric, 비단조 timestamp, 좌표 범위 오류,
+  `max_graph_edges` 초과 또는 OOM이 발생하면 해당 sample을 조용히 제외하지 말고 run을 폐기해 원인과
+  설정을 고친 뒤 새 artifact로 실행한다.
+~~~~~~~~
+
+# docs/SERVER.md
+
+~~~~~~~~markdown
+# MobaXterm·Linux GPU 서버 실행 가이드
+
+MobaXterm은 Windows PC에서 Linux 서버에 접속하는 SSH terminal/SFTP client다. 학습과 평가는
+MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node에서 실행한다. 아래 명령은
+저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 본실험 경로만 설명한다.
+
+## 1. private repository 인증, clone과 환경 설치
+
+> 저장소는 private로 유지한다. 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
+> 정리 기록, 원격 `main`의 배포 commit SHA, **같은 SHA의 GitHub Actions 필수 gate 통과**를 확인한다.
+> 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
+
+MobaXterm에서 SSH session을 열고 서버 terminal에서 실행한다. 서버 로그인용 SSH 인증과 GitHub
+private repository 인증은 서로 별개다. 공유 서버에서는 repository 범위의 읽기 전용 Deploy key를
+사용한다. 전용 키가 없다면 생성하고 공개키만 출력한다.
+
+```bash
+prepare_asgcn_deploy_key() {
+  local key="$HOME/.ssh/asgcn_unet_deploy"
+  local derived_pub stored_pub
+
+  mkdir -p "$HOME/.ssh" || return 1
+  chmod 700 "$HOME/.ssh" || return 1
+  if [[ -e "$key" || -e "$key.pub" ]]; then
+    if [[ ! -f "$key" || ! -f "$key.pub" ]]; then
+      echo "ERROR: incomplete deploy key pair; inspect it manually" >&2
+      return 1
+    fi
+    derived_pub="$(ssh-keygen -y -f "$key")" || return 1
+    stored_pub="$(awk 'NF >= 2 { print $1 " " $2; exit }' "$key.pub")"
+    if [[ -z "$stored_pub" || "$derived_pub" != "$stored_pub" ]]; then
+      echo "ERROR: deploy public key does not match the private key" >&2
+      return 1
+    fi
+    echo "Using the verified existing deploy key pair."
+  else
+    ssh-keygen -t ed25519 \
+      -C "asgcn-unet read-only deploy key" \
+      -f "$key" || return 1
+  fi
+
+  chmod 600 "$key" || return 1
+  chmod 644 "$key.pub" || return 1
+  cat "$key.pub"
+}
+
+prepare_asgcn_deploy_key
+unset -f prepare_asgcn_deploy_key
+```
+
+공개키를 [repository Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 추가하되
+`Allow write access`는 체크하지 않는다. 같은 경로의 개인키가 이미 있다면 `ssh-keygen`으로 덮어쓰지
+않는다. 등록 후 기본 clone 명령부터 실행하지 말고 해당 키로 인증되는지 먼저 확인한다. 최초 연결
+prompt에서는 `yes`를 입력하기 전에 algorithm과 fingerprint를
+[GitHub 공식 목록](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)과
+대조한다.
+
+`ssh -T`는 성공해도 종료 코드 1이 정상이므로 `set -e` one-shot block과 분리해 사람이 메시지만
+확인한다.
+
+```bash
+ssh -o "IdentityFile=$HOME/.ssh/asgcn_unet_deploy" \
+  -o IdentitiesOnly=yes \
+  -T git@github.com
+```
+
+최종 자동 판정은 exact-repository `ls-remote`다.
+
+```bash
+git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
+  ls-remote git@github.com:costunder/asgcn-unet.git HEAD
+```
+
+`ls-remote`가 `HEAD`를 출력한 뒤 사용자가 선택한 directory에서 clone한다. 아래 기본값은 현재
+directory 아래 `asgcn-unet`이고, `ASGCN_DIR`로 바꿀 수 있다. 이후 pull도 같은 키를 사용하도록
+repository-local 설정을 저장한다.
+
+```bash
+ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
+(
+  set -e
+  mkdir -p "$ASGCN_DIR"
+  cd "$ASGCN_DIR"
+  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+    echo "ERROR: clone target is not empty" >&2
+    exit 1
+  fi
+  git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
+    clone git@github.com:costunder/asgcn-unet.git .
+  git config core.sshCommand \
+    "ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes"
+)
+```
+
+clone block이 성공하면 `git -C "$ASGCN_DIR" rev-parse HEAD`를 CI에서 확인한 배포 SHA와 대조한다.
+같은 SHA일 때만 다음 설치·검증 block을 실행한다. 이후 pull 뒤에도 다시 대조한다. 이 block도
+subshell 안에서 fail-fast로 동작하므로 실패해도 MobaXterm 로그인 shell 자체를 종료하지 않는다.
+
+```bash
+(
+  set -e
+  cd "$ASGCN_DIR"
+python3.12 --version
+python3.12 -c "import venv, ensurepip; print('venv/ensurepip: OK')"
+curl --version | head -n 1
+ldd --version | head -n 1
+
+cp .env.example .env
+# .env의 TORCH_INDEX_URL을 서버 driver에 맞는 PyTorch 공식 CUDA wheel index로 설정
+bash scripts/setup.sh
+
+source .venv/bin/activate
+python -m pip check
+python scripts/check_env.py --lock constraints/py312.txt
+python -m pytest -q
+)
+```
+
+검증한 fingerprint에 동의하는 것은 `known_hosts` 등록일 뿐 GitHub 사용자 인증 성공을 의미하지 않는다.
+비표준 이름의 전용 키에는 위 shell-safe `IdentityFile` option이 필요하다. `ssh -T`는 성공 메시지 뒤에도 종료 코드 1을
+반환할 수 있으므로 `ls-remote`를 최종 판정으로 사용한다. clone 명령의 마지막 `.`은 별도의 하위
+directory를 만들지 않고 현재 directory를 checkout root로 사용한다. 기존 파일이나 실패한 clone의
+숨김 파일이 있으면 `ls -la`로 확인하고 덮어쓰거나 임의 삭제하지 않는다. 약 50.4GB의 최종 dataset
+외에도 EventHDR upload archive, 가상환경과 결과 공간이 필요하므로 `df -h .`로 quota를 먼저 확인한다.
+더 이상 server-side pull이 필요 없으면 GitHub에서 Deploy key를 revoke하고 서버 정책에 따라 전용
+key pair를 폐기한다. Deploy key는 자동 만료되지 않는다.
+
+공식 wheel index는 서버의 `nvidia-smi`와
+[PyTorch 설치 선택기](https://pytorch.org/get-started/locally/)를 기준으로 정한다. 명령행 환경변수가
+`.env`보다 우선하므로 GPU allocation 안에서 설치까지 검증하려면 다음처럼 실행할 수 있다.
+
+```bash
+REQUIRE_CUDA=1 TORCH_INDEX_URL=https://download.pytorch.org/whl/cuXYZ \
+  bash scripts/setup.sh
+```
+
+`constraints/py312.txt`는 Python 3.12 profile과 core/dev package version을 고정한다. setup script는
+Python, 기존 venv, constraints, Linux glibc와 선택한 torch wheel을 검사하고 마지막에 `pip check`를
+실행한다. login node에서 GPU가 보이지 않는 것은 정상일 수 있으므로 `--require-cuda` 검사는 실제 GPU
+allocation 안에서 수행한다. cluster가 module을 쓴다면 Python/CUDA module을 먼저 load한다. Slurm과
+PBS wrapper들은 필요할 때 `CUDA_MODULE=cuda/<version>`도 받는다.
+
+## 2. 전체 데이터 배치
+
+최종 layout은 다음과 같다.
+
+```text
+data/
+├── EventHDR/
+│   ├── train/1.h5 ... 51.h5
+│   └── eval/1.h5 ... 19.h5
+└── EventAid-R/
+    └── R-*.zip                 # manifest의 14개 ZIP
+```
+
+### EventHDR: browser download 뒤 import
+
+공식 EventHDR OneDrive folder는 현재 unattended `curl` download를 허용하지 않는다.
+`scripts/get_hdr.sh`도 이를 우회한다고 주장하지 않으며, 이미 받은 archive/extracted directory를
+검사해 가져오는 도구다.
+
+1. Windows browser에서 공식 OneDrive의 train/eval release를 내려받는다.
+2. MobaXterm 왼쪽 SFTP panel로 서버의 예: `$HOME/uploads/`에 ZIP을 전송한다.
+3. 배포가 train/eval 별도 archive이면 각각 import한다.
+
+```bash
+bash scripts/get_hdr.sh \
+  --archive "$HOME/uploads/EventHDR-train.zip" --split train
+bash scripts/get_hdr.sh \
+  --archive "$HOME/uploads/EventHDR-eval.zip" --split eval
+```
+
+train/eval을 함께 담은 한 archive이면 `--split` 없이 한 번 실행한다.
+
+```bash
+bash scripts/get_hdr.sh --archive "$HOME/uploads/EventHDR.zip"
+```
+
+이미 압축을 푼 directory는 안전하게 copy할 수 있다. source는 그 자체가 `train/`·`eval/`을
+포함하거나 상위 `EventHDR/` directory여도 된다.
+
+```bash
+bash scripts/get_hdr.sh --source /shared/imports/EventHDR
+```
+
+shared storage의 검증된 H5를 복사하지 않고 쓸 때는 split directory symlink를 만든다.
+
+```bash
+bash scripts/get_hdr.sh --source /shared/datasets/EventHDR --link
+```
+
+`--link`는 source가 정확한 파일 집합인지 먼저 검사하고, destination split이 비어 있지 않으면
+교체하지 않는다. 현재 destination만 재검사하려면 다음 명령을 쓴다.
+
+```bash
+bash scripts/get_hdr.sh --check
+```
+
+import/check는 train `1.h5`–`51.h5`, eval `1.h5`–`19.h5`의 누락·추가 파일, nested H5, HDF5 magic과
+합계 100 GB 미만 조건을 검사한다. 기존 이름의 크기가 다른 파일을 덮어쓰지 않으며 archive extraction은
+temporary file과 atomic replace를 사용한다. checked-in config와 `scripts/run.sh`는 논리 경로
+`data/EventHDR`를 고정해 검증하므로 shared storage는 위 `--link` 방식으로 연결한다. 임의 destination과
+별도 config는 새 실험으로 관리하고 기본 full runner와 섞지 않는다.
+
+### EventAid-R 14개 ZIP
+
+```bash
+bash scripts/get_aid.sh --all
+```
+
+manifest의 14개 scene, 표시 합계 약 24.68 GB를 내려받는다. 각 파일이 ZIP container인지 검사하며
+loader가 archive member를 직접 읽으므로 압축을 풀지 않는다. shared storage를 쓰면 repository의
+`data/EventAid-R`가 검증된 shared directory를 가리키도록 symlink한다. 기본 runner는 이 논리 경로를
+검사하므로 `EVENTAID_ROOT`만 다른 곳으로 바꾸면 안 된다.
+
+### full-data와 decode 검사
+
+GPU allocation 안에서 다음 검사를 한 번 통과시킨다.
+
+```bash
+source .venv/bin/activate
+python scripts/check_env.py \
+  --require-cuda --require-full-data --lock constraints/py312.txt
+
+asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
+asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
+```
+
+`train.json` inspect는 manifest에 따라 EventHDR train 51개와 eval 19개 root를 모두 검사한다.
+EventAid 명령은 manifest의 14개 ZIP에 있는 모든 선택 event block과 target을 decode한다.
+`--validate-all`은 metadata만 세는 명령이 아니므로 dataset 크기에 따라 오래 걸린다. 실패한 file을
+제외해 진행하지 말고 원본을 다시 전송·검증한다. 출력의 `event_timestamp_diagnostics`에는 각 block의
+원 timestamp min/max, interval span ratio·offset·범위 이탈 합계가 포함된다. 공식 14 ZIP에서 공통
+timestamp basis와 단위가 확인되기 전까지 이 값은 진단용이며 자동 rejection 조건은 아니다.
+
+## 3. 직접 서버에서 전체 실행
+
+실행 순서를 먼저 확인하려면 data/GPU 작업을 실제 수행하지 않는 schedule 출력을 본다.
+
+```bash
+DRY_RUN=1 bash scripts/run.sh all
+```
+
+GPU shell 또는 allocation 안에서 전체 protocol을 시작한다.
+
+```bash
+source .venv/bin/activate
+mkdir -p logs
+bash scripts/run.sh all 2>&1 | tee logs/run.log
+```
+
+SSH 연결 종료에 대비하려면 tmux를 사용한다.
+
+```bash
+mkdir -p logs
+tmux new-session -s asgcn -c "$PWD" \
+  "bash -lc 'source .venv/bin/activate && bash scripts/run.sh all 2>&1 | tee logs/run.log'"
+```
+
+`run.sh all`은 다음을 순서대로 수행한다.
+
+1. `check_env.py --require-full-data --lock constraints/py312.txt`와 기본 CUDA 검사
+2. EventHDR train/eval과 EventAid-R 전체 `inspect --validate-all`
+3. EventHDR train 전체 graph topology scan과 edge 수 상위 표본 CUDA forward/backward profile
+4. profile을 현재 config/data/source/runtime에 재검증한 뒤 ANN 40-epoch 학습 또는 resume
+5. EventHDR train 모든 frame을 이용한 `best.pt`→`best_snn.pt` 보정
+6. EventHDR/EventAid-R ANN과 `literal_eq15`/`standard_if` × `T=4,8,16,32` evaluate+benchmark
+
+기본 benchmark는 warmup 10, 측정 100 frame이다. 필요하면 실행 전에
+`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, `SIMULATION_STEPS_LIST`를 설정한다. 본실험 기본 행렬을 바꾼
+결과는 별도 protocol로 기록한다.
+보고용 quality evaluation은 config의 `eval.max_samples=null`을 유지해 전체 dataset을 사용한다.
+부분 quality cap은 기본적으로 거부되며 합성-test non-reporting 우회를 사용해도 결과 표에 넣을 수 없다.
+benchmark step 수는 이 quality cap과 별도의 compute-only 측정 계약이다.
+두 dataset config의 `expected_file_count`와 EventHDR final split/EventAid-R fixed file manifest를 제거하면
+보고용 evaluate와 benchmark가 시작되지 않는다. EventHDR는 현재 content·transform·manifest도 source
+ANN validation과 같아야 한다.
+
+profile 기본값은 `PROFILE_TOP_DENSITY=10`, `PROFILE_SAMPLES=3`,
+`PROFILE_OUTPUT=runs/profile.json`이다. 전수 scan은 edge guard 초과 표본을 찾고, 실제 CUDA probe는
+edge 수 상위 3개 표본에서 configured loss·optimizer까지 포함한 학습 step과 peak allocated/reserved
+VRAM을 잰다. 이는 기록된 GPU와 선택 표본에 한정된 실측 gate이며 절대 VRAM 보증이 아니다.
+
+기존 training/evaluation artifact는 묵시적으로 덮어쓰지 않는다. 기존 SNN checkpoint만 의도적으로
+다시 만들 때는 `OVERWRITE_CALIBRATION=1`을 사용하며 새 checkpoint가 완성된 뒤 atomic replace된다.
+evaluation directory가 이미 있으면 결과를 다른 보존 위치로 옮기거나 config의 `eval.output_dir`을
+바꾼 뒤 실행한다.
+
+보고용 calibration은 `CALIBRATION_SAMPLES=all`을 사용한다. 전체 training sample보다 작은 숫자는
+기본 wrapper에서 sealed checkpoint를 만들지 못하고 실패한다. 부분 보정은 직접 CLI의 명시적
+비보고용 우회에서만 허용되며 해당 checkpoint는 전체 평가 표에 사용할 수 없다.
+보정 checkpoint는 model tensor의 persistent `calibration_attempts`, 32-byte
+`calibration_commitment_digest`, `calibration_commitment_sealed`에도 실제 시도 횟수와
+protocol/count/sampling 및 valid/minimum/dead-channel summary core commitment를 저장하므로 부분 보정
+tensor에 전체 metadata만 덮어씌우거나 dead-channel 수만 바꾼 파일은 load 단계에서 거부된다. 각 graph
+layer는 관측 raw maximum `calibration_activation_max`, 식 (6)에 실제 사용한 `normalization_scale`,
+`dead_channel_mask`를 분리 저장한다. raw=0인 channel은 scale만 1이며 save→strict reload 뒤에도 dead
+summary가 유지된다.
+`--allow-unsealed-calibration`을 직접 지정한 실행은 전체 sample이어도 override 자체가 기록돼
+`sealed=false`이며 보고용 표에 사용할 수 없다.
+
+## 4. 중단 후 epoch-boundary resume
+
+직접 실행은 다음과 같다.
+
+```bash
+RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  bash scripts/run.sh train 2>&1 | tee logs/train-resume.log
+```
+
+동일한 동작을 저수준 wrapper로 실행하려면 다음 명령을 쓴다.
+
+```bash
+RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  bash scripts/train.sh configs/train.json
+```
+
+`last.pt`는 각 완료 epoch 뒤에 저장되므로 종료된 epoch 내부 step은 되풀이된다. checkpoint는 같은
+configured run directory 안에 있어야 하며, source tree/Git 상태, model·optimizer·scheduler·AMP,
+validation/data full SHA-256과 PyTorch/CUDA/cuDNN·GPU 이름/compute capability·visible CUDA RNG state가
+일치해야 한다. `runs/profile.json`도 현재 config·전체 train data·source·동일 CUDA runtime에 다시
+결합되어야 한다. 다른 GPU나 source checkout으로 옮기는 것은 일반 weight load가 아니라 exact resume
+요청이므로 거부될 수 있다. 상세 계약은 [EXPERIMENT.md](EXPERIMENT.md)의 resume 절을 따른다.
+
+상위 runner는 `check`, `profile`, `train`, `calibrate`, `eval`, `all` stage를 제공한다. 학습 재개가 끝난 뒤에는
+`bash scripts/run.sh calibrate`, 그다음 `bash scripts/run.sh eval`을 실행한다. 기존 training,
+profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어쓰지 않으므로, 부분 실패 복구 시
+완료된 stage를 묵시적으로 재사용하지 않는다. CUDA profile 우회는 합성 비보고용 직접 CLI에서만
+명시적으로 가능하고 scheduler wrapper 및 `all`에서는 차단된다.
+
+## 5. Slurm: profile → train → calibrate → evaluation matrix
+
+header의 partition/account/GPU type/walltime은 cluster 정책에 맞춰 수정한다. 기본 요청은 GPU 1개,
+CPU 8개, RAM 32 GB이며 profile/calibration 12시간, train 48시간, evaluation 8시간이다. 저장소 root에서
+제출하면 `SLURM_SUBMIT_DIR`을 project root로 사용한다. 다른 위치에서 제출할 때는
+`--export=PROJECT_ROOT=/absolute/path/to/repo`를 추가한다. `--export`에는 아래처럼 job별 필수 변수만
+나열하며 login shell의 token, proxy, credential까지 전달할 수 있는 `ALL`은 사용하지 않는다.
+
+앞 절의 full-data/decode 검사를 완료한 뒤 다음 dependency chain을 제출한다.
+
+```bash
+unset SNN_DYNAMICS
+
+profile_id=$(sbatch --parsable \
+  --export=PROJECT_ROOT="$PWD" \
+  server/profile.sbatch)
+
+train_id=$(sbatch --parsable \
+  --dependency="afterok:${profile_id}" \
+  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0 \
+  server/train.sbatch)
+
+cal_id=$(sbatch --parsable \
+  --dependency="afterok:${train_id}" \
+  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  server/calibrate.sbatch)
+
+for cfg in configs/hdr.json configs/aid.json; do
+  sbatch --dependency="afterok:${cal_id}" \
+    --export="PROJECT_ROOT=$PWD,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann" \
+    server/eval.sbatch
+done
+
+for cfg in configs/hdr.json configs/aid.json; do
+  for dynamics in literal_eq15 standard_if; do
+    for steps in 4 8 16 32; do
+      sbatch --dependency="afterok:${cal_id}" \
+        --export="PROJECT_ROOT=$PWD,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
+        server/eval.sbatch
+    done
+  done
+done
+```
+
+모든 evaluation job은 calibration 성공 후 열리며 mode/dynamics/T와 dataset별 output directory가 달라
+서로의 artifact를 덮어쓰지 않는다. Slurm log는 기본적으로 `slurm-<job-name>-<job-id>.out/.err`다.
+학습 재개 job으로 chain을 시작할 때는 첫 제출에 다음 값을 더한다.
+
+```bash
+train_id=$(sbatch --parsable \
+  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  server/train.sbatch)
+```
+
+wrapper log의 공개 기본값은 host/job 식별자를 생략하고 config/checkpoint를 basename으로 표시한다. 정확한
+hostname, scheduler job ID, project/config/checkpoint 경로는 비공개 로컬 진단에서만
+`INCLUDE_PRIVATE_HOST_PROVENANCE=1`을 해당 `--export` 목록에 추가해 확인한다. 이 opt-in log는 공개하거나
+첨부하지 않는다.
+
+## 6. PBS/Torque: profile → train → calibrate → evaluation matrix
+
+`select`, `ngpus`, queue/project resource 이름은 site마다 다르므로 `server/*.pbs` header를 제출 전에
+확인한다. 저장소 root에서 제출하면 `PBS_O_WORKDIR`을 project root로 사용한다. 외부에서 제출할 때는
+`-v PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
+
+```bash
+unset SNN_DYNAMICS
+
+profile_id=$(qsub server/profile.pbs)
+
+train_id=$(qsub \
+  -W depend="afterok:${profile_id}" \
+  -v VALIDATE_DATASET=0 \
+  server/train.pbs)
+
+cal_id=$(qsub \
+  -W depend="afterok:${train_id}" \
+  -v VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  server/calibrate.pbs)
+
+for cfg in configs/hdr.json configs/aid.json; do
+  qsub -W depend="afterok:${cal_id}" \
+    -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
+    server/eval.pbs
+done
+
+for cfg in configs/hdr.json configs/aid.json; do
+  for dynamics in literal_eq15 standard_if; do
+    for steps in 4 8 16 32; do
+      qsub -W depend="afterok:${cal_id}" \
+        -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
+        server/eval.pbs
+    done
+  done
+done
+```
+
+PBS에서 resume chain을 시작할 때는 다음처럼 `RESUME_CHECKPOINT`를 넘긴다.
+
+```bash
+train_id=$(qsub \
+  -v VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  server/train.pbs)
+```
+
+PBS는 login environment 전체를 전달하는 `#PBS -V`를 사용하지 않는다. site CUDA module이 필요하면
+`CUDA_MODULE`을 넘긴다. 별도 venv나 checkout을 쓸 때는 `PYTHON_BIN`, `PROJECT_ROOT`를 `-v`로
+명시한다.
+
+### scheduler log 공개 절차
+
+wrapper가 log **내용**에서 host/job 식별자를 생략해도 scheduler가 만든 raw 파일명 자체에 job ID가
+있으므로 공개 준비가 끝난 것이 아니다. Slurm의 `slurm-<job-name>-<job-id>.out/.err`와 PBS의
+`<job-name>.o<job-id>`(site에 따라 server suffix 포함)는 job ID를 드러낸다. raw scheduler log는
+접근이 제한된 실험 기록으로 보존하고, 공개할 때는 필요한 파일만 다음처럼 중립 파일명의 공개 후보
+사본으로 만든다. raw 파일을 그대로 첨부하거나 raw 이름을 archive member 이름으로 보존하지 않는다.
+
+```bash
+raw_log=/path/to/restricted/raw-scheduler-log-with-id
+public_log=logs/public/train.stdout.log
+mkdir -p "$(dirname -- "$public_log")"
+cp -- "$raw_log" "$public_log"
+
+python scripts/scan_private_text.py "$public_log" \
+  --root "$PWD" --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+```
+
+stdout/stderr가 분리됐으면 둘 다 중립명으로 복사하고 각각 검사한다. 위 검사는 내용을 자동 삭제하는 도구가
+아니므로 통과한 중립 사본만 공유한다. 실패한 사본은 공개하지 않고 원인을 제거한 뒤 다시 만든다.
+`INCLUDE_PRIVATE_HOST_PROVENANCE=1`, `--include-private-host-provenance` 또는 이에 준하는 opt-in으로
+hostname, job ID, 절대경로를 기록한 log는 이름을 바꾸거나 scan을 통과했더라도 비공개다. 공개용 log가
+필요하면 private provenance opt-in 없이 job/진단을 다시 실행한다.
+
+## 7. 산출물 확인과 운영상 오류
+
+학습이 끝나면 다음 파일을 먼저 확인한다.
+
+```bash
+ls -lh runs/profile.json
+ls -lh runs/train/{last.pt,best.pt,best_snn.pt,history.json,config.json}
+find runs -name metrics.json -o -name benchmark.json | sort
+```
+
+평가 artifact는 다음 위치에 있다.
+
+```text
+runs/eval/hdr/ann/
+runs/eval/hdr/snn_<dynamics>_T<steps>/
+runs/eval/aid/ann/
+runs/eval/aid/snn_<dynamics>_T<steps>/
+```
+
+`runs/profile.json`, `runs/status/{check,profile,train,calibrate,eval}.json`과 각 run의 `metrics.json`,
+`frames.csv`, `predictions/`, `benchmark.json`을 config, Git commit, scheduler log, `check_env.py` 출력과
+함께 보존한다. profile과 평가 artifact의 공개 protocol은 host 절대경로/hostname을 저장하지 않는다.
+`check_env.py`와 `inspect`의 `--include-private-host-provenance` 출력은 로컬 진단 전용이며 공개
+artifact나 외부 첨부에 포함하지 않는다.
+내부 SHA-256은 checkpoint·metadata·tensor의 재현 identity와 우발적 손상 검사용이지 전자서명이나
+출처 인증이 아니다. 제출용 file hash는 접근통제된 immutable 실험 원장 또는 signed manifest에도
+별도로 보존한다.
+
+원격 history 교체 전후에는 저장소 밖 denylist를 사용해 complete non-shallow clone의 current tree와
+모든 local-ref reachable blob을 함께 검사한다. trusted `main` CI는 `PRIVATE_MARKERS_B64` secret이 비면
+실패한다.
+
+```bash
+python scripts/scan_private_text.py \
+  --all-tracked --all-history --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+```
+
+코드·문서·검증 수치 수정과 history 정리를 끝내 최종 sanitized source commit을 확정한 뒤 clean
+source에서 summary를 재생성하고 summary-only commit을 만든다. 생성 뒤 다른 tracked 파일 수정이나
+source history rewrite가 필요하면 source commit 확정부터 반복한다. 다음 clean provenance gate와
+원격 배포 후 같은 최종 SHA의 GitHub Actions 필수 job 성공을 확인한다. 배포/CI 결과를 본문에
+추가하기 위한 수정도 source 변경이므로, 결과는 우선 해당 SHA의 Actions와 별도 배포 기록으로 남긴다.
+
+```bash
+python scripts/build_code_summary.py --check --require-clean-provenance
+```
+
+자주 중단되는 조건은 다음과 같다.
+
+- `CUDA available: false`: login node가 아닌 GPU allocation인지, CUDA wheel과 driver가 맞는지 확인한다.
+- `EventHDR ... exact official file set`: OneDrive 전송이 끝났는지, train 51/eval 19 외 H5가 섞이지
+  않았는지 `get_hdr.sh --check`로 확인한다.
+- `eventaid_r_zip must contain exactly 14`: `get_aid.sh --all`을 완료하고 ZIP을 압축 해제하지 않는다.
+- `Fresh training run_dir is not empty`: 새 run이면 별도 `output.run_dir`, 중단 run이면 `last.pt` resume를
+  사용한다.
+- `passed CUDA preflight report not found` 또는 preflight mismatch: 같은 GPU allocation과 source/data로
+  `bash scripts/run.sh profile`을 먼저 완료한다. 기존 report는 덮어쓰지 않으므로 실패 artifact를
+  조사·보존한 뒤 새 output 경로로 다시 측정한다.
+- resume protocol mismatch: source/GPU/software/data를 원래 run과 일치시킨다. 단순 checkpoint weight
+  이식과 exact training resume를 혼동하지 않는다.
+- calibrated checkpoint 오류: ANN `best.pt`를 `scripts/calibrate.sh`로 변환한 뒤 SNN 평가에
+  `best_snn.pt`를 사용한다. partial calibration, manifest/transform/runtime/sample identity 누락 또는
+  ANN training data/source 불일치는 보고용 seal에서 거부된다.
+- evaluation output exists: 기존 artifact를 보존 위치로 옮기거나 별도 output directory를 쓴다.
+- `max_graph_edges=2,000,000` 또는 OOM: edge를 조용히 잘라 진행하지 않는다. 별도 config에서
+  `max_events`, `graph_radius`, model width를 변경하고 peak memory를 다시 측정해 다른 실험으로 기록한다.
+- SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.
+~~~~~~~~
+
+# hand_off.md
+
+~~~~~~~~markdown
+# ASGCN-U-Net 프로젝트 인계서
+
+이 문서는 다른 ChatGPT나 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
+이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-30의 현재
+구현과 일치하도록 다시 대조했다.
+
+## 0. 검증 기록과 배포 판정 기준
+
+이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
+저장소는 private로 유지한다. 서버 계정명, hostname, 사용자별 Unix/Windows absolute home path를
+문서에서 제거했고, clone 위치는 `$HOME`, `$PWD`와 사용자가 정하는 `ASGCN_DIR`로만 표현한다.
+저장소 내부에는 과거의 구체 식별자를 회귀 fixture로도 보존하지 않는다. 대신
+`scripts/scan_private_text.py`와 `tests/test_repo_hygiene.py`가 다음을 검증한다.
+
+- 모든 Git tracked text와 생성된 `code_summary.md`의 generic user-home/labelled identity 검사
+- 저장소 밖 denylist 또는 `PRIVATE_MARKERS_B64`로 주입한 실제 marker의 current tree 및 전체 local-ref
+  reachable history 검사; `--require-external-patterns`에서 빈 denylist와 shallow history 거부
+- Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
+- README가 repository 전용 read-only Deploy key와 portable project directory를 사용하는지 검사
+- 기본 파일명이 아닌 Deploy key를 shell-safe `IdentityFile` option과 `IdentitiesOnly=yes`로 명시하는지 문서 검토
+
+2026-08-30 Windows CPU 검증은 **265 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
+shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
+실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
+과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 GitHub Actions 필수 gate
+통과를 함께 확인해야 한다. 로컬 테스트 결과나 이 문서만으로 원격 배포 완료를 간주하지 않는다.
+
+외부 검토자는 특히 다음을 확인해야 한다.
+
+1. 전체 tracked text와 `code_summary.md`뿐 아니라 모든 local ref의 history를 필수 외부 실제-marker
+   denylist로 검사했는가?
+2. private repository 절차가 key 생성 뒤 Deploy key 등록에서 명확히 멈추는가?
+3. 최초 SSH host fingerprint를 GitHub 공식 목록과 대조한 뒤에만 수락하도록 안내하는가?
+4. `ssh -T` 종료 코드가 아니라 exact-repository `git ls-remote ... HEAD`를 최종 인증 판정으로 쓰는가?
+5. clone 대상이 비어 있는지 확인하고 기존 파일을 자동 삭제하지 않는가?
+6. 이 보안·배포 수정이 model/data/experiment protocol을 의도치 않게 바꾸지 않았는가?
+7. 실제 GPU의 full-topology/densest-step profile이 checkpoint의 verified preflight gate로 이어지는가?
+8. ANN/SNN 평가 artifact가 sealed lineage와 현재 data/source/runtime/precision protocol을 갖는가?
+
+## 1. 한 줄 결론과 주장 범위
+
+이 프로젝트는 EventHDR로 event-to-frame ANN을 학습하고, ASGCN 논문의 공개 graph/SNN 수식을
+적용해 변환한 뒤 EventHDR 공식 eval과 EventAid-R에서 평가하는 연구 코드다. graph encoder 뒤에는
+과제용 residual U-Net과 analog ConvGRU가 붙는다.
+
+저자 공식 저장소나 공식 checkpoint를 실행한 것이 아니며 원 논문의 classification pipeline도
+재현하지 않는다. 사용할 수 있는 표현은 `ASGCN paper-core 기반 event-to-frame 복원 적응` 또는
+`공개 수식 기반 graph/SNN core 구현`이다. 다음 주장은 금지한다.
+
+- 저자 공식 ASGCN 코드 또는 공식 checkpoint
+- 공식 ASGCN 완전 재현
+- 원 논문의 classification 성능 재현
+- 완전한 spiking network
+- FPGA/ASIC latency·전력·에너지 실측 또는 반도체 통합 구현 완료
+
+대상 private repository의 주소는 다음과 같다.
+
+```text
+https://github.com/costunder/asgcn-unet.git
+```
+
+## 2. 프로젝트 목표와 전체 파이프라인
+
+목표는 DVS event interval을 저지연 graph 연산으로 처리해 luminance frame을 복원하고, ANN과
+ANN→SNN graph encoder의 품질·지연·발화율을 같은 조건에서 비교하는 것이다.
+
+```text
+EventHDR H5 / EventAid-R ZIP
+  -> event interval [N, x, y, t, p] + target luminance frame
+  -> spatial crop (기본 full frame)
+  -> exact-size max_events cap (기본 8,192)
+  -> ASGCN 고정 event sampling factor R (기본 1)
+  -> normalized node feature [x,y,t,p]
+  -> strict d(i,j)<D undirected radius graph
+  -> scalar u=d/D degree-1 open B-spline graph encoder
+       ANN: affine -> BatchNorm -> ReLU
+       SNN: BN fold -> Eq.(6) normalization -> explicit IF timesteps
+  -> graph feature rasterization
+  -> residual U-Net + bottleneck analog ConvGRU
+  -> sigmoid [0,1] luminance frame
+  -> quality / temporal / latency / graph / firing-rate metrics
+```
+
+SNN으로 바뀌는 부분은 graph encoder뿐이다. rasterization, U-Net, ConvGRU와 output head는 analog다.
+세부 수식 대응과 공개 논문 대비 가정은 `docs/ASGCN.md`가 기준이다.
+
+## 3. 데이터셋의 정확한 역할과 용량
+
+| 데이터 | 공식 배포 구조 | 표시 용량 | 현재 프로토콜의 역할 |
+|---|---|---:|---|
+| EventHDR train | `1.h5`–`51.h5`, 51개 | EventHDR 전체 약 25.72 GB | ANN gradient 학습, ANN→SNN calibration |
+| EventHDR eval | `1.h5`–`19.h5`, 19개 | 위 전체에 포함 | 마지막 epoch 1회 내부 검증, ANN/SNN 공식 eval 내부 결과 |
+| EventAid-R | `R-*.zip`, 14개 | 약 24.68024 GB | 학습·calibration 뒤 외부 일반화 평가 |
+
+두 데이터셋의 공식 배포 표시 용량 합은 약 50.40 GB로 100 GB 미만이다. EventAid-R은 ZIP을
+추출하지 않고 직접 읽어 중복 저장을 피한다. EventHDR를 browser archive에서 복사할 때는 archive와
+배치된 H5가 일시적으로 함께 존재할 수 있으므로 서버의 실제 여유 공간은 별도로 확인한다.
+
+### 3.1 EventHDR 획득과 배치
+
+공식 배포는 [EventHDR 저장소](https://github.com/yunhao-zou/EventHDR)의 OneDrive 링크다. OneDrive가
+비대화형 `curl` 요청을 거부하므로 이 저장소는 동작하지 않는 자동 downloader를 제공하지 않는다.
+사용자가 browser로 받은 ZIP, 이미 풀어 둔 directory 또는 shared filesystem directory를 아래
+도구로 안전하게 배치한다.
+
+```bash
+# browser로 받은 train/eval 포함 ZIP을 직접 읽어 data/EventHDR로 복사
+bash scripts/get_hdr.sh --archive /absolute/path/EventHDR.zip
+
+# 이미 풀어 둔 EventHDR/{train,eval} 또는 {train,eval} root에서 복사
+bash scripts/get_hdr.sh --source /absolute/path/EventHDR
+
+# shared storage를 복사하지 않고 split directory symlink로 연결
+bash scripts/get_hdr.sh --source /shared/datasets/EventHDR --link
+
+# train/eval을 따로 받았을 때
+bash scripts/get_hdr.sh --source /downloads/train --split train
+bash scripts/get_hdr.sh --source /downloads/eval --split eval
+
+# 현재 목적지 재검사
+bash scripts/get_hdr.sh --check
+```
+
+`scripts/get_hdr.py`는 train의 정확한 51개 이름, eval의 정확한 19개 이름, missing/extra/nested H5,
+archive 중복·경로 이탈, HDF5 magic과 선택 데이터 100 GB 미만을 검사한다. 복사는 `.part` 임시 파일
+뒤 atomic replace로 완료하며 기존의 다른 크기 파일은 덮어쓰지 않는다. 공식 checksum이 공개되지
+않았으므로 이 검사는 배포자 cryptographic checksum 검증을 대신하지 않는다.
+
+### 3.2 EventAid-R 획득과 배치
+
+`manifests/eventaid_r.json`에는 공식 benchmark page가 연결한 14개 Dropbox URL, scene 이름과 표시
+용량이 고정돼 있다. Linux에서는 인자 없이 실행하면 전체 14개를 받는다.
+
+```bash
+bash scripts/get_aid.sh
+```
+
+Linux downloader는 재개 가능한 `curl`, retry와 ZIP container 검사를 사용한다. 공식 checksum이
+없으므로 최종 내용 검사는 뒤의 `inspect --validate-all` 단계에서 모든 event block과 target을
+decode하는 방식이다.
+
+### 3.3 loader 의미론
+
+EventHDR loader는 H5의 `events/{xs,ys,ts,ps}`와 `images/image*`의 `event_idx`, `timestamp`를 검사한다.
+timestamp·event boundary가 단조롭고 좌표·polarity가 유효한지 확인한다. `frame_stride=1`에서 모든
+target interval을 유지하며 event가 0개인 interval도 삭제하지 않는다. 빈 interval은 zero-node graph와
+zero raster를 거쳐 recurrent decoder로 전달된다. `frame_stride>1`이면 건너뛴 interval의 event를
+다음 선택 target까지 합치지만 기본값은 1이다. image key는 `image<정수>` 형식과 numeric suffix
+uniqueness를 강제하고 숫자순으로 읽으므로 `image10`이 `image2`보다 앞서는 문자열 정렬 오류를 허용하지
+않는다.
+
+EventAid-R loader는 ZIP 안의 `event/i.txt`, `gt/j_img.png`, `timestamps.txt`, `shape.txt`를 직접
+읽는다. config의 `target_offset=1`은 event interval `i`를 다음 GT `i+1`과 짝짓는 구현 가정이다.
+offset은 bool이나 실수를 정수로 조용히 변환하지 않고 정확한 정수만 받는다.
+연속 ID, timestamp coverage, shape, 좌표와 polarity뿐 아니라 numeric event/GT ID 중복,
+case-insensitive ZIP member 중복, metadata member 중복, 중복 timestamp와 잘못된 shape token도
+거부한다. 이 pairing을 저자 공식 코드로 확인한 것은 아니므로 보고서에서 가정으로 표시하고 offset이
+다른 실험과 결과를 섞지 않는다. full inspect는 각 event block의 원 timestamp min/max와 interval
+`t0/t1`, span ratio, offset 및 범위 이탈 수를 집계한다. 공식 14 ZIP에서 timestamp basis와 단위가
+확인되기 전까지 이 집계는 diagnostic이며 strict rejection 조건이 아니다.
+
+두 dataset 모두 `target_normalization.mode=integer_dtype_max`를 명시해 정수 dtype maximum으로
+`[0,1]` luminance를 만든 뒤 기본 config에서 `log1p(5000*x)/log1p(5000)`를 적용한다. float target은
+`known_scale` 또는 `already_normalized`를 명시해야 하고 NaN/Inf와 `[0,1]` 범위 위반은 거부한다.
+`percentile_debug_only`는 `debug_only=true`인 비보고용 진단에서만 허용된다. EventAid-R의 8-bit 영상에
+같은 log mapping을 쓰는 것은 출력 수치 domain을 맞추기 위한 cross-domain 선택이지 두 센서의
+radiometric response가 같다는 뜻이 아니다.
+
+## 4. EventHDR manifest의 진실
+
+`manifests/eventhdr_split.json`은 다음 의미를 갖는다.
+
+```json
+{
+  "status": "final",
+  "split_schema": "official_separate_roots_v1",
+  "group_semantics": "h5_sequence_file_not_physical_scene",
+  "train_files": ["1.h5", "...", "51.h5"],
+  "val_files": ["1.h5", "...", "19.h5"]
+}
+```
+
+여기서 `final`은 공식 배포 file set과 separate root manifest가 확정됐다는 뜻이다. H5 번호가 물리
+scene ID라는 뜻이 아니며, 공개 자료에서 51개 train H5와 물리 촬영 scene 사이의 대응표는 확인되지
+않았다. 따라서 이 split으로 physical-scene-disjoint 일반화를 주장할 수 없다.
+
+train과 eval은 서로 다른 directory라 `1.h5` 같은 basename이 겹친다. factory는
+`official-train-h5::1.h5`와 `official-eval-h5::1.h5`처럼 split-local sequence group ID를 자동으로
+만들어 recurrent state와 macro metric을 분리한다. 공식 schema에 임의의 physical-scene field를
+추가하면 거부한다. root의 missing/undeclared H5도 학습 전에 거부한다.
+
+`configs/train.json`의 `validate_every=null`은 EventHDR 공식 eval을 매 epoch 보지 않고 마지막
+40번째 epoch에서 단 한 번만 실행한다. 그 하나의 candidate를 `best.pt`로 export하므로 epoch 간
+selection은 하지 않는다. 그래도 같은 eval에서 산출한 수치는 독립 test나 physical-scene test가
+아니며 `EventHDR official eval internal result`로만 보고한다. 이 결과를 보고 hyperparameter를
+바꾸면 이후 run에서는 사실상 개발 정보로 사용한 것이므로 독립성 주장을 더 할 수 없다.
+
+EventAid-R은 training과 calibration에 사용하지 않는다. 외부 결과를 본 뒤 radius, cap, threshold,
+tone mapping 또는 checkpoint를 바꾸면 기존 EventAid-R 결과를 잠긴 외부 일반화 평가로 부를 수 없다.
+
+## 5. 기본 config와 학습 규칙
+
+`configs/train.json`의 핵심값은 다음과 같다.
+
+| 영역 | 기본값 |
+|---|---|
+| seed / device | `2026` / `auto` |
+| data | train 51 H5, eval 19 H5, full frame, stride 1, log tone map |
+| event cap | crop 뒤 정확히 최대 8,192개 |
+| graph | `x,y,t`, radius 0.08, chunk 512, directed edge guard 2,000,000 |
+| spline encoder | hidden 64, 6 layers, open degree 1, K=5, root weight |
+| decoder | raster downsample 4, base 48, output 1, ConvGRU on |
+| training | 40 epoch, batch 1, chronological, workers 4, persistent/prefetch 2 |
+| optimizer | Adam + gradient centralization, lr `1e-3`, weight decay `5e-3` |
+| scheduler | MultiStepLR epoch 20/30, gamma 0.1 |
+| stability | CUDA AMP, L2 grad clip 1.0, non-finite loss/gradient fail-fast |
+| preflight | train 전체 topology scan, edge 상위 10개 기록, 상위 3개 CUDA 학습 step |
+| validation | 마지막 epoch 1회, 전체 19 H5, recurrent context policy 기록 |
+
+event cap은 `N>8192`일 때 `np.linspace(0,N-1,8192)`로 시간축 전체에서 정확히 8,192개를 선택한다.
+8,193개 입력이 절반으로 급락하는 ceil-stride 경계 문제를 피하며 양 끝 event를 포함한다. cap이
+필요 없으면 원본을 그대로 쓴다. metadata의 `raw_event_count`, `cropped_event_count`,
+`retained_event_count`, `dataset_sampling_ratio`와 model diagnostics의 `event_sampling_factor`,
+`effective_sampling_ratio`가 provenance와 CSV에 남는다.
+
+batch size는 recurrent chronology 때문에 1이고 shuffle하지 않는다. H5/ZIP group, sensor shape,
+sequence index가 정확히 이어질 때만 ConvGRU state와 temporal reference를 유지한다. 불연속에서는
+초기화한다. state와 이전 prediction은 매 frame detach하므로 full-sequence BPTT가 아니다.
+
+### 5.1 loss
+
+기본 loss는 다음 합이다.
+
+```text
+L = 1.0 * Charbonnier(epsilon=1e-3)
+  + 0.2 * (1 - Gaussian SSIM)
+  + 0.1 * spatial gradient L1
+  + 0.2 * frame-delta temporal L1
+```
+
+temporal term은 같은 group·shape에서 sequence index가 1 증가할 때만
+`L1((pred_t-pred_t-1),(gt_t-gt_t-1))`로 계산한다. optical-flow warp metric이 아니며 이전
+prediction은 detach돼 있다. SSIM은 `[0,1]`, Gaussian 11×11, sigma 1.5, valid convolution이고 작은
+영상에는 들어맞는 가장 큰 홀수 window를 쓴다.
+
+loss component는 GPU tensor로 유지하고 total과 component를 한 벡터로 묶어 CPU에 한 번만
+전송한다. 이 벡터를 finite 검사, 누적, logging에 함께 사용해 frame마다 여러 `.item()` 동기화가
+발생하지 않게 했다. gradient norm의 non-finite 검사는 optimizer step 전에 별도로 유지한다.
+
+## 6. graph, B-spline, decoder 요약
+
+좌표는 `x/(W-1)`, `y/(H-1)`, interval 내 normalized `t`이고 polarity는 `-1/+1` node feature다.
+기본 거리에는 `x,y,t`만 쓴다. radius graph는 cell 폭을 정확히 `D`로 두고 `3^d` 인접 cell에서
+후보를 찾은 뒤 Euclidean `distance<D`를 다시 검사한다. 모든 ordered source를 처리해 무방향 쌍의
+양 방향 edge를 만들고 self-loop는 제외한다. chunking은 exact 계산 분할이며 approximation이 아니다.
+
+edge pseudo-coordinate `u=distance/D`에 open degree-1 B-spline basis 두 개만 활성화된다. layer는
+node를 K=5 control point에 한 번 projection하고 edge마다 두 control point만 gather한 뒤 destination
+incoming degree로 평균한다. 고정 graph의 basis/index는 graph layer와 IF timestep 전체에서
+재사용한다. mean message에 root transform과 bias를 더하고 ANN에서는 BatchNorm과 ReLU를 적용한다.
+
+`EventGraph.in_degree`는 graph 생성 때 한 번 계산해 6개 layer와 모든 SNN timestep, diagnostics가
+공유한다. `spline_chunk_size=65536`은 최대 2,000,000 edge의 message gather를 chunk 단위로 제한해
+peak GPU memory를 낮추며 edge를 생략하지 않는다. 테스트는 chunked/unchunked 출력뿐 아니라 input,
+edge attribute, kernel, root, bias gradient 동등성까지 확인한다. SNN state도 마지막 layer의 full spike
+sum만 유지하고 `standard_if`에서는 불필요한 previous-spike tensor를 만들지 않는다.
+
+node feature는 downsample 4의 raster cell 안에서 평균된다. decoder는 stem, 두 residual encoder
+level, 두 residual block bottleneck, analog ConvGRU, bilinear upsampling과 skip connection, sigmoid
+head로 구성된다. decoder 구현은 `src/asgcn_unet/unet.py`의 `RecurrentUNetDecoder`에 분리돼 있고
+`src/asgcn_unet/model.py`의 `ASGCNUNet`이 graph-raster bridge와 함께 호출한다. 자세한 구현 가정과
+식 (15) 모호성은 `docs/ASGCN.md`를 본다.
+
+## 7. ANN→SNN calibration과 IF 경로
+
+`best.pt`는 변환되지 않은 clean `ann_inference` checkpoint다. calibration은 EventHDR train만 사용한다.
+engine은 변환 전에 `best.pt`의 학습 당시 train 전체 content digest, target/event transform, final split
+manifest, source tree/Git 계약과 terminal validation 완료 상태를 현재 실행과 대조한다. 그 manifest의
+모든 training sample도 dataset index `0..N-1` 순서로 정확히 한 번씩 보정해야
+`calibration_protocol.sealed=true`가 된다. 일부 sample을 지정한 기본 실행은 변환 전에 실패한다.
+validation protocol v7은 train/validation index의 전체 sample 수, group별 수와 ordered sample identity
+SHA-256을 저장한다. 보고용 ANN은 train/validation sample cap이 모두 `null`이고 실제 validation sampling이
+이 commitment와 일치해야 하며, SNN calibration sampling은 source ANN의 train commitment와 같아야 한다.
+EventHDR 보고용 ANN은 `best_validation_macro_ssim` 대체 경로를 허용하지 않고, 사전 계획 epoch에서
+완료된 `single_final_epoch` terminal validation을 반드시 요구한다.
+학습 checkpoint의 verified CUDA preflight gate도 이 계약에 포함되므로 profile을 우회한 비보고용 ANN을
+보정해 보고용 SNN으로 승격할 수 없다.
+
+calibration은 index별 `dataset[index]` 직렬 loop가 아니라 선택 순서를 보존한 `Subset`과 기존
+DataLoader를 사용한다. `batch_size=1`, `shuffle=false`를 강제하면서 train config의 worker,
+pin-memory, persistent worker와 prefetch 설정을 재사용해 HDF5 decode와 GPU 계산을 겹친다.
+
+1. ANN graph layer의 BatchNorm을 kernel/root/bias에 fold한다.
+2. 각 layer의 feature별 ReLU maximum `lambda_l`를 측정한다.
+3. 식 (6)의 `lambda_(l-1)/lambda_l`와 `1/lambda_l` scaling을 적용한다.
+4. dead channel의 raw maximum은 0과 mask로 보존하고 식 (6)에 쓰는 effective scale만 1로 두며,
+   모든 threshold를 정확히 1로 둔다.
+5. `best_snn.pt`에 valid sample count, dead-channel summary, persistent conversion flag와 tensor
+   SHA-256뿐 아니라 source ANN checkpoint/model SHA, 선택 sample identity, data/transform/manifest,
+   source와 runtime을 묶은 calibration protocol을 저장한다.
+6. model state 최상위 persistent buffer `calibration_attempts`, 32-byte
+   `calibration_commitment_digest`, `calibration_commitment_sealed`에 실제 시도 수와
+   protocol/count/sampling 및 valid/minimum/dead-channel summary core commitment를 저장한다.
+   metadata summary와 layer별 `calibration_samples_seen`, `calibration_activation_max` raw tensor,
+   `normalization_scale`, `dead_channel_mask`도 교차검증한다. normalization 뒤에도 raw maximum과
+   mask가 보존되므로 dead channel이 있는 checkpoint의 save→strict reload가 가능하고, 부분 보정
+   tensor에 전체 metadata를 이식하거나 mask/dead-channel 수만 바꾸는 우회는 load 단계에서 거부한다.
+
+CLI의 `--allow-unsealed-calibration`은 합성 fixture나 비보고용 진단에서만 계약 불일치를 허용한다.
+이 경우 `sealed=false`와 모든 불일치 이유가 checkpoint에 영구 기록되므로 보고용 matrix에 사용하면
+안 된다. override 사용 자체가 taint이므로 전체 sample을 처리했더라도 `sealed=false`다. 기본 shell
+wrapper와 `run.sh`는 이 우회를 노출하지 않는다. SNN 평가 seal은 checkpoint를
+다시 열 때 transform, manifest, 전체 selected identity/sampling, runtime, calibration data와 source ANN
+training data, `training_source == calibration_source`를 독립적으로 재검사한다. source ANN의 epoch,
+model hash, selection score/rule과 terminal-validation state를 묶은 전체 reporting contract도 별도 hash로
+보존·재검증한다.
+
+SNN inference는 threshold/normalization/calibration metadata와 layer state가 모두 일치해야 열린다.
+초기 membrane은 0.5 threshold, spike amplitude는 threshold, soft reset을 쓴다.
+
+- `literal_eq15`: 논문 식 (15)의 `+previous_spike` self-feedback까지 문자 그대로 실행한다.
+- `standard_if`: 그 항을 제거한 비공식 rate-conversion 대조군이다.
+
+두 dynamics는 같은 `best_snn.pt`에서 inference-only override로 비교한다. 마지막 graph layer의 spike
+rate에는 `lambda_L`를 곱해 analog decoder 단위로 보낸다. 이는 `literal_eq15`의 ANN parity 증명이
+아니다.
+
+## 8. `scripts/run.sh`의 전체 실행 순서
+
+이 script는 설치나 데이터 다운로드를 하지 않는다. 환경과 전체 데이터가 이미 준비된 뒤 저장소
+루트에서 실행한다.
+
+```bash
+bash scripts/run.sh all
+```
+
+script가 노출하는 stage는 `check`, `profile`, `train`, `calibrate`, `eval`, `all`이다. `all`은 다음 다섯 stage를
+순서대로 실행한다.
+
+1. `check`: dependency/CUDA/full-data coverage 검사, `configs/train.json`으로 EventHDR train+eval 전체,
+   `configs/aid.json`으로 EventAid-R 전체를 `inspect --validate-all`
+2. `profile`: EventHDR train 전체 graph topology scan, edge 수 상위 10개 기록, 상위 3개 CUDA
+   forward/backward·optimizer step과 peak allocated/reserved VRAM 측정
+3. `train`: profile을 현재 config/data/source/CUDA runtime에 다시 결합한 뒤 EventHDR ANN 40-epoch 학습
+   또는 `RESUME_CHECKPOINT` exact resume
+4. `calibrate`: EventHDR train 전체를 사용한 ANN→SNN calibration
+5. `eval`: EventHDR와 EventAid-R의 전체 quality evaluation + compute benchmark matrix
+
+`runs/profile.json`은 전수 topology와 실제 선택 표본 학습 step을 결합한 empirical gate다. 결과 자체가
+명시하듯 `absolute_vram_guarantee=false`이며 전체 40 epoch의 모든 미래 allocator 상태를 증명하지
+않는다. 기존 profile output은 묵시적으로 덮어쓰지 않는다. 합성 fixture용
+`--allow-unverified-preflight`는 public config와 checkpoint에 `report_eligible=false`로 영구 기록되며
+`run.sh all`, 기본 train wrapper와 scheduler wrapper에서는 허용되지 않는다.
+
+`train.json` inspect가 manifest의 train 51개와 eval 19개 split을 모두 검사하므로 같은 EventHDR eval을
+`hdr.json`으로 다시 decode하는 중복 검사는 두지 않는다. 오래 걸려도 파일을 조용히 제외하지 않는다.
+
+`eval` stage matrix는 다음 18개 run이며 각 run마다 `evaluate`와 `benchmark`를 둘 다 실행한다.
+
+| dataset | mode | dynamics | T | checkpoint |
+|---|---|---|---|---|
+| EventHDR | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventHDR | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventHDR | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventAid-R | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
+
+전체 schedule만 확인하려면 다음을 사용한다.
+
+```bash
+DRY_RUN=1 bash scripts/run.sh all
+```
+
+중요 override는 `RESUME_CHECKPOINT`, `PROFILE_OUTPUT`, `PROFILE_SAMPLES`, `PROFILE_TOP_DENSITY`,
+`CALIBRATION_SAMPLES`, `SIMULATION_STEPS_LIST`,
+`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, 세 config path, ANN/SNN checkpoint path와
+`REQUIRE_CUDA`다. calibration output과 evaluation artifact는 기본적으로 덮어쓰지 않는다. fresh
+training도 run directory에 기존 핵심 artifact가 있으면 중단한다. 기존 결과를 보존한 채 새 output
+directory/config를 쓰는 것이 원칙이다.
+
+## 9. 평가 지표와 artifact
+
+quality는 frame별 PSNR, Gaussian SSIM, RMSE와 조건부 `temporal_l1`이다. `eval.lpips=true`와 optional
+dependency가 있을 때만 LPIPS를 계산한다. 결과는 다음 세 수준으로 집계한다.
+
+- `micro`: 모든 frame 평균
+- `macro`: group별 평균을 다시 같은 가중치로 평균
+- `per_scene`: 호환성을 위해 유지된 JSON key; EventHDR에서는 H5 sequence-file group,
+  EventAid-R에서는 ZIP scene group이다
+
+EventHDR의 `macro`를 physical scene macro라고 부르면 안 된다. standalone evaluation은 H5 filename을
+group으로 쓰고, training final validation은 split-local H5 group ID를 쓴다.
+
+frame metric은 MSE를 한 번만 계산해 PSNR/RMSE가 공유하고, Gaussian SSIM window는 device/dtype/
+channel/window별 bounded cache를 쓴다. PSNR·SSIM·RMSE·선택적 LPIPS·temporal 값을 stack해 frame당
+한 번의 CPU transfer로 가져온다.
+
+evaluate latency는 dataset read와 host-to-device copy 뒤에 graph construction+model forward를
+동기화해 잰다. benchmark는 dataset I/O와 H2D를 timer 밖에 두고 warmup 뒤 CUDA Event 또는 CPU
+`perf_counter`를 쓴다. benchmark가 기록하는 항목은 mean/p50/p90/p95/p99/max latency, FPS,
+raw/retained events per second, graph nodes per second, event retention, 평균 node/edge, isolate ratio,
+max degree, SNN layer별 firing rate, 전체 firing rate, RTF p95, deadline miss ratio와 peak allocated/
+reserved GPU memory다.
+
+`eval.output_dir` 아래 run label은 다음과 같다.
+
+```text
+ann/
+snn_literal_eq15_T4/
+snn_literal_eq15_T8/
+...
+snn_standard_if_T32/
+```
+
+`metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고 `benchmark.json`은 benchmark가 만든다.
+동일 run label의 기존 artifact가 있으면 덮어쓰지 않고 실패한다. prediction filename은 순번, 안전한
+slug와 sample ID hash를 조합해 OS 금지 문자와 충돌을 피한다.
+
+JSON/CSV/checkpoint는 unique temporary file에 끝까지 기록하고 flush한 뒤 원자적으로 replace한다.
+JSON writer는 `allow_nan=false`이고 evaluate/benchmark는 target, prediction, metric, graph diagnostic,
+latency와 interval metadata를 저장 전에 재귀적으로 finite 검사한다. 완전 일치 frame의 PSNR은 무한대
+대신 문서화된 120 dB 상한을 사용한다. `scripts/run.sh`의 각 stage는 `runs/status/<stage>.json`에
+`RUNNING`, `COMPLETED`, `FAILED`와 종료 코드를 남겨 partial artifact와 완료 run을 구분한다.
+
+기본 평가 config는 quality 비교를 위해 `precision=fp32`, `tf32=false`를 명시한다. 별도 성능 run은
+`amp_fp16` 또는 `bf16`을 선택할 수 있지만 결과에는 requested/effective precision, autocast dtype,
+model parameter dtype, device와 requested/effective TF32가 함께 기록되므로 FP32 표와 섞지 않는다.
+config/checkpoint/output 경로는 shareable artifact에서 repository-relative label 또는 `$EXTERNAL/<name>`로
+저장하며 routine environment report도 명시적으로 private provenance를 요청하지 않는 한 사용자 경로와
+hostname을 출력하지 않는다.
+
+보고용 ANN 평가에는 verified CUDA preflight가 포함된 clean `ann_inference`, finite macro-SSIM selection,
+training protocol v4와 validation protocol v7이 필요하다. 보고용 SNN은 그 ANN에서 봉인된
+`calibration_protocol.sealed=true`를 요구한다. `metrics.json.evaluation_protocol`과
+`benchmark.json.benchmark_protocol`은 public config/model, checkpoint file·tensor와 lineage,
+현재 eval dataset의 전체 content SHA-256·transform·manifest·coverage·sampling, source,
+runtime/precision을 path-free canonical hash로 결합한다. 18-run 연속 실행은 SHA path-token과
+size/mtime/ctime signature만 담는 host-local cache로 대용량 파일 hash를 재사용한다.
+보고 가능한 quality evaluation은 `eval.max_samples=null`이어야 한다. cap이 있는 실행은 기본적으로
+거부되고 합성 테스트용 명시적 우회를 써도 `report_eligible=false`다. 반면 benchmark의 warmup/측정
+step 수는 품질 sample cap이 아닌 별도 compute-only sampling protocol이다.
+EventHDR lineage는 planned/completed/checkpoint epoch가 같고 selection rule이
+`single_final_epoch_macro_ssim`인 경우에만 보고 가능하다. `check_env.py`와 `inspect`의
+`--include-private-host-provenance`는 로컬 진단 전용이며 그 출력은 공개·첨부하지 않는다.
+source ANN은 EventHDR 학습만 허용하고 training protocol의 seed, optimizer/scheduler, loss, data order,
+AMP와 runtime을 public config에 다시 결합한다. 평가 root도 explicit expected file count와 final/fixed
+manifest의 정확한 파일 집합을 증명해야 한다. EventHDR 실행은 현재 content·transform·manifest가 source
+ANN validation과 같아야 하며 protocol hash는 실제 mode, SNN T와 effective dynamics를 포함한다.
+
+이 SHA-256 계약은 reproducibility identity와 우발적·부분적 metadata 변조 검출 수단이며 전자서명이
+아니다. checkpoint와 내부 hash 전부를 악의적으로 다시 쓰는 공격까지 인증하려면 각 최종 artifact의
+file SHA-256을 별도 immutable 실험 원장, 서명 release 또는 접근통제된 archive에 보존해야 한다.
+
+합성 테스트 전용 `--allow-unsealed-checkpoint-for-non-reporting`은 결과에
+`report_eligible=false`와 모든 이유를 영구 기록한다. public shell/scheduler wrapper는 이 옵션을
+노출하지 않으며 해당 결과는 보고용 표에 포함하면 안 된다.
+
+## 10. provenance, checkpoint integrity와 exact resume
+
+학습 directory의 핵심 artifact는 `config.json`, `history.json`, `last.pt`, `best.pt`와 hidden data hash
+cache다. `validate_every=null`이므로 `history.json`의 validation은 마지막 epoch에서만 채워지고
+`best.pt`는 그 마지막 candidate다. training protocol에는 처음부터 `planned_epoch=40`을 봉인하고
+checkpoint에는 terminal validation의 완료 여부와 완료 epoch를 저장한다. 마지막 평가가 끝난 뒤
+epochs만 늘려 같은 run을 resume하는 것은 거부하며, 연장 실험은 새 output의 새 protocol로 분리한다.
+
+validation protocol에는 dataset transform, manifest schema와 모든 file 목록/group mapping,
+validation sample identity/context policy, SSIM 정의, selection rule과 train/eval 원본 전체 file의
+SHA-256 결합 digest가 저장된다. 절대 root와 mtime은 checkpoint 비교 identity가 아니어서 같은 byte의
+복사본을 다른 mount에서 쓸 수 있다. local hash cache의 key도 absolute path 대신 path SHA token으로
+저장해 cache artifact가 mount/account를 노출하지 않게 했다. 같은 source의 size/mtime/ctime이 모두
+같을 때만 cached full hash를 재사용하며, 기본 `train.rehash_data=true`는 첫 sealed run에서 51+19 H5를
+전부 다시 읽어 digest를 계산한다.
+
+training protocol에는 optimizer/GC 축, scheduler, loss weights, gradient clip, data order/workers,
+effective AMP, 봉인된 final-only validation terminal epoch, recurrent detach,
+torch/CUDA/cuDNN/GPU/TF32/determinism, `src/**/*.py` tree hash, Git commit과 source dirty 여부가 들어간다.
+checkpoint의 model tensor bytes도 이름·dtype·shape를 포함해 SHA-256으로 묶는다.
+
+이 digest는 checkpoint 내부 metadata와 tensor bytes의 **일관성·우발적 손상 탐지** 용도다. 공격자가
+checkpoint와 내부 digest를 함께 바꾸는 경우를 막는 authenticity 서명이 아니다. 배포물의 출처 인증이
+필요하면 저장소 밖의 신뢰 경계에서 생성한 signed manifest 또는 서명된 release checksum이 별도로
+필요하다.
+
+exact resume은 다음을 모두 요구한다.
+
+- resume checkpoint가 같은 configured run directory 안에 있을 것
+- model config, validation protocol, training protocol과 source/data digest가 일치할 것
+- optimizer, scheduler, GradScaler, history, epoch와 best score가 있을 것
+- Python, NumPy, torch와 visible CUDA device별 RNG state가 유효할 것
+- 과거 `best.pt`가 존재하고 `last.pt`의 best digest/protocol과 일치할 것
+- ANN/SNN conversion state와 checkpoint type이 일치할 것
+- checkpoint의 verified CUDA preflight gate가 현재 config/data/source/runtime과 일치할 것
+
+학습만 이어갈 때는 다음을 사용한다.
+
+```bash
+RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  bash scripts/run.sh train
+```
+
+provenance가 엄격하므로 commit이나 source/runtime 변경 뒤에는 resume이 거부될 수 있다. 또한 runtime
+상태를 기록하고 비교하더라도 PyTorch/CUDA의 모든 kernel이 bitwise deterministic하다는 보장은
+없다. exact resume은 저장된 state와 protocol의 정확한 복원을 뜻하며 서로 다른 hardware에서의
+bitwise 동일성을 과장하지 않는다.
+
+## 11. MobaXterm/Linux GPU 서버 절차
+
+MobaXterm은 SSH/SFTP client이고 실제 연산은 접속한 Linux server에서 수행한다.
+본실험 전에는 sanitized history와 과거 CI run/artifact 정리 기록을 확인하고, 원격 `main`의 배포
+commit SHA가 같은 SHA의 GitHub Actions 필수 gate를 통과했는지 대조한다. 확인되지 않으면 아래
+checkout을 본실험에 사용하지 않는다. 최신 CI badge나 문서의 상태 설명만으로 대신하지 않는다.
+서버 SSH 로그인과 GitHub private repository 인증은 별개다. 공유 서버에서는 repository 범위의 읽기
+전용 Deploy key를 사용한다. `$HOME/.ssh/asgcn_unet_deploy`이 없다면 생성하고 공개키
+`$HOME/.ssh/asgcn_unet_deploy.pub`만
+[Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 등록한다. 개인키를 덮어쓰거나
+외부로 복사하면 안 된다. 문서에는 서버 계정명, hostname 또는 사용자별 절대 경로를 기록하지 않는다.
+
+```bash
+prepare_asgcn_deploy_key() {
+  local key="$HOME/.ssh/asgcn_unet_deploy"
+  local derived_pub stored_pub
+
+  mkdir -p "$HOME/.ssh" || return 1
+  chmod 700 "$HOME/.ssh" || return 1
+  if [[ -e "$key" || -e "$key.pub" ]]; then
+    if [[ ! -f "$key" || ! -f "$key.pub" ]]; then
+      echo "ERROR: incomplete deploy key pair; inspect it manually" >&2
+      return 1
+    fi
+    derived_pub="$(ssh-keygen -y -f "$key")" || return 1
+    stored_pub="$(awk 'NF >= 2 { print $1 " " $2; exit }' "$key.pub")"
+    if [[ -z "$stored_pub" || "$derived_pub" != "$stored_pub" ]]; then
+      echo "ERROR: deploy public key does not match the private key" >&2
+      return 1
+    fi
+    echo "Using the verified existing deploy key pair."
+  else
+    ssh-keygen -t ed25519 \
+      -C "asgcn-unet read-only deploy key" \
+      -f "$key" || return 1
+  fi
+
+  chmod 600 "$key" || return 1
+  chmod 644 "$key.pub" || return 1
+  cat "$key.pub"
+}
+
+prepare_asgcn_deploy_key
+unset -f prepare_asgcn_deploy_key
+```
+
+여기서 멈추고 출력된 `.pub` 한 줄만
+[Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 등록한다. `Allow write access`는
+체크하지 않는다. 등록을 마친 다음 새 명령 블록을 실행한다. 최초 연결 prompt에서는 `yes`를 입력하기
+전에 algorithm과 fingerprint를
+[GitHub 공식 목록](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)과
+대조한다.
+
+`ssh -T`는 성공 메시지와 함께 종료 코드 1을 반환하므로 `set -e` one-shot block과 분리한다.
+
+```bash
+ssh -o "IdentityFile=$HOME/.ssh/asgcn_unet_deploy" \
+  -o IdentitiesOnly=yes \
+  -T git@github.com
+```
+
+최종 자동 판정은 다음 독립 블록이다. `HEAD`가 출력된 경우에만 그 아래 clone 블록으로 넘어간다.
+
+```bash
+git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
+  ls-remote git@github.com:costunder/asgcn-unet.git HEAD
+```
+
+clone과 repository-local SSH 설정은 bounded subshell에서 fail-fast로 수행한다. 오류가 나도 MobaXterm
+로그인 shell 자체는 종료하지 않는다.
+
+```bash
+ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
+(
+  set -e
+  mkdir -p "$ASGCN_DIR"
+  cd "$ASGCN_DIR"
+  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+    echo "ERROR: clone target is not empty" >&2
+    exit 1
+  fi
+  git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
+    clone git@github.com:costunder/asgcn-unet.git .
+  git config core.sshCommand \
+    "ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes"
+)
+```
+
+clone이 성공하면 `git -C "$ASGCN_DIR" rev-parse HEAD`를 CI에서 확인한 배포 SHA와 대조한다.
+같은 SHA일 때만 설치·검증을 별도 fail-fast block으로 실행한다. 이후 pull 뒤에도 다시 대조한다.
+
+```bash
+(
+  set -e
+  cd "$ASGCN_DIR"
+python3.12 --version
+ldd --version | head -n 1
+nvidia-smi
+
+cp .env.example .env
+# .env에서 server driver와 맞는 공식 TORCH_INDEX_URL 등을 설정
+bash scripts/setup.sh
+source .venv/bin/activate
+
+python scripts/check_env.py --require-cuda --lock constraints/py312.txt
+python -m pip check
+python -m ruff check .
+python -m pytest -q
+)
+```
+
+위 clone은 Deploy key 등록과 `ls-remote` 성공 뒤에만 실행한다. 검증한 fingerprint에 동의한 것은
+`known_hosts` 등록일 뿐 `publickey` 인증 성공이 아니다. `ssh -T`는 성공 메시지와 함께 종료 코드
+1을 반환할 수 있다. 전용 키는 기본 파일명이 아니므로 평범한
+`git clone git@github.com:...`만 실행해서는 안 된다.
+실험 종료 뒤 이 서버에서 pull이 더 필요 없으면 GitHub Deploy key를 revoke하고 서버 정책에 따라 전용
+key pair를 폐기한다. Deploy key는 자동 만료되지 않는다.
+
+프로젝트는 Python 3.10 이상을 지원한다. 재현용 lock은 Python 3.12.13에서 검증됐고 core/dev package와
+torch public version을 `constraints/py312.txt`에 고정한다. 현재 lock의 핵심은 torch 2.13.0,
+numpy 2.5.2, h5py 3.16.0, Pillow 12.3.0, pytest 9.1.1, Ruff 0.16.5다. Linux torch 2.13.0 lock
+profile은 glibc 2.28 이상을 요구한다. CUDA build는 `nvidia-smi` driver와 PyTorch 공식 selector에
+맞는 `TORCH_INDEX_URL`에서 먼저 설치한다.
+
+core runtime dependency는 torch, NumPy, h5py, Pillow와 tqdm이다. development extra는 pytest와
+Ruff다. LPIPS만 필요할 때 optional eval extra를 설치한다.
+
+```bash
+python -m pip install -e '.[eval]'
+```
+
+데이터 배치 뒤 전체 readiness를 검사한다.
+
+```bash
+python scripts/check_env.py --require-cuda --require-full-data \
+  --lock constraints/py312.txt
+
+asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
+asgcn-unet inspect --config configs/hdr.json --samples 2 --validate-all
+asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
+```
+
+`check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, lock mismatch, glibc, data와 runs의 남은
+공간, runs 쓰기 가능 여부, EventHDR exact 51/19 이름과 EventAid-R exact 14 ZIP을 출력·검사한다.
+`--validate-all`은 모든 target/event block을 실제 decode하므로 전체 데이터에서는 오래 걸린다.
+
+## 12. scheduler
+
+SLURM과 PBS/Torque 각각 profile, train, calibration, evaluation entrypoint가 있다.
+
+```text
+server/profile.sbatch      server/profile.pbs
+server/train.sbatch        server/train.pbs
+server/calibrate.sbatch    server/calibrate.pbs
+server/eval.sbatch         server/eval.pbs
+```
+
+기본 요청은 GPU 1개, CPU 8개, RAM 32 GB다. profile/calibration은 12시간, train은 48시간, evaluation은
+8시간으로 작성돼 있으나 partition/account/GPU type/resource 이름과 walltime은 cluster 규칙과 실제
+측정에 맞춰 바꿔야 한다. wrapper는 `PROJECT_ROOT` 또는 scheduler submit directory를 검증하고 잘못된
+checkout에서 실행하지 않는다. `CUDA_MODULE`은 opt-in이다.
+
+SLURM dependency 예시:
+
+```bash
+profile_id=$(sbatch --parsable server/profile.sbatch)
+train_id=$(sbatch --parsable --dependency=afterok:${profile_id} server/train.sbatch)
+cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
+sbatch --dependency=afterok:${cal_id} \
+  --export=CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  server/eval.sbatch
+```
+
+SLURM에는 login 환경 전체가 아니라 job에 필요한 변수만 전달한다. scheduler log는 기본적으로 host/job
+식별자를 생략하고 config/checkpoint basename만 기록한다. 정확한 값은 공개하지 않을 로컬 진단에서만
+`INCLUDE_PRIVATE_HOST_PROVENANCE=1`로 opt-in한다. Slurm의 `slurm-...-<job-id>.out/.err`와 PBS의
+`<job-name>.o<job-id>` 같은 raw scheduler log는 파일명 자체에 job ID가 있으므로 그대로 공개하지 않는다.
+기본 provenance log만 `logs/public/train.stdout.log` 같은 중립 파일명으로 복사하고 저장소 밖 denylist로
+공개 후보의 내용을 검사한 뒤 공유한다.
+
+```bash
+python scripts/scan_private_text.py logs/public/train.stdout.log \
+  --root "$PWD" --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+```
+
+scan 실패 log와 `INCLUDE_PRIVATE_HOST_PROVENANCE=1` opt-in log는 rename/copy 여부와 무관하게 비공개다.
+
+PBS/Torque dependency 예시:
+
+```bash
+profile_id=$(qsub server/profile.pbs)
+train_id=$(qsub -W depend=afterok:${profile_id} server/train.pbs)
+cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
+qsub -W depend=afterok:${cal_id} \
+  -v CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  server/eval.pbs
+```
+
+전체 18-run matrix를 scheduler로 돌리려면 dataset/dynamics/T별 eval job을 각각 제출해야 한다.
+단일 allocation에서 순차 실행할 때만 `scripts/run.sh`를 직접 사용한다. 이 저장소는 검증되지 않은
+Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native virtualenv와 scheduler wrapper만
+지원한다.
+
+## 13. 파일별 책임
+
+| 경로 | 책임 |
+|---|---|
+| `src/asgcn_unet/graph.py` | node 정규화, exact radius graph, cached degree, chunked B-spline, BN fold, Eq.(6), IF loop |
+| `src/asgcn_unet/model.py` | `ASGCNUNet`, graph build 연결, rasterization, decoder 연결, diagnostics |
+| `src/asgcn_unet/unet.py` | residual U-Net, analog ConvGRU, `RecurrentUNetDecoder` |
+| `src/asgcn_unet/data/eventhdr.py` | H5 index/검증, zero-event 보존, frame interval 구성 |
+| `src/asgcn_unet/data/eventaid_r.py` | ZIP 직접 읽기, next-GT pairing, timestamp/shape 검증 |
+| `src/asgcn_unet/data/common.py` | luminance/tone map, crop, exact-size event cap, sample schema |
+| `src/asgcn_unet/data/factory.py` | manifest schema, exact coverage, split-local H5 group |
+| `src/asgcn_unet/losses.py` | Charbonnier, SSIM loss, gradient loss |
+| `src/asgcn_unet/metrics.py` | Gaussian SSIM, PSNR, RMSE, temporal metric, micro/macro 집계 |
+| `src/asgcn_unet/engine.py` | train/validation/calibration/evaluate/benchmark, checkpoint·resume·provenance |
+| `src/asgcn_unet/preflight.py` | 전체 train topology scan, 최고 밀도 CUDA 학습-step 측정·재검증 |
+| `src/asgcn_unet/cli.py` | inspect/profile/verify-profile/train/calibrate/evaluate/benchmark CLI |
+| `configs/train.json` | EventHDR 51 train + 19 final-only internal eval 학습 protocol |
+| `configs/hdr.json` | EventHDR official eval ANN/SNN 공용 설정 |
+| `configs/aid.json` | EventAid-R 14-scene ANN/SNN 공용 설정 |
+| `manifests/eventhdr_split.json` | official separate roots와 H5 sequence-file semantics |
+| `manifests/eventaid_r.json` | 14 ZIP 이름, URL, 표시 용량 |
+| `scripts/setup.sh`, `scripts/check_env.py` | server 설치와 환경/data inventory |
+| `scripts/get_hdr.py`, `scripts/get_hdr.sh` | browser/source/shared EventHDR 안전 import/check |
+| `scripts/get_aid.sh` | EventAid-R 14 ZIP 다운로드/재개/검사 |
+| `scripts/train.sh`, `scripts/calibrate.sh`, `scripts/eval.sh` | 개별 GPU wrapper |
+| `scripts/run.sh` | `check|profile|train|calibrate|eval|all`, CUDA gate와 18-run matrix orchestration |
+| `scripts/scan_private_text.py` | current tracked text와 전체 reachable Git blob의 generic/external-marker privacy gate |
+| `scripts/build_code_summary.py` | deterministic `code_summary.md`, file/snapshot SHA와 clean source provenance gate |
+| `server/` | SLURM/PBS profile→train→calibrate→eval entrypoint |
+| `docs/ASGCN.md` | 논문 core와 구현 가정의 경계 |
+| `docs/EXPERIMENT.md`, `docs/SERVER.md` | 실험 protocol과 server 운용 보조 문서 |
+| `tests/` | fixture 기반 CPU unit/integration/end-to-end 회귀검사 |
+
+`code_summary.md`는 generator output 자신을 제외한 모든 tracked UTF-8 text를 `# 파일경로`와 원문 code
+block 형태로 담는다. header에는 file별 SHA-256과 전체 snapshot SHA-256, 생성 당시 Git provenance가
+있다. dirty working tree에서 생성하면 superseded commit을 계속 가리키지 않도록 commit/tree identity를
+`null`로 두고 snapshot SHA-256을 검증 identity로 사용한다. clean generation의 commit/tree도 summary를
+포함하는 새 commit과 자기참조적으로 같을 수 없으므로 현재 remote SHA라고 주장하지 않는다. 본문과
+manifest의 정확한 동일성은 `--check`, remote 배포 동일성은 별도의 remote commit/CI 확인으로 판정한다.
+release에서는 코드뿐 아니라 README·인계서·서버 문서와 검증 수치 수정, history 정리까지 마친 뒤
+최종 sanitized source commit을 확정한다. clean source에서 summary를 재생성하고 summary만 별도
+commit한다. 이 사이에 다른 tracked 파일 수정이나 source history의 amend/rebase/rewrite를 끼우지
+않는다. 변경이 필요하면 새 source commit을 확정한 뒤 다시 생성한다.
+`--check --require-clean-provenance`는 기록된 source commit/tree가 유효하고 현재 HEAD까지 summary 외
+tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 release-only gate 통과를 주장하지
+않는다. summary-only commit 뒤 배포/CI 결과는 해당 최종 SHA의 Actions와 별도 배포 기록으로
+확인한다. 결과를 문서에 추가하는 경우에도 source 변경이므로 위 commit·재생성 순서를 다시 따른다.
+
+## 14. 테스트 상태와 검증 범위
+
+2026-08-30 Windows CPU 통합 결과는 **265 passed, 1 skipped**이며, skip 1건은 symlink privilege가
+없는 환경의 shared-storage link test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
+아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
+
+history scanner는 `git rev-list --objects --all`의 LF 출력으로 통일했다. 구 Git이 `-z`를 받아도 최신
+NUL object protocol을 출력하지 않는 차이를 회피하며, LF fixture·SHA-1/SHA-256·공백/탭/CR/비ASCII
+path hint와 malformed OID 회귀를 추가했다. path hint는 개행에서 잘리거나 동일 blob의 여러 경로 중
+하나일 수 있으므로 실제 내용은 항상 OID로 읽는다. 로컬 Git 2.53.0.windows.3에서는 검증했지만 실제
+Linux Git 2.47.3 실행기는 없으므로 해당 환경의 실측 통과를 주장하지 않는다.
+
+```bash
+python -m compileall -q src tests scripts
+python -m ruff check .
+python -m pytest -q
+(
+  for script in scripts/*.sh server/*.sbatch server/*.pbs; do
+    bash -n "$script" || exit 1
+  done
+)
+python scripts/build_code_summary.py --check
+python scripts/scan_private_text.py --all-tracked --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+git diff --check
+```
+
+history 교체 전후에는 complete non-shallow clone에서 다음 privacy gate를 별도로 실행한다. 오염된
+history가 남아 있으면 실패하며, trusted `main` CI에서는 `PRIVATE_MARKERS_B64` secret이 없으면 검사
+자체가 실패한다.
+
+```bash
+python scripts/scan_private_text.py \
+  --all-tracked --all-history --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+```
+
+최종 sanitized source commit과 summary-only commit을 확정한 뒤에는 clean provenance gate도
+통과해야 한다. 원격 배포 후 같은 최종 SHA의 GitHub Actions에서 privacy·provenance를 포함한
+필수 job 전체의 성공을 확인한다. 로컬 통과나 다른 commit의 성공으로 대체하지 않는다.
+
+```bash
+python scripts/build_code_summary.py --check --require-clean-provenance
+```
+
+주요 회귀 범위는 다음과 같다.
+
+- strict undirected radius graph와 cell implementation의 pairwise reference parity
+- degree-1 open B-spline endpoint, gradient, 초기화, hand calculation과 autograd
+- BN fold, 식 (6), dead-channel raw/scale/mask save→strict reload, IF soft reset, dynamics 차이, basis cache
+- EventHDR numeric image order와 EventAid exact offset/timestamp diagnostic을 포함한 구조·좌표·polarity·pairing·multiprocess safety
+- exact-size event cap 경계와 zero-event frame
+- manifest separate-root/physical-scene claim 차단과 exact file coverage
+- final-only validation, balanced/context schedule, loss/gradient non-finite guard
+- checkpoint tensor digest, conversion state, provenance와 exact resume 거부 조건
+- sealed calibration data/source/runtime/final-manifest, 전체 sample coverage와 변조 거부,
+  final-only terminal epoch 변경 차단
+- full-train topology scan, 최고 밀도 CUDA probe report 계약과 train preflight 재결합/우회 전파
+- evaluate/benchmark checkpoint seal·전체 data/source/runtime/precision provenance,
+  strict/atomic artifact와 전체 orchestration matrix
+- float target 계약, EventAid ZIP logical duplicate, config/loss/batch/sample-limit fail-fast
+- 전체 tracked text의 generic/external-marker privacy scan과 deterministic code snapshot
+- 구·신 Git의 공통 LF history 열거와 모든 shell entrypoint의 개별 구문 검사
+- 공개 output의 absolute path/hostname redaction과 portable private-repository clone 절차
+
+GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
+syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
+고정한다. unit test는 공식 대용량 데이터나 GPU 없이 fixture로 실행되므로 test 통과는 전체 데이터
+GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
+
+## 15. 현재 한계와 교차검증 체크리스트
+
+2026-08-30 로컬 검증에서는 전체 데이터 CUDA 본실험과 A6000/A100 profile/benchmark를 실행하지 않았다.
+다음 항목은 실제 server에서 `scripts/run.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
+
+- EventHDR/EventAid-R 전체 decode 성공과 총 frame 수
+- A100/A6000 각각의 full topology scan, 최고 밀도 sample CUDA step과 `runs/profile.json`
+- 40-epoch loss/history, 마지막 epoch internal eval과 checkpoint digest
+- all-sample calibration의 layer별 valid count/dead channel
+- 18개 mode/dynamics/T의 quality, latency, memory, graph와 firing-rate artifact
+- A6000/A100별 driver, CUDA wheel, torch, peak memory와 walltime
+
+알고 있어야 할 구조적 한계:
+
+- cell search는 exact지만 dense event cell의 최악 복잡도는 여전히 `O(N²)`다.
+- single-GPU, chronological batch 1, sample별 Python loop라 전체 실행 시간이 길 수 있다.
+- 8,192-event cap은 메모리 안전 선택이며 고이벤트 interval 정보를 줄인다.
+- EventHDR H5는 물리 scene ID가 아니며 official eval은 독립 test가 아니다.
+- EventAid-R `target_offset=1`과 log tone mapping은 명시적 cross-domain 가정이다.
+- `literal_eq15`의 self-feedback은 표준 rate-conversion과 수학적 긴장이 있다.
+- decoder가 analog라 firing-rate/latency를 완전한 neuromorphic system 수치로 해석할 수 없다.
+- downloader 검사는 공식 checksum을 대체하지 못한다.
+- optional LPIPS는 core lock에 포함되지 않는다.
+- 실제 sensor ingest, network transport, compression, RTL, synthesis와 power 측정은 범위 밖이다.
+
+다른 ChatGPT가 교차검증할 때는 최소한 다음 질문에 답해야 한다.
+
+1. 결과 설명이 `paper-core 기반 복원 적응` 범위를 넘어 공식 재현을 주장하는가?
+2. EventHDR가 정확히 train 51/eval 19이고 EventAid-R이 정확히 14 ZIP인가?
+3. H5 sequence group을 physical scene으로 잘못 해석했는가?
+4. `validate_every=null`과 마지막 epoch 단 1회 internal eval이 실제 checkpoint에 기록됐는가?
+5. event cap이 정확히 8,192개를 선택하고 zero-event interval을 보존하는가?
+6. graph가 strict `<D`, 양방향, self-loop 없음이며 cell optimization이 pairwise reference와 같은가?
+7. ANN과 SNN checkpoint type, BN fold, Eq.(6), threshold와 tensor digest가 일치하는가?
+8. EventAid-R을 본 뒤 model/config를 바꾸지 않았는가?
+9. 학습 checkpoint가 현재 data/source/runtime에 재검증된 CUDA preflight gate를 가지는가?
+10. ANN/SNN artifact의 `report_eligible`, evaluation/benchmark protocol과 calibration seal이 유효한가?
+11. 보고한 숫자가 실제 `profile.json`, `metrics.json`, `benchmark.json`, `history.json`과 server
+    provenance에 있는가?
+
+이 열한 항목 중 하나라도 확인되지 않으면 해당 수치는 예비 내부 결과로만 취급한다.
+~~~~~~~~
+
+# manifests/eventaid_r.json
+
+~~~~~~~~json
+{
+  "source": "https://sites.google.com/view/eventaid-benchmark",
+  "displayed_total_gb": 24.68024,
+  "files": [
+    {"scene":"R-ball","size":"5.64GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AOa2ZA-ZO27IWfKur1SU_Fw/EventAid-R/R-ball.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-bear","size":"25.81MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKpsAqhaQuAlRGnY2FhAKqE/EventAid-R/R-bear.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-blocks","size":"365.33MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AL4wHVG3Df2bbfNCghWyJaM/EventAid-R/R-blocks.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-box","size":"119.89MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AGvV-9JnNptwOaI-KVIUSK0/EventAid-R/R-box.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-building","size":"3.03GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ADhYTCmHnEkAwfhHaEWgzCk/EventAid-R/R-building.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-outdoor","size":"19.07MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKP0sOL3pENW3wtyNRAX26k/EventAid-R/R-outdoor.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-playball","size":"2.47GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AF8acN06ce8FSBdw159Znk8/EventAid-R/R-playball.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-room1","size":"869.19MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AKuYq0bLROmpyoeqj7zbvSI/EventAid-R/R-room1.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-room2","size":"1.07GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ADW-5jFnZ_JUkLGPEE1OrvI/EventAid-R/R-room2.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-sculpture","size":"526.32MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/ACFkV3fjjREExbn-KA9g-eA/EventAid-R/R-sculpture.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-toy","size":"104.63MB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AD7BEyswPqPVaMi9yRXf4jw/EventAid-R/R-toy.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-traffic","size":"6.96GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/APAzVk_7JK12KIm2KSqSWb8/EventAid-R/R-traffic.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-umbrella","size":"1.48GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AFHQxXlstNbGerXeh_sFujI/EventAid-R/R-umbrella.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"},
+    {"scene":"R-wall","size":"2GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AFj-qvqZ7f8Ma9Q2tWXrb5k/EventAid-R/R-wall.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"}
+  ]
+}
+~~~~~~~~
+
+# manifests/eventhdr_split.json
+
+~~~~~~~~json
+{
+  "status": "final",
+  "split_schema": "official_separate_roots_v1",
+  "group_semantics": "h5_sequence_file_not_physical_scene",
+  "source": "https://github.com/yunhao-zou/EventHDR",
+  "note": "Official OneDrive distribution split. Train and eval are distinct roots whose numeric basenames intentionally overlap. H5 files are recurrent/metric sequence groups, not claimed physical-scene identities.",
+  "train_files": [
+    "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
+    "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
+    "18.h5", "19.h5", "20.h5", "21.h5", "22.h5", "23.h5", "24.h5", "25.h5",
+    "26.h5", "27.h5", "28.h5", "29.h5", "30.h5", "31.h5", "32.h5", "33.h5",
+    "34.h5", "35.h5", "36.h5", "37.h5", "38.h5", "39.h5", "40.h5", "41.h5",
+    "42.h5", "43.h5", "44.h5", "45.h5", "46.h5", "47.h5", "48.h5", "49.h5",
+    "50.h5", "51.h5"
+  ],
+  "val_files": [
+    "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
+    "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
+    "18.h5", "19.h5"
+  ]
+}
+~~~~~~~~
+
+# pyproject.toml
+
+~~~~~~~~toml
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "asgcn-unet"
+version = "0.3.0"
+description = "ASGCN paper-core graph encoder with a recurrent U-Net decoder for event-to-frame reconstruction"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "h5py>=3.11,<4",
+  "numpy>=1.26,<3",
+  "Pillow>=10.2,<13",
+  "torch>=2.3,<3",
+  "tqdm>=4.66,<5",
+]
+
+[project.optional-dependencies]
+eval = ["lpips>=0.1.4"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+asgcn-unet = "asgcn_unet.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+~~~~~~~~
+
+# scripts/build_code_summary.py
+
+~~~~~~~~python
+#!/usr/bin/env python3
+"""Build or verify the deterministic repository code snapshot."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+import tempfile
+from collections.abc import Sequence
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+FORMAT_VERSION = 1
+METADATA_START = "<!-- code-summary-metadata\n"
+METADATA_END = "\n-->\n"
+
+
+def _run_git(root: Path, arguments: Sequence[str], *, allow_failure: bool = False) -> str:
+    process = subprocess.run(
+        ["git", *arguments],
+        cwd=root,
+        check=False,
+        capture_output=True,
+    )
+    if process.returncode != 0 and not allow_failure:
+        raise ValueError(f"git {' '.join(arguments)} failed")
+    return os.fsdecode(process.stdout).strip() if process.returncode == 0 else ""
+
+
+def _git_root(start: Path) -> Path:
+    value = _run_git(start, ["rev-parse", "--show-toplevel"])
+    return Path(value).resolve()
+
+
+def _tracked_paths(root: Path) -> list[Path]:
+    process = subprocess.run(
+        ["git", "ls-files", "-z"],
+        cwd=root,
+        check=False,
+        capture_output=True,
+    )
+    if process.returncode != 0:
+        raise ValueError("git ls-files failed")
+    paths = [Path(os.fsdecode(item)) for item in process.stdout.split(b"\x00") if item]
+    return sorted(paths, key=lambda path: path.as_posix().encode("utf-8", errors="surrogateescape"))
+
+
+def _decode_text(data: bytes) -> str | None:
+    if b"\x00" in data:
+        return None
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return None
+    if text:
+        controls = sum(ord(character) < 32 and character not in "\n\r\t\f" for character in text)
+        if controls / len(text) > 0.01:
+            return None
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
+def _language(path: Path) -> str:
+    by_suffix = {
+        ".json": "json",
+        ".md": "markdown",
+        ".pbs": "bash",
+        ".py": "python",
+        ".sbatch": "bash",
+        ".sh": "bash",
+        ".toml": "toml",
+        ".yaml": "yaml",
+        ".yml": "yaml",
+    }
+    return by_suffix.get(path.suffix.casefold(), "text")
+
+
+def _snapshot_digest(files: Sequence[dict[str, Any]]) -> str:
+    digest = hashlib.sha256(b"asgcn-unet-code-summary-v1\x00")
+    for item in files:
+        path_bytes = item["path"].encode("utf-8")
+        digest.update(len(path_bytes).to_bytes(8, "big"))
+        digest.update(path_bytes)
+        digest.update(item["bytes"].to_bytes(8, "big"))
+        digest.update(bytes.fromhex(item["sha256"]))
+    return digest.hexdigest()
+
+
+def _dirty_without_output(root: Path, output_relative: str) -> bool:
+    for arguments in (
+        ["diff", "--quiet", "--", ".", f":(exclude){output_relative}"],
+        ["diff", "--cached", "--quiet", "--", ".", f":(exclude){output_relative}"],
+    ):
+        process = subprocess.run(
+            ["git", *arguments],
+            cwd=root,
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+        )
+        if process.returncode == 1:
+            return True
+        if process.returncode != 0:
+            raise ValueError("cannot determine tracked dirty state")
+    return False
+
+
+def _generated_timestamp(root: Path) -> tuple[str, str]:
+    source_date_epoch = os.environ.get("SOURCE_DATE_EPOCH")
+    if source_date_epoch is not None:
+        try:
+            epoch = int(source_date_epoch)
+        except ValueError as error:
+            raise ValueError("SOURCE_DATE_EPOCH must be an integer") from error
+        if epoch < 0:
+            raise ValueError("SOURCE_DATE_EPOCH must not be negative")
+        source = "SOURCE_DATE_EPOCH"
+    else:
+        commit_epoch = _run_git(root, ["show", "-s", "--format=%ct", "HEAD"])
+        if not commit_epoch:
+            raise ValueError("cannot derive a reproducible timestamp without a Git commit")
+        epoch = int(commit_epoch)
+        source = "source_commit_time"
+    generated = datetime.fromtimestamp(epoch, tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return generated, source
+
+
+def _provenance(root: Path, output_relative: str) -> dict[str, Any]:
+    commit = _run_git(root, ["rev-parse", "HEAD"])
+    tree = _run_git(root, ["rev-parse", "HEAD^{tree}"])
+    branch = _run_git(root, ["symbolic-ref", "--quiet", "--short", "HEAD"], allow_failure=True)
+    if not branch:
+        branch = os.environ.get("GITHUB_HEAD_REF") or os.environ.get("GITHUB_REF_NAME") or "DETACHED"
+    generated_utc, timestamp_source = _generated_timestamp(root)
+    dirty = _dirty_without_output(root, output_relative)
+    return {
+        # A dirty snapshot cannot truthfully claim the checked-out commit/tree as
+        # its content identity. Omitting those SHAs also avoids retaining a pointer
+        # to a superseded commit during sensitive-history cleanup.
+        "source_commit_at_generation": None if dirty else commit,
+        "source_tree_at_generation": None if dirty else tree,
+        "branch_at_generation": branch,
+        "tracked_tree_dirty_at_generation": dirty,
+        "generated_utc": generated_utc,
+        "timestamp_source": timestamp_source,
+        "note": (
+            "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the "
+            "verification identity."
+        ),
+    }
+
+
+def _validate_preserved_provenance(value: Any) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise TypeError("summary provenance is missing")
+    required = {
+        "branch_at_generation": str,
+        "tracked_tree_dirty_at_generation": bool,
+        "generated_utc": str,
+        "timestamp_source": str,
+        "note": str,
+    }
+    for key, expected_type in required.items():
+        if not isinstance(value.get(key), expected_type):
+            raise TypeError(f"summary provenance field {key!r} is invalid")
+    sha_pattern = re.compile(r"[0-9a-f]{40}")
+    for key in ("source_commit_at_generation", "source_tree_at_generation"):
+        identity = value.get(key)
+        if identity is not None and (
+            not isinstance(identity, str) or sha_pattern.fullmatch(identity) is None
+        ):
+            raise ValueError(f"summary provenance field {key!r} is invalid")
+    commit_missing = value.get("source_commit_at_generation") is None
+    tree_missing = value.get("source_tree_at_generation") is None
+    if commit_missing != tree_missing:
+        raise ValueError("summary commit/tree provenance must be present or omitted together")
+    if value["tracked_tree_dirty_at_generation"] is not commit_missing:
+        raise ValueError("dirty summary provenance must omit commit/tree identity")
+    try:
+        datetime.strptime(value["generated_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(
+            tzinfo=timezone.utc
+        )
+    except ValueError as error:
+        raise ValueError("summary generated_utc is invalid") from error
+    return value
+
+
+def _require_clean_provenance(
+    root: Path,
+    output_relative: str,
+    provenance: dict[str, Any],
+) -> None:
+    """Require a committed source snapshot, allowing only the summary commit afterward."""
+
+    if provenance["tracked_tree_dirty_at_generation"]:
+        raise ValueError("clean code-summary provenance is required")
+    commit = provenance.get("source_commit_at_generation")
+    tree = provenance.get("source_tree_at_generation")
+    if not isinstance(commit, str) or not isinstance(tree, str):
+        raise TypeError("clean code-summary provenance must include source commit and tree")
+    resolved_tree = _run_git(root, ["rev-parse", f"{commit}^{{tree}}"])
+    if resolved_tree != tree:
+        raise ValueError("code-summary source commit/tree provenance is inconsistent")
+    ancestor = subprocess.run(
+        ["git", "merge-base", "--is-ancestor", commit, "HEAD"],
+        cwd=root,
+        check=False,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+    )
+    if ancestor.returncode != 0:
+        raise ValueError("code-summary source commit is not an ancestor of HEAD")
+    source_diff = subprocess.run(
+        ["git", "diff", "--quiet", commit, "HEAD", "--", ".", f":(exclude){output_relative}"],
+        cwd=root,
+        check=False,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+    )
+    if source_diff.returncode == 1:
+        raise ValueError("tracked source changed after the code-summary provenance commit")
+    if source_diff.returncode != 0:
+        raise ValueError("cannot validate code-summary source provenance")
+    if _dirty_without_output(root, output_relative):
+        raise ValueError("clean code-summary provenance requires no pending source changes")
+
+
+def _read_existing_metadata(output: Path) -> dict[str, Any]:
+    try:
+        text = output.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as error:
+        raise ValueError(f"cannot read {output.name}: {error}") from error
+    if not text.startswith(METADATA_START):
+        raise ValueError(f"{output.name} has no code-summary metadata")
+    end = text.find(METADATA_END, len(METADATA_START))
+    if end < 0:
+        raise ValueError(f"{output.name} metadata is unterminated")
+    try:
+        value = json.loads(text[len(METADATA_START) : end])
+    except json.JSONDecodeError as error:
+        raise ValueError(f"{output.name} metadata is invalid JSON") from error
+    if not isinstance(value, dict) or value.get("format_version") != FORMAT_VERSION:
+        raise ValueError(f"{output.name} metadata version is unsupported")
+    _validate_preserved_provenance(value.get("provenance"))
+    return value
+
+
+def _collect_snapshot(root: Path, output_relative: str) -> tuple[list[dict[str, Any]], list[str]]:
+    files: list[dict[str, Any]] = []
+    skipped_binary: list[str] = []
+    for relative in _tracked_paths(root):
+        path_label = relative.as_posix()
+        if path_label == output_relative:
+            continue
+        path = root / relative
+        try:
+            if path.is_symlink():
+                data = os.readlink(path).encode("utf-8", errors="surrogateescape")
+            else:
+                data = path.read_bytes()
+        except OSError as error:
+            raise ValueError(f"cannot read tracked file {path_label}: {error}") from error
+        text = _decode_text(data)
+        if text is None:
+            skipped_binary.append(path_label)
+            continue
+        canonical = text.encode("utf-8")
+        files.append(
+            {
+                "path": path_label,
+                "bytes": len(canonical),
+                "sha256": hashlib.sha256(canonical).hexdigest(),
+                "text": text,
+                "language": _language(relative),
+            }
+        )
+    return files, skipped_binary
+
+
+def _render(
+    root: Path,
+    output_relative: str,
+    *,
+    preserved_provenance: dict[str, Any] | None = None,
+) -> str:
+    files, skipped_binary = _collect_snapshot(root, output_relative)
+    manifest_files = [
+        {"path": item["path"], "bytes": item["bytes"], "sha256": item["sha256"]}
+        for item in files
+    ]
+    metadata = {
+        "format_version": FORMAT_VERSION,
+        "generator": "python scripts/build_code_summary.py",
+        "provenance": preserved_provenance or _provenance(root, output_relative),
+        "snapshot": {
+            "snapshot_sha256": _snapshot_digest(manifest_files),
+            "included_file_count": len(files),
+            "canonicalization": "UTF-8 text with LF newlines",
+            "excluded_output": output_relative,
+            "skipped_binary_paths": skipped_binary,
+            "files": manifest_files,
+        },
+    }
+    metadata_json = json.dumps(metadata, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
+
+    max_tilde_run = 0
+    for item in files:
+        for match in re.finditer(r"~+", item["text"]):
+            max_tilde_run = max(max_tilde_run, len(match.group(0)))
+    fence = "~" * max(8, max_tilde_run + 1)
+
+    sections = [METADATA_START + metadata_json + METADATA_END, "# Repository code snapshot\n"]
+    for item in files:
+        body = item["text"]
+        if body and not body.endswith("\n"):
+            body += "\n"
+        sections.append(f"# {item['path']}\n\n{fence}{item['language']}\n{body}{fence}\n")
+    return "\n".join(sections)
+
+
+def _atomic_write(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def _parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="fail unless the snapshot matches tracked text")
+    parser.add_argument(
+        "--require-clean-provenance",
+        action="store_true",
+        help=(
+            "require committed source provenance; after generation, only the summary file "
+            "may differ from its source commit"
+        ),
+    )
+    parser.add_argument("--output", type=Path, default=Path("code_summary.md"))
+    parser.add_argument("--root", type=Path, help="repository root; defaults to the current work tree")
+    return parser
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    args = _parser().parse_args(argv)
+    try:
+        root = args.root.resolve() if args.root else _git_root(Path.cwd())
+        output = args.output if args.output.is_absolute() else root / args.output
+        output = output.resolve(strict=False)
+        try:
+            output_relative = output.relative_to(root).as_posix()
+        except ValueError as error:
+            raise ValueError("summary output must be inside the repository") from error
+
+        if args.check:
+            metadata = _read_existing_metadata(output)
+            provenance = _validate_preserved_provenance(metadata["provenance"])
+            if args.require_clean_provenance:
+                _require_clean_provenance(root, output_relative, provenance)
+            expected = _render(root, output_relative, preserved_provenance=provenance)
+            actual = output.read_text(encoding="utf-8")
+            if actual != expected:
+                print(
+                    f"{output_relative} is stale; run python scripts/build_code_summary.py",
+                    file=sys.stderr,
+                )
+                return 1
+            print(f"{output_relative} matches the tracked text snapshot")
+            return 0
+
+        provenance = _provenance(root, output_relative)
+        if args.require_clean_provenance:
+            _require_clean_provenance(root, output_relative, provenance)
+        content = _render(root, output_relative, preserved_provenance=provenance)
+        _atomic_write(output, content)
+        print(f"wrote {output_relative}")
+        return 0
+    except (TypeError, ValueError) as error:
+        print(f"code summary error: {error}", file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 ~~~~~~~~
 
 # scripts/calibrate.sh
@@ -2575,7 +3919,7 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     "Usage: bash scripts/calibrate.sh [CONFIG [ANN_CHECKPOINT [SNN_CHECKPOINT]]]" \
     "" \
     "Environment:" \
-    "  CALIBRATION_SAMPLES=all|N   Default: all EventHDR calibration samples" \
+    "  CALIBRATION_SAMPLES=all|N   Default: all; partial N is rejected for reporting" \
     "  OVERWRITE_CALIBRATION=0|1  Default: 0; protect an existing output" \
     "  VALIDATE_DATASET=0|1       Default: 1" \
     "  INSPECT_VALIDATE_ALL=0|1   Default: 0" \
@@ -2585,9 +3929,9 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   exit 0
 fi
 
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_train.json}}"
-CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}}"
-OUTPUT_PATH="${3:-${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}}"
+CONFIG_PATH="${1:-${CONFIG_PATH:-configs/train.json}}"
+CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/train/best.pt}}"
+OUTPUT_PATH="${3:-${OUTPUT_PATH:-runs/train/best_snn.pt}}"
 CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
@@ -2595,19 +3939,34 @@ REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+
+path_log_label() {
+  local path="$1"
+  if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+    printf '%s' "${path}"
+  else
+    printf '%s' "${path##*/}"
+  fi
+}
 
 cd "${PROJECT_ROOT}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
 if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
+  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
   echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
   exit 1
 fi
 if [[ ! -f "${CONFIG_PATH}" ]]; then
-  echo "ERROR: calibration config not found: ${CONFIG_PATH}" >&2
+  echo "ERROR: calibration config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
 fi
 if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
-  echo "ERROR: ANN checkpoint not found: ${CHECKPOINT_PATH}" >&2
+  echo "ERROR: ANN checkpoint not found: $(path_log_label "${CHECKPOINT_PATH}")" >&2
   exit 1
 fi
 for flag_name in REQUIRE_CUDA VALIDATE_DATASET INSPECT_VALIDATE_ALL OVERWRITE_CALIBRATION; do
@@ -2630,12 +3989,12 @@ PY
 
 if [[ -e "${OUTPUT_PATH}" || -L "${OUTPUT_PATH}" ]]; then
   if [[ "${OVERWRITE_CALIBRATION}" != "1" ]]; then
-    echo "ERROR: calibrated output already exists: ${OUTPUT_PATH}" >&2
+    echo "ERROR: calibrated output already exists: $(path_log_label "${OUTPUT_PATH}")" >&2
     echo "Set OVERWRITE_CALIBRATION=1 only when replacing it is intentional." >&2
     exit 1
   fi
   if [[ -d "${OUTPUT_PATH}" ]]; then
-    echo "ERROR: calibrated output path is a directory: ${OUTPUT_PATH}" >&2
+    echo "ERROR: calibrated output path is a directory: $(path_log_label "${OUTPUT_PATH}")" >&2
     exit 1
   fi
 fi
@@ -2664,7 +4023,7 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
+  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 if [[ "${CALIBRATION_SAMPLES}" != "all" && ! "${CALIBRATION_SAMPLES}" =~ ^[1-9][0-9]*$ ]]; then
@@ -2672,7 +4031,7 @@ if [[ "${CALIBRATION_SAMPLES}" != "all" && ! "${CALIBRATION_SAMPLES}" =~ ^[1-9][
   exit 2
 fi
 
-echo "Calibrating ${CHECKPOINT_PATH} with ${CALIBRATION_SAMPLES} EventHDR samples"
+echo "Calibrating $(path_log_label "${CHECKPOINT_PATH}") with ${CALIBRATION_SAMPLES} EventHDR samples"
 CALIBRATE_ARGS=(
   --config "${CONFIG_PATH}"
   --checkpoint "${CHECKPOINT_PATH}"
@@ -2682,7 +4041,7 @@ CALIBRATE_ARGS=(
 if [[ "${OVERWRITE_CALIBRATION}" == "1" ]]; then
   CALIBRATE_ARGS+=(--overwrite)
 fi
-exec "${PYTHON_BIN}" -m asgcn_recon.cli calibrate "${CALIBRATE_ARGS[@]}"
+exec "${PYTHON_BIN}" -m asgcn_unet.cli calibrate "${CALIBRATE_ARGS[@]}"
 ~~~~~~~~
 
 # scripts/check_env.py
@@ -2703,10 +4062,49 @@ from pathlib import Path
 
 import torch
 
-from asgcn_recon.data import load_eventhdr_split_manifest
+from asgcn_unet.data import load_eventhdr_split_manifest
 
 _OFFICIAL_EVENTHDR_TRAIN = {f"{index}.h5" for index in range(1, 52)}
 _OFFICIAL_EVENTHDR_EVAL = {f"{index}.h5" for index in range(1, 20)}
+
+
+def _logical_path(path: Path | None, project_root: Path, fallback: str) -> str | None:
+    """Return a stable public label instead of a host-specific absolute path."""
+
+    if path is None:
+        return None
+    try:
+        relative = path.relative_to(project_root)
+    except ValueError:
+        return fallback
+    if relative == Path("."):
+        return "$PROJECT_ROOT"
+    return f"$PROJECT_ROOT/{relative.as_posix()}"
+
+
+def _redact_host_paths(message: str, replacements: list[tuple[Path, str]]) -> str:
+    """Replace configured host paths in a routine error with portable labels."""
+
+    result = message
+    ordered = sorted(replacements, key=lambda item: len(str(item[0])), reverse=True)
+    for path, label in ordered:
+        variants = {str(path), path.as_posix()}
+        for variant in sorted(variants, key=len, reverse=True):
+            result = result.replace(f"{variant}\\", f"{label}/")
+            result = result.replace(f"{variant}/", f"{label}/")
+            result = result.replace(variant, label)
+    return result
+
+
+def _host_error(
+    error: BaseException,
+    replacements: list[tuple[Path, str]],
+    include_private_host_provenance: bool,
+) -> str:
+    message = str(error)
+    if include_private_host_provenance:
+        return message
+    return _redact_host_paths(message, replacements)
 
 
 def _eventhdr_files(root: Path) -> list[Path]:
@@ -2769,7 +4167,7 @@ def _version_tuple(value: str) -> tuple[int, ...]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Check ASGCN server readiness")
+    parser = argparse.ArgumentParser(description="Check ASGCN-U-Net server readiness")
     parser.add_argument("--data-root", type=Path, default=None)
     parser.add_argument("--runs-root", type=Path, default=None)
     parser.add_argument("--require-cuda", action="store_true")
@@ -2778,12 +4176,36 @@ def main() -> None:
     parser.add_argument("--require-eventaid-all", action="store_true")
     parser.add_argument("--require-full-data", action="store_true")
     parser.add_argument("--lock", type=Path, default=None)
+    parser.add_argument(
+        "--include-private-host-provenance",
+        action="store_true",
+        help=(
+            "PRIVATE: include hostname and exact host paths for local diagnostics; "
+            "do not publish or attach this output"
+        ),
+    )
     args = parser.parse_args()
 
     project_root = Path(__file__).resolve().parents[1]
     data_root = (args.data_root or project_root / "data").resolve()
     runs_root = (args.runs_root or project_root / "runs").resolve()
-    runs_root.mkdir(parents=True, exist_ok=True)
+    lock_path = args.lock.resolve() if args.lock else None
+    path_replacements = [
+        (data_root, "$DATA_ROOT"),
+        (runs_root, "$RUNS_ROOT"),
+        (project_root, "$PROJECT_ROOT"),
+    ]
+    if lock_path is not None:
+        path_replacements.append((lock_path, "$LOCK_FILE"))
+    try:
+        runs_root.mkdir(parents=True, exist_ok=True)
+    except OSError as error:
+        message = _host_error(
+            error,
+            path_replacements,
+            args.include_private_host_provenance,
+        )
+        raise SystemExit(f"Cannot create $RUNS_ROOT: {message}") from None
 
     cuda_available = torch.cuda.is_available()
     devices = [torch.cuda.get_device_name(index) for index in range(torch.cuda.device_count())]
@@ -2791,26 +4213,40 @@ def main() -> None:
         round(torch.cuda.get_device_properties(index).total_memory / (1024**3), 2)
         for index in range(torch.cuda.device_count())
     ]
-    lock_path = args.lock.resolve() if args.lock else None
-    lock_mismatches = _check_lock(lock_path) if lock_path and lock_path.is_file() else None
+    try:
+        lock_mismatches = _check_lock(lock_path) if lock_path and lock_path.is_file() else None
+    except (OSError, TypeError, ValueError) as error:
+        message = _host_error(
+            error,
+            path_replacements,
+            args.include_private_host_provenance,
+        )
+        raise SystemExit(f"Dependency lock check failed: {message}") from None
     lock_python_match = None
     if lock_path:
         match = re.fullmatch(r"py(\d)(\d+)", lock_path.stem)
         if match:
             expected_python = f"{match.group(1)}.{match.group(2)}"
             lock_python_match = platform.python_version().startswith(f"{expected_python}.")
-    train_files = _eventhdr_files(data_root / "EventHDR" / "train")
-    eval_files = _eventhdr_files(data_root / "EventHDR" / "eval")
+    try:
+        train_files = _eventhdr_files(data_root / "EventHDR" / "train")
+        eval_files = _eventhdr_files(data_root / "EventHDR" / "eval")
+        data_disk = shutil.disk_usage(data_root if data_root.exists() else project_root)
+        runs_disk = shutil.disk_usage(runs_root)
+    except OSError as error:
+        message = _host_error(
+            error,
+            path_replacements,
+            args.include_private_host_provenance,
+        )
+        raise SystemExit(f"Environment filesystem check failed: {message}") from None
     train_root = data_root / "EventHDR" / "train"
     train_present = {path.relative_to(train_root).as_posix() for path in train_files}
     eval_root = data_root / "EventHDR" / "eval"
     eval_present = {path.relative_to(eval_root).as_posix() for path in eval_files}
-    data_disk = shutil.disk_usage(data_root if data_root.exists() else project_root)
-    runs_disk = shutil.disk_usage(runs_root)
     libc_name, libc_version = platform.libc_ver()
     report = {
-        "project_root": str(project_root),
-        "hostname": socket.gethostname(),
+        "project_root": "$PROJECT_ROOT",
         "platform": platform.platform(),
         "libc": {"name": libc_name or None, "version": libc_version or None},
         "python": sys.version.split()[0],
@@ -2821,32 +4257,41 @@ def main() -> None:
         "gpu_devices": devices,
         "gpu_memory_gib": gpu_memory_gib,
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
-        "data_root": str(data_root),
+        "data_root": "$DATA_ROOT",
         "eventhdr_train_h5": len(train_files),
         "eventhdr_eval_h5": len(eval_files),
         "eventaid_r_zip": _count_files(data_root / "EventAid-R", "R-*.zip"),
-        "runs_root": str(runs_root),
+        "runs_root": "$RUNS_ROOT",
         "runs_writable": os.access(runs_root, os.W_OK),
         "data_disk_free_gib": round(data_disk.free / (1024**3), 2),
         "runs_disk_free_gib": round(runs_disk.free / (1024**3), 2),
-        "lock_file": str(lock_path) if lock_path else None,
+        "lock_file": _logical_path(lock_path, project_root, "$LOCK_FILE"),
         "constraint_versions_match": (not lock_mismatches if lock_mismatches is not None else None),
         "constraint_python_match": lock_python_match,
         "lock_mismatches": lock_mismatches,
     }
+    if args.include_private_host_provenance:
+        report["private_host_provenance"] = {
+            "hostname": socket.gethostname(),
+            "project_root": str(project_root),
+            "data_root": str(data_root),
+            "runs_root": str(runs_root),
+            "lock_file": str(lock_path) if lock_path else None,
+            "publication_warning": "private local diagnostics; do not publish",
+        }
     print(json.dumps(report, indent=2, ensure_ascii=False))
 
     problems: list[str] = []
     if not report["runs_writable"]:
-        problems.append(f"Run directory is not writable: {runs_root}")
+        problems.append("$RUNS_ROOT is not writable")
     if args.require_cuda and not cuda_available:
         problems.append("CUDA was required but torch.cuda.is_available() is false")
     if lock_path and not lock_path.is_file():
-        problems.append(f"Dependency lock does not exist: {lock_path}")
+        problems.append(f"Dependency lock does not exist: {report['lock_file']}")
     elif lock_mismatches:
-        problems.append(f"Installed packages differ from dependency lock: {lock_path}")
+        problems.append(f"Installed packages differ from dependency lock: {report['lock_file']}")
     if lock_python_match is False:
-        problems.append(f"Python version does not match dependency profile: {lock_path}")
+        problems.append(f"Python version does not match dependency profile: {report['lock_file']}")
     locked_torch = (
         _locked_versions(lock_path).get("torch") if lock_path and lock_path.is_file() else None
     )
@@ -2878,43 +4323,80 @@ def main() -> None:
     if require_eventhdr_train:
         manifest_path = project_root / "manifests" / "eventhdr_split.json"
         if not manifest_path.is_file():
-            problems.append(f"Official EventHDR split manifest is missing: {manifest_path}")
+            problems.append(
+                "Official EventHDR split manifest is missing: "
+                "$PROJECT_ROOT/manifests/eventhdr_split.json"
+            )
         else:
-            manifest = load_eventhdr_split_manifest(manifest_path)
-            if manifest.get("status") != "final" or manifest.get("split_schema") != (
-                "official_separate_roots_v1"
-            ):
-                problems.append(
-                    "EventHDR training requires a final official_separate_roots_v1 manifest"
+            try:
+                manifest = load_eventhdr_split_manifest(manifest_path)
+            except (OSError, TypeError, ValueError) as error:
+                message = _host_error(
+                    error,
+                    path_replacements,
+                    args.include_private_host_provenance,
                 )
-            manifest_train = set(manifest.get("train_files", []))
-            manifest_eval = set(manifest.get("val_files", []))
-            if manifest_train != _OFFICIAL_EVENTHDR_TRAIN:
                 problems.append(
-                    "EventHDR split manifest train root must declare exactly 1.h5 through 51.h5"
+                    f"EventHDR split manifest validation failed: {message}"
                 )
-            if manifest_eval != _OFFICIAL_EVENTHDR_EVAL:
-                problems.append(
-                    "EventHDR split manifest eval root must declare exactly 1.h5 through 19.h5"
-                )
+            else:
+                if manifest.get("status") != "final" or manifest.get("split_schema") != (
+                    "official_separate_roots_v1"
+                ):
+                    problems.append(
+                        "EventHDR training requires a final "
+                        "official_separate_roots_v1 manifest"
+                    )
+                manifest_train = set(manifest.get("train_files", []))
+                manifest_eval = set(manifest.get("val_files", []))
+                if manifest_train != _OFFICIAL_EVENTHDR_TRAIN:
+                    problems.append(
+                        "EventHDR split manifest train root must declare exactly "
+                        "1.h5 through 51.h5"
+                    )
+                if manifest_eval != _OFFICIAL_EVENTHDR_EVAL:
+                    problems.append(
+                        "EventHDR split manifest eval root must declare exactly "
+                        "1.h5 through 19.h5"
+                    )
     if require_eventaid_all:
         aid_manifest_path = project_root / "manifests" / "eventaid_r.json"
         if aid_manifest_path.is_file():
-            aid_manifest = json.loads(aid_manifest_path.read_text(encoding="utf-8"))
-            aid_root = data_root / "EventAid-R"
-            aid_present = {path.name for path in aid_root.glob("R-*.zip")}
-            aid_required = {
-                f"{item['scene']}.zip"
-                for item in aid_manifest.get("files", [])
-                if isinstance(item, dict) and item.get("scene")
-            }
-            problem = _exact_coverage_problem("eventaid_r_zip", aid_present, aid_required)
-            if problem:
-                problems.append(problem)
+            try:
+                aid_manifest = json.loads(aid_manifest_path.read_text(encoding="utf-8"))
+                aid_root = data_root / "EventAid-R"
+                aid_present = {path.name for path in aid_root.glob("R-*.zip")}
+            except (OSError, TypeError, ValueError) as error:
+                message = _host_error(
+                    error,
+                    path_replacements,
+                    args.include_private_host_provenance,
+                )
+                problems.append(f"EventAid-R manifest validation failed: {message}")
+            else:
+                aid_required = {
+                    f"{item['scene']}.zip"
+                    for item in aid_manifest.get("files", [])
+                    if isinstance(item, dict) and item.get("scene")
+                }
+                problem = _exact_coverage_problem("eventaid_r_zip", aid_present, aid_required)
+                if problem:
+                    problems.append(problem)
         else:
-            problems.append(f"EventAid-R manifest is missing: {aid_manifest_path}")
+            problems.append(
+                "EventAid-R manifest is missing: $PROJECT_ROOT/manifests/eventaid_r.json"
+            )
     if problems:
-        raise SystemExit("; ".join(problems))
+        message = "; ".join(problems)
+        if args.include_private_host_provenance:
+            message = message.replace("$PROJECT_ROOT", str(project_root))
+            message = message.replace("$DATA_ROOT", str(data_root))
+            message = message.replace("$RUNS_ROOT", str(runs_root))
+            if lock_path is not None:
+                message = message.replace("$LOCK_FILE", str(lock_path))
+        else:
+            message = _redact_host_paths(message, path_replacements)
+        raise SystemExit(message)
 
 
 if __name__ == "__main__":
@@ -2929,8 +4411,8 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_ann.json}}"
-CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}}"
+CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr.json}}"
+CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/train/best.pt}}"
 INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 SNN_DYNAMICS="${SNN_DYNAMICS:-}"
@@ -2942,20 +4424,35 @@ REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+
+path_log_label() {
+  local path="$1"
+  if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+    printf '%s' "${path}"
+  else
+    printf '%s' "${path##*/}"
+  fi
+}
 
 cd "${PROJECT_ROOT}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
 if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
+  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
   echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
   exit 1
 fi
 
 if [[ ! -f "${CONFIG_PATH}" ]]; then
-  echo "ERROR: evaluation config not found: ${CONFIG_PATH}" >&2
+  echo "ERROR: evaluation config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
 fi
 if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
-  echo "ERROR: checkpoint not found: ${CHECKPOINT_PATH}" >&2
+  echo "ERROR: checkpoint not found: $(path_log_label "${CHECKPOINT_PATH}")" >&2
   exit 1
 fi
 if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
@@ -3010,11 +4507,11 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
+  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
-echo "Evaluating ${CHECKPOINT_PATH} on ${CONFIG_PATH} (${INFERENCE_MODE})"
-"${PYTHON_BIN}" -m asgcn_recon.cli evaluate \
+echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${CONFIG_PATH}") (${INFERENCE_MODE})"
+"${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
   --config "${CONFIG_PATH}" \
   --checkpoint "${CHECKPOINT_PATH}" \
   --inference-mode "${INFERENCE_MODE}" \
@@ -3023,7 +4520,7 @@ echo "Evaluating ${CHECKPOINT_PATH} on ${CONFIG_PATH} (${INFERENCE_MODE})"
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"
-  "${PYTHON_BIN}" -m asgcn_recon.cli benchmark \
+  "${PYTHON_BIN}" -m asgcn_unet.cli benchmark \
     --config "${CONFIG_PATH}" \
     --checkpoint "${CHECKPOINT_PATH}" \
     --warmup "${BENCHMARK_WARMUP}" \
@@ -3032,233 +4529,6 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     --simulation-steps "${SIMULATION_STEPS}" \
     "${DYNAMICS_ARGS[@]}"
 fi
-~~~~~~~~
-
-# scripts/full.sh
-
-~~~~~~~~bash
-#!/usr/bin/env bash
-set -Eeuo pipefail
-
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-
-if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
-  printf '%s\n' \
-    "Usage: bash scripts/full.sh" \
-    "" \
-    "Runs, in order:" \
-    "  full environment/data check and complete EventHDR/EventAid-R validation" \
-    "  EventHDR ANN train (or RESUME_CHECKPOINT resume)" \
-    "  all-sample EventHDR ANN-to-SNN calibration" \
-    "  EventHDR and EventAid-R ANN evaluation+benchmark" \
-    "  literal_eq15 and standard_if SNN evaluation+benchmark at T=4,8,16,32" \
-    "" \
-    "Important environment:" \
-    "  RESUME_CHECKPOINT=PATH" \
-    "  TRAIN_CONFIG / HDR_ANN_CONFIG / HDR_SNN_CONFIG" \
-    "  AID_ANN_CONFIG / AID_SNN_CONFIG" \
-    "  ANN_CHECKPOINT / SNN_CHECKPOINT" \
-    "  PYTHON_BIN=PATH                         Default: <repo>/.venv/bin/python" \
-    "  REQUIRE_CUDA=0|1                       Default: 1" \
-    "  CALIBRATION_SAMPLES=all|N              Default: all" \
-    "  SIMULATION_STEPS_LIST='4 8 16 32'" \
-    "  BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N" \
-    "  OVERWRITE_CALIBRATION=0|1              Default: 0" \
-    "  DRY_RUN=0|1                            Print the complete command schedule"
-  exit 0
-fi
-
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
-REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
-CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
-TRAIN_CONFIG="${TRAIN_CONFIG:-configs/hdr_train.json}"
-HDR_ANN_CONFIG="${HDR_ANN_CONFIG:-configs/hdr_ann.json}"
-HDR_SNN_CONFIG="${HDR_SNN_CONFIG:-configs/hdr_snn.json}"
-AID_ANN_CONFIG="${AID_ANN_CONFIG:-configs/aid_ann.json}"
-AID_SNN_CONFIG="${AID_SNN_CONFIG:-configs/aid_snn.json}"
-ANN_CHECKPOINT="${ANN_CHECKPOINT:-runs/eventhdr_asgcn/best.pt}"
-SNN_CHECKPOINT="${SNN_CHECKPOINT:-runs/eventhdr_asgcn/best_snn.pt}"
-RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
-CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
-OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
-SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"
-BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
-BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
-INSPECT_SAMPLES="${INSPECT_SAMPLES:-2}"
-DRY_RUN="${DRY_RUN:-0}"
-
-cd "${PROJECT_ROOT}"
-for flag_name in REQUIRE_CUDA OVERWRITE_CALIBRATION DRY_RUN; do
-  flag_value="${!flag_name}"
-  if [[ "${flag_value}" != "0" && "${flag_value}" != "1" ]]; then
-    echo "ERROR: ${flag_name} must be 0 or 1" >&2
-    exit 2
-  fi
-done
-if [[ "${DRY_RUN}" != "1" && ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
-  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
-for required_path in \
-  "${CONSTRAINTS_FILE}" \
-  "${TRAIN_CONFIG}" \
-  "${HDR_ANN_CONFIG}" \
-  "${HDR_SNN_CONFIG}" \
-  "${AID_ANN_CONFIG}" \
-  "${AID_SNN_CONFIG}"; do
-  if [[ ! -f "${required_path}" ]]; then
-    echo "ERROR: required full-run file not found: ${required_path}" >&2
-    exit 1
-  fi
-done
-if [[ -n "${RESUME_CHECKPOINT}" && "${DRY_RUN}" != "1" && ! -f "${RESUME_CHECKPOINT}" ]]; then
-  echo "ERROR: resume checkpoint not found: ${RESUME_CHECKPOINT}" >&2
-  exit 1
-fi
-
-read -r -a SIMULATION_STEPS <<< "${SIMULATION_STEPS_LIST}"
-if [[ "${#SIMULATION_STEPS[@]}" -eq 0 ]]; then
-  echo "ERROR: SIMULATION_STEPS_LIST must contain at least one positive integer" >&2
-  exit 2
-fi
-for step in "${SIMULATION_STEPS[@]}"; do
-  if [[ ! "${step}" =~ ^[1-9][0-9]*$ ]]; then
-    echo "ERROR: invalid simulation step '${step}' in SIMULATION_STEPS_LIST" >&2
-    exit 2
-  fi
-done
-
-run_cmd() {
-  printf ' +'
-  printf ' %q' "$@"
-  printf '\n'
-  if [[ "${DRY_RUN}" != "1" ]]; then
-    "$@"
-  fi
-}
-
-run_evaluation() {
-  local config_path="$1"
-  local checkpoint_path="$2"
-  local mode="$3"
-  local simulation_steps="$4"
-  local dynamics="$5"
-  run_cmd env \
-    REQUIRE_CUDA="${REQUIRE_CUDA}" \
-    VALIDATE_DATASET=0 \
-    RUN_BENCHMARK=1 \
-    BENCHMARK_WARMUP="${BENCHMARK_WARMUP}" \
-    BENCHMARK_STEPS="${BENCHMARK_STEPS}" \
-    INFERENCE_MODE="${mode}" \
-    SIMULATION_STEPS="${simulation_steps}" \
-    SNN_DYNAMICS="${dynamics}" \
-    PYTHON_BIN="${PYTHON_BIN}" \
-    bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
-}
-
-echo "[1/5] Full environment and dataset inventory"
-CHECK_ARGS=("${PYTHON_BIN}" scripts/check_env.py --require-full-data --lock "${CONSTRAINTS_FILE}")
-if [[ "${REQUIRE_CUDA}" == "1" ]]; then
-  CHECK_ARGS+=(--require-cuda)
-fi
-run_cmd "${CHECK_ARGS[@]}"
-
-echo "[2/5] Decode and validate every EventHDR train/eval and EventAid-R sample"
-# TRAIN_CONFIG inspection covers both EventHDR roots. Inspecting HDR_ANN_CONFIG
-# here would decode the same 19 eval files a second time without adding coverage.
-for config_path in "${TRAIN_CONFIG}" "${AID_ANN_CONFIG}"; do
-  run_cmd "${PYTHON_BIN}" -m asgcn_recon.cli inspect \
-    --config "${config_path}" \
-    --samples "${INSPECT_SAMPLES}" \
-    --validate-all
-done
-
-echo "[3/5] EventHDR ANN training"
-run_cmd env \
-  REQUIRE_CUDA="${REQUIRE_CUDA}" \
-  VALIDATE_DATASET=0 \
-  RESUME_CHECKPOINT="${RESUME_CHECKPOINT}" \
-  PYTHON_BIN="${PYTHON_BIN}" \
-  bash "${PROJECT_ROOT}/scripts/train.sh" "${TRAIN_CONFIG}"
-if [[ "${DRY_RUN}" != "1" && ! -f "${ANN_CHECKPOINT}" ]]; then
-  echo "ERROR: training completed without ANN checkpoint: ${ANN_CHECKPOINT}" >&2
-  exit 1
-fi
-
-echo "[4/5] Full EventHDR ANN-to-SNN calibration"
-run_cmd env \
-  REQUIRE_CUDA="${REQUIRE_CUDA}" \
-  VALIDATE_DATASET=0 \
-  CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES}" \
-  OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION}" \
-  PYTHON_BIN="${PYTHON_BIN}" \
-  bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
-    "${TRAIN_CONFIG}" "${ANN_CHECKPOINT}" "${SNN_CHECKPOINT}"
-if [[ "${DRY_RUN}" != "1" && ! -f "${SNN_CHECKPOINT}" ]]; then
-  echo "ERROR: calibration completed without SNN checkpoint: ${SNN_CHECKPOINT}" >&2
-  exit 1
-fi
-
-echo "[5/5] Full EventHDR and EventAid-R evaluation and compute benchmark matrix"
-for dataset_spec in \
-  "${HDR_ANN_CONFIG}|${HDR_SNN_CONFIG}" \
-  "${AID_ANN_CONFIG}|${AID_SNN_CONFIG}"; do
-  IFS='|' read -r ann_config snn_config <<< "${dataset_spec}"
-  run_evaluation "${ann_config}" "${ANN_CHECKPOINT}" ann 16 ""
-  for dynamics in literal_eq15 standard_if; do
-    for simulation_steps in "${SIMULATION_STEPS[@]}"; do
-      run_evaluation \
-        "${snn_config}" \
-        "${SNN_CHECKPOINT}" \
-        snn \
-        "${simulation_steps}" \
-        "${dynamics}"
-    done
-  done
-done
-
-echo "Full experiment matrix completed."
-echo "ANN checkpoint: ${ANN_CHECKPOINT}"
-echo "SNN checkpoint: ${SNN_CHECKPOINT}"
-~~~~~~~~
-
-# scripts/get_aid.ps1
-
-~~~~~~~~powershell
-param(
-    [string]$Destination = ".\data\EventAid-R",
-    [string[]]$Scenes = @()
-)
-
-$ErrorActionPreference = "Stop"
-$projectRoot = Split-Path -Parent $PSScriptRoot
-$manifestPath = Join-Path $projectRoot "manifests\eventaid_r.json"
-$manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
-$destinationPath = [System.IO.Path]::GetFullPath((Join-Path $projectRoot $Destination))
-New-Item -ItemType Directory -Path $destinationPath -Force | Out-Null
-
-$selected = $manifest.files
-if ($Scenes.Count -gt 0) {
-    $selected = $manifest.files | Where-Object { $Scenes -contains $_.scene }
-    $missing = $Scenes | Where-Object { $_ -notin $selected.scene }
-    if ($missing.Count -gt 0) {
-        throw "Unknown scene(s): $($missing -join ', ')"
-    }
-}
-
-Write-Host "EventAid-R destination: $destinationPath"
-Write-Host "Selected scenes: $($selected.scene -join ', ')"
-foreach ($item in $selected) {
-    $target = Join-Path $destinationPath ($item.scene + ".zip")
-    Write-Host "Downloading $($item.scene) ($($item.size))"
-    & curl.exe -L --fail --retry 5 --retry-delay 3 --continue-at - --output $target $item.url
-    if ($LASTEXITCODE -ne 0) {
-        throw "Download failed: $($item.scene)"
-    }
-}
-Write-Host "Done. ZIP files are read directly; do not extract them."
 ~~~~~~~~
 
 # scripts/get_aid.sh
@@ -3888,6 +5158,972 @@ cd -- "${PROJECT_ROOT}"
 exec "${PYTHON_BIN}" "${SCRIPT_DIR}/get_hdr.py" "$@"
 ~~~~~~~~
 
+# scripts/run.sh
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+
+usage() {
+  cat <<'EOF'
+Usage: bash scripts/run.sh [check|profile|train|calibrate|eval|all]
+
+Stages:
+  check       Check CUDA/dependencies/full data and decode every selected sample
+  profile     Scan all train graphs and run CUDA backward on the densest samples
+  train       Train EventHDR ANN, or resume with RESUME_CHECKPOINT
+  calibrate   Convert runs/train/best.pt to runs/train/best_snn.pt
+  eval        Run the complete EventHDR/EventAid-R ANN+SNN evaluation matrix
+  all         Run check, profile, train, calibrate and eval in order (default)
+
+Important environment:
+  RESUME_CHECKPOINT=PATH
+  TRAIN_CONFIG / HDR_CONFIG / AID_CONFIG
+  ANN_CHECKPOINT / SNN_CHECKPOINT
+  PYTHON_BIN=PATH                         Default: <repo>/.venv/bin/python
+  REQUIRE_CUDA=0|1                       Default: 1
+  CALIBRATION_SAMPLES=all|N              Default: all; partial N cannot be reporting
+  SIMULATION_STEPS_LIST='4 8 16 32'
+  BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N
+  PROFILE_SAMPLES=N / PROFILE_TOP_DENSITY=N
+  PROFILE_OUTPUT=PATH                    Default: runs/profile.json
+  ALLOW_UNVERIFIED_PREFLIGHT=0|1         Non-reporting train bypass; default: 0
+  OVERWRITE_CALIBRATION=0|1              Default: 0
+  DRY_RUN=0|1                            Print commands without executing them
+  INCLUDE_PRIVATE_HOST_PROVENANCE=0|1    Default: 0; exact host paths are private
+
+Existing artifacts, including PROFILE_OUTPUT, are never silently skipped. Select
+a stage explicitly when recovering a partial run; wrappers fail rather than
+overwrite protected output.
+EOF
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
+
+STAGE="${1:-all}"
+case "${STAGE}" in
+  check|profile|train|calibrate|eval|all) ;;
+  *)
+    echo "ERROR: unknown stage '${STAGE}'" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
+if [[ "$#" -gt 1 ]]; then
+  echo "ERROR: run.sh accepts at most one stage argument" >&2
+  usage >&2
+  exit 2
+fi
+
+PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
+TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
+HDR_CONFIG="${HDR_CONFIG:-configs/hdr.json}"
+AID_CONFIG="${AID_CONFIG:-configs/aid.json}"
+ANN_CHECKPOINT="${ANN_CHECKPOINT:-runs/train/best.pt}"
+SNN_CHECKPOINT="${SNN_CHECKPOINT:-runs/train/best_snn.pt}"
+RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
+CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
+OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
+SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"
+BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
+BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
+PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
+PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
+PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
+INSPECT_SAMPLES="${INSPECT_SAMPLES:-2}"
+DRY_RUN="${DRY_RUN:-0}"
+STATUS_DIR="${STATUS_DIR:-runs/status}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+
+cd "${PROJECT_ROOT}"
+
+for flag_name in \
+  REQUIRE_CUDA \
+  OVERWRITE_CALIBRATION \
+  DRY_RUN \
+  ALLOW_UNVERIFIED_PREFLIGHT \
+  INCLUDE_PRIVATE_HOST_PROVENANCE; do
+  flag_value="${!flag_name}"
+  if [[ "${flag_value}" != "0" && "${flag_value}" != "1" ]]; then
+    echo "ERROR: ${flag_name} must be 0 or 1" >&2
+    exit 2
+  fi
+done
+
+path_log_label() {
+  local path="$1"
+  if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+    printf '%s' "${path}"
+  else
+    printf '%s' "${path##*/}"
+  fi
+}
+if [[ "${DRY_RUN}" != "1" \
+  && ( "${STAGE}" == "profile" || "${STAGE}" == "all" ) \
+  && "${REQUIRE_CUDA}" != "1" ]]; then
+  echo "ERROR: profile/all is a CUDA reporting gate and requires REQUIRE_CUDA=1." >&2
+  echo "For a deliberate non-reporting train only, select train and set" >&2
+  echo "ALLOW_UNVERIFIED_PREFLIGHT=1." >&2
+  exit 2
+fi
+if [[ "${STAGE}" == "all" && "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
+  echo "ERROR: all is a reporting pipeline and cannot bypass its preflight gate." >&2
+  exit 2
+fi
+
+if [[ "${DRY_RUN}" != "1" && ! -x "${PYTHON_BIN}" ]]; then
+  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
+  echo "Run bash scripts/setup.sh first, or set PYTHON_BIN." >&2
+  exit 1
+fi
+for required_path in \
+  "${CONSTRAINTS_FILE}" \
+  "${TRAIN_CONFIG}" \
+  "${HDR_CONFIG}" \
+  "${AID_CONFIG}"; do
+  if [[ ! -f "${required_path}" ]]; then
+    echo "ERROR: required run file not found: $(path_log_label "${required_path}")" >&2
+    exit 1
+  fi
+done
+if [[ -n "${RESUME_CHECKPOINT}" && "${DRY_RUN}" != "1" \
+  && ! -f "${RESUME_CHECKPOINT}" ]]; then
+  echo "ERROR: resume checkpoint not found: $(path_log_label "${RESUME_CHECKPOINT}")" >&2
+  exit 1
+fi
+
+read -r -a SIMULATION_STEPS <<< "${SIMULATION_STEPS_LIST}"
+if [[ "${#SIMULATION_STEPS[@]}" -eq 0 ]]; then
+  echo "ERROR: SIMULATION_STEPS_LIST must contain at least one positive integer" >&2
+  exit 2
+fi
+for step in "${SIMULATION_STEPS[@]}"; do
+  if [[ ! "${step}" =~ ^[1-9][0-9]*$ ]]; then
+    echo "ERROR: invalid simulation step '${step}' in SIMULATION_STEPS_LIST" >&2
+    exit 2
+  fi
+done
+for profile_value in "${PROFILE_SAMPLES}" "${PROFILE_TOP_DENSITY}"; do
+  if [[ ! "${profile_value}" =~ ^[1-9][0-9]*$ ]]; then
+    echo "ERROR: profile sample counts must be positive integers" >&2
+    exit 2
+  fi
+done
+if ((PROFILE_TOP_DENSITY < PROFILE_SAMPLES)); then
+  echo "ERROR: PROFILE_TOP_DENSITY must be >= PROFILE_SAMPLES" >&2
+  exit 2
+fi
+
+run_cmd() {
+  printf ' +'
+  local argument
+  local display
+  for argument in "$@"; do
+    if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+      display="${argument}"
+    else
+      display="${argument//${PROJECT_ROOT}/\$PROJECT_ROOT}"
+      if [[ "${display}" == /* ]]; then
+        display="\$EXTERNAL/${display##*/}"
+      elif [[ "${display}" == *=/* ]]; then
+        display="${display%%=*}=\$EXTERNAL/${display##*/}"
+      fi
+    fi
+    printf ' %q' "${display}"
+  done
+  printf '\n'
+  if [[ "${DRY_RUN}" != "1" ]]; then
+    "$@"
+  fi
+}
+
+write_stage_status() {
+  local stage_name="$1"
+  local state="$2"
+  local exit_code="${3:-null}"
+  if [[ "${DRY_RUN}" == "1" ]]; then
+    return
+  fi
+  mkdir -p "${STATUS_DIR}"
+  local status_file="${STATUS_DIR}/${stage_name}.json"
+  local temporary
+  temporary="$(mktemp "${status_file}.XXXXXX")"
+  printf '{"stage":"%s","state":"%s","exit_code":%s,"updated_utc":"%s"}\n' \
+    "${stage_name}" \
+    "${state}" \
+    "${exit_code}" \
+    "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" > "${temporary}"
+  mv -f -- "${temporary}" "${status_file}"
+}
+
+ACTIVE_STAGE=""
+record_stage_failure() {
+  local exit_code="$?"
+  trap - ERR
+  if [[ -n "${ACTIVE_STAGE}" ]]; then
+    write_stage_status "${ACTIVE_STAGE}" FAILED "${exit_code}"
+  fi
+  exit "${exit_code}"
+}
+trap record_stage_failure ERR
+
+execute_stage() {
+  local stage_name="$1"
+  local stage_function="$2"
+  ACTIVE_STAGE="${stage_name}"
+  write_stage_status "${stage_name}" RUNNING
+  "${stage_function}"
+  write_stage_status "${stage_name}" COMPLETED 0
+  ACTIVE_STAGE=""
+}
+
+require_file() {
+  local path="$1"
+  local label="$2"
+  if [[ "${DRY_RUN}" != "1" && ! -f "${path}" ]]; then
+    echo "ERROR: ${label} not found: $(path_log_label "${path}")" >&2
+    exit 1
+  fi
+}
+
+run_check() {
+  echo "[check] Environment, complete data inventory and full decode validation"
+  local check_args=(
+    "${PYTHON_BIN}" scripts/check_env.py
+    --require-full-data
+    --lock "${CONSTRAINTS_FILE}"
+  )
+  if [[ "${REQUIRE_CUDA}" == "1" ]]; then
+    check_args+=(--require-cuda)
+  fi
+  if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+    check_args+=(--include-private-host-provenance)
+  fi
+  run_cmd "${check_args[@]}"
+
+  # train.json inspection covers both EventHDR train and eval roots.
+  for config_path in "${TRAIN_CONFIG}" "${AID_CONFIG}"; do
+    local inspect_args=(
+      "${PYTHON_BIN}" -m asgcn_unet.cli inspect
+      --config "${config_path}"
+      --samples "${INSPECT_SAMPLES}"
+      --validate-all
+    )
+    if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+      inspect_args+=(--include-private-host-provenance)
+    fi
+    run_cmd "${inspect_args[@]}"
+  done
+}
+
+run_profile() {
+  echo "[profile] Complete EventHDR topology scan and densest-sample CUDA training probe"
+  run_cmd "${PYTHON_BIN}" -m asgcn_unet.cli profile \
+    --config "${TRAIN_CONFIG}" \
+    --output "${PROFILE_OUTPUT}" \
+    --samples "${PROFILE_SAMPLES}" \
+    --top-density "${PROFILE_TOP_DENSITY}"
+  require_file "${PROFILE_OUTPUT}" "training preflight report"
+}
+
+run_train() {
+  echo "[train] EventHDR ANN training"
+  run_cmd env \
+    REQUIRE_CUDA="${REQUIRE_CUDA}" \
+    VALIDATE_DATASET=0 \
+    PREFLIGHT_REPORT="${PROFILE_OUTPUT}" \
+    ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT}" \
+    RESUME_CHECKPOINT="${RESUME_CHECKPOINT}" \
+    PYTHON_BIN="${PYTHON_BIN}" \
+    bash "${PROJECT_ROOT}/scripts/train.sh" "${TRAIN_CONFIG}"
+  require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
+}
+
+run_calibrate() {
+  echo "[calibrate] Full EventHDR ANN-to-SNN calibration"
+  require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
+  run_cmd env \
+    REQUIRE_CUDA="${REQUIRE_CUDA}" \
+    VALIDATE_DATASET=0 \
+    CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES}" \
+    OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION}" \
+    PYTHON_BIN="${PYTHON_BIN}" \
+    bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+      "${TRAIN_CONFIG}" "${ANN_CHECKPOINT}" "${SNN_CHECKPOINT}"
+  require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
+}
+
+run_one_evaluation() {
+  local config_path="$1"
+  local checkpoint_path="$2"
+  local mode="$3"
+  local simulation_steps="$4"
+  local dynamics="$5"
+  run_cmd env \
+    REQUIRE_CUDA="${REQUIRE_CUDA}" \
+    VALIDATE_DATASET=0 \
+    RUN_BENCHMARK=1 \
+    BENCHMARK_WARMUP="${BENCHMARK_WARMUP}" \
+    BENCHMARK_STEPS="${BENCHMARK_STEPS}" \
+    INFERENCE_MODE="${mode}" \
+    SIMULATION_STEPS="${simulation_steps}" \
+    SNN_DYNAMICS="${dynamics}" \
+    PYTHON_BIN="${PYTHON_BIN}" \
+    bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
+}
+
+run_eval() {
+  echo "[eval] Complete EventHDR and EventAid-R ANN+SNN matrix"
+  require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
+  require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
+  for config_path in "${HDR_CONFIG}" "${AID_CONFIG}"; do
+    run_one_evaluation "${config_path}" "${ANN_CHECKPOINT}" ann 16 ""
+    for dynamics in literal_eq15 standard_if; do
+      for simulation_steps in "${SIMULATION_STEPS[@]}"; do
+        run_one_evaluation \
+          "${config_path}" \
+          "${SNN_CHECKPOINT}" \
+          snn \
+          "${simulation_steps}" \
+          "${dynamics}"
+      done
+    done
+  done
+}
+
+case "${STAGE}" in
+  check) execute_stage check run_check ;;
+  profile) execute_stage profile run_profile ;;
+  train) execute_stage train run_train ;;
+  calibrate) execute_stage calibrate run_calibrate ;;
+  eval) execute_stage eval run_eval ;;
+  all)
+    execute_stage check run_check
+    execute_stage profile run_profile
+    execute_stage train run_train
+    execute_stage calibrate run_calibrate
+    execute_stage eval run_eval
+    ;;
+esac
+
+echo "Stage '${STAGE}' completed."
+echo "Training preflight: $(path_log_label "${PROFILE_OUTPUT}")"
+echo "ANN checkpoint: $(path_log_label "${ANN_CHECKPOINT}")"
+echo "SNN checkpoint: $(path_log_label "${SNN_CHECKPOINT}")"
+~~~~~~~~
+
+# scripts/scan_private_text.py
+
+~~~~~~~~python
+#!/usr/bin/env python3
+"""Scan repository text without checking private markers into the repository.
+
+The built-in rules catch user-specific home-directory paths and labelled identity
+values. Project-specific strings belong in an external denylist or in the
+``PRIVATE_MARKERS_B64`` environment variable, never in a tracked test fixture.
+"""
+
+from __future__ import annotations
+
+import argparse
+import ast
+import base64
+import binascii
+import json
+import os
+import re
+import subprocess
+import sys
+from collections.abc import Iterable, Iterator, Sequence
+from dataclasses import dataclass
+from pathlib import Path
+
+
+@dataclass(frozen=True)
+class PatternSpec:
+    name: str
+    expression: re.Pattern[str]
+
+
+@dataclass(frozen=True, order=True)
+class Finding:
+    path: str
+    line: int
+    rule: str
+    representation: str
+    object_id: str = ""
+
+
+def _generic_patterns() -> tuple[PatternSpec, ...]:
+    slash = chr(47)
+    backslash = chr(92)
+    unix_home = re.escape(slash + "home" + slash)
+    mac_home = re.escape(slash + "Users" + slash)
+    windows_users = re.escape(":" + backslash + "Users" + backslash)
+    windows_users_slash = re.escape(":" + slash + "Users" + slash)
+    identity_labels = "(?:user(?:name)?|account|host(?:name)?)"
+    path_component = r"(?![<$({])[A-Za-z0-9._-]{1,128}"
+
+    return (
+        PatternSpec(
+            "generic-unix-home",
+            re.compile(r"(?i)(?<![A-Za-z0-9_])" + unix_home + path_component + slash),
+        ),
+        PatternSpec(
+            "generic-macos-home",
+            re.compile(r"(?i)(?<![A-Za-z0-9_])" + mac_home + path_component + slash),
+        ),
+        PatternSpec(
+            "generic-windows-home",
+            re.compile(
+                r"(?i)\b[A-Z](?:"
+                + windows_users
+                + "|"
+                + windows_users_slash
+                + ")"
+                + path_component
+                + r"[\\/]"
+            ),
+        ),
+        PatternSpec(
+            "generic-labelled-identity",
+            re.compile(
+                r"(?i)\b"
+                + identity_labels
+                + r"\s*[:=]\s*[\"']?(?![<$({])[A-Za-z0-9._-]{2,128}"
+            ),
+        ),
+    )
+
+
+def decode_text_bytes(data: bytes) -> str | None:
+    """Return normalized UTF-8 text, or ``None`` for binary/non-UTF-8 data."""
+
+    if b"\x00" in data:
+        return None
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return None
+
+    if text:
+        control_count = sum(ord(character) < 32 and character not in "\n\r\t\f" for character in text)
+        if control_count / len(text) > 0.01:
+            return None
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
+def _parse_marker_lines(payload: str, source_name: str) -> list[PatternSpec]:
+    patterns: list[PatternSpec] = []
+    marker_index = 0
+    for raw_line in payload.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        marker_index += 1
+        rule_name = f"external-{source_name}-{marker_index}"
+        if line.startswith("regex:"):
+            expression = line.removeprefix("regex:").strip()
+            if not expression:
+                raise ValueError(f"empty regular expression in {source_name}")
+            try:
+                compiled = re.compile(expression)
+            except re.error as error:
+                raise ValueError(f"invalid regular expression in {source_name}") from error
+        else:
+            if len(line) < 4:
+                raise ValueError(f"literal markers in {source_name} must contain at least 4 characters")
+            compiled = re.compile(re.escape(line))
+        if compiled.search("") is not None:
+            raise ValueError(f"regular expressions in {source_name} must not match empty text")
+        patterns.append(PatternSpec(rule_name, compiled))
+    return patterns
+
+
+def _load_external_patterns(paths: Sequence[Path], environment: dict[str, str]) -> list[PatternSpec]:
+    patterns: list[PatternSpec] = []
+    for index, path in enumerate(paths, start=1):
+        try:
+            payload = path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as error:
+            raise ValueError(f"cannot read external denylist #{index}") from error
+        patterns.extend(_parse_marker_lines(payload, f"file-{index}"))
+
+    encoded = environment.get("PRIVATE_MARKERS_B64", "").strip()
+    if encoded:
+        try:
+            decoded = base64.b64decode(encoded, validate=True).decode("utf-8")
+        except (binascii.Error, UnicodeDecodeError) as error:
+            raise ValueError("PRIVATE_MARKERS_B64 must be base64-encoded UTF-8") from error
+        patterns.extend(_parse_marker_lines(decoded, "environment"))
+    return patterns
+
+
+def _constant_string(node: ast.AST, bindings: dict[str, str] | None = None) -> str | None:
+    bindings = bindings or {}
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return node.value
+    if isinstance(node, ast.Name):
+        return bindings.get(node.id)
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        left = _constant_string(node.left, bindings)
+        right = _constant_string(node.right, bindings)
+        if left is not None and right is not None:
+            return left + right
+    if isinstance(node, ast.JoinedStr):
+        parts: list[str] = []
+        for value in node.values:
+            if isinstance(value, ast.FormattedValue):
+                part = _constant_string(value.value, bindings)
+            else:
+                part = _constant_string(value, bindings)
+            if part is None:
+                return None
+            parts.append(part)
+        return "".join(parts)
+    return None
+
+
+def _python_constant_representations(text: str) -> Iterator[tuple[str, int, str]]:
+    try:
+        tree = ast.parse(text)
+    except (SyntaxError, ValueError):
+        return
+
+    bindings: dict[str, str] = {}
+    for _ in range(2):
+        for node in ast.walk(tree):
+            if not isinstance(node, (ast.Assign, ast.AnnAssign)):
+                continue
+            value_node = node.value
+            if value_node is None:
+                continue
+            value = _constant_string(value_node, bindings)
+            if value is None:
+                continue
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            for target in targets:
+                if isinstance(target, ast.Name):
+                    bindings[target.id] = value
+
+    seen: set[tuple[int, str]] = set()
+    for node in ast.walk(tree):
+        value = _constant_string(node, bindings)
+        if value is None or len(value) < 4:
+            continue
+        key = (getattr(node, "lineno", 1), value)
+        if key in seen:
+            continue
+        seen.add(key)
+        yield value, key[0], "python-constant"
+
+
+_BASE64_TOKEN = re.compile(r"(?<![A-Za-z0-9+/=])[A-Za-z0-9+/]{16,}={0,2}(?![A-Za-z0-9+/=])")
+
+
+def _base64_representations(text: str) -> Iterator[tuple[str, int, str]]:
+    for match in _BASE64_TOKEN.finditer(text):
+        token = match.group(0)
+        if len(token) % 4:
+            continue
+        try:
+            decoded_bytes = base64.b64decode(token, validate=True)
+            decoded = decoded_bytes.decode("utf-8")
+        except (binascii.Error, UnicodeDecodeError):
+            continue
+        if len(decoded) < 8:
+            continue
+        printable = sum(character.isprintable() or character in "\n\r\t" for character in decoded)
+        if printable / len(decoded) < 0.95:
+            continue
+        line = text.count("\n", 0, match.start()) + 1
+        yield decoded, line, "base64-decoded"
+
+
+def _representations(
+    path: Path,
+    text: str,
+    *,
+    parse_python: bool = False,
+) -> Iterator[tuple[str, int, str]]:
+    yield text, 1, "raw"
+    if parse_python or path.suffix.casefold() == ".py":
+        for value, line, representation in _python_constant_representations(text):
+            yield value, line, representation
+            for decoded, relative_line, _ in _base64_representations(value):
+                yield decoded, line + relative_line - 1, "python-constant-base64-decoded"
+    yield from _base64_representations(text)
+
+
+def _scan_text(
+    path_label: str,
+    path: Path,
+    text: str,
+    patterns: Sequence[PatternSpec],
+    *,
+    object_id: str = "",
+    parse_python: bool = False,
+) -> list[Finding]:
+    findings: set[Finding] = set()
+    for representation, base_line, representation_name in _representations(
+        path,
+        text,
+        parse_python=parse_python,
+    ):
+        for pattern in patterns:
+            for match in pattern.expression.finditer(representation):
+                relative_line = representation.count("\n", 0, match.start())
+                findings.add(
+                    Finding(
+                        path=path_label,
+                        line=base_line + relative_line,
+                        rule=pattern.name,
+                        representation=representation_name,
+                        object_id=object_id,
+                    )
+                )
+    return sorted(findings)
+
+
+def _git_root(start: Path) -> Path:
+    process = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        cwd=start,
+        check=False,
+        capture_output=True,
+    )
+    if process.returncode != 0:
+        raise ValueError("cannot locate a Git work tree")
+    return Path(os.fsdecode(process.stdout).strip()).resolve()
+
+
+def _tracked_paths(root: Path) -> list[Path]:
+    process = subprocess.run(
+        ["git", "ls-files", "-z"],
+        cwd=root,
+        check=False,
+        capture_output=True,
+    )
+    if process.returncode != 0:
+        raise ValueError("git ls-files failed")
+    return [Path(os.fsdecode(item)) for item in process.stdout.split(b"\x00") if item]
+
+
+def _history_git_environment() -> dict[str, str]:
+    environment = dict(os.environ)
+    environment.pop("PRIVATE_MARKERS_B64", None)
+    environment["GIT_NO_REPLACE_OBJECTS"] = "1"
+    return environment
+
+
+def _require_complete_history(root: Path) -> None:
+    process = subprocess.run(
+        ["git", "rev-parse", "--is-shallow-repository"],
+        cwd=root,
+        env=_history_git_environment(),
+        check=False,
+        capture_output=True,
+    )
+    state = process.stdout.strip()
+    if process.returncode != 0 or state not in {b"true", b"false"}:
+        raise ValueError("cannot determine whether the Git history is complete")
+    if state == b"true":
+        raise ValueError("--all-history requires a complete, non-shallow repository")
+
+
+def _reachable_objects(root: Path) -> dict[str, str]:
+    """Return reachable object IDs and diagnostic-only path hints across Git versions."""
+
+    process = subprocess.run(
+        ["git", "rev-list", "--objects", "--all"],
+        cwd=root,
+        env=_history_git_environment(),
+        check=False,
+        capture_output=True,
+    )
+    if process.returncode != 0:
+        raise ValueError("git history enumeration failed")
+
+    objects: dict[str, str] = {}
+    # Older Git versions accept ``-z`` without using the newer NUL/object-metadata
+    # format. The ordinary LF-delimited output is supported by both old and new
+    # versions. Split only on LF: other control bytes can occur in a path hint.
+    # Git may truncate a hint at an embedded LF; blob content is always read by
+    # object ID below, never by this potentially incomplete/ambiguous hint.
+    for record in process.stdout.split(b"\n"):
+        if not record:
+            continue
+        object_bytes, separator, inline_path = record.partition(b" ")
+        try:
+            object_id = object_bytes.decode("ascii")
+        except UnicodeDecodeError as error:
+            raise ValueError("git history enumeration returned an invalid object ID") from error
+        if re.fullmatch(r"(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})", object_id) is None:
+            raise ValueError("git history enumeration returned an invalid object ID")
+        object_id = object_id.casefold()
+        objects.setdefault(object_id, "")
+        if separator:
+            objects[object_id] = os.fsdecode(inline_path)
+    return objects
+
+
+def _reachable_blob_ids(root: Path, objects: dict[str, str]) -> list[str]:
+    if not objects:
+        return []
+    payload = "".join(f"{object_id}\n" for object_id in objects).encode("ascii")
+    process = subprocess.run(
+        ["git", "cat-file", "--batch-check=%(objectname) %(objecttype)"],
+        cwd=root,
+        env=_history_git_environment(),
+        input=payload,
+        check=False,
+        capture_output=True,
+    )
+    if process.returncode != 0:
+        raise ValueError("git object classification failed")
+
+    lines = process.stdout.splitlines()
+    if len(lines) != len(objects):
+        raise ValueError("git object classification returned an incomplete result")
+    blob_ids: list[str] = []
+    for expected_id, line in zip(objects, lines, strict=True):
+        fields = line.split()
+        if len(fields) != 2:
+            raise ValueError("git object classification returned an invalid result")
+        actual_id = os.fsdecode(fields[0]).casefold()
+        object_type = os.fsdecode(fields[1])
+        if actual_id != expected_id:
+            raise ValueError("git object classification returned an unexpected object ID")
+        if object_type == "blob":
+            blob_ids.append(actual_id)
+        elif object_type not in {"commit", "tag", "tree"}:
+            raise ValueError("git history contains an unavailable object")
+    return blob_ids
+
+
+def _stdin_paths() -> list[Path]:
+    return [Path(os.fsdecode(item)) for item in sys.stdin.buffer.read().split(b"\x00") if item]
+
+
+def _path_label(path: Path, root: Path) -> str:
+    try:
+        return path.resolve().relative_to(root).as_posix()
+    except ValueError:
+        return f"external/{path.name}"
+
+
+def _redact_output(value: str, patterns: Sequence[PatternSpec]) -> str:
+    redacted = value
+    for pattern in patterns:
+        redacted = pattern.expression.sub("<redacted>", redacted)
+    return json.dumps(redacted, ensure_ascii=False)[1:-1]
+
+
+def _resolve_candidates(root: Path, candidates: Iterable[Path]) -> list[Path]:
+    resolved: dict[str, Path] = {}
+    for candidate in candidates:
+        path = candidate if candidate.is_absolute() else root / candidate
+        key = os.path.normcase(str(path.resolve(strict=False)))
+        resolved[key] = path
+    return [resolved[key] for key in sorted(resolved)]
+
+
+def scan_paths(
+    root: Path,
+    paths: Sequence[Path],
+    patterns: Sequence[PatternSpec],
+) -> tuple[list[Finding], int, int]:
+    findings: list[Finding] = []
+    text_count = 0
+    binary_count = 0
+    for path in paths:
+        path_label = _path_label(path, root)
+        if path.is_symlink():
+            data = os.readlink(path).encode("utf-8", errors="surrogateescape")
+        else:
+            try:
+                data = path.read_bytes()
+            except OSError as error:
+                safe_label = _redact_output(path_label, patterns)
+                raise ValueError(f"cannot read tracked candidate {safe_label}") from error
+        text = decode_text_bytes(data)
+        if text is None:
+            binary_count += 1
+            continue
+        text_count += 1
+        findings.extend(_scan_text(path_label, path, text, patterns))
+    return sorted(set(findings)), text_count, binary_count
+
+
+def scan_history(
+    root: Path,
+    patterns: Sequence[PatternSpec],
+) -> tuple[list[Finding], int, int]:
+    """Scan each unique text blob reachable from any Git ref without checking it out."""
+
+    _require_complete_history(root)
+    objects = _reachable_objects(root)
+    blob_ids = _reachable_blob_ids(root, objects)
+    findings: list[Finding] = []
+    text_count = 0
+    binary_count = 0
+    process = subprocess.Popen(
+        ["git", "cat-file", "--batch"],
+        cwd=root,
+        env=_history_git_environment(),
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+    )
+    assert process.stdin is not None
+    assert process.stdout is not None
+    try:
+        for object_id in blob_ids:
+            process.stdin.write(object_id.encode("ascii") + b"\n")
+            process.stdin.flush()
+            header = process.stdout.readline().rstrip(b"\n")
+            fields = header.split()
+            if len(fields) != 3:
+                raise ValueError("git blob reader returned an invalid header")
+            actual_id = os.fsdecode(fields[0]).casefold()
+            object_type = os.fsdecode(fields[1])
+            try:
+                size = int(fields[2])
+            except ValueError as error:
+                raise ValueError("git blob reader returned an invalid size") from error
+            if actual_id != object_id or object_type != "blob" or size < 0:
+                raise ValueError("git blob reader returned an unexpected object")
+            data = process.stdout.read(size)
+            terminator = process.stdout.read(1)
+            if len(data) != size or terminator != b"\n":
+                raise ValueError("git blob reader returned incomplete content")
+
+            text = decode_text_bytes(data)
+            if text is None:
+                binary_count += 1
+                continue
+            text_count += 1
+            raw_path = objects[object_id] or "<unnamed-ref-object>"
+            findings.extend(
+                _scan_text(
+                    raw_path,
+                    Path(raw_path),
+                    text,
+                    patterns,
+                    object_id=object_id,
+                    parse_python=True,
+                )
+            )
+        process.stdin.close()
+        if process.wait() != 0:
+            raise ValueError("git blob reader failed")
+    except BaseException:
+        if process.poll() is None:
+            process.kill()
+            process.wait()
+        raise
+    return sorted(set(findings)), text_count, binary_count
+
+
+def _parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("paths", nargs="*", type=Path, help="explicit files to scan")
+    parser.add_argument("--all-tracked", action="store_true", help="scan every git-tracked file")
+    parser.add_argument(
+        "--all-history",
+        action="store_true",
+        help="scan each unique blob reachable from every local Git ref",
+    )
+    parser.add_argument(
+        "--files-from-stdin",
+        action="store_true",
+        help="read NUL-delimited file names from standard input",
+    )
+    parser.add_argument(
+        "--extra-patterns",
+        action="append",
+        default=[],
+        type=Path,
+        metavar="PATH",
+        help="external UTF-8 denylist (literal lines, or regex:... lines)",
+    )
+    parser.add_argument(
+        "--require-external-patterns",
+        action="store_true",
+        help="fail unless at least one external denylist pattern was loaded",
+    )
+    parser.add_argument("--root", type=Path, help="repository root; defaults to the current work tree")
+    return parser
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    args = _parser().parse_args(argv)
+    patterns: list[PatternSpec] = list(_generic_patterns())
+    try:
+        root = args.root.resolve() if args.root else _git_root(Path.cwd())
+        candidates: list[Path] = list(args.paths)
+        if args.all_tracked:
+            candidates.extend(_tracked_paths(root))
+        if args.files_from_stdin:
+            candidates.extend(_stdin_paths())
+        if not candidates and not args.all_history:
+            raise ValueError(
+                "select files with paths, --all-tracked, --all-history, or --files-from-stdin"
+            )
+
+        external_paths = [path if path.is_absolute() else Path.cwd() / path for path in args.extra_patterns]
+        external_patterns = _load_external_patterns(external_paths, dict(os.environ))
+        if args.require_external_patterns and not external_patterns:
+            raise ValueError("an external private-marker denylist is required")
+        patterns.extend(external_patterns)
+        paths = _resolve_candidates(root, candidates)
+        findings, text_count, binary_count = scan_paths(root, paths, patterns)
+        history_text_count = 0
+        history_binary_count = 0
+        if args.all_history:
+            history_findings, history_text_count, history_binary_count = scan_history(root, patterns)
+            findings = sorted(set(findings).union(history_findings))
+    except ValueError as error:
+        message = _redact_output(f"privacy scan configuration error: {error}", patterns)
+        print(message, file=sys.stderr)
+        return 2
+
+    if findings:
+        affected_files = len({(finding.object_id, finding.path) for finding in findings})
+        header = f"privacy scan failed: {len(findings)} finding(s) in {affected_files} file(s)"
+        print(_redact_output(header, patterns), file=sys.stderr)
+        for finding in findings:
+            object_label = f"object {finding.object_id} " if finding.object_id else ""
+            detail = (
+                f"- {object_label}{finding.path}:{finding.line} "
+                f"[{finding.rule}; {finding.representation}]"
+            )
+            print(_redact_output(detail, patterns), file=sys.stderr)
+        return 1
+
+    message = f"privacy scan passed: {text_count} text file(s), {binary_count} binary file(s) skipped"
+    if args.all_history:
+        message += (
+            f"; {history_text_count} unique historical text blob(s), "
+            f"{history_binary_count} binary blob(s) skipped"
+        )
+    print(_redact_output(message, patterns))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+~~~~~~~~
+
 # scripts/setup.sh
 
 ~~~~~~~~bash
@@ -4082,7 +6318,7 @@ echo "Installation complete."
 echo "Python: ${VENV_PYTHON}"
 echo "Next: ./scripts/get_aid.sh --all"
 echo "Then: ./scripts/get_hdr.sh --archive /path/to/EventHDR.zip"
-echo "Finally: ./scripts/full.sh"
+echo "Finally: ./scripts/run.sh"
 ~~~~~~~~
 
 # scripts/train.sh
@@ -4093,22 +6329,39 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_train.json}}"
+CONFIG_PATH="${1:-${CONFIG_PATH:-configs/train.json}}"
 PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
+PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"
+ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+
+path_log_label() {
+  local path="$1"
+  if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+    printf '%s' "${path}"
+  else
+    printf '%s' "${path##*/}"
+  fi
+}
 
 cd "${PROJECT_ROOT}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
 if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
+  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
   echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
   exit 1
 fi
 if [[ ! -f "${CONFIG_PATH}" ]]; then
-  echo "ERROR: training config not found: ${CONFIG_PATH}" >&2
+  echo "ERROR: training config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
 fi
 if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
@@ -4118,6 +6371,19 @@ fi
 if [[ "${INSPECT_VALIDATE_ALL}" != "0" && "${INSPECT_VALIDATE_ALL}" != "1" ]]; then
   echo "ERROR: INSPECT_VALIDATE_ALL must be 0 or 1" >&2
   exit 2
+fi
+if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" != "0" \
+  && "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" ]]; then
+  echo "ERROR: ALLOW_UNVERIFIED_PREFLIGHT must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" && ! -f "${PREFLIGHT_REPORT}" ]]; then
+  echo "ERROR: passed CUDA preflight report not found: $(path_log_label "${PREFLIGHT_REPORT}")" >&2
+  echo "Run bash scripts/run.sh profile first." >&2
+  exit 1
+fi
+if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
+  echo "WARNING: bypassing CUDA preflight for a non-reporting run." >&2
 fi
 
 "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
@@ -4144,20 +6410,26 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
+  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
-echo "Starting EventHDR training with ${CONFIG_PATH}"
-TRAIN_ARGS=(--config "${CONFIG_PATH}")
+echo "Starting EventHDR training with $(path_log_label "${CONFIG_PATH}")"
+TRAIN_ARGS=(
+  --config "${CONFIG_PATH}"
+  --preflight-report "${PREFLIGHT_REPORT}"
+)
+if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
+  TRAIN_ARGS+=(--allow-unverified-preflight)
+fi
 if [[ -n "${RESUME_CHECKPOINT}" ]]; then
   if [[ ! -f "${RESUME_CHECKPOINT}" ]]; then
-    echo "ERROR: resume checkpoint not found: ${RESUME_CHECKPOINT}" >&2
+    echo "ERROR: resume checkpoint not found: $(path_log_label "${RESUME_CHECKPOINT}")" >&2
     exit 1
   fi
-  echo "Resuming from ${RESUME_CHECKPOINT}"
+  echo "Resuming from checkpoint: $(path_log_label "${RESUME_CHECKPOINT}")"
   TRAIN_ARGS+=(--resume "${RESUME_CHECKPOINT}")
 fi
-exec "${PYTHON_BIN}" -m asgcn_recon.cli train "${TRAIN_ARGS[@]}"
+exec "${PYTHON_BIN}" -m asgcn_unet.cli train "${TRAIN_ARGS[@]}"
 ~~~~~~~~
 
 # server/calibrate.pbs
@@ -4170,10 +6442,11 @@ exec "${PYTHON_BIN}" -m asgcn_recon.cli train "${TRAIN_ARGS[@]}"
 #PBS -j oe
 
 # Dependency example:
-#   train_id=$(qsub server/train.pbs)
+#   profile_id=$(qsub server/profile.pbs)
+#   train_id=$(qsub -W depend=afterok:${profile_id} server/train.pbs)
 #   cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
-#   qsub -W depend=afterok:${cal_id} -v CONFIG_PATH=configs/hdr_snn.json,\
-# CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn server/eval.pbs
+#   qsub -W depend=afterok:${cal_id} -v CONFIG_PATH=configs/hdr.json,\
+# CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn server/eval.pbs
 
 set -Eeuo pipefail
 
@@ -4204,24 +6477,38 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
-export OUTPUT_PATH="${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}"
+export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-runs/train/best_snn.pt}"
 export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
 export PYTHONUNBUFFERED=1
 
-echo "Host: $(hostname)"
-echo "PBS job: ${PBS_JOBID:-interactive}"
-echo "Config: ${CONFIG_PATH}"
-echo "ANN checkpoint: ${CHECKPOINT_PATH}"
-echo "SNN checkpoint: ${OUTPUT_PATH}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "PBS job: ${PBS_JOBID:-interactive}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${CONFIG_PATH}"
+  echo "ANN checkpoint: ${CHECKPOINT_PATH}"
+  echo "SNN checkpoint: ${OUTPUT_PATH}"
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${CONFIG_PATH##*/}"
+  echo "ANN checkpoint: ${CHECKPOINT_PATH##*/}"
+  echo "SNN checkpoint: ${OUTPUT_PATH##*/}"
+fi
 echo "Calibration samples: ${CALIBRATION_SAMPLES}"
 nvidia-smi || true
 
@@ -4244,10 +6531,11 @@ bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
 #SBATCH --error=slurm-%x-%j.err
 
 # Dependency example:
-#   train_id=$(sbatch --parsable server/train.sbatch)
+#   profile_id=$(sbatch --parsable server/profile.sbatch)
+#   train_id=$(sbatch --parsable --dependency=afterok:${profile_id} server/train.sbatch)
 #   cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
-#   sbatch --dependency=afterok:${cal_id} --export=ALL,CONFIG_PATH=configs/hdr_snn.json,\
-# CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn server/eval.sbatch
+#   sbatch --dependency=afterok:${cal_id} --export=CONFIG_PATH=configs/hdr.json,\
+# CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn server/eval.sbatch
 
 set -Eeuo pipefail
 
@@ -4264,7 +6552,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=ALL,PROJECT_ROOT=/absolute/path/to/repo server/calibrate.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/calibrate.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -4278,24 +6566,41 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
-export OUTPUT_PATH="${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}"
+export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-runs/train/best_snn.pt}"
 export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
+# Let srun inherit this already filtered/prepared job environment without
+# re-importing the submit shell's environment.
+export SLURM_EXPORT_ENV=ALL
 
-echo "Host: $(hostname)"
-echo "Job: ${SLURM_JOB_ID:-local}"
-echo "Config: ${CONFIG_PATH}"
-echo "ANN checkpoint: ${CHECKPOINT_PATH}"
-echo "SNN checkpoint: ${OUTPUT_PATH}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "Job: ${SLURM_JOB_ID:-local}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${CONFIG_PATH}"
+  echo "ANN checkpoint: ${CHECKPOINT_PATH}"
+  echo "SNN checkpoint: ${OUTPUT_PATH}"
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${CONFIG_PATH##*/}"
+  echo "ANN checkpoint: ${CHECKPOINT_PATH##*/}"
+  echo "SNN checkpoint: ${OUTPUT_PATH##*/}"
+fi
 echo "Calibration samples: ${CALIBRATION_SAMPLES}"
 nvidia-smi || true
 
@@ -4333,8 +6638,16 @@ fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
 cd "${PROJECT_ROOT}"
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_ann.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
+if [[ -n "${CUDA_MODULE:-}" ]]; then
+  if ! command -v module >/dev/null 2>&1; then
+    echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
+    exit 1
+  fi
+  module load "${CUDA_MODULE}"
+fi
+
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr.json}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
@@ -4346,13 +6659,26 @@ export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
 export PYTHONUNBUFFERED=1
 
-echo "Host: $(hostname)"
-echo "PBS job: ${PBS_JOBID:-interactive}"
-echo "Config: ${CONFIG_PATH}"
-echo "Checkpoint: ${CHECKPOINT_PATH}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "PBS job: ${PBS_JOBID:-interactive}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${CONFIG_PATH}"
+  echo "Checkpoint: ${CHECKPOINT_PATH}"
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${CONFIG_PATH##*/}"
+  echo "Checkpoint: ${CHECKPOINT_PATH##*/}"
+fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   echo "SNN dynamics: ${SNN_DYNAMICS}"
 fi
@@ -4391,7 +6717,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/eval.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=ALL,PROJECT_ROOT=/absolute/path/to/repo server/eval.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/eval.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -4405,8 +6731,8 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_ann.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr.json}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
@@ -4418,13 +6744,29 @@ export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
+# Let srun inherit this already filtered/prepared job environment without
+# re-importing the submit shell's environment.
+export SLURM_EXPORT_ENV=ALL
 
-echo "Host: $(hostname)"
-echo "Job: ${SLURM_JOB_ID:-local}"
-echo "Config: ${CONFIG_PATH}"
-echo "Checkpoint: ${CHECKPOINT_PATH}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "Job: ${SLURM_JOB_ID:-local}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${CONFIG_PATH}"
+  echo "Checkpoint: ${CHECKPOINT_PATH}"
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${CONFIG_PATH##*/}"
+  echo "Checkpoint: ${CHECKPOINT_PATH##*/}"
+fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   echo "SNN dynamics: ${SNN_DYNAMICS}"
 fi
@@ -4432,6 +6774,156 @@ nvidia-smi || true
 
 srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}"
+~~~~~~~~
+
+# server/profile.pbs
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+#PBS -N asgcn-profile
+#PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+# Dependency example:
+#   profile_id=$(qsub server/profile.pbs)
+#   qsub -W depend=afterok:${profile_id} server/train.pbs
+
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "${PROJECT_ROOT:-}" ]]; then
+  if [[ -n "${PBS_O_WORKDIR:-}" ]]; then
+    PROJECT_ROOT="${PBS_O_WORKDIR}"
+  elif [[ -z "${PBS_JOBID:-}" ]]; then
+    PROJECT_ROOT="${SCRIPT_DIR}/.."
+  fi
+fi
+if [[ -z "${PROJECT_ROOT:-}" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
+  echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
+  echo "Submit from the repository root or export PROJECT_ROOT explicitly." >&2
+  exit 1
+fi
+PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
+cd "${PROJECT_ROOT}"
+
+if [[ -n "${CUDA_MODULE:-}" ]]; then
+  if ! command -v module >/dev/null 2>&1; then
+    echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
+    exit 1
+  fi
+  module load "${CUDA_MODULE}"
+fi
+
+export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
+export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+export REQUIRE_CUDA=1
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
+export PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
+export PYTHONUNBUFFERED=1
+
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "PBS job: ${PBS_JOBID:-interactive}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${TRAIN_CONFIG}"
+  echo "Profile output: ${PROFILE_OUTPUT}"
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${TRAIN_CONFIG##*/}"
+  echo "Profile output: ${PROFILE_OUTPUT##*/}"
+fi
+nvidia-smi || true
+bash "${PROJECT_ROOT}/scripts/run.sh" profile
+~~~~~~~~
+
+# server/profile.sbatch
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+#SBATCH --job-name=asgcn-profile
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G
+#SBATCH --time=12:00:00
+#SBATCH --output=slurm-%x-%j.out
+#SBATCH --error=slurm-%x-%j.err
+
+# Dependency example:
+#   profile_id=$(sbatch --parsable server/profile.sbatch)
+#   sbatch --dependency=afterok:${profile_id} server/train.sbatch
+
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "${PROJECT_ROOT:-}" ]]; then
+  if [[ -n "${SLURM_SUBMIT_DIR:-}" ]]; then
+    PROJECT_ROOT="${SLURM_SUBMIT_DIR}"
+  elif [[ -z "${SLURM_JOB_ID:-}" ]]; then
+    PROJECT_ROOT="${SCRIPT_DIR}/.."
+  fi
+fi
+if [[ -z "${PROJECT_ROOT:-}" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
+  echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
+  echo "Submit from the repository root or export PROJECT_ROOT explicitly." >&2
+  exit 1
+fi
+PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
+cd "${PROJECT_ROOT}"
+
+if [[ -n "${CUDA_MODULE:-}" ]]; then
+  if ! command -v module >/dev/null 2>&1; then
+    echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
+    exit 1
+  fi
+  module load "${CUDA_MODULE}"
+fi
+
+export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
+export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+export REQUIRE_CUDA=1
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
+export PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
+export PYTHONUNBUFFERED=1
+# Let srun inherit this already filtered/prepared job environment without
+# re-importing the submit shell's environment.
+export SLURM_EXPORT_ENV=ALL
+
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "Job: ${SLURM_JOB_ID:-local}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${TRAIN_CONFIG}"
+  echo "Profile output: ${PROFILE_OUTPUT}"
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${TRAIN_CONFIG##*/}"
+  echo "Profile output: ${PROFILE_OUTPUT##*/}"
+fi
+nvidia-smi || true
+srun bash "${PROJECT_ROOT}/scripts/run.sh" profile
 ~~~~~~~~
 
 # server/train.pbs
@@ -4464,18 +6956,46 @@ fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
 cd "${PROJECT_ROOT}"
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
+if [[ -n "${CUDA_MODULE:-}" ]]; then
+  if ! command -v module >/dev/null 2>&1; then
+    echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
+    exit 1
+  fi
+  module load "${CUDA_MODULE}"
+fi
+
+export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"
+export ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
 export PYTHONUNBUFFERED=1
 
-echo "Host: $(hostname)"
-echo "PBS job: ${PBS_JOBID:-interactive}"
-echo "Config: ${CONFIG_PATH}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "PBS job: ${PBS_JOBID:-interactive}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${CONFIG_PATH}"
+  if [[ -n "${RESUME_CHECKPOINT:-}" ]]; then
+    echo "Resume: ${RESUME_CHECKPOINT}"
+  fi
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${CONFIG_PATH##*/}"
+  if [[ -n "${RESUME_CHECKPOINT:-}" ]]; then
+    echo "Resume: ${RESUME_CHECKPOINT##*/}"
+  fi
+fi
 nvidia-smi || true
 
 bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
@@ -4510,14 +7030,14 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=ALL,PROJECT_ROOT=/absolute/path/to/repo server/train.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/train.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
 cd "${PROJECT_ROOT}"
 
 # Cluster-specific modules remain opt-in:
-#   sbatch --export=ALL,CUDA_MODULE=cuda/12.4 server/train.sbatch
+#   sbatch --export=CUDA_MODULE=cuda/12.4 server/train.sbatch
 if [[ -n "${CUDA_MODULE:-}" ]]; then
   if ! command -v module >/dev/null 2>&1; then
     echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
@@ -4526,57 +7046,131 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
+export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"
+export ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
+# Let srun inherit this already filtered/prepared job environment without
+# re-importing the submit shell's environment.
+export SLURM_EXPORT_ENV=ALL
 
-echo "Host: $(hostname)"
-echo "Job: ${SLURM_JOB_ID:-local}"
-echo "Config: ${CONFIG_PATH}"
-if [[ -n "${RESUME_CHECKPOINT:-}" ]]; then
-  echo "Resume: ${RESUME_CHECKPOINT}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "Job: ${SLURM_JOB_ID:-local}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${CONFIG_PATH}"
+  if [[ -n "${RESUME_CHECKPOINT:-}" ]]; then
+    echo "Resume: ${RESUME_CHECKPOINT}"
+  fi
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${CONFIG_PATH##*/}"
+  if [[ -n "${RESUME_CHECKPOINT:-}" ]]; then
+    echo "Resume: ${RESUME_CHECKPOINT##*/}"
+  fi
 fi
 nvidia-smi || true
 
 srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
 ~~~~~~~~
 
-# src/asgcn_recon/__init__.py
+# src/asgcn_unet/__init__.py
 
 ~~~~~~~~python
-"""ASGCN-style event-to-frame reconstruction."""
-
-__version__ = "0.1.0"
+"""ASGCN-U-Net event-to-frame reconstruction."""
 ~~~~~~~~
 
-# src/asgcn_recon/cli.py
+# src/asgcn_unet/cli.py
 
 ~~~~~~~~python
 from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
+import socket
+import sys
+from pathlib import Path
 from typing import Any
 
 from tqdm import tqdm
 
 from .data import build_dataset
-from .engine import benchmark, calibrate, evaluate, train
-from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
+from .engine import _artifact_path_label, benchmark, calibrate, evaluate, train
+from .preflight import training_preflight, verify_training_preflight
+from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path, save_json
+
+
+def _inspect_path_labels(config: dict[str, Any]) -> list[tuple[Path, str]]:
+    """Map resolved inspection inputs to stable labels suitable for public logs."""
+
+    dataset = config.get("dataset", {})
+    labels = {
+        "root": "$DATA_ROOT",
+        "val_root": "$VAL_DATA_ROOT",
+        "split_manifest": "$SPLIT_MANIFEST",
+        "file_manifest": "$FILE_MANIFEST",
+    }
+    replacements: list[tuple[Path, str]] = []
+    for key, label in labels.items():
+        value = dataset.get(key)
+        if isinstance(value, str) and value:
+            replacements.append((Path(value).expanduser().resolve(), label))
+    return replacements
+
+
+def _redact_inspect_text(value: str, replacements: list[tuple[Path, str]]) -> str:
+    """Redact configured host paths while retaining relative file/member context."""
+
+    result = value
+    ordered = sorted(replacements, key=lambda item: len(str(item[0])), reverse=True)
+    for path, label in ordered:
+        variants = {str(path), path.as_posix()}
+        for variant in sorted(variants, key=len, reverse=True):
+            result = result.replace(f"{variant}\\", f"{label}/")
+            result = result.replace(f"{variant}/", f"{label}/")
+            result = result.replace(variant, label)
+    return result
+
+
+def _redact_inspect_value(value: Any, replacements: list[tuple[Path, str]]) -> Any:
+    if isinstance(value, dict):
+        return {key: _redact_inspect_value(item, replacements) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_redact_inspect_value(item, replacements) for item in value]
+    if isinstance(value, tuple):
+        return [_redact_inspect_value(item, replacements) for item in value]
+    if isinstance(value, Path):
+        return _redact_inspect_text(str(value.resolve()), replacements)
+    if isinstance(value, str):
+        return _redact_inspect_text(value, replacements)
+    return value
 
 
 def _inspect_one_split(dataset: Any, samples: int, validate_all: bool = False) -> dict[str, Any]:
     details = []
+    timestamp_records: list[dict[str, Any]] = []
     preview_count = min(samples, len(dataset))
     count = len(dataset) if validate_all else preview_count
     indices = tqdm(range(count), desc="validate-data", disable=not validate_all)
     for index in indices:
         item = dataset[index]
+        timestamp_diagnostics = item.get("metadata", {}).get("event_timestamp_diagnostics")
+        if isinstance(timestamp_diagnostics, dict):
+            timestamp_records.append(timestamp_diagnostics)
         if index < preview_count:
             details.append(
                 {
@@ -4599,6 +7193,44 @@ def _inspect_one_split(dataset: Any, samples: int, validate_all: bool = False) -
         result["files"] = len(dataset.files)
     if hasattr(dataset, "zero_event_intervals"):
         result["zero_event_intervals"] = int(dataset.zero_event_intervals)
+    if timestamp_records:
+        def finite_values(key: str) -> list[float]:
+            return [
+                float(record[key])
+                for record in timestamp_records
+                if record.get(key) is not None
+            ]
+
+        event_minima = finite_values("event_timestamp_min")
+        event_maxima = finite_values("event_timestamp_max")
+        interval_starts = finite_values("interval_t0")
+        interval_ends = finite_values("interval_t1")
+        span_ratios = finite_values("event_to_interval_span_ratio")
+        offsets = finite_values("event_min_offset_from_t0")
+        total_events = sum(int(record.get("event_count", 0)) for record in timestamp_records)
+        outside_events = sum(
+            int(record.get("outside_interval_count", 0)) for record in timestamp_records
+        )
+        result["event_timestamp_diagnostics"] = {
+            "validated_blocks": len(timestamp_records),
+            "event_count": total_events,
+            "event_timestamp_min": min(event_minima) if event_minima else None,
+            "event_timestamp_max": max(event_maxima) if event_maxima else None,
+            "interval_t0_min": min(interval_starts) if interval_starts else None,
+            "interval_t1_max": max(interval_ends) if interval_ends else None,
+            "event_to_interval_span_ratio_min": min(span_ratios) if span_ratios else None,
+            "event_to_interval_span_ratio_max": max(span_ratios) if span_ratios else None,
+            "event_min_offset_from_t0_min": min(offsets) if offsets else None,
+            "event_min_offset_from_t0_max": max(offsets) if offsets else None,
+            "outside_interval_count": outside_events,
+            "outside_interval_fraction": (
+                outside_events / total_events if total_events else None
+            ),
+            "strict_interval_validation": False,
+            "interpretation": (
+                "diagnostic only until all official archives establish a common timestamp basis"
+            ),
+        }
     return result
 
 
@@ -4614,12 +7246,26 @@ def _calibration_sample_limit(value: str) -> int | None:
     return parsed
 
 
+def _positive_integer(value: str) -> int:
+    try:
+        parsed = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("value must be a positive integer") from error
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("value must be a positive integer")
+    return parsed
+
+
 def inspect_dataset(
-    config: dict[str, Any], samples: int = 3, validate_all: bool = False
+    config: dict[str, Any],
+    samples: int = 3,
+    validate_all: bool = False,
+    include_private_host_provenance: bool = False,
 ) -> dict[str, Any]:
     if samples < 0:
         raise ValueError("inspect samples must be non-negative")
     data_config = config["dataset"]
+    path_labels = _inspect_path_labels(config)
     result: dict[str, Any] = {
         "dataset_type": data_config["type"],
         "root": data_config["root"],
@@ -4635,19 +7281,30 @@ def inspect_dataset(
                     dataset.close()
         result["splits"] = split_details
         result["samples"] = sum(detail["samples"] for detail in split_details.values())
-        return result
+    else:
+        dataset = build_dataset(data_config, split="eval")
+        try:
+            result.update(_inspect_one_split(dataset, samples, validate_all))
+        finally:
+            if hasattr(dataset, "close"):
+                dataset.close()
 
-    dataset = build_dataset(data_config, split="eval")
-    try:
-        result.update(_inspect_one_split(dataset, samples, validate_all))
-    finally:
-        if hasattr(dataset, "close"):
-            dataset.close()
+    if include_private_host_provenance:
+        result["private_host_provenance"] = {
+            "data_root": data_config["root"],
+            "validation_data_root": data_config.get("val_root"),
+            "split_manifest": data_config.get("split_manifest"),
+            "file_manifest": data_config.get("file_manifest"),
+            "publication_warning": "private local diagnostics; do not publish",
+        }
+        return result
+    result = _redact_inspect_value(result, path_labels)
+    result["root"] = "$DATA_ROOT"
     return result
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="ASGCN Event-to-Frame experiment")
+    parser = argparse.ArgumentParser(description="ASGCN-U-Net event-to-frame experiments")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     inspect_cmd = subparsers.add_parser("inspect", help="validate dataset structure")
@@ -4658,6 +7315,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="decode and validate every selected sample while keeping only the preview",
     )
+    inspect_cmd.add_argument(
+        "--include-private-host-provenance",
+        action="store_true",
+        help=(
+            "PRIVATE: include exact dataset paths for local diagnostics; "
+            "do not publish or attach this output"
+        ),
+    )
 
     train_cmd = subparsers.add_parser("train", help="train on EventHDR")
     train_cmd.add_argument("--config", required=True)
@@ -4665,6 +7330,42 @@ def build_parser() -> argparse.ArgumentParser:
         "--resume",
         help="resume from a checkpoint (relative paths are resolved from the repository root)",
     )
+    train_cmd.add_argument(
+        "--preflight-report",
+        default="runs/profile.json",
+        help="passed CUDA preflight report required before training",
+    )
+    train_cmd.add_argument(
+        "--allow-unverified-preflight",
+        action="store_true",
+        help="NON-REPORTING ONLY: explicitly bypass the CUDA preflight gate",
+    )
+
+    profile_cmd = subparsers.add_parser(
+        "profile",
+        help="scan every EventHDR train graph and run CUDA forward/backward preflight",
+    )
+    profile_cmd.add_argument("--config", required=True)
+    profile_cmd.add_argument("--output", required=True)
+    profile_cmd.add_argument(
+        "--samples",
+        type=_positive_integer,
+        default=3,
+        help="number of densest samples used for forward/backward (default: 3)",
+    )
+    profile_cmd.add_argument(
+        "--top-density",
+        type=_positive_integer,
+        default=10,
+        help="number of highest-edge-count samples recorded (default: 10)",
+    )
+
+    verify_cmd = subparsers.add_parser(
+        "verify-profile",
+        help="re-bind a passed preflight report to current config/data/source/CUDA",
+    )
+    verify_cmd.add_argument("--config", required=True)
+    verify_cmd.add_argument("--report", required=True)
 
     eval_cmd = subparsers.add_parser("evaluate", help="evaluate quality and latency")
     eval_cmd.add_argument("--config", required=True)
@@ -4676,6 +7377,14 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["literal_eq15", "standard_if"],
         default=None,
         help="inference-only override; the checkpoint architecture remains unchanged",
+    )
+    eval_cmd.add_argument(
+        "--allow-unsealed-checkpoint-for-non-reporting",
+        action="store_true",
+        help=(
+            "SYNTHETIC TESTS ONLY: accept missing/mismatched checkpoint protocols and "
+            "permanently mark the produced metrics report_eligible=false"
+        ),
     )
 
     bench_cmd = subparsers.add_parser("benchmark", help="benchmark compute-only latency")
@@ -4690,6 +7399,14 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["literal_eq15", "standard_if"],
         default=None,
     )
+    bench_cmd.add_argument(
+        "--allow-unsealed-checkpoint-for-non-reporting",
+        action="store_true",
+        help=(
+            "SYNTHETIC TESTS ONLY: accept missing/mismatched checkpoint protocols and "
+            "permanently mark the benchmark report_eligible=false"
+        ),
+    )
 
     calibrate_cmd = subparsers.add_parser("calibrate", help="calibrate ANN-to-SNN thresholds")
     calibrate_cmd.add_argument("--config", required=True)
@@ -4700,35 +7417,114 @@ def build_parser() -> argparse.ArgumentParser:
         type=_calibration_sample_limit,
         default=None,
         metavar="N|all",
-        help="balanced calibration sample count; default 'all' uses every training frame",
+        help=(
+            "balanced calibration sample count; default 'all' uses every training frame; "
+            "a partial limit requires the explicit non-reporting override"
+        ),
     )
     calibrate_cmd.add_argument(
         "--overwrite",
         action="store_true",
         help="explicitly replace an existing calibrated output checkpoint",
     )
+    calibrate_cmd.add_argument(
+        "--allow-unsealed-calibration",
+        action="store_true",
+        help=(
+            "permit a protocol mismatch only for non-reporting tests; the output is "
+            "permanently marked sealed=false"
+        ),
+    )
     return parser
 
 
-def main(argv: list[str] | None = None) -> None:
-    args = build_parser().parse_args(argv)
+def _execute_command(args: argparse.Namespace) -> None:
     config_path = resolve_path(args.config, ".")
-    config = resolve_experiment_paths(load_json(config_path), config_path)
+    try:
+        config = resolve_experiment_paths(load_json(config_path), config_path)
+    except Exception as error:
+        if args.command != "inspect" or args.include_private_host_provenance:
+            raise
+        message = _redact_inspect_text(str(error), [(config_path, "$CONFIG")])
+        raise SystemExit(f"Dataset inspection failed: {message}") from None
     base_dir = experiment_base_dir(config_path)
     if args.command == "inspect":
-        result = inspect_dataset(config, args.samples, args.validate_all)
+        try:
+            result = inspect_dataset(
+                config,
+                args.samples,
+                args.validate_all,
+                include_private_host_provenance=args.include_private_host_provenance,
+            )
+        except Exception as error:
+            if args.include_private_host_provenance:
+                raise
+            replacements = [
+                *_inspect_path_labels(config),
+                (config_path, "$CONFIG"),
+            ]
+            message = _redact_inspect_text(str(error), replacements)
+            raise SystemExit(f"Dataset inspection failed: {message}") from None
+    elif args.command == "profile":
+        result = training_preflight(
+            config,
+            resolve_path(args.output, base_dir),
+            profile_samples=args.samples,
+            top_density_count=args.top_density,
+            require_cuda=True,
+        )
+    elif args.command == "verify-profile":
+        result = verify_training_preflight(
+            config,
+            resolve_path(args.report, base_dir),
+        )
     elif args.command == "train":
         resume = resolve_path(args.resume, base_dir) if args.resume else None
-        result = {"best_checkpoint": str(train(config, resume_from=resume))}
+        report_path = resolve_path(args.preflight_report, base_dir)
+        if args.allow_unverified_preflight:
+            print(
+                "WARNING: CUDA preflight was explicitly bypassed; this run is "
+                "non-reporting and must not support A100/A6000 memory claims.",
+                file=sys.stderr,
+            )
+            preflight_gate = {
+                "schema": "asgcn_preflight_verification_v1",
+                "status": "bypassed_non_reporting",
+                "report_eligible": False,
+                "report": report_path.name,
+                "warning": "unverified CUDA memory/topology preflight",
+            }
+        else:
+            preflight_gate = verify_training_preflight(config, report_path)
+        config["preflight_gate"] = preflight_gate
+        save_json(Path(config["output"]["run_dir"]) / "preflight_gate.json", preflight_gate)
+        result = {
+            "best_checkpoint": _artifact_path_label(train(config, resume_from=resume))
+        }
     elif args.command == "evaluate":
+        if args.allow_unsealed_checkpoint_for_non_reporting:
+            print(
+                "WARNING: unsealed checkpoint override enabled; all outputs are "
+                "permanently non-reporting.",
+                file=sys.stderr,
+            )
         result = evaluate(
             config,
             resolve_path(args.checkpoint, base_dir),
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
             snn_dynamics=args.snn_dynamics,
+            allow_unsealed_checkpoint_for_non_reporting=(
+                args.allow_unsealed_checkpoint_for_non_reporting
+            ),
         )
     elif args.command == "benchmark":
+        if args.allow_unsealed_checkpoint_for_non_reporting:
+            print(
+                "WARNING: unsealed checkpoint override enabled; all outputs are "
+                "permanently non-reporting.",
+                file=sys.stderr,
+            )
         result = benchmark(
             config,
             resolve_path(args.checkpoint, base_dir),
@@ -4737,29 +7533,108 @@ def main(argv: list[str] | None = None) -> None:
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
             snn_dynamics=args.snn_dynamics,
+            allow_unsealed_checkpoint_for_non_reporting=(
+                args.allow_unsealed_checkpoint_for_non_reporting
+            ),
         )
     elif args.command == "calibrate":
         result = {
-            "calibrated_checkpoint": str(
+            "calibrated_checkpoint": _artifact_path_label(
                 calibrate(
                     config,
                     resolve_path(args.checkpoint, base_dir),
                     resolve_path(args.output, base_dir),
                     samples=args.samples,
                     overwrite=args.overwrite,
+                    allow_unsealed_calibration=args.allow_unsealed_calibration,
                 )
             )
         }
     else:
         raise AssertionError(args.command)
-    print(json.dumps(result, indent=2, ensure_ascii=False))
+    print(json.dumps(result, indent=2, ensure_ascii=False, allow_nan=False))
+    if args.command == "profile" and not result["passed"]:
+        raise SystemExit(1)
+
+
+def _public_error_path_labels(args: argparse.Namespace) -> list[tuple[Path, str]]:
+    labels: list[tuple[Path, str]] = [
+        (Path.cwd().resolve(), "$PROJECT_ROOT"),
+        (Path.home().resolve(), "$HOME"),
+    ]
+    try:
+        config_path = resolve_path(args.config, ".")
+        labels.append((config_path, "$CONFIG"))
+        config = resolve_experiment_paths(load_json(config_path), config_path)
+        labels.extend(_inspect_path_labels(config))
+        for section, key, label in (
+            ("output", "run_dir", "$RUNS_ROOT"),
+            ("eval", "output_dir", "$EVAL_OUTPUT"),
+        ):
+            value = config.get(section, {}).get(key)
+            if isinstance(value, str) and value:
+                labels.append((Path(value).expanduser().resolve(), label))
+        base_dir = experiment_base_dir(config_path)
+    except Exception:  # noqa: BLE001
+        # This helper runs while another exception is already being handled.
+        # Path discovery is best-effort and must never replace the original
+        # command failure with a secondary redaction failure.
+        base_dir = Path.cwd().resolve()
+
+    for attribute, label in (
+        ("checkpoint", "$CHECKPOINT"),
+        ("resume", "$RESUME_CHECKPOINT"),
+        ("output", "$OUTPUT"),
+        ("report", "$PREFLIGHT_REPORT"),
+        ("preflight_report", "$PREFLIGHT_REPORT"),
+    ):
+        value = getattr(args, attribute, None)
+        if isinstance(value, str) and value:
+            labels.append((resolve_path(value, base_dir), label))
+    return labels
+
+
+def _redact_public_error(error: Exception, args: argparse.Namespace) -> str:
+    message = _redact_inspect_text(str(error), _public_error_path_labels(args))
+    message = re.sub(r"(?i)(?<![A-Za-z0-9_])/(?:home|Users)/[^/\s]+", "$HOME", message)
+    message = re.sub(r"(?i)\b[A-Z]:[\\/]Users[\\/][^\\/\s]+", "$HOME", message)
+    hostnames = {
+        socket.gethostname(),
+        socket.getfqdn(),
+        os.environ.get("HOSTNAME", ""),
+        os.environ.get("COMPUTERNAME", ""),
+    }
+    for hostname in sorted((value for value in hostnames if value), key=len, reverse=True):
+        message = re.sub(re.escape(hostname), "$HOST", message, flags=re.IGNORECASE)
+    return message
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = build_parser().parse_args(argv)
+    private_provenance = (
+        getattr(args, "include_private_host_provenance", False)
+        or os.environ.get("INCLUDE_PRIVATE_HOST_PROVENANCE", "0") == "1"
+    )
+    try:
+        _execute_command(args)
+    except Exception as error:
+        if private_provenance:
+            raise
+        try:
+            message = _redact_public_error(error, args)
+        except Exception:  # noqa: BLE001
+            # Public error handling is a privacy boundary. If best-effort path
+            # discovery or even an exception's __str__ fails, emit no details
+            # rather than allowing a secondary traceback to expose host paths.
+            message = "details suppressed because public-safe error rendering failed"
+        raise SystemExit(f"{args.command} failed: {message}") from None
 
 
 if __name__ == "__main__":
     main()
 ~~~~~~~~
 
-# src/asgcn_recon/data/__init__.py
+# src/asgcn_unet/data/__init__.py
 
 ~~~~~~~~python
 from .eventaid_r import EventAidRZipDataset
@@ -4775,7 +7650,7 @@ __all__ = [
 ]
 ~~~~~~~~
 
-# src/asgcn_recon/data/common.py
+# src/asgcn_unet/data/common.py
 
 ~~~~~~~~python
 from __future__ import annotations
@@ -4786,6 +7661,13 @@ from typing import Any
 import numpy as np
 import torch
 from PIL import Image
+
+_TARGET_NORMALIZATION_MODES = {
+    "integer_dtype_max",
+    "known_scale",
+    "already_normalized",
+    "percentile_debug_only",
+}
 
 
 @dataclass(frozen=True)
@@ -4859,26 +7741,130 @@ def crop_events(events: np.ndarray, crop: Crop) -> np.ndarray:
     return result
 
 
+def validate_target_normalization(
+    value: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """Validate and canonicalize the target radiometric contract.
+
+    The default preserves the official integer image path used by EventHDR and
+    EventAid-R. Float targets must opt into an explicit, auditable scale instead
+    of receiving frame-dependent normalization implicitly.
+    """
+    if value is None:
+        value = {"mode": "integer_dtype_max"}
+    if not isinstance(value, dict):
+        raise TypeError("target_normalization must be an object with a 'mode' field")
+    if any(not isinstance(name, str) for name in value):
+        raise TypeError("target_normalization field names must be strings")
+    mode = value.get("mode")
+    if not isinstance(mode, str) or mode not in _TARGET_NORMALIZATION_MODES:
+        supported = ", ".join(sorted(_TARGET_NORMALIZATION_MODES))
+        raise ValueError(f"target_normalization.mode must be one of: {supported}")
+
+    allowed_keys = {"mode"}
+    normalized: dict[str, Any] = {"mode": mode}
+    if mode == "known_scale":
+        allowed_keys.add("scale")
+        scale = value.get("scale")
+        if isinstance(scale, bool) or not isinstance(scale, (int, float)):
+            raise TypeError("target_normalization.scale must be a finite positive number")
+        scale = float(scale)
+        if not np.isfinite(scale) or scale <= 0.0:
+            raise ValueError("target_normalization.scale must be a finite positive number")
+        normalized["scale"] = scale
+    elif mode == "percentile_debug_only":
+        allowed_keys.update({"debug_only", "lower_percentile", "upper_percentile"})
+        if value.get("debug_only") is not True:
+            raise ValueError("percentile_debug_only requires target_normalization.debug_only=true")
+        lower = value.get("lower_percentile", 0.1)
+        upper = value.get("upper_percentile", 99.9)
+        if any(
+            isinstance(item, bool) or not isinstance(item, (int, float)) for item in (lower, upper)
+        ):
+            raise TypeError("target normalization percentiles must be finite numbers")
+        lower, upper = float(lower), float(upper)
+        if not np.isfinite(lower) or not np.isfinite(upper) or not 0 <= lower < upper <= 100:
+            raise ValueError(
+                "target normalization percentiles must satisfy 0 <= lower < upper <= 100"
+            )
+        normalized.update(
+            {
+                "debug_only": True,
+                "lower_percentile": lower,
+                "upper_percentile": upper,
+            }
+        )
+    unknown = sorted(set(value) - allowed_keys)
+    if unknown:
+        raise ValueError("Unknown target_normalization fields: " + ", ".join(unknown))
+    return normalized
+
+
+def _normalize_target_array(
+    image: np.ndarray,
+    normalization: dict[str, Any],
+    *,
+    source: str,
+) -> np.ndarray:
+    original_dtype = image.dtype
+    if not np.issubdtype(original_dtype, np.number) or np.issubdtype(original_dtype, np.bool_):
+        raise TypeError(f"Target {source} must use a real numeric dtype, got {original_dtype}")
+    if image.size and not np.all(np.isfinite(image)):
+        raise ValueError(f"Target {source} contains NaN or Inf values")
+
+    mode = normalization["mode"]
+    if mode == "integer_dtype_max":
+        if not np.issubdtype(original_dtype, np.integer):
+            raise ValueError(
+                f"Target {source} uses dtype {original_dtype}, but "
+                "target_normalization.mode='integer_dtype_max' requires an integer dtype"
+            )
+        result = image.astype(np.float32, copy=False)
+        result /= float(np.iinfo(original_dtype).max)
+    elif mode == "known_scale":
+        result = image.astype(np.float32, copy=False) / normalization["scale"]
+    elif mode == "already_normalized":
+        result = image.astype(np.float32, copy=False)
+    else:
+        # This path is intentionally noisy and opt-in. It is useful only while
+        # inspecting unknown data and must never be mistaken for a fixed protocol.
+        result = image.astype(np.float32, copy=False)
+        lower, upper = np.percentile(
+            result,
+            [normalization["lower_percentile"], normalization["upper_percentile"]],
+        )
+        if not np.isfinite(lower) or not np.isfinite(upper) or upper <= lower:
+            raise ValueError(
+                f"Target {source} has a degenerate debug percentile range [{lower}, {upper}]"
+            )
+        result = np.clip((result - lower) / (upper - lower), 0.0, 1.0)
+
+    if result.size:
+        minimum = float(result.min())
+        maximum = float(result.max())
+        if minimum < 0.0 or maximum > 1.0:
+            raise ValueError(
+                f"Target {source} is outside [0,1] after {mode} normalization "
+                f"(min={minimum}, max={maximum})"
+            )
+    return result
+
+
 def image_array_to_tensor(
     image: np.ndarray,
     target_channels: int = 1,
     tone_map: str = "none",
     tone_map_mu: float = 5000.0,
+    target_normalization: dict[str, Any] | None = None,
+    source: str = "image",
 ) -> torch.Tensor:
     if image.ndim == 2:
         image = image[..., None]
     if image.ndim != 3:
         raise ValueError(f"Expected HxW or HxWxC image, got {image.shape}")
 
-    original_dtype = image.dtype
-    image = image.astype(np.float32, copy=False)
-    if np.issubdtype(original_dtype, np.integer):
-        image /= float(np.iinfo(original_dtype).max)
-    elif image.size and (float(np.nanmax(image)) > 1.0 or float(np.nanmin(image)) < 0.0):
-        lo, hi = np.nanpercentile(image, [0.1, 99.9])
-        image = (image - lo) / max(float(hi - lo), 1e-6)
-    image = np.nan_to_num(image, nan=0.0, posinf=1.0, neginf=0.0)
-    image = np.clip(image, 0.0, 1.0)
+    normalization = validate_target_normalization(target_normalization)
+    image = _normalize_target_array(image, normalization, source=source)
 
     if target_channels == 1 and image.shape[-1] != 1:
         rgb = image[..., :3]
@@ -4889,9 +7875,15 @@ def image_array_to_tensor(
         image = image[..., :target_channels]
 
     if tone_map == "log":
+        if not np.isfinite(tone_map_mu) or tone_map_mu <= 0.0:
+            raise ValueError("tone_map_mu must be finite and positive for log tone mapping")
         image = np.log1p(tone_map_mu * image) / np.log1p(tone_map_mu)
     elif tone_map not in {"none", "linear"}:
         raise ValueError(f"Unknown tone_map: {tone_map}")
+    if image.size and (
+        not np.all(np.isfinite(image)) or float(image.min()) < 0.0 or float(image.max()) > 1.0
+    ):
+        raise ValueError(f"Target {source} is non-finite or outside [0,1] after tone mapping")
     return torch.from_numpy(np.ascontiguousarray(image.transpose(2, 0, 1))).float()
 
 
@@ -4918,7 +7910,7 @@ def make_sample(
     }
 ~~~~~~~~
 
-# src/asgcn_recon/data/eventaid_r.py
+# src/asgcn_unet/data/eventaid_r.py
 
 ~~~~~~~~python
 from __future__ import annotations
@@ -4929,6 +7921,7 @@ import re
 import zipfile
 import zlib
 from itertools import pairwise
+from numbers import Integral
 from pathlib import Path
 from typing import Any
 
@@ -4945,6 +7938,7 @@ from .common import (
     pil_to_array,
     stratified_subsample,
     uniform_cap_ratio,
+    validate_target_normalization,
 )
 
 _EVENT_RE = re.compile(r"(?:^|/)event/(\d+)\.txt$", re.IGNORECASE)
@@ -4978,6 +7972,7 @@ class EventAidRZipDataset(Dataset):
         target_offset: int = 1,
         tone_map: str = "none",
         tone_map_mu: float = 5000.0,
+        target_normalization: dict[str, Any] | None = None,
         random_crop: bool = False,
         seed: int = 2026,
     ) -> None:
@@ -4985,9 +7980,12 @@ class EventAidRZipDataset(Dataset):
         self.target_channels = int(target_channels)
         self.max_events = max_events
         self.crop_size = tuple(crop_size) if crop_size else None
+        if isinstance(target_offset, bool) or not isinstance(target_offset, Integral):
+            raise TypeError("target_offset must be an integer and must not be bool")
         self.target_offset = int(target_offset)
         self.tone_map = tone_map
         self.tone_map_mu = float(tone_map_mu)
+        self.target_normalization = validate_target_normalization(target_normalization)
         self.random_crop = random_crop
         self.seed = int(seed)
         self._handles: dict[Path, zipfile.ZipFile] = {}
@@ -5000,28 +7998,88 @@ class EventAidRZipDataset(Dataset):
             raise RuntimeError(f"No paired EventAid-R samples found under {self.root}")
 
     @staticmethod
-    def _read_shape(zf: zipfile.ZipFile, names: list[str]) -> tuple[int, int] | None:
-        shape_name = next((name for name in names if name.lower().endswith("shape.txt")), None)
+    def _unique_metadata_member(names: list[str], basename: str, *, path: Path) -> str | None:
+        candidates = [
+            name
+            for name in names
+            if name.replace("\\", "/").rsplit("/", 1)[-1].casefold() == basename.casefold()
+        ]
+        if len(candidates) > 1:
+            raise ValueError(
+                f"Invalid EventAid-R scene {path}: duplicate {basename} members: "
+                + ", ".join(candidates)
+            )
+        return candidates[0] if candidates else None
+
+    @classmethod
+    def _read_shape(
+        cls, zf: zipfile.ZipFile, names: list[str], *, path: Path
+    ) -> tuple[int, int] | None:
+        shape_name = cls._unique_metadata_member(names, "shape.txt", path=path)
         if not shape_name:
             return None
-        values = zf.read(shape_name).decode("utf-8", errors="replace").split()
-        if len(values) < 2:
-            return None
-        width, height = int(values[0]), int(values[1])
+        try:
+            values = zf.read(shape_name).decode("utf-8").split()
+            if len(values) != 2:
+                raise ValueError("expected exactly two integer tokens")
+            width, height = (int(value) for value in values)
+        except (UnicodeDecodeError, ValueError) as error:
+            raise ValueError(
+                f"Invalid EventAid-R shape in {path}::{shape_name}: "
+                "expected exactly two integer tokens 'width height'"
+            ) from error
+        if width <= 0 or height <= 0:
+            raise ValueError(
+                f"Invalid EventAid-R shape in {path}::{shape_name}: dimensions must be positive"
+            )
         return height, width
+
+    @staticmethod
+    def _index_numbered_members(
+        names: list[str], pattern: re.Pattern[str], *, label: str, path: Path
+    ) -> dict[int, str]:
+        indexed: dict[int, str] = {}
+        for name in names:
+            match = pattern.search(name.replace("\\", "/"))
+            if match is None:
+                continue
+            numeric_id = int(match.group(1))
+            if numeric_id in indexed:
+                raise ValueError(
+                    f"Invalid EventAid-R scene {path}: duplicate numeric {label} ID "
+                    f"{numeric_id}: {indexed[numeric_id]}, {name}"
+                )
+            indexed[numeric_id] = name
+        return indexed
+
+    @staticmethod
+    def _validated_member_names(zf: zipfile.ZipFile, *, path: Path) -> list[str]:
+        names: list[str] = []
+        casefolded: dict[str, str] = {}
+        for info in zf.infolist():
+            if info.is_dir():
+                continue
+            normalized = info.filename.replace("\\", "/")
+            logical_name = normalized.casefold()
+            if logical_name in casefolded:
+                raise ValueError(
+                    f"Invalid EventAid-R scene {path}: case-insensitive duplicate ZIP "
+                    f"member: {casefolded[logical_name]}, {info.filename}"
+                )
+            casefolded[logical_name] = info.filename
+            names.append(info.filename)
+        return names
 
     def _build_index(self) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         samples: list[dict[str, Any]] = []
         scene_info: dict[str, Any] = {}
         for path in self.zip_paths:
             with zipfile.ZipFile(path) as zf:
-                names = zf.namelist()
-                events = {int(m.group(1)): name for name in names if (m := _EVENT_RE.search(name))}
-                targets = {int(m.group(1)): name for name in names if (m := _GT_RE.search(name))}
-                shape = self._read_shape(zf, names)
-                timestamps_name = next(
-                    (name for name in names if name.lower().endswith("timestamps.txt")), None
-                )
+                names = self._validated_member_names(zf, path=path)
+                events = self._index_numbered_members(names, _EVENT_RE, label="event", path=path)
+                targets = self._index_numbered_members(names, _GT_RE, label="GT", path=path)
+                shape = self._read_shape(zf, names, path=path)
+                timestamps_name = self._unique_metadata_member(names, "timestamps.txt", path=path)
                 if timestamps_name is None:
                     raise ValueError(f"Invalid EventAid-R scene {path}: timestamps.txt is missing")
                 try:
@@ -5112,9 +8170,26 @@ class EventAidRZipDataset(Dataset):
         return self._handles[path]
 
     @staticmethod
-    def _read_events(raw: bytes, source: str = "event file") -> np.ndarray:
+    def _read_events(
+        raw: bytes,
+        source: str = "event file",
+        *,
+        interval_t0: float,
+        interval_t1: float,
+    ) -> tuple[np.ndarray, dict[str, float | int | None]]:
         if not raw.strip():
-            return np.empty((0, 4), dtype=np.float32)
+            return np.empty((0, 4), dtype=np.float32), {
+                "event_timestamp_min": None,
+                "event_timestamp_max": None,
+                "event_timestamp_span": None,
+                "interval_t0": float(interval_t0),
+                "interval_t1": float(interval_t1),
+                "event_to_interval_span_ratio": None,
+                "event_min_offset_from_t0": None,
+                "outside_interval_count": 0,
+                "event_count": 0,
+                "strict_interval_validation": False,
+            }
         try:
             rows = np.loadtxt(io.BytesIO(raw), dtype=np.float64, comments=None, ndmin=2)
         except (UnicodeDecodeError, ValueError) as error:
@@ -5134,6 +8209,26 @@ class EventAidRZipDataset(Dataset):
                 f"Invalid EventAid-R event block {source}: timestamps must be monotonically "
                 "non-decreasing"
             )
+        event_span = float(timestamps[-1] - timestamps[0])
+        interval_span = float(interval_t1 - interval_t0)
+        timestamp_diagnostics: dict[str, float | int | None] = {
+            "event_timestamp_min": float(timestamps[0]),
+            "event_timestamp_max": float(timestamps[-1]),
+            "event_timestamp_span": event_span,
+            "interval_t0": float(interval_t0),
+            "interval_t1": float(interval_t1),
+            "event_to_interval_span_ratio": (
+                event_span / interval_span if interval_span > 0 else None
+            ),
+            "event_min_offset_from_t0": float(timestamps[0] - interval_t0),
+            "outside_interval_count": int(
+                np.count_nonzero((timestamps < interval_t0) | (timestamps > interval_t1))
+            ),
+            "event_count": int(timestamps.size),
+            # Promote this diagnostic to a hard contract only after the official
+            # 14-archive scan establishes a shared timestamp basis and unit.
+            "strict_interval_validation": False,
+        }
         polarity = rows[:, 3]
         if not np.all(np.isfinite(polarity)):
             raise ValueError(f"Invalid EventAid-R event block {source}: polarity must be finite")
@@ -5148,19 +8243,26 @@ class EventAidRZipDataset(Dataset):
             events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
         events = events.astype(np.float32, copy=False)
         events[:, 3] = normalize_polarity(events[:, 3])
-        return events
+        return events, timestamp_diagnostics
 
     def __getitem__(self, index: int) -> dict[str, Any]:
         item = self.samples[index]
         zf = self._get_handle(item["path"])
         source = f"{item['path']}::{item['event_name']}"
-        events = self._read_events(zf.read(item["event_name"]), source=source)
+        events, timestamp_diagnostics = self._read_events(
+            zf.read(item["event_name"]),
+            source=source,
+            interval_t0=float(item["t0_us"]),
+            interval_t1=float(item["t1_us"]),
+        )
         with Image.open(io.BytesIO(zf.read(item["target_name"]))) as image:
             target = image_array_to_tensor(
                 pil_to_array(image),
                 self.target_channels,
                 tone_map=self.tone_map,
                 tone_map_mu=self.tone_map_mu,
+                target_normalization=self.target_normalization,
+                source=f"{item['path']}::{item['target_name']}",
             )
         height, width = target.shape[-2:]
         if item["shape"] and item["shape"] != (height, width):
@@ -5200,6 +8302,7 @@ class EventAidRZipDataset(Dataset):
                 "cropped_event_count": cropped_event_count,
                 "retained_event_count": retained_event_count,
                 "dataset_sampling_ratio": dataset_sampling_ratio,
+                "event_timestamp_diagnostics": timestamp_diagnostics,
                 "crop": {
                     "left": crop.left,
                     "top": crop.top,
@@ -5228,12 +8331,13 @@ class EventAidRZipDataset(Dataset):
         self.close()
 ~~~~~~~~
 
-# src/asgcn_recon/data/eventhdr.py
+# src/asgcn_unet/data/eventhdr.py
 
 ~~~~~~~~python
 from __future__ import annotations
 
 import os
+import re
 import zlib
 from pathlib import Path
 from typing import Any
@@ -5250,9 +8354,11 @@ from .common import (
     normalize_polarity,
     stratified_subsample,
     uniform_cap_ratio,
+    validate_target_normalization,
 )
 
 _EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
+_IMAGE_KEY_RE = re.compile(r"image(\d+)$")
 
 
 def _invalid_file(path: Path, detail: str) -> ValueError:
@@ -5335,6 +8441,7 @@ class EventHDRDataset(Dataset):
         frame_stride: int = 1,
         tone_map: str = "log",
         tone_map_mu: float = 5000.0,
+        target_normalization: dict[str, Any] | None = None,
         random_crop: bool = False,
         seed: int = 2026,
         allowed_files: list[str] | None = None,
@@ -5347,6 +8454,7 @@ class EventHDRDataset(Dataset):
         self.frame_stride = max(1, int(frame_stride))
         self.tone_map = tone_map
         self.tone_map_mu = float(tone_map_mu)
+        self.target_normalization = validate_target_normalization(target_normalization)
         self.random_crop = random_crop
         self.seed = int(seed)
         self._handles: dict[Path, h5py.File] = {}
@@ -5438,9 +8546,28 @@ class EventHDRDataset(Dataset):
                     )
                 event_count = lengths["ts"]
 
-                image_keys = sorted(k for k in images_group if k.startswith("image"))
-                if not image_keys:
+                numeric_image_keys: dict[int, str] = {}
+                for key in images_group:
+                    if not key.startswith("image"):
+                        continue
+                    match = _IMAGE_KEY_RE.fullmatch(key)
+                    if match is None:
+                        raise _invalid_file(
+                            path,
+                            f"images/{key} must use the numeric image<index> naming contract",
+                        )
+                    numeric_index = int(match.group(1))
+                    previous = numeric_image_keys.get(numeric_index)
+                    if previous is not None:
+                        raise _invalid_file(
+                            path,
+                            f"images/{key} duplicates numeric image index {numeric_index} "
+                            f"already used by images/{previous}",
+                        )
+                    numeric_image_keys[numeric_index] = key
+                if not numeric_image_keys:
                     raise _invalid_file(path, "group 'images' contains no image arrays")
+                image_keys = [numeric_image_keys[index] for index in sorted(numeric_image_keys)]
                 selected_start_idx = 0
                 selected_start_timestamp: float | None = None
                 selected_sequence_index = 0
@@ -5522,6 +8649,8 @@ class EventHDRDataset(Dataset):
             self.target_channels,
             tone_map=self.tone_map,
             tone_map_mu=self.tone_map_mu,
+            target_normalization=self.target_normalization,
+            source=f"{item['path']}::{item['image_key']}",
         )
         height, width = target.shape[-2:]
         _validate_event_values(
@@ -5609,7 +8738,7 @@ class EventHDRDataset(Dataset):
         self.close()
 ~~~~~~~~
 
-# src/asgcn_recon/data/factory.py
+# src/asgcn_unet/data/factory.py
 
 ~~~~~~~~python
 from __future__ import annotations
@@ -5660,31 +8789,13 @@ def _normalize_file_list(
     return normalized
 
 
-def _normalize_scene_list(
-    values: Any,
-    *,
-    field: str,
-    manifest_path: Path,
-) -> list[str]:
-    if not isinstance(values, list) or not values:
-        raise ValueError(
-            f"EventHDR split manifest {manifest_path} field '{field}' must be "
-            "a non-empty list of physical scene IDs"
-        )
-    if any(
-        not isinstance(value, str) or not value.strip() or value != value.strip()
-        for value in values
-    ):
-        raise ValueError(
-            f"EventHDR split manifest {manifest_path} field '{field}' contains "
-            "an invalid physical scene ID"
-        )
-    if len(values) != len(set(values)):
-        raise ValueError(f"EventHDR split manifest {manifest_path} field '{field}' has duplicates")
-    return list(values)
-
-
 def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
+    """Load the one supported EventHDR protocol: official train/eval roots.
+
+    Public EventHDR H5 filenames are sequence containers, not verified physical
+    scene identifiers.  Keeping one explicit schema prevents an experiment from
+    silently treating numeric filenames as scene-disjoint train/validation data.
+    """
     manifest_path = Path(path)
     if not manifest_path.is_file():
         raise FileNotFoundError(
@@ -5695,189 +8806,67 @@ def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
         manifest = json.load(handle)
     if not isinstance(manifest, dict):
         raise TypeError(f"EventHDR split manifest {manifest_path} must contain an object")
-    raw_status = manifest.get("status", "provisional")
+    raw_status = manifest.get("status")
     if not isinstance(raw_status, str):
         raise TypeError(f"EventHDR split manifest {manifest_path} field 'status' must be a string")
     status = raw_status.strip().lower()
-    if status not in {"provisional", "final"}:
-        raise ValueError(
-            f"EventHDR split manifest {manifest_path} status must be 'provisional' or 'final'"
-        )
+    if status != "final":
+        raise ValueError(f"EventHDR split manifest {manifest_path} must have status='final'")
     manifest["status"] = status
 
     scene_fields = ("scene_groups", "train_scenes", "val_scenes")
     present_scene_fields = [field for field in scene_fields if field in manifest]
     declared_schema = manifest.get("split_schema")
-    if declared_schema is not None and not isinstance(declared_schema, str):
+    if not isinstance(declared_schema, str):
         raise TypeError(
             f"EventHDR split manifest {manifest_path} field 'split_schema' must be a string"
         )
-    if declared_schema == "official_separate_roots_v1":
-        if status != "final":
-            raise ValueError(
-                f"Official EventHDR separate-root manifest {manifest_path} must have "
-                "status='final'"
-            )
-        if present_scene_fields:
-            raise ValueError(
-                f"Official EventHDR separate-root manifest {manifest_path} must not "
-                "declare physical-scene fields"
-            )
-        deprecated_group_fields = [
-            field for field in ("train_scene_groups", "val_scene_groups") if field in manifest
-        ]
-        if deprecated_group_fields:
-            raise ValueError(
-                f"Official EventHDR separate-root manifest {manifest_path} generates "
-                "split-local H5 sequence groups automatically; remove: "
-                + ", ".join(deprecated_group_fields)
-            )
-        required_semantics = "h5_sequence_file_not_physical_scene"
-        if manifest.get("group_semantics") != required_semantics:
-            raise ValueError(
-                f"Official EventHDR separate-root manifest {manifest_path} must set "
-                f"group_semantics='{required_semantics}'"
-            )
-        manifest["train_files"] = _normalize_file_list(
-            manifest.get("train_files"), field="train_files", manifest_path=manifest_path
-        )
-        manifest["val_files"] = _normalize_file_list(
-            manifest.get("val_files"), field="val_files", manifest_path=manifest_path
-        )
-        manifest["train_file_to_group"] = {
-            file_key: f"official-train-h5::{file_key}"
-            for file_key in manifest["train_files"]
-        }
-        manifest["val_file_to_group"] = {
-            file_key: f"official-eval-h5::{file_key}" for file_key in manifest["val_files"]
-        }
-        # ``EventHDRDataset`` keeps the historical file_to_scene API, but values in
-        # this schema are explicitly H5 sequence groups, not physical-scene labels.
-        manifest["train_file_to_scene"] = manifest["train_file_to_group"]
-        manifest["val_file_to_scene"] = manifest["val_file_to_group"]
-        manifest["file_to_group"] = {
-            "train": manifest["train_file_to_group"],
-            "val": manifest["val_file_to_group"],
-        }
-        manifest["file_to_scene"] = {
-            "train": manifest["train_file_to_scene"],
-            "val": manifest["val_file_to_scene"],
-        }
-        return manifest
-
-    if present_scene_fields and len(present_scene_fields) != len(scene_fields):
-        missing = ", ".join(field for field in scene_fields if field not in manifest)
+    if declared_schema != "official_separate_roots_v1":
         raise ValueError(
-            f"EventHDR split manifest {manifest_path} has an incomplete physical-scene "
-            f"schema; missing: {missing}"
+            f"EventHDR split manifest {manifest_path} supports only "
+            "split_schema='official_separate_roots_v1'"
         )
-
-    if not present_scene_fields:
-        if status == "final":
-            raise ValueError(
-                f"Final EventHDR split manifest {manifest_path} requires scene_groups, "
-                "train_scenes, and val_scenes; legacy train_files/val_files cannot "
-                "prove physical-scene separation"
-            )
-        for field in ("train_files", "val_files"):
-            manifest[field] = sorted(
-                _normalize_file_list(manifest.get(field), field=field, manifest_path=manifest_path)
-            )
-        overlap = sorted(set(manifest["train_files"]) & set(manifest["val_files"]))
-        if overlap:
-            raise ValueError(
-                f"EventHDR split manifest {manifest_path} leaks files across train/val: "
-                + ", ".join(overlap[:8])
-                + (" ..." if len(overlap) > 8 else "")
-            )
-        manifest["split_schema"] = "legacy_files_v1"
-        manifest["train_file_to_scene"] = {
-            key: key for key in manifest["train_files"]
-        }
-        manifest["val_file_to_scene"] = {key: key for key in manifest["val_files"]}
-        manifest["file_to_scene"] = {
-            **manifest["train_file_to_scene"],
-            **manifest["val_file_to_scene"],
-        }
-        return manifest
-
-    raw_groups = manifest["scene_groups"]
-    if not isinstance(raw_groups, dict) or not raw_groups:
+    if present_scene_fields:
         raise ValueError(
-            f"EventHDR split manifest {manifest_path} field 'scene_groups' must be "
-            "a non-empty object"
+            f"Official EventHDR separate-root manifest {manifest_path} must not "
+            "declare physical-scene fields"
         )
-    scene_groups: dict[str, list[str]] = {}
-    file_to_scene: dict[str, str] = {}
-    for scene_id, values in raw_groups.items():
-        if not isinstance(scene_id, str) or not scene_id.strip() or scene_id != scene_id.strip():
-            raise ValueError(
-                f"EventHDR split manifest {manifest_path} has an invalid physical scene ID"
-            )
-        files = _normalize_file_list(
-            values,
-            field=f"scene_groups.{scene_id}",
-            manifest_path=manifest_path,
+    deprecated_group_fields = [
+        field for field in ("train_scene_groups", "val_scene_groups") if field in manifest
+    ]
+    if deprecated_group_fields:
+        raise ValueError(
+            f"Official EventHDR separate-root manifest {manifest_path} generates "
+            "split-local H5 sequence groups automatically; remove: "
+            + ", ".join(deprecated_group_fields)
         )
-        for file_key in files:
-            owner = file_to_scene.get(file_key)
-            if owner is not None:
-                raise ValueError(
-                    f"EventHDR split manifest {manifest_path} assigns file {file_key!r} "
-                    f"to multiple physical scenes: {owner!r}, {scene_id!r}"
-                )
-            file_to_scene[file_key] = scene_id
-        scene_groups[scene_id] = files
-
-    train_scenes = _normalize_scene_list(
-        manifest["train_scenes"], field="train_scenes", manifest_path=manifest_path
+    required_semantics = "h5_sequence_file_not_physical_scene"
+    if manifest.get("group_semantics") != required_semantics:
+        raise ValueError(
+            f"Official EventHDR separate-root manifest {manifest_path} must set "
+            f"group_semantics='{required_semantics}'"
+        )
+    manifest["train_files"] = _normalize_file_list(
+        manifest.get("train_files"), field="train_files", manifest_path=manifest_path
     )
-    val_scenes = _normalize_scene_list(
-        manifest["val_scenes"], field="val_scenes", manifest_path=manifest_path
+    manifest["val_files"] = _normalize_file_list(
+        manifest.get("val_files"), field="val_files", manifest_path=manifest_path
     )
-    unknown_scenes = sorted((set(train_scenes) | set(val_scenes)) - set(scene_groups))
-    if unknown_scenes:
-        raise ValueError(
-            f"EventHDR split manifest {manifest_path} references undefined physical "
-            "scenes: " + ", ".join(unknown_scenes)
-        )
-    scene_overlap = sorted(set(train_scenes) & set(val_scenes))
-    if scene_overlap:
-        raise ValueError(
-            f"EventHDR split manifest {manifest_path} leaks physical scenes across "
-            "train/val: " + ", ".join(scene_overlap)
-        )
-    unassigned_scenes = sorted(set(scene_groups) - set(train_scenes) - set(val_scenes))
-    if unassigned_scenes:
-        raise ValueError(
-            f"EventHDR split manifest {manifest_path} leaves physical scenes unassigned: "
-            + ", ".join(unassigned_scenes)
-        )
-
-    train_files = [file for scene in train_scenes for file in scene_groups[scene]]
-    val_files = [file for scene in val_scenes for file in scene_groups[scene]]
-    for field, normalized in (("train_files", train_files), ("val_files", val_files)):
-        if field in manifest:
-            declared = _normalize_file_list(
-                manifest[field], field=field, manifest_path=manifest_path
-            )
-            if set(declared) != set(normalized):
-                raise ValueError(
-                    f"EventHDR split manifest {manifest_path} field '{field}' does not "
-                    "match the physical-scene assignment"
-                )
-        manifest[field] = normalized
-    manifest["scene_groups"] = dict(sorted(scene_groups.items()))
-    manifest["train_scenes"] = train_scenes
-    manifest["val_scenes"] = val_scenes
-    manifest["file_to_scene"] = dict(sorted(file_to_scene.items()))
-    manifest["train_file_to_scene"] = {
-        file_key: file_to_scene[file_key] for file_key in train_files
+    manifest["train_file_to_group"] = {
+        file_key: f"official-train-h5::{file_key}" for file_key in manifest["train_files"]
     }
-    manifest["val_file_to_scene"] = {
-        file_key: file_to_scene[file_key] for file_key in val_files
+    manifest["val_file_to_group"] = {
+        file_key: f"official-eval-h5::{file_key}" for file_key in manifest["val_files"]
     }
-    manifest["split_schema"] = "physical_scenes_v1"
+    # EventHDRDataset uses the historical file_to_scene argument name.  Values
+    # remain explicit sequence-group IDs and are never physical-scene claims.
+    manifest["train_file_to_scene"] = manifest["train_file_to_group"]
+    manifest["val_file_to_scene"] = manifest["val_file_to_group"]
+    manifest["file_to_group"] = {
+        "train": manifest["train_file_to_group"],
+        "val": manifest["val_file_to_group"],
+    }
+    manifest["file_to_scene"] = manifest["file_to_group"]
     return manifest
 
 
@@ -5921,69 +8910,46 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
         if split_manifest and split in {"train", "val", "calibration"}:
             manifest_path = Path(split_manifest)
             manifest = load_eventhdr_split_manifest(manifest_path)
-            eventhdr_group_semantics = manifest.get("group_semantics")
-            if eventhdr_group_semantics is None:
-                eventhdr_group_semantics = (
-                    "physical_scene"
-                    if manifest["split_schema"] == "physical_scenes_v1"
-                    else "h5_sequence_file_not_physical_scene"
+            eventhdr_group_semantics = manifest["group_semantics"]
+            if training_root.resolve() == validation_root.resolve():
+                raise ValueError(
+                    "Official EventHDR train/eval split requires distinct dataset.root "
+                    "and dataset.val_root directories"
                 )
-            if manifest["status"] == "final":
-                roots_match = training_root.resolve() == validation_root.resolve()
-                if manifest["split_schema"] == "official_separate_roots_v1" and roots_match:
+            coverage_specs = (
+                (
+                    "dataset.root train_files",
+                    training_root,
+                    set(manifest["train_files"]),
+                    (validation_root,),
+                ),
+                (
+                    "dataset.val_root val_files",
+                    validation_root,
+                    set(manifest["val_files"]),
+                    (training_root,),
+                ),
+            )
+            for label, coverage_root, declared, excluded_roots in coverage_specs:
+                discovered = _discover_eventhdr_files(
+                    coverage_root,
+                    exclude_roots=excluded_roots,
+                )
+                undeclared = sorted(discovered - declared)
+                missing = sorted(declared - discovered)
+                if undeclared or missing:
+                    details = []
+                    if undeclared:
+                        details.append("undeclared: " + ", ".join(undeclared[:8]))
+                    if missing:
+                        details.append("missing: " + ", ".join(missing[:8]))
                     raise ValueError(
-                        "Official EventHDR train/eval split requires distinct dataset.root "
-                        "and dataset.val_root directories"
+                        f"Final EventHDR manifest must cover every H5 under {label} ("
+                        + "; ".join(details)
+                        + ")"
                     )
-                if roots_match:
-                    coverage_specs = (
-                        (
-                            "dataset.root",
-                            training_root,
-                            set(manifest["file_to_scene"]),
-                            (),
-                        ),
-                    )
-                else:
-                    coverage_specs = (
-                        (
-                            "dataset.root train_files",
-                            training_root,
-                            set(manifest["train_files"]),
-                            (validation_root,),
-                        ),
-                        (
-                            "dataset.val_root val_files",
-                            validation_root,
-                            set(manifest["val_files"]),
-                            (training_root,),
-                        ),
-                    )
-                for label, coverage_root, declared, excluded_roots in coverage_specs:
-                    discovered = _discover_eventhdr_files(
-                        coverage_root,
-                        exclude_roots=excluded_roots,
-                    )
-                    undeclared = sorted(discovered - declared)
-                    missing = sorted(declared - discovered)
-                    if undeclared or missing:
-                        details = []
-                        if undeclared:
-                            details.append("undeclared: " + ", ".join(undeclared[:8]))
-                        if missing:
-                            details.append("missing: " + ", ".join(missing[:8]))
-                        raise ValueError(
-                            f"Final EventHDR manifest must cover every H5 under {label} ("
-                            + "; ".join(details)
-                            + ")"
-                        )
             key = "val_files" if split == "val" else "train_files"
-            if manifest["split_schema"] == "official_separate_roots_v1":
-                mapping_key = "val_file_to_group" if split == "val" else "train_file_to_group"
-            else:
-                mapping_key = (
-                    "val_file_to_scene" if split == "val" else "train_file_to_scene"
-                )
+            mapping_key = "val_file_to_group" if split == "val" else "train_file_to_group"
             cfg["allowed_files"] = manifest[key]
             cfg["file_to_scene"] = manifest[mapping_key]
         dataset = EventHDRDataset(root=root, **cfg)
@@ -6033,20 +8999,25 @@ def collate_samples(batch: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return batch
 ~~~~~~~~
 
-# src/asgcn_recon/engine.py
+# src/asgcn_unet/engine.py
 
 ~~~~~~~~python
 from __future__ import annotations
 
 import copy
+import gc
 import hashlib
+import json
 import math
 import random
 import re
 import statistics
 import subprocess
+import sys
 import time
 from collections import Counter, defaultdict
+from collections.abc import Callable
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -6065,21 +9036,23 @@ from .metrics import (
     percentile,
     temporal_consistency_error,
 )
-from .model import ASGCNReconstructor
+from .model import ASGCNUNet
 from .utils import (
     atomic_torch_save,
     load_json,
+    move_inference_sample,
     move_sample,
     resolve_device,
     save_image,
     save_json,
     set_seed,
+    validate_experiment_config,
     write_frame_csv,
 )
 
 
-def build_model(config: dict[str, Any]) -> ASGCNReconstructor:
-    return ASGCNReconstructor(**config)
+def build_model(config: dict[str, Any]) -> ASGCNUNet:
+    return ASGCNUNet(**config)
 
 
 def _load_checkpoint(path: str | Path) -> dict[str, Any]:
@@ -6107,6 +9080,106 @@ def _model_state_sha256(state: dict[str, torch.Tensor]) -> str:
     return digest.hexdigest()
 
 
+def _file_sha256(path: str | Path) -> str:
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        while chunk := handle.read(8 * 1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _canonical_sha256(value: Any) -> str:
+    """Hash a strict, order-independent JSON representation of a public contract."""
+    payload = json.dumps(
+        value,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _hashed_contract(value: Any) -> dict[str, Any]:
+    contract = copy.deepcopy(value)
+    return {"contract": contract, "sha256": _canonical_sha256(contract)}
+
+
+def _calibration_commitment_sha256(
+    protocol: Any,
+    selected_samples: Any,
+    sampling: Any,
+    summary_core: Any,
+) -> str:
+    return _canonical_sha256(
+        {
+            "version": 1,
+            "calibration_protocol": protocol,
+            "selected_samples": selected_samples,
+            "sampling": sampling,
+            "summary_core": summary_core,
+        }
+    )
+
+
+def _calibration_summary_commitment_core(summary: Any) -> dict[str, Any]:
+    if not isinstance(summary, dict):
+        raise TypeError("calibration summary must be a dictionary")
+    valid = summary.get("valid_samples_per_layer")
+    dead = summary.get("dead_channels_per_layer")
+    minimum = summary.get("minimum_valid_samples")
+    if (
+        not isinstance(valid, list)
+        or not valid
+        or not isinstance(dead, list)
+        or len(dead) != len(valid)
+        or any(
+            not isinstance(value, int) or isinstance(value, bool) or value < 0
+            for value in [*valid, *dead]
+        )
+        or not isinstance(minimum, int)
+        or isinstance(minimum, bool)
+        or minimum != min(valid)
+    ):
+        raise ValueError("calibration summary core is invalid")
+    return {
+        "valid_samples_per_layer": list(valid),
+        "minimum_valid_samples": minimum,
+        "dead_channels_per_layer": list(dead),
+    }
+
+
+def _artifact_path_label(path: str | Path) -> str:
+    """Return a public, portable label without leaking a host absolute path."""
+    value = Path(path)
+    project_root = Path(__file__).resolve().parents[2]
+    try:
+        return value.resolve().relative_to(project_root).as_posix()
+    except ValueError:
+        return f"$EXTERNAL/{value.name}"
+
+
+def _public_config(config: Any) -> Any:
+    """Redact resolved host paths before a config becomes a shareable artifact."""
+
+    private_identity_keys = {"host", "hostname", "host_name", "user", "username"}
+
+    def redact(value: Any, key: str | None = None) -> Any:
+        if key is not None and key.strip().lower() in private_identity_keys:
+            return "$REDACTED"
+        if isinstance(value, dict):
+            return {item_key: redact(item, item_key) for item_key, item in value.items()}
+        if isinstance(value, list):
+            return [redact(item) for item in value]
+        if isinstance(value, tuple):
+            return [redact(item) for item in value]
+        if isinstance(value, str) and Path(value).is_absolute():
+            return _artifact_path_label(value)
+        return value
+
+    return redact(copy.deepcopy(config))
+
+
 def _validate_model_state_digest(
     state: dict[str, torch.Tensor],
     checkpoint: dict[str, Any],
@@ -6125,7 +9198,7 @@ def _validate_model_state_digest(
 
 
 def _validate_loaded_conversion_state(
-    model: ASGCNReconstructor,
+    model: ASGCNUNet,
     metadata: dict[str, Any],
     checkpoint_path: str | Path,
 ) -> None:
@@ -6160,15 +9233,85 @@ def _validate_loaded_conversion_state(
             "layers are not fully BN-folded and Eq. (6)-normalized"
         )
     if checkpoint_type == "snn_inference":
+        attempted_samples = int(model.calibration_attempts.item())
+        selected_samples = int(metadata.get("snn_calibration_samples", 0) or 0)
+        if attempted_samples < 1 or selected_samples != attempted_samples:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} selected calibration count disagrees "
+                "with persistent attempted calibration state"
+            )
+        if not bool(model.calibration_commitment_sealed.item()):
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} has no persistent calibration commitment"
+            )
+        summary = metadata.get("snn_calibration_summary")
+        if not isinstance(summary, dict):
+            raise ValueError(f"Checkpoint {checkpoint_path} is missing calibration summary")
+        try:
+            summary_core = _calibration_summary_commitment_core(summary)
+            state_summary_core = _calibration_summary_commitment_core(
+                model.encoder.calibration_summary()
+            )
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} has an invalid calibration summary"
+            ) from error
+        if summary_core != state_summary_core:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} calibration summary differs from layer state"
+            )
+        state_commitment = bytes(model.calibration_commitment_digest.tolist()).hex()
+        try:
+            metadata_commitment = _calibration_commitment_sha256(
+                metadata.get("calibration_protocol"),
+                selected_samples,
+                metadata.get("snn_calibration_sampling"),
+                summary_core,
+            )
+        except (TypeError, ValueError, OverflowError) as error:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} has an invalid calibration commitment"
+            ) from error
+        if state_commitment != metadata_commitment:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} calibration metadata disagrees with its "
+                "persistent tensor commitment"
+            )
         sample_counts = [int(value) for value in model.encoder.calibration_samples_seen.tolist()]
         if not sample_counts or min(sample_counts) < 1:
             raise ValueError(
                 f"Checkpoint {checkpoint_path} has graph layers without valid calibration"
             )
         for index, layer in enumerate(model.encoder.layers):
-            if not bool((layer.activation_max > 0).all()):
+            raw_max = layer.calibration_activation_max
+            normalization_scale = layer.normalization_scale
+            dead_mask = layer.dead_channel_mask
+            if not bool(torch.isfinite(raw_max).all()) or bool(
+                (raw_max < 0).any()
+            ):
                 raise ValueError(
-                    f"Checkpoint {checkpoint_path} layer {index} has non-positive lambda"
+                    f"Checkpoint {checkpoint_path} layer {index} has an invalid raw "
+                    "calibration maximum"
+                )
+            expected_dead_mask = raw_max <= 0
+            if not torch.equal(dead_mask, expected_dead_mask):
+                raise ValueError(
+                    f"Checkpoint {checkpoint_path} layer {index} dead-channel mask "
+                    "differs from its raw calibration maximum"
+                )
+            expected_scale = torch.where(
+                expected_dead_mask,
+                torch.ones_like(raw_max),
+                raw_max,
+            ).clamp_min(1e-6)
+            if (
+                not bool(torch.isfinite(normalization_scale).all())
+                or not bool((normalization_scale > 0).all())
+                or not torch.equal(normalization_scale, expected_scale)
+            ):
+                raise ValueError(
+                    f"Checkpoint {checkpoint_path} layer {index} effective normalization "
+                    "scale differs from its raw calibration maximum"
                 )
             if not bool((layer.threshold > 0).all()):
                 raise ValueError(
@@ -6179,9 +9322,6 @@ def _validate_loaded_conversion_state(
                     f"Checkpoint {checkpoint_path} layer {index} threshold is not the "
                     "unit threshold produced by Eq. (6) conversion"
                 )
-        summary = metadata.get("snn_calibration_summary")
-        if not isinstance(summary, dict):
-            raise ValueError(f"Checkpoint {checkpoint_path} is missing calibration summary")
         if summary.get("valid_samples_per_layer") != sample_counts:
             raise ValueError(
                 f"Checkpoint {checkpoint_path} calibration metadata disagrees with layer state"
@@ -6193,15 +9333,31 @@ def _validate_loaded_conversion_state(
             raise ValueError(
                 f"Checkpoint {checkpoint_path} valid calibration count is inconsistent"
             )
-        selected = int(metadata.get("snn_calibration_samples", 0) or 0)
-        if selected < minimum:
+        if selected_samples < minimum:
             raise ValueError(
                 f"Checkpoint {checkpoint_path} selected calibration count is inconsistent"
+            )
+        if (
+            summary.get("attempted_samples") != attempted_samples
+            or summary.get("calibration_commitment_sha256") != state_commitment
+            or summary.get("commitment_sealed") is not True
+        ):
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} calibration commitment summary is inconsistent"
             )
     if checkpoint_type in {"ann_inference", "training"} and (state_bn_folded or state_normalized):
         raise ValueError(
             f"Checkpoint {checkpoint_path} is labeled {checkpoint_type} but contains "
             "converted SNN graph-layer state"
+        )
+    if checkpoint_type in {"ann_inference", "training"} and (
+        int(model.calibration_attempts.item()) != 0
+        or bool(model.calibration_commitment_sealed.item())
+        or bool(model.calibration_commitment_digest.any())
+    ):
+        raise ValueError(
+            f"Checkpoint {checkpoint_path} is labeled {checkpoint_type} but contains "
+            "persistent calibration commitment state"
         )
 
 
@@ -6209,7 +9365,7 @@ def load_model_checkpoint(
     checkpoint_path: str | Path,
     device: torch.device,
     fallback_model_config: dict[str, Any],
-) -> tuple[ASGCNReconstructor, dict[str, Any]]:
+) -> tuple[ASGCNUNet, dict[str, Any]]:
     checkpoint = _load_checkpoint(checkpoint_path)
     if not isinstance(checkpoint, dict):
         raise TypeError(f"Checkpoint {checkpoint_path} must contain a dictionary")
@@ -6467,7 +9623,7 @@ def _dataset_source_fingerprint(dataset) -> dict[str, Any]:
         try:
             key = path.relative_to(root).as_posix()
         except ValueError:
-            key = path.as_posix()
+            key = path.name
         files.append(
             {
                 "path": key,
@@ -6498,16 +9654,21 @@ def _dataset_content_fingerprint(
         entries.append((relative, raw_path))
     for relative, raw_path in sorted(entries):
         stat = raw_path.stat()
-        cache_key = str(raw_path)
+        # Cache lookup remains host-local without publishing an account/mount path.
+        cache_key = hashlib.sha256(str(raw_path).encode("utf-8")).hexdigest()
         signature = {
             "size": stat.st_size,
             "mtime_ns": stat.st_mtime_ns,
             "ctime_ns": stat.st_ctime_ns,
         }
         cached = cache.get(cache_key)
-        if not isinstance(cached, dict) or any(
-            cached.get(key) != value for key, value in signature.items()
-        ):
+        cache_valid = (
+            isinstance(cached, dict)
+            and all(cached.get(key) == value for key, value in signature.items())
+            and isinstance(cached.get("sha256"), str)
+            and re.fullmatch(r"[0-9a-f]{64}", cached["sha256"]) is not None
+        )
+        if not cache_valid:
             file_hash = hashlib.sha256()
             size = 0
             with raw_path.open("rb") as handle:
@@ -6542,7 +9703,15 @@ def _load_data_hash_cache(path: Path, rehash: bool) -> dict[str, dict[str, Any]]
         return {}
     if payload.get("version") != 1 or not isinstance(payload.get("files"), dict):
         return {}
-    return payload["files"]
+    return {
+        key: value
+        for key, value in payload["files"].items()
+        if (
+            isinstance(key, str)
+            and re.fullmatch(r"[0-9a-f]{64}", key)
+            and isinstance(value, dict)
+        )
+    }
 
 
 def _sampling_summary(dataset, indices: list[int]) -> dict[str, Any]:
@@ -6555,6 +9724,19 @@ def _sampling_summary(dataset, indices: list[int]) -> dict[str, Any]:
         "per_group": dict(sorted(counts.items())),
         "available_per_group": dict(sorted(available_counts.items())),
         "selected": [_dataset_sample_identity(dataset, index) for index in indices],
+        "source_fingerprint": _dataset_source_fingerprint(dataset),
+    }
+
+
+def _dataset_index_contract(dataset) -> dict[str, Any]:
+    identities = [_dataset_sample_identity(dataset, index) for index in range(len(dataset))]
+    counts = Counter(identity["group"] for identity in identities)
+    return {
+        "version": 1,
+        "samples": len(identities),
+        "groups": len(counts),
+        "per_group": dict(sorted(counts.items())),
+        "sample_identities_sha256": _canonical_sha256(identities),
         "source_fingerprint": _dataset_source_fingerprint(dataset),
     }
 
@@ -6642,6 +9824,10 @@ def _validate_resume_best_pair(
         raise ValueError("Historical best.pt has a different model configuration")
     if best_checkpoint.get("training_protocol") != resume_checkpoint.get("training_protocol"):
         raise ValueError("Historical best.pt has a different training protocol")
+    if best_checkpoint.get("preflight_gate") != resume_checkpoint.get("preflight_gate"):
+        raise ValueError("Historical best.pt has a different preflight gate")
+    if best_checkpoint.get("training_config") != resume_checkpoint.get("config"):
+        raise ValueError("Historical best.pt has a different public training config")
     for name, checkpoint in (
         ("resume checkpoint", resume_checkpoint),
         ("historical best.pt", best_checkpoint),
@@ -6675,6 +9861,8 @@ def _validate_snn_request(
     if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
         raise ValueError("simulation_steps must be an integer")
     simulation_steps = int(simulation_steps)
+    if inference_mode not in {"ann", "snn"}:
+        raise ValueError("inference_mode must be 'ann' or 'snn'")
     if inference_mode == "ann":
         if checkpoint is not None and (
             checkpoint.get("checkpoint_type") == "snn_inference"
@@ -6686,8 +9874,6 @@ def _validate_snn_request(
                 "Eq. (6)-normalized SNN weights. Use best.pt for ANN inference or "
                 "select inference_mode='snn'."
             )
-        return
-    if inference_mode != "snn":
         return
     if int(simulation_steps) < 1:
         raise ValueError("simulation_steps must be at least 1 for SNN inference")
@@ -6715,8 +9901,1151 @@ def _validate_snn_request(
         )
 
 
+def _is_sha256(value: Any) -> bool:
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
+
+
+def _valid_source_contract(value: Any) -> bool:
+    if not isinstance(value, dict) or not _is_sha256(value.get("source_tree_sha256")):
+        return False
+    commit = value.get("git_commit")
+    if commit is not None and (
+        not isinstance(commit, str) or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", commit) is None
+    ):
+        return False
+    dirty = value.get("git_source_dirty")
+    return dirty is None or isinstance(dirty, bool)
+
+
+def _valid_training_protocol_contract(value: Any) -> bool:
+    required_fields = {
+        "version",
+        "seed",
+        "optimizer",
+        "scheduler",
+        "loss_weights",
+        "gradient_clipping",
+        "data_order",
+        "mixed_precision",
+        "validate_every",
+        "checkpoint_selection",
+        "terminal_validation",
+        "recurrent_state_detached_each_sample",
+        "runtime",
+        "source",
+    }
+    if not isinstance(value, dict) or set(value) != required_fields:
+        return False
+    if (
+        value.get("version") != 4
+        or not isinstance(value.get("seed"), int)
+        or isinstance(value.get("seed"), bool)
+        or value.get("recurrent_state_detached_each_sample") is not True
+        or not _valid_source_contract(value.get("source"))
+    ):
+        return False
+    if any(
+        not isinstance(value.get(field), dict)
+        for field in (
+            "optimizer",
+            "loss_weights",
+            "gradient_clipping",
+            "data_order",
+            "mixed_precision",
+            "runtime",
+        )
+    ):
+        return False
+    if value.get("scheduler") is not None and not isinstance(
+        value.get("scheduler"), dict
+    ):
+        return False
+    validate_every = value.get("validate_every")
+    if validate_every is not None and (
+        not isinstance(validate_every, int)
+        or isinstance(validate_every, bool)
+        or validate_every < 1
+    ):
+        return False
+    expected_selection = (
+        "single_final_epoch"
+        if validate_every is None
+        else "best_validation_macro_ssim"
+    )
+    if value.get("checkpoint_selection") != expected_selection:
+        return False
+    terminal = value.get("terminal_validation")
+    if validate_every is not None:
+        return terminal is None
+    return (
+        isinstance(terminal, dict)
+        and set(terminal) == {"mode", "planned_epoch"}
+        and terminal.get("mode") == "single_final_epoch"
+        and isinstance(terminal.get("planned_epoch"), int)
+        and not isinstance(terminal.get("planned_epoch"), bool)
+        and terminal["planned_epoch"] >= 1
+    )
+
+
+def _valid_dataset_content_contract(value: Any) -> bool:
+    if not isinstance(value, dict):
+        return False
+    return (
+        value.get("algorithm") == "sha256-full-files-v1"
+        and isinstance(value.get("files"), int)
+        and not isinstance(value.get("files"), bool)
+        and value["files"] >= 1
+        and isinstance(value.get("bytes"), int)
+        and not isinstance(value.get("bytes"), bool)
+        and value["bytes"] >= 0
+        and _is_sha256(value.get("sha256"))
+    )
+
+
+def _valid_dataset_transform_contract(value: Any) -> bool:
+    return (
+        isinstance(value, dict)
+        and isinstance(value.get("type"), str)
+        and bool(value["type"].strip())
+    )
+
+
+def _valid_split_manifest_contract(value: Any) -> bool:
+    if not isinstance(value, dict):
+        return False
+    if (
+        value.get("status") != "final"
+        or value.get("split_schema") != "official_separate_roots_v1"
+        or value.get("group_semantics") != "h5_sequence_file_not_physical_scene"
+    ):
+        return False
+    train_files = value.get("train_files")
+    val_files = value.get("val_files")
+    file_to_group = value.get("file_to_group")
+    if (
+        not isinstance(train_files, list)
+        or not train_files
+        or not isinstance(val_files, list)
+        or not val_files
+        or not isinstance(file_to_group, dict)
+        or set(file_to_group) != {"train", "val"}
+    ):
+        return False
+    for split, files, prefix in (
+        ("train", train_files, "official-train-h5::"),
+        ("val", val_files, "official-eval-h5::"),
+    ):
+        if (
+            any(not isinstance(name, str) or not name.strip() for name in files)
+            or len(files) != len(set(files))
+        ):
+            return False
+        mapping = file_to_group.get(split)
+        if not isinstance(mapping, dict) or set(mapping) != set(files):
+            return False
+        if any(mapping.get(name) != f"{prefix}{name}" for name in files):
+            return False
+    return True
+
+
+def _valid_validation_manifest_contract(transform: Any, manifest: Any) -> bool:
+    if not _valid_dataset_transform_contract(transform):
+        return False
+    if transform.get("type") == "eventhdr":
+        return _valid_split_manifest_contract(manifest)
+    return manifest is None
+
+
+def _valid_calibration_runtime_contract(value: Any) -> bool:
+    if not isinstance(value, dict):
+        return False
+    if any(
+        not isinstance(value.get(field), str) or not value[field].strip()
+        for field in ("device", "torch")
+    ):
+        return False
+    for field in ("cuda_runtime", "gpu_name"):
+        item = value.get(field)
+        if item is not None and (not isinstance(item, str) or not item.strip()):
+            return False
+    capability = value.get("compute_capability")
+    return capability is None or (
+        isinstance(capability, list)
+        and len(capability) == 2
+        and all(
+            isinstance(item, int) and not isinstance(item, bool) and item >= 0
+            for item in capability
+        )
+    )
+
+
+def _valid_full_calibration_sample_ids(value: Any, expected_samples: Any) -> bool:
+    if (
+        not isinstance(expected_samples, int)
+        or isinstance(expected_samples, bool)
+        or expected_samples < 1
+        or not isinstance(value, list)
+        or len(value) != expected_samples
+    ):
+        return False
+    identities: list[str] = []
+    for expected_index, identity in enumerate(value):
+        if (
+            not isinstance(identity, dict)
+            or identity.get("dataset_index") != expected_index
+            or not isinstance(identity.get("group"), str)
+            or not identity["group"].strip()
+        ):
+            return False
+        try:
+            identities.append(_canonical_sha256(identity))
+        except (TypeError, ValueError, OverflowError):
+            return False
+    return len(identities) == len(set(identities))
+
+
+def _valid_full_calibration_sampling(
+    value: Any,
+    sample_ids: Any,
+    expected_samples: Any,
+    expected_files: Any,
+) -> bool:
+    if not isinstance(value, dict) or value.get("selected") != sample_ids:
+        return False
+    integer_fields = ("selected_samples", "selected_groups", "available_groups")
+    if any(
+        not isinstance(value.get(field), int)
+        or isinstance(value[field], bool)
+        or value[field] < 1
+        for field in integer_fields
+    ):
+        return False
+    if value["selected_samples"] != expected_samples:
+        return False
+    per_group = value.get("per_group")
+    available_per_group = value.get("available_per_group")
+    if (
+        not isinstance(per_group, dict)
+        or not per_group
+        or per_group != available_per_group
+        or value["selected_groups"] != len(per_group)
+        or value["available_groups"] != len(per_group)
+        or any(
+            not isinstance(group, str)
+            or not group.strip()
+            or not isinstance(count, int)
+            or isinstance(count, bool)
+            or count < 1
+            for group, count in per_group.items()
+        )
+        or sum(per_group.values()) != expected_samples
+    ):
+        return False
+    source = value.get("source_fingerprint")
+    files = source.get("files") if isinstance(source, dict) else None
+    if (
+        not isinstance(expected_files, int)
+        or isinstance(expected_files, bool)
+        or not isinstance(files, list)
+        or len(files) != expected_files
+    ):
+        return False
+    paths: list[str] = []
+    for item in files:
+        if (
+            not isinstance(item, dict)
+            or not isinstance(item.get("path"), str)
+            or not item["path"].strip()
+            or not isinstance(item.get("size"), int)
+            or isinstance(item["size"], bool)
+            or item["size"] < 0
+        ):
+            return False
+        paths.append(item["path"])
+    return len(paths) == len(set(paths))
+
+
+def _valid_dataset_index_contract(value: Any, expected_files: Any) -> bool:
+    if not isinstance(value, dict) or value.get("version") != 1:
+        return False
+    samples = value.get("samples")
+    groups = value.get("groups")
+    per_group = value.get("per_group")
+    if (
+        not isinstance(samples, int)
+        or isinstance(samples, bool)
+        or samples < 1
+        or not isinstance(groups, int)
+        or isinstance(groups, bool)
+        or groups < 1
+        or not isinstance(per_group, dict)
+        or len(per_group) != groups
+        or any(
+            not isinstance(group, str)
+            or not group.strip()
+            or not isinstance(count, int)
+            or isinstance(count, bool)
+            or count < 1
+            for group, count in per_group.items()
+        )
+        or sum(per_group.values()) != samples
+        or not _is_sha256(value.get("sample_identities_sha256"))
+    ):
+        return False
+    source = value.get("source_fingerprint")
+    files = source.get("files") if isinstance(source, dict) else None
+    if (
+        not isinstance(expected_files, int)
+        or isinstance(expected_files, bool)
+        or expected_files < 1
+        or not isinstance(files, list)
+        or len(files) != expected_files
+    ):
+        return False
+    paths: list[str] = []
+    for item in files:
+        if (
+            not isinstance(item, dict)
+            or not isinstance(item.get("path"), str)
+            or not item["path"].strip()
+            or not isinstance(item.get("size"), int)
+            or isinstance(item["size"], bool)
+            or item["size"] < 0
+        ):
+            return False
+        paths.append(item["path"])
+    return len(paths) == len(set(paths))
+
+
+def _sampling_matches_dataset_index_contract(
+    sampling: Any,
+    index_contract: Any,
+    expected_files: Any,
+) -> bool:
+    if not _valid_dataset_index_contract(index_contract, expected_files):
+        return False
+    selected = sampling.get("selected") if isinstance(sampling, dict) else None
+    if not _valid_full_calibration_sample_ids(selected, index_contract["samples"]):
+        return False
+    if not _valid_full_calibration_sampling(
+        sampling,
+        selected,
+        index_contract["samples"],
+        expected_files,
+    ):
+        return False
+    return (
+        sampling.get("selected_groups") == index_contract["groups"]
+        and sampling.get("available_groups") == index_contract["groups"]
+        and sampling.get("per_group") == index_contract["per_group"]
+        and sampling.get("available_per_group") == index_contract["per_group"]
+        and sampling.get("source_fingerprint") == index_contract["source_fingerprint"]
+        and _canonical_sha256(selected)
+        == index_contract["sample_identities_sha256"]
+    )
+
+
+def _eventhdr_index_matches_manifest(
+    index_contract: Any,
+    manifest: Any,
+    split: str,
+) -> bool:
+    if not _valid_split_manifest_contract(manifest) or split not in {"train", "val"}:
+        return False
+    files = manifest[f"{split}_files"]
+    mapping = manifest["file_to_group"][split]
+    if not isinstance(index_contract, dict):
+        return False
+    source = index_contract.get("source_fingerprint")
+    fingerprint_files = source.get("files") if isinstance(source, dict) else None
+    if not isinstance(fingerprint_files, list):
+        return False
+    paths = [item.get("path") for item in fingerprint_files if isinstance(item, dict)]
+    return (
+        len(paths) == len(fingerprint_files)
+        and set(paths) == set(files)
+        and index_contract.get("groups") == len(mapping)
+        and set(index_contract.get("per_group", {})) == set(mapping.values())
+    )
+
+
+def _valid_eventhdr_sample_identities(value: Any, manifest: Any, split: str) -> bool:
+    if not isinstance(value, list) or not _valid_split_manifest_contract(manifest):
+        return False
+    if split not in {"train", "val"} or not _valid_full_calibration_sample_ids(
+        value, len(value)
+    ):
+        return False
+    mapping = manifest["file_to_group"][split]
+    sequence_indices: dict[str, list[int]] = defaultdict(list)
+    for identity in value:
+        source_file = identity.get("source_file")
+        group = identity.get("group")
+        sequence_index = identity.get("sequence_index")
+        start_idx = identity.get("start_idx")
+        end_idx = identity.get("end_idx")
+        timestamp = identity.get("timestamp")
+        if (
+            not isinstance(source_file, str)
+            or mapping.get(source_file) != group
+            or not isinstance(identity.get("image_key"), str)
+            or not identity["image_key"].strip()
+            or not isinstance(sequence_index, int)
+            or isinstance(sequence_index, bool)
+            or sequence_index < 0
+            or not isinstance(start_idx, int)
+            or isinstance(start_idx, bool)
+            or start_idx < 0
+            or not isinstance(end_idx, int)
+            or isinstance(end_idx, bool)
+            or end_idx < start_idx
+            or not isinstance(timestamp, (int, float))
+            or isinstance(timestamp, bool)
+            or not math.isfinite(float(timestamp))
+        ):
+            return False
+        sequence_indices[group].append(sequence_index)
+    return set(sequence_indices) == set(mapping.values()) and all(
+        indices == list(range(len(indices))) for indices in sequence_indices.values()
+    )
+
+
+def _valid_preflight_gate(value: Any) -> bool:
+    if not isinstance(value, dict):
+        return False
+    if (
+        value.get("schema") != "asgcn_preflight_verification_v1"
+        or value.get("status") != "verified"
+        or value.get("report_eligible") is not True
+    ):
+        return False
+    if any(
+        not _is_sha256(value.get(field))
+        for field in (
+            "report_sha256",
+            "config_sha256",
+            "data_sha256",
+            "source_tree_sha256",
+        )
+    ):
+        return False
+    measured_steps = value.get("measured_steps")
+    scope = value.get("measurement_scope")
+    return (
+        isinstance(measured_steps, int)
+        and not isinstance(measured_steps, bool)
+        and measured_steps >= 1
+        and isinstance(value.get("gpu"), dict)
+        and isinstance(scope, dict)
+        and scope.get("name") == "selected_top_density_training_steps"
+        and scope.get("topology_scope") == "complete_eventhdr_training_split"
+        and scope.get("absolute_vram_guarantee") is False
+        and isinstance(scope.get("statement"), str)
+        and bool(scope["statement"].strip())
+    )
+
+
+def _ann_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
+    """Return every reason an ANN checkpoint cannot support published results."""
+    reasons: list[str] = []
+    if checkpoint.get("checkpoint_type") != "ann_inference":
+        reasons.append("checkpoint_type is not ann_inference")
+    if checkpoint.get("paper_core_version") != PAPER_CORE_VERSION:
+        reasons.append("paper_core_version is missing or unsupported")
+    if (
+        not isinstance(checkpoint.get("epoch"), int)
+        or isinstance(checkpoint.get("epoch"), bool)
+        or checkpoint["epoch"] < 1
+    ):
+        reasons.append("ANN checkpoint epoch is invalid")
+    training_only = sorted(
+        key
+        for key in ("optimizer", "scheduler", "scaler", "rng_state", "history")
+        if key in checkpoint
+    )
+    if training_only:
+        reasons.append("ANN inference checkpoint contains training-only state")
+    if bool(checkpoint.get("batch_norm_folded")) or bool(
+        checkpoint.get("parameter_normalized")
+    ):
+        reasons.append("ANN inference checkpoint contains converted SNN state")
+    preflight_gate = checkpoint.get("preflight_gate")
+    if not _valid_preflight_gate(preflight_gate):
+        reasons.append("verified CUDA training preflight gate is missing or invalid")
+
+    training = checkpoint.get("training_protocol")
+    if not _valid_training_protocol_contract(training):
+        reasons.append("complete training_protocol v4 contract is missing or invalid")
+        training = None
+
+    validation = checkpoint.get("validation_protocol")
+    if not isinstance(validation, dict) or validation.get("version") != 7:
+        reasons.append("validation_protocol v7 is missing")
+        validation = None
+    else:
+        dataset_content = validation.get("dataset_content")
+        content_valid = isinstance(dataset_content, dict) and all(
+            _valid_dataset_content_contract(dataset_content.get(split))
+            for split in ("train", "validation")
+        )
+        if not content_valid:
+            reasons.append("validation_protocol dataset content identity is invalid")
+        dataset_transform = validation.get("dataset_transform")
+        transform_valid = _valid_dataset_transform_contract(dataset_transform)
+        if not transform_valid:
+            reasons.append("validation_protocol dataset transform is invalid")
+        elif dataset_transform.get("type") != "eventhdr":
+            reasons.append("ANN reporting source dataset is not EventHDR")
+        manifest = validation.get("split_manifest")
+        if transform_valid and not _valid_validation_manifest_contract(
+            dataset_transform, manifest
+        ):
+            reasons.append("validation_protocol split manifest is invalid")
+        dataset_index = validation.get("dataset_index")
+        train_index = (
+            dataset_index.get("train") if isinstance(dataset_index, dict) else None
+        )
+        val_index = (
+            dataset_index.get("validation")
+            if isinstance(dataset_index, dict)
+            else None
+        )
+        train_files = (
+            dataset_content["train"]["files"] if content_valid else None
+        )
+        val_files = (
+            dataset_content["validation"]["files"] if content_valid else None
+        )
+        if not _valid_dataset_index_contract(train_index, train_files) or not (
+            _valid_dataset_index_contract(val_index, val_files)
+        ):
+            reasons.append("validation_protocol dataset index identity is invalid")
+        sampling = validation.get("sampling")
+        if not _sampling_matches_dataset_index_contract(sampling, val_index, val_files):
+            reasons.append("validation_protocol does not prove full validation sampling")
+        if validation.get("max_val_samples") is not None:
+            reasons.append("validation_protocol uses a partial validation sample limit")
+        if validation.get("ssim") != "gaussian_valid_11_sigma1.5":
+            reasons.append("validation_protocol SSIM definition is invalid")
+        if transform_valid and dataset_transform.get("type") == "eventhdr":
+            if not _eventhdr_index_matches_manifest(train_index, manifest, "train") or not (
+                _eventhdr_index_matches_manifest(val_index, manifest, "val")
+            ):
+                reasons.append("validation_protocol dataset index is not bound to manifest")
+            selected = sampling.get("selected") if isinstance(sampling, dict) else None
+            if not _valid_eventhdr_sample_identities(selected, manifest, "val"):
+                reasons.append("validation sample identities are not bound to manifest")
+            if isinstance(sampling, dict):
+                selected_samples = sampling.get("selected_samples")
+                context_samples = sampling.get("context_samples")
+                forward_samples = sampling.get("forward_samples")
+                if (
+                    context_samples != 0
+                    or not isinstance(selected_samples, int)
+                    or isinstance(selected_samples, bool)
+                    or forward_samples != selected_samples
+                ):
+                    reasons.append("full validation context coverage is inconsistent")
+        val_result = checkpoint.get("val")
+        val_frames = val_result.get("frames") if isinstance(val_result, dict) else None
+        selected_samples = (
+            sampling.get("selected_samples") if isinstance(sampling, dict) else None
+        )
+        if val_frames != selected_samples:
+            reasons.append("ANN validation frame count differs from its sealed sampling")
+
+    training_config = checkpoint.get("training_config")
+    if not isinstance(training_config, dict):
+        reasons.append("public ANN training config identity is missing")
+    else:
+        train_config = training_config.get("train")
+        public_model_config = training_config.get("model")
+        if not isinstance(public_model_config, dict) or (
+            checkpoint.get("model_config") != public_model_config
+        ):
+            reasons.append("ANN model config differs from its training config")
+        if validation is not None and isinstance(public_model_config, dict) and (
+            validation.get("seed") != training_config.get("seed", 2026)
+            or validation.get("recurrent")
+            != bool(public_model_config.get("recurrent", True))
+        ):
+            reasons.append("ANN validation seed/recurrent settings differ from config")
+        if not isinstance(train_config, dict):
+            reasons.append("public ANN training settings are missing")
+        else:
+            if train_config.get("max_train_samples") is not None:
+                reasons.append("ANN training used a partial training sample limit")
+            if train_config.get("max_val_samples") is not None:
+                reasons.append("ANN training used a partial validation sample limit")
+            if (
+                validation is not None
+                and validation.get("max_val_samples")
+                != train_config.get("max_val_samples")
+            ):
+                reasons.append("ANN validation sample limit differs from training config")
+            sampling = validation.get("sampling") if validation is not None else None
+            transform = (
+                validation.get("dataset_transform") if validation is not None else None
+            )
+            if (
+                isinstance(sampling, dict)
+                and isinstance(transform, dict)
+                and transform.get("type") == "eventhdr"
+            ):
+                recurrent = bool(validation.get("recurrent"))
+                expected_context = (
+                    train_config.get("validation_context_frames", 64)
+                    if recurrent
+                    else 0
+                )
+                expected_policy = (
+                    "full_group_prefix"
+                    if recurrent and expected_context is None
+                    else "bounded_predecessor"
+                    if recurrent
+                    else "none_non_recurrent"
+                )
+                if (
+                    sampling.get("max_context_frames_per_group") != expected_context
+                    or sampling.get("context_policy") != expected_policy
+                ):
+                    reasons.append(
+                        "ANN validation context policy differs from training config"
+                    )
+            if training is not None:
+                reasons.extend(
+                    _training_protocol_config_reasons(training, training_config)
+                )
+        dataset_config = training_config.get("dataset")
+        if not isinstance(dataset_config, dict) or dataset_config.get("type") != "eventhdr":
+            reasons.append("ANN training config does not use EventHDR")
+        elif not dataset_config.get("split_manifest"):
+            reasons.append("ANN training config is missing its split manifest reference")
+
+    if isinstance(preflight_gate, dict) and training is not None and validation is not None:
+        dataset_content = validation.get("dataset_content")
+        training_content = (
+            dataset_content.get("train") if isinstance(dataset_content, dict) else None
+        )
+        training_source = training.get("source")
+        if (
+            not isinstance(training_content, dict)
+            or preflight_gate.get("data_sha256") != training_content.get("sha256")
+        ):
+            reasons.append("preflight data identity is not bound to ANN training data")
+        if (
+            not isinstance(training_source, dict)
+            or preflight_gate.get("source_tree_sha256")
+            != training_source.get("source_tree_sha256")
+        ):
+            reasons.append("preflight source identity is not bound to ANN training source")
+        if isinstance(training_config, dict):
+            try:
+                configured_transform = _dataset_transform_contract(training_config)
+            except (KeyError, TypeError, AttributeError):
+                configured_transform = None
+            if validation.get("dataset_transform") != configured_transform:
+                reasons.append(
+                    "ANN validation transform is not bound to its training config"
+                )
+            config_without_gate = copy.deepcopy(training_config)
+            config_without_gate.pop("preflight_gate", None)
+            if preflight_gate.get("config_sha256") != _canonical_sha256(
+                _public_config(config_without_gate)
+            ):
+                reasons.append("preflight config identity is not bound to ANN training config")
+
+    try:
+        validation_score = _macro_ssim(checkpoint.get("val", {}))
+    except (AttributeError, TypeError, ValueError, OverflowError):
+        validation_score = float("nan")
+    try:
+        best_score = float(checkpoint.get("best_ssim"))
+    except (TypeError, ValueError, OverflowError):
+        best_score = float("nan")
+    if checkpoint.get("best_metric") != "macro_ssim":
+        reasons.append("ANN checkpoint was not selected by macro_ssim")
+    if not math.isfinite(validation_score) or not math.isfinite(best_score):
+        reasons.append("ANN checkpoint has no finite validation selection score")
+    elif validation_score != best_score:
+        reasons.append("ANN validation score does not match its best score")
+
+    terminal = training.get("terminal_validation") if training is not None else None
+    eventhdr_reporting = (
+        validation is not None
+        and isinstance(validation.get("dataset_transform"), dict)
+        and validation["dataset_transform"].get("type") == "eventhdr"
+    )
+    if eventhdr_reporting and terminal is None:
+        reasons.append("EventHDR reporting requires sealed single-final-epoch validation")
+    elif terminal is not None:
+        state = checkpoint.get("terminal_validation_state")
+        planned_epoch = terminal.get("planned_epoch") if isinstance(terminal, dict) else None
+        if (
+            not isinstance(terminal, dict)
+            or terminal.get("mode") != "single_final_epoch"
+            or not isinstance(planned_epoch, int)
+            or isinstance(planned_epoch, bool)
+            or not isinstance(state, dict)
+            or state.get("completed") is not True
+            or state.get("planned_epoch") != planned_epoch
+            or state.get("completed_epoch") != planned_epoch
+            or checkpoint.get("epoch") != planned_epoch
+            or checkpoint.get("checkpoint_selection") != "single_final_epoch"
+            or (
+                validation is not None
+                and validation.get("selection_metric")
+                != "single_final_epoch_macro_ssim"
+            )
+        ):
+            reasons.append("sealed final-only validation did not complete at its planned epoch")
+    elif checkpoint.get("checkpoint_selection") != "best_validation_macro_ssim":
+        reasons.append("ANN checkpoint selection protocol is invalid")
+    return reasons
+
+
+def _source_ann_reporting_contract(checkpoint: dict[str, Any]) -> dict[str, Any]:
+    fields = (
+        "checkpoint_type",
+        "epoch",
+        "model_state_sha256",
+        "model_config",
+        "paper_core_version",
+        "preflight_gate",
+        "training_config",
+        "val",
+        "best_ssim",
+        "best_metric",
+        "checkpoint_selection",
+        "validation_protocol",
+        "training_protocol",
+        "terminal_validation_state",
+    )
+    return _public_config({field: checkpoint.get(field) for field in fields})
+
+
+def _snn_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
+    """Return every reason an SNN checkpoint cannot support published results."""
+    reasons: list[str] = []
+    protocol = checkpoint.get("calibration_protocol")
+    if not isinstance(protocol, dict):
+        return ["sealed calibration_protocol is missing"]
+    if protocol.get("version") != 2:
+        reasons.append("calibration_protocol v2 is missing")
+    if protocol.get("sealed") is not True:
+        reasons.append("calibration_protocol.sealed is not true")
+    if protocol.get("unsealed_reasons") != []:
+        reasons.append("calibration_protocol contains unsealed reasons")
+    if protocol.get("source_checkpoint_type") != "ann_inference":
+        reasons.append("calibration source is not a clean ANN inference checkpoint")
+    for field in ("source_ann_model_sha256", "source_ann_checkpoint_sha256"):
+        if not _is_sha256(protocol.get(field)):
+            reasons.append(f"calibration_protocol {field} is invalid")
+    source_ann_protocols: dict[str, dict[str, Any]] = {}
+    for name, expected_version in (("training", 4), ("validation", 7)):
+        identity = protocol.get(f"source_ann_{name}_protocol")
+        flat_digest = protocol.get(f"source_ann_{name}_protocol_sha256")
+        contract = identity.get("contract") if isinstance(identity, dict) else None
+        digest = identity.get("sha256") if isinstance(identity, dict) else None
+        if (
+            not isinstance(contract, dict)
+            or contract.get("version") != expected_version
+            or not _is_sha256(digest)
+            or digest != _canonical_sha256(contract)
+            or flat_digest != digest
+        ):
+            reasons.append(f"calibration source ANN {name} protocol identity is invalid")
+        else:
+            source_ann_protocols[name] = contract
+    source_ann_reporting_identity = protocol.get("source_ann_reporting_contract")
+    source_ann_reporting = (
+        source_ann_reporting_identity.get("contract")
+        if isinstance(source_ann_reporting_identity, dict)
+        else None
+    )
+    source_ann_reporting_sha256 = (
+        source_ann_reporting_identity.get("sha256")
+        if isinstance(source_ann_reporting_identity, dict)
+        else None
+    )
+    try:
+        reporting_digest_matches = (
+            isinstance(source_ann_reporting, dict)
+            and _is_sha256(source_ann_reporting_sha256)
+            and source_ann_reporting_sha256
+            == _canonical_sha256(source_ann_reporting)
+            and protocol.get("source_ann_reporting_contract_sha256")
+            == source_ann_reporting_sha256
+        )
+    except (TypeError, ValueError, OverflowError):
+        reporting_digest_matches = False
+    if not reporting_digest_matches:
+        reasons.append("calibration source ANN reporting contract identity is invalid")
+        source_ann_reporting = None
+    else:
+        reasons.extend(
+            f"calibration source ANN reporting contract: {reason}"
+            for reason in _ann_reporting_reasons(source_ann_reporting)
+        )
+    training_config_identity = protocol.get("source_ann_training_config")
+    source_ann_training_config = (
+        training_config_identity.get("contract")
+        if isinstance(training_config_identity, dict)
+        else None
+    )
+    source_ann_training_config_sha256 = (
+        training_config_identity.get("sha256")
+        if isinstance(training_config_identity, dict)
+        else None
+    )
+    if (
+        not isinstance(source_ann_training_config, dict)
+        or not _is_sha256(source_ann_training_config_sha256)
+        or source_ann_training_config_sha256
+        != _canonical_sha256(source_ann_training_config)
+        or protocol.get("source_ann_training_config_sha256")
+        != source_ann_training_config_sha256
+    ):
+        reasons.append("calibration source ANN training config identity is invalid")
+    if isinstance(source_ann_reporting, dict):
+        if source_ann_reporting.get("checkpoint_type") != protocol.get(
+            "source_checkpoint_type"
+        ):
+            reasons.append("calibration source ANN checkpoint type lineage differs")
+        if source_ann_reporting.get("model_state_sha256") != protocol.get(
+            "source_ann_model_sha256"
+        ):
+            reasons.append("calibration source ANN model lineage differs")
+        if source_ann_reporting.get("epoch") != protocol.get("source_epoch"):
+            reasons.append("calibration source ANN epoch lineage differs")
+        if source_ann_reporting.get("training_protocol") != source_ann_protocols.get(
+            "training"
+        ):
+            reasons.append("calibration source ANN training protocol lineage differs")
+        if source_ann_reporting.get("validation_protocol") != source_ann_protocols.get(
+            "validation"
+        ):
+            reasons.append("calibration source ANN validation protocol lineage differs")
+        if source_ann_reporting.get("training_config") != source_ann_training_config:
+            reasons.append("calibration source ANN training config lineage differs")
+        if checkpoint.get("epoch") != source_ann_reporting.get("epoch"):
+            reasons.append("SNN checkpoint epoch differs from its source ANN")
+        if checkpoint.get("model_config") != source_ann_reporting.get("model_config"):
+            reasons.append("SNN checkpoint model config differs from its source ANN")
+        if checkpoint.get("paper_core_version") != source_ann_reporting.get(
+            "paper_core_version"
+        ):
+            reasons.append("SNN checkpoint paper-core version differs from its source ANN")
+    content = protocol.get("dataset_content")
+    if not _valid_dataset_content_contract(content):
+        reasons.append("calibration dataset content identity is invalid")
+    elif protocol.get("dataset_content_sha256") != content["sha256"]:
+        reasons.append("calibration dataset content digest is inconsistent")
+    transform = protocol.get("dataset_transform")
+    if (
+        not _valid_dataset_transform_contract(transform)
+        or transform.get("type") != "eventhdr"
+    ):
+        reasons.append("calibration dataset transform is invalid")
+    manifest = protocol.get("split_manifest")
+    if not _valid_split_manifest_contract(manifest):
+        reasons.append("calibration split manifest is invalid")
+    if not _valid_calibration_runtime_contract(protocol.get("runtime")):
+        reasons.append("calibration runtime identity is invalid")
+    calibration_samples = checkpoint.get("snn_calibration_samples")
+    sample_ids = protocol.get("selected_sample_ids")
+    if not _valid_full_calibration_sample_ids(sample_ids, calibration_samples):
+        reasons.append("calibration sample identities do not prove full coverage")
+    expected_files = content.get("files") if isinstance(content, dict) else None
+    if not _valid_full_calibration_sampling(
+        checkpoint.get("snn_calibration_sampling"),
+        sample_ids,
+        calibration_samples,
+        expected_files,
+    ):
+        reasons.append("calibration sampling contract does not prove full coverage")
+    for field in ("training_source", "calibration_source"):
+        if not _valid_source_contract(protocol.get(field)):
+            reasons.append(f"calibration_protocol {field} identity is invalid")
+    if (
+        _valid_source_contract(protocol.get("training_source"))
+        and _valid_source_contract(protocol.get("calibration_source"))
+        and protocol["training_source"] != protocol["calibration_source"]
+    ):
+        reasons.append("calibration source differs from the ANN training source")
+
+    training_protocol = source_ann_protocols.get("training")
+    validation_protocol = source_ann_protocols.get("validation")
+    source_training_source = (
+        training_protocol.get("source") if isinstance(training_protocol, dict) else None
+    )
+    if not _valid_source_contract(source_training_source):
+        reasons.append("calibration source ANN training source identity is invalid")
+    elif protocol.get("training_source") != source_training_source:
+        reasons.append("calibration training source differs from the source ANN protocol")
+    source_transform = (
+        validation_protocol.get("dataset_transform")
+        if isinstance(validation_protocol, dict)
+        else None
+    )
+    source_manifest = (
+        validation_protocol.get("split_manifest")
+        if isinstance(validation_protocol, dict)
+        else None
+    )
+    if (
+        not _valid_dataset_transform_contract(source_transform)
+        or source_transform.get("type") != "eventhdr"
+    ):
+        reasons.append("calibration source ANN dataset transform is invalid")
+    elif transform != source_transform:
+        reasons.append("calibration transform differs from the source ANN protocol")
+    if not _valid_split_manifest_contract(source_manifest):
+        reasons.append("calibration source ANN split manifest is invalid")
+    elif manifest != source_manifest:
+        reasons.append("calibration split manifest differs from the source ANN protocol")
+    source_dataset_content = (
+        validation_protocol.get("dataset_content")
+        if isinstance(validation_protocol, dict)
+        else None
+    )
+    source_training_content = (
+        source_dataset_content.get("train")
+        if isinstance(source_dataset_content, dict)
+        else None
+    )
+    if not _valid_dataset_content_contract(source_training_content):
+        reasons.append("calibration source ANN training data identity is invalid")
+    elif content != source_training_content:
+        reasons.append("calibration data differs from the source ANN training data")
+    source_dataset_index = (
+        validation_protocol.get("dataset_index")
+        if isinstance(validation_protocol, dict)
+        else None
+    )
+    source_training_index = (
+        source_dataset_index.get("train")
+        if isinstance(source_dataset_index, dict)
+        else None
+    )
+    source_training_files = (
+        source_training_content.get("files")
+        if isinstance(source_training_content, dict)
+        else None
+    )
+    if not _valid_dataset_index_contract(
+        source_training_index, source_training_files
+    ):
+        reasons.append("calibration source ANN training index identity is invalid")
+    elif not _eventhdr_index_matches_manifest(
+        source_training_index, source_manifest, "train"
+    ):
+        reasons.append("calibration source ANN training index is not bound to manifest")
+    if not _valid_eventhdr_sample_identities(sample_ids, source_manifest, "train"):
+        reasons.append("calibration sample identities are not bound to ANN training index")
+    if not _sampling_matches_dataset_index_contract(
+        checkpoint.get("snn_calibration_sampling"),
+        source_training_index,
+        source_training_files,
+    ):
+        reasons.append("calibration sampling differs from the ANN training index")
+    if (
+        isinstance(source_ann_training_config, dict)
+        and _valid_dataset_transform_contract(source_transform)
+    ):
+        try:
+            configured_transform = _dataset_transform_contract(source_ann_training_config)
+        except (KeyError, TypeError, AttributeError):
+            configured_transform = None
+        if configured_transform != source_transform:
+            reasons.append(
+                "calibration source ANN transform is not bound to its training config"
+            )
+    source_preflight = protocol.get("source_preflight_gate")
+    if (
+        not isinstance(source_preflight, dict)
+        or not _valid_preflight_gate(source_preflight.get("contract"))
+        or source_preflight.get("sha256")
+        != _canonical_sha256(source_preflight.get("contract"))
+    ):
+        reasons.append("calibration source preflight gate identity is invalid")
+    elif checkpoint.get("preflight_gate") != source_preflight.get("contract"):
+        reasons.append("SNN checkpoint preflight gate differs from its calibration source")
+    else:
+        preflight_contract = source_preflight["contract"]
+        if (
+            isinstance(source_ann_reporting, dict)
+            and source_ann_reporting.get("preflight_gate") != preflight_contract
+        ):
+            reasons.append("calibration source ANN preflight lineage differs")
+        training_source = (
+            training_protocol.get("source") if isinstance(training_protocol, dict) else None
+        )
+        dataset_content = (
+            validation_protocol.get("dataset_content")
+            if isinstance(validation_protocol, dict)
+            else None
+        )
+        training_content = (
+            dataset_content.get("train") if isinstance(dataset_content, dict) else None
+        )
+        if (
+            not isinstance(training_content, dict)
+            or preflight_contract.get("data_sha256") != training_content.get("sha256")
+        ):
+            reasons.append("SNN source preflight data identity is not bound to ANN training data")
+        if (
+            not isinstance(training_source, dict)
+            or preflight_contract.get("source_tree_sha256")
+            != training_source.get("source_tree_sha256")
+        ):
+            reasons.append(
+                "SNN source preflight source identity is not bound to ANN training source"
+            )
+        if isinstance(source_ann_training_config, dict):
+            config_without_gate = copy.deepcopy(source_ann_training_config)
+            config_without_gate.pop("preflight_gate", None)
+            if preflight_contract.get("config_sha256") != _canonical_sha256(
+                _public_config(config_without_gate)
+            ):
+                reasons.append(
+                    "SNN source preflight config identity is not bound to ANN training config"
+                )
+    if checkpoint.get("report_eligible") is not True:
+        reasons.append("SNN checkpoint is permanently marked non-reporting")
+    if checkpoint.get("report_ineligible_reasons") != []:
+        reasons.append("SNN checkpoint contains report-ineligible reasons")
+    return reasons
+
+
+def _reporting_checkpoint_contract(
+    checkpoint: dict[str, Any],
+    checkpoint_path: str | Path,
+    inference_mode: str,
+    *,
+    allow_unsealed_checkpoint_for_non_reporting: bool,
+) -> tuple[dict[str, Any], bool, list[str]]:
+    """Validate publication lineage and return its path-free identity contract."""
+    reasons = (
+        _ann_reporting_reasons(checkpoint)
+        if inference_mode == "ann"
+        else _snn_reporting_reasons(checkpoint)
+    )
+    if reasons and not allow_unsealed_checkpoint_for_non_reporting:
+        raise ValueError(
+            "Checkpoint reporting protocol is not sealed: "
+            + "; ".join(reasons)
+            + ". Use the explicit non-reporting override only for synthetic tests."
+        )
+    if allow_unsealed_checkpoint_for_non_reporting:
+        reasons = ["explicit non-reporting checkpoint override requested", *reasons]
+    report_eligible = not reasons
+    common: dict[str, Any] = {
+        "checkpoint_type": checkpoint.get("checkpoint_type"),
+        "checkpoint": _artifact_path_label(checkpoint_path),
+        "checkpoint_file_sha256": _file_sha256(checkpoint_path),
+        "model_state_sha256": checkpoint.get("model_state_sha256"),
+        "epoch": checkpoint.get("epoch"),
+        "paper_core_version": checkpoint.get("paper_core_version"),
+    }
+    if inference_mode == "ann":
+        training = checkpoint.get("training_protocol")
+        validation = checkpoint.get("validation_protocol")
+        common.update(
+            {
+                "training_protocol": _hashed_contract(_public_config(training)),
+                "validation_protocol": _hashed_contract(_public_config(validation)),
+                "training_config": _hashed_contract(
+                    _public_config(checkpoint.get("training_config"))
+                ),
+                "terminal_validation_state": _public_config(
+                    checkpoint.get("terminal_validation_state")
+                ),
+                "preflight_gate": _hashed_contract(
+                    _public_config(checkpoint.get("preflight_gate"))
+                ),
+                "selection": {
+                    "metric": checkpoint.get("best_metric"),
+                    "score": checkpoint.get("best_ssim"),
+                    "checkpoint_selection": checkpoint.get("checkpoint_selection"),
+                },
+            }
+        )
+    else:
+        calibration = checkpoint.get("calibration_protocol")
+        common["calibration_protocol"] = _hashed_contract(_public_config(calibration))
+        common["preflight_gate"] = _hashed_contract(
+            _public_config(checkpoint.get("preflight_gate"))
+        )
+        common["source_ann"] = {
+            "model_state_sha256": (
+                calibration.get("source_ann_model_sha256")
+                if isinstance(calibration, dict)
+                else None
+            ),
+            "checkpoint_file_sha256": (
+                calibration.get("source_ann_checkpoint_sha256")
+                if isinstance(calibration, dict)
+                else None
+            ),
+            "training_protocol_sha256": (
+                calibration.get("source_ann_training_protocol_sha256")
+                if isinstance(calibration, dict)
+                else None
+            ),
+            "training_protocol": (
+                calibration.get("source_ann_training_protocol")
+                if isinstance(calibration, dict)
+                else None
+            ),
+            "validation_protocol_sha256": (
+                calibration.get("source_ann_validation_protocol_sha256")
+                if isinstance(calibration, dict)
+                else None
+            ),
+            "validation_protocol": (
+                calibration.get("source_ann_validation_protocol")
+                if isinstance(calibration, dict)
+                else None
+            ),
+            "training_config_sha256": (
+                calibration.get("source_ann_training_config_sha256")
+                if isinstance(calibration, dict)
+                else None
+            ),
+            "training_config": (
+                calibration.get("source_ann_training_config")
+                if isinstance(calibration, dict)
+                else None
+            ),
+        }
+    common["lineage_sha256"] = _canonical_sha256(common)
+    return common, report_eligible, reasons
+
+
+def _merge_reporting_reasons(
+    report_eligible: bool,
+    current_reasons: list[str],
+    new_reasons: list[str],
+    *,
+    allow_non_reporting: bool,
+    scope: str,
+) -> tuple[bool, list[str]]:
+    unique_new = [reason for reason in new_reasons if reason not in current_reasons]
+    if unique_new and not allow_non_reporting:
+        raise ValueError(
+            f"{scope} reporting protocol is not sealed: "
+            + "; ".join(unique_new)
+            + ". Use the explicit non-reporting override only for synthetic tests."
+        )
+    if unique_new:
+        current_reasons.extend(unique_new)
+        report_eligible = False
+    return report_eligible, current_reasons
+
+
 def _set_inference_snn_dynamics(
-    model: ASGCNReconstructor,
+    model: ASGCNUNet,
     inference_mode: str,
     override: str | None,
 ) -> None:
@@ -6758,6 +11087,124 @@ def _cuda_peak_memory(device: torch.device) -> dict[str, float | None]:
         "peak_allocated_mib": torch.cuda.max_memory_allocated(device) / (1024**2),
         "peak_reserved_mib": torch.cuda.max_memory_reserved(device) / (1024**2),
     }
+
+
+def _require_finite_tensor(value: torch.Tensor, label: str, sample_id: Any) -> None:
+    if (value.is_floating_point() or value.is_complex()) and not bool(
+        torch.isfinite(value).all()
+    ):
+        raise FloatingPointError(f"Non-finite {label}: sample={sample_id}")
+
+
+def _require_finite_structure(value: Any, label: str, sample_id: Any) -> None:
+    """Reject NaN/Inf anywhere in a public diagnostic or metric structure."""
+    if torch.is_tensor(value):
+        _require_finite_tensor(value, label, sample_id)
+        return
+    if isinstance(value, dict):
+        for key, item in value.items():
+            _require_finite_structure(item, f"{label}.{key}", sample_id)
+        return
+    if isinstance(value, (list, tuple)):
+        for index, item in enumerate(value):
+            _require_finite_structure(item, f"{label}[{index}]", sample_id)
+        return
+    if isinstance(value, (float, np.floating)) and not math.isfinite(float(value)):
+        raise FloatingPointError(f"Non-finite {label}: sample={sample_id}")
+
+
+def _positive_interval_us(value: Any, sample_id: Any) -> float | None:
+    if value is None:
+        return None
+    try:
+        interval = float(value)
+    except (TypeError, ValueError, OverflowError) as error:
+        raise ValueError(f"Invalid dt_us: sample={sample_id}") from error
+    if not math.isfinite(interval) or interval <= 0:
+        raise ValueError(f"dt_us must be finite and positive: sample={sample_id}")
+    return interval
+
+
+def _model_parameter_dtype(model: torch.nn.Module) -> str:
+    dtypes = {str(parameter.dtype).removeprefix("torch.") for parameter in model.parameters()}
+    if not dtypes:
+        return "none"
+    if len(dtypes) == 1:
+        return next(iter(dtypes))
+    return "mixed:" + ",".join(sorted(dtypes))
+
+
+def _inference_precision(
+    eval_config: dict[str, Any],
+    device: torch.device,
+    model: torch.nn.Module,
+) -> tuple[dict[str, Any], torch.dtype | None]:
+    requested = str(eval_config.get("precision", "fp32")).strip().lower()
+    if requested not in {"fp32", "amp_fp16", "bf16"}:
+        raise ValueError("eval.precision must be one of: fp32, amp_fp16, bf16")
+    autocast_dtype: torch.dtype | None = None
+    if requested == "amp_fp16":
+        if device.type != "cuda":
+            raise ValueError("eval.precision=amp_fp16 requires a CUDA device")
+        autocast_dtype = torch.float16
+    elif requested == "bf16":
+        if device.type == "cuda" and not torch.cuda.is_bf16_supported():
+            raise ValueError("eval.precision=bf16 requires CUDA BF16 support")
+        if device.type not in {"cpu", "cuda"}:
+            raise ValueError("eval.precision=bf16 is supported only on CPU or CUDA")
+        autocast_dtype = torch.bfloat16
+    requested_tf32 = bool(eval_config.get("tf32", False))
+    effective_tf32 = requested_tf32 and device.type == "cuda"
+    return (
+        {
+            "requested": requested,
+            "effective": (
+                "float16_autocast"
+                if autocast_dtype == torch.float16
+                else "bfloat16_autocast"
+                if autocast_dtype == torch.bfloat16
+                else "fp32"
+            ),
+            "autocast_dtype": (
+                str(autocast_dtype).removeprefix("torch.")
+                if autocast_dtype is not None
+                else None
+            ),
+            "model_parameter_dtype": _model_parameter_dtype(model),
+            "device": str(device),
+            "tf32": effective_tf32,
+            "tf32_requested": requested_tf32,
+        },
+        autocast_dtype,
+    )
+
+
+@contextmanager
+def _inference_precision_context(
+    device: torch.device,
+    precision: dict[str, Any],
+    autocast_dtype: torch.dtype | None,
+):
+    old_matmul_tf32 = None
+    old_cudnn_tf32 = None
+    if device.type == "cuda":
+        old_matmul_tf32 = bool(torch.backends.cuda.matmul.allow_tf32)
+        old_cudnn_tf32 = bool(torch.backends.cudnn.allow_tf32)
+        effective_tf32 = bool(precision["tf32"])
+        torch.backends.cuda.matmul.allow_tf32 = effective_tf32
+        torch.backends.cudnn.allow_tf32 = effective_tf32
+    try:
+        with torch.autocast(
+            device_type=device.type,
+            dtype=autocast_dtype,
+            enabled=autocast_dtype is not None,
+        ):
+            yield
+    finally:
+        if device.type == "cuda":
+            assert old_matmul_tf32 is not None and old_cudnn_tf32 is not None
+            torch.backends.cuda.matmul.allow_tf32 = old_matmul_tf32
+            torch.backends.cudnn.allow_tf32 = old_cudnn_tf32
 
 
 def _seed_worker(worker_id: int) -> None:
@@ -6884,6 +11331,193 @@ def _scheduler_spec(train_config: dict[str, Any]) -> dict[str, Any] | None:
     }
 
 
+def _training_protocol_config_reasons(
+    protocol: dict[str, Any], config: dict[str, Any]
+) -> list[str]:
+    """Cross-bind normalized optimization choices to the public training config."""
+    reasons: list[str] = []
+    train_config = config.get("train")
+    if not isinstance(train_config, dict):
+        return ["public ANN training settings are missing"]
+    try:
+        optimizer_mode = _optimizer_mode(train_config)
+        optimizer = {
+            "mode": optimizer_mode,
+            "name": "AdamW" if optimizer_mode == "adamw" else "Adam",
+            "learning_rate": float(train_config.get("learning_rate", 2e-4)),
+            "weight_decay": float(train_config.get("weight_decay", 1e-6)),
+            "betas": [0.9, 0.999],
+            "epsilon": 1e-8,
+            "amsgrad": False,
+            "maximize": False,
+            "foreach": None,
+            "capturable": False,
+            "differentiable": False,
+            "fused": None,
+            "gradient_centralization": optimizer_mode == "adam_gc",
+            "gradient_centralization_dimensions": "all_except_output",
+        }
+        configured_weights = train_config.get("loss_weights") or {}
+        loss_weights = {
+            "charbonnier": float(configured_weights.get("charbonnier", 1.0)),
+            "ssim": float(configured_weights.get("ssim", 0.2)),
+            "gradient": float(configured_weights.get("gradient", 0.1)),
+            "temporal": float(configured_weights.get("temporal", 0.0)),
+        }
+        num_workers = int(train_config.get("num_workers", 0))
+        persistent_workers = train_config.get("persistent_workers")
+        prefetch_factor = train_config.get("prefetch_factor")
+        max_train_samples = train_config.get("max_train_samples")
+        data_order = {
+            "batch_size": int(train_config.get("batch_size", 1)),
+            "max_train_samples": (
+                None if max_train_samples is None else int(max_train_samples)
+            ),
+            "shuffle": False,
+            "num_workers": num_workers,
+            "persistent_workers": (
+                None
+                if num_workers == 0
+                else True
+                if persistent_workers is None
+                else bool(persistent_workers)
+            ),
+            "prefetch_factor": (
+                None
+                if num_workers == 0
+                else 2
+                if prefetch_factor is None
+                else int(prefetch_factor)
+            ),
+        }
+        raw_validate_every = train_config.get("validate_every", 1)
+        validate_every = (
+            None
+            if raw_validate_every is None
+            else max(1, int(raw_validate_every))
+        )
+        expected_fields = {
+            "seed": int(config.get("seed", 2026)),
+            "optimizer": optimizer,
+            "scheduler": _scheduler_spec(train_config),
+            "loss_weights": loss_weights,
+            "gradient_clipping": {
+                "max_norm": float(train_config.get("grad_clip", 1.0)),
+                "norm_type": 2.0,
+            },
+            "data_order": data_order,
+            "validate_every": validate_every,
+            "checkpoint_selection": (
+                "single_final_epoch"
+                if validate_every is None
+                else "best_validation_macro_ssim"
+            ),
+            "terminal_validation": (
+                {
+                    "mode": "single_final_epoch",
+                    "planned_epoch": int(train_config.get("epochs", 40)),
+                }
+                if validate_every is None
+                else None
+            ),
+        }
+    except (KeyError, TypeError, ValueError, OverflowError):
+        return ["public ANN training config cannot reproduce its protocol"]
+
+    for field, expected in expected_fields.items():
+        if protocol.get(field) != expected:
+            reasons.append(f"ANN training protocol {field} differs from training config")
+
+    mixed_precision = protocol.get("mixed_precision")
+    requested_amp = bool(train_config.get("amp", True))
+    runtime = protocol.get("runtime")
+    if not isinstance(mixed_precision, dict) or set(mixed_precision) != {
+        "requested",
+        "effective",
+        "autocast_dtype",
+        "gradient_scaler",
+    }:
+        reasons.append("ANN training mixed-precision protocol is invalid")
+    else:
+        effective_amp = mixed_precision.get("effective")
+        device_type = runtime.get("device_type") if isinstance(runtime, dict) else None
+        if (
+            mixed_precision.get("requested") != requested_amp
+            or not isinstance(effective_amp, bool)
+            or effective_amp != mixed_precision.get("gradient_scaler")
+            or mixed_precision.get("autocast_dtype")
+            != ("float16" if effective_amp else None)
+            or effective_amp != (requested_amp and device_type == "cuda")
+        ):
+            reasons.append("ANN training mixed precision differs from config/runtime")
+
+    runtime_fields = {
+        "device_type",
+        "torch",
+        "cuda_runtime",
+        "cudnn",
+        "gpu_name",
+        "compute_capability",
+        "cuda_matmul_allow_tf32",
+        "cudnn_allow_tf32",
+        "cudnn_benchmark",
+        "deterministic_algorithms",
+    }
+    if not isinstance(runtime, dict) or set(runtime) != runtime_fields:
+        reasons.append("ANN training runtime protocol is invalid")
+    else:
+        device_type = runtime.get("device_type")
+        capability = runtime.get("compute_capability")
+        if (
+            device_type not in {"cpu", "cuda"}
+            or not isinstance(runtime.get("torch"), str)
+            or not runtime["torch"].strip()
+            or not isinstance(runtime.get("deterministic_algorithms"), bool)
+            or (
+                device_type == "cuda"
+                and (
+                    not isinstance(runtime.get("gpu_name"), str)
+                    or not runtime["gpu_name"].strip()
+                    or not isinstance(runtime.get("cuda_runtime"), str)
+                    or not runtime["cuda_runtime"].strip()
+                    or not isinstance(capability, list)
+                    or len(capability) != 2
+                    or any(
+                        not isinstance(item, int) or isinstance(item, bool)
+                        for item in capability
+                    )
+                    or any(
+                        not isinstance(runtime.get(field), bool)
+                        for field in (
+                            "cuda_matmul_allow_tf32",
+                            "cudnn_allow_tf32",
+                            "cudnn_benchmark",
+                        )
+                    )
+                )
+            )
+            or (
+                device_type == "cpu"
+                and (
+                    any(
+                        runtime.get(field) is not None
+                        for field in (
+                            "cuda_runtime",
+                            "cudnn",
+                            "gpu_name",
+                            "compute_capability",
+                            "cuda_matmul_allow_tf32",
+                            "cudnn_allow_tf32",
+                            "cudnn_benchmark",
+                        )
+                    )
+                )
+            )
+        ):
+            reasons.append("ANN training runtime device identity is invalid")
+    return reasons
+
+
 def _build_optimizer(model: torch.nn.Module, train_config: dict[str, Any]) -> torch.optim.Optimizer:
     mode = _optimizer_mode(train_config)
     optimizer_class = torch.optim.AdamW if mode == "adamw" else torch.optim.Adam
@@ -6974,12 +11608,21 @@ def _git_provenance(project_root: Path) -> dict[str, Any]:
     }
 
 
+def _current_source_contract() -> dict[str, Any]:
+    project_root = Path(__file__).resolve().parents[2]
+    return {
+        "source_tree_sha256": _source_tree_sha256(project_root),
+        **_git_provenance(project_root),
+    }
+
+
 def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str, Any]:
     """Return every configured choice that can change the optimization trajectory.
 
-    ``epochs``, logging cadence, the resume path, and output paths are deliberately
-    absent: changing those does not alter an already completed optimizer step. The
-    normalized values below make omitted defaults compare equal to explicit defaults.
+    Logging cadence, the resume path, and output paths are deliberately absent.
+    ``epochs`` is sealed only for final-only validation because changing that value
+    would move the one permitted evaluation. The normalized values below make
+    omitted defaults compare equal to explicit defaults.
     """
     train_config = config["train"]
     requested_amp = bool(train_config.get("amp", True))
@@ -7024,7 +11667,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
         gpu_name = None
         compute_capability = None
     return {
-        "version": 3,
+        "version": 4,
         "seed": int(config.get("seed", 2026)),
         "optimizer": {
             "mode": optimizer_mode,
@@ -7065,6 +11708,14 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
         "validate_every": validate_every,
         "checkpoint_selection": (
             "single_final_epoch" if validate_every is None else "best_validation_macro_ssim"
+        ),
+        "terminal_validation": (
+            {
+                "mode": "single_final_epoch",
+                "planned_epoch": int(train_config.get("epochs", 40)),
+            }
+            if validate_every is None
+            else None
         ),
         "recurrent_state_detached_each_sample": True,
         "runtime": {
@@ -7109,22 +11760,84 @@ def _validate_training_protocol(checkpoint: dict[str, Any], expected: dict[str, 
         raise ValueError("Resume training protocol differs from the checkpoint in: " + changed)
 
 
+def _validate_terminal_validation_resume(
+    checkpoint: dict[str, Any], expected_protocol: dict[str, Any]
+) -> None:
+    expected = expected_protocol.get("terminal_validation")
+    if expected is None:
+        return
+    actual_protocol = checkpoint.get("training_protocol")
+    actual = (
+        actual_protocol.get("terminal_validation")
+        if isinstance(actual_protocol, dict)
+        else None
+    )
+    state = checkpoint.get("terminal_validation_state")
+    if not isinstance(actual, dict) or not isinstance(state, dict):
+        raise TypeError(
+            "Final-only resume checkpoint is missing the sealed terminal validation contract"
+        )
+    old_epoch = int(actual.get("planned_epoch", -1))
+    requested_epoch = int(expected.get("planned_epoch", -1))
+    if bool(state.get("completed")) and requested_epoch != old_epoch:
+        raise ValueError(
+            "Final-only validation already completed at the sealed terminal epoch; "
+            "extend training in a new run instead of reusing this run"
+        )
+    if requested_epoch != old_epoch:
+        raise ValueError(
+            "Final-only validation planned terminal epoch differs from the resume checkpoint"
+        )
+    completed_epoch = state.get("completed_epoch")
+    checkpoint_epoch = int(checkpoint.get("epoch", -1))
+    if bool(state.get("completed")):
+        if (
+            completed_epoch is None
+            or int(completed_epoch) != old_epoch
+            or checkpoint_epoch != old_epoch
+            or not math.isfinite(_macro_ssim(checkpoint.get("val", {})))
+        ):
+            raise ValueError("Final-only validation completion state is inconsistent")
+    elif completed_epoch is not None or checkpoint_epoch >= old_epoch:
+        raise ValueError("Incomplete final-only validation state is inconsistent")
+
+
 def _ensure_finite_loss(
     loss: torch.Tensor,
-    loss_parts: dict[str, float],
+    loss_parts: dict[str, torch.Tensor],
     *,
     epoch: int,
     step: int,
     sample_id: Any,
-) -> None:
+) -> dict[str, float]:
     context = f"epoch={epoch}, step={step}, sample={sample_id}"
-    invalid_parts = sorted(
-        name for name, value in loss_parts.items() if not math.isfinite(float(value))
+    part_names = list(loss_parts)
+    tensors = [loss.detach().reshape(())]
+    for name in part_names:
+        value = loss_parts[name]
+        if not isinstance(value, torch.Tensor) or value.numel() != 1:
+            raise TypeError(f"Loss component {name!r} must be a scalar tensor")
+        tensors.append(value.detach().reshape(()))
+    # The packed transfer is also the single synchronization used for fail-fast
+    # finite checks and progress logging on this optimization step.
+    cpu_values = (
+        torch.stack(tensors).to(device="cpu", dtype=torch.float64).tolist()
     )
-    invalid_values = [] if bool(torch.isfinite(loss.detach()).all().item()) else ["total loss"]
-    invalid_values.extend(f"{name} component" for name in invalid_parts)
+    invalid_values = [] if math.isfinite(cpu_values[0]) else ["total loss"]
+    invalid_values.extend(
+        f"{name} component"
+        for name, value in zip(part_names, cpu_values[1:], strict=True)
+        if not math.isfinite(value)
+    )
     if invalid_values:
         raise FloatingPointError(f"Non-finite {', '.join(invalid_values)} at {context}")
+    return {
+        "total": float(cpu_values[0]),
+        **{
+            name: float(value)
+            for name, value in zip(part_names, cpu_values[1:], strict=True)
+        },
+    }
 
 
 def _clip_and_validate_gradients(
@@ -7160,6 +11873,29 @@ def _validation_dataset(config: dict[str, Any]):
     return build_dataset(config["dataset"], split="val")
 
 
+def _dataset_transform_contract(config: dict[str, Any]) -> dict[str, Any]:
+    data = copy.deepcopy(config["dataset"])
+    data.pop("root", None)
+    data.pop("val_root", None)
+    data.pop("split_manifest", None)
+    return data
+
+
+def _split_manifest_contract(config: dict[str, Any]) -> dict[str, Any] | None:
+    manifest_path = config["dataset"].get("split_manifest")
+    manifest = load_eventhdr_split_manifest(manifest_path) if manifest_path else None
+    if manifest is None:
+        return None
+    return {
+        "status": str(manifest.get("status", "missing")).strip().lower(),
+        "split_schema": manifest["split_schema"],
+        "group_semantics": manifest["group_semantics"],
+        "train_files": manifest["train_files"],
+        "val_files": manifest["val_files"],
+        "file_to_group": manifest["file_to_group"],
+    }
+
+
 def _validation_protocol(
     config: dict[str, Any],
     val_sampling: dict[str, Any],
@@ -7167,39 +11903,20 @@ def _validation_protocol(
     val_dataset,
     digest_cache: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
-    data = copy.deepcopy(config["dataset"])
-    data.pop("root", None)
-    data.pop("val_root", None)
-    manifest_path = data.pop("split_manifest", None)
-    manifest = load_eventhdr_split_manifest(manifest_path) if manifest_path else None
-    if manifest is None:
-        manifest_identity = None
-    else:
-        manifest_identity = {
-            "status": str(manifest.get("status", "missing")).strip().lower(),
-            "split_schema": manifest["split_schema"],
-            "train_files": manifest["train_files"],
-            "val_files": manifest["val_files"],
-            "file_to_scene": manifest["file_to_scene"],
-        }
-        if manifest["split_schema"] == "physical_scenes_v1":
-            manifest_identity.update(
-                {
-                    "scene_groups": manifest["scene_groups"],
-                    "train_scenes": manifest["train_scenes"],
-                    "val_scenes": manifest["val_scenes"],
-                }
-            )
     print("Verifying cached hashes or hashing train/validation files for exact resume...")
     return {
-        "version": 5,
+        "version": 7,
         "seed": int(config.get("seed", 2026)),
         "recurrent": bool(config["model"].get("recurrent", True)),
-        "dataset_transform": data,
-        "split_manifest": manifest_identity,
+        "dataset_transform": _dataset_transform_contract(config),
+        "split_manifest": _split_manifest_contract(config),
         "dataset_content": {
             "train": _dataset_content_fingerprint(train_dataset, digest_cache),
             "validation": _dataset_content_fingerprint(val_dataset, digest_cache),
+        },
+        "dataset_index": {
+            "train": _dataset_index_contract(train_dataset),
+            "validation": _dataset_index_contract(val_dataset),
         },
         "max_val_samples": config["train"].get("max_val_samples"),
         "sampling": val_sampling,
@@ -7216,18 +11933,12 @@ def _enforce_training_split_status(config: dict[str, Any]) -> None:
     manifest_path = config.get("dataset", {}).get("split_manifest")
     if not manifest_path:
         return
-    manifest = load_eventhdr_split_manifest(manifest_path)
-    status = str(manifest.get("status", "missing")).strip().lower()
-    if status != "final":
-        raise ValueError(
-            f"Training split manifest {manifest_path} has status='{status}', not 'final'. "
-            "A provisional split cannot be used for training."
-        )
+    load_eventhdr_split_manifest(manifest_path)
 
 
 @torch.no_grad()
 def validate(
-    model: ASGCNReconstructor,
+    model: ASGCNUNet,
     loader: DataLoader,
     device: torch.device,
     max_samples: int | None = None,
@@ -7269,6 +11980,7 @@ def validate(
 
 
 def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path:
+    validate_experiment_config(config)
     seed = int(config.get("seed", 2026))
     set_seed(seed)
     device = resolve_device(config.get("device", "auto"))
@@ -7376,18 +12088,25 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     training_protocol = _training_protocol(config, device)
     scaler = _make_grad_scaler(amp_enabled)
     criterion = ReconstructionLoss(train_config.get("loss_weights"))
-    temporal_weight = float(train_config.get("loss_weights", {}).get("temporal", 0.0))
+    configured_loss_weights = train_config.get("loss_weights") or {}
+    temporal_weight = float(configured_loss_weights.get("temporal", 0.0))
 
     if resume_checkpoint is not None:
         if resume_checkpoint.get("model_config") != config["model"]:
             raise ValueError(
                 "Exact resume requires config.model to match the checkpoint model_config"
             )
+        if resume_checkpoint.get("preflight_gate") != config.get("preflight_gate"):
+            raise ValueError(
+                "Exact resume requires the same verified or explicitly bypassed "
+                "preflight gate as the checkpoint"
+            )
         if resume_checkpoint.get("validation_protocol") != validation_protocol:
             raise ValueError(
                 "Resume validation protocol differs from the checkpoint. Keep the seed, "
                 "dataset transforms, split manifest, validation sampling, and SSIM protocol fixed."
             )
+        _validate_terminal_validation_resume(resume_checkpoint, training_protocol)
         _validate_training_protocol(resume_checkpoint, training_protocol)
         historical_score = _resume_best_macro_ssim(resume_checkpoint)
         historical_path = run_dir / "best.pt"
@@ -7412,7 +12131,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 "Resume checkpoint has no validated best score, but run_dir contains a "
                 "best.pt from another or inconsistent run"
             )
-    save_json(run_dir / "config.json", config)
+    public_config = _public_config(config)
+    save_json(run_dir / "config.json", public_config)
 
     best_ssim = float("-inf")
     best_model_state_sha256: str | None = None
@@ -7511,9 +12231,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                         target - previous_target,
                     )
                     loss = loss + temporal_weight * temporal
-                    loss_parts["temporal"] = float(temporal.detach().cpu())
-                    loss_parts["total"] = float(loss.detach().cpu())
-            _ensure_finite_loss(
+                    loss_parts["temporal"] = temporal.detach()
+            loss_values = _ensure_finite_loss(
                 loss,
                 loss_parts,
                 epoch=epoch,
@@ -7539,10 +12258,12 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 recurrent_state = recurrent_state.detach()
             previous_prediction = prediction.detach()
             previous_target = target.detach()
-            running_loss += float(loss.detach().cpu())
+            running_loss += loss_values["total"]
             seen += 1
             if step % int(train_config.get("log_every", 20)) == 0:
-                progress.set_postfix(loss=f"{running_loss / max(seen, 1):.4f}", **loss_parts)
+                progress.set_postfix(
+                    loss=f"{running_loss / max(seen, 1):.4f}", **loss_values
+                )
 
         should_validate = epoch == epochs or (
             validate_every is not None and epoch % validate_every == 0
@@ -7597,7 +12318,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 if resume_checkpoint is not None
                 else config["model"]
             ),
-            "config": config,
+            "config": public_config,
             "val": val_metrics,
             "val_sampling": val_sampling_counts,
             "best_ssim": best_ssim,
@@ -7609,8 +12330,18 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 else "best_validation_macro_ssim"
             ),
             "paper_core_version": PAPER_CORE_VERSION,
+            "preflight_gate": copy.deepcopy(config.get("preflight_gate")),
             "validation_protocol": validation_protocol,
             "training_protocol": training_protocol,
+            "terminal_validation_state": (
+                {
+                    "planned_epoch": epochs,
+                    "completed": bool(should_validate and epoch == epochs),
+                    "completed_epoch": epoch if should_validate and epoch == epochs else None,
+                }
+                if validate_every is None
+                else None
+            ),
             "history": history,
             "rng_state": _capture_rng_state(),
         }
@@ -7631,8 +12362,11 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 "checkpoint_selection": checkpoint["checkpoint_selection"],
                 "model_state_sha256": best_model_state_sha256,
                 "paper_core_version": checkpoint["paper_core_version"],
+                "preflight_gate": checkpoint["preflight_gate"],
+                "training_config": checkpoint["config"],
                 "validation_protocol": checkpoint["validation_protocol"],
                 "training_protocol": checkpoint["training_protocol"],
+                "terminal_validation_state": checkpoint["terminal_validation_state"],
             }
             atomic_torch_save(best_checkpoint, run_dir / "best.pt")
         atomic_torch_save(checkpoint, run_dir / "last.pt")
@@ -7663,12 +12397,45 @@ def evaluate(
     inference_mode: str = "ann",
     simulation_steps: int = 16,
     snn_dynamics: str | None = None,
+    *,
+    allow_unsealed_checkpoint_for_non_reporting: bool = False,
 ) -> dict[str, Any]:
     _validate_snn_request(inference_mode, simulation_steps)
+    validate_experiment_config(config)
     set_seed(int(config.get("seed", 2026)))
     device = resolve_device(config.get("device", "auto"))
     dataset = build_dataset(config["dataset"], split="eval")
+    try:
+        return _evaluate_dataset(
+            config,
+            checkpoint_path,
+            dataset,
+            device,
+            inference_mode,
+            simulation_steps,
+            snn_dynamics,
+            allow_unsealed_checkpoint_for_non_reporting=(
+                allow_unsealed_checkpoint_for_non_reporting
+            ),
+        )
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
+
+
+def _evaluate_dataset(
+    config: dict[str, Any],
+    checkpoint_path: str | Path,
+    dataset,
+    device: torch.device,
+    inference_mode: str,
+    simulation_steps: int,
+    snn_dynamics: str | None,
+    *,
+    allow_unsealed_checkpoint_for_non_reporting: bool,
+) -> dict[str, Any]:
     eval_config = config.get("eval", {})
+    max_samples = eval_config.get("max_samples")
     eval_batch_size = int(eval_config.get("batch_size", 1))
     if eval_batch_size != 1:
         raise ValueError("Stateful evaluation requires eval.batch_size=1")
@@ -7681,8 +12448,32 @@ def evaluate(
     )
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
     _validate_snn_request(inference_mode, simulation_steps, checkpoint, checkpoint_path)
+    checkpoint_contract, report_eligible, report_ineligible_reasons = (
+        _reporting_checkpoint_contract(
+            checkpoint,
+            checkpoint_path,
+            inference_mode,
+            allow_unsealed_checkpoint_for_non_reporting=(
+                allow_unsealed_checkpoint_for_non_reporting
+            ),
+        )
+    )
+    quality_reasons = _reporting_dataset_coverage_reasons(config, dataset)
+    if max_samples is not None:
+        quality_reasons.append(
+            "quality evaluation uses eval.max_samples; reporting requires "
+            "eval.max_samples=null and the complete evaluation dataset"
+        )
+    report_eligible, report_ineligible_reasons = _merge_reporting_reasons(
+        report_eligible,
+        report_ineligible_reasons,
+        quality_reasons,
+        allow_non_reporting=allow_unsealed_checkpoint_for_non_reporting,
+        scope="Quality evaluation",
+    )
     _set_inference_snn_dynamics(model, inference_mode, snn_dynamics)
     model.eval()
+    precision, autocast_dtype = _inference_precision(eval_config, device, model)
     lpips_model = _maybe_lpips(bool(eval_config.get("lpips", False)), device)
     _reset_cuda_peak_memory(device)
     accumulator = MetricAccumulator()
@@ -7714,13 +12505,54 @@ def evaluate(
             "silently overwritten."
         )
     save_limit = int(eval_config.get("save_predictions", 0))
-    max_samples = eval_config.get("max_samples")
+    evaluation_count = min(
+        len(dataset),
+        len(dataset) if max_samples is None else int(max_samples),
+    )
+    evaluation_sampling = _sampling_summary(dataset, list(range(evaluation_count)))
+    evaluation_dataset = _evaluation_dataset_provenance(
+        config, dataset, evaluation_sampling
+    )
+    if config["dataset"].get("type") == "eventhdr":
+        report_eligible, report_ineligible_reasons = _merge_reporting_reasons(
+            report_eligible,
+            report_ineligible_reasons,
+            _eventhdr_evaluation_lineage_reasons(
+                checkpoint,
+                inference_mode,
+                evaluation_dataset,
+            ),
+            allow_non_reporting=allow_unsealed_checkpoint_for_non_reporting,
+            scope="EventHDR quality evaluation",
+        )
+    evaluation_protocol = _reporting_protocol(
+        kind="quality_evaluation",
+        config=config,
+        dataset=dataset,
+        sampling=evaluation_sampling,
+        checkpoint_contract=checkpoint_contract,
+        report_eligible=report_eligible,
+        report_ineligible_reasons=report_ineligible_reasons,
+        device=device,
+        precision=precision,
+        execution={
+            "inference_mode": inference_mode,
+            "simulation_steps": simulation_steps if inference_mode == "snn" else None,
+            "snn_dynamics": (
+                model.snn_dynamics if inference_mode == "snn" else None
+            ),
+            "scope": "full_dataset_quality_evaluation",
+        },
+        evaluation_dataset=evaluation_dataset,
+    )
     saved = 0
     prediction_stems: set[str] = set()
     for index, batch in enumerate(tqdm(loader, desc=f"evaluate-{inference_mode}")):
         if max_samples is not None and index >= int(max_samples):
             break
         sample = move_sample(batch[0], device)
+        sample_id = sample.get("sample_id", index)
+        _require_finite_tensor(sample["target"], "target", sample_id)
         scene, sequence_index, sensor_size = _sample_sequence_info(sample)
         if not _continues_sequence(
             scene,
@@ -7738,37 +12570,49 @@ def evaluate(
         previous_sensor_size = sensor_size
         if device.type == "cuda":
             torch.cuda.synchronize(device)
-        start = time.perf_counter()
-        prediction, diagnostics = model.forward_sample(
-            sample,
-            inference_mode=inference_mode,
-            simulation_steps=simulation_steps,
-            recurrent_state=recurrent_state,
-        )
-        if device.type == "cuda":
-            torch.cuda.synchronize(device)
-        latency_ms = (time.perf_counter() - start) * 1000.0
+        with _inference_precision_context(device, precision, autocast_dtype):
+            start = time.perf_counter()
+            prediction, diagnostics = model.forward_sample(
+                sample,
+                inference_mode=inference_mode,
+                simulation_steps=simulation_steps,
+                recurrent_state=recurrent_state,
+            )
+            if device.type == "cuda":
+                torch.cuda.synchronize(device)
+            latency_ms = (time.perf_counter() - start) * 1000.0
+        if not math.isfinite(latency_ms) or latency_ms <= 0:
+            raise FloatingPointError(f"Invalid latency: sample={sample_id}")
+        _require_finite_tensor(prediction, "prediction", sample_id)
+        _require_finite_structure(diagnostics, "diagnostics", sample_id)
         recurrent_state = diagnostics["recurrent_state"]
         if recurrent_state is not None:
             recurrent_state = recurrent_state.detach()
-        target = sample["target"].unsqueeze(0)
-        temporal_l1 = None
-        metrics = frame_metrics(prediction, target, lpips_model)
+        target = sample["target"].unsqueeze(0).float()
+        metric_prediction = prediction.float()
+        temporal_tensor = None
         if previous_prediction is not None and previous_target is not None:
-            temporal_l1 = float(
-                temporal_consistency_error(
-                    prediction,
-                    previous_prediction,
-                    target,
-                    previous_target,
-                ).cpu()
+            temporal_tensor = temporal_consistency_error(
+                metric_prediction,
+                previous_prediction,
+                target,
+                previous_target,
             )
-            metrics["temporal_l1"] = temporal_l1
-        previous_prediction = prediction.detach()
+        metrics = frame_metrics(
+            metric_prediction,
+            target,
+            lpips_model,
+            extra_metrics=(
+                {"temporal_l1": temporal_tensor} if temporal_tensor is not None else None
+            ),
+        )
+        _require_finite_structure(metrics, "metrics", sample_id)
+        temporal_l1 = metrics.get("temporal_l1")
+        previous_prediction = metric_prediction.detach()
         previous_target = target.detach()
         accumulator.update(scene, sample["sample_id"], metrics)
-        dt_us = sample["metadata"].get("dt_us")
-        rtf = latency_ms / (float(dt_us) / 1000.0) if dt_us else None
+        dt_us = _positive_interval_us(sample["metadata"].get("dt_us"), sample_id)
+        rtf = latency_ms / (dt_us / 1000.0) if dt_us is not None else None
         if rtf is not None:
             realtime_factors.append(rtf)
         row = {
@@ -7804,6 +12648,11 @@ def evaluate(
             save_image(output_dir / "predictions" / f"{safe_name}_gt.png", target)
             saved += 1
 
+    if len(frame_rows) != evaluation_count:
+        raise RuntimeError(
+            "Quality evaluation did not process its complete declared sampling: "
+            f"expected {evaluation_count}, observed {len(frame_rows)}"
+        )
     quality = accumulator.summary()
     latency = _latency_summary(latencies)
     latency["deadline_miss_ratio"] = (
@@ -7813,11 +12662,15 @@ def evaluate(
     )
     latency["rtf_p95"] = percentile(realtime_factors, 0.95) if realtime_factors else None
     result = {
+        "report_eligible": report_eligible,
+        "report_ineligible_reasons": report_ineligible_reasons,
+        "evaluation_protocol": evaluation_protocol,
         "dataset": config["dataset"]["type"],
         "dataset_coverage": _dataset_coverage_summary(dataset, config["dataset"]),
-        "checkpoint": str(checkpoint_path),
+        "checkpoint": _artifact_path_label(checkpoint_path),
         "checkpoint_epoch": checkpoint.get("epoch"),
-        "output_dir": str(output_dir),
+        "checkpoint_model_sha256": checkpoint.get("model_state_sha256"),
+        "output_dir": _artifact_path_label(output_dir),
         "inference_mode": inference_mode,
         "simulation_steps": simulation_steps if inference_mode == "snn" else None,
         "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
@@ -7833,7 +12686,9 @@ def evaluate(
         "quality": quality,
         "latency": latency,
         "gpu_memory": _cuda_peak_memory(device),
+        "precision": precision,
     }
+    _require_finite_structure(result, "evaluation", "summary")
     save_json(output_dir / "metrics.json", result)
     write_frame_csv(output_dir / "frames.csv", frame_rows)
     return result
@@ -7907,6 +12762,241 @@ def _dataset_coverage_summary(dataset, data_config: dict[str, Any]) -> dict[str,
     }
 
 
+def _evaluation_dataset_transform_contract(config: dict[str, Any]) -> dict[str, Any]:
+    """Return data semantics without host paths or manifest locations."""
+    data = copy.deepcopy(config["dataset"])
+    for key in ("root", "val_root", "split_manifest", "file_manifest"):
+        data.pop(key, None)
+    return data
+
+
+def _evaluation_manifest_contract(config: dict[str, Any]) -> dict[str, Any]:
+    dataset = config["dataset"]
+    result: dict[str, Any] = {"split": None, "file": None}
+    if dataset.get("split_manifest"):
+        result["split"] = _split_manifest_contract(config)
+    file_manifest = dataset.get("file_manifest")
+    if file_manifest:
+        result["file"] = _hashed_contract(_public_config(load_json(file_manifest)))
+    return result
+
+
+def _reporting_dataset_coverage_reasons(
+    config: dict[str, Any], dataset
+) -> list[str]:
+    """Require an explicit, exact file-set commitment for reportable runs."""
+    data_config = config["dataset"]
+    coverage = _dataset_coverage_summary(dataset, data_config)
+    reasons: list[str] = []
+    expected = data_config.get("expected_file_count")
+    if (
+        not isinstance(expected, int)
+        or isinstance(expected, bool)
+        or expected < 1
+        or coverage.get("expected_file_count") != expected
+        or coverage.get("file_count") != expected
+        or coverage.get("complete") is not True
+    ):
+        reasons.append("evaluation dataset has no exact expected-file-count commitment")
+
+    dataset_type = data_config.get("type")
+    if dataset_type == "eventhdr":
+        try:
+            manifest = _split_manifest_contract(config)
+        except (OSError, KeyError, TypeError, ValueError):
+            manifest = None
+        if not _valid_split_manifest_contract(manifest):
+            reasons.append("EventHDR evaluation has no valid final split manifest")
+        elif coverage.get("files") != sorted(manifest["val_files"]):
+            reasons.append("EventHDR evaluation files differ from the final manifest")
+    elif dataset_type == "eventaid_r_zip":
+        manifest_path = data_config.get("file_manifest")
+        try:
+            manifest = load_json(manifest_path) if manifest_path else None
+        except (OSError, TypeError, ValueError):
+            manifest = None
+        entries = manifest.get("files") if isinstance(manifest, dict) else None
+        expected_files = (
+            sorted(
+                f"{item['scene']}.zip"
+                for item in entries
+                if isinstance(item, dict)
+                and isinstance(item.get("scene"), str)
+                and item["scene"].strip()
+            )
+            if isinstance(entries, list)
+            else []
+        )
+        if not expected_files or len(expected_files) != len(set(expected_files)):
+            reasons.append("EventAid-R evaluation has no valid fixed file manifest")
+        elif coverage.get("files") != expected_files:
+            reasons.append("EventAid-R evaluation files differ from the fixed manifest")
+    else:
+        reasons.append("evaluation dataset type is unsupported for reporting")
+    return reasons
+
+
+def _eventhdr_evaluation_lineage_reasons(
+    checkpoint: dict[str, Any],
+    inference_mode: str,
+    evaluation_dataset: dict[str, Any],
+) -> list[str]:
+    contract = evaluation_dataset.get("contract")
+    if not isinstance(contract, dict):
+        return ["EventHDR evaluation dataset identity is invalid"]
+    if inference_mode == "ann":
+        validation = checkpoint.get("validation_protocol")
+    else:
+        calibration = checkpoint.get("calibration_protocol")
+        identity = (
+            calibration.get("source_ann_validation_protocol")
+            if isinstance(calibration, dict)
+            else None
+        )
+        validation = identity.get("contract") if isinstance(identity, dict) else None
+    if not isinstance(validation, dict):
+        return ["EventHDR evaluation has no source ANN validation lineage"]
+
+    reasons: list[str] = []
+    dataset_content = validation.get("dataset_content")
+    expected_content = (
+        dataset_content.get("validation")
+        if isinstance(dataset_content, dict)
+        else None
+    )
+    if contract.get("content") != expected_content:
+        reasons.append("EventHDR evaluation content differs from source ANN validation data")
+
+    expected_transform = copy.deepcopy(validation.get("dataset_transform"))
+    current_transform = copy.deepcopy(contract.get("transform"))
+    if isinstance(expected_transform, dict):
+        expected_transform.pop("expected_file_count", None)
+    if isinstance(current_transform, dict):
+        current_transform.pop("expected_file_count", None)
+    if current_transform != expected_transform:
+        reasons.append("EventHDR evaluation transform differs from source ANN validation")
+
+    manifest_identity = contract.get("manifest")
+    split_identity = (
+        manifest_identity.get("split")
+        if isinstance(manifest_identity, dict)
+        else None
+    )
+    current_manifest = (
+        split_identity.get("contract")
+        if isinstance(split_identity, dict) and "contract" in split_identity
+        else split_identity
+    )
+    if current_manifest != validation.get("split_manifest"):
+        reasons.append("EventHDR evaluation manifest differs from source ANN validation")
+    return reasons
+
+
+def _evaluation_dataset_provenance(
+    config: dict[str, Any],
+    dataset,
+    sampling: dict[str, Any],
+) -> dict[str, Any]:
+    """Bind evaluation data exactly, reusing a host-local path-token hash cache."""
+    eval_config = config.get("eval", {})
+    rehash = eval_config.get("rehash_data", False)
+    if not isinstance(rehash, bool):
+        raise TypeError("eval.rehash_data must be a boolean")
+    output_base = Path(eval_config.get("output_dir", "runs/evaluation"))
+    cache_path = output_base / ".data_hash_cache.json"
+    digest_cache = _load_data_hash_cache(cache_path, rehash)
+    content = _dataset_content_fingerprint(dataset, digest_cache)
+    # The cache contains only SHA-256 path tokens, stat signatures and file digests.
+    # save_json is strict and atomic, so a killed writer cannot poison later runs.
+    save_json(cache_path, {"version": 1, "files": digest_cache})
+    contract = {
+        "content": content,
+        "transform": _evaluation_dataset_transform_contract(config),
+        "manifest": _evaluation_manifest_contract(config),
+        "coverage": _dataset_coverage_summary(dataset, config["dataset"]),
+        "sampling": sampling,
+    }
+    return _hashed_contract(contract)
+
+
+def _evaluation_runtime_contract(
+    device: torch.device,
+    precision: dict[str, Any],
+) -> dict[str, Any]:
+    if device.type == "cuda":
+        device_index = device.index if device.index is not None else torch.cuda.current_device()
+        gpu_name = torch.cuda.get_device_name(device_index)
+        compute_capability = list(torch.cuda.get_device_capability(device_index))
+    else:
+        device_index = None
+        gpu_name = None
+        compute_capability = None
+    return {
+        "python": f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
+        "torch": str(torch.__version__),
+        "numpy": str(np.__version__),
+        "device_type": device.type,
+        "device_index": device_index,
+        "cuda_runtime": torch.version.cuda if device.type == "cuda" else None,
+        "cudnn": torch.backends.cudnn.version() if device.type == "cuda" else None,
+        "gpu_name": gpu_name,
+        "compute_capability": compute_capability,
+        "deterministic_algorithms": bool(torch.are_deterministic_algorithms_enabled()),
+        "precision": copy.deepcopy(precision),
+    }
+
+
+def _reporting_protocol(
+    *,
+    kind: str,
+    config: dict[str, Any],
+    dataset,
+    sampling: dict[str, Any],
+    checkpoint_contract: dict[str, Any],
+    report_eligible: bool,
+    report_ineligible_reasons: list[str],
+    device: torch.device,
+    precision: dict[str, Any],
+    execution: dict[str, Any],
+    evaluation_dataset: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    public_config = _public_config(config)
+    protocol: dict[str, Any] = {
+        "schema": "asgcn_reporting_protocol_v1",
+        "kind": kind,
+        "report_eligible": report_eligible,
+        "report_ineligible_reasons": list(report_ineligible_reasons),
+        "public_config": _hashed_contract(public_config),
+        "model_config": _hashed_contract(config["model"]),
+        "checkpoint": checkpoint_contract,
+        "evaluation_dataset": (
+            evaluation_dataset
+            if evaluation_dataset is not None
+            else _evaluation_dataset_provenance(config, dataset, sampling)
+        ),
+        "execution": _hashed_contract(execution),
+        "source": _hashed_contract(_current_source_contract()),
+        "runtime": _hashed_contract(_evaluation_runtime_contract(device, precision)),
+        "precision": _hashed_contract(precision),
+    }
+    protocol["protocol_sha256"] = _canonical_sha256(protocol)
+    return protocol
+
+
+def _reset_benchmark_measurement_window(
+    device: torch.device,
+    release_warmup_references: Callable[[], None],
+) -> None:
+    """Start peak-memory accounting after fully releasing warmup state."""
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+    release_warmup_references()
+    gc.collect()
+    if device.type == "cuda":
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats(device)
+
+
 @torch.no_grad()
 def benchmark(
     config: dict[str, Any],
@@ -7916,18 +13006,85 @@ def benchmark(
     inference_mode: str = "ann",
     simulation_steps: int = 16,
     snn_dynamics: str | None = None,
+    *,
+    allow_unsealed_checkpoint_for_non_reporting: bool = False,
 ) -> dict[str, Any]:
     if warmup < 0:
         raise ValueError("warmup must be non-negative")
     if steps < 1:
         raise ValueError("steps must be at least 1")
     _validate_snn_request(inference_mode, simulation_steps)
+    validate_experiment_config(config)
     device = resolve_device(config.get("device", "auto"))
     dataset = build_dataset(config["dataset"], split="eval")
+    try:
+        return _benchmark_dataset(
+            config,
+            checkpoint_path,
+            dataset,
+            device,
+            warmup,
+            steps,
+            inference_mode,
+            simulation_steps,
+            snn_dynamics,
+            allow_unsealed_checkpoint_for_non_reporting=(
+                allow_unsealed_checkpoint_for_non_reporting
+            ),
+        )
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
+
+
+def _benchmark_dataset(
+    config: dict[str, Any],
+    checkpoint_path: str | Path,
+    dataset,
+    device: torch.device,
+    warmup: int,
+    steps: int,
+    inference_mode: str,
+    simulation_steps: int,
+    snn_dynamics: str | None,
+    *,
+    allow_unsealed_checkpoint_for_non_reporting: bool,
+) -> dict[str, Any]:
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
     _validate_snn_request(inference_mode, simulation_steps, checkpoint, checkpoint_path)
+    checkpoint_contract, report_eligible, report_ineligible_reasons = (
+        _reporting_checkpoint_contract(
+            checkpoint,
+            checkpoint_path,
+            inference_mode,
+            allow_unsealed_checkpoint_for_non_reporting=(
+                allow_unsealed_checkpoint_for_non_reporting
+            ),
+        )
+    )
+    report_eligible, report_ineligible_reasons = _merge_reporting_reasons(
+        report_eligible,
+        report_ineligible_reasons,
+        _reporting_dataset_coverage_reasons(config, dataset),
+        allow_non_reporting=allow_unsealed_checkpoint_for_non_reporting,
+        scope="Compute benchmark",
+    )
     _set_inference_snn_dynamics(model, inference_mode, snn_dynamics)
     model.eval()
+    eval_config = config.get("eval", {})
+    precision, autocast_dtype = _inference_precision(eval_config, device, model)
+    benchmark_base = Path(eval_config.get("output_dir", "runs/evaluation"))
+    benchmark_dir = benchmark_base / _inference_run_label(
+        inference_mode,
+        simulation_steps,
+        model.snn_dynamics,
+    )
+    benchmark_path = benchmark_dir / "benchmark.json"
+    if benchmark_path.exists():
+        raise FileExistsError(
+            f"Benchmark output already exists: {benchmark_path}. Move/remove the prior "
+            "artifact or choose a new eval.output_dir."
+        )
     cuda_start = torch.cuda.Event(enable_timing=True) if device.type == "cuda" else None
     cuda_end = torch.cuda.Event(enable_timing=True) if device.type == "cuda" else None
     latencies: list[float] = []
@@ -7944,6 +13101,19 @@ def benchmark(
     current_scene = None
     previous_sequence_index = None
     previous_sensor_size = None
+    raw = None
+    sample = None
+    prediction = None
+    diagnostics = None
+
+    def release_warmup_references() -> None:
+        nonlocal raw, sample, prediction, diagnostics, recurrent_state
+        raw = None
+        sample = None
+        prediction = None
+        diagnostics = None
+        recurrent_state = None
+
     measured_state_resets = 0
     seed = int(config.get("seed", 2026))
     recurrent = model.decoder.recurrent is not None
@@ -7974,17 +13144,79 @@ def benchmark(
     else:
         measured_schedule = [(True, index) for index in measured_indices]
     schedule = [(False, index) for index in warmup_indices] + measured_schedule
+    benchmark_sampling = {
+        "measured": _sampling_summary(dataset, measured_indices),
+        "warmup": _sampling_summary(dataset, warmup_indices),
+        "forward_schedule": [
+            {
+                "scored": measured,
+                **_dataset_sample_identity(dataset, sample_index),
+            }
+            for measured, sample_index in schedule
+        ],
+        "recurrent_context_policy": (
+            "full_group_prefix"
+            if recurrent and benchmark_context_frames is None
+            else "bounded_predecessor"
+            if recurrent
+            else None
+        ),
+        "max_recurrent_context_frames_per_group": (
+            benchmark_context_frames if recurrent else 0
+        ),
+        "recurrent_context_frames": context_frames,
+    }
+    evaluation_dataset = _evaluation_dataset_provenance(
+        config, dataset, benchmark_sampling
+    )
+    if config["dataset"].get("type") == "eventhdr":
+        report_eligible, report_ineligible_reasons = _merge_reporting_reasons(
+            report_eligible,
+            report_ineligible_reasons,
+            _eventhdr_evaluation_lineage_reasons(
+                checkpoint,
+                inference_mode,
+                evaluation_dataset,
+            ),
+            allow_non_reporting=allow_unsealed_checkpoint_for_non_reporting,
+            scope="EventHDR compute benchmark",
+        )
+    benchmark_protocol = _reporting_protocol(
+        kind="compute_benchmark",
+        config=config,
+        dataset=dataset,
+        sampling=benchmark_sampling,
+        checkpoint_contract=checkpoint_contract,
+        report_eligible=report_eligible,
+        report_ineligible_reasons=report_ineligible_reasons,
+        device=device,
+        precision=precision,
+        execution={
+            "inference_mode": inference_mode,
+            "simulation_steps": simulation_steps if inference_mode == "snn" else None,
+            "snn_dynamics": (
+                model.snn_dynamics if inference_mode == "snn" else None
+            ),
+            "warmup_steps": warmup,
+            "measured_steps": steps,
+            "timer_scope": "model_forward_including_graph_excluding_data_and_h2d",
+            "memory_scope": "model_and_events_excluding_ground_truth_target",
+        },
+        evaluation_dataset=evaluation_dataset,
+    )
     for iteration, (measured, sample_index) in enumerate(schedule):
         if iteration == len(warmup_indices):
-            recurrent_state = None
             current_scene = None
             previous_sequence_index = None
             previous_sensor_size = None
-            if device.type == "cuda":
-                torch.cuda.synchronize(device)
-                torch.cuda.reset_peak_memory_stats(device)
+            _reset_benchmark_measurement_window(
+                device,
+                release_warmup_references,
+            )
         raw = dataset[sample_index]  # I/O intentionally outside the timer.
-        sample = move_sample(raw, device)
+        sample = move_inference_sample(raw, device)
+        sample_id = sample.get("sample_id", sample_index)
+        _require_finite_tensor(sample["target"], "target", sample_id)
         scene, sequence_index, sensor_size = _sample_sequence_info(sample)
         continuation = _continues_sequence(
             scene,
@@ -8001,25 +13233,30 @@ def benchmark(
         current_scene = scene
         previous_sequence_index = sequence_index
         previous_sensor_size = sensor_size
-        if measured:
-            if cuda_start is not None:
-                cuda_start.record()
-            else:
-                start = time.perf_counter()
-        _, diagnostics = model.forward_sample(
-            sample,
-            inference_mode=inference_mode,
-            simulation_steps=simulation_steps,
-            recurrent_state=recurrent_state,
-        )
-        elapsed_ms = None
-        if measured:
-            if cuda_end is not None:
-                cuda_end.record()
-                cuda_end.synchronize()
-                elapsed_ms = float(cuda_start.elapsed_time(cuda_end))
-            else:
-                elapsed_ms = (time.perf_counter() - start) * 1000.0
+        with _inference_precision_context(device, precision, autocast_dtype):
+            if measured:
+                if cuda_start is not None:
+                    cuda_start.record()
+                else:
+                    start = time.perf_counter()
+            prediction, diagnostics = model.forward_sample(
+                sample,
+                inference_mode=inference_mode,
+                simulation_steps=simulation_steps,
+                recurrent_state=recurrent_state,
+            )
+            elapsed_ms = None
+            if measured:
+                if cuda_end is not None:
+                    cuda_end.record()
+                    cuda_end.synchronize()
+                    elapsed_ms = float(cuda_start.elapsed_time(cuda_end))
+                else:
+                    elapsed_ms = (time.perf_counter() - start) * 1000.0
+                if not math.isfinite(elapsed_ms) or elapsed_ms <= 0:
+                    raise FloatingPointError(f"Invalid latency: sample={sample_id}")
+        _require_finite_tensor(prediction, "prediction", sample_id)
+        _require_finite_structure(diagnostics, "diagnostics", sample_id)
         recurrent_state = diagnostics["recurrent_state"]
         if recurrent_state is not None:
             recurrent_state = recurrent_state.detach()
@@ -8049,9 +13286,13 @@ def benchmark(
                     )
                     layer_neuron_step_totals[layer_index] += int(denominator)
             metadata = sample.get("metadata", {})
-            dt_us = metadata.get("dt_us") if isinstance(metadata, dict) else None
-            if dt_us:
-                realtime_factors.append(elapsed_ms / (float(dt_us) / 1000.0))
+            dt_us = (
+                _positive_interval_us(metadata.get("dt_us"), sample_id)
+                if isinstance(metadata, dict)
+                else None
+            )
+            if dt_us is not None:
+                realtime_factors.append(elapsed_ms / (dt_us / 1000.0))
     elapsed_seconds = sum(latencies) / 1000.0
     raw_events_per_second = sum(raw_event_counts) / elapsed_seconds
     retained_events_per_second = sum(retained_event_counts) / elapsed_seconds
@@ -8067,6 +13308,9 @@ def benchmark(
         )
     ]
     result: dict[str, Any] = {
+        "report_eligible": report_eligible,
+        "report_ineligible_reasons": report_ineligible_reasons,
+        "benchmark_protocol": benchmark_protocol,
         **_latency_summary(latencies),
         "raw_events_per_second": raw_events_per_second,
         "retained_events_per_second": retained_events_per_second,
@@ -8099,6 +13343,10 @@ def benchmark(
         "simulation_steps": simulation_steps if inference_mode == "snn" else None,
         "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
         "device": str(device),
+        "checkpoint": _artifact_path_label(checkpoint_path),
+        "checkpoint_epoch": checkpoint.get("epoch"),
+        "checkpoint_model_sha256": checkpoint.get("model_state_sha256"),
+        "precision": precision,
         "gpu_name": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
         "peak_gpu_memory_mb": (
             torch.cuda.max_memory_allocated(device) / (1024**2) if device.type == "cuda" else None
@@ -8124,21 +13372,161 @@ def benchmark(
         "state_resets": measured_state_resets,
         "state_reset_ratio": measured_state_resets / len(measured_indices),
     }
-    benchmark_base = Path(config.get("eval", {}).get("output_dir", "runs/evaluation"))
-    benchmark_dir = benchmark_base / _inference_run_label(
-        inference_mode,
-        simulation_steps,
-        model.snn_dynamics,
-    )
-    benchmark_path = benchmark_dir / "benchmark.json"
-    if benchmark_path.exists():
-        raise FileExistsError(
-            f"Benchmark output already exists: {benchmark_path}. Move/remove the prior "
-            "artifact or choose a new eval.output_dir."
-        )
-    result["output_path"] = str(benchmark_path)
+    result["output_path"] = _artifact_path_label(benchmark_path)
+    _require_finite_structure(result, "benchmark", "summary")
     save_json(benchmark_path, result)
     return result
+
+
+def _sealed_calibration_protocol(
+    config: dict[str, Any],
+    dataset,
+    calibration_indices: list[int],
+    checkpoint_path: Path,
+    checkpoint: dict[str, Any],
+    device: torch.device,
+    *,
+    allow_unsealed: bool,
+) -> dict[str, Any]:
+    validation_protocol = checkpoint.get("validation_protocol")
+    training_protocol = checkpoint.get("training_protocol")
+    current_transform = _dataset_transform_contract(config)
+    current_manifest = _split_manifest_contract(config)
+    current_content = _dataset_content_fingerprint(dataset)
+    current_source = _current_source_contract()
+    mismatches: list[str] = []
+
+    if calibration_indices != list(range(len(dataset))):
+        mismatches.append(
+            "reporting calibration requires every EventHDR training sample exactly once"
+        )
+
+    for reason in _ann_reporting_reasons(checkpoint):
+        mismatches.append(f"source ANN reporting protocol: {reason}")
+
+    if checkpoint.get("checkpoint_type") != "ann_inference":
+        mismatches.append("source checkpoint is not clean ann_inference")
+    if not isinstance(validation_protocol, dict):
+        mismatches.append("source checkpoint has no validation_protocol")
+        expected_content = None
+        expected_transform = None
+        expected_manifest = None
+    else:
+        if validation_protocol.get("version") != 7:
+            mismatches.append("source checkpoint has an unsupported validation protocol")
+        dataset_content = validation_protocol.get("dataset_content")
+        expected_content = (
+            dataset_content.get("train") if isinstance(dataset_content, dict) else None
+        )
+        expected_transform = validation_protocol.get("dataset_transform")
+        expected_manifest = validation_protocol.get("split_manifest")
+        if expected_content != current_content:
+            mismatches.append("calibration data differs from the training dataset content")
+        if expected_transform != current_transform:
+            mismatches.append("calibration dataset transform differs from training")
+        if expected_manifest != current_manifest:
+            mismatches.append("calibration split manifest differs from training")
+
+    expected_source = (
+        training_protocol.get("source") if isinstance(training_protocol, dict) else None
+    )
+    if not isinstance(training_protocol, dict):
+        mismatches.append("source checkpoint has no training protocol")
+    elif training_protocol.get("version") != 4:
+        mismatches.append("source checkpoint has an unsupported training protocol")
+    if not isinstance(expected_source, dict):
+        mismatches.append("source checkpoint has no training source contract")
+    elif expected_source != current_source:
+        mismatches.append("current executable source differs from training")
+    terminal_validation = (
+        training_protocol.get("terminal_validation")
+        if isinstance(training_protocol, dict)
+        else None
+    )
+    if terminal_validation is not None:
+        terminal_state = checkpoint.get("terminal_validation_state")
+        planned_epoch = (
+            terminal_validation.get("planned_epoch")
+            if isinstance(terminal_validation, dict)
+            else None
+        )
+        if (
+            not isinstance(terminal_state, dict)
+            or not bool(terminal_state.get("completed"))
+            or terminal_state.get("completed_epoch") != planned_epoch
+            or checkpoint.get("epoch") != planned_epoch
+        ):
+            mismatches.append("source ANN did not complete its sealed final-only validation")
+
+    if allow_unsealed:
+        mismatches.insert(0, "explicit unsealed calibration override requested")
+
+    if mismatches and not allow_unsealed:
+        raise ValueError(
+            "Calibration contract is not sealed: "
+            + "; ".join(mismatches)
+            + ". Use --allow-unsealed-calibration only for non-reporting tests."
+        )
+
+    if device.type == "cuda":
+        device_index = device.index if device.index is not None else torch.cuda.current_device()
+        gpu_name = torch.cuda.get_device_name(device_index)
+        compute_capability = list(torch.cuda.get_device_capability(device_index))
+    else:
+        gpu_name = None
+        compute_capability = None
+    source_ann_reporting = _source_ann_reporting_contract(checkpoint)
+    return {
+        "version": 2,
+        "sealed": not mismatches,
+        "unsealed_reasons": mismatches,
+        "source_checkpoint_type": checkpoint.get("checkpoint_type"),
+        "source_checkpoint": _artifact_path_label(checkpoint_path),
+        "source_ann_model_sha256": checkpoint.get("model_state_sha256"),
+        "source_ann_checkpoint_sha256": _file_sha256(checkpoint_path),
+        "source_ann_reporting_contract": _hashed_contract(source_ann_reporting),
+        "source_ann_reporting_contract_sha256": _canonical_sha256(
+            source_ann_reporting
+        ),
+        "source_ann_training_protocol": _hashed_contract(
+            _public_config(training_protocol)
+        ),
+        "source_ann_training_protocol_sha256": _canonical_sha256(
+            _public_config(training_protocol)
+        ),
+        "source_ann_validation_protocol": _hashed_contract(
+            _public_config(validation_protocol)
+        ),
+        "source_ann_validation_protocol_sha256": _canonical_sha256(
+            _public_config(validation_protocol)
+        ),
+        "source_ann_training_config": _hashed_contract(
+            _public_config(checkpoint.get("training_config"))
+        ),
+        "source_ann_training_config_sha256": _canonical_sha256(
+            _public_config(checkpoint.get("training_config"))
+        ),
+        "source_preflight_gate": _hashed_contract(
+            _public_config(checkpoint.get("preflight_gate"))
+        ),
+        "source_epoch": checkpoint.get("epoch"),
+        "dataset_content": current_content,
+        "dataset_content_sha256": current_content["sha256"],
+        "dataset_transform": current_transform,
+        "split_manifest": current_manifest,
+        "selected_sample_ids": [
+            _dataset_sample_identity(dataset, index) for index in calibration_indices
+        ],
+        "training_source": expected_source,
+        "calibration_source": current_source,
+        "runtime": {
+            "device": str(device),
+            "torch": str(torch.__version__),
+            "cuda_runtime": torch.version.cuda if device.type == "cuda" else None,
+            "gpu_name": gpu_name,
+            "compute_capability": compute_capability,
+        },
+    }
 
 
 @torch.no_grad()
@@ -8148,6 +13536,7 @@ def calibrate(
     output_path: str | Path,
     samples: int | None = None,
     overwrite: bool = False,
+    allow_unsealed_calibration: bool = False,
 ) -> Path:
     if samples is not None and int(samples) < 1:
         raise ValueError("calibration samples must be at least 1")
@@ -8160,6 +13549,7 @@ def calibrate(
             f"Calibrated checkpoint already exists: {output_path}. Move it or choose a new "
             "output path, or explicitly request overwrite."
         )
+    validate_experiment_config(config)
     _enforce_training_split_status(config)
     device = resolve_device(config.get("device", "auto"))
     data_config = copy.deepcopy(config["dataset"])
@@ -8167,19 +13557,56 @@ def calibrate(
     if data_config["type"] != "eventhdr":
         raise ValueError("SNN calibration must use EventHDR training data")
     dataset = build_dataset(data_config, split="calibration")
-    model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
-    model.eval()
-    model.fold_batch_norm()
-    model.reset_activation_maxima()
-    calibration_limit = len(dataset) if samples is None else min(int(samples), len(dataset))
-    calibration_indices = _balanced_sample_indices(
-        dataset, calibration_limit, seed=int(config.get("seed", 2026))
-    )
+    calibration_loader = None
     try:
+        model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
+        model.eval()
+        model.fold_batch_norm()
+        model.reset_activation_maxima()
+        calibration_limit = len(dataset) if samples is None else min(int(samples), len(dataset))
+        calibration_indices = _balanced_sample_indices(
+            dataset, calibration_limit, seed=int(config.get("seed", 2026))
+        )
+        calibration_protocol = _sealed_calibration_protocol(
+            config,
+            dataset,
+            calibration_indices,
+            checkpoint_path,
+            checkpoint,
+            device,
+            allow_unsealed=allow_unsealed_calibration,
+        )
+        loader_config = config.get("train") or config.get("eval") or {}
+        calibration_loader = _data_loader(
+            Subset(dataset, calibration_indices),
+            batch_size=1,
+            num_workers=int(loader_config.get("num_workers", 0)),
+            device=device,
+            shuffle=False,
+            **_loader_kwargs(loader_config),
+        )
         calibration_sampling = _sampling_summary(dataset, calibration_indices)
-        for index in tqdm(calibration_indices, desc="calibrate-SNN"):
-            sample = move_sample(dataset[index], device)
+        for batch in tqdm(
+            calibration_loader,
+            total=len(calibration_indices),
+            desc="calibrate-SNN",
+        ):
+            if len(batch) != 1:
+                raise ValueError("SNN calibration requires batch_size=1")
+            sample = move_sample(batch[0], device)
             model.calibrate_sample(sample, momentum=-1.0)
+        summary_core = _calibration_summary_commitment_core(
+            model.calibration_summary()
+        )
+        model.seal_calibration_commitment(
+            len(calibration_indices),
+            _calibration_commitment_sha256(
+                calibration_protocol,
+                len(calibration_indices),
+                calibration_sampling,
+                summary_core,
+            ),
+        )
         calibration_summary = model.calibration_summary()
         model.apply_parameter_normalization()
         model_state = model.state_dict()
@@ -8189,7 +13616,7 @@ def calibrate(
             "model_state_sha256": _model_state_sha256(model_state),
             "model_config": checkpoint.get("model_config", config["model"]),
             "epoch": checkpoint.get("epoch"),
-            "source_checkpoint": str(checkpoint_path),
+            "source_checkpoint": _artifact_path_label(checkpoint_path),
             "batch_norm_folded": True,
             "snn_calibrated": True,
             "paper_core_version": PAPER_CORE_VERSION,
@@ -8198,20 +13625,26 @@ def calibrate(
             "snn_calibration_valid_samples": calibration_summary["minimum_valid_samples"],
             "snn_calibration_summary": calibration_summary,
             "snn_calibration_sampling": calibration_sampling,
+            "calibration_protocol": calibration_protocol,
+            "preflight_gate": _public_config(checkpoint.get("preflight_gate")),
+            "report_eligible": bool(calibration_protocol["sealed"]),
+            "report_ineligible_reasons": list(calibration_protocol["unsealed_reasons"]),
         }
     finally:
+        calibration_loader = None
         if hasattr(dataset, "close"):
             dataset.close()
     atomic_torch_save(inference_checkpoint, output_path)
     return output_path
 ~~~~~~~~
 
-# src/asgcn_recon/graph.py
+# src/asgcn_unet/graph.py
 
 ~~~~~~~~python
 from __future__ import annotations
 
 import math
+from collections.abc import Iterator
 from dataclasses import dataclass
 
 import torch
@@ -8227,6 +13660,34 @@ class EventGraph:
     positions: torch.Tensor
     edge_index: torch.Tensor
     edge_attr: torch.Tensor
+    in_degree: torch.Tensor | None = None
+
+    def __post_init__(self) -> None:
+        """Cache topology-only normalization shared by every layer and timestep.
+
+        ``in_degree`` is optional so callers that construct the original four-field
+        graph remain source-compatible.  Materialized event graphs calculate it once
+        here instead of rebuilding the same destination histogram in every spline
+        layer (and every SNN timestep).
+        """
+        node_count = int(self.node_features.shape[0])
+        if self.edge_index.ndim != 2 or self.edge_index.shape[0] != 2:
+            raise ValueError("edge_index must have shape [2,E]")
+        if self.edge_index.dtype != torch.long:
+            raise TypeError("edge_index must use torch.long indices")
+        if self.in_degree is None:
+            destination = self.edge_index[1]
+            degree = torch.bincount(destination, minlength=node_count)
+            if degree.shape != (node_count,):
+                raise ValueError("edge_index contains a destination outside the graph")
+            self.in_degree = degree
+        assert self.in_degree is not None
+        if self.in_degree.shape != (node_count,):
+            raise ValueError("in_degree must contain one value per graph node")
+        if self.in_degree.device != self.node_features.device:
+            raise ValueError("in_degree and node_features must share a device")
+        if self.in_degree.dtype != torch.long:
+            raise TypeError("in_degree must use torch.long counts")
 
 
 def _safe_batch_norm(norm: nn.BatchNorm1d, values: torch.Tensor) -> torch.Tensor:
@@ -8290,22 +13751,14 @@ def prepare_event_nodes(
     return node_features, positions
 
 
-def build_radius_graph(
+def _radius_graph_candidate_chunks(
     positions: torch.Tensor,
     radius: float,
     *,
     position_dims: int = 3,
     chunk_size: int = 512,
-    max_edges: int | None = None,
-) -> tuple[torch.Tensor, torch.Tensor]:
-    """Build the paper's exact radius graph with a uniform-cell candidate search.
-
-    Every ordered edge direction is materialized so source-to-target aggregation is
-    equivalent to an undirected graph.  Cells have width ``radius``; therefore only
-    the 3^d adjacent cells can contain a valid neighbor.  Exact Euclidean filtering
-    after candidate generation preserves the brute-force graph while avoiding the
-    O(N^2) distance matrix on sparse event volumes.
-    """
+) -> Iterator[tuple[torch.Tensor, torch.Tensor, torch.Tensor]]:
+    """Yield bounded adjacent-cell candidate chunks for an exact radius search."""
     radius = float(radius)
     if not math.isfinite(radius) or radius <= 0:
         raise ValueError("graph_radius must be positive")
@@ -8315,20 +13768,11 @@ def build_radius_graph(
     chunk_size = int(chunk_size)
     if chunk_size < 1:
         raise ValueError("graph_chunk_size must be at least 1")
-    if max_edges is not None:
-        if isinstance(max_edges, bool) or int(max_edges) != max_edges:
-            raise ValueError("max_graph_edges must be an integer or null")
-        max_edges = int(max_edges)
-        if max_edges < 1:
-            raise ValueError("max_graph_edges must be at least 1 or null")
 
     count = int(positions.shape[0])
     device = positions.device
     if count == 0:
-        return (
-            torch.empty((2, 0), device=device, dtype=torch.long),
-            torch.empty((0, 1), device=device, dtype=positions.dtype),
-        )
+        return
 
     coordinates = positions[:, :position_dims]
     if not bool(torch.isfinite(coordinates).all()):
@@ -8353,10 +13797,6 @@ def build_radius_graph(
         -1, position_dims
     )
 
-    sources: list[torch.Tensor] = []
-    destination_chunks: list[torch.Tensor] = []
-    distances_kept: list[torch.Tensor] = []
-    retained_edge_count = 0
     # Bound worst-case candidate materialization even if every event occupies one cell.
     effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
     for start in range(0, count, effective_chunk_size):
@@ -8389,6 +13829,47 @@ def build_radius_graph(
         candidate_distances = torch.linalg.vector_norm(
             coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
         )
+        yield expanded_sources, candidate_destinations, candidate_distances
+
+
+def build_radius_graph(
+    positions: torch.Tensor,
+    radius: float,
+    *,
+    position_dims: int = 3,
+    chunk_size: int = 512,
+    max_edges: int | None = None,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Build the paper's exact radius graph with a uniform-cell candidate search.
+
+    Every ordered edge direction is materialized so source-to-target aggregation is
+    equivalent to an undirected graph.  Cells have width ``radius``; therefore only
+    the 3^d adjacent cells can contain a valid neighbor.  Exact Euclidean filtering
+    after candidate generation preserves the brute-force graph while avoiding the
+    O(N^2) distance matrix on sparse event volumes.
+    """
+    radius = float(radius)
+    if max_edges is not None:
+        if isinstance(max_edges, bool) or int(max_edges) != max_edges:
+            raise ValueError("max_graph_edges must be an integer or null")
+        max_edges = int(max_edges)
+        if max_edges < 1:
+            raise ValueError("max_graph_edges must be at least 1 or null")
+
+    count = int(positions.shape[0])
+    device = positions.device
+    sources: list[torch.Tensor] = []
+    destination_chunks: list[torch.Tensor] = []
+    distances_kept: list[torch.Tensor] = []
+    retained_edge_count = 0
+    for expanded_sources, candidate_destinations, candidate_distances in (
+        _radius_graph_candidate_chunks(
+            positions,
+            radius,
+            position_dims=position_dims,
+            chunk_size=chunk_size,
+        )
+    ):
         within_radius = (expanded_sources != candidate_destinations) & (
             candidate_distances < radius
         )
@@ -8425,6 +13906,53 @@ def build_radius_graph(
     edge_index = torch.stack((source, destination), dim=0)
     edge_attr = (distance / radius).clamp(0.0, 1.0).unsqueeze(-1)
     return edge_index, edge_attr
+
+
+def radius_graph_topology(
+    positions: torch.Tensor,
+    radius: float,
+    *,
+    position_dims: int = 3,
+    chunk_size: int = 512,
+) -> dict[str, int | float]:
+    """Count the exact directed topology without materializing the complete edge list.
+
+    ``candidate_directed_edges`` excludes self-pairs and counts adjacent-cell pairs
+    before the exact radius predicate. No edge cap is accepted here: a pre-training
+    scan must measure an over-limit graph rather than truncate or abort halfway.
+    """
+    count = int(positions.shape[0])
+    in_degree = torch.zeros(count, device=positions.device, dtype=torch.long)
+    candidate_count = 0
+    edge_count = 0
+    radius = float(radius)
+    for expanded_sources, candidate_destinations, candidate_distances in (
+        _radius_graph_candidate_chunks(
+            positions,
+            radius,
+            position_dims=position_dims,
+            chunk_size=chunk_size,
+        )
+    ):
+        nonself = expanded_sources != candidate_destinations
+        candidate_count += int(nonself.sum().item())
+        within_radius = nonself & (candidate_distances < radius)
+        chunk_edge_count = int(within_radius.sum().item())
+        edge_count += chunk_edge_count
+        if chunk_edge_count:
+            in_degree.add_(
+                torch.bincount(candidate_destinations[within_radius], minlength=count)
+            )
+
+    isolated_nodes = int((in_degree == 0).sum().item()) if count else 0
+    return {
+        "nodes": count,
+        "candidate_directed_edges": candidate_count,
+        "actual_directed_edges": edge_count,
+        "max_degree": int(in_degree.max().item()) if count else 0,
+        "isolated_nodes": isolated_nodes,
+        "isolate_ratio": isolated_nodes / count if count else 0.0,
+    }
 
 
 def build_event_graph(
@@ -8496,6 +14024,7 @@ class PaperSplineConv(nn.Module):
         degree: int = 1,
         root_weight: bool = True,
         bias: bool = True,
+        edge_chunk_size: int | None = 65_536,
     ) -> None:
         super().__init__()
         if int(degree) != 1:
@@ -8506,6 +14035,15 @@ class PaperSplineConv(nn.Module):
         self.degree = int(degree)
         if self.kernel_size < 2:
             raise ValueError("spline_kernel_size must be at least 2")
+        if edge_chunk_size is not None:
+            if (
+                isinstance(edge_chunk_size, bool)
+                or int(edge_chunk_size) != edge_chunk_size
+                or int(edge_chunk_size) < 1
+            ):
+                raise ValueError("spline_chunk_size must be a positive integer or null")
+            edge_chunk_size = int(edge_chunk_size)
+        self.edge_chunk_size = edge_chunk_size
         self.weight = nn.Parameter(
             torch.empty(self.kernel_size, self.in_channels, self.out_channels)
         )
@@ -8516,11 +14054,30 @@ class PaperSplineConv(nn.Module):
         self.norm = nn.BatchNorm1d(self.out_channels)
         self.register_buffer("bn_bypassed", torch.tensor(False), persistent=True)
         self.register_buffer("snn_normalized", torch.tensor(False), persistent=True)
-        self.register_buffer("activation_max", torch.ones(self.out_channels), persistent=True)
+        self.register_buffer(
+            "calibration_activation_max",
+            torch.ones(self.out_channels),
+            persistent=True,
+        )
+        self.register_buffer(
+            "normalization_scale",
+            torch.ones(self.out_channels),
+            persistent=True,
+        )
+        self.register_buffer(
+            "dead_channel_mask",
+            torch.zeros(self.out_channels, dtype=torch.bool),
+            persistent=True,
+        )
         self.register_buffer("threshold", torch.ones(self.out_channels), persistent=True)
         self._bn_is_folded = False
         self._snn_is_normalized = False
         self.reset_parameters()
+
+    @property
+    def activation_max(self) -> torch.Tensor:
+        """Compatibility alias for the raw, observed calibration maximum."""
+        return self.calibration_activation_max
 
     def reset_parameters(self) -> None:
         weight_bound = 1.0 / math.sqrt(self.kernel_size * self.in_channels)
@@ -8533,7 +14090,9 @@ class PaperSplineConv(nn.Module):
         self.norm.reset_parameters()
         self.bn_bypassed.fill_(False)
         self.snn_normalized.fill_(False)
-        self.activation_max.fill_(1.0)
+        self.calibration_activation_max.fill_(1.0)
+        self.normalization_scale.fill_(1.0)
+        self.dead_channel_mask.fill_(False)
         self.threshold.fill_(1.0)
         self._bn_is_folded = False
         self._snn_is_normalized = False
@@ -8548,6 +14107,35 @@ class PaperSplineConv(nn.Module):
         unexpected_keys,
         error_msgs,
     ) -> None:
+        # Architecture-v2 checkpoints written before the calibration-state split
+        # stored either the raw ANN maximum (unconverted checkpoints) or the
+        # effective Eq. (6) scale (converted checkpoints) under ``activation_max``.
+        # The no-dead-channel case is exactly recoverable. A legacy converted
+        # checkpoint that reported dead channels remains rejected later because
+        # their channel identities were not present in its tensor state.
+        legacy_key = prefix + "activation_max"
+        split_keys = (
+            prefix + "calibration_activation_max",
+            prefix + "normalization_scale",
+            prefix + "dead_channel_mask",
+        )
+        if legacy_key in state_dict and all(key not in state_dict for key in split_keys):
+            legacy_max = state_dict.get(legacy_key)
+            normalized_flag = state_dict.get(prefix + "snn_normalized")
+            if isinstance(legacy_max, torch.Tensor):
+                state_dict.pop(legacy_key)
+                state_dict[split_keys[0]] = legacy_max
+                is_normalized = (
+                    isinstance(normalized_flag, torch.Tensor)
+                    and normalized_flag.numel() == 1
+                    and bool(normalized_flag.item())
+                )
+                state_dict[split_keys[1]] = (
+                    legacy_max.clone()
+                    if is_normalized
+                    else torch.ones_like(legacy_max)
+                )
+                state_dict[split_keys[2]] = legacy_max <= 0
         super()._load_from_state_dict(
             state_dict,
             prefix,
@@ -8566,6 +14154,7 @@ class PaperSplineConv(nn.Module):
         edge_index: torch.Tensor,
         edge_attr: torch.Tensor,
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+        in_degree: torch.Tensor | None = None,
     ) -> torch.Tensor:
         source, destination = edge_index
         output = torch.zeros((x.shape[0], self.out_channels), device=x.device, dtype=x.dtype)
@@ -8578,19 +14167,30 @@ class PaperSplineConv(nn.Module):
             # Project nodes once for every control point, then gather only the two
             # degree-1 basis terms that are active on each edge.
             projected = torch.einsum("ni,kio->nko", x, self.weight)
+            edge_count = int(source.numel())
+            chunk_size = edge_count if self.edge_chunk_size is None else self.edge_chunk_size
             for active_basis in range(2):
-                messages = projected[source, indices[:, active_basis]]
-                messages = messages * basis[:, active_basis, None].to(messages.dtype)
-                # CPU autocast can produce bfloat16 projections while ``x``
-                # (and therefore ``output``) remains float32. ``index_add_``
-                # requires matching dtypes, so accumulate in the output dtype.
-                output.index_add_(0, destination, messages.to(output.dtype))
-            degree = torch.zeros((x.shape[0], 1), device=x.device, dtype=x.dtype)
-            degree.index_add_(
-                0,
-                destination,
-                torch.ones((destination.numel(), 1), device=x.device, dtype=x.dtype),
-            )
+                for start in range(0, edge_count, chunk_size):
+                    stop = min(start + chunk_size, edge_count)
+                    messages = projected[
+                        source[start:stop], indices[start:stop, active_basis]
+                    ]
+                    messages = messages * basis[start:stop, active_basis, None].to(
+                        messages.dtype
+                    )
+                    # CPU autocast can produce bfloat16 projections while ``x``
+                    # (and therefore ``output``) remains float32. ``index_add_``
+                    # requires matching dtypes, so accumulate in the output dtype.
+                    output.index_add_(
+                        0,
+                        destination[start:stop],
+                        messages.to(output.dtype),
+                    )
+            if in_degree is None:
+                in_degree = torch.bincount(destination, minlength=x.shape[0])
+            if in_degree.shape != (x.shape[0],):
+                raise ValueError("in_degree must contain one value per graph node")
+            degree = in_degree.to(device=x.device, dtype=x.dtype).unsqueeze(-1)
             output = output / degree.clamp_min(1.0)
         return output
 
@@ -8600,8 +14200,9 @@ class PaperSplineConv(nn.Module):
         edge_index: torch.Tensor,
         edge_attr: torch.Tensor,
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+        in_degree: torch.Tensor | None = None,
     ) -> torch.Tensor:
-        output = self.spline_aggregate(x, edge_index, edge_attr, basis_cache)
+        output = self.spline_aggregate(x, edge_index, edge_attr, basis_cache, in_degree)
         if self.root is not None:
             output = output + x @ self.root
         if self.bias is not None:
@@ -8614,8 +14215,9 @@ class PaperSplineConv(nn.Module):
         edge_index: torch.Tensor,
         edge_attr: torch.Tensor,
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+        in_degree: torch.Tensor | None = None,
     ) -> torch.Tensor:
-        output = self.affine(x, edge_index, edge_attr, basis_cache)
+        output = self.affine(x, edge_index, edge_attr, basis_cache, in_degree)
         return output if self._bn_is_folded else _safe_batch_norm(self.norm, output)
 
     def forward(
@@ -8624,8 +14226,11 @@ class PaperSplineConv(nn.Module):
         edge_index: torch.Tensor,
         edge_attr: torch.Tensor,
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+        in_degree: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, torch.Tensor]:
-        preactivation = self.preactivation(x, edge_index, edge_attr, basis_cache)
+        preactivation = self.preactivation(
+            x, edge_index, edge_attr, basis_cache, in_degree
+        )
         return torch.relu(preactivation), preactivation
 
     @torch.no_grad()
@@ -8662,6 +14267,23 @@ class PaperSplineConv(nn.Module):
             raise ValueError("Output activation scale does not match spline output channels")
         input_scale = input_scale.clamp_min(1e-6)
         output_scale = output_scale.clamp_min(1e-6)
+        raw_max = self.calibration_activation_max.to(
+            device=self.weight.device,
+            dtype=self.weight.dtype,
+        )
+        if not bool(torch.isfinite(raw_max).all()) or bool((raw_max < 0).any()):
+            raise ValueError("Calibration activation maximum must be finite and non-negative")
+        dead_mask = raw_max <= 0
+        expected_output_scale = torch.where(
+            dead_mask,
+            torch.ones_like(raw_max),
+            raw_max,
+        ).clamp_min(1e-6)
+        if not torch.equal(output_scale, expected_output_scale):
+            raise ValueError(
+                "Output activation scale must be the effective scale derived from "
+                "the raw calibration maximum"
+            )
         self.weight.mul_(input_scale.view(1, -1, 1))
         self.weight.div_(output_scale.view(1, 1, -1))
         if self.root is not None:
@@ -8669,14 +14291,15 @@ class PaperSplineConv(nn.Module):
             self.root.div_(output_scale.view(1, -1))
         if self.bias is not None:
             self.bias.div_(output_scale)
-        self.activation_max.copy_(output_scale)
+        self.normalization_scale.copy_(output_scale)
+        self.dead_channel_mask.copy_(dead_mask)
         self.threshold.fill_(1.0)
         self.snn_normalized.fill_(True)
         self._snn_is_normalized = True
 
 
 class ASGCNEncoder(nn.Module):
-    """Equation-faithful ASGCN graph core adapted to a reconstruction decoder."""
+    """Public-equation-derived static ASGCN graph core for reconstruction."""
 
     def __init__(
         self,
@@ -8686,6 +14309,7 @@ class ASGCNEncoder(nn.Module):
         spline_kernel_size: int = 5,
         spline_degree: int = 1,
         spline_root_weight: bool = True,
+        spline_chunk_size: int | None = 65_536,
     ) -> None:
         super().__init__()
         hidden_dim = int(hidden_dim)
@@ -8703,6 +14327,7 @@ class ASGCNEncoder(nn.Module):
                     degree=spline_degree,
                     root_weight=spline_root_weight,
                     bias=True,
+                    edge_chunk_size=spline_chunk_size,
                 )
                 for index in range(graph_layers)
             ]
@@ -8729,14 +14354,17 @@ class ASGCNEncoder(nn.Module):
         activations: list[torch.Tensor] = []
         basis_cache = self._basis_cache(graph)
         for layer in self.layers:
-            hidden, preactivation = layer(
+            hidden, _preactivation = layer(
                 hidden,
                 graph.edge_index,
                 graph.edge_attr,
                 basis_cache,
+                graph.in_degree,
             )
             if return_activations:
-                activations.append(torch.relu(preactivation))
+                # ``hidden`` is already ReLU(preactivation); retain that tensor
+                # instead of launching and storing an identical second ReLU.
+                activations.append(hidden)
         return hidden, activations
 
     def forward_snn(
@@ -8765,10 +14393,17 @@ class ASGCNEncoder(nn.Module):
             layer.threshold.to(graph.node_features).expand(node_count, -1).clone() * 0.5
             for layer in self.layers
         ]
-        previous_spikes = [
-            graph.node_features.new_zeros((node_count, layer.out_channels)) for layer in self.layers
-        ]
-        spike_sums = [torch.zeros_like(spikes) for spikes in previous_spikes]
+        previous_spikes = (
+            [
+                graph.node_features.new_zeros((node_count, layer.out_channels))
+                for layer in self.layers
+            ]
+            if dynamics == "literal_eq15"
+            else None
+        )
+        output_spike_sum = graph.node_features.new_zeros(
+            (node_count, self.layers[-1].out_channels)
+        )
         active_counts = [graph.node_features.new_zeros(()) for _ in self.layers]
         basis_cache = self._basis_cache(graph)
 
@@ -8780,9 +14415,10 @@ class ASGCNEncoder(nn.Module):
                     graph.edge_index,
                     graph.edge_attr,
                     basis_cache,
+                    graph.in_degree,
                 )
                 integrated = membranes[index] + current
-                if dynamics == "literal_eq15":
+                if previous_spikes is not None:
                     # This is the paper's written +h_i^l(t-1) recurrence. It is
                     # intentionally separate from the standard rate-conversion IF
                     # control because the paper does not resolve their mismatch.
@@ -8792,16 +14428,19 @@ class ASGCNEncoder(nn.Module):
                     integrated >= threshold, threshold, torch.zeros_like(integrated)
                 )
                 membranes[index] = integrated - spikes
-                previous_spikes[index] = spikes
-                spike_sums[index] = spike_sums[index] + spikes
+                if previous_spikes is not None:
+                    previous_spikes[index] = spikes
+                if index == len(self.layers) - 1:
+                    output_spike_sum = output_spike_sum + spikes
                 active_counts[index] = active_counts[index] + (spikes != 0).sum()
                 hidden = spikes
 
         firing_rates = [
-            active.to(graph.node_features.dtype) / float(simulation_steps * max(1, spikes.numel()))
-            for active, spikes in zip(active_counts, spike_sums, strict=True)
+            active.to(graph.node_features.dtype)
+            / float(simulation_steps * max(1, node_count * layer.out_channels))
+            for active, layer in zip(active_counts, self.layers, strict=True)
         ]
-        return spike_sums[-1] / float(simulation_steps), firing_rates
+        return output_spike_sum / float(simulation_steps), firing_rates
 
     @torch.no_grad()
     def update_activation_maxima(self, activations: list[torch.Tensor]) -> None:
@@ -8815,13 +14454,18 @@ class ASGCNEncoder(nn.Module):
             if not bool(torch.isfinite(activation).all()):
                 raise FloatingPointError("Non-finite activation encountered during calibration")
             maxima = activation.amax(dim=0)
-            layer.activation_max.copy_(torch.maximum(layer.activation_max, maxima))
+            layer.calibration_activation_max.copy_(
+                torch.maximum(layer.calibration_activation_max, maxima)
+            )
+            layer.dead_channel_mask.copy_(layer.calibration_activation_max <= 0)
             self.calibration_samples_seen[index].add_(1)
 
     @torch.no_grad()
     def reset_activation_maxima(self) -> None:
         for layer in self.layers:
-            layer.activation_max.zero_()
+            layer.calibration_activation_max.zero_()
+            layer.normalization_scale.fill_(1.0)
+            layer.dead_channel_mask.fill_(True)
         self.calibration_samples_seen.zero_()
 
     @torch.no_grad()
@@ -8840,15 +14484,22 @@ class ASGCNEncoder(nn.Module):
             )
         previous_scale = self.layers[0].weight.new_ones(self.layers[0].in_channels)
         for layer in self.layers:
-            measured = layer.activation_max.detach().clone()
+            measured = layer.calibration_activation_max.detach().clone()
             # A ReLU channel that stayed identically zero has no usable lambda.
             # Keep it at unit scale instead of dividing its parameters by epsilon.
-            output_scale = torch.where(measured > 0, measured, torch.ones_like(measured))
+            output_scale = torch.where(
+                measured > 0,
+                measured,
+                torch.ones_like(measured),
+            ).clamp_min(1e-6)
             layer.apply_parameter_normalization(previous_scale, output_scale)
-            previous_scale = output_scale
+            previous_scale = layer.normalization_scale.detach().clone()
 
     def calibration_summary(self) -> dict[str, list[int] | int]:
-        dead_channels = [int((layer.activation_max <= 0).sum().item()) for layer in self.layers]
+        dead_channels = [
+            int((layer.calibration_activation_max <= 0).sum().item())
+            for layer in self.layers
+        ]
         valid_samples = [int(value) for value in self.calibration_samples_seen.tolist()]
         return {
             "valid_samples_per_layer": valid_samples,
@@ -8860,14 +14511,15 @@ class ASGCNEncoder(nn.Module):
         """Return lambda_L used to express spikes in the analog decoder's units."""
         if not self.layers[-1]._snn_is_normalized:
             raise RuntimeError("Output activation scale is available after Eq. (6) conversion")
-        return self.layers[-1].activation_max.to(reference)
+        return self.layers[-1].normalization_scale.to(reference)
 ~~~~~~~~
 
-# src/asgcn_recon/losses.py
+# src/asgcn_unet/losses.py
 
 ~~~~~~~~python
 from __future__ import annotations
 
+import math
 from typing import Any
 
 import torch
@@ -8875,6 +14527,30 @@ from torch import nn
 from torch.nn import functional as F
 
 from .metrics import structural_similarity
+
+RECONSTRUCTION_LOSS_NAMES = frozenset({"charbonnier", "ssim", "gradient"})
+SUPPORTED_LOSS_WEIGHT_NAMES = RECONSTRUCTION_LOSS_NAMES | {"temporal"}
+
+
+def validate_loss_weights(weights: dict[str, Any] | None) -> dict[str, float]:
+    if weights is None:
+        return {}
+    if not isinstance(weights, dict):
+        raise TypeError("train.loss_weights must be an object")
+    if any(not isinstance(name, str) for name in weights):
+        raise TypeError("train.loss_weights keys must be strings")
+    unknown = sorted(set(weights) - SUPPORTED_LOSS_WEIGHT_NAMES)
+    if unknown:
+        raise ValueError("Unknown train.loss_weights keys: " + ", ".join(unknown))
+    normalized: dict[str, float] = {}
+    for name, raw_weight in weights.items():
+        if isinstance(raw_weight, bool) or not isinstance(raw_weight, (int, float)):
+            raise TypeError(f"train.loss_weights.{name} must be a finite nonnegative number")
+        weight = float(raw_weight)
+        if not math.isfinite(weight) or weight < 0.0:
+            raise ValueError(f"train.loss_weights.{name} must be a finite nonnegative number")
+        normalized[name] = weight
+    return normalized
 
 
 def charbonnier_loss(prediction: torch.Tensor, target: torch.Tensor, epsilon: float = 1e-3):
@@ -8890,38 +14566,59 @@ def gradient_loss(prediction: torch.Tensor, target: torch.Tensor) -> torch.Tenso
 
 
 class ReconstructionLoss(nn.Module):
-    def __init__(self, weights: dict[str, float] | None = None) -> None:
+    def __init__(self, weights: dict[str, Any] | None = None) -> None:
         super().__init__()
         defaults = {"charbonnier": 1.0, "ssim": 0.2, "gradient": 0.1}
-        self.weights = defaults | (weights or {})
+        configured = validate_loss_weights(weights)
+        self.weights = defaults | {
+            name: weight for name, weight in configured.items() if name in RECONSTRUCTION_LOSS_NAMES
+        }
 
     def forward(
         self, prediction: torch.Tensor, target: torch.Tensor
-    ) -> tuple[torch.Tensor, dict[str, float]]:
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
         terms: dict[str, torch.Tensor] = {
             "charbonnier": charbonnier_loss(prediction, target),
             "ssim": 1.0 - structural_similarity(prediction, target),
             "gradient": gradient_loss(prediction, target),
         }
         total = sum(self.weights[name] * value for name, value in terms.items())
-        values: dict[str, Any] = {
-            name: float(value.detach().cpu()) for name, value in terms.items()
-        }
-        values["total"] = float(total.detach().cpu())
-        return total, values
+        return total, {name: value.detach() for name, value in terms.items()}
 ~~~~~~~~
 
-# src/asgcn_recon/metrics.py
+# src/asgcn_unet/metrics.py
 
 ~~~~~~~~python
 from __future__ import annotations
 
 import math
 from collections import defaultdict
+from functools import lru_cache
 from typing import Any
 
 import torch
 from torch.nn import functional as F
+
+PSNR_MSE_FLOOR = 1e-12
+
+
+@lru_cache(maxsize=32)
+def _gaussian_window(
+    device_name: str,
+    dtype: torch.dtype,
+    size: int,
+    channels: int,
+) -> torch.Tensor:
+    """Build an immutable SSIM window, bounded by a small device-aware cache."""
+
+    device = torch.device(device_name)
+    kernel_dtype = torch.float64 if dtype == torch.float64 else torch.float32
+    coordinates = torch.arange(size, dtype=kernel_dtype, device=device)
+    coordinates = coordinates - (size - 1) / 2
+    gaussian_1d = torch.exp(-(coordinates.square()) / (2 * 1.5**2))
+    gaussian_1d = gaussian_1d / gaussian_1d.sum()
+    gaussian_2d = torch.outer(gaussian_1d, gaussian_1d).to(dtype=dtype)
+    return gaussian_2d.expand(channels, 1, size, size).contiguous()
 
 
 def structural_similarity(
@@ -8970,15 +14667,10 @@ def structural_similarity(
         prediction = prediction.to(dtype=computation_dtype)
         target = target.to(dtype=computation_dtype)
 
-        # Build the Gaussian in the same stable computation dtype.
-        kernel_dtype = torch.float64 if computation_dtype == torch.float64 else torch.float32
-        coordinates = torch.arange(size, dtype=kernel_dtype, device=prediction.device)
-        coordinates = coordinates - (size - 1) / 2
-        gaussian_1d = torch.exp(-(coordinates.square()) / (2 * 1.5**2))
-        gaussian_1d = gaussian_1d / gaussian_1d.sum()
-        gaussian_2d = torch.outer(gaussian_1d, gaussian_1d).to(dtype=computation_dtype)
         channels = prediction.shape[1]
-        window = gaussian_2d.expand(channels, 1, size, size).contiguous()
+        window = _gaussian_window(
+            str(prediction.device), computation_dtype, size, channels
+        )
 
         def local_mean(value: torch.Tensor) -> torch.Tensor:
             return F.conv2d(value, window, groups=channels)
@@ -8996,11 +14688,11 @@ def structural_similarity(
         return (numerator / denominator.clamp_min(minimum)).mean().clamp(-1.0, 1.0)
 
 
-def peak_signal_to_noise_ratio(
-    prediction: torch.Tensor, target: torch.Tensor, data_range: float = 1.0
-) -> torch.Tensor:
-    mse = F.mse_loss(prediction, target)
-    return 10.0 * torch.log10(torch.tensor(data_range**2, device=mse.device) / mse.clamp_min(1e-12))
+def _psnr_from_mse(mse: torch.Tensor, data_range: float) -> torch.Tensor:
+    """Return finite PSNR, capped at 120 dB for unit-range exact matches."""
+    if data_range <= 0:
+        raise ValueError("data_range must be positive")
+    return 10.0 * torch.log10((data_range**2) / mse.clamp_min(PSNR_MSE_FLOOR))
 
 
 def temporal_consistency_error(
@@ -9033,17 +14725,31 @@ def frame_metrics(
     prediction: torch.Tensor,
     target: torch.Tensor,
     lpips_model: torch.nn.Module | None = None,
+    extra_metrics: dict[str, torch.Tensor] | None = None,
 ) -> dict[str, float]:
-    result = {
-        "psnr": float(peak_signal_to_noise_ratio(prediction, target).cpu()),
-        "ssim": float(structural_similarity(prediction, target).cpu()),
-        "rmse": float(torch.sqrt(F.mse_loss(prediction, target)).cpu()),
+    mse = F.mse_loss(prediction, target)
+    metric_tensors = {
+        "psnr": _psnr_from_mse(mse, 1.0),
+        "ssim": structural_similarity(prediction, target),
+        "rmse": torch.sqrt(mse),
     }
     if lpips_model is not None:
         pred3 = prediction.repeat(1, 3, 1, 1) if prediction.shape[1] == 1 else prediction
         target3 = target.repeat(1, 3, 1, 1) if target.shape[1] == 1 else target
-        result["lpips"] = float(lpips_model(pred3 * 2 - 1, target3 * 2 - 1).mean().cpu())
-    return result
+        metric_tensors["lpips"] = lpips_model(pred3 * 2 - 1, target3 * 2 - 1).mean()
+    if extra_metrics:
+        for name, value in extra_metrics.items():
+            if name in metric_tensors:
+                raise ValueError(f"Duplicate frame metric: {name}")
+            if not isinstance(value, torch.Tensor) or value.numel() != 1:
+                raise TypeError(f"Extra frame metric {name!r} must be a scalar tensor")
+            metric_tensors[name] = value.reshape(())
+
+    names = list(metric_tensors)
+    # One packed transfer avoids one CUDA synchronization per individual metric.
+    values = torch.stack([metric_tensors[name].reshape(()) for name in names])
+    cpu_values = values.detach().to(device="cpu", dtype=torch.float64).tolist()
+    return dict(zip(names, (float(value) for value in cpu_values), strict=True))
 
 
 class MetricAccumulator:
@@ -9096,7 +14802,7 @@ def percentile(values: list[float], q: float) -> float:
     return ordered[lower] * (upper - position) + ordered[upper] * (position - lower)
 ~~~~~~~~
 
-# src/asgcn_recon/model.py
+# src/asgcn_unet/model.py
 
 ~~~~~~~~python
 from __future__ import annotations
@@ -9106,84 +14812,9 @@ from typing import Any
 
 import torch
 from torch import nn
-from torch.nn import functional as F
 
 from .graph import PAPER_CORE_VERSION, ASGCNEncoder, EventGraph, build_event_graph
-
-
-class ResidualBlock(nn.Module):
-    def __init__(self, channels: int) -> None:
-        super().__init__()
-        self.body = nn.Sequential(
-            nn.Conv2d(channels, channels, 3, padding=1),
-            nn.GroupNorm(1, channels),
-            nn.SiLU(inplace=True),
-            nn.Conv2d(channels, channels, 3, padding=1),
-            nn.GroupNorm(1, channels),
-        )
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return F.silu(x + self.body(x))
-
-
-class ConvGRUCell(nn.Module):
-    """Causal analog state; only the graph front-end is ANN-to-SNN converted."""
-
-    def __init__(self, input_channels: int, hidden_channels: int) -> None:
-        super().__init__()
-        merged = input_channels + hidden_channels
-        self.hidden_channels = hidden_channels
-        self.gates = nn.Conv2d(merged, hidden_channels * 2, 3, padding=1)
-        self.candidate = nn.Conv2d(merged, hidden_channels, 3, padding=1)
-
-    def forward(self, x: torch.Tensor, state: torch.Tensor | None) -> torch.Tensor:
-        expected = (x.shape[0], self.hidden_channels, x.shape[-2], x.shape[-1])
-        if state is None or tuple(state.shape) != expected:
-            state = torch.zeros(expected, device=x.device, dtype=x.dtype)
-        reset, update = torch.sigmoid(self.gates(torch.cat((x, state), dim=1))).chunk(2, dim=1)
-        candidate = torch.tanh(self.candidate(torch.cat((x, reset * state), dim=1)))
-        return (1.0 - update) * state + update * candidate
-
-
-class RasterDecoder(nn.Module):
-    def __init__(
-        self, input_channels: int, base_channels: int, output_channels: int, recurrent: bool = True
-    ) -> None:
-        super().__init__()
-        self.stem = nn.Conv2d(input_channels, base_channels, 3, padding=1)
-        self.enc1 = ResidualBlock(base_channels)
-        self.down1 = nn.Conv2d(base_channels, base_channels * 2, 3, stride=2, padding=1)
-        self.enc2 = ResidualBlock(base_channels * 2)
-        self.down2 = nn.Conv2d(base_channels * 2, base_channels * 4, 3, stride=2, padding=1)
-        self.bottleneck = nn.Sequential(
-            ResidualBlock(base_channels * 4), ResidualBlock(base_channels * 4)
-        )
-        self.recurrent = ConvGRUCell(base_channels * 4, base_channels * 4) if recurrent else None
-        self.up2 = nn.Conv2d(base_channels * 6, base_channels * 2, 3, padding=1)
-        self.dec2 = ResidualBlock(base_channels * 2)
-        self.up1 = nn.Conv2d(base_channels * 3, base_channels, 3, padding=1)
-        self.dec1 = ResidualBlock(base_channels)
-        self.head = nn.Conv2d(base_channels, output_channels, 3, padding=1)
-
-    def forward(
-        self,
-        x: torch.Tensor,
-        output_size: tuple[int, int],
-        state: torch.Tensor | None = None,
-    ) -> tuple[torch.Tensor, torch.Tensor | None]:
-        e1 = self.enc1(self.stem(x))
-        e2 = self.enc2(self.down1(e1))
-        b = self.bottleneck(self.down2(e2))
-        if self.recurrent is not None:
-            state = self.recurrent(b, state)
-            b = b + state
-        u2 = F.interpolate(b, size=e2.shape[-2:], mode="bilinear", align_corners=False)
-        u2 = self.dec2(self.up2(torch.cat((u2, e2), dim=1)))
-        u1 = F.interpolate(u2, size=e1.shape[-2:], mode="bilinear", align_corners=False)
-        u1 = self.dec1(self.up1(torch.cat((u1, e1), dim=1)))
-        output = torch.sigmoid(self.head(u1))
-        output = F.interpolate(output, size=output_size, mode="bilinear", align_corners=False)
-        return output, state
+from .unet import RecurrentUNetDecoder
 
 
 def rasterize_features(
@@ -9212,7 +14843,7 @@ def rasterize_features(
     return raster.transpose(0, 1).reshape(1, features.shape[-1], grid_h, grid_w)
 
 
-class ASGCNReconstructor(nn.Module):
+class ASGCNUNet(nn.Module):
     def __init__(
         self,
         architecture_version: int = PAPER_CORE_VERSION,
@@ -9230,6 +14861,7 @@ class ASGCNReconstructor(nn.Module):
         spline_kernel_size: int = 5,
         spline_degree: int = 1,
         spline_root_weight: bool = True,
+        spline_chunk_size: int | None = 65_536,
         snn_dynamics: str = "literal_eq15",
         raster_downsample: int = 4,
         decoder_channels: int = 48,
@@ -9284,8 +14916,26 @@ class ASGCNReconstructor(nn.Module):
             spline_kernel_size=spline_kernel_size,
             spline_degree=spline_degree,
             spline_root_weight=spline_root_weight,
+            spline_chunk_size=spline_chunk_size,
         )
-        self.decoder = RasterDecoder(hidden_dim, decoder_channels, output_channels, recurrent)
+        self.decoder = RecurrentUNetDecoder(
+            hidden_dim, decoder_channels, output_channels, recurrent
+        )
+        self.register_buffer(
+            "calibration_attempts",
+            torch.zeros((), dtype=torch.long),
+            persistent=True,
+        )
+        self.register_buffer(
+            "calibration_commitment_digest",
+            torch.zeros(32, dtype=torch.uint8),
+            persistent=True,
+        )
+        self.register_buffer(
+            "calibration_commitment_sealed",
+            torch.tensor(False),
+            persistent=True,
+        )
         self.event_sampling_factor = int(event_sampling_factor)
         self.graph_radius = float(graph_radius)
         self.graph_position_dims = int(graph_position_dims)
@@ -9341,7 +14991,8 @@ class ASGCNReconstructor(nn.Module):
         node_count = int(graph.node_features.shape[0])
         edge_count = int(graph.edge_index.shape[1])
         if node_count:
-            degree = torch.bincount(graph.edge_index[1], minlength=node_count)
+            assert graph.in_degree is not None
+            degree = graph.in_degree
             isolated_nodes = (degree == 0).sum()
             max_degree = degree.max()
         else:
@@ -9408,6 +15059,7 @@ class ASGCNReconstructor(nn.Module):
         graph = self._graph(sample)
         _, activations = self.encoder.forward_ann(graph, return_activations=True)
         self.encoder.update_activation_maxima(activations)
+        self.calibration_attempts.add_(1)
 
     @torch.no_grad()
     def fold_batch_norm(self) -> None:
@@ -9416,16 +15068,857 @@ class ASGCNReconstructor(nn.Module):
     @torch.no_grad()
     def reset_activation_maxima(self) -> None:
         self.encoder.reset_activation_maxima()
+        self.calibration_attempts.zero_()
+        self.calibration_commitment_digest.zero_()
+        self.calibration_commitment_sealed.fill_(False)
+
+    @torch.no_grad()
+    def seal_calibration_commitment(
+        self,
+        attempted_samples: int,
+        commitment_sha256: str,
+    ) -> None:
+        if (
+            isinstance(attempted_samples, bool)
+            or not isinstance(attempted_samples, int)
+            or attempted_samples < 1
+        ):
+            raise ValueError("attempted calibration sample count must be a positive integer")
+        if int(self.calibration_attempts.item()) != attempted_samples:
+            raise RuntimeError(
+                "Persistent calibration attempt count differs from the selected samples"
+            )
+        try:
+            digest = bytes.fromhex(commitment_sha256)
+        except (TypeError, ValueError) as error:
+            raise ValueError("calibration commitment digest must be SHA-256") from error
+        if len(digest) != 32 or commitment_sha256 != commitment_sha256.lower():
+            raise ValueError("calibration commitment digest must be lowercase SHA-256")
+        self.calibration_commitment_digest.copy_(
+            torch.tensor(
+                list(digest),
+                dtype=torch.uint8,
+                device=self.calibration_commitment_digest.device,
+            )
+        )
+        self.calibration_commitment_sealed.fill_(True)
 
     @torch.no_grad()
     def apply_parameter_normalization(self) -> None:
         self.encoder.apply_parameter_normalization()
 
-    def calibration_summary(self) -> dict[str, list[int] | int]:
-        return self.encoder.calibration_summary()
+    def calibration_summary(self) -> dict[str, list[int] | int | str | bool | None]:
+        summary: dict[str, list[int] | int | str | bool | None] = (
+            self.encoder.calibration_summary()
+        )
+        commitment_sealed = bool(self.calibration_commitment_sealed.item())
+        summary.update(
+            {
+                "attempted_samples": int(self.calibration_attempts.item()),
+                "calibration_commitment_sha256": (
+                    bytes(self.calibration_commitment_digest.tolist()).hex()
+                    if commitment_sealed
+                    else None
+                ),
+                "commitment_sealed": commitment_sealed,
+            }
+        )
+        return summary
 ~~~~~~~~
 
-# src/asgcn_recon/utils.py
+# src/asgcn_unet/preflight.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import platform
+import time
+from pathlib import Path
+from typing import Any
+
+import torch
+from torch.nn import functional as F
+from tqdm import tqdm
+
+from .data import build_dataset
+from .engine import (
+    _artifact_path_label,
+    _build_optimizer,
+    _centralize_gradients,
+    _clip_and_validate_gradients,
+    _current_source_contract,
+    _dataset_content_fingerprint,
+    _dataset_source_fingerprint,
+    _dataset_transform_contract,
+    _enforce_training_split_status,
+    _ensure_finite_loss,
+    _file_sha256,
+    _make_grad_scaler,
+    _optimizer_mode,
+    _public_config,
+    _split_manifest_contract,
+    _training_protocol,
+)
+from .graph import prepare_event_nodes, radius_graph_topology, uniformly_sample_events
+from .losses import ReconstructionLoss
+from .model import ASGCNUNet
+from .utils import move_sample, resolve_device, save_json, set_seed, validate_experiment_config
+
+
+def _canonical_sha256(value: Any) -> str:
+    payload = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _runtime_provenance(device: torch.device) -> dict[str, Any]:
+    cuda_available = bool(torch.cuda.is_available())
+    runtime: dict[str, Any] = {
+        "python": platform.python_version(),
+        "platform": platform.system(),
+        "torch": str(torch.__version__),
+        "requested_device": str(device),
+        "cuda_available": cuda_available,
+        "cuda_runtime": torch.version.cuda,
+        "cudnn": torch.backends.cudnn.version() if cuda_available else None,
+        "gpu": None,
+    }
+    if cuda_available and device.type == "cuda":
+        index = device.index if device.index is not None else torch.cuda.current_device()
+        properties = torch.cuda.get_device_properties(index)
+        runtime["gpu"] = {
+            "index": index,
+            "name": properties.name,
+            "compute_capability": [properties.major, properties.minor],
+            "total_memory_mib": properties.total_memory / (1024**2),
+            "multiprocessors": properties.multi_processor_count,
+        }
+    return runtime
+
+
+def _base_report(
+    config: dict[str, Any],
+    output_path: Path,
+    device: torch.device,
+    *,
+    require_cuda: bool,
+    profile_samples: int,
+    top_density_count: int,
+) -> dict[str, Any]:
+    public_config = _public_config(config)
+    return {
+        "schema": "asgcn_training_preflight_v1",
+        "status": "running",
+        "passed": False,
+        "report_eligible": False,
+        "output": _artifact_path_label(output_path),
+        "request": {
+            "require_cuda": require_cuda,
+            "profile_samples": profile_samples,
+            "top_density_count": top_density_count,
+        },
+        "measurement_scope": {
+            "name": "selected_top_density_training_steps",
+            "topology_scope": "complete_eventhdr_training_split",
+            "absolute_vram_guarantee": False,
+            "statement": (
+                "Empirical gate for the selected highest-edge-count samples on the "
+                "recorded GPU/runtime; it is not a proof of every future training step."
+            ),
+        },
+        "checks": {
+            "cuda_available": bool(torch.cuda.is_available() and device.type == "cuda"),
+            "complete_topology_scan": False,
+            "edge_guard": None,
+            "forward_backward": False,
+            "cuda_oom_free": None,
+        },
+        "config_provenance": {
+            "sha256": _canonical_sha256(public_config),
+            "resolved_paths_redacted": True,
+            "config": public_config,
+        },
+        "data_provenance": None,
+        "source_provenance": _current_source_contract(),
+        "runtime_provenance": _runtime_provenance(device),
+        "topology": None,
+        "training_probe": {
+            "selected_samples": [],
+            "completed_samples": 0,
+            "steps": [],
+            "failure_category": None,
+        },
+    }
+
+
+def _sample_topology(
+    sample: dict[str, Any],
+    model_config: dict[str, Any],
+    dataset_index: int,
+) -> dict[str, Any]:
+    retained_events = int(sample["events"].shape[0])
+    metadata = sample.get("metadata", {})
+    if not isinstance(metadata, dict):
+        metadata = {}
+    raw_events = int(metadata.get("raw_event_count", retained_events))
+    cropped_events = int(metadata.get("cropped_event_count", retained_events))
+    if raw_events < cropped_events or cropped_events < retained_events:
+        raise ValueError(
+            f"Invalid event-count provenance for sample {sample.get('sample_id', dataset_index)}"
+        )
+    sampled = uniformly_sample_events(
+        sample["events"], int(model_config.get("event_sampling_factor", 1))
+    )
+    _, positions = prepare_event_nodes(sampled, sample["sensor_size"])
+    topology = radius_graph_topology(
+        positions,
+        float(model_config.get("graph_radius", 0.08)),
+        position_dims=int(model_config.get("graph_position_dims", 3)),
+        chunk_size=int(model_config.get("graph_chunk_size", 512)),
+    )
+    nodes = int(topology["nodes"])
+    possible_edges = nodes * max(nodes - 1, 0)
+    actual_edges = int(topology["actual_directed_edges"])
+    max_edges = model_config.get("max_graph_edges", 2_000_000)
+    edge_guard_passed = max_edges is None or actual_edges <= int(max_edges)
+    return {
+        "dataset_index": dataset_index,
+        "sample_id": str(sample.get("sample_id", dataset_index)),
+        "scene": str(metadata.get("scene", "unknown")),
+        "sequence_index": (
+            int(metadata["sequence_index"])
+            if metadata.get("sequence_index") is not None
+            else None
+        ),
+        "raw_events": raw_events,
+        "cropped_events": cropped_events,
+        "retained_events": retained_events,
+        "model_sampled_events": nodes,
+        "candidate_directed_edges": int(topology["candidate_directed_edges"]),
+        "actual_directed_edges": actual_edges,
+        "directed_edge_density": actual_edges / possible_edges if possible_edges else 0.0,
+        "max_degree": int(topology["max_degree"]),
+        "isolated_nodes": int(topology["isolated_nodes"]),
+        "isolate_ratio": float(topology["isolate_ratio"]),
+        "edge_guard_passed": edge_guard_passed,
+    }
+
+
+def _topology_summary(
+    records: list[dict[str, Any]],
+    *,
+    dataset_size: int,
+    data_max_events: int | None,
+    model_config: dict[str, Any],
+    top_density_count: int,
+) -> dict[str, Any]:
+    ordered = sorted(
+        records,
+        key=lambda item: (
+            -int(item["actual_directed_edges"]),
+            -int(item["candidate_directed_edges"]),
+            -int(item["model_sampled_events"]),
+            int(item["dataset_index"]),
+        ),
+    )
+    total_nodes = sum(int(item["model_sampled_events"]) for item in records)
+    total_isolates = sum(int(item["isolated_nodes"]) for item in records)
+    max_edges = model_config.get("max_graph_edges", 2_000_000)
+    return {
+        "scan_scope": "complete_eventhdr_training_split",
+        "scan_complete": len(records) == dataset_size,
+        "samples_scanned": len(records),
+        "dataset_samples": dataset_size,
+        "dataset_max_events": data_max_events,
+        "model_event_sampling_factor": int(model_config.get("event_sampling_factor", 1)),
+        "edge_guard_limit": int(max_edges) if max_edges is not None else None,
+        "edge_guard_exceeded_samples": sum(
+            not bool(item["edge_guard_passed"]) for item in records
+        ),
+        "totals": {
+            "raw_events": sum(int(item["raw_events"]) for item in records),
+            "cropped_events": sum(int(item["cropped_events"]) for item in records),
+            "retained_events": sum(int(item["retained_events"]) for item in records),
+            "model_sampled_events": total_nodes,
+            "candidate_directed_edges": sum(
+                int(item["candidate_directed_edges"]) for item in records
+            ),
+            "actual_directed_edges": sum(
+                int(item["actual_directed_edges"]) for item in records
+            ),
+            "isolated_nodes": total_isolates,
+        },
+        "max_degree": max((int(item["max_degree"]) for item in records), default=0),
+        "isolate_ratio": total_isolates / total_nodes if total_nodes else 0.0,
+        "density_rank_basis": [
+            "actual_directed_edges_desc",
+            "candidate_directed_edges_desc",
+            "model_sampled_events_desc",
+            "dataset_index_asc",
+        ],
+        "top_density_samples": ordered[:top_density_count],
+        "samples": records,
+    }
+
+
+def _gpu_step(
+    model: ASGCNUNet,
+    criterion: ReconstructionLoss,
+    optimizer: torch.optim.Optimizer,
+    scaler: Any,
+    raw_sample: dict[str, Any],
+    expected_topology: dict[str, Any],
+    config: dict[str, Any],
+    device: torch.device,
+    step: int,
+    *,
+    recurrent_state: torch.Tensor | None,
+    previous_prediction: torch.Tensor | None,
+    previous_target: torch.Tensor | None,
+    context_sample_id: str | None,
+) -> dict[str, Any]:
+    train_config = config["train"]
+    amp_enabled = bool(train_config.get("amp", True)) and device.type == "cuda"
+    sample = move_sample(raw_sample, device)
+    sample_id = sample.get("sample_id", expected_topology["dataset_index"])
+    optimizer.zero_grad(set_to_none=True)
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+        torch.cuda.reset_peak_memory_stats(device)
+        start_event = torch.cuda.Event(enable_timing=True)
+        end_event = torch.cuda.Event(enable_timing=True)
+        start_event.record()
+    else:
+        start_time = time.perf_counter()
+
+    with torch.autocast(device_type=device.type, enabled=amp_enabled):
+        prediction, diagnostics = model.forward_sample(
+            sample,
+            recurrent_state=recurrent_state,
+        )
+        target = sample["target"].unsqueeze(0)
+        loss, loss_parts = criterion(prediction, target)
+        configured_loss_weights = train_config.get("loss_weights") or {}
+        temporal_weight = float(configured_loss_weights.get("temporal", 0.0))
+        temporal_applied = (
+            temporal_weight > 0
+            and previous_prediction is not None
+            and previous_target is not None
+        )
+        if temporal_applied:
+            temporal = F.l1_loss(
+                prediction - previous_prediction,
+                target - previous_target,
+            )
+            loss = loss + temporal_weight * temporal
+            loss_parts["temporal"] = temporal.detach()
+    loss_values = _ensure_finite_loss(
+        loss,
+        loss_parts,
+        epoch=0,
+        step=step,
+        sample_id=sample_id,
+    )
+    scaler.scale(loss).backward()
+    scaler.unscale_(optimizer)
+    if _optimizer_mode(train_config) == "adam_gc":
+        _centralize_gradients(model)
+    gradient_norm = _clip_and_validate_gradients(
+        model,
+        float(train_config.get("grad_clip", 1.0)),
+        epoch=0,
+        step=step,
+        sample_id=sample_id,
+    )
+    scaler.step(optimizer)
+    scaler.update()
+
+    if int(diagnostics["edges"]) != int(expected_topology["actual_directed_edges"]):
+        raise RuntimeError("Topology probe disagrees with the training forward graph")
+    if int(diagnostics["nodes"]) != int(expected_topology["model_sampled_events"]):
+        raise RuntimeError("Topology probe disagrees with the training forward node count")
+
+    if device.type == "cuda":
+        end_event.record()
+        end_event.synchronize()
+        step_time_ms = float(start_event.elapsed_time(end_event))
+        peak_allocated = torch.cuda.max_memory_allocated(device) / (1024**2)
+        peak_reserved = torch.cuda.max_memory_reserved(device) / (1024**2)
+    else:
+        step_time_ms = (time.perf_counter() - start_time) * 1000.0
+        peak_allocated = None
+        peak_reserved = None
+    if not math.isfinite(step_time_ms) or step_time_ms <= 0:
+        raise FloatingPointError(f"Invalid preflight step time for sample {sample_id}")
+    return {
+        "dataset_index": int(expected_topology["dataset_index"]),
+        "sample_id": str(sample_id),
+        "nodes": int(diagnostics["nodes"]),
+        "actual_directed_edges": int(diagnostics["edges"]),
+        "loss": loss_values,
+        "gradient_norm": gradient_norm,
+        "step_time_ms": step_time_ms,
+        "peak_allocated_mib": peak_allocated,
+        "peak_reserved_mib": peak_reserved,
+        "amp_enabled": amp_enabled,
+        "temporal_loss_applied": temporal_applied,
+        "temporal_context_sample_id": context_sample_id,
+    }
+
+
+@torch.no_grad()
+def _immediate_training_context(
+    model: ASGCNUNet,
+    dataset: Any,
+    records: list[dict[str, Any]],
+    selected: dict[str, Any],
+    config: dict[str, Any],
+    device: torch.device,
+) -> tuple[torch.Tensor | None, torch.Tensor | None, torch.Tensor | None, str | None]:
+    """Replay one real predecessor so recurrent and temporal loss memory are represented."""
+    temporal_weight = float(config["train"].get("loss_weights", {}).get("temporal", 0.0))
+    recurrent = bool(config["model"].get("recurrent", True))
+    if temporal_weight <= 0 and not recurrent:
+        return None, None, None, None
+    index = int(selected["dataset_index"])
+    if index < 1:
+        return None, None, None, None
+    previous = records[index - 1]
+    previous_sequence = previous.get("sequence_index")
+    current_sequence = selected.get("sequence_index")
+    if (
+        previous["scene"] != selected["scene"]
+        or previous_sequence is None
+        or current_sequence is None
+        or int(current_sequence) != int(previous_sequence) + 1
+    ):
+        return None, None, None, None
+
+    sample = move_sample(dataset[index - 1], device)
+    amp_enabled = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    with torch.autocast(device_type=device.type, enabled=amp_enabled):
+        prediction, diagnostics = model.forward_sample(sample, recurrent_state=None)
+    state = diagnostics["recurrent_state"]
+    return (
+        state.detach() if state is not None else None,
+        prediction.detach(),
+        sample["target"].unsqueeze(0).detach(),
+        str(sample.get("sample_id", index - 1)),
+    )
+
+
+def training_preflight(
+    config: dict[str, Any],
+    output_path: str | Path,
+    *,
+    profile_samples: int = 3,
+    top_density_count: int = 10,
+    require_cuda: bool = True,
+) -> dict[str, Any]:
+    """Gate full training with a complete topology scan and dense-sample train steps.
+
+    The CLI always leaves ``require_cuda`` enabled. The CPU path exists only so the
+    exact scan and optimizer contract can be regression-tested; its artifact is
+    explicitly marked ineligible for accelerator reporting.
+    """
+    validate_experiment_config(config)
+    if config.get("dataset", {}).get("type") != "eventhdr":
+        raise ValueError("Training preflight requires dataset.type='eventhdr'")
+    for value, name in (
+        (profile_samples, "profile_samples"),
+        (top_density_count, "top_density_count"),
+    ):
+        if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+            raise ValueError(f"{name} must be an integer >= 1")
+    if top_density_count < profile_samples:
+        raise ValueError("top_density_count must be greater than or equal to profile_samples")
+
+    destination = Path(output_path)
+    if destination.exists():
+        raise FileExistsError(
+            f"Preflight output already exists: {destination}. Move it or choose a new output."
+        )
+    set_seed(int(config.get("seed", 2026)))
+    device = resolve_device(config.get("device", "auto"))
+    cuda_ready = bool(torch.cuda.is_available() and device.type == "cuda")
+    report = _base_report(
+        config,
+        destination,
+        device,
+        require_cuda=require_cuda,
+        profile_samples=profile_samples,
+        top_density_count=top_density_count,
+    )
+    if require_cuda and not cuda_ready:
+        report["status"] = "failed"
+        report["training_probe"]["failure_category"] = "cuda_required_but_unavailable"
+        save_json(destination, report)
+        return report
+
+    dataset = None
+    try:
+        _enforce_training_split_status(config)
+        dataset = build_dataset(config["dataset"], split="train")
+        content_fingerprint = _dataset_content_fingerprint(dataset)
+        records: list[dict[str, Any]] = []
+        for index in tqdm(range(len(dataset)), desc="preflight-topology"):
+            records.append(_sample_topology(dataset[index], config["model"], index))
+        topology = _topology_summary(
+            records,
+            dataset_size=len(dataset),
+            data_max_events=config["dataset"].get("max_events"),
+            model_config=config["model"],
+            top_density_count=top_density_count,
+        )
+        report["topology"] = topology
+        report["data_provenance"] = {
+            "dataset_type": "eventhdr",
+            "split": "train",
+            "content": content_fingerprint,
+            "source_files": _dataset_source_fingerprint(dataset),
+            "transform": _dataset_transform_contract(config),
+            "split_manifest": _split_manifest_contract(config),
+        }
+        scan_complete = bool(topology["scan_complete"])
+        edge_guard_passed = int(topology["edge_guard_exceeded_samples"]) == 0
+        report["checks"]["complete_topology_scan"] = scan_complete
+        report["checks"]["edge_guard"] = edge_guard_passed
+
+        if len(dataset) < profile_samples:
+            raise ValueError("EventHDR training split has fewer samples than profile_samples")
+        selected = topology["top_density_samples"][: min(profile_samples, len(dataset))]
+        report["training_probe"]["selected_samples"] = [
+            {
+                "dataset_index": int(item["dataset_index"]),
+                "sample_id": item["sample_id"],
+                "actual_directed_edges": int(item["actual_directed_edges"]),
+            }
+            for item in selected
+        ]
+        if scan_complete and edge_guard_passed:
+            model = ASGCNUNet(**config["model"]).to(device).train()
+            criterion = ReconstructionLoss(config["train"].get("loss_weights"))
+            optimizer = _build_optimizer(model, config["train"])
+            amp_enabled = bool(config["train"].get("amp", True)) and device.type == "cuda"
+            scaler = _make_grad_scaler(amp_enabled)
+            report["training_probe"]["training_protocol"] = _training_protocol(config, device)
+            for step, selected_topology in enumerate(selected, start=1):
+                context = _immediate_training_context(
+                    model,
+                    dataset,
+                    records,
+                    selected_topology,
+                    config,
+                    device,
+                )
+                step_result = _gpu_step(
+                    model,
+                    criterion,
+                    optimizer,
+                    scaler,
+                    dataset[int(selected_topology["dataset_index"])],
+                    selected_topology,
+                    config,
+                    device,
+                    step,
+                    recurrent_state=context[0],
+                    previous_prediction=context[1],
+                    previous_target=context[2],
+                    context_sample_id=context[3],
+                )
+                report["training_probe"]["steps"].append(step_result)
+                report["training_probe"]["completed_samples"] = step
+            report["checks"]["forward_backward"] = len(
+                report["training_probe"]["steps"]
+            ) == len(selected)
+            report["checks"]["cuda_oom_free"] = True if cuda_ready else None
+        else:
+            report["training_probe"]["failure_category"] = "edge_guard_exceeded"
+    except (OSError, KeyError, TypeError, ValueError, RuntimeError, ArithmeticError) as error:
+        message = str(error).lower()
+        if isinstance(error, torch.cuda.OutOfMemoryError) or "out of memory" in message:
+            category = "cuda_out_of_memory"
+            report["checks"]["cuda_oom_free"] = False
+        elif "max_graph_edges" in message:
+            category = "edge_guard_exceeded_during_forward"
+            report["checks"]["edge_guard"] = False
+        else:
+            category = "unexpected_" + type(error).__name__
+        report["training_probe"]["failure_category"] = category
+    finally:
+        if dataset is not None and hasattr(dataset, "close"):
+            dataset.close()
+
+    checks = report["checks"]
+    diagnostic_passed = bool(
+        checks["complete_topology_scan"]
+        and checks["edge_guard"]
+        and checks["forward_backward"]
+        and (checks["cuda_oom_free"] is not False)
+    )
+    report["report_eligible"] = bool(require_cuda and cuda_ready and diagnostic_passed)
+    report["passed"] = bool(diagnostic_passed and (cuda_ready or not require_cuda))
+    report["status"] = (
+        "passed"
+        if report["passed"] and report["report_eligible"]
+        else "diagnostic_passed"
+        if report["passed"]
+        else "failed"
+    )
+    save_json(destination, report)
+    return report
+
+
+def _require_verified_report_contract(report: Any, report_path: Path) -> dict[str, Any]:
+    if not isinstance(report, dict):
+        raise TypeError("Training preflight report must contain a JSON object")
+    # Serializing with allow_nan=False rejects hand-written NaN/Infinity values.
+    _canonical_sha256(report)
+    if report.get("schema") != "asgcn_training_preflight_v1":
+        raise ValueError("Training preflight report has an unsupported schema")
+    if report.get("status") != "passed" or report.get("passed") is not True:
+        raise ValueError("Training preflight report did not pass")
+    if report.get("report_eligible") is not True:
+        raise ValueError("Training preflight report is not eligible for a reporting run")
+    request = report.get("request")
+    if not isinstance(request, dict) or request.get("require_cuda") is not True:
+        raise ValueError("Training preflight report was not produced in CUDA report mode")
+    scope = report.get("measurement_scope")
+    if not isinstance(scope, dict) or scope.get("name") != "selected_top_density_training_steps":
+        raise ValueError("Training preflight report has no bounded measurement scope")
+    if scope.get("absolute_vram_guarantee") is not False:
+        raise ValueError("Training preflight report overstates its VRAM measurement scope")
+    checks = report.get("checks")
+    expected_checks = {
+        "cuda_available": True,
+        "complete_topology_scan": True,
+        "edge_guard": True,
+        "forward_backward": True,
+        "cuda_oom_free": True,
+    }
+    if not isinstance(checks, dict) or any(
+        checks.get(name) is not expected for name, expected in expected_checks.items()
+    ):
+        raise ValueError("Training preflight report does not satisfy every required gate")
+    if report.get("output") != _artifact_path_label(report_path):
+        raise ValueError("Training preflight report output identity does not match its file")
+
+    probe = report.get("training_probe")
+    if not isinstance(probe, dict) or probe.get("failure_category") is not None:
+        raise ValueError("Training preflight report contains a failed training probe")
+    selected = probe.get("selected_samples")
+    steps = probe.get("steps")
+    if not isinstance(selected, list) or not selected or not isinstance(steps, list):
+        raise ValueError("Training preflight report has no measured dense-sample steps")
+    if int(probe.get("completed_samples", -1)) != len(selected) or len(steps) != len(selected):
+        raise ValueError("Training preflight report did not complete every selected sample")
+    if int(request.get("profile_samples", -1)) != len(selected):
+        raise ValueError("Training preflight report measured fewer samples than requested")
+    for step, chosen in zip(steps, selected, strict=True):
+        if not isinstance(step, dict):
+            raise TypeError("Training preflight step must be an object")
+        for field in ("dataset_index", "sample_id", "actual_directed_edges"):
+            if step.get(field) != chosen.get(field):
+                raise ValueError("Training preflight step identity differs from its selection")
+        for field in ("step_time_ms", "peak_allocated_mib", "peak_reserved_mib"):
+            value = step.get(field)
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or not math.isfinite(float(value))
+                or float(value) <= 0
+            ):
+                raise ValueError(f"Training preflight step has invalid {field}")
+    topology = report.get("topology")
+    if (
+        not isinstance(topology, dict)
+        or topology.get("scan_scope") != "complete_eventhdr_training_split"
+        or topology.get("scan_complete") is not True
+        or int(topology.get("samples_scanned", 0)) < 1
+        or topology.get("samples_scanned") != topology.get("dataset_samples")
+        or int(topology.get("edge_guard_exceeded_samples", -1)) != 0
+    ):
+        raise ValueError("Training preflight topology scan is incomplete or over the edge guard")
+    ranked = topology.get("top_density_samples")
+    if not isinstance(ranked, list) or len(ranked) < len(selected):
+        raise ValueError("Training preflight report has an incomplete density ranking")
+    for chosen, expected in zip(selected, ranked[: len(selected)], strict=True):
+        if not isinstance(chosen, dict) or not isinstance(expected, dict):
+            raise TypeError("Training preflight density entries must be objects")
+        identity = ("dataset_index", "sample_id", "actual_directed_edges")
+        if any(chosen.get(field) != expected.get(field) for field in identity):
+            raise ValueError("Training preflight steps are not the top-density samples")
+    return report
+
+
+def verify_training_preflight(
+    config: dict[str, Any],
+    report_path: str | Path,
+) -> dict[str, Any]:
+    """Re-bind a passed report to the current config, data, source, and CUDA runtime."""
+    validate_experiment_config(config)
+    if config.get("dataset", {}).get("type") != "eventhdr":
+        raise ValueError("Training preflight verification requires EventHDR")
+    path = Path(report_path)
+    if not path.is_file():
+        raise FileNotFoundError(
+            f"Training preflight report not found: {path}. Run the profile stage first."
+        )
+    with path.open("r", encoding="utf-8") as handle:
+        report = _require_verified_report_contract(json.load(handle), path)
+
+    device = resolve_device(config.get("device", "auto"))
+    if not torch.cuda.is_available() or device.type != "cuda":
+        raise RuntimeError("A passed training preflight can only be verified on CUDA")
+    public_config = _public_config(config)
+    config_provenance = report.get("config_provenance")
+    if (
+        not isinstance(config_provenance, dict)
+        or config_provenance.get("config") != public_config
+        or config_provenance.get("sha256") != _canonical_sha256(public_config)
+    ):
+        raise ValueError("Training config differs from the preflight report")
+    if report.get("source_provenance") != _current_source_contract():
+        raise ValueError("Executable source differs from the preflight report")
+    if report.get("runtime_provenance") != _runtime_provenance(device):
+        raise ValueError("CUDA/software runtime differs from the preflight report")
+    probe = report["training_probe"]
+    if probe.get("training_protocol") != _training_protocol(config, device):
+        raise ValueError("Training protocol differs from the preflight report")
+
+    _enforce_training_split_status(config)
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        current_data = {
+            "dataset_type": "eventhdr",
+            "split": "train",
+            "content": _dataset_content_fingerprint(dataset),
+            "source_files": _dataset_source_fingerprint(dataset),
+            "transform": _dataset_transform_contract(config),
+            "split_manifest": _split_manifest_contract(config),
+        }
+        if report.get("data_provenance") != current_data:
+            raise ValueError("EventHDR training data differs from the preflight report")
+        if int(report["topology"]["dataset_samples"]) != len(dataset):
+            raise ValueError("EventHDR sample count differs from the topology scan")
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
+
+    return {
+        "schema": "asgcn_preflight_verification_v1",
+        "status": "verified",
+        "report_eligible": True,
+        "report": _artifact_path_label(path),
+        "report_sha256": _file_sha256(path),
+        "measurement_scope": report["measurement_scope"],
+        "config_sha256": config_provenance["sha256"],
+        "data_sha256": report["data_provenance"]["content"]["sha256"],
+        "source_tree_sha256": report["source_provenance"]["source_tree_sha256"],
+        "gpu": report["runtime_provenance"]["gpu"],
+        "measured_steps": int(probe["completed_samples"]),
+    }
+
+
+__all__ = ["training_preflight", "verify_training_preflight"]
+~~~~~~~~
+
+# src/asgcn_unet/unet.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import torch
+from torch import nn
+from torch.nn import functional as F
+
+
+class ResidualBlock(nn.Module):
+    def __init__(self, channels: int) -> None:
+        super().__init__()
+        self.body = nn.Sequential(
+            nn.Conv2d(channels, channels, 3, padding=1),
+            nn.GroupNorm(1, channels),
+            nn.SiLU(inplace=True),
+            nn.Conv2d(channels, channels, 3, padding=1),
+            nn.GroupNorm(1, channels),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return F.silu(x + self.body(x))
+
+
+class ConvGRUCell(nn.Module):
+    """Causal analog state; only the graph front-end is ANN-to-SNN converted."""
+
+    def __init__(self, input_channels: int, hidden_channels: int) -> None:
+        super().__init__()
+        merged = input_channels + hidden_channels
+        self.hidden_channels = hidden_channels
+        self.gates = nn.Conv2d(merged, hidden_channels * 2, 3, padding=1)
+        self.candidate = nn.Conv2d(merged, hidden_channels, 3, padding=1)
+
+    def forward(self, x: torch.Tensor, state: torch.Tensor | None) -> torch.Tensor:
+        expected = (x.shape[0], self.hidden_channels, x.shape[-2], x.shape[-1])
+        if state is None or tuple(state.shape) != expected:
+            state = torch.zeros(expected, device=x.device, dtype=x.dtype)
+        reset, update = torch.sigmoid(self.gates(torch.cat((x, state), dim=1))).chunk(2, dim=1)
+        candidate = torch.tanh(self.candidate(torch.cat((x, reset * state), dim=1)))
+        return (1.0 - update) * state + update * candidate
+
+
+class RecurrentUNetDecoder(nn.Module):
+    """Two-level residual U-Net with an optional bottleneck ConvGRU state."""
+
+    def __init__(
+        self, input_channels: int, base_channels: int, output_channels: int, recurrent: bool = True
+    ) -> None:
+        super().__init__()
+        self.stem = nn.Conv2d(input_channels, base_channels, 3, padding=1)
+        self.enc1 = ResidualBlock(base_channels)
+        self.down1 = nn.Conv2d(base_channels, base_channels * 2, 3, stride=2, padding=1)
+        self.enc2 = ResidualBlock(base_channels * 2)
+        self.down2 = nn.Conv2d(base_channels * 2, base_channels * 4, 3, stride=2, padding=1)
+        self.bottleneck = nn.Sequential(
+            ResidualBlock(base_channels * 4), ResidualBlock(base_channels * 4)
+        )
+        self.recurrent = ConvGRUCell(base_channels * 4, base_channels * 4) if recurrent else None
+        self.up2 = nn.Conv2d(base_channels * 6, base_channels * 2, 3, padding=1)
+        self.dec2 = ResidualBlock(base_channels * 2)
+        self.up1 = nn.Conv2d(base_channels * 3, base_channels, 3, padding=1)
+        self.dec1 = ResidualBlock(base_channels)
+        self.head = nn.Conv2d(base_channels, output_channels, 3, padding=1)
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        output_size: tuple[int, int],
+        state: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor | None]:
+        e1 = self.enc1(self.stem(x))
+        e2 = self.enc2(self.down1(e1))
+        bottleneck = self.bottleneck(self.down2(e2))
+        if self.recurrent is not None:
+            state = self.recurrent(bottleneck, state)
+            bottleneck = bottleneck + state
+        u2 = F.interpolate(bottleneck, size=e2.shape[-2:], mode="bilinear", align_corners=False)
+        u2 = self.dec2(self.up2(torch.cat((u2, e2), dim=1)))
+        u1 = F.interpolate(u2, size=e1.shape[-2:], mode="bilinear", align_corners=False)
+        u1 = self.dec1(self.up1(torch.cat((u1, e1), dim=1)))
+        output = torch.sigmoid(self.head(u1))
+        output = F.interpolate(output, size=output_size, mode="bilinear", align_corners=False)
+        return output, state
+~~~~~~~~
+
+# src/asgcn_unet/utils.py
 
 ~~~~~~~~python
 from __future__ import annotations
@@ -9435,12 +15928,68 @@ import csv
 import json
 import os
 import random
+import tempfile
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import torch
 from PIL import Image
+
+from .data.common import validate_target_normalization
+from .losses import validate_loss_weights
+
+_EVALUATION_PRECISIONS = {"fp32", "amp_fp16", "bf16"}
+
+
+def _validate_optional_positive_integer(value: Any, field: str) -> None:
+    if value is None:
+        return
+    if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+        raise ValueError(f"{field} must be null or an integer >= 1")
+
+
+def validate_experiment_config(config: dict[str, Any]) -> None:
+    """Fail fast on cross-stage contracts shared by CLI and engine entry points."""
+    if not isinstance(config, dict):
+        raise TypeError("Experiment config must be an object")
+    dataset = config.get("dataset")
+    if dataset is not None:
+        if not isinstance(dataset, dict):
+            raise TypeError("dataset must be an object")
+        validate_target_normalization(dataset.get("target_normalization"))
+        if "target_offset" in dataset:
+            target_offset = dataset["target_offset"]
+            if isinstance(target_offset, bool) or not isinstance(target_offset, int):
+                raise TypeError("dataset.target_offset must be an integer and must not be bool")
+
+    train = config.get("train")
+    if train is not None:
+        if not isinstance(train, dict):
+            raise TypeError("train must be an object")
+        batch_size = train.get("batch_size", 1)
+        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size != 1:
+            raise ValueError("train.batch_size must be 1 for the current sample-wise pipeline")
+        _validate_optional_positive_integer(
+            train.get("max_train_samples"), "train.max_train_samples"
+        )
+        _validate_optional_positive_integer(train.get("max_val_samples"), "train.max_val_samples")
+        validate_loss_weights(train.get("loss_weights"))
+
+    evaluation = config.get("eval")
+    if evaluation is not None:
+        if not isinstance(evaluation, dict):
+            raise TypeError("eval must be an object")
+        batch_size = evaluation.get("batch_size", 1)
+        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size != 1:
+            raise ValueError("eval.batch_size must be 1 for the current sample-wise pipeline")
+        _validate_optional_positive_integer(evaluation.get("max_samples"), "eval.max_samples")
+        precision = evaluation.get("precision", "fp32")
+        if not isinstance(precision, str) or precision not in _EVALUATION_PRECISIONS:
+            supported = ", ".join(sorted(_EVALUATION_PRECISIONS))
+            raise ValueError(f"eval.precision must be one of: {supported}")
+        if not isinstance(evaluation.get("tf32", False), bool):
+            raise TypeError("eval.tf32 must be a boolean")
 
 
 def load_json(path: str | Path) -> dict[str, Any]:
@@ -9471,6 +16020,7 @@ def resolve_path(path: str | Path, base_dir: str | Path) -> Path:
 
 def resolve_experiment_paths(config: dict[str, Any], config_path: str | Path) -> dict[str, Any]:
     """Return a copy with filesystem paths anchored to the checkout root."""
+    validate_experiment_config(config)
     resolved = copy.deepcopy(config)
     base_dir = experiment_base_dir(config_path)
     path_locations = (
@@ -9492,8 +16042,28 @@ def resolve_experiment_paths(config: dict[str, Any], config_path: str | Path) ->
 def save_json(path: str | Path, value: Any) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as handle:
-        json.dump(value, handle, indent=2, ensure_ascii=False)
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+            json.dump(
+                value,
+                handle,
+                indent=2,
+                ensure_ascii=False,
+                allow_nan=False,
+            )
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        temporary.unlink(missing_ok=True)
+        raise
 
 
 def set_seed(seed: int) -> None:
@@ -9517,6 +16087,21 @@ def move_sample(sample: dict[str, Any], device: torch.device) -> dict[str, Any]:
     return result
 
 
+def move_inference_sample(
+    sample: dict[str, Any], device: torch.device
+) -> dict[str, Any]:
+    """Move only model inputs for a compute-only inference measurement.
+
+    Quality evaluation uses :func:`move_sample` because its metrics require the
+    target on the model device.  A compute benchmark does not consume the target,
+    so keeping it on the host prevents ground-truth storage from inflating the
+    reported peak GPU memory.
+    """
+    result = dict(sample)
+    result["events"] = sample["events"].to(device, non_blocking=True)
+    return result
+
+
 def save_image(path: str | Path, tensor: torch.Tensor) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -9537,24 +16122,53 @@ def write_frame_csv(path: str | Path, rows: list[dict[str, Any]]) -> None:
         return
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
-        writer.writeheader()
-        writer.writerows(rows)
+    fieldnames = list(rows[0].keys())
+    expected = set(fieldnames)
+    for index, row in enumerate(rows):
+        if set(row) != expected:
+            raise ValueError(f"CSV row {index} keys do not match the first row")
+
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        temporary.unlink(missing_ok=True)
+        raise
 
 
 def atomic_torch_save(value: Any, path: str | Path) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    torch.save(value, temporary)
-    os.replace(temporary, path)
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+    )
+    os.close(descriptor)
+    temporary = Path(temporary_name)
+    try:
+        torch.save(value, temporary)
+        os.replace(temporary, path)
+    except BaseException:
+        temporary.unlink(missing_ok=True)
+        raise
 ~~~~~~~~
 
 # tests/__init__.py
 
 ~~~~~~~~python
-"""Test-only package; never installed with asgcn_recon."""
+"""Test-only package; never installed with asgcn_unet."""
 ~~~~~~~~
 
 # tests/fixtures.py
@@ -9645,7 +16259,7 @@ from unittest.mock import patch
 import pytest
 import torch
 
-from asgcn_recon.graph import (
+from asgcn_unet.graph import (
     ASGCNEncoder,
     EventGraph,
     PaperSplineConv,
@@ -9655,7 +16269,8 @@ from asgcn_recon.graph import (
     prepare_event_nodes,
     uniformly_sample_events,
 )
-from asgcn_recon.model import ASGCNReconstructor
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.unet import RecurrentUNetDecoder
 
 
 def _single_node_graph() -> EventGraph:
@@ -9815,6 +16430,82 @@ def test_spline_mean_aggregation_matches_hand_calculation_and_gradients() -> Non
     torch.testing.assert_close(layer.weight.grad, torch.tensor([[[4.0]], [[5.0]]]))
 
 
+def test_chunked_spline_matches_unchunked_output_and_gradients() -> None:
+    generator = torch.Generator().manual_seed(901)
+    reference = PaperSplineConv(
+        3,
+        4,
+        kernel_size=3,
+        root_weight=True,
+        bias=True,
+        edge_chunk_size=None,
+    )
+    chunked = PaperSplineConv(
+        3,
+        4,
+        kernel_size=3,
+        root_weight=True,
+        bias=True,
+        edge_chunk_size=2,
+    )
+    chunked.load_state_dict(reference.state_dict())
+    edge_index = torch.tensor(
+        [[0, 1, 2, 3, 0, 2, 1], [1, 1, 1, 2, 3, 3, 3]], dtype=torch.long
+    )
+    degree = torch.bincount(edge_index[1], minlength=4)
+    reference_features = torch.rand((4, 3), generator=generator, requires_grad=True)
+    chunked_features = reference_features.detach().clone().requires_grad_(True)
+    reference_attr = torch.rand((7, 1), generator=generator, requires_grad=True)
+    chunked_attr = reference_attr.detach().clone().requires_grad_(True)
+
+    reference_output = reference.affine(
+        reference_features, edge_index, reference_attr, in_degree=degree
+    )
+    chunked_output = chunked.affine(
+        chunked_features, edge_index, chunked_attr, in_degree=degree
+    )
+    reference_output.square().sum().backward()
+    chunked_output.square().sum().backward()
+
+    torch.testing.assert_close(chunked_output, reference_output, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(
+        chunked_features.grad, reference_features.grad, atol=1e-6, rtol=1e-6
+    )
+    torch.testing.assert_close(chunked_attr.grad, reference_attr.grad, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(chunked.weight.grad, reference.weight.grad, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(chunked.root.grad, reference.root.grad, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(chunked.bias.grad, reference.bias.grad, atol=1e-6, rtol=1e-6)
+
+
+def test_event_graph_caches_in_degree_for_all_encoder_layers() -> None:
+    graph = EventGraph(
+        node_features=torch.rand((4, 4)),
+        positions=torch.rand((4, 4)),
+        edge_index=torch.tensor([[0, 1, 2, 3, 0], [1, 1, 1, 2, 3]]),
+        edge_attr=torch.full((5, 1), 0.25),
+    )
+    torch.testing.assert_close(graph.in_degree, torch.tensor([0, 3, 1, 1]))
+    encoder = ASGCNEncoder(hidden_dim=3, graph_layers=3, spline_kernel_size=2).eval()
+
+    with patch("asgcn_unet.graph.torch.bincount", wraps=torch.bincount) as bincount:
+        encoder.forward_ann(graph)
+
+    assert bincount.call_count == 0
+
+
+def test_model_uses_named_recurrent_unet_decoder() -> None:
+    model = ASGCNUNet(
+        hidden_dim=2,
+        graph_layers=3,
+        decoder_channels=4,
+        spline_chunk_size=7,
+    )
+    assert isinstance(model.decoder, RecurrentUNetDecoder)
+    assert [layer.edge_chunk_size for layer in model.encoder.layers] == [7, 7, 7]
+    with pytest.raises(ValueError, match="spline_chunk_size"):
+        ASGCNUNet(hidden_dim=2, graph_layers=1, spline_chunk_size=0)
+
+
 def test_batch_norm_folding_preserves_preactivation() -> None:
     generator = torch.Generator().manual_seed(33)
     layer = PaperSplineConv(2, 3, kernel_size=3, root_weight=True, bias=True).eval()
@@ -9847,6 +16538,7 @@ def test_equation_6_scales_kernel_root_and_bias_per_feature() -> None:
     folded_bias = layer.bias.detach().clone()
     input_scale = torch.tensor([2.0, 4.0])
     output_scale = torch.tensor([5.0, 10.0])
+    layer.calibration_activation_max.copy_(output_scale)
     layer.apply_parameter_normalization(input_scale, output_scale)
 
     torch.testing.assert_close(
@@ -9858,7 +16550,9 @@ def test_equation_6_scales_kernel_root_and_bias_per_feature() -> None:
         folded_root * input_scale.view(-1, 1) / output_scale.view(1, -1),
     )
     torch.testing.assert_close(layer.bias, folded_bias / output_scale)
-    torch.testing.assert_close(layer.activation_max, output_scale)
+    torch.testing.assert_close(layer.calibration_activation_max, output_scale)
+    torch.testing.assert_close(layer.normalization_scale, output_scale)
+    assert not bool(layer.dead_channel_mask.any())
     torch.testing.assert_close(layer.threshold, torch.ones(2))
     assert layer.snn_normalized.item() is True
 
@@ -9888,9 +16582,46 @@ def test_equation_6_requires_nonempty_calibration_and_uses_unit_for_dead_channel
     encoder.calibration_samples_seen.fill_(1)
     encoder.apply_parameter_normalization()
     torch.testing.assert_close(
-        encoder.layers[0].activation_max,
+        encoder.layers[0].calibration_activation_max,
+        torch.tensor([2.0, 0.0]),
+    )
+    torch.testing.assert_close(
+        encoder.layers[0].normalization_scale,
         torch.tensor([2.0, 1.0]),
     )
+    assert torch.equal(
+        encoder.layers[0].dead_channel_mask,
+        torch.tensor([False, True]),
+    )
+    assert encoder.calibration_summary()["dead_channels_per_layer"] == [1]
+
+
+def test_split_calibration_state_preserves_strict_legacy_loading() -> None:
+    source = PaperSplineConv(2, 2, kernel_size=2, root_weight=True, bias=True).eval()
+    source.fold_batch_norm()
+    source.calibration_activation_max.copy_(torch.tensor([2.0, 3.0]))
+    source.apply_parameter_normalization(torch.ones(2), torch.tensor([2.0, 3.0]))
+
+    legacy_state = source.state_dict()
+    legacy_state["activation_max"] = legacy_state.pop("calibration_activation_max")
+    legacy_state.pop("normalization_scale")
+    legacy_state.pop("dead_channel_mask")
+    restored = PaperSplineConv(2, 2, kernel_size=2, root_weight=True, bias=True).eval()
+    restored.load_state_dict(legacy_state, strict=True)
+
+    torch.testing.assert_close(
+        restored.calibration_activation_max,
+        torch.tensor([2.0, 3.0]),
+    )
+    torch.testing.assert_close(restored.normalization_scale, torch.tensor([2.0, 3.0]))
+    assert not bool(restored.dead_channel_mask.any())
+    assert restored._snn_is_normalized is True
+
+    incomplete_state = source.state_dict()
+    incomplete_state.pop("dead_channel_mask")
+    incomplete = PaperSplineConv(2, 2, kernel_size=2, root_weight=True, bias=True).eval()
+    with pytest.raises(RuntimeError, match="dead_channel_mask"):
+        incomplete.load_state_dict(incomplete_state, strict=True)
 
 
 def test_explicit_if_uses_half_threshold_initialization_and_threshold_spikes() -> None:
@@ -9931,7 +16662,7 @@ def test_snn_reuses_one_spline_basis_across_all_timesteps() -> None:
     )
 
     with patch(
-        "asgcn_recon.graph.linear_open_bspline_basis",
+        "asgcn_unet.graph.linear_open_bspline_basis",
         wraps=linear_open_bspline_basis,
     ) as basis:
         encoder.forward_snn(graph, simulation_steps=16)
@@ -10055,14 +16786,14 @@ def test_empty_and_single_node_graphs_are_finite_and_differentiable() -> None:
 
 def test_legacy_edge_mlp_architecture_is_rejected() -> None:
     with pytest.raises(ValueError, match="legacy edge-MLP"):
-        ASGCNReconstructor(architecture_version=1)
+        ASGCNUNet(architecture_version=1)
 
     with pytest.raises(ValueError, match="distance_over_radius"):
-        ASGCNReconstructor(spline_pseudo="distance")
+        ASGCNUNet(spline_pseudo="distance")
 
 
 def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
-    model = ASGCNReconstructor(
+    model = ASGCNUNet(
         hidden_dim=2,
         graph_layers=1,
         spline_kernel_size=2,
@@ -10094,7 +16825,7 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
             "output_activation_scale",
             return_value=torch.tensor([2.0, 3.0]),
         ),
-        patch("asgcn_recon.model.rasterize_features", side_effect=capture_raster),
+        patch("asgcn_unet.model.rasterize_features", side_effect=capture_raster),
         patch.object(
             model.decoder,
             "forward",
@@ -10107,6 +16838,272 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
     assert diagnostics["decoder_input_lambda_applied"] is True
     assert diagnostics["isolated_nodes"].item() == 1
     assert diagnostics["max_degree"].item() == 0
+~~~~~~~~
+
+# tests/test_data_config_hardening.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import zipfile
+from pathlib import Path
+
+import h5py
+import numpy as np
+import pytest
+import torch
+
+from asgcn_unet.data import EventAidRZipDataset, EventHDRDataset
+from asgcn_unet.data.common import image_array_to_tensor, validate_target_normalization
+from asgcn_unet.losses import ReconstructionLoss
+from asgcn_unet.utils import validate_experiment_config
+from tests.fixtures import make_eventaid, make_eventhdr
+
+
+def _append_zip_member(path: Path, name: str, content: bytes = b"duplicate\n") -> None:
+    with zipfile.ZipFile(path, "a", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr(name, content)
+
+
+def _replace_zip_member(path: Path, member: str, content: bytes) -> None:
+    temporary = path.with_suffix(".tmp")
+    with zipfile.ZipFile(path, "r") as source:
+        entries = [(info, source.read(info.filename)) for info in source.infolist()]
+    with zipfile.ZipFile(temporary, "w", compression=zipfile.ZIP_DEFLATED) as destination:
+        for info, original in entries:
+            destination.writestr(info.filename, content if info.filename == member else original)
+    temporary.replace(path)
+
+
+def test_integer_target_normalization_preserves_dtype_max_contract() -> None:
+    image = np.array([[0, 32768, 65535]], dtype=np.uint16)
+    target = image_array_to_tensor(
+        image,
+        target_normalization={"mode": "integer_dtype_max"},
+    )
+    torch.testing.assert_close(
+        target,
+        torch.tensor([[[0.0, 32768 / 65535, 1.0]]]),
+    )
+
+
+@pytest.mark.parametrize("invalid", [np.nan, np.inf, -np.inf])
+def test_float_target_rejects_nonfinite_values(invalid: float) -> None:
+    image = np.array([[0.0, invalid]], dtype=np.float32)
+    with pytest.raises(ValueError, match="NaN or Inf"):
+        image_array_to_tensor(
+            image,
+            target_normalization={"mode": "already_normalized"},
+            source="fixture",
+        )
+
+
+def test_eventhdr_loader_does_not_hide_nonfinite_float_target(tmp_path: Path) -> None:
+    path = make_eventhdr(tmp_path / "eventhdr")
+    with h5py.File(path, "a") as archive:
+        source = archive["images/image000000000"]
+        attributes = dict(source.attrs)
+        image = np.asarray(source, dtype=np.float32) / 65535.0
+        image[0, 0] = np.nan
+        del archive["images/image000000000"]
+        target = archive["images"].create_dataset("image000000000", data=image)
+        for name, value in attributes.items():
+            target.attrs[name] = value
+    dataset = EventHDRDataset(
+        path.parent,
+        target_normalization={"mode": "already_normalized"},
+    )
+    try:
+        with pytest.raises(ValueError, match="NaN or Inf"):
+            dataset[0]
+    finally:
+        dataset.close()
+
+
+def test_target_normalization_rejects_ambiguous_dtype_and_range() -> None:
+    with pytest.raises(ValueError, match="requires an integer dtype"):
+        image_array_to_tensor(
+            np.array([[0.0, 1.0]], dtype=np.float32),
+            target_normalization={"mode": "integer_dtype_max"},
+        )
+    with pytest.raises(ValueError, match=r"outside \[0,1\]"):
+        image_array_to_tensor(
+            np.array([[0.0, 1.01]], dtype=np.float32),
+            target_normalization={"mode": "already_normalized"},
+        )
+    with pytest.raises(ValueError, match=r"outside \[0,1\]"):
+        image_array_to_tensor(
+            np.array([[0.0, 101.0]], dtype=np.float32),
+            target_normalization={"mode": "known_scale", "scale": 100.0},
+        )
+
+
+def test_known_scale_is_explicit_and_percentile_is_debug_only() -> None:
+    target = image_array_to_tensor(
+        np.array([[0.0, 50.0, 100.0]], dtype=np.float32),
+        target_normalization={"mode": "known_scale", "scale": 100.0},
+    )
+    torch.testing.assert_close(target, torch.tensor([[[0.0, 0.5, 1.0]]]))
+
+    with pytest.raises(ValueError, match="debug_only=true"):
+        validate_target_normalization({"mode": "percentile_debug_only"})
+    debug = image_array_to_tensor(
+        np.array([[0.0, 50.0, 100.0]], dtype=np.float32),
+        target_normalization={
+            "mode": "percentile_debug_only",
+            "debug_only": True,
+            "lower_percentile": 0.0,
+            "upper_percentile": 100.0,
+        },
+    )
+    torch.testing.assert_close(debug, torch.tensor([[[0.0, 0.5, 1.0]]]))
+
+
+@pytest.mark.parametrize("tone_map_mu", [0.0, -1.0, float("nan"), float("inf")])
+def test_log_tone_map_requires_a_finite_positive_mu(tone_map_mu: float) -> None:
+    with pytest.raises(ValueError, match="tone_map_mu"):
+        image_array_to_tensor(
+            np.array([[0, 255]], dtype=np.uint8),
+            tone_map="log",
+            tone_map_mu=tone_map_mu,
+            target_normalization={"mode": "integer_dtype_max"},
+        )
+
+
+@pytest.mark.parametrize(
+    ("name", "message"),
+    [
+        ("alternate/event/1.txt", "duplicate numeric event ID"),
+        ("alternate/gt/2_img.png", "duplicate numeric GT ID"),
+        ("nested/timestamps.txt", "duplicate timestamps.txt"),
+        ("nested/shape.txt", "duplicate shape.txt"),
+        ("EVENT/000001.TXT", "case-insensitive duplicate ZIP member"),
+    ],
+)
+def test_eventaid_rejects_logically_duplicate_zip_members(
+    tmp_path: Path, name: str, message: str
+) -> None:
+    path = make_eventaid(tmp_path / "eventaid")
+    _append_zip_member(path, name)
+
+    with pytest.raises(ValueError, match=message):
+        EventAidRZipDataset(path.parent)
+
+
+@pytest.mark.parametrize(
+    "content",
+    [
+        b"48\n",
+        b"48 32 extra\n",
+        b"48.0 32\n",
+        b"48 zero\n",
+        b"0 32\n",
+        b"48 -1\n",
+    ],
+)
+def test_eventaid_rejects_malformed_shape(tmp_path: Path, content: bytes) -> None:
+    path = make_eventaid(tmp_path / "eventaid")
+    _replace_zip_member(path, "shape.txt", content)
+
+    with pytest.raises(ValueError, match="Invalid EventAid-R shape"):
+        EventAidRZipDataset(path.parent)
+
+
+def test_eventaid_rejects_duplicate_timestamp_values(tmp_path: Path) -> None:
+    path = make_eventaid(tmp_path / "eventaid")
+    _replace_zip_member(path, "timestamps.txt", b"100\n200\n200\n300\n")
+
+    with pytest.raises(ValueError, match="strictly increasing"):
+        EventAidRZipDataset(path.parent)
+
+
+@pytest.mark.parametrize("target_offset", [True, False, 1.5, "1"])
+def test_eventaid_target_offset_requires_an_exact_integer(
+    tmp_path: Path, target_offset: object
+) -> None:
+    path = make_eventaid(tmp_path / "eventaid")
+
+    with pytest.raises(TypeError, match="target_offset must be an integer"):
+        EventAidRZipDataset(path.parent, target_offset=target_offset)  # type: ignore[arg-type]
+
+
+def test_eventhdr_orders_image_keys_by_numeric_suffix(tmp_path: Path) -> None:
+    path = make_eventhdr(tmp_path / "eventhdr")
+    with h5py.File(path, "a") as archive:
+        images = archive["images"]
+        images.move("image000000003", "image20")
+        images.move("image000000002", "image10")
+        images.move("image000000001", "image2")
+
+    dataset = EventHDRDataset(path.parent)
+    try:
+        keys = [sample["image_key"] for sample in dataset.samples]
+        assert keys == ["image000000000", "image2", "image10", "image20"]
+    finally:
+        dataset.close()
+
+
+def test_eventhdr_rejects_duplicate_numeric_image_suffix(tmp_path: Path) -> None:
+    path = make_eventhdr(tmp_path / "eventhdr")
+    with h5py.File(path, "a") as archive:
+        archive["images"]["image1"] = archive["images/image000000001"]
+
+    with pytest.raises(ValueError, match="duplicates numeric image index"):
+        EventHDRDataset(path.parent)
+
+
+@pytest.mark.parametrize(
+    "weights",
+    [
+        {"charbonier": 1.0},
+        {"ssim": -0.1},
+        {"gradient": float("nan")},
+        {"gradient": float("inf")},
+        {"charbonnier": True},
+    ],
+)
+def test_reconstruction_loss_rejects_invalid_weights(weights: dict[str, float]) -> None:
+    with pytest.raises((TypeError, ValueError)):
+        ReconstructionLoss(weights)
+
+
+def test_reconstruction_loss_accepts_separately_consumed_temporal_weight() -> None:
+    loss = ReconstructionLoss({"temporal": 0.2})
+    assert "temporal" not in loss.weights
+
+
+@pytest.mark.parametrize(
+    ("config", "message"),
+    [
+        ({"train": {"batch_size": 2}}, "train.batch_size"),
+        ({"train": {"max_train_samples": 0}}, "train.max_train_samples"),
+        ({"train": {"max_val_samples": -1}}, "train.max_val_samples"),
+        ({"eval": {"batch_size": 2}}, "eval.batch_size"),
+        ({"eval": {"max_samples": 0}}, "eval.max_samples"),
+        ({"eval": {"precision": "fp16"}}, "eval.precision"),
+        ({"eval": {"tf32": 1}}, "eval.tf32"),
+        ({"dataset": {"target_offset": True}}, "dataset.target_offset"),
+        ({"dataset": {"target_offset": 1.5}}, "dataset.target_offset"),
+    ],
+)
+def test_experiment_config_rejects_invalid_sample_contracts(config: dict, message: str) -> None:
+    with pytest.raises((TypeError, ValueError), match=message):
+        validate_experiment_config(config)
+
+
+def test_checked_in_configs_declare_target_and_inference_precision() -> None:
+    import json
+
+    repository = Path(__file__).resolve().parents[1]
+    for name in ("train", "hdr", "aid"):
+        config = json.loads((repository / "configs" / f"{name}.json").read_text("utf-8"))
+        assert config["dataset"]["target_normalization"] == {"mode": "integer_dtype_max"}
+        validate_experiment_config(config)
+        if name != "train":
+            assert config["eval"]["precision"] == "fp32"
+            assert config["eval"]["tf32"] is False
+    train = json.loads((repository / "configs/train.json").read_text("utf-8"))
+    assert train["train"]["rehash_data"] is True
 ~~~~~~~~
 
 # tests/test_data_validation.py
@@ -10123,13 +17120,14 @@ import h5py
 import numpy as np
 import pytest
 
-from asgcn_recon.data import (
+from asgcn_unet.cli import _inspect_one_split
+from asgcn_unet.data import (
     EventAidRZipDataset,
     EventHDRDataset,
     build_dataset,
     load_eventhdr_split_manifest,
 )
-from asgcn_recon.engine import _dataset_coverage_summary
+from asgcn_unet.engine import _dataset_coverage_summary
 from tests.fixtures import make_eventaid, make_eventhdr
 
 
@@ -10210,33 +17208,6 @@ def test_eventhdr_distinguishes_h5_and_hdf5_stems(tmp_path: Path) -> None:
 def _write_manifest(path: Path, payload: dict) -> Path:
     path.write_text(json.dumps(payload), encoding="utf-8")
     return path
-
-
-def test_final_eventhdr_manifest_normalizes_physical_scene_groups(tmp_path: Path) -> None:
-    manifest_path = _write_manifest(
-        tmp_path / "split.json",
-        {
-            "status": "FINAL",
-            "scene_groups": {
-                "night-drive-a": ["chunk_02.h5", "nested\\chunk_01.hdf5"],
-                "night-drive-b": ["validation.h5"],
-            },
-            "train_scenes": ["night-drive-a"],
-            "val_scenes": ["night-drive-b"],
-        },
-    )
-
-    manifest = load_eventhdr_split_manifest(manifest_path)
-
-    assert manifest["status"] == "final"
-    assert manifest["split_schema"] == "physical_scenes_v1"
-    assert manifest["train_files"] == ["chunk_02.h5", "nested/chunk_01.hdf5"]
-    assert manifest["val_files"] == ["validation.h5"]
-    assert manifest["file_to_scene"] == {
-        "chunk_02.h5": "night-drive-a",
-        "nested/chunk_01.hdf5": "night-drive-a",
-        "validation.h5": "night-drive-b",
-    }
 
 
 def test_official_separate_root_manifest_maps_overlapping_names_to_sequence_groups(
@@ -10355,7 +17326,7 @@ def test_official_sequence_file_schema_rejects_physical_scene_fields(tmp_path: P
 def test_checked_in_full_eventhdr_protocol_uses_official_roots_and_all_frames() -> None:
     repository = Path(__file__).resolve().parents[1]
     manifest = load_eventhdr_split_manifest(repository / "manifests/eventhdr_split.json")
-    config = json.loads((repository / "configs/hdr_train.json").read_text(encoding="utf-8"))
+    config = json.loads((repository / "configs/train.json").read_text(encoding="utf-8"))
 
     assert manifest["status"] == "final"
     assert manifest["split_schema"] == "official_separate_roots_v1"
@@ -10381,171 +17352,52 @@ def test_final_eventhdr_manifest_rejects_legacy_file_lists(tmp_path: Path) -> No
         },
     )
 
-    with pytest.raises(ValueError, match="requires scene_groups"):
+    with pytest.raises((TypeError, ValueError), match="split_schema"):
         load_eventhdr_split_manifest(manifest_path)
 
 
 @pytest.mark.parametrize(
-    ("update", "message"),
+    ("payload", "message"),
     [
-        ({"val_scenes": ["scene-a"]}, "leaks physical scenes"),
         (
             {
-                "scene_groups": {
-                    "scene-a": ["shared.h5"],
-                    "scene-b": ["shared.h5"],
-                }
+                "status": "provisional",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
+                "train_files": ["a.h5"],
+                "val_files": ["b.h5"],
             },
-            "multiple physical scenes",
+            "status='final'",
         ),
-        ({"val_scenes": ["undefined"]}, "undefined physical scenes"),
-        ({"scene_groups": {"scene-a": [], "scene-b": ["b.h5"]}}, "non-empty list"),
         (
             {
-                "scene_groups": {
-                    "scene-a": ["a.h5"],
-                    "scene-b": ["b.h5"],
-                    "scene-c": ["c.h5"],
-                }
+                "status": "final",
+                "split_schema": "physical_scenes_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
+                "train_files": ["a.h5"],
+                "val_files": ["b.h5"],
             },
-            "leaves physical scenes unassigned",
+            "supports only",
+        ),
+        (
+            {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "physical_scene",
+                "train_files": ["a.h5"],
+                "val_files": ["b.h5"],
+            },
+            "group_semantics",
         ),
     ],
 )
-def test_physical_scene_manifest_rejects_leakage_and_invalid_ownership(
-    tmp_path: Path, update: dict, message: str
+def test_manifest_rejects_unsupported_protocols(
+    tmp_path: Path, payload: dict, message: str
 ) -> None:
-    payload = {
-        "status": "final",
-        "scene_groups": {"scene-a": ["a.h5"], "scene-b": ["b.h5"]},
-        "train_scenes": ["scene-a"],
-        "val_scenes": ["scene-b"],
-    }
-    payload.update(update)
     manifest_path = _write_manifest(tmp_path / "split.json", payload)
 
     with pytest.raises(ValueError, match=message):
         load_eventhdr_split_manifest(manifest_path)
-
-
-def test_physical_scene_manifest_rejects_incomplete_schema(tmp_path: Path) -> None:
-    manifest_path = _write_manifest(
-        tmp_path / "split.json",
-        {
-            "status": "provisional",
-            "scene_groups": {"scene-a": ["a.h5"]},
-            "train_files": ["a.h5"],
-            "val_files": ["b.h5"],
-        },
-    )
-
-    with pytest.raises(ValueError, match=r"incomplete.*train_scenes, val_scenes"):
-        load_eventhdr_split_manifest(manifest_path)
-
-
-def test_factory_assigns_physical_scene_and_retains_source_file(tmp_path: Path) -> None:
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root / "chunk-one")
-    make_eventhdr(data_root / "chunk-two")
-    make_eventhdr(data_root / "held-out")
-    manifest_path = _write_manifest(
-        tmp_path / "split.json",
-        {
-            "status": "final",
-            "scene_groups": {
-                "physical-night-drive": [
-                    "chunk-two/test.h5",
-                    "chunk-one/test.h5",
-                ],
-                "physical-day-drive": ["held-out/test.h5"],
-            },
-            "train_scenes": ["physical-night-drive"],
-            "val_scenes": ["physical-day-drive"],
-        },
-    )
-    config = {
-        "type": "eventhdr",
-        "root": str(data_root),
-        "split_manifest": str(manifest_path),
-        "max_events": 8,
-    }
-
-    train_dataset = build_dataset(config, split="train")
-    first = train_dataset[0]
-    second_file = train_dataset[4]
-
-    assert train_dataset.samples[0]["scene"] == "physical-night-drive"
-    assert first["metadata"]["scene"] == "physical-night-drive"
-    assert first["metadata"]["source_file"] == "chunk-two/test.h5"
-    assert second_file["metadata"]["source_file"] == "chunk-one/test.h5"
-    assert first["sample_id"] != second_file["sample_id"]
-
-    val_sample = build_dataset(config, split="val")[0]
-    assert val_sample["metadata"]["scene"] == "physical-day-drive"
-    assert val_sample["metadata"]["source_file"] == "held-out/test.h5"
-
-
-def test_final_manifest_must_cover_every_h5_under_root(tmp_path: Path) -> None:
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root / "train").rename(data_root / "train" / "a.h5")
-    make_eventhdr(data_root / "val").rename(data_root / "val" / "b.h5")
-    make_eventhdr(data_root / "extra").rename(data_root / "extra" / "c.h5")
-    manifest_path = _write_manifest(
-        tmp_path / "split.json",
-        {
-            "status": "final",
-            "scene_groups": {
-                "scene-a": ["train/a.h5"],
-                "scene-b": ["val/b.h5"],
-            },
-            "train_scenes": ["scene-a"],
-            "val_scenes": ["scene-b"],
-        },
-    )
-
-    with pytest.raises(ValueError, match="must cover every H5.*extra/c.h5"):
-        build_dataset(
-            {
-                "type": "eventhdr",
-                "root": str(data_root),
-                "split_manifest": str(manifest_path),
-            },
-            split="train",
-        )
-
-
-def test_final_manifest_checks_separate_roots_without_collapsing_same_names(
-    tmp_path: Path,
-) -> None:
-    train_root = tmp_path / "train"
-    val_root = tmp_path / "val"
-    make_eventhdr(train_root).rename(train_root / "a.h5")
-    make_eventhdr(val_root).rename(val_root / "b.h5")
-    manifest_path = _write_manifest(
-        tmp_path / "split.json",
-        {
-            "status": "final",
-            "scene_groups": {
-                "training-scene": ["a.h5"],
-                "validation-scene": ["b.h5"],
-            },
-            "train_scenes": ["training-scene"],
-            "val_scenes": ["validation-scene"],
-        },
-    )
-    config = {
-        "type": "eventhdr",
-        "root": str(train_root),
-        "val_root": str(val_root),
-        "split_manifest": str(manifest_path),
-    }
-
-    build_dataset(config, split="train").close()
-    build_dataset(config, split="val").close()
-
-    make_eventhdr(tmp_path / "extra").rename(val_root / "a.h5")
-    with pytest.raises(ValueError, match=r"dataset\.val_root.*undeclared: a\.h5"):
-        build_dataset(config, split="val")
 
 
 def test_final_manifest_excludes_nested_validation_root_from_training_coverage(
@@ -10559,12 +17411,10 @@ def test_final_manifest_excludes_nested_validation_root_from_training_coverage(
         tmp_path / "split.json",
         {
             "status": "final",
-            "scene_groups": {
-                "training-scene": ["train.h5"],
-                "validation-scene": ["val.h5"],
-            },
-            "train_scenes": ["training-scene"],
-            "val_scenes": ["validation-scene"],
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["train.h5"],
+            "val_files": ["val.h5"],
         },
     )
     config = {
@@ -10604,33 +17454,6 @@ def test_eventaid_fixed_manifest_rejects_partial_external_eval(tmp_path: Path) -
             },
             split="eval",
         )
-
-
-def test_provisional_legacy_manifest_keeps_file_identity_as_scene(tmp_path: Path) -> None:
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root)
-    manifest_path = _write_manifest(
-        tmp_path / "split.json",
-        {
-            "status": "provisional",
-            "train_files": ["test.h5"],
-            "val_files": ["unused.h5"],
-        },
-    )
-
-    manifest = load_eventhdr_split_manifest(manifest_path)
-    dataset = build_dataset(
-        {
-            "type": "eventhdr",
-            "root": str(data_root),
-            "split_manifest": str(manifest_path),
-        },
-        split="train",
-    )
-
-    assert manifest["split_schema"] == "legacy_files_v1"
-    assert dataset[0]["metadata"]["scene"] == "test.h5"
-    assert dataset[0]["metadata"]["source_file"] == "test.h5"
 
 
 @pytest.mark.parametrize(
@@ -10795,6 +17618,26 @@ def test_eventaid_requires_timestamp_for_every_pair(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="does not cover"):
         EventAidRZipDataset(path.parent)
+
+
+def test_eventaid_full_inspect_reports_timestamp_relationship_without_assuming_units(
+    tmp_path: Path,
+) -> None:
+    path = make_eventaid(tmp_path / "eventaid")
+    dataset = EventAidRZipDataset(path.parent, max_events=None)
+    try:
+        report = _inspect_one_split(dataset, samples=0, validate_all=True)
+    finally:
+        dataset.close()
+
+    diagnostics = report["event_timestamp_diagnostics"]
+    assert diagnostics["validated_blocks"] == 3
+    assert diagnostics["event_count"] == 240
+    assert diagnostics["outside_interval_count"] == 0
+    assert diagnostics["outside_interval_fraction"] == 0.0
+    assert diagnostics["event_to_interval_span_ratio_min"] == pytest.approx(0.95)
+    assert diagnostics["event_to_interval_span_ratio_max"] == pytest.approx(0.95)
+    assert diagnostics["strict_interval_validation"] is False
 ~~~~~~~~
 
 # tests/test_e2e.py
@@ -10802,14 +17645,52 @@ def test_eventaid_requires_timestamp_for_every_pair(tmp_path: Path) -> None:
 ~~~~~~~~python
 from __future__ import annotations
 
+import copy
+import json
+import socket
+
+import pytest
 import torch
 
-from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
-from asgcn_recon.engine import _model_state_sha256, benchmark, evaluate
-from asgcn_recon.losses import ReconstructionLoss
-from asgcn_recon.model import ASGCNReconstructor
-from asgcn_recon.utils import atomic_torch_save
+import asgcn_unet.engine as engine_module
+from asgcn_unet.data import EventAidRZipDataset, EventHDRDataset
+from asgcn_unet.engine import (
+    _canonical_sha256,
+    _dataset_content_fingerprint,
+    _file_sha256,
+    _model_state_sha256,
+    _sampling_summary,
+    _training_protocol,
+    _validation_protocol,
+    benchmark,
+    evaluate,
+)
+from asgcn_unet.losses import ReconstructionLoss
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import atomic_torch_save
 from tests.fixtures import make_eventaid, make_eventhdr
+
+
+def _verified_preflight_gate() -> dict[str, object]:
+    digest = "a" * 64
+    return {
+        "schema": "asgcn_preflight_verification_v1",
+        "status": "verified",
+        "report_eligible": True,
+        "report": "runs/profile.json",
+        "report_sha256": digest,
+        "measurement_scope": {
+            "name": "selected_top_density_training_steps",
+            "topology_scope": "complete_eventhdr_training_split",
+            "absolute_vram_guarantee": False,
+            "statement": "Empirical GPU preflight for the recorded runtime.",
+        },
+        "config_sha256": digest,
+        "data_sha256": digest,
+        "source_tree_sha256": digest,
+        "gpu": {"name": "synthetic-test-gpu"},
+        "measured_steps": 1,
+    }
 
 
 def test_train_eval_benchmark_contract(tmp_path):
@@ -10844,7 +17725,7 @@ def test_train_eval_benchmark_contract(tmp_path):
         "output_channels": 1,
         "recurrent": True,
     }
-    model = ASGCNReconstructor(**model_config)
+    model = ASGCNUNet(**model_config)
     sample = hdr[0]
     prediction, diagnostics = model.forward_sample(sample)
     loss, _ = ReconstructionLoss()(prediction, sample["target"].unsqueeze(0))
@@ -10883,10 +17764,26 @@ def test_train_eval_benchmark_contract(tmp_path):
             "max_samples": 2,
             "save_predictions": 1,
             "output_dir": str(output_dir),
+            "precision": "fp32",
+            "tf32": False,
         },
     }
-    result = evaluate(config, checkpoint)
-    timing = benchmark(config, checkpoint, warmup=1, steps=2)
+    with pytest.raises(ValueError, match="Checkpoint reporting protocol is not sealed"):
+        evaluate(config, checkpoint)
+    with pytest.raises(ValueError, match="Checkpoint reporting protocol is not sealed"):
+        benchmark(config, checkpoint, warmup=1, steps=2)
+    result = evaluate(
+        config,
+        checkpoint,
+        allow_unsealed_checkpoint_for_non_reporting=True,
+    )
+    timing = benchmark(
+        config,
+        checkpoint,
+        warmup=1,
+        steps=2,
+        allow_unsealed_checkpoint_for_non_reporting=True,
+    )
 
     assert result["quality"]["frames"] == 2
     assert timing["frames"] == 2
@@ -10899,6 +17796,17 @@ def test_train_eval_benchmark_contract(tmp_path):
     assert timing["recurrent_context_frames"] == 1
     assert timing["state_resets"] == 0
     assert timing["state_reset_ratio"] == 0.0
+    assert result["precision"] == timing["precision"]
+    assert result["precision"]["requested"] == "fp32"
+    assert result["precision"]["model_parameter_dtype"] == "float32"
+    assert result["report_eligible"] is False
+    assert timing["report_eligible"] is False
+    assert result["report_ineligible_reasons"][0] == (
+        "explicit non-reporting checkpoint override requested"
+    )
+    assert result["checkpoint"] == "$EXTERNAL/model.pt"
+    assert result["output_dir"] == "$EXTERNAL/ann"
+    assert timing["output_path"] == "$EXTERNAL/benchmark.json"
     ann_output = output_dir / "ann"
     assert (ann_output / "metrics.json").is_file()
     assert (ann_output / "frames.csv").is_file()
@@ -10907,6 +17815,323 @@ def test_train_eval_benchmark_contract(tmp_path):
 
     hdr.close()
     aid.close()
+
+
+def test_sealed_ann_reporting_protocol_is_complete_redacted_and_reuses_data_hash_cache(
+    tmp_path, monkeypatch
+) -> None:
+    aid_root = tmp_path / "private-mount" / "aid"
+    make_eventaid(aid_root)
+    aid_manifest_path = tmp_path / "aid-files.json"
+    aid_manifest_path.write_text(
+        json.dumps({"files": [{"scene": "R-test"}]}),
+        encoding="utf-8",
+    )
+    train_root = tmp_path / "hdr-train"
+    val_root = tmp_path / "hdr-val"
+    make_eventhdr(train_root)
+    make_eventhdr(val_root)
+    split_manifest_path = tmp_path / "eventhdr-split.json"
+    split_manifest_path.write_text(
+        json.dumps(
+            {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
+                "train_files": ["test.h5"],
+                "val_files": ["test.h5"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    model_config = {
+        "architecture_version": 2,
+        "hidden_dim": 2,
+        "graph_layers": 1,
+        "spline_kernel_size": 2,
+        "decoder_channels": 4,
+        "recurrent": False,
+    }
+    output_dir = tmp_path / "report-eval"
+    config = {
+        "seed": 11,
+        "device": "cpu",
+        "dataset": {
+            "type": "eventaid_r_zip",
+            "root": str(aid_root),
+            "file_manifest": str(aid_manifest_path),
+            "expected_file_count": 1,
+            "target_offset": 1,
+        },
+        "model": model_config,
+        "eval": {
+            "batch_size": 1,
+            "num_workers": 0,
+            "max_samples": None,
+            "output_dir": str(output_dir),
+            "precision": "fp32",
+            "tf32": False,
+        },
+    }
+    training_config_input = {
+        "seed": 11,
+        "device": "cpu",
+        "dataset": {
+            "type": "eventhdr",
+            "root": str(train_root),
+            "val_root": str(val_root),
+            "split_manifest": str(split_manifest_path),
+        },
+        "model": model_config,
+        "train": {
+            "epochs": 1,
+            "batch_size": 1,
+            "num_workers": 0,
+            "amp": False,
+            "validate_every": None,
+            "max_train_samples": None,
+            "max_val_samples": None,
+            "validation_context_frames": 0,
+            "loss_weights": None,
+        },
+    }
+    train_dataset = engine_module.build_dataset(
+        training_config_input["dataset"], split="train"
+    )
+    val_dataset = engine_module.build_dataset(
+        training_config_input["dataset"], split="val"
+    )
+    try:
+        training_content = _dataset_content_fingerprint(train_dataset)
+        sample_count = len(val_dataset)
+        sampling = _sampling_summary(
+            val_dataset, list(range(len(val_dataset)))
+        )
+        sampling.update(
+            {
+                "context_policy": "none_non_recurrent",
+                "max_context_frames_per_group": 0,
+                "context_samples": 0,
+                "forward_samples": sample_count,
+            }
+        )
+        validation_protocol = _validation_protocol(
+            training_config_input,
+            sampling,
+            train_dataset,
+            val_dataset,
+            {},
+        )
+    finally:
+        train_dataset.close()
+        val_dataset.close()
+    evaluation_dataset = EventAidRZipDataset(aid_root)
+    try:
+        content = _dataset_content_fingerprint(evaluation_dataset)
+    finally:
+        evaluation_dataset.close()
+    model_state = ASGCNUNet(**model_config).state_dict()
+    training_protocol = _training_protocol(
+        training_config_input, torch.device("cpu")
+    )
+    training_config = engine_module._public_config(training_config_input)
+    preflight_gate = _verified_preflight_gate()
+    preflight_gate["config_sha256"] = _canonical_sha256(training_config)
+    preflight_gate["data_sha256"] = training_content["sha256"]
+    preflight_gate["source_tree_sha256"] = training_protocol["source"][
+        "source_tree_sha256"
+    ]
+    checkpoint = tmp_path / "sealed-ann.pt"
+    checkpoint_payload = {
+        "checkpoint_type": "ann_inference",
+        "epoch": 1,
+        "model": model_state,
+        "model_state_sha256": _model_state_sha256(model_state),
+        "model_config": model_config,
+        "paper_core_version": 2,
+        "val": {"frames": sample_count, "macro": {"ssim": 0.75}},
+        "best_ssim": 0.75,
+        "best_metric": "macro_ssim",
+        "checkpoint_selection": "single_final_epoch",
+        "preflight_gate": preflight_gate,
+        "training_config": training_config,
+        "validation_protocol": validation_protocol,
+        "training_protocol": training_protocol,
+        "terminal_validation_state": {
+            "planned_epoch": 1,
+            "completed": True,
+            "completed_epoch": 1,
+        },
+    }
+    atomic_torch_save(checkpoint_payload, checkpoint)
+    for field, message in (
+        ("data_sha256", "training data"),
+        ("source_tree_sha256", "training source"),
+        ("config_sha256", "training config"),
+    ):
+        mismatched_payload = copy.deepcopy(checkpoint_payload)
+        mismatched_payload["preflight_gate"][field] = "f" * 64
+        mismatched_checkpoint = tmp_path / f"mismatched-{field}.pt"
+        atomic_torch_save(mismatched_payload, mismatched_checkpoint)
+        with pytest.raises(ValueError, match=message):
+            evaluate(config, mismatched_checkpoint)
+    bypassed_checkpoint = tmp_path / "bypassed-ann.pt"
+    atomic_torch_save(
+        {
+            **checkpoint_payload,
+            "preflight_gate": {
+                "schema": "asgcn_preflight_verification_v1",
+                "status": "bypassed_non_reporting",
+                "report_eligible": False,
+                "report": "profile.json",
+                "warning": "synthetic bypass",
+            },
+        },
+        bypassed_checkpoint,
+    )
+    with pytest.raises(ValueError, match="preflight gate"):
+        evaluate(config, bypassed_checkpoint)
+
+    missing_count_config = copy.deepcopy(config)
+    missing_count_config["dataset"].pop("expected_file_count")
+    missing_count_config["eval"]["output_dir"] = str(tmp_path / "missing-count")
+    with pytest.raises(ValueError, match="expected-file-count commitment"):
+        evaluate(missing_count_config, checkpoint)
+
+    missing_manifest_config = copy.deepcopy(config)
+    missing_manifest_config["dataset"].pop("file_manifest")
+    missing_manifest_config["eval"]["output_dir"] = str(tmp_path / "missing-manifest")
+    with pytest.raises(ValueError, match="fixed file manifest"):
+        evaluate(missing_manifest_config, checkpoint)
+
+    original_content_fingerprint = engine_module._dataset_content_fingerprint
+    cache_entry_counts: list[int] = []
+
+    def tracked_content_fingerprint(dataset, cache=None):
+        if cache is not None:
+            cache_entry_counts.append(len(cache))
+        return original_content_fingerprint(dataset, cache)
+
+    monkeypatch.setattr(
+        engine_module,
+        "_dataset_content_fingerprint",
+        tracked_content_fingerprint,
+    )
+    result = evaluate(config, checkpoint)
+    timing = benchmark(config, checkpoint, warmup=0, steps=1)
+
+    assert result["report_eligible"] is True
+    assert timing["report_eligible"] is True
+    assert result["report_ineligible_reasons"] == []
+    assert cache_entry_counts[0] == 0
+    assert cache_entry_counts[1] >= 1
+    assert result["evaluation_protocol"]["evaluation_dataset"]["contract"]["content"] == content
+    assert timing["benchmark_protocol"]["evaluation_dataset"]["contract"]["content"] == content
+
+    for protocol_name, protocol in (
+        ("evaluation_protocol", result["evaluation_protocol"]),
+        ("benchmark_protocol", timing["benchmark_protocol"]),
+    ):
+        assert protocol["schema"] == "asgcn_reporting_protocol_v1"
+        assert len(protocol["public_config"]["sha256"]) == 64
+        assert len(protocol["model_config"]["sha256"]) == 64
+        assert len(protocol["source"]["sha256"]) == 64
+        assert len(protocol["runtime"]["sha256"]) == 64
+        assert len(protocol["precision"]["sha256"]) == 64
+        assert len(protocol["execution"]["sha256"]) == 64
+        assert protocol["execution"]["contract"]["inference_mode"] == "ann"
+        assert protocol["execution"]["contract"]["simulation_steps"] is None
+        assert protocol["execution"]["contract"]["snn_dynamics"] is None
+        assert protocol["checkpoint"]["checkpoint_file_sha256"] == _file_sha256(checkpoint)
+        assert protocol["checkpoint"]["model_state_sha256"] == _model_state_sha256(
+            model_state
+        )
+        assert len(protocol["checkpoint"]["training_protocol"]["sha256"]) == 64
+        assert len(protocol["checkpoint"]["validation_protocol"]["sha256"]) == 64
+        unsigned = dict(protocol)
+        digest = unsigned.pop("protocol_sha256")
+        assert digest == _canonical_sha256(unsigned), protocol_name
+        public_text = json.dumps(protocol, ensure_ascii=False, allow_nan=False)
+        assert str(tmp_path) not in public_text
+        machine_name = socket.gethostname()
+        if machine_name:
+            assert machine_name not in public_text
+
+    cache_text = (output_dir / ".data_hash_cache.json").read_text(encoding="utf-8")
+    assert str(aid_root) not in cache_text
+    cache_payload = json.loads(cache_text, parse_constant=lambda value: pytest.fail(value))
+    assert cache_payload["version"] == 1
+    for artifact in (
+        output_dir / "ann" / "metrics.json",
+        output_dir / "ann" / "benchmark.json",
+    ):
+        json.loads(
+            artifact.read_text(encoding="utf-8"),
+            parse_constant=lambda value: pytest.fail(f"non-finite JSON token: {value}"),
+        )
+
+
+def test_standalone_evaluate_and_benchmark_reject_nonfinite_predictions(
+    tmp_path, monkeypatch
+) -> None:
+    aid_root = tmp_path / "aid"
+    make_eventaid(aid_root)
+    model_config = {
+        "architecture_version": 2,
+        "hidden_dim": 2,
+        "graph_layers": 1,
+        "spline_kernel_size": 2,
+        "decoder_channels": 4,
+        "recurrent": False,
+    }
+    model_state = ASGCNUNet(**model_config).state_dict()
+    checkpoint = tmp_path / "model.pt"
+    atomic_torch_save(
+        {
+            "checkpoint_type": "ann_inference",
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "model_config": model_config,
+        },
+        checkpoint,
+    )
+    config = {
+        "device": "cpu",
+        "dataset": {
+            "type": "eventaid_r_zip",
+            "root": str(aid_root),
+            "target_offset": 1,
+        },
+        "model": model_config,
+        "eval": {
+            "num_workers": 0,
+            "max_samples": 1,
+            "output_dir": str(tmp_path / "eval"),
+            "precision": "fp32",
+            "tf32": False,
+        },
+    }
+    original_forward = ASGCNUNet.forward_sample
+
+    def poisoned_forward(self, *args, **kwargs):
+        prediction, diagnostics = original_forward(self, *args, **kwargs)
+        return torch.full_like(prediction, float("nan")), diagnostics
+
+    monkeypatch.setattr(ASGCNUNet, "forward_sample", poisoned_forward)
+    with pytest.raises(FloatingPointError, match="Non-finite prediction"):
+        evaluate(
+            config,
+            checkpoint,
+            allow_unsealed_checkpoint_for_non_reporting=True,
+        )
+    with pytest.raises(FloatingPointError, match="Non-finite prediction"):
+        benchmark(
+            config,
+            checkpoint,
+            warmup=0,
+            steps=1,
+            allow_unsealed_checkpoint_for_non_reporting=True,
+        )
 ~~~~~~~~
 
 # tests/test_engine_integrity.py
@@ -10916,23 +18141,32 @@ from __future__ import annotations
 
 import copy
 import sys
+import weakref
 
 import pytest
 import torch
 
-from asgcn_recon.engine import (
+import asgcn_unet.engine as engine_module
+from asgcn_unet.engine import (
     _centralize_gradients,
     _clip_and_validate_gradients,
     _ensure_finite_loss,
+    _inference_precision,
     _model_state_sha256,
     _prediction_artifact_stem,
+    _require_finite_structure,
+    _reset_benchmark_measurement_window,
     _training_protocol,
     _validate_snn_request,
+    _validate_terminal_validation_resume,
     _validate_training_protocol,
+    benchmark,
+    evaluate,
     load_model_checkpoint,
 )
-from asgcn_recon.model import ASGCNReconstructor
-from asgcn_recon.utils import atomic_torch_save
+from asgcn_unet.losses import ReconstructionLoss
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import atomic_torch_save, move_inference_sample, move_sample
 from scripts import check_env
 
 
@@ -10960,6 +18194,125 @@ def _config() -> dict:
     }
 
 
+class _TransferProbe:
+    def __init__(self) -> None:
+        self.calls: list[tuple[torch.device, bool]] = []
+
+    def to(self, device: torch.device, *, non_blocking: bool = False):
+        self.calls.append((device, non_blocking))
+        return object()
+
+
+def test_compute_transfer_keeps_target_on_host_while_quality_transfer_moves_it() -> None:
+    device = torch.device("cuda")
+    compute_events = _TransferProbe()
+    compute_target = _TransferProbe()
+    compute_sample = {"events": compute_events, "target": compute_target}
+
+    moved_compute = move_inference_sample(compute_sample, device)
+
+    assert moved_compute["events"] is not compute_events
+    assert moved_compute["target"] is compute_target
+    assert compute_events.calls == [(device, True)]
+    assert compute_target.calls == []
+
+    quality_events = _TransferProbe()
+    quality_target = _TransferProbe()
+    moved_quality = move_sample(
+        {"events": quality_events, "target": quality_target},
+        device,
+    )
+
+    assert moved_quality["events"] is not quality_events
+    assert moved_quality["target"] is not quality_target
+    assert quality_events.calls == [(device, True)]
+    assert quality_target.calls == [(device, True)]
+
+
+def test_benchmark_releases_warmup_and_cuda_cache_before_peak_reset(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events: list[str] = []
+
+    class WarmupReference:
+        pass
+
+    retained: list[WarmupReference] = [WarmupReference()]
+    reference = weakref.ref(retained[0])
+
+    def release() -> None:
+        events.append("release")
+        retained.clear()
+
+    monkeypatch.setattr(
+        engine_module.torch.cuda,
+        "synchronize",
+        lambda device: events.append("synchronize"),
+    )
+    monkeypatch.setattr(
+        engine_module.gc,
+        "collect",
+        lambda: events.append("collect"),
+    )
+
+    def empty_cache() -> None:
+        assert reference() is None
+        events.append("empty_cache")
+
+    monkeypatch.setattr(engine_module.torch.cuda, "empty_cache", empty_cache)
+    monkeypatch.setattr(
+        engine_module.torch.cuda,
+        "reset_peak_memory_stats",
+        lambda device: events.append("reset_peak"),
+    )
+
+    _reset_benchmark_measurement_window(torch.device("cuda"), release)
+
+    assert events == [
+        "synchronize",
+        "release",
+        "collect",
+        "empty_cache",
+        "reset_peak",
+    ]
+
+
+@pytest.mark.parametrize("entrypoint", [evaluate, benchmark])
+def test_evaluation_entrypoints_close_dataset_when_setup_fails(
+    monkeypatch: pytest.MonkeyPatch,
+    entrypoint,
+) -> None:
+    class TrackingDataset:
+        def __init__(self) -> None:
+            self.closed = False
+
+        def __len__(self) -> int:
+            return 1
+
+        def __getitem__(self, index: int):
+            raise AssertionError(f"unexpected dataset read: {index}")
+
+        def close(self) -> None:
+            self.closed = True
+
+    dataset = TrackingDataset()
+    monkeypatch.setattr(engine_module, "build_dataset", lambda *args, **kwargs: dataset)
+    monkeypatch.setattr(
+        engine_module,
+        "load_model_checkpoint",
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("setup failed")),
+    )
+    config = {"device": "cpu", "dataset": {}, "model": {}, "eval": {}}
+
+    with pytest.raises(RuntimeError, match="setup failed"):
+        if entrypoint is benchmark:
+            entrypoint(config, "checkpoint.pt", warmup=0, steps=1)
+        else:
+            entrypoint(config, "checkpoint.pt")
+
+    assert dataset.closed is True
+
+
 def test_training_protocol_captures_trajectory_but_allows_run_control_changes() -> None:
     config = _config()
     protocol = _training_protocol(config, torch.device("cpu"))
@@ -10974,7 +18327,7 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
     assert len(protocol["source"]["source_tree_sha256"]) == 64
     assert protocol["runtime"]["gpu_name"] is None
     assert protocol["runtime"]["compute_capability"] is None
-    assert protocol["version"] == 3
+    assert protocol["version"] == 4
 
     allowed = copy.deepcopy(config)
     allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})
@@ -10995,6 +18348,51 @@ def test_training_protocol_can_reserve_validation_for_the_final_epoch() -> None:
     protocol = _training_protocol(config, torch.device("cpu"))
     assert protocol["validate_every"] is None
     assert protocol["checkpoint_selection"] == "single_final_epoch"
+    assert protocol["terminal_validation"] == {
+        "mode": "single_final_epoch",
+        "planned_epoch": 10,
+    }
+
+    extended = copy.deepcopy(config)
+    extended["train"]["epochs"] = 11
+    extended_protocol = _training_protocol(extended, torch.device("cpu"))
+    with pytest.raises(ValueError, match="already completed"):
+        _validate_terminal_validation_resume(
+            {
+                "training_protocol": protocol,
+                "terminal_validation_state": {
+                    "planned_epoch": 10,
+                    "completed": True,
+                    "completed_epoch": 10,
+                },
+            },
+            extended_protocol,
+        )
+
+
+def test_inference_precision_and_finite_artifact_guards_are_explicit() -> None:
+    model = torch.nn.Linear(2, 1)
+    precision, dtype = _inference_precision(
+        {"precision": "fp32", "tf32": False}, torch.device("cpu"), model
+    )
+    assert dtype is None
+    assert precision == {
+        "requested": "fp32",
+        "effective": "fp32",
+        "autocast_dtype": None,
+        "model_parameter_dtype": "float32",
+        "device": "cpu",
+        "tf32": False,
+        "tf32_requested": False,
+    }
+    with pytest.raises(ValueError, match="requires a CUDA device"):
+        _inference_precision(
+            {"precision": "amp_fp16"}, torch.device("cpu"), model
+        )
+    with pytest.raises(FloatingPointError, match=r"metrics\.nested"):
+        _require_finite_structure(
+            {"nested": [1.0, float("nan")]}, "metrics", "sample-a"
+        )
 
 
 def test_paper_optimizer_mode_records_gc_and_milestone_schedule() -> None:
@@ -11029,7 +18427,7 @@ def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
     with pytest.raises(FloatingPointError, match="total loss"):
         _ensure_finite_loss(
             torch.tensor(float("nan")),
-            {"charbonnier": 1.0, "total": float("nan")},
+            {"charbonnier": torch.tensor(1.0)},
             epoch=1,
             step=2,
             sample_id="sample-a",
@@ -11037,7 +18435,7 @@ def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
     with pytest.raises(FloatingPointError, match="charbonnier"):
         _ensure_finite_loss(
             torch.tensor(1.0),
-            {"charbonnier": float("inf"), "total": 1.0},
+            {"charbonnier": torch.tensor(float("inf"))},
             epoch=1,
             step=2,
             sample_id="sample-a",
@@ -11048,6 +18446,25 @@ def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
         parameter.grad = torch.full_like(parameter, float("inf"))
     with pytest.raises(FloatingPointError, match="gradients after clipping"):
         _clip_and_validate_gradients(model, 1.0, epoch=1, step=2, sample_id="sample-a")
+
+
+def test_reconstruction_loss_keeps_components_on_device_until_packed_validation() -> None:
+    prediction = torch.rand((1, 1, 8, 8), requires_grad=True)
+    target = torch.rand_like(prediction)
+    total, parts = ReconstructionLoss()(prediction, target)
+
+    assert all(isinstance(value, torch.Tensor) for value in parts.values())
+    assert all(value.device == prediction.device for value in parts.values())
+    assert all(not value.requires_grad for value in parts.values())
+    values = _ensure_finite_loss(
+        total,
+        parts,
+        epoch=1,
+        step=1,
+        sample_id="packed",
+    )
+    assert set(values) == {"total", "charbonnier", "ssim", "gradient"}
+    assert all(isinstance(value, float) for value in values.values())
 
 
 def test_snn_requires_paper_core_parameter_normalization() -> None:
@@ -11078,7 +18495,7 @@ def test_checkpoint_loader_rejects_unversioned_legacy_model(tmp_path) -> None:
         "decoder_channels": 4,
         "recurrent": False,
     }
-    model = ASGCNReconstructor(**model_config)
+    model = ASGCNUNet(**model_config)
     mismatch = tmp_path / "mismatch.pt"
     torch.save(
         {"model": model.state_dict(), "model_config": model_config},
@@ -11098,7 +18515,7 @@ def test_checkpoint_loader_cross_checks_conversion_metadata_and_layer_state(tmp_
         "decoder_channels": 4,
         "recurrent": False,
     }
-    model = ASGCNReconstructor(**model_config)
+    model = ASGCNUNet(**model_config)
     model_state = model.state_dict()
     path = tmp_path / "tampered.pt"
     atomic_torch_save(
@@ -11125,7 +18542,7 @@ def test_checkpoint_loader_rejects_finite_model_tensor_tampering(tmp_path) -> No
         "decoder_channels": 4,
         "recurrent": False,
     }
-    model_state = ASGCNReconstructor(**model_config).state_dict()
+    model_state = ASGCNUNet(**model_config).state_dict()
     checkpoint = {
         "checkpoint_type": "ann_inference",
         "model_config": model_config,
@@ -11456,6 +18873,307 @@ def test_link_mode_uses_shared_storage_without_copy(tmp_path: Path) -> None:
     get_hdr.check_destination(destination, ("train", "eval"))
 ~~~~~~~~
 
+# tests/test_gpu_preflight.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+
+import pytest
+import torch
+
+import asgcn_unet.cli as cli_module
+import asgcn_unet.preflight as preflight_module
+from asgcn_unet.graph import build_radius_graph, radius_graph_topology
+from asgcn_unet.preflight import training_preflight, verify_training_preflight
+from asgcn_unet.utils import save_json
+from tests.fixtures import make_eventhdr
+
+
+def _config(root, *, max_graph_edges: int = 10_000, radius: float = 0.45) -> dict:
+    return {
+        "seed": 31,
+        "device": "cpu",
+        "dataset": {
+            "type": "eventhdr",
+            "root": str(root),
+            "target_channels": 1,
+            "max_events": 32,
+            "crop_size": None,
+            "frame_stride": 1,
+            "target_normalization": {"mode": "integer_dtype_max"},
+            "tone_map": "log",
+            "tone_map_mu": 5000.0,
+        },
+        "model": {
+            "architecture_version": 2,
+            "graph_operator": "spline",
+            "spline_backend": "torch",
+            "spline_pseudo": "distance_over_radius",
+            "spline_is_open": True,
+            "hidden_dim": 4,
+            "graph_layers": 1,
+            "event_sampling_factor": 2,
+            "graph_radius": radius,
+            "graph_position_dims": 3,
+            "graph_chunk_size": 8,
+            "max_graph_edges": max_graph_edges,
+            "spline_kernel_size": 3,
+            "spline_degree": 1,
+            "spline_root_weight": True,
+            "spline_chunk_size": 32,
+            "raster_downsample": 4,
+            "decoder_channels": 4,
+            "output_channels": 1,
+            "recurrent": False,
+        },
+        "train": {
+            "epochs": 2,
+            "batch_size": 1,
+            "num_workers": 0,
+            "optimizer": "adam_gc",
+            "learning_rate": 1e-3,
+            "weight_decay": 5e-3,
+            "grad_clip": 1.0,
+            "amp": False,
+            "validate_every": 1,
+            "loss_weights": {
+                "charbonnier": 1.0,
+                "ssim": 0.2,
+                "gradient": 0.1,
+                "temporal": 0.2,
+            },
+        },
+        "output": {"run_dir": str(root.parent / "train")},
+    }
+
+
+def test_topology_counter_matches_materialized_directed_graph() -> None:
+    generator = torch.Generator().manual_seed(8)
+    positions = torch.rand((37, 4), generator=generator)
+    edge_index, _ = build_radius_graph(
+        positions,
+        0.3,
+        position_dims=3,
+        chunk_size=7,
+    )
+    topology = radius_graph_topology(
+        positions,
+        0.3,
+        position_dims=3,
+        chunk_size=7,
+    )
+
+    degree = torch.bincount(edge_index[1], minlength=len(positions))
+    assert topology["actual_directed_edges"] == edge_index.shape[1]
+    assert topology["candidate_directed_edges"] >= topology["actual_directed_edges"]
+    assert topology["max_degree"] == int(degree.max())
+    assert topology["isolated_nodes"] == int((degree == 0).sum())
+
+
+def test_cpu_diagnostic_scans_every_sample_and_runs_configured_backward(tmp_path) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    output = tmp_path / "preflight.json"
+
+    report = training_preflight(
+        _config(root),
+        output,
+        profile_samples=2,
+        top_density_count=3,
+        require_cuda=False,
+    )
+
+    persisted = json.loads(output.read_text(encoding="utf-8"))
+    assert persisted == report
+    assert report["status"] == "diagnostic_passed"
+    assert report["passed"] is True
+    assert report["report_eligible"] is False
+    assert report["measurement_scope"]["name"] == "selected_top_density_training_steps"
+    assert report["measurement_scope"]["absolute_vram_guarantee"] is False
+    assert report["checks"] == {
+        "cuda_available": False,
+        "complete_topology_scan": True,
+        "edge_guard": True,
+        "forward_backward": True,
+        "cuda_oom_free": None,
+    }
+    topology = report["topology"]
+    assert topology["scan_scope"] == "complete_eventhdr_training_split"
+    assert topology["samples_scanned"] == topology["dataset_samples"] == 4
+    assert len(topology["samples"]) == 4
+    assert len(topology["top_density_samples"]) == 3
+    assert all(item["raw_events"] == 96 for item in topology["samples"])
+    assert all(item["retained_events"] == 32 for item in topology["samples"])
+    assert all(item["model_sampled_events"] == 16 for item in topology["samples"])
+    assert all(
+        item["candidate_directed_edges"] >= item["actual_directed_edges"]
+        for item in topology["samples"]
+    )
+    assert report["training_probe"]["completed_samples"] == 2
+    assert len(report["training_probe"]["steps"]) == 2
+    assert all(step["gradient_norm"] >= 0 for step in report["training_probe"]["steps"])
+    assert report["data_provenance"]["content"]["files"] == 1
+    assert len(report["data_provenance"]["content"]["sha256"]) == 64
+    assert report["config_provenance"]["config"]["dataset"]["root"] == "$EXTERNAL/hdr"
+
+
+def test_edge_guard_failure_is_measured_exactly_and_written_atomically(tmp_path) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    output = tmp_path / "edge-failure.json"
+
+    report = training_preflight(
+        _config(root, max_graph_edges=5, radius=2.0),
+        output,
+        profile_samples=1,
+        top_density_count=2,
+        require_cuda=False,
+    )
+
+    assert report["status"] == "failed"
+    assert report["passed"] is False
+    assert report["checks"]["complete_topology_scan"] is True
+    assert report["checks"]["edge_guard"] is False
+    assert report["training_probe"]["failure_category"] == "edge_guard_exceeded"
+    assert report["training_probe"]["completed_samples"] == 0
+    assert report["topology"]["edge_guard_exceeded_samples"] == 4
+    assert all(
+        item["actual_directed_edges"] == 16 * 15
+        for item in report["topology"]["samples"]
+    )
+    assert json.loads(output.read_text(encoding="utf-8"))["passed"] is False
+
+
+def test_report_mode_requires_real_cuda_before_scanning(tmp_path, monkeypatch) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    output = tmp_path / "no-cuda.json"
+    monkeypatch.setattr(preflight_module.torch.cuda, "is_available", lambda: False)
+
+    report = training_preflight(_config(root), output, require_cuda=True)
+
+    assert report["status"] == "failed"
+    assert report["passed"] is False
+    assert report["checks"]["cuda_available"] is False
+    assert report["checks"]["complete_topology_scan"] is False
+    assert report["training_probe"]["failure_category"] == "cuda_required_but_unavailable"
+    with pytest.raises(FileExistsError, match="already exists"):
+        training_preflight(_config(root), output, require_cuda=True)
+
+
+def test_profile_sample_count_cannot_exceed_recorded_density_ranking(tmp_path) -> None:
+    with pytest.raises(ValueError, match="greater than or equal"):
+        training_preflight(
+            _config(tmp_path / "unused"),
+            tmp_path / "unused.json",
+            profile_samples=4,
+            top_density_count=3,
+            require_cuda=False,
+        )
+
+
+def test_verifier_rebinds_report_to_current_data_source_config_and_runtime(
+    tmp_path, monkeypatch
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    output = tmp_path / "profile.json"
+    config = _config(root)
+    report = training_preflight(
+        config,
+        output,
+        profile_samples=1,
+        top_density_count=1,
+        require_cuda=False,
+    )
+    source = {
+        "source_tree_sha256": "a" * 64,
+        "git_commit": "b" * 40,
+        "git_source_dirty": False,
+    }
+    runtime = {
+        "python": "test",
+        "platform": "Linux",
+        "torch": "test",
+        "requested_device": "cuda",
+        "cuda_available": True,
+        "cuda_runtime": "test",
+        "cudnn": 1,
+        "gpu": {
+            "index": 0,
+            "name": "test-gpu",
+            "compute_capability": [9, 0],
+            "total_memory_mib": 81920.0,
+            "multiprocessors": 1,
+        },
+    }
+    protocol = {"version": "test-protocol"}
+    report["status"] = "passed"
+    report["passed"] = True
+    report["report_eligible"] = True
+    report["request"]["require_cuda"] = True
+    report["checks"]["cuda_available"] = True
+    report["checks"]["cuda_oom_free"] = True
+    report["source_provenance"] = source
+    report["runtime_provenance"] = runtime
+    report["training_probe"]["training_protocol"] = protocol
+    report["training_probe"]["steps"][0]["peak_allocated_mib"] = 100.0
+    report["training_probe"]["steps"][0]["peak_reserved_mib"] = 120.0
+    save_json(output, report)
+
+    monkeypatch.setattr(preflight_module.torch.cuda, "is_available", lambda: True)
+    monkeypatch.setattr(preflight_module, "resolve_device", lambda value: torch.device("cuda"))
+    monkeypatch.setattr(preflight_module, "_current_source_contract", lambda: source)
+    monkeypatch.setattr(preflight_module, "_runtime_provenance", lambda device: runtime)
+    monkeypatch.setattr(preflight_module, "_training_protocol", lambda config, device: protocol)
+
+    verification = verify_training_preflight(config, output)
+    assert verification["status"] == "verified"
+    assert verification["report_eligible"] is True
+    assert verification["measured_steps"] == 1
+    assert verification["gpu"]["name"] == "test-gpu"
+    assert len(verification["report_sha256"]) == 64
+
+    report["measurement_scope"]["absolute_vram_guarantee"] = True
+    save_json(output, report)
+    with pytest.raises(ValueError, match="overstates"):
+        verify_training_preflight(config, output)
+
+
+def test_cli_nonreporting_bypass_is_warned_and_embedded_in_training_config(
+    tmp_path, monkeypatch, capsys
+) -> None:
+    config = _config(tmp_path / "unused")
+    config_path = tmp_path / "config.json"
+    save_json(config_path, config)
+    captured: dict = {}
+
+    def fake_train(resolved_config, resume_from=None):
+        captured.update(resolved_config)
+        assert resume_from is None
+        return tmp_path / "best.pt"
+
+    monkeypatch.setattr(cli_module, "train", fake_train)
+    cli_module.main(
+        [
+            "train",
+            "--config",
+            str(config_path),
+            "--allow-unverified-preflight",
+        ]
+    )
+
+    assert captured["preflight_gate"]["status"] == "bypassed_non_reporting"
+    assert captured["preflight_gate"]["report_eligible"] is False
+    gate_path = tmp_path / "train" / "preflight_gate.json"
+    assert json.loads(gate_path.read_text(encoding="utf-8"))["status"] == (
+        "bypassed_non_reporting"
+    )
+    assert "WARNING" in capsys.readouterr().err
+~~~~~~~~
+
 # tests/test_graph_vectorized.py
 
 ~~~~~~~~python
@@ -11463,7 +19181,7 @@ from __future__ import annotations
 
 import torch
 
-from asgcn_recon.graph import build_radius_graph
+from asgcn_unet.graph import build_radius_graph
 
 
 def _reference_radius_graph(
@@ -11529,7 +19247,7 @@ import json
 
 import pytest
 
-from asgcn_recon.cli import inspect_dataset
+from asgcn_unet.cli import inspect_dataset
 from tests.fixtures import make_eventhdr
 
 
@@ -11570,12 +19288,10 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
         json.dumps(
             {
                 "status": "final",
-                "scene_groups": {
-                    "train-scene": ["train.h5"],
-                    "validation-scene": ["val.h5"],
-                },
-                "train_scenes": ["train-scene"],
-                "val_scenes": ["validation-scene"],
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
+                "train_files": ["train.h5"],
+                "val_files": ["val.h5"],
             }
         ),
         encoding="utf-8",
@@ -11601,11 +19317,13 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
 ~~~~~~~~python
 from __future__ import annotations
 
+from unittest.mock import patch
+
 import pytest
 import torch
 from torch.nn import functional as F
 
-from asgcn_recon.metrics import structural_similarity
+from asgcn_unet.metrics import _gaussian_window, frame_metrics, structural_similarity
 
 
 def _reference_gaussian_ssim(
@@ -11700,6 +19418,47 @@ def test_ssim_disables_outer_autocast_for_stable_local_statistics() -> None:
     torch.testing.assert_close(result, torch.ones_like(result), rtol=0.0, atol=1e-6)
     assert prediction.grad is not None
     assert torch.isfinite(prediction.grad).all()
+
+
+def test_ssim_reuses_cached_device_dtype_channel_window() -> None:
+    _gaussian_window.cache_clear()
+    prediction = torch.rand((1, 2, 12, 12))
+    target = torch.rand_like(prediction)
+
+    structural_similarity(prediction, target)
+    first = _gaussian_window.cache_info()
+    structural_similarity(prediction, target)
+    second = _gaussian_window.cache_info()
+
+    assert first.misses == 1
+    assert second.misses == 1
+    assert second.hits == first.hits + 1
+
+
+def test_frame_metrics_reuses_mse_and_accepts_packed_extra_metric() -> None:
+    prediction = torch.tensor([[[[0.2, 0.4], [0.6, 0.8]]]])
+    target = torch.tensor([[[[0.1, 0.5], [0.7, 0.9]]]])
+    original_mse_loss = F.mse_loss
+
+    with patch("asgcn_unet.metrics.F.mse_loss", wraps=original_mse_loss) as mse_loss:
+        result = frame_metrics(
+            prediction,
+            target,
+            extra_metrics={"temporal_l1": torch.tensor(0.25)},
+        )
+
+    assert mse_loss.call_count == 1
+    assert result["rmse"] == pytest.approx(0.1)
+    assert result["temporal_l1"] == pytest.approx(0.25)
+
+
+def test_frame_metrics_caps_exact_match_psnr_at_documented_finite_value() -> None:
+    target = torch.full((1, 1, 4, 4), 0.5)
+
+    result = frame_metrics(target.clone(), target)
+
+    assert result["psnr"] == pytest.approx(120.0)
+    assert result["rmse"] == 0.0
 ~~~~~~~~
 
 # tests/test_p0_engine.py
@@ -11707,6 +19466,7 @@ def test_ssim_disables_outer_autocast_for_stable_local_statistics() -> None:
 ~~~~~~~~python
 from __future__ import annotations
 
+import copy
 import json
 import shutil
 from collections import Counter
@@ -11714,8 +19474,9 @@ from collections import Counter
 import pytest
 import torch
 
-from asgcn_recon.data import EventHDRDataset, load_eventhdr_split_manifest
-from asgcn_recon.engine import (
+import asgcn_unet.engine as engine_module
+from asgcn_unet.data import EventHDRDataset, load_eventhdr_split_manifest
+from asgcn_unet.engine import (
     _balanced_contiguous_indices,
     _balanced_sample_indices,
     _centralize_gradients,
@@ -11736,9 +19497,9 @@ from asgcn_recon.engine import (
     evaluate,
     load_model_checkpoint,
 )
-from asgcn_recon.graph import PaperSplineConv
-from asgcn_recon.model import ASGCNReconstructor
-from asgcn_recon.utils import atomic_torch_save
+from asgcn_unet.graph import PaperSplineConv
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import atomic_torch_save
 from tests.fixtures import make_eventhdr
 
 
@@ -11797,6 +19558,49 @@ def _eval_config(root, output_dir) -> dict:
             "output_dir": str(output_dir),
         },
     }
+
+
+def _verified_preflight_gate() -> dict[str, object]:
+    digest = "b" * 64
+    return {
+        "schema": "asgcn_preflight_verification_v1",
+        "status": "verified",
+        "report_eligible": True,
+        "report": "runs/profile.json",
+        "report_sha256": digest,
+        "measurement_scope": {
+            "name": "selected_top_density_training_steps",
+            "topology_scope": "complete_eventhdr_training_split",
+            "absolute_vram_guarantee": False,
+            "statement": "Empirical GPU preflight for the recorded runtime.",
+        },
+        "config_sha256": digest,
+        "data_sha256": digest,
+        "source_tree_sha256": digest,
+        "gpu": {"name": "synthetic-test-gpu"},
+        "measured_steps": 1,
+    }
+
+
+def _recommit_calibration_metadata(checkpoint: dict) -> None:
+    """Update the unsigned tensor commitment so semantic seal checks still run."""
+    commitment = engine_module._calibration_commitment_sha256(
+        checkpoint["calibration_protocol"],
+        checkpoint["snn_calibration_samples"],
+        checkpoint["snn_calibration_sampling"],
+        engine_module._calibration_summary_commitment_core(
+            checkpoint["snn_calibration_summary"]
+        ),
+    )
+    checkpoint["model"]["calibration_commitment_digest"] = torch.tensor(
+        list(bytes.fromhex(commitment)), dtype=torch.uint8
+    )
+    checkpoint["model"]["calibration_commitment_sealed"] = torch.tensor(True)
+    checkpoint["snn_calibration_summary"][
+        "calibration_commitment_sha256"
+    ] = commitment
+    checkpoint["snn_calibration_summary"]["commitment_sealed"] = True
+    checkpoint["model_state_sha256"] = _model_state_sha256(checkpoint["model"])
 
 
 def test_balanced_indices_cover_groups_before_repeating() -> None:
@@ -11937,33 +19741,33 @@ def test_training_rejects_nonfinal_split(tmp_path) -> None:
         "dataset": {"split_manifest": str(manifest)},
         "train": {},
     }
-    with pytest.raises(ValueError, match="cannot be used for training"):
+    with pytest.raises(ValueError, match="status='final'"):
         _enforce_training_split_status(config)
 
     split["status"] = "final"
     manifest.write_text(json.dumps(split), encoding="utf-8")
-    with pytest.raises(ValueError, match="requires scene_groups"):
+    with pytest.raises((TypeError, ValueError), match="split_schema"):
         _enforce_training_split_status(config)
 
     split = {
         "status": "final",
-        "scene_groups": {
-            "train-scene": ["train.h5"],
-            "validation-scene": ["val.h5"],
-        },
-        "train_scenes": ["train-scene"],
-        "val_scenes": ["validation-scene"],
+        "split_schema": "official_separate_roots_v1",
+        "group_semantics": "h5_sequence_file_not_physical_scene",
+        "train_files": ["train.h5"],
+        "val_files": ["val.h5"],
     }
     manifest.write_text(json.dumps(split), encoding="utf-8")
     _enforce_training_split_status(config)
 
 
-def test_split_manifest_rejects_exact_train_val_overlap(tmp_path) -> None:
+def test_split_manifest_allows_same_names_in_distinct_official_roots(tmp_path) -> None:
     manifest = tmp_path / "split.json"
     manifest.write_text(
         json.dumps(
             {
-                "status": "provisional",
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
                 "train_files": ["shared.h5"],
                 "val_files": ["shared.h5"],
             }
@@ -11971,8 +19775,9 @@ def test_split_manifest_rejects_exact_train_val_overlap(tmp_path) -> None:
         encoding="utf-8",
     )
 
-    with pytest.raises(ValueError, match="leaks files across train/val"):
-        load_eventhdr_split_manifest(manifest)
+    loaded = load_eventhdr_split_manifest(manifest)
+    assert loaded["train_file_to_group"]["shared.h5"] == "official-train-h5::shared.h5"
+    assert loaded["val_file_to_group"]["shared.h5"] == "official-eval-h5::shared.h5"
 
 
 def test_sequence_continuity_requires_adjacent_index_and_matching_shape() -> None:
@@ -12062,7 +19867,9 @@ def test_ann_request_rejects_parameter_normalized_snn_checkpoint() -> None:
         _validate_snn_request("ann", 16, {"parameter_normalized": True}, "snn.pt")
 
 
-def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path) -> None:
+def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
+    tmp_path, monkeypatch
+) -> None:
     root = tmp_path / "hdr"
     first = make_eventhdr(root / "scene_a")
     second = make_eventhdr(root / "scene_b")
@@ -12071,8 +19878,26 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
 
     model_config = _model_config()
     source = tmp_path / "training.pt"
-    model = ASGCNReconstructor(**model_config)
+    model = ASGCNUNet(**model_config)
+    with torch.no_grad():
+        dead_layer = model.encoder.layers[0]
+        dead_layer.weight[..., 0].zero_()
+        if dead_layer.root is not None:
+            dead_layer.root[:, 0].zero_()
+        if dead_layer.bias is not None:
+            dead_layer.bias[0] = -1.0
+        dead_layer.norm.running_mean[0] = 0.0
+        dead_layer.norm.running_var[0] = 1.0
+        dead_layer.norm.weight[0] = 1.0
+        dead_layer.norm.bias[0] = 0.0
     model_state = model.state_dict()
+    # Exercise compatibility with the architecture-v2 ANN state written before
+    # raw maxima, effective scales, and dead masks became separate buffers.
+    model_state["encoder.layers.0.activation_max"] = model_state.pop(
+        "encoder.layers.0.calibration_activation_max"
+    )
+    model_state.pop("encoder.layers.0.normalization_scale")
+    model_state.pop("encoder.layers.0.dead_channel_mask")
     atomic_torch_save(
         {
             "checkpoint_type": "training",
@@ -12089,10 +19914,41 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
         source,
     )
     config = _eval_config(root, tmp_path / "eval")
+    config["train"] = {
+        "num_workers": 0,
+        "persistent_workers": False,
+        "prefetch_factor": 2,
+    }
+    loader_calls = []
+    original_data_loader = engine_module._data_loader
+
+    def tracked_data_loader(dataset, *args, **kwargs):
+        loader_calls.append((list(dataset.indices), args, kwargs))
+        return original_data_loader(dataset, *args, **kwargs)
+
+    monkeypatch.setattr(engine_module, "_data_loader", tracked_data_loader)
     output = tmp_path / "snn.pt"
-    calibrate(config, source, output, samples=2)
+    with pytest.raises(ValueError, match="not clean ann_inference"):
+        calibrate(config, source, output, samples=2)
+    calibrate(
+        config,
+        source,
+        output,
+        samples=2,
+        allow_unsealed_calibration=True,
+    )
+    assert len(loader_calls) == 1
+    selected_indices, positional, loader_options = loader_calls[0]
+    assert selected_indices == sorted(selected_indices)
+    assert positional == ()
+    assert loader_options["batch_size"] == 1
+    assert loader_options["num_workers"] == 0
+    assert loader_options["shuffle"] is False
+    assert loader_options["persistent_workers"] is False
+    assert loader_options["prefetch_factor"] == 2
     with pytest.raises(FileExistsError, match="already exists"):
         calibrate(config, source, output, samples=1)
+    monkeypatch.setattr(engine_module, "_data_loader", original_data_loader)
 
     checkpoint = torch.load(output, map_location="cpu", weights_only=False)
     assert checkpoint["checkpoint_type"] == "snn_inference"
@@ -12104,13 +19960,58 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
     assert checkpoint["snn_calibration_valid_samples"] == 2
     assert checkpoint["snn_calibration_summary"]["minimum_valid_samples"] == 2
     assert checkpoint["snn_calibration_summary"]["valid_samples_per_layer"] == [2]
+    raw_max = checkpoint["model"]["encoder.layers.0.calibration_activation_max"]
+    normalization_scale = checkpoint["model"]["encoder.layers.0.normalization_scale"]
+    dead_mask = checkpoint["model"]["encoder.layers.0.dead_channel_mask"]
+    assert raw_max[0].item() == 0.0
+    assert normalization_scale[0].item() == 1.0
+    assert dead_mask[0].item() is True
+    assert checkpoint["snn_calibration_summary"]["dead_channels_per_layer"] == [
+        int(dead_mask.sum().item())
+    ]
+    restored, restored_metadata = load_model_checkpoint(
+        output,
+        torch.device("cpu"),
+        model_config,
+    )
+    assert restored_metadata["checkpoint_type"] == "snn_inference"
+    assert restored.encoder.calibration_summary()["dead_channels_per_layer"] == [
+        int(dead_mask.sum().item())
+    ]
+    torch.testing.assert_close(
+        restored.encoder.layers[0].normalization_scale,
+        normalization_scale,
+    )
     assert checkpoint["snn_calibration_sampling"]["selected_groups"] == 2
     assert set(checkpoint["snn_calibration_sampling"]["per_group"].values()) == {1}
+    assert checkpoint["calibration_protocol"]["sealed"] is False
+    assert "source checkpoint is not clean ann_inference" in checkpoint[
+        "calibration_protocol"
+    ]["unsealed_reasons"]
+    assert checkpoint["source_checkpoint"] == "$EXTERNAL/training.pt"
     for training_key in ("optimizer", "scaler", "history", "rng_state", "config", "val"):
         assert training_key not in checkpoint
 
     config["eval"]["max_samples"] = 2
-    result = evaluate(config, output, inference_mode="snn", simulation_steps=2)
+    with pytest.raises(ValueError, match="Checkpoint reporting protocol is not sealed"):
+        evaluate(config, output, inference_mode="snn", simulation_steps=2)
+    with pytest.raises(ValueError, match="Checkpoint reporting protocol is not sealed"):
+        benchmark(
+            config,
+            output,
+            warmup=0,
+            steps=2,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+    result = evaluate(
+        config,
+        output,
+        inference_mode="snn",
+        simulation_steps=2,
+        allow_unsealed_checkpoint_for_non_reporting=True,
+    )
+    assert result["report_eligible"] is False
     assert result["quality"]["frames"] == 2
     assert result["quality"]["micro"]["temporal_l1"] >= 0
     assert result["quality"]["per_scene"]["scene_a/a.h5"]["temporal_l1_frames"] == 1
@@ -12127,6 +20028,7 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
         steps=2,
         inference_mode="snn",
         simulation_steps=2,
+        allow_unsealed_checkpoint_for_non_reporting=True,
     )
     assert timing["snn_dynamics"] == "literal_eq15"
     assert len(timing["layer_firing_rates"]) == 1
@@ -12139,22 +20041,55 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
         inference_mode="snn",
         simulation_steps=2,
         snn_dynamics="standard_if",
+        allow_unsealed_checkpoint_for_non_reporting=True,
     )
     assert standard_timing["snn_dynamics"] == "standard_if"
 
     tampered = torch.load(output, map_location="cpu", weights_only=False)
-    tampered["model"]["encoder.layers.0.activation_max"][0] = float("nan")
+    tampered["model"]["encoder.layers.0.calibration_activation_max"][0] = float("nan")
     tampered["model_state_sha256"] = _model_state_sha256(tampered["model"])
     nonfinite_path = tmp_path / "snn_nonfinite.pt"
     torch.save(tampered, nonfinite_path)
     with pytest.raises(ValueError, match="non-finite state"):
         evaluate(config, nonfinite_path, inference_mode="snn", simulation_steps=2)
 
+    changed_dead_mask = torch.load(output, map_location="cpu", weights_only=False)
+    changed_dead_mask["model"]["encoder.layers.0.dead_channel_mask"][0] = False
+    changed_dead_mask["model_state_sha256"] = _model_state_sha256(
+        changed_dead_mask["model"]
+    )
+    changed_dead_mask_path = tmp_path / "snn_changed_dead_mask.pt"
+    atomic_torch_save(changed_dead_mask, changed_dead_mask_path)
+    with pytest.raises(ValueError, match="dead-channel mask"):
+        evaluate(
+            config,
+            changed_dead_mask_path,
+            inference_mode="snn",
+            simulation_steps=2,
+            allow_unsealed_checkpoint_for_non_reporting=True,
+        )
+
+    changed_dead_summary = torch.load(output, map_location="cpu", weights_only=False)
+    changed_dead_summary["snn_calibration_summary"][
+        "dead_channels_per_layer"
+    ][0] += 1
+    _recommit_calibration_metadata(changed_dead_summary)
+    changed_dead_summary_path = tmp_path / "snn_changed_dead_summary.pt"
+    atomic_torch_save(changed_dead_summary, changed_dead_summary_path)
+    with pytest.raises(ValueError, match="summary differs from layer state"):
+        evaluate(
+            config,
+            changed_dead_summary_path,
+            inference_mode="snn",
+            simulation_steps=2,
+            allow_unsealed_checkpoint_for_non_reporting=True,
+        )
+
     inconsistent = torch.load(output, map_location="cpu", weights_only=False)
     inconsistent["snn_calibration_summary"]["valid_samples_per_layer"] = [999]
     inconsistent_path = tmp_path / "snn_inconsistent.pt"
     torch.save(inconsistent, inconsistent_path)
-    with pytest.raises(ValueError, match="calibration metadata disagrees"):
+    with pytest.raises(ValueError, match="invalid calibration summary"):
         evaluate(config, inconsistent_path, inference_mode="snn", simulation_steps=2)
 
     wrong_threshold = torch.load(output, map_location="cpu", weights_only=False)
@@ -12166,6 +20101,441 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
         evaluate(config, wrong_threshold_path, inference_mode="snn", simulation_steps=2)
     with pytest.raises(ValueError, match="ANN checkpoint"):
         evaluate(config, output, inference_mode="ann")
+
+
+def test_calibration_seals_ann_training_data_transform_manifest_and_source(
+    tmp_path,
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    val_root = tmp_path / "hdr-val"
+    make_eventhdr(val_root)
+    manifest_path = tmp_path / "split.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
+                "train_files": ["test.h5"],
+                "val_files": ["test.h5"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    config = _eval_config(root, tmp_path / "eval")
+    config["eval"]["max_samples"] = None
+    config["dataset"]["expected_file_count"] = 1
+    config["dataset"]["val_root"] = str(val_root)
+    config["dataset"]["split_manifest"] = str(manifest_path)
+    config["train"] = {
+        "num_workers": 0,
+        "max_train_samples": None,
+        "max_val_samples": None,
+        "validation_context_frames": 0,
+        "validate_every": None,
+        "epochs": 7,
+    }
+    dataset = engine_module.build_dataset(config["dataset"], split="train")
+    val_dataset = engine_module.build_dataset(config["dataset"], split="val")
+    try:
+        train_content = _dataset_content_fingerprint(dataset)
+        calibration_sample_count = len(dataset)
+        validation_sample_count = len(val_dataset)
+        validation_sampling = engine_module._sampling_summary(
+            val_dataset, list(range(validation_sample_count))
+        )
+        validation_sampling.update(
+            {
+                "context_policy": "none_non_recurrent",
+                "max_context_frames_per_group": 0,
+                "context_samples": 0,
+                "forward_samples": validation_sample_count,
+            }
+        )
+        validation_protocol = engine_module._validation_protocol(
+            config,
+            validation_sampling,
+            dataset,
+            val_dataset,
+            {},
+        )
+    finally:
+        dataset.close()
+        val_dataset.close()
+
+    model_config = _model_config()
+    model_state = ASGCNUNet(**model_config).state_dict()
+    training_config = engine_module._public_config(config)
+    training_protocol = engine_module._training_protocol(
+        config, torch.device("cpu")
+    )
+    preflight_gate = _verified_preflight_gate()
+    preflight_gate["config_sha256"] = engine_module._canonical_sha256(training_config)
+    preflight_gate["data_sha256"] = train_content["sha256"]
+    preflight_gate["source_tree_sha256"] = training_protocol["source"][
+        "source_tree_sha256"
+    ]
+    source = tmp_path / "best.pt"
+    atomic_torch_save(
+        {
+            "checkpoint_type": "ann_inference",
+            "epoch": 7,
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "model_config": model_config,
+            "paper_core_version": 2,
+            "preflight_gate": preflight_gate,
+            "training_config": training_config,
+            "val": {
+                "frames": validation_sample_count,
+                "macro": {"ssim": 0.75},
+            },
+            "best_ssim": 0.75,
+            "best_metric": "macro_ssim",
+            "checkpoint_selection": "single_final_epoch",
+            "validation_protocol": validation_protocol,
+            "training_protocol": training_protocol,
+            "terminal_validation_state": {
+                "planned_epoch": 7,
+                "completed": True,
+                "completed_epoch": 7,
+            },
+        },
+        source,
+    )
+
+    repeated_validation_ann = torch.load(
+        source, map_location="cpu", weights_only=False
+    )
+    repeated_validation_ann["training_protocol"]["terminal_validation"] = None
+    repeated_validation_ann["training_protocol"]["validate_every"] = 1
+    repeated_validation_ann["training_protocol"][
+        "checkpoint_selection"
+    ] = "best_validation_macro_ssim"
+    repeated_validation_ann["terminal_validation_state"] = None
+    repeated_validation_ann["checkpoint_selection"] = "best_validation_macro_ssim"
+    repeated_validation_ann["validation_protocol"]["selection_metric"] = "macro_ssim"
+    repeated_validation_ann["training_config"]["train"]["validate_every"] = 1
+    repeated_validation_ann["preflight_gate"]["config_sha256"] = (
+        engine_module._canonical_sha256(repeated_validation_ann["training_config"])
+    )
+    repeated_validation_path = tmp_path / "repeated-eventhdr-validation-ann.pt"
+    atomic_torch_save(repeated_validation_ann, repeated_validation_path)
+    with pytest.raises(ValueError, match="EventHDR reporting requires"):
+        evaluate(config, repeated_validation_path, inference_mode="ann")
+
+    inconsistent_validation_config = torch.load(
+        source, map_location="cpu", weights_only=False
+    )
+    inconsistent_validation_config["training_config"]["train"][
+        "validate_every"
+    ] = 1
+    inconsistent_validation_config["preflight_gate"]["config_sha256"] = (
+        engine_module._canonical_sha256(
+            inconsistent_validation_config["training_config"]
+        )
+    )
+    inconsistent_validation_path = tmp_path / "inconsistent-validation-config.pt"
+    atomic_torch_save(inconsistent_validation_config, inconsistent_validation_path)
+    with pytest.raises(ValueError, match="validate_every differs"):
+        evaluate(config, inconsistent_validation_path, inference_mode="ann")
+
+    missing_manifest_ann = torch.load(source, map_location="cpu", weights_only=False)
+    missing_manifest_ann["validation_protocol"]["split_manifest"] = None
+    missing_manifest_ann_path = tmp_path / "missing-manifest-ann.pt"
+    atomic_torch_save(missing_manifest_ann, missing_manifest_ann_path)
+    with pytest.raises(ValueError, match="split manifest"):
+        evaluate(config, missing_manifest_ann_path, inference_mode="ann")
+
+    partial_validation_ann = torch.load(source, map_location="cpu", weights_only=False)
+    partial_validation_ann["validation_protocol"]["sampling"] = {}
+    partial_validation_ann_path = tmp_path / "partial-validation-ann.pt"
+    atomic_torch_save(partial_validation_ann, partial_validation_ann_path)
+    with pytest.raises(ValueError, match="full validation sampling"):
+        evaluate(config, partial_validation_ann_path, inference_mode="ann")
+
+    capped_validation_ann = torch.load(source, map_location="cpu", weights_only=False)
+    capped_validation_ann["training_config"]["train"]["max_val_samples"] = 1
+    capped_validation_ann_path = tmp_path / "capped-validation-ann.pt"
+    atomic_torch_save(capped_validation_ann, capped_validation_ann_path)
+    with pytest.raises(ValueError, match="partial validation sample limit"):
+        evaluate(config, capped_validation_ann_path, inference_mode="ann")
+
+    with pytest.raises(ValueError, match="every EventHDR training sample exactly once"):
+        calibrate(config, source, tmp_path / "partial-rejected.pt", samples=1)
+    partial_path = tmp_path / "partial-non-reporting.pt"
+    calibrate(
+        config,
+        source,
+        partial_path,
+        samples=1,
+        allow_unsealed_calibration=True,
+    )
+    partial = torch.load(partial_path, map_location="cpu", weights_only=False)
+    assert partial["report_eligible"] is False
+    assert any(
+        "every EventHDR training sample exactly once" in reason
+        for reason in partial["report_ineligible_reasons"]
+    )
+    with pytest.raises(ValueError, match="Checkpoint reporting protocol is not sealed"):
+        evaluate(config, partial_path, inference_mode="snn", simulation_steps=2)
+
+    relabeled_partial = torch.load(partial_path, map_location="cpu", weights_only=False)
+    relabeled_protocol = relabeled_partial["calibration_protocol"]
+    relabeled_protocol["sealed"] = True
+    relabeled_protocol["unsealed_reasons"] = []
+    relabeled_partial["report_eligible"] = True
+    relabeled_partial["report_ineligible_reasons"] = []
+    relabeled_identity = copy.deepcopy(relabeled_protocol["selected_sample_ids"][0])
+    relabeled_identity["dataset_index"] = 0
+    relabeled_identity["sequence_index"] = 0
+    relabeled_protocol["selected_sample_ids"] = [relabeled_identity]
+    relabeled_sampling = relabeled_partial["snn_calibration_sampling"]
+    relabeled_sampling["selected"] = [copy.deepcopy(relabeled_identity)]
+    relabeled_sampling["available_per_group"] = copy.deepcopy(
+        relabeled_sampling["per_group"]
+    )
+    relabeled_sampling["available_groups"] = relabeled_sampling["selected_groups"]
+    relabeled_path = tmp_path / "relabeled-partial.pt"
+    atomic_torch_save(relabeled_partial, relabeled_path)
+    with pytest.raises(ValueError, match="persistent tensor commitment"):
+        evaluate(config, relabeled_path, inference_mode="snn", simulation_steps=2)
+
+    forced_unsealed_path = tmp_path / "forced-unsealed-full.pt"
+    calibrate(
+        config,
+        source,
+        forced_unsealed_path,
+        allow_unsealed_calibration=True,
+    )
+    forced_unsealed = torch.load(
+        forced_unsealed_path, map_location="cpu", weights_only=False
+    )
+    assert forced_unsealed["report_eligible"] is False
+    assert forced_unsealed["calibration_protocol"]["sealed"] is False
+    assert forced_unsealed["report_ineligible_reasons"][0] == (
+        "explicit unsealed calibration override requested"
+    )
+
+    output = tmp_path / "best_snn.pt"
+    calibrate(config, source, output)
+    sealed = torch.load(output, map_location="cpu", weights_only=False)[
+        "calibration_protocol"
+    ]
+    assert sealed["sealed"] is True
+    assert sealed["unsealed_reasons"] == []
+    assert sealed["dataset_content"] == train_content
+    assert sealed["dataset_content_sha256"] == train_content["sha256"]
+    assert len(sealed["source_ann_model_sha256"]) == 64
+    assert len(sealed["source_ann_checkpoint_sha256"]) == 64
+    assert len(sealed["source_ann_training_protocol_sha256"]) == 64
+    assert len(sealed["source_ann_validation_protocol_sha256"]) == 64
+    assert len(sealed["source_ann_reporting_contract_sha256"]) == 64
+    assert sealed["source_ann_training_protocol"]["sha256"] == sealed[
+        "source_ann_training_protocol_sha256"
+    ]
+    assert sealed["source_ann_validation_protocol"]["sha256"] == sealed[
+        "source_ann_validation_protocol_sha256"
+    ]
+    assert sealed["source_ann_reporting_contract"]["sha256"] == sealed[
+        "source_ann_reporting_contract_sha256"
+    ]
+    assert sealed["source_preflight_gate"]["contract"]["report_eligible"] is True
+    assert len(sealed["selected_sample_ids"]) == calibration_sample_count
+    assert [item["dataset_index"] for item in sealed["selected_sample_ids"]] == list(
+        range(calibration_sample_count)
+    )
+    assert str(tmp_path) not in json.dumps(sealed)
+
+    full_checkpoint = torch.load(output, map_location="cpu", weights_only=False)
+    transplanted_metadata = copy.deepcopy(full_checkpoint)
+    transplanted_metadata["model"] = copy.deepcopy(partial["model"])
+    transplanted_metadata["model_state_sha256"] = partial["model_state_sha256"]
+    transplanted_path = tmp_path / "full-metadata-partial-tensors.pt"
+    atomic_torch_save(transplanted_metadata, transplanted_path)
+    with pytest.raises(ValueError, match="persistent attempted calibration state"):
+        evaluate(
+            config,
+            transplanted_path,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+
+    changed_snn_epoch = torch.load(output, map_location="cpu", weights_only=False)
+    changed_snn_epoch["epoch"] = 6
+    changed_snn_epoch_path = tmp_path / "changed-snn-epoch.pt"
+    atomic_torch_save(changed_snn_epoch, changed_snn_epoch_path)
+    with pytest.raises(ValueError, match="SNN checkpoint epoch differs"):
+        evaluate(
+            config,
+            changed_snn_epoch_path,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+
+    changed_snn_model = torch.load(output, map_location="cpu", weights_only=False)
+    changed_snn_model["model_config"]["graph_radius"] = 0.75
+    changed_snn_model_path = tmp_path / "changed-snn-model-config.pt"
+    atomic_torch_save(changed_snn_model, changed_snn_model_path)
+    changed_snn_eval_config = copy.deepcopy(config)
+    changed_snn_eval_config["model"]["graph_radius"] = 0.75
+    with pytest.raises(ValueError, match="SNN checkpoint model config differs"):
+        evaluate(
+            changed_snn_eval_config,
+            changed_snn_model_path,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+
+    changed_dead_summary = torch.load(output, map_location="cpu", weights_only=False)
+    changed_dead_summary["snn_calibration_summary"][
+        "dead_channels_per_layer"
+    ][0] += 1
+    _recommit_calibration_metadata(changed_dead_summary)
+    changed_dead_summary_path = tmp_path / "changed-dead-summary.pt"
+    atomic_torch_save(changed_dead_summary, changed_dead_summary_path)
+    with pytest.raises(ValueError, match="summary differs from layer state"):
+        evaluate(
+            config,
+            changed_dead_summary_path,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+
+    partial_quality_config = copy.deepcopy(config)
+    partial_quality_config["eval"]["max_samples"] = 1
+    partial_quality_config["eval"]["output_dir"] = str(tmp_path / "partial-quality")
+    with pytest.raises(ValueError, match="eval.max_samples=null"):
+        evaluate(
+            partial_quality_config,
+            output,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+    partial_quality_result = evaluate(
+        partial_quality_config,
+        output,
+        inference_mode="snn",
+        simulation_steps=2,
+        allow_unsealed_checkpoint_for_non_reporting=True,
+    )
+    assert partial_quality_result["report_eligible"] is False
+    assert any(
+        "quality evaluation uses eval.max_samples" in reason
+        for reason in partial_quality_result["report_ineligible_reasons"]
+    )
+
+    reporting_result = evaluate(
+        config,
+        output,
+        inference_mode="snn",
+        simulation_steps=2,
+    )
+    assert reporting_result["report_eligible"] is True
+    lineage = reporting_result["evaluation_protocol"]["checkpoint"]
+    assert lineage["calibration_protocol"]["sha256"] == engine_module._canonical_sha256(
+        sealed
+    )
+    assert lineage["preflight_gate"]["contract"]["status"] == "verified"
+    execution = reporting_result["evaluation_protocol"]["execution"]["contract"]
+    assert execution == {
+        "inference_mode": "snn",
+        "simulation_steps": 2,
+        "snn_dynamics": "literal_eq15",
+        "scope": "full_dataset_quality_evaluation",
+    }
+
+    for field, message in (
+        ("dataset_transform", "calibration dataset transform"),
+        ("split_manifest", "calibration split manifest"),
+        ("selected_sample_ids", "calibration sample identities"),
+        ("runtime", "calibration runtime identity"),
+    ):
+        tampered = torch.load(output, map_location="cpu", weights_only=False)
+        tampered["calibration_protocol"].pop(field)
+        _recommit_calibration_metadata(tampered)
+        tampered_path = tmp_path / f"missing-{field}.pt"
+        atomic_torch_save(tampered, tampered_path)
+        with pytest.raises(ValueError, match=message):
+            evaluate(config, tampered_path, inference_mode="snn", simulation_steps=2)
+
+    changed_source = torch.load(output, map_location="cpu", weights_only=False)
+    changed_source["calibration_protocol"]["calibration_source"] = copy.deepcopy(
+        changed_source["calibration_protocol"]["training_source"]
+    )
+    changed_source["calibration_protocol"]["calibration_source"][
+        "source_tree_sha256"
+    ] = "f" * 64
+    _recommit_calibration_metadata(changed_source)
+    changed_source_path = tmp_path / "changed-calibration-source.pt"
+    atomic_torch_save(changed_source, changed_source_path)
+    with pytest.raises(ValueError, match="calibration source differs"):
+        evaluate(config, changed_source_path, inference_mode="snn", simulation_steps=2)
+
+    changed_content = torch.load(output, map_location="cpu", weights_only=False)
+    changed_content["calibration_protocol"]["dataset_content"]["sha256"] = "f" * 64
+    changed_content["calibration_protocol"]["dataset_content_sha256"] = "f" * 64
+    _recommit_calibration_metadata(changed_content)
+    changed_content_path = tmp_path / "changed-calibration-content.pt"
+    atomic_torch_save(changed_content, changed_content_path)
+    with pytest.raises(ValueError, match="source ANN training data"):
+        evaluate(config, changed_content_path, inference_mode="snn", simulation_steps=2)
+
+    changed_source_manifest = torch.load(output, map_location="cpu", weights_only=False)
+    protocol = changed_source_manifest["calibration_protocol"]
+    source_validation = protocol["source_ann_validation_protocol"]
+    source_validation["contract"]["split_manifest"] = None
+    source_validation["sha256"] = engine_module._canonical_sha256(
+        source_validation["contract"]
+    )
+    protocol["source_ann_validation_protocol_sha256"] = source_validation["sha256"]
+    _recommit_calibration_metadata(changed_source_manifest)
+    changed_source_manifest_path = tmp_path / "changed-source-manifest.pt"
+    atomic_torch_save(changed_source_manifest, changed_source_manifest_path)
+    with pytest.raises(ValueError, match="source ANN split manifest"):
+        evaluate(
+            config,
+            changed_source_manifest_path,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+
+    changed_selection = torch.load(output, map_location="cpu", weights_only=False)
+    protocol = changed_selection["calibration_protocol"]
+    reporting_contract = protocol["source_ann_reporting_contract"]
+    reporting_contract["contract"]["checkpoint_selection"] = "unverified-selection"
+    reporting_contract["sha256"] = engine_module._canonical_sha256(
+        reporting_contract["contract"]
+    )
+    protocol["source_ann_reporting_contract_sha256"] = reporting_contract["sha256"]
+    _recommit_calibration_metadata(changed_selection)
+    changed_selection_path = tmp_path / "changed-source-selection.pt"
+    atomic_torch_save(changed_selection, changed_selection_path)
+    with pytest.raises(ValueError, match="source ANN reporting contract"):
+        evaluate(
+            config,
+            changed_selection_path,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+
+    tampered_gate_checkpoint = torch.load(output, map_location="cpu", weights_only=False)
+    tampered_gate_checkpoint["preflight_gate"]["status"] = "bypassed_non_reporting"
+    tampered_gate_path = tmp_path / "tampered-gate-snn.pt"
+    atomic_torch_save(tampered_gate_checkpoint, tampered_gate_path)
+    with pytest.raises(ValueError, match="preflight gate"):
+        evaluate(
+            config,
+            tampered_gate_path,
+            inference_mode="snn",
+            simulation_steps=2,
+        )
+
+    with next(root.rglob("*.h5")).open("ab") as handle:
+        handle.write(b"changed-after-training")
+    with pytest.raises(ValueError, match="differs from the training dataset content"):
+        calibrate(config, source, tmp_path / "changed_snn.pt")
 
 
 def test_public_snn_paths_reject_invalid_requests(tmp_path) -> None:
@@ -12182,7 +20552,7 @@ def test_public_snn_paths_reject_invalid_requests(tmp_path) -> None:
     make_eventhdr(root)
     model_config = _model_config()
     uncalibrated = tmp_path / "ann.pt"
-    uncalibrated_state = ASGCNReconstructor(**model_config).state_dict()
+    uncalibrated_state = ASGCNUNet(**model_config).state_dict()
     atomic_torch_save(
         {
             "checkpoint_type": "ann_inference",
@@ -12233,15 +20603,15 @@ import numpy as np
 import pytest
 import torch
 
-from asgcn_recon.cli import inspect_dataset
-from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
-from asgcn_recon.data.common import stratified_subsample, uniform_cap_ratio
-from asgcn_recon.data.factory import build_dataset
-from asgcn_recon.engine import _data_loader, _model_state_sha256, benchmark, train
-from asgcn_recon.graph import build_radius_graph, prepare_event_nodes
-from asgcn_recon.losses import ReconstructionLoss
-from asgcn_recon.model import ASGCNReconstructor
-from asgcn_recon.utils import (
+from asgcn_unet.cli import inspect_dataset
+from asgcn_unet.data import EventAidRZipDataset, EventHDRDataset
+from asgcn_unet.data.common import stratified_subsample, uniform_cap_ratio
+from asgcn_unet.data.factory import build_dataset
+from asgcn_unet.engine import _data_loader, _model_state_sha256, benchmark, train
+from asgcn_unet.graph import build_radius_graph, prepare_event_nodes
+from asgcn_unet.losses import ReconstructionLoss
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import (
     load_json,
     resolve_experiment_paths,
 )
@@ -12417,7 +20787,7 @@ def test_empty_event_interval_uses_zero_node_graph():
         "sample_id": "empty/0",
         "metadata": {},
     }
-    model = ASGCNReconstructor(**_paper_model_config())
+    model = ASGCNUNet(**_paper_model_config())
     prediction, diagnostics = model.forward_sample(sample)
     prediction.mean().backward()
     assert torch.isfinite(prediction).all()
@@ -12428,7 +20798,7 @@ def test_empty_event_interval_uses_zero_node_graph():
 def test_model_forward_backward(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
-    model = ASGCNReconstructor(**_paper_model_config(hidden_dim=8, graph_layers=2))
+    model = ASGCNUNet(**_paper_model_config(hidden_dim=8, graph_layers=2))
     prediction, diagnostics = model.forward_sample(sample)
     loss, _ = ReconstructionLoss()(prediction, sample["target"].unsqueeze(0))
     loss.backward()
@@ -12441,12 +20811,12 @@ def test_bn_folding_and_explicit_snn_path(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
     model_config = _paper_model_config(hidden_dim=8, graph_layers=2, recurrent=False)
-    model = ASGCNReconstructor(**model_config).eval()
+    model = ASGCNUNet(**model_config).eval()
     with torch.no_grad():
         ann_before, _ = model.forward_sample(sample)
         model.fold_batch_norm()
         ann_after, _ = model.forward_sample(sample)
-        restored = ASGCNReconstructor(**model_config).eval()
+        restored = ASGCNUNet(**model_config).eval()
         restored.load_state_dict(model.state_dict())
         ann_restored, _ = restored.forward_sample(sample)
         model.reset_activation_maxima()
@@ -12464,7 +20834,7 @@ def test_bn_folding_and_explicit_snn_path(tmp_path):
 def test_cpu_autocast_keeps_raster_dtypes_compatible(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=16)[0]
-    model = ASGCNReconstructor(**_paper_model_config())
+    model = ASGCNUNet(**_paper_model_config())
     with torch.autocast("cpu", dtype=torch.bfloat16):
         prediction, _ = model.forward_sample(sample)
     assert prediction.dtype == torch.bfloat16
@@ -12498,29 +20868,45 @@ def test_config_paths_are_independent_of_shell_cwd(tmp_path):
 
 
 def test_eventhdr_split_names_all_missing_files(tmp_path):
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root)
-    manifest_path = tmp_path / "split.json"
-    manifest_path.write_text(
-        json.dumps({"train_files": ["1.h5", "2.h5"], "val_files": ["3.h5"]}),
-        encoding="utf-8",
-    )
-    config = {
-        "type": "eventhdr",
-        "root": str(data_root),
-        "split_manifest": str(manifest_path),
-    }
-    with pytest.raises(FileNotFoundError, match=r"1\.h5, 2\.h5"):
-        build_dataset(config, split="train")
-
-
-def test_eventhdr_manifest_accepts_nested_relative_paths(tmp_path):
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root / "scene")
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "val"
+    train_root.mkdir()
+    val_root.mkdir()
     manifest_path = tmp_path / "split.json"
     manifest_path.write_text(
         json.dumps(
             {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
+                "train_files": ["1.h5", "2.h5"],
+                "val_files": ["3.h5"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    config = {
+        "type": "eventhdr",
+        "root": str(train_root),
+        "val_root": str(val_root),
+        "split_manifest": str(manifest_path),
+    }
+    with pytest.raises(ValueError, match=r"missing: 1\.h5, 2\.h5"):
+        build_dataset(config, split="train")
+
+
+def test_eventhdr_manifest_accepts_nested_relative_paths(tmp_path):
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "val"
+    make_eventhdr(train_root / "scene")
+    make_eventhdr(val_root).rename(val_root / "unused.h5")
+    manifest_path = tmp_path / "split.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
                 "train_files": ["scene/test.h5"],
                 "val_files": ["unused.h5"],
             }
@@ -12530,13 +20916,14 @@ def test_eventhdr_manifest_accepts_nested_relative_paths(tmp_path):
     dataset = build_dataset(
         {
             "type": "eventhdr",
-            "root": str(data_root),
+            "root": str(train_root),
+            "val_root": str(val_root),
             "split_manifest": str(manifest_path),
         },
         split="train",
     )
     assert len(dataset) == 4
-    assert dataset[0]["metadata"]["scene"] == "scene/test.h5"
+    assert dataset[0]["metadata"]["scene"] == "official-train-h5::scene/test.h5"
 
 
 def test_factory_uses_val_root_for_validation_split(tmp_path):
@@ -12550,6 +20937,9 @@ def test_factory_uses_val_root_for_validation_split(tmp_path):
     manifest_path.write_text(
         json.dumps(
             {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
                 "train_files": ["train.h5"],
                 "val_files": ["val.h5"],
             }
@@ -12570,12 +20960,17 @@ def test_factory_uses_val_root_for_validation_split(tmp_path):
 
 
 def test_inspect_training_config_validates_both_manifest_splits(tmp_path):
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root)
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "val"
+    make_eventhdr(train_root)
+    val_root.mkdir()
     manifest_path = tmp_path / "split.json"
     manifest_path.write_text(
         json.dumps(
             {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
                 "train_files": ["test.h5"],
                 "val_files": ["missing_validation.h5"],
             }
@@ -12585,11 +20980,12 @@ def test_inspect_training_config_validates_both_manifest_splits(tmp_path):
     config = {
         "dataset": {
             "type": "eventhdr",
-            "root": str(data_root),
+            "root": str(train_root),
+            "val_root": str(val_root),
             "split_manifest": str(manifest_path),
         }
     }
-    with pytest.raises(FileNotFoundError, match=r"missing_validation\.h5"):
+    with pytest.raises(ValueError, match=r"missing: missing_validation\.h5"):
         inspect_dataset(config, samples=1)
 
 
@@ -12623,11 +21019,16 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     data_root = tmp_path / "hdr"
     make_eventhdr(data_root)
     config = _tiny_training_config(tmp_path, data_root)
+    # Explicit JSON null must use default loss weights without crashing temporal access.
+    config["train"]["loss_weights"] = None
     train(config)
     first = torch.load(tmp_path / "run/last.pt", map_location="cpu", weights_only=False)
     assert first["epoch"] == 1
     assert all(key in first for key in ("optimizer", "scheduler", "scaler", "rng_state"))
     assert (tmp_path / "run/.data_hash_cache.json").is_file()
+    assert str(data_root) not in (tmp_path / "run/.data_hash_cache.json").read_text()
+    assert str(data_root) not in (tmp_path / "run/config.json").read_text()
+    assert str(data_root) not in json.dumps(first["config"])
     protocol_text = json.dumps(first["validation_protocol"])
     assert str(data_root) not in protocol_text
     assert "mtime_ns" not in protocol_text
@@ -12637,6 +21038,7 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     assert first["model_state_sha256"] == _model_state_sha256(first["model"])
     assert len(first["best_model_state_sha256"]) == 64
     assert best["model_state_sha256"] == first["best_model_state_sha256"]
+    assert best["training_config"] == first["config"]
     for training_key in (
         "optimizer",
         "scheduler",
@@ -12676,6 +21078,19 @@ def test_null_validation_interval_scores_only_the_single_final_epoch(tmp_path) -
     assert checkpoint["validation_protocol"]["selection_metric"] == (
         "single_final_epoch_macro_ssim"
     )
+    assert checkpoint["training_protocol"]["terminal_validation"] == {
+        "mode": "single_final_epoch",
+        "planned_epoch": 2,
+    }
+    assert checkpoint["terminal_validation_state"] == {
+        "planned_epoch": 2,
+        "completed": True,
+        "completed_epoch": 2,
+    }
+
+    config["train"]["epochs"] = 3
+    with pytest.raises(ValueError, match="already completed"):
+        train(config, resume_from=tmp_path / "run/last.pt")
 
 
 def test_training_rejects_resume_into_a_different_run_directory(tmp_path):
@@ -12784,11 +21199,927 @@ def test_hdf5_and_zip_loaders_are_multiprocess_safe(tmp_path):
         assert sample["events"].shape == (8, 4)
 ~~~~~~~~
 
+# tests/test_public_provenance.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+import socket
+import sys
+from pathlib import Path
+
+import pytest
+
+from asgcn_unet import cli
+from scripts import check_env
+from tests.fixtures import make_eventhdr
+
+
+def _run_check_env(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    *arguments: str,
+) -> dict[str, object]:
+    monkeypatch.setattr(sys, "argv", ["check_env.py", *arguments])
+    check_env.main()
+    return json.loads(capsys.readouterr().out)
+
+
+def test_check_env_public_report_uses_only_logical_host_paths(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    data_root = tmp_path / "private-data-mount"
+    runs_root = tmp_path / "private-runs-mount"
+    data_root.mkdir()
+
+    report = _run_check_env(
+        monkeypatch,
+        capsys,
+        "--data-root",
+        str(data_root),
+        "--runs-root",
+        str(runs_root),
+    )
+
+    rendered = json.dumps(report)
+    assert report["project_root"] == "$PROJECT_ROOT"
+    assert report["data_root"] == "$DATA_ROOT"
+    assert report["runs_root"] == "$RUNS_ROOT"
+    assert "hostname" not in report
+    assert str(tmp_path.resolve()) not in rendered
+    assert socket.gethostname() not in rendered
+    assert "gpu_devices" in report
+    assert "torch_cuda_runtime" in report
+
+
+def test_check_env_private_provenance_requires_explicit_opt_in(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    data_root = tmp_path / "data"
+    runs_root = tmp_path / "runs"
+    data_root.mkdir()
+
+    report = _run_check_env(
+        monkeypatch,
+        capsys,
+        "--data-root",
+        str(data_root),
+        "--runs-root",
+        str(runs_root),
+        "--include-private-host-provenance",
+    )
+
+    private = report["private_host_provenance"]
+    assert isinstance(private, dict)
+    assert private["hostname"] == socket.gethostname()
+    assert private["data_root"] == str(data_root.resolve())
+    assert private["runs_root"] == str(runs_root.resolve())
+    assert "do not publish" in private["publication_warning"]
+
+
+def test_check_env_routine_error_redacts_external_lock_path(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    data_root = tmp_path / "data"
+    runs_root = tmp_path / "runs"
+    lock_path = tmp_path / "private-profile.txt"
+    data_root.mkdir()
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "check_env.py",
+            "--data-root",
+            str(data_root),
+            "--runs-root",
+            str(runs_root),
+            "--lock",
+            str(lock_path),
+        ],
+    )
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    rendered = capsys.readouterr().out
+    assert "$LOCK_FILE" in str(error.value)
+    assert str(tmp_path.resolve()) not in str(error.value)
+    assert str(tmp_path.resolve()) not in rendered
+
+
+def test_check_env_manifest_error_redacts_repository_path(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    data_root = tmp_path / "data"
+    data_root.mkdir()
+    project_root = Path(check_env.__file__).resolve().parents[1]
+
+    def fail_manifest(_path: Path) -> dict[str, object]:
+        raise ValueError(f"invalid manifest at {project_root / 'manifests'}")
+
+    monkeypatch.setattr(check_env, "load_eventhdr_split_manifest", fail_manifest)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "check_env.py",
+            "--data-root",
+            str(data_root),
+            "--runs-root",
+            str(tmp_path / "runs"),
+            "--require-eventhdr-train",
+        ],
+    )
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    rendered = capsys.readouterr().out
+    assert "$PROJECT_ROOT/manifests" in str(error.value)
+    assert str(project_root) not in str(error.value)
+    assert str(project_root) not in rendered
+
+
+def test_inspect_public_result_redacts_root_and_sample_source(tmp_path: Path) -> None:
+    data_root = tmp_path / "eventhdr"
+    make_eventhdr(data_root)
+    config = {
+        "dataset": {
+            "type": "eventhdr",
+            "root": str(data_root.resolve()),
+            "max_events": 8,
+        }
+    }
+
+    result = cli.inspect_dataset(config, samples=1)
+
+    rendered = json.dumps(result)
+    assert result["root"] == "$DATA_ROOT"
+    assert result["preview"][0]["metadata"]["source"] == "$DATA_ROOT/test.h5"
+    assert str(tmp_path.resolve()) not in rendered
+    assert "private_host_provenance" not in result
+
+
+def test_inspect_private_provenance_requires_explicit_opt_in(tmp_path: Path) -> None:
+    data_root = tmp_path / "eventhdr"
+    make_eventhdr(data_root)
+    config = {
+        "dataset": {
+            "type": "eventhdr",
+            "root": str(data_root.resolve()),
+            "max_events": 8,
+        }
+    }
+
+    result = cli.inspect_dataset(
+        config,
+        samples=1,
+        include_private_host_provenance=True,
+    )
+
+    assert result["root"] == str(data_root.resolve())
+    assert result["preview"][0]["metadata"]["source"].startswith(str(data_root.resolve()))
+    assert result["private_host_provenance"]["data_root"] == str(data_root.resolve())
+    assert "do not publish" in result["private_host_provenance"]["publication_warning"]
+
+
+def test_inspect_cli_routine_error_redacts_dataset_and_config_paths(tmp_path: Path) -> None:
+    config_path = tmp_path / "inspect.json"
+    missing_root = tmp_path / "private-data-mount"
+    config_path.write_text(
+        json.dumps({"dataset": {"type": "eventhdr", "root": str(missing_root)}}),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(SystemExit) as error:
+        cli.main(["inspect", "--config", str(config_path)])
+
+    message = str(error.value)
+    assert "$DATA_ROOT" in message
+    assert str(tmp_path.resolve()) not in message
+
+
+def test_private_provenance_help_warns_against_publication(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    with pytest.raises(SystemExit) as cli_exit:
+        cli.build_parser().parse_args(["inspect", "--help"])
+    assert cli_exit.value.code == 0
+    cli_help = capsys.readouterr().out
+    assert "PRIVATE" in cli_help
+    assert "do not publish" in cli_help
+
+    monkeypatch.setattr(sys, "argv", ["check_env.py", "--help"])
+    with pytest.raises(SystemExit) as check_exit:
+        check_env.main()
+    assert check_exit.value.code == 0
+    check_help = capsys.readouterr().out
+    assert "PRIVATE" in check_help
+    assert "do not publish" in check_help
+
+
+def test_train_and_calibrate_cli_results_redact_absolute_checkpoint_paths(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    config_path = tmp_path / "config.json"
+    run_dir = tmp_path / "private-run"
+    config_path.write_text(
+        json.dumps(
+            {
+                "dataset": {},
+                "model": {},
+                "train": {"batch_size": 1},
+                "output": {"run_dir": str(run_dir)},
+            }
+        ),
+        encoding="utf-8",
+    )
+    private_best = tmp_path / "private-checkpoints" / "best.pt"
+    private_snn = tmp_path / "private-checkpoints" / "best_snn.pt"
+    monkeypatch.setattr(
+        cli,
+        "verify_training_preflight",
+        lambda config, report: {
+            "schema": "asgcn_preflight_verification_v1",
+            "status": "verified",
+            "report_eligible": True,
+        },
+    )
+    monkeypatch.setattr(cli, "train", lambda config, resume_from=None: private_best)
+
+    cli.main(
+        [
+            "train",
+            "--config",
+            str(config_path),
+            "--preflight-report",
+            str(tmp_path / "profile.json"),
+        ]
+    )
+    train_output = capsys.readouterr().out
+    assert json.loads(train_output)["best_checkpoint"] == "$EXTERNAL/best.pt"
+    assert str(tmp_path.resolve()) not in train_output
+
+    monkeypatch.setattr(cli, "calibrate", lambda *args, **kwargs: private_snn)
+    cli.main(
+        [
+            "calibrate",
+            "--config",
+            str(config_path),
+            "--checkpoint",
+            str(private_best),
+            "--output",
+            str(private_snn),
+        ]
+    )
+    calibrate_output = capsys.readouterr().out
+    assert json.loads(calibrate_output)["calibrated_checkpoint"] == "$EXTERNAL/best_snn.pt"
+    assert str(tmp_path.resolve()) not in calibrate_output
+
+
+@pytest.mark.parametrize(
+    ("command", "failure_target"),
+    [
+        pytest.param("profile", "training_preflight", id="profile"),
+        pytest.param("train", "train", id="train"),
+        pytest.param("evaluate", "evaluate", id="evaluate"),
+        pytest.param("benchmark", "benchmark", id="benchmark"),
+        pytest.param("calibrate", "calibrate", id="calibrate"),
+    ],
+)
+def test_noninspect_cli_failure_redacts_paths_and_hostname_by_default(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    command: str,
+    failure_target: str,
+) -> None:
+    data_root = tmp_path / "private-data"
+    checkpoint = tmp_path / "private-checkpoints" / "model.pt"
+    output = tmp_path / "private-output" / "result.pt"
+    profile_report = tmp_path / "private-profile" / "profile.json"
+    private_hostname = "private-node.internal.example"
+    config_path = tmp_path / "config.json"
+    config_path.write_text(
+        json.dumps(
+            {
+                "dataset": {"type": "eventhdr", "root": str(data_root)},
+                "model": {},
+                "eval": {},
+                "output": {"run_dir": str(tmp_path / "private-runs")},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    def fail_command(*args, **kwargs):
+        del args, kwargs
+        raise RuntimeError(
+            f"failed at {data_root / 'sample.h5'} on {private_hostname.upper()}"
+        )
+
+    monkeypatch.delenv("INCLUDE_PRIVATE_HOST_PROVENANCE", raising=False)
+    monkeypatch.setattr(cli.socket, "gethostname", lambda: "private-node")
+    monkeypatch.setattr(cli.socket, "getfqdn", lambda: private_hostname)
+    monkeypatch.setattr(cli, failure_target, fail_command)
+    monkeypatch.setattr(
+        cli,
+        "verify_training_preflight",
+        lambda *args, **kwargs: {
+            "schema": "asgcn_preflight_verification_v1",
+            "status": "verified",
+            "report_eligible": True,
+        },
+    )
+    monkeypatch.setattr(cli, "save_json", lambda *args, **kwargs: None)
+
+    extra_arguments = {
+        "profile": ["--output", str(profile_report)],
+        "train": ["--preflight-report", str(profile_report)],
+        "evaluate": ["--checkpoint", str(checkpoint)],
+        "benchmark": ["--checkpoint", str(checkpoint)],
+        "calibrate": [
+            "--checkpoint",
+            str(checkpoint),
+            "--output",
+            str(output),
+        ],
+    }[command]
+
+    with pytest.raises(SystemExit) as error:
+        cli.main([command, "--config", str(config_path), *extra_arguments])
+
+    message = str(error.value)
+    assert f"{command} failed:" in message
+    assert "$DATA_ROOT/sample.h5" in message
+    assert "$HOST" in message
+    assert str(tmp_path.resolve()) not in message
+    assert "private-node" not in message.lower()
+    assert error.value.__suppress_context__ is True
+
+
+@pytest.mark.parametrize(
+    ("command", "failure_target"),
+    [
+        pytest.param("profile", "training_preflight", id="profile"),
+        pytest.param("train", "train", id="train"),
+        pytest.param("evaluate", "evaluate", id="evaluate"),
+        pytest.param("benchmark", "benchmark", id="benchmark"),
+        pytest.param("calibrate", "calibrate", id="calibrate"),
+    ],
+)
+def test_noninspect_cli_private_error_trace_requires_environment_opt_in(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    command: str,
+    failure_target: str,
+) -> None:
+    config_path = tmp_path / "config.json"
+    config_path.write_text(
+        json.dumps(
+            {
+                "dataset": {},
+                "model": {},
+                "eval": {},
+                "output": {"run_dir": str(tmp_path / "private-runs")},
+            }
+        ),
+        encoding="utf-8",
+    )
+    private_message = str(tmp_path / "private-checkpoint.pt")
+    checkpoint = tmp_path / "model.pt"
+    output = tmp_path / "result.pt"
+    profile_report = tmp_path / "profile.json"
+    monkeypatch.setenv("INCLUDE_PRIVATE_HOST_PROVENANCE", "1")
+    monkeypatch.setattr(
+        cli,
+        failure_target,
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError(private_message)),
+    )
+    monkeypatch.setattr(
+        cli,
+        "verify_training_preflight",
+        lambda *args, **kwargs: {
+            "schema": "asgcn_preflight_verification_v1",
+            "status": "verified",
+            "report_eligible": True,
+        },
+    )
+    monkeypatch.setattr(cli, "save_json", lambda *args, **kwargs: None)
+
+    extra_arguments = {
+        "profile": ["--output", str(profile_report)],
+        "train": ["--preflight-report", str(profile_report)],
+        "evaluate": ["--checkpoint", str(checkpoint)],
+        "benchmark": ["--checkpoint", str(checkpoint)],
+        "calibrate": [
+            "--checkpoint",
+            str(checkpoint),
+            "--output",
+            str(output),
+        ],
+    }[command]
+
+    with pytest.raises(RuntimeError, match="private-checkpoint"):
+        cli.main([command, "--config", str(config_path), *extra_arguments])
+
+
+def test_noninspect_cli_redaction_failure_suppresses_details_and_traceback(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config_path = tmp_path / "config.json"
+    config_path.write_text(
+        json.dumps({"dataset": {}, "model": {}, "eval": {}}),
+        encoding="utf-8",
+    )
+    private_message = str(tmp_path / "private-checkpoint.pt")
+    monkeypatch.delenv("INCLUDE_PRIVATE_HOST_PROVENANCE", raising=False)
+    monkeypatch.setattr(
+        cli,
+        "evaluate",
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError(private_message)),
+    )
+    monkeypatch.setattr(
+        cli,
+        "_redact_public_error",
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError(private_message)),
+    )
+
+    with pytest.raises(SystemExit) as error:
+        cli.main(
+            [
+                "evaluate",
+                "--config",
+                str(config_path),
+                "--checkpoint",
+                private_message,
+            ]
+        )
+
+    message = str(error.value)
+    assert message == (
+        "evaluate failed: details suppressed because public-safe error rendering failed"
+    )
+    assert str(tmp_path.resolve()) not in message
+    assert error.value.__suppress_context__ is True
+~~~~~~~~
+
+# tests/test_repo_hygiene.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import base64
+import hashlib
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+from scripts import scan_private_text
+
+ROOT = Path(__file__).resolve().parents[1]
+SCANNER = ROOT / "scripts" / "scan_private_text.py"
+SUMMARY_BUILDER = ROOT / "scripts" / "build_code_summary.py"
+
+
+def _run(command: list[str], cwd: Path, *, environment: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        command,
+        cwd=cwd,
+        check=False,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        env=environment,
+    )
+
+
+def _private_unix_path() -> str:
+    separator = chr(47)
+    return separator + "home" + separator + "research-node-user" + separator + "project"
+
+
+def _private_windows_path() -> str:
+    separator = chr(92)
+    return "D:" + separator + "Users" + separator + "research-node-user" + separator + "project"
+
+
+def _init_repository(path: Path) -> None:
+    assert _run(["git", "init", "-q"], path).returncode == 0
+    assert _run(["git", "config", "user.name", "Snapshot Test"], path).returncode == 0
+    assert _run(["git", "config", "user.email", "snapshot@example.invalid"], path).returncode == 0
+
+
+def _environment_without_private_markers() -> dict[str, str]:
+    environment = dict(os.environ)
+    environment.pop("PRIVATE_MARKERS_B64", None)
+    return environment
+
+
+def test_privacy_scanner_detects_generic_paths_without_echoing_values(tmp_path: Path) -> None:
+    secret_values = (_private_unix_path(), _private_windows_path())
+    candidate = tmp_path / "candidate.txt"
+    candidate.write_text("\n".join(secret_values), encoding="utf-8")
+    binary = tmp_path / "payload.bin"
+    binary.write_bytes(b"\x00" + secret_values[0].encode("utf-8"))
+
+    result = _run([sys.executable, str(SCANNER), str(candidate), str(binary), "--root", str(tmp_path)], tmp_path)
+
+    assert result.returncode == 1
+    assert "generic-unix-home" in result.stderr
+    assert "generic-windows-home" in result.stderr
+    assert all(value not in result.stderr for value in secret_values)
+
+
+def test_privacy_scanner_uses_external_and_encoded_markers(tmp_path: Path) -> None:
+    marker = "private" + chr(45) + "identity" + chr(45) + "marker"
+    left, right = marker[:9], marker[9:]
+    encoded_marker = base64.b64encode(marker.encode("utf-8")).decode("ascii")
+    encoded_left, encoded_right = encoded_marker[:12], encoded_marker[12:]
+    candidate = tmp_path / "candidate.py"
+    candidate.write_text(
+        (
+            f'value = f"{{\'{left}\'}}{{\'{right}\'}}"\n'
+            f'encoded = "{encoded_left}" + "{encoded_right}"\n'
+        ),
+        encoding="utf-8",
+    )
+    denylist = tmp_path / "denylist.txt"
+    denylist.write_text(marker + "\n", encoding="utf-8")
+    environment = dict(os.environ)
+    environment["PRIVATE_MARKERS_B64"] = base64.b64encode((marker + "\n").encode("utf-8")).decode("ascii")
+
+    result = _run(
+        [
+            sys.executable,
+            str(SCANNER),
+            str(candidate),
+            "--root",
+            str(tmp_path),
+            "--extra-patterns",
+            str(denylist),
+        ],
+        tmp_path,
+        environment=environment,
+    )
+
+    assert result.returncode == 1
+    assert "python-constant" in result.stderr
+    assert "python-constant-base64-decoded" in result.stderr
+    assert marker not in result.stderr
+
+
+def test_privacy_scanner_rejects_invalid_encoded_environment(tmp_path: Path) -> None:
+    candidate = tmp_path / "candidate.txt"
+    candidate.write_text("safe", encoding="utf-8")
+    environment = dict(os.environ)
+    environment["PRIVATE_MARKERS_B64"] = "not valid base64"
+
+    result = _run(
+        [sys.executable, str(SCANNER), str(candidate), "--root", str(tmp_path)],
+        tmp_path,
+        environment=environment,
+    )
+
+    assert result.returncode == 2
+    assert "base64-encoded UTF-8" in result.stderr
+    assert environment["PRIVATE_MARKERS_B64"] not in result.stderr
+
+
+def test_privacy_scanner_can_require_a_nonempty_external_denylist(tmp_path: Path) -> None:
+    candidate = tmp_path / "candidate.txt"
+    candidate.write_text("safe\n", encoding="utf-8")
+    empty_denylist = tmp_path / "denylist.txt"
+    empty_denylist.write_text("# comments do not count as patterns\n", encoding="utf-8")
+    environment = _environment_without_private_markers()
+
+    missing = _run(
+        [
+            sys.executable,
+            str(SCANNER),
+            str(candidate),
+            "--root",
+            str(tmp_path),
+            "--require-external-patterns",
+        ],
+        tmp_path,
+        environment=environment,
+    )
+    comments_only = _run(
+        [
+            sys.executable,
+            str(SCANNER),
+            str(candidate),
+            "--root",
+            str(tmp_path),
+            "--extra-patterns",
+            str(empty_denylist),
+            "--require-external-patterns",
+        ],
+        tmp_path,
+        environment=environment,
+    )
+
+    assert missing.returncode == 2
+    assert comments_only.returncode == 2
+    assert "external private-marker denylist is required" in missing.stderr
+    assert "external private-marker denylist is required" in comments_only.stderr
+
+
+@pytest.mark.parametrize("hash_length", [40, 64])
+def test_history_enumeration_uses_portable_lf_records(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    hash_length: int,
+) -> None:
+    commit_id = "a" * hash_length
+    tree_id = "b" * hash_length
+    blob_id = "c" * hash_length
+    other_blob_id = "d" * hash_length
+    path_hint = "nested/자료 with spaces\tand\rcarriage.py"
+    payload = (
+        f"{commit_id}\n{tree_id} \n{blob_id} {path_hint}\n"
+        f"{other_blob_id} path=literal-filename.txt\n"
+    ).encode()
+    calls = []
+
+    def run(command, **kwargs):
+        calls.append(command)
+        assert kwargs["cwd"] == tmp_path
+        assert kwargs["env"]["GIT_NO_REPLACE_OBJECTS"] == "1"
+        assert "PRIVATE_MARKERS_B64" not in kwargs["env"]
+        return subprocess.CompletedProcess(command, 0, stdout=payload, stderr=b"")
+
+    monkeypatch.setattr(scan_private_text.subprocess, "run", run)
+
+    assert scan_private_text._reachable_objects(tmp_path) == {
+        commit_id: "",
+        tree_id: "",
+        blob_id: path_hint,
+        other_blob_id: "path=literal-filename.txt",
+    }
+    assert calls == [["git", "rev-list", "--objects", "--all"]]
+
+
+@pytest.mark.parametrize("object_bytes", [b"a" * 41, b"g" * 40, b"\xff" * 40])
+def test_history_enumeration_rejects_malformed_object_ids_without_echoing_them(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    object_bytes: bytes,
+) -> None:
+    monkeypatch.setattr(
+        scan_private_text.subprocess,
+        "run",
+        lambda command, **kwargs: subprocess.CompletedProcess(
+            command, 0, stdout=object_bytes + b" file.txt\n", stderr=b""
+        ),
+    )
+
+    with pytest.raises(ValueError) as error:
+        scan_private_text._reachable_objects(tmp_path)
+
+    assert str(error.value) == "git history enumeration returned an invalid object ID"
+
+
+def test_privacy_scanner_checks_unique_blobs_reachable_from_every_ref(tmp_path: Path) -> None:
+    _init_repository(tmp_path)
+    safe = tmp_path / "safe.txt"
+    safe.write_text("public fixture\n", encoding="utf-8")
+    assert _run(["git", "add", "safe.txt"], tmp_path).returncode == 0
+    assert _run(["git", "commit", "-qm", "safe base"], tmp_path).returncode == 0
+    main_branch = _run(["git", "branch", "--show-current"], tmp_path).stdout.strip()
+    safe_commit = _run(["git", "rev-parse", "HEAD"], tmp_path).stdout.strip()
+
+    assert _run(["git", "switch", "-q", "-c", "archived-history"], tmp_path).returncode == 0
+    marker = "historical" + chr(45) + "identity" + chr(45) + "marker"
+    left, right = marker[:11], marker[11:]
+    historical_name = marker + ".py"
+    historical = tmp_path / historical_name
+    historical.write_text(f'value = "{left}" + "{right}"\n', encoding="utf-8")
+    binary = tmp_path / "historical.bin"
+    binary.write_bytes(b"\x00" + marker.encode("utf-8"))
+    assert _run(["git", "add", historical_name, binary.name], tmp_path).returncode == 0
+    assert _run(["git", "commit", "-qm", "historical fixture"], tmp_path).returncode == 0
+    assert _run(["git", "tag", "archived-copy"], tmp_path).returncode == 0
+    historical_commit = _run(["git", "rev-parse", "HEAD"], tmp_path).stdout.strip()
+    object_id = _run(["git", "rev-parse", f"HEAD:{historical_name}"], tmp_path).stdout.strip()
+    assert _run(["git", "switch", "-q", main_branch], tmp_path).returncode == 0
+    assert _run(["git", "replace", historical_commit, safe_commit], tmp_path).returncode == 0
+
+    environment = _environment_without_private_markers()
+    environment["PRIVATE_MARKERS_B64"] = base64.b64encode((marker + "\n").encode()).decode()
+    current = _run(
+        [
+            sys.executable,
+            str(SCANNER),
+            "--all-tracked",
+            "--require-external-patterns",
+        ],
+        tmp_path,
+        environment=environment,
+    )
+    history = _run(
+        [
+            sys.executable,
+            str(SCANNER),
+            "--all-history",
+            "--require-external-patterns",
+        ],
+        tmp_path,
+        environment=environment,
+    )
+
+    assert current.returncode == 0, current.stderr
+    assert history.returncode == 1
+    assert f"object {object_id}" in history.stderr
+    assert "<redacted>.py:1" in history.stderr
+    assert "external-environment-1" in history.stderr
+    assert "python-constant" in history.stderr
+    assert history.stderr.count("python-constant") == 1
+    assert marker not in history.stdout
+    assert marker not in history.stderr
+
+
+def test_privacy_scanner_rejects_incomplete_shallow_history(tmp_path: Path) -> None:
+    origin = tmp_path / "origin"
+    origin.mkdir()
+    _init_repository(origin)
+    source = origin / "source.txt"
+    source.write_text("first\n", encoding="utf-8")
+    assert _run(["git", "add", source.name], origin).returncode == 0
+    assert _run(["git", "commit", "-qm", "first"], origin).returncode == 0
+    source.write_text("second\n", encoding="utf-8")
+    assert _run(["git", "commit", "-qam", "second"], origin).returncode == 0
+
+    shallow = tmp_path / "shallow"
+    clone = _run(
+        ["git", "clone", "-q", "--depth", "1", origin.resolve().as_uri(), str(shallow)],
+        tmp_path,
+    )
+    assert clone.returncode == 0, clone.stderr
+    marker = "synthetic" + chr(45) + "history" + chr(45) + "marker"
+    environment = _environment_without_private_markers()
+    environment["PRIVATE_MARKERS_B64"] = base64.b64encode(marker.encode()).decode()
+
+    result = _run(
+        [
+            sys.executable,
+            str(SCANNER),
+            "--all-history",
+            "--require-external-patterns",
+        ],
+        shallow,
+        environment=environment,
+    )
+
+    assert result.returncode == 2
+    assert "complete, non-shallow repository" in result.stderr
+    assert marker not in result.stdout
+    assert marker not in result.stderr
+
+
+def test_code_summary_is_deterministic_and_check_detects_changes(tmp_path: Path) -> None:
+    _init_repository(tmp_path)
+    source = tmp_path / "example.py"
+    source.write_text("value = 1\n", encoding="utf-8")
+    binary = tmp_path / "weights.bin"
+    binary.write_bytes(b"\x00\xff\x10")
+    assert _run(["git", "add", "example.py", "weights.bin"], tmp_path).returncode == 0
+    environment = dict(os.environ)
+    environment.update(
+        {
+            "GIT_AUTHOR_DATE": "2001-02-03T04:05:06Z",
+            "GIT_COMMITTER_DATE": "2001-02-03T04:05:06Z",
+        }
+    )
+    assert _run(["git", "commit", "-qm", "fixture"], tmp_path, environment=environment).returncode == 0
+
+    build = _run([sys.executable, str(SUMMARY_BUILDER)], tmp_path)
+    assert build.returncode == 0, build.stderr
+    first = (tmp_path / "code_summary.md").read_bytes()
+    assert _run([sys.executable, str(SUMMARY_BUILDER)], tmp_path).returncode == 0
+    assert (tmp_path / "code_summary.md").read_bytes() == first
+    assert _run(["git", "add", "code_summary.md"], tmp_path).returncode == 0
+
+    check = _run([sys.executable, str(SUMMARY_BUILDER), "--check"], tmp_path)
+    assert check.returncode == 0, check.stderr
+    summary = first.decode("utf-8")
+    metadata_text = summary.split("<!-- code-summary-metadata\n", 1)[1].split("\n-->\n", 1)[0]
+    metadata = json.loads(metadata_text)
+    manifest = metadata["snapshot"]
+    assert manifest["included_file_count"] == 1
+    assert manifest["skipped_binary_paths"] == ["weights.bin"]
+    assert manifest["files"][0]["sha256"] == hashlib.sha256(b"value = 1\n").hexdigest()
+    assert metadata["provenance"]["generated_utc"] == "2001-02-03T04:05:06Z"
+
+    source.write_text("value = 2\n", encoding="utf-8")
+    stale = _run([sys.executable, str(SUMMARY_BUILDER), "--check"], tmp_path)
+    assert stale.returncode == 1
+    assert "is stale" in stale.stderr
+
+    assert _run([sys.executable, str(SUMMARY_BUILDER)], tmp_path).returncode == 0
+    dirty_summary = (tmp_path / "code_summary.md").read_text(encoding="utf-8")
+    dirty_metadata_text = dirty_summary.split("<!-- code-summary-metadata\n", 1)[1].split(
+        "\n-->\n", 1
+    )[0]
+    dirty_provenance = json.loads(dirty_metadata_text)["provenance"]
+    assert dirty_provenance["tracked_tree_dirty_at_generation"] is True
+    assert dirty_provenance["source_commit_at_generation"] is None
+    assert dirty_provenance["source_tree_at_generation"] is None
+
+
+def test_code_summary_clean_provenance_allows_only_a_followup_summary_commit(
+    tmp_path: Path,
+) -> None:
+    _init_repository(tmp_path)
+    source = tmp_path / "example.py"
+    source.write_text("value = 1\n", encoding="utf-8")
+    assert _run(["git", "add", "example.py"], tmp_path).returncode == 0
+    assert _run(["git", "commit", "-qm", "source"], tmp_path).returncode == 0
+
+    generated = _run(
+        [sys.executable, str(SUMMARY_BUILDER), "--require-clean-provenance"],
+        tmp_path,
+    )
+    assert generated.returncode == 0, generated.stderr
+    assert _run(["git", "add", "code_summary.md"], tmp_path).returncode == 0
+    assert _run(["git", "commit", "-qm", "summary"], tmp_path).returncode == 0
+
+    clean = _run(
+        [
+            sys.executable,
+            str(SUMMARY_BUILDER),
+            "--check",
+            "--require-clean-provenance",
+        ],
+        tmp_path,
+    )
+    assert clean.returncode == 0, clean.stderr
+
+    source.write_text("value = 2\n", encoding="utf-8")
+    assert _run(["git", "add", "example.py"], tmp_path).returncode == 0
+    assert _run(["git", "commit", "-qm", "changed source"], tmp_path).returncode == 0
+    stale_provenance = _run(
+        [
+            sys.executable,
+            str(SUMMARY_BUILDER),
+            "--check",
+            "--require-clean-provenance",
+        ],
+        tmp_path,
+    )
+    assert stale_provenance.returncode != 0
+    assert "source changed after" in stale_provenance.stderr
+
+
+def test_ci_pins_actions_and_runs_repository_hygiene_gates() -> None:
+    workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    uses_lines = [line.strip() for line in workflow.splitlines() if line.strip().startswith("uses:")]
+
+    assert uses_lines
+    for line in uses_lines:
+        reference = line.split("@", maxsplit=1)[1].split(maxsplit=1)[0]
+        assert len(reference) == 40
+        assert all(character in "0123456789abcdef" for character in reference)
+    assert "python scripts/build_code_summary.py --check" in workflow
+    assert "python scripts/build_code_summary.py --check --require-clean-provenance" in workflow
+    assert "python scripts/scan_private_text.py --all-tracked" in workflow
+    assert "Exercise the Linux server setup entrypoint" in workflow
+    assert "run: bash scripts/setup.sh" in workflow
+    assert "Run tests with the locked Python 3.12 profile" in workflow
+    assert workflow.count("run: python -m pytest -q") >= 2
+    assert "fetch-depth: 0" in workflow
+    assert "if: github.event_name == 'push' && github.ref == 'refs/heads/main'" in workflow
+    assert "PRIVATE_MARKERS_B64: ${{ secrets.PRIVATE_MARKERS_B64 }}" in workflow
+    assert "--all-history" in workflow
+    assert "--require-external-patterns" in workflow
+    assert "for script in scripts/*.sh server/*.sbatch server/*.pbs; do" in workflow
+    assert 'bash -n "$script" || exit 1' in workflow
+    assert "run: bash -n scripts/*.sh" not in workflow
+~~~~~~~~
+
 # tests/test_server_orchestration.py
 
 ~~~~~~~~python
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -12798,29 +22129,66 @@ def _text(relative: str) -> str:
     return (ROOT / relative).read_text(encoding="utf-8")
 
 
-def test_full_script_covers_the_complete_ordered_experiment_matrix() -> None:
-    script = _text("scripts/full.sh")
+def test_run_script_exposes_restartable_ordered_stages() -> None:
+    script = _text("scripts/run.sh")
 
-    preflight = script.index("[1/5]")
-    inspection = script.index("[2/5]")
-    training = script.index("[3/5]")
-    calibration = script.index("[4/5]")
-    evaluation = script.index("[5/5]")
-    assert preflight < inspection < training < calibration < evaluation
+    assert "[check]" in script
+    assert "[profile]" in script
+    assert "[train]" in script
+    assert "[calibrate]" in script
+    assert "[eval]" in script
+    all_stage = script.split('  all)\n', maxsplit=1)[1]
+    assert all_stage.index("run_check") < all_stage.index("run_profile")
+    assert all_stage.index("run_profile") < all_stage.index("run_train")
+    assert all_stage.index("run_train") < all_stage.index("run_calibrate")
+    assert all_stage.index("run_calibrate") < all_stage.index("run_eval")
 
-    for config in (
-        "configs/hdr_train.json",
-        "configs/hdr_ann.json",
-        "configs/hdr_snn.json",
-        "configs/aid_ann.json",
-        "configs/aid_snn.json",
-    ):
+    for stage in ("check", "profile", "train", "calibrate", "eval", "all"):
+        assert stage in script
+    for config in ("configs/train.json", "configs/hdr.json", "configs/aid.json"):
         assert config in script
     assert 'SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"' in script
     assert "for dynamics in literal_eq15 standard_if" in script
     assert "RUN_BENCHMARK=1" in script
     assert 'CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"' in script
-    assert 'for config_path in "${TRAIN_CONFIG}" "${AID_ANN_CONFIG}"' in script
+    assert 'PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"' in script
+    assert 'PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"' in script
+    assert "asgcn_unet.cli profile" in script
+    assert "all is a reporting pipeline and cannot bypass" in script
+    assert "profile/all is a CUDA reporting gate" in script
+    assert "PROFILE_TOP_DENSITY must be >= PROFILE_SAMPLES" in script
+    assert "including PROFILE_OUTPUT" in script
+    assert "\\$PROJECT_ROOT" in script
+    assert 'for config_path in "${TRAIN_CONFIG}" "${AID_CONFIG}"' in script
+    assert 'for config_path in "${HDR_CONFIG}" "${AID_CONFIG}"' in script
+    assert "silently skipped" in script
+    assert "rm -f" not in script
+    assert "write_stage_status" in script
+    assert "RUNNING" in script
+    assert "COMPLETED" in script
+    assert "FAILED" in script
+    assert "record_stage_failure" in script
+
+
+def test_only_three_configs_define_short_output_roots_and_spline_chunking() -> None:
+    config_dir = ROOT / "configs"
+    assert {path.name for path in config_dir.glob("*.json")} == {
+        "train.json",
+        "hdr.json",
+        "aid.json",
+    }
+
+    configs = {
+        name: json.loads((config_dir / name).read_text(encoding="utf-8"))
+        for name in ("train.json", "hdr.json", "aid.json")
+    }
+    assert configs["train.json"]["output"]["run_dir"] == "runs/train"
+    assert configs["hdr.json"]["eval"]["output_dir"] == "runs/eval/hdr"
+    assert configs["aid.json"]["eval"]["output_dir"] == "runs/eval/aid"
+    assert configs["train.json"]["model"] == configs["hdr.json"]["model"]
+    assert configs["train.json"]["model"] == configs["aid.json"]["model"]
+    for config in configs.values():
+        assert config["model"]["spline_chunk_size"] == 65536
 
 
 def test_calibration_wrapper_defaults_to_all_samples_and_protects_output() -> None:
@@ -12840,6 +22208,25 @@ def test_all_wrappers_support_optional_validate_all_preflight() -> None:
         assert "INSPECT_ARGS+=(--validate-all)" in script
 
 
+def test_training_wrapper_requires_verified_profile_or_explicit_nonreporting_bypass() -> None:
+    script = _text("scripts/train.sh")
+    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"' in script
+    assert 'ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"' in script
+    assert "--preflight-report" in script
+    assert "--allow-unverified-preflight" in script
+    assert "non-reporting run" in script
+
+
+def test_profile_has_slurm_and_pbs_entrypoints_and_train_dependency() -> None:
+    for relative in ("server/profile.sbatch", "server/profile.pbs"):
+        script = _text(relative)
+        assert script.startswith("#!/usr/bin/env bash\n")
+        assert "scripts/run.sh" in script
+        assert "profile" in script
+        assert "PROFILE_OUTPUT" in script
+        assert "afterok" in script
+
+
 def test_calibration_has_slurm_and_pbs_entrypoints_with_dependency_examples() -> None:
     for relative in ("server/calibrate.sbatch", "server/calibrate.pbs"):
         script = _text(relative)
@@ -12849,11 +22236,104 @@ def test_calibration_has_slurm_and_pbs_entrypoints_with_dependency_examples() ->
         assert "depend" in script
 
 
+def test_all_scheduler_entrypoints_use_short_paths_and_optional_cuda_module() -> None:
+    for scheduler in ("sbatch", "pbs"):
+        for stage in ("train", "calibrate", "eval"):
+            script = _text(f"server/{stage}.{scheduler}")
+            assert "CUDA_MODULE" in script
+            assert "module load" in script
+            assert "runs/eventhdr_asgcn" not in script
+            assert "hdr_train.json" not in script
+            assert "hdr_ann.json" not in script
+            assert "hdr_snn.json" not in script
+
+
+def test_scheduler_logs_require_explicit_opt_in_for_private_provenance() -> None:
+    path_fields = {
+        "profile": ("TRAIN_CONFIG", "PROFILE_OUTPUT"),
+        "train": ("CONFIG_PATH", "RESUME_CHECKPOINT"),
+        "calibrate": ("CONFIG_PATH", "CHECKPOINT_PATH", "OUTPUT_PATH"),
+        "eval": ("CONFIG_PATH", "CHECKPOINT_PATH"),
+    }
+    marker = 'if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then\n'
+    for scheduler in ("sbatch", "pbs"):
+        for stage, fields in path_fields.items():
+            script = _text(f"server/{stage}.{scheduler}")
+            assert 'INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"' in script
+            assert marker in script
+            private_and_public = script.split(marker, maxsplit=1)[1]
+            private_block, public_tail = private_and_public.split("\nelse\n", maxsplit=1)
+            public_block = public_tail.split("\nfi", maxsplit=1)[0]
+
+            assert "$(hostname)" in private_block
+            job_variable = "SLURM_JOB_ID" if scheduler == "sbatch" else "PBS_JOBID"
+            assert job_variable in private_block
+            assert "$(hostname)" not in public_block
+            assert job_variable not in public_block
+            for field in fields:
+                assert f"${{{field}}}" in private_block
+                assert f"${{{field}##*/}}" in public_block
+
+
+def test_shell_wrappers_default_to_portable_path_labels() -> None:
+    for relative in (
+        "scripts/run.sh",
+        "scripts/train.sh",
+        "scripts/calibrate.sh",
+        "scripts/eval.sh",
+    ):
+        script = _text(relative)
+        assert 'INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"' in script
+        assert 'if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then' in script
+        assert 'printf \'%s\' "${path##*/}"' in script
+
+
+def test_scheduler_docs_do_not_export_the_complete_login_environment() -> None:
+    for relative in (
+        "README.md",
+        "docs/SERVER.md",
+        "hand_off.md",
+        "server/calibrate.sbatch",
+        "server/eval.sbatch",
+        "server/train.sbatch",
+    ):
+        assert "--export=ALL" not in _text(relative)
+
+    readme = _text("README.md")
+    assert '--export=PROJECT_ROOT="$PWD"' in readme
+    assert "INCLUDE_PRIVATE_HOST_PROVENANCE=1" in readme
+
+
+def test_scheduler_docs_sanitize_log_names_and_contents_before_publication() -> None:
+    for relative in ("README.md", "docs/SERVER.md", "hand_off.md"):
+        documentation = _text(relative)
+        assert "파일명 자체에 job ID" in documentation
+        assert "<job-name>.o<job-id>" in documentation
+        assert "중립 파일명" in documentation
+        assert "공개 후보" in documentation
+        assert "scripts/scan_private_text.py" in documentation
+        assert "--require-external-patterns" in documentation
+        assert "INCLUDE_PRIVATE_HOST_PROVENANCE=1" in documentation
+        assert "opt-in log" in documentation
+        assert "비공개" in documentation
+
+    server_guide = _text("docs/SERVER.md")
+    assert 'cp -- "$raw_log" "$public_log"' in server_guide
+    assert 'python scripts/scan_private_text.py "$public_log"' in server_guide
+    assert "raw 이름을 archive member 이름으로 보존하지 않는다" in server_guide
+
+
 def test_eventaid_downloader_defaults_to_the_complete_release() -> None:
     script = _text("scripts/get_aid.sh")
     assert "the complete 14-scene release is downloaded" in script
     assert "SCENES=(R-bear)" not in script
     assert 'if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then\n  DOWNLOAD_ALL=1' in script
+
+
+def test_readme_uses_portable_server_paths() -> None:
+    readme = _text("README.md")
+    assert "$HOME/.ssh/asgcn_unet_deploy" in readme
+    assert 'ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"' in readme
 ~~~~~~~~
 
 # tests/test_temporal_metric.py
@@ -12864,7 +22344,7 @@ from __future__ import annotations
 import pytest
 import torch
 
-from asgcn_recon.metrics import MetricAccumulator, temporal_consistency_error
+from asgcn_unet.metrics import MetricAccumulator, temporal_consistency_error
 
 
 def test_temporal_consistency_error_compares_frame_changes() -> None:
@@ -12890,4 +22370,82 @@ def test_metric_accumulator_supports_temporal_metric_after_first_frame() -> None
     assert summary["micro"]["temporal_l1"] == pytest.approx(0.2)
     assert summary["macro"]["temporal_l1"] == pytest.approx(0.2)
     assert summary["per_scene"]["scene-a"]["temporal_l1_frames"] == 1
+~~~~~~~~
+
+# tests/test_utils_atomic.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+import os
+from pathlib import Path
+
+import pytest
+import torch
+
+from asgcn_unet import utils
+
+
+def _temporary_files(directory: Path, target_name: str) -> list[Path]:
+    return list(directory.glob(f".{target_name}.*.tmp"))
+
+
+def test_save_json_is_strict_atomic_and_preserves_existing_file_on_error(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "metrics.json"
+    target.write_text('{"old": true}\n', encoding="utf-8")
+    replacements: list[tuple[Path, Path]] = []
+    real_replace = os.replace
+
+    def tracked_replace(source: str | Path, destination: str | Path) -> None:
+        replacements.append((Path(source), Path(destination)))
+        real_replace(source, destination)
+
+    monkeypatch.setattr(utils.os, "replace", tracked_replace)
+    utils.save_json(target, {"value": 1.25})
+
+    assert json.loads(target.read_text(encoding="utf-8")) == {"value": 1.25}
+    assert replacements and replacements[-1][1] == target
+    assert not _temporary_files(tmp_path, target.name)
+
+    with pytest.raises(ValueError, match="Out of range float values"):
+        utils.save_json(target, {"invalid": float("nan")})
+    assert json.loads(target.read_text(encoding="utf-8")) == {"value": 1.25}
+    assert not _temporary_files(tmp_path, target.name)
+
+
+def test_write_frame_csv_is_atomic_and_rejects_inconsistent_rows(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    target = tmp_path / "frames.csv"
+    replacements: list[tuple[Path, Path]] = []
+    real_replace = os.replace
+
+    def tracked_replace(source: str | Path, destination: str | Path) -> None:
+        replacements.append((Path(source), Path(destination)))
+        real_replace(source, destination)
+
+    monkeypatch.setattr(utils.os, "replace", tracked_replace)
+    utils.write_frame_csv(target, [{"sample": "a", "ssim": 0.5}])
+
+    assert target.read_text(encoding="utf-8").splitlines() == ["sample,ssim", "a,0.5"]
+    assert replacements and replacements[-1][1] == target
+    assert not _temporary_files(tmp_path, target.name)
+
+    with pytest.raises(ValueError, match="keys do not match"):
+        utils.write_frame_csv(target, [{"sample": "a"}, {"sample": "b", "ssim": 0.6}])
+    assert target.read_text(encoding="utf-8").splitlines() == ["sample,ssim", "a,0.5"]
+
+
+def test_atomic_torch_save_replaces_target_without_fixed_temp_name(tmp_path: Path) -> None:
+    target = tmp_path / "checkpoint.pt"
+    utils.atomic_torch_save({"tensor": torch.tensor([1.0, 2.0])}, target)
+
+    payload = torch.load(target, map_location="cpu", weights_only=True)
+    assert torch.equal(payload["tensor"], torch.tensor([1.0, 2.0]))
+    assert not _temporary_files(tmp_path, target.name)
 ~~~~~~~~

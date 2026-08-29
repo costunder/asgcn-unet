@@ -1,2 +1,0 @@
--c constraints/py312.txt
--e .[dev]

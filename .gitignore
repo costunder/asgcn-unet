@@ -19,6 +19,8 @@ slurm-*.err
 asgcn-*.o*
 asgcn-*.e*
 .data_hash_cache.json
+/.private_markers.txt
+/private_markers.txt
 *.pt
 *.pth
 *.onnx

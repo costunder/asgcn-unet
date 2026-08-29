@@ -2,23 +2,32 @@ from __future__ import annotations
 
 import copy
 import sys
+import weakref
 
 import pytest
 import torch
 
-from asgcn_recon.engine import (
+import asgcn_unet.engine as engine_module
+from asgcn_unet.engine import (
     _centralize_gradients,
     _clip_and_validate_gradients,
     _ensure_finite_loss,
+    _inference_precision,
     _model_state_sha256,
     _prediction_artifact_stem,
+    _require_finite_structure,
+    _reset_benchmark_measurement_window,
     _training_protocol,
     _validate_snn_request,
+    _validate_terminal_validation_resume,
     _validate_training_protocol,
+    benchmark,
+    evaluate,
     load_model_checkpoint,
 )
-from asgcn_recon.model import ASGCNReconstructor
-from asgcn_recon.utils import atomic_torch_save
+from asgcn_unet.losses import ReconstructionLoss
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import atomic_torch_save, move_inference_sample, move_sample
 from scripts import check_env
 
 
@@ -46,6 +55,125 @@ def _config() -> dict:
     }
 
 
+class _TransferProbe:
+    def __init__(self) -> None:
+        self.calls: list[tuple[torch.device, bool]] = []
+
+    def to(self, device: torch.device, *, non_blocking: bool = False):
+        self.calls.append((device, non_blocking))
+        return object()
+
+
+def test_compute_transfer_keeps_target_on_host_while_quality_transfer_moves_it() -> None:
+    device = torch.device("cuda")
+    compute_events = _TransferProbe()
+    compute_target = _TransferProbe()
+    compute_sample = {"events": compute_events, "target": compute_target}
+
+    moved_compute = move_inference_sample(compute_sample, device)
+
+    assert moved_compute["events"] is not compute_events
+    assert moved_compute["target"] is compute_target
+    assert compute_events.calls == [(device, True)]
+    assert compute_target.calls == []
+
+    quality_events = _TransferProbe()
+    quality_target = _TransferProbe()
+    moved_quality = move_sample(
+        {"events": quality_events, "target": quality_target},
+        device,
+    )
+
+    assert moved_quality["events"] is not quality_events
+    assert moved_quality["target"] is not quality_target
+    assert quality_events.calls == [(device, True)]
+    assert quality_target.calls == [(device, True)]
+
+
+def test_benchmark_releases_warmup_and_cuda_cache_before_peak_reset(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events: list[str] = []
+
+    class WarmupReference:
+        pass
+
+    retained: list[WarmupReference] = [WarmupReference()]
+    reference = weakref.ref(retained[0])
+
+    def release() -> None:
+        events.append("release")
+        retained.clear()
+
+    monkeypatch.setattr(
+        engine_module.torch.cuda,
+        "synchronize",
+        lambda device: events.append("synchronize"),
+    )
+    monkeypatch.setattr(
+        engine_module.gc,
+        "collect",
+        lambda: events.append("collect"),
+    )
+
+    def empty_cache() -> None:
+        assert reference() is None
+        events.append("empty_cache")
+
+    monkeypatch.setattr(engine_module.torch.cuda, "empty_cache", empty_cache)
+    monkeypatch.setattr(
+        engine_module.torch.cuda,
+        "reset_peak_memory_stats",
+        lambda device: events.append("reset_peak"),
+    )
+
+    _reset_benchmark_measurement_window(torch.device("cuda"), release)
+
+    assert events == [
+        "synchronize",
+        "release",
+        "collect",
+        "empty_cache",
+        "reset_peak",
+    ]
+
+
+@pytest.mark.parametrize("entrypoint", [evaluate, benchmark])
+def test_evaluation_entrypoints_close_dataset_when_setup_fails(
+    monkeypatch: pytest.MonkeyPatch,
+    entrypoint,
+) -> None:
+    class TrackingDataset:
+        def __init__(self) -> None:
+            self.closed = False
+
+        def __len__(self) -> int:
+            return 1
+
+        def __getitem__(self, index: int):
+            raise AssertionError(f"unexpected dataset read: {index}")
+
+        def close(self) -> None:
+            self.closed = True
+
+    dataset = TrackingDataset()
+    monkeypatch.setattr(engine_module, "build_dataset", lambda *args, **kwargs: dataset)
+    monkeypatch.setattr(
+        engine_module,
+        "load_model_checkpoint",
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("setup failed")),
+    )
+    config = {"device": "cpu", "dataset": {}, "model": {}, "eval": {}}
+
+    with pytest.raises(RuntimeError, match="setup failed"):
+        if entrypoint is benchmark:
+            entrypoint(config, "checkpoint.pt", warmup=0, steps=1)
+        else:
+            entrypoint(config, "checkpoint.pt")
+
+    assert dataset.closed is True
+
+
 def test_training_protocol_captures_trajectory_but_allows_run_control_changes() -> None:
     config = _config()
     protocol = _training_protocol(config, torch.device("cpu"))
@@ -60,7 +188,7 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
     assert len(protocol["source"]["source_tree_sha256"]) == 64
     assert protocol["runtime"]["gpu_name"] is None
     assert protocol["runtime"]["compute_capability"] is None
-    assert protocol["version"] == 3
+    assert protocol["version"] == 4
 
     allowed = copy.deepcopy(config)
     allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})
@@ -81,6 +209,51 @@ def test_training_protocol_can_reserve_validation_for_the_final_epoch() -> None:
     protocol = _training_protocol(config, torch.device("cpu"))
     assert protocol["validate_every"] is None
     assert protocol["checkpoint_selection"] == "single_final_epoch"
+    assert protocol["terminal_validation"] == {
+        "mode": "single_final_epoch",
+        "planned_epoch": 10,
+    }
+
+    extended = copy.deepcopy(config)
+    extended["train"]["epochs"] = 11
+    extended_protocol = _training_protocol(extended, torch.device("cpu"))
+    with pytest.raises(ValueError, match="already completed"):
+        _validate_terminal_validation_resume(
+            {
+                "training_protocol": protocol,
+                "terminal_validation_state": {
+                    "planned_epoch": 10,
+                    "completed": True,
+                    "completed_epoch": 10,
+                },
+            },
+            extended_protocol,
+        )
+
+
+def test_inference_precision_and_finite_artifact_guards_are_explicit() -> None:
+    model = torch.nn.Linear(2, 1)
+    precision, dtype = _inference_precision(
+        {"precision": "fp32", "tf32": False}, torch.device("cpu"), model
+    )
+    assert dtype is None
+    assert precision == {
+        "requested": "fp32",
+        "effective": "fp32",
+        "autocast_dtype": None,
+        "model_parameter_dtype": "float32",
+        "device": "cpu",
+        "tf32": False,
+        "tf32_requested": False,
+    }
+    with pytest.raises(ValueError, match="requires a CUDA device"):
+        _inference_precision(
+            {"precision": "amp_fp16"}, torch.device("cpu"), model
+        )
+    with pytest.raises(FloatingPointError, match=r"metrics\.nested"):
+        _require_finite_structure(
+            {"nested": [1.0, float("nan")]}, "metrics", "sample-a"
+        )
 
 
 def test_paper_optimizer_mode_records_gc_and_milestone_schedule() -> None:
@@ -115,7 +288,7 @@ def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
     with pytest.raises(FloatingPointError, match="total loss"):
         _ensure_finite_loss(
             torch.tensor(float("nan")),
-            {"charbonnier": 1.0, "total": float("nan")},
+            {"charbonnier": torch.tensor(1.0)},
             epoch=1,
             step=2,
             sample_id="sample-a",
@@ -123,7 +296,7 @@ def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
     with pytest.raises(FloatingPointError, match="charbonnier"):
         _ensure_finite_loss(
             torch.tensor(1.0),
-            {"charbonnier": float("inf"), "total": 1.0},
+            {"charbonnier": torch.tensor(float("inf"))},
             epoch=1,
             step=2,
             sample_id="sample-a",
@@ -134,6 +307,25 @@ def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
         parameter.grad = torch.full_like(parameter, float("inf"))
     with pytest.raises(FloatingPointError, match="gradients after clipping"):
         _clip_and_validate_gradients(model, 1.0, epoch=1, step=2, sample_id="sample-a")
+
+
+def test_reconstruction_loss_keeps_components_on_device_until_packed_validation() -> None:
+    prediction = torch.rand((1, 1, 8, 8), requires_grad=True)
+    target = torch.rand_like(prediction)
+    total, parts = ReconstructionLoss()(prediction, target)
+
+    assert all(isinstance(value, torch.Tensor) for value in parts.values())
+    assert all(value.device == prediction.device for value in parts.values())
+    assert all(not value.requires_grad for value in parts.values())
+    values = _ensure_finite_loss(
+        total,
+        parts,
+        epoch=1,
+        step=1,
+        sample_id="packed",
+    )
+    assert set(values) == {"total", "charbonnier", "ssim", "gradient"}
+    assert all(isinstance(value, float) for value in values.values())
 
 
 def test_snn_requires_paper_core_parameter_normalization() -> None:
@@ -164,7 +356,7 @@ def test_checkpoint_loader_rejects_unversioned_legacy_model(tmp_path) -> None:
         "decoder_channels": 4,
         "recurrent": False,
     }
-    model = ASGCNReconstructor(**model_config)
+    model = ASGCNUNet(**model_config)
     mismatch = tmp_path / "mismatch.pt"
     torch.save(
         {"model": model.state_dict(), "model_config": model_config},
@@ -184,7 +376,7 @@ def test_checkpoint_loader_cross_checks_conversion_metadata_and_layer_state(tmp_
         "decoder_channels": 4,
         "recurrent": False,
     }
-    model = ASGCNReconstructor(**model_config)
+    model = ASGCNUNet(**model_config)
     model_state = model.state_dict()
     path = tmp_path / "tampered.pt"
     atomic_torch_save(
@@ -211,7 +403,7 @@ def test_checkpoint_loader_rejects_finite_model_tensor_tampering(tmp_path) -> No
         "decoder_channels": 4,
         "recurrent": False,
     }
-    model_state = ASGCNReconstructor(**model_config).state_dict()
+    model_state = ASGCNUNet(**model_config).state_dict()
     checkpoint = {
         "checkpoint_type": "ann_inference",
         "model_config": model_config,

@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
-#PBS -N asgcn-cal
+#PBS -N asgcn-profile
 #PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
 #PBS -l walltime=12:00:00
 #PBS -j oe
 
 # Dependency example:
 #   profile_id=$(qsub server/profile.pbs)
-#   train_id=$(qsub -W depend=afterok:${profile_id} server/train.pbs)
-#   cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
-#   qsub -W depend=afterok:${cal_id} -v CONFIG_PATH=configs/hdr.json,\
-# CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn server/eval.pbs
+#   qsub -W depend=afterok:${profile_id} server/train.pbs
 
 set -Eeuo pipefail
 
@@ -23,10 +20,9 @@ if [[ -z "${PROJECT_ROOT:-}" ]]; then
 fi
 if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
-  || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
+  || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
-  echo "Run qsub from the repository root or use:" >&2
-  echo "  qsub -v PROJECT_ROOT=/absolute/path/to/repo server/calibrate.pbs" >&2
+  echo "Submit from the repository root or export PROJECT_ROOT explicitly." >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -40,17 +36,13 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
-export OUTPUT_PATH="${OUTPUT_PATH:-runs/train/best_snn.pt}"
-export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
-export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
-export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
-export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
-export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
-export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
-export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export REQUIRE_CUDA=1
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
+export PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
 export PYTHONUNBUFFERED=1
 
@@ -63,17 +55,12 @@ if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
   echo "Host: $(hostname)"
   echo "PBS job: ${PBS_JOBID:-interactive}"
   echo "Project root: ${PROJECT_ROOT}"
-  echo "Config: ${CONFIG_PATH}"
-  echo "ANN checkpoint: ${CHECKPOINT_PATH}"
-  echo "SNN checkpoint: ${OUTPUT_PATH}"
+  echo "Config: ${TRAIN_CONFIG}"
+  echo "Profile output: ${PROFILE_OUTPUT}"
 else
   echo "Host/job provenance: omitted from public log"
-  echo "Config: ${CONFIG_PATH##*/}"
-  echo "ANN checkpoint: ${CHECKPOINT_PATH##*/}"
-  echo "SNN checkpoint: ${OUTPUT_PATH##*/}"
+  echo "Config: ${TRAIN_CONFIG##*/}"
+  echo "Profile output: ${PROFILE_OUTPUT##*/}"
 fi
-echo "Calibration samples: ${CALIBRATION_SAMPLES}"
 nvidia-smi || true
-
-bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
-  "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"
+bash "${PROJECT_ROOT}/scripts/run.sh" profile

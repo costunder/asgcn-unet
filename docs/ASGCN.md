@@ -1,4 +1,4 @@
-# ASGCN paper-core 구현 범위
+# ASGCN-U-Net의 ASGCN paper-core 구현 범위
 
 이 저장소는 AAAI 2025 ASGCN 논문의 공개 수식에서 확인할 수 있는 event graph와 ANN→SNN
 변환 핵심을 구현한 뒤, event-to-frame 복원용 decoder를 연결한 연구 코드다. 원 논문은 event
@@ -101,6 +101,11 @@ layer와 모든 IF timestep에서 재사용한다. 이는 연산 중복을 줄�
 spline 값을 바꾸지 않는다. 구현은 순수 PyTorch라 `torch-spline-conv` binary extension에
 의존하지 않는다.
 
+`EventGraph`의 destination incoming degree도 graph 생성 시 한 번 계산해 모든 layer와 IF timestep이
+공유한다. 기본 `spline_chunk_size=65536`은 최대 2,000,000개 edge의 message gather를 고정 크기
+chunk로 나눠 peak memory를 제한한다. chunk마다 같은 순서로 `index_add_`하므로 neighbor나 edge를
+줄이는 근사가 아니며, chunked/unchunked 출력과 gradient 동등성을 회귀검사한다.
+
 weight 초기화 bound는 `1/sqrt(K*Cin)`, root bound는 `1/sqrt(Cin)`으로 고정했다. open degree 1,
 scalar pseudo-coordinate, mean aggregation, root weight와 bias 범위에서만 구현·테스트했으며 이를
 ASGCN 저자의 미공개 hyperparameter와 동일하다고 주장하지 않는다.
@@ -119,13 +124,17 @@ gradient centralization을 추가한 `adam_gc`이며 learning rate `1e-3`, weigh
 3. EventHDR train 전체에서 각 graph layer의 feature별 ReLU maximum `lambda_l`를 측정한다.
 4. 식 (6)에 따라 kernel과 root에 `lambda_(l-1)/lambda_l`, bias에 `1/lambda_l`를 적용한다.
 5. 첫 layer의 입력 scale `lambda_0`은 `[1,1,1,1]`로 둔다.
-6. calibration에서 항상 0인 channel은 epsilon으로 폭증시키지 않고 unit scale을 사용한다.
+6. calibration에서 항상 0인 channel은 raw maximum 0과 dead mask를 보존하고, epsilon으로
+   폭증시키지 않도록 effective normalization scale만 1을 사용한다.
 7. 변환 뒤 threshold를 정확히 1로 두고, 마지막 spike rate에 `lambda_L`를 곱해 analog decoder의
    학습 단위로 복원한다.
 
-각 layer의 persistent BN-fold/normalization flag, valid calibration count, dead-channel 수, threshold,
-model tensor SHA-256과 checkpoint metadata를 load 시 교차검증한다. ANN checkpoint와 변환된 SNN
-checkpoint의 inference mode를 서로 바꿔 사용하는 것도 거부한다.
+각 layer는 관측 raw maximum `calibration_activation_max`, 식 (6)의 effective
+`normalization_scale`, `dead_channel_mask`를 별도 persistent buffer로 저장한다. BN-fold/normalization
+flag, valid calibration count, dead-channel summary, threshold, model tensor SHA-256과 checkpoint
+metadata를 load 시 교차검증한다. 따라서 dead channel이 있어도 저장·strict reload 뒤 raw summary가
+바뀌지 않으며 mask·scale·metadata 변조는 거부된다. ANN checkpoint와 변환된 SNN checkpoint의
+inference mode를 서로 바꿔 사용하는 것도 거부한다.
 
 ## 6. IF dynamics와 식 (15)의 모호성
 

@@ -2,10 +2,32 @@ from __future__ import annotations
 
 import math
 from collections import defaultdict
+from functools import lru_cache
 from typing import Any
 
 import torch
 from torch.nn import functional as F
+
+PSNR_MSE_FLOOR = 1e-12
+
+
+@lru_cache(maxsize=32)
+def _gaussian_window(
+    device_name: str,
+    dtype: torch.dtype,
+    size: int,
+    channels: int,
+) -> torch.Tensor:
+    """Build an immutable SSIM window, bounded by a small device-aware cache."""
+
+    device = torch.device(device_name)
+    kernel_dtype = torch.float64 if dtype == torch.float64 else torch.float32
+    coordinates = torch.arange(size, dtype=kernel_dtype, device=device)
+    coordinates = coordinates - (size - 1) / 2
+    gaussian_1d = torch.exp(-(coordinates.square()) / (2 * 1.5**2))
+    gaussian_1d = gaussian_1d / gaussian_1d.sum()
+    gaussian_2d = torch.outer(gaussian_1d, gaussian_1d).to(dtype=dtype)
+    return gaussian_2d.expand(channels, 1, size, size).contiguous()
 
 
 def structural_similarity(
@@ -54,15 +76,10 @@ def structural_similarity(
         prediction = prediction.to(dtype=computation_dtype)
         target = target.to(dtype=computation_dtype)
 
-        # Build the Gaussian in the same stable computation dtype.
-        kernel_dtype = torch.float64 if computation_dtype == torch.float64 else torch.float32
-        coordinates = torch.arange(size, dtype=kernel_dtype, device=prediction.device)
-        coordinates = coordinates - (size - 1) / 2
-        gaussian_1d = torch.exp(-(coordinates.square()) / (2 * 1.5**2))
-        gaussian_1d = gaussian_1d / gaussian_1d.sum()
-        gaussian_2d = torch.outer(gaussian_1d, gaussian_1d).to(dtype=computation_dtype)
         channels = prediction.shape[1]
-        window = gaussian_2d.expand(channels, 1, size, size).contiguous()
+        window = _gaussian_window(
+            str(prediction.device), computation_dtype, size, channels
+        )
 
         def local_mean(value: torch.Tensor) -> torch.Tensor:
             return F.conv2d(value, window, groups=channels)
@@ -80,11 +97,11 @@ def structural_similarity(
         return (numerator / denominator.clamp_min(minimum)).mean().clamp(-1.0, 1.0)
 
 
-def peak_signal_to_noise_ratio(
-    prediction: torch.Tensor, target: torch.Tensor, data_range: float = 1.0
-) -> torch.Tensor:
-    mse = F.mse_loss(prediction, target)
-    return 10.0 * torch.log10(torch.tensor(data_range**2, device=mse.device) / mse.clamp_min(1e-12))
+def _psnr_from_mse(mse: torch.Tensor, data_range: float) -> torch.Tensor:
+    """Return finite PSNR, capped at 120 dB for unit-range exact matches."""
+    if data_range <= 0:
+        raise ValueError("data_range must be positive")
+    return 10.0 * torch.log10((data_range**2) / mse.clamp_min(PSNR_MSE_FLOOR))
 
 
 def temporal_consistency_error(
@@ -117,17 +134,31 @@ def frame_metrics(
     prediction: torch.Tensor,
     target: torch.Tensor,
     lpips_model: torch.nn.Module | None = None,
+    extra_metrics: dict[str, torch.Tensor] | None = None,
 ) -> dict[str, float]:
-    result = {
-        "psnr": float(peak_signal_to_noise_ratio(prediction, target).cpu()),
-        "ssim": float(structural_similarity(prediction, target).cpu()),
-        "rmse": float(torch.sqrt(F.mse_loss(prediction, target)).cpu()),
+    mse = F.mse_loss(prediction, target)
+    metric_tensors = {
+        "psnr": _psnr_from_mse(mse, 1.0),
+        "ssim": structural_similarity(prediction, target),
+        "rmse": torch.sqrt(mse),
     }
     if lpips_model is not None:
         pred3 = prediction.repeat(1, 3, 1, 1) if prediction.shape[1] == 1 else prediction
         target3 = target.repeat(1, 3, 1, 1) if target.shape[1] == 1 else target
-        result["lpips"] = float(lpips_model(pred3 * 2 - 1, target3 * 2 - 1).mean().cpu())
-    return result
+        metric_tensors["lpips"] = lpips_model(pred3 * 2 - 1, target3 * 2 - 1).mean()
+    if extra_metrics:
+        for name, value in extra_metrics.items():
+            if name in metric_tensors:
+                raise ValueError(f"Duplicate frame metric: {name}")
+            if not isinstance(value, torch.Tensor) or value.numel() != 1:
+                raise TypeError(f"Extra frame metric {name!r} must be a scalar tensor")
+            metric_tensors[name] = value.reshape(())
+
+    names = list(metric_tensors)
+    # One packed transfer avoids one CUDA synchronization per individual metric.
+    values = torch.stack([metric_tensors[name].reshape(()) for name in names])
+    cpu_values = values.detach().to(device="cpu", dtype=torch.float64).tolist()
+    return dict(zip(names, (float(value) for value in cpu_values), strict=True))
 
 
 class MetricAccumulator:

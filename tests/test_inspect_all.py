@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-from asgcn_recon.cli import inspect_dataset
+from asgcn_unet.cli import inspect_dataset
 from tests.fixtures import make_eventhdr
 
 
@@ -45,12 +45,10 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
         json.dumps(
             {
                 "status": "final",
-                "scene_groups": {
-                    "train-scene": ["train.h5"],
-                    "validation-scene": ["val.h5"],
-                },
-                "train_scenes": ["train-scene"],
-                "val_scenes": ["validation-scene"],
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
+                "train_files": ["train.h5"],
+                "val_files": ["val.h5"],
             }
         ),
         encoding="utf-8",

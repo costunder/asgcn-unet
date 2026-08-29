@@ -9,7 +9,7 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     "Usage: bash scripts/calibrate.sh [CONFIG [ANN_CHECKPOINT [SNN_CHECKPOINT]]]" \
     "" \
     "Environment:" \
-    "  CALIBRATION_SAMPLES=all|N   Default: all EventHDR calibration samples" \
+    "  CALIBRATION_SAMPLES=all|N   Default: all; partial N is rejected for reporting" \
     "  OVERWRITE_CALIBRATION=0|1  Default: 0; protect an existing output" \
     "  VALIDATE_DATASET=0|1       Default: 1" \
     "  INSPECT_VALIDATE_ALL=0|1   Default: 0" \
@@ -19,9 +19,9 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   exit 0
 fi
 
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_train.json}}"
-CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}}"
-OUTPUT_PATH="${3:-${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}}"
+CONFIG_PATH="${1:-${CONFIG_PATH:-configs/train.json}}"
+CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/train/best.pt}}"
+OUTPUT_PATH="${3:-${OUTPUT_PATH:-runs/train/best_snn.pt}}"
 CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
@@ -29,19 +29,34 @@ REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+
+path_log_label() {
+  local path="$1"
+  if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+    printf '%s' "${path}"
+  else
+    printf '%s' "${path##*/}"
+  fi
+}
 
 cd "${PROJECT_ROOT}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
 if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
+  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
   echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
   exit 1
 fi
 if [[ ! -f "${CONFIG_PATH}" ]]; then
-  echo "ERROR: calibration config not found: ${CONFIG_PATH}" >&2
+  echo "ERROR: calibration config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
 fi
 if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
-  echo "ERROR: ANN checkpoint not found: ${CHECKPOINT_PATH}" >&2
+  echo "ERROR: ANN checkpoint not found: $(path_log_label "${CHECKPOINT_PATH}")" >&2
   exit 1
 fi
 for flag_name in REQUIRE_CUDA VALIDATE_DATASET INSPECT_VALIDATE_ALL OVERWRITE_CALIBRATION; do
@@ -64,12 +79,12 @@ PY
 
 if [[ -e "${OUTPUT_PATH}" || -L "${OUTPUT_PATH}" ]]; then
   if [[ "${OVERWRITE_CALIBRATION}" != "1" ]]; then
-    echo "ERROR: calibrated output already exists: ${OUTPUT_PATH}" >&2
+    echo "ERROR: calibrated output already exists: $(path_log_label "${OUTPUT_PATH}")" >&2
     echo "Set OVERWRITE_CALIBRATION=1 only when replacing it is intentional." >&2
     exit 1
   fi
   if [[ -d "${OUTPUT_PATH}" ]]; then
-    echo "ERROR: calibrated output path is a directory: ${OUTPUT_PATH}" >&2
+    echo "ERROR: calibrated output path is a directory: $(path_log_label "${OUTPUT_PATH}")" >&2
     exit 1
   fi
 fi
@@ -98,7 +113,7 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
+  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 if [[ "${CALIBRATION_SAMPLES}" != "all" && ! "${CALIBRATION_SAMPLES}" =~ ^[1-9][0-9]*$ ]]; then
@@ -106,7 +121,7 @@ if [[ "${CALIBRATION_SAMPLES}" != "all" && ! "${CALIBRATION_SAMPLES}" =~ ^[1-9][
   exit 2
 fi
 
-echo "Calibrating ${CHECKPOINT_PATH} with ${CALIBRATION_SAMPLES} EventHDR samples"
+echo "Calibrating $(path_log_label "${CHECKPOINT_PATH}") with ${CALIBRATION_SAMPLES} EventHDR samples"
 CALIBRATE_ARGS=(
   --config "${CONFIG_PATH}"
   --checkpoint "${CHECKPOINT_PATH}"
@@ -116,4 +131,4 @@ CALIBRATE_ARGS=(
 if [[ "${OVERWRITE_CALIBRATION}" == "1" ]]; then
   CALIBRATE_ARGS+=(--overwrite)
 fi
-exec "${PYTHON_BIN}" -m asgcn_recon.cli calibrate "${CALIBRATE_ARGS[@]}"
+exec "${PYTHON_BIN}" -m asgcn_unet.cli calibrate "${CALIBRATE_ARGS[@]}"

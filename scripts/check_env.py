@@ -13,10 +13,49 @@ from pathlib import Path
 
 import torch
 
-from asgcn_recon.data import load_eventhdr_split_manifest
+from asgcn_unet.data import load_eventhdr_split_manifest
 
 _OFFICIAL_EVENTHDR_TRAIN = {f"{index}.h5" for index in range(1, 52)}
 _OFFICIAL_EVENTHDR_EVAL = {f"{index}.h5" for index in range(1, 20)}
+
+
+def _logical_path(path: Path | None, project_root: Path, fallback: str) -> str | None:
+    """Return a stable public label instead of a host-specific absolute path."""
+
+    if path is None:
+        return None
+    try:
+        relative = path.relative_to(project_root)
+    except ValueError:
+        return fallback
+    if relative == Path("."):
+        return "$PROJECT_ROOT"
+    return f"$PROJECT_ROOT/{relative.as_posix()}"
+
+
+def _redact_host_paths(message: str, replacements: list[tuple[Path, str]]) -> str:
+    """Replace configured host paths in a routine error with portable labels."""
+
+    result = message
+    ordered = sorted(replacements, key=lambda item: len(str(item[0])), reverse=True)
+    for path, label in ordered:
+        variants = {str(path), path.as_posix()}
+        for variant in sorted(variants, key=len, reverse=True):
+            result = result.replace(f"{variant}\\", f"{label}/")
+            result = result.replace(f"{variant}/", f"{label}/")
+            result = result.replace(variant, label)
+    return result
+
+
+def _host_error(
+    error: BaseException,
+    replacements: list[tuple[Path, str]],
+    include_private_host_provenance: bool,
+) -> str:
+    message = str(error)
+    if include_private_host_provenance:
+        return message
+    return _redact_host_paths(message, replacements)
 
 
 def _eventhdr_files(root: Path) -> list[Path]:
@@ -79,7 +118,7 @@ def _version_tuple(value: str) -> tuple[int, ...]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Check ASGCN server readiness")
+    parser = argparse.ArgumentParser(description="Check ASGCN-U-Net server readiness")
     parser.add_argument("--data-root", type=Path, default=None)
     parser.add_argument("--runs-root", type=Path, default=None)
     parser.add_argument("--require-cuda", action="store_true")
@@ -88,12 +127,36 @@ def main() -> None:
     parser.add_argument("--require-eventaid-all", action="store_true")
     parser.add_argument("--require-full-data", action="store_true")
     parser.add_argument("--lock", type=Path, default=None)
+    parser.add_argument(
+        "--include-private-host-provenance",
+        action="store_true",
+        help=(
+            "PRIVATE: include hostname and exact host paths for local diagnostics; "
+            "do not publish or attach this output"
+        ),
+    )
     args = parser.parse_args()
 
     project_root = Path(__file__).resolve().parents[1]
     data_root = (args.data_root or project_root / "data").resolve()
     runs_root = (args.runs_root or project_root / "runs").resolve()
-    runs_root.mkdir(parents=True, exist_ok=True)
+    lock_path = args.lock.resolve() if args.lock else None
+    path_replacements = [
+        (data_root, "$DATA_ROOT"),
+        (runs_root, "$RUNS_ROOT"),
+        (project_root, "$PROJECT_ROOT"),
+    ]
+    if lock_path is not None:
+        path_replacements.append((lock_path, "$LOCK_FILE"))
+    try:
+        runs_root.mkdir(parents=True, exist_ok=True)
+    except OSError as error:
+        message = _host_error(
+            error,
+            path_replacements,
+            args.include_private_host_provenance,
+        )
+        raise SystemExit(f"Cannot create $RUNS_ROOT: {message}") from None
 
     cuda_available = torch.cuda.is_available()
     devices = [torch.cuda.get_device_name(index) for index in range(torch.cuda.device_count())]
@@ -101,26 +164,40 @@ def main() -> None:
         round(torch.cuda.get_device_properties(index).total_memory / (1024**3), 2)
         for index in range(torch.cuda.device_count())
     ]
-    lock_path = args.lock.resolve() if args.lock else None
-    lock_mismatches = _check_lock(lock_path) if lock_path and lock_path.is_file() else None
+    try:
+        lock_mismatches = _check_lock(lock_path) if lock_path and lock_path.is_file() else None
+    except (OSError, TypeError, ValueError) as error:
+        message = _host_error(
+            error,
+            path_replacements,
+            args.include_private_host_provenance,
+        )
+        raise SystemExit(f"Dependency lock check failed: {message}") from None
     lock_python_match = None
     if lock_path:
         match = re.fullmatch(r"py(\d)(\d+)", lock_path.stem)
         if match:
             expected_python = f"{match.group(1)}.{match.group(2)}"
             lock_python_match = platform.python_version().startswith(f"{expected_python}.")
-    train_files = _eventhdr_files(data_root / "EventHDR" / "train")
-    eval_files = _eventhdr_files(data_root / "EventHDR" / "eval")
+    try:
+        train_files = _eventhdr_files(data_root / "EventHDR" / "train")
+        eval_files = _eventhdr_files(data_root / "EventHDR" / "eval")
+        data_disk = shutil.disk_usage(data_root if data_root.exists() else project_root)
+        runs_disk = shutil.disk_usage(runs_root)
+    except OSError as error:
+        message = _host_error(
+            error,
+            path_replacements,
+            args.include_private_host_provenance,
+        )
+        raise SystemExit(f"Environment filesystem check failed: {message}") from None
     train_root = data_root / "EventHDR" / "train"
     train_present = {path.relative_to(train_root).as_posix() for path in train_files}
     eval_root = data_root / "EventHDR" / "eval"
     eval_present = {path.relative_to(eval_root).as_posix() for path in eval_files}
-    data_disk = shutil.disk_usage(data_root if data_root.exists() else project_root)
-    runs_disk = shutil.disk_usage(runs_root)
     libc_name, libc_version = platform.libc_ver()
     report = {
-        "project_root": str(project_root),
-        "hostname": socket.gethostname(),
+        "project_root": "$PROJECT_ROOT",
         "platform": platform.platform(),
         "libc": {"name": libc_name or None, "version": libc_version or None},
         "python": sys.version.split()[0],
@@ -131,32 +208,41 @@ def main() -> None:
         "gpu_devices": devices,
         "gpu_memory_gib": gpu_memory_gib,
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
-        "data_root": str(data_root),
+        "data_root": "$DATA_ROOT",
         "eventhdr_train_h5": len(train_files),
         "eventhdr_eval_h5": len(eval_files),
         "eventaid_r_zip": _count_files(data_root / "EventAid-R", "R-*.zip"),
-        "runs_root": str(runs_root),
+        "runs_root": "$RUNS_ROOT",
         "runs_writable": os.access(runs_root, os.W_OK),
         "data_disk_free_gib": round(data_disk.free / (1024**3), 2),
         "runs_disk_free_gib": round(runs_disk.free / (1024**3), 2),
-        "lock_file": str(lock_path) if lock_path else None,
+        "lock_file": _logical_path(lock_path, project_root, "$LOCK_FILE"),
         "constraint_versions_match": (not lock_mismatches if lock_mismatches is not None else None),
         "constraint_python_match": lock_python_match,
         "lock_mismatches": lock_mismatches,
     }
+    if args.include_private_host_provenance:
+        report["private_host_provenance"] = {
+            "hostname": socket.gethostname(),
+            "project_root": str(project_root),
+            "data_root": str(data_root),
+            "runs_root": str(runs_root),
+            "lock_file": str(lock_path) if lock_path else None,
+            "publication_warning": "private local diagnostics; do not publish",
+        }
     print(json.dumps(report, indent=2, ensure_ascii=False))
 
     problems: list[str] = []
     if not report["runs_writable"]:
-        problems.append(f"Run directory is not writable: {runs_root}")
+        problems.append("$RUNS_ROOT is not writable")
     if args.require_cuda and not cuda_available:
         problems.append("CUDA was required but torch.cuda.is_available() is false")
     if lock_path and not lock_path.is_file():
-        problems.append(f"Dependency lock does not exist: {lock_path}")
+        problems.append(f"Dependency lock does not exist: {report['lock_file']}")
     elif lock_mismatches:
-        problems.append(f"Installed packages differ from dependency lock: {lock_path}")
+        problems.append(f"Installed packages differ from dependency lock: {report['lock_file']}")
     if lock_python_match is False:
-        problems.append(f"Python version does not match dependency profile: {lock_path}")
+        problems.append(f"Python version does not match dependency profile: {report['lock_file']}")
     locked_torch = (
         _locked_versions(lock_path).get("torch") if lock_path and lock_path.is_file() else None
     )
@@ -188,43 +274,80 @@ def main() -> None:
     if require_eventhdr_train:
         manifest_path = project_root / "manifests" / "eventhdr_split.json"
         if not manifest_path.is_file():
-            problems.append(f"Official EventHDR split manifest is missing: {manifest_path}")
+            problems.append(
+                "Official EventHDR split manifest is missing: "
+                "$PROJECT_ROOT/manifests/eventhdr_split.json"
+            )
         else:
-            manifest = load_eventhdr_split_manifest(manifest_path)
-            if manifest.get("status") != "final" or manifest.get("split_schema") != (
-                "official_separate_roots_v1"
-            ):
-                problems.append(
-                    "EventHDR training requires a final official_separate_roots_v1 manifest"
+            try:
+                manifest = load_eventhdr_split_manifest(manifest_path)
+            except (OSError, TypeError, ValueError) as error:
+                message = _host_error(
+                    error,
+                    path_replacements,
+                    args.include_private_host_provenance,
                 )
-            manifest_train = set(manifest.get("train_files", []))
-            manifest_eval = set(manifest.get("val_files", []))
-            if manifest_train != _OFFICIAL_EVENTHDR_TRAIN:
                 problems.append(
-                    "EventHDR split manifest train root must declare exactly 1.h5 through 51.h5"
+                    f"EventHDR split manifest validation failed: {message}"
                 )
-            if manifest_eval != _OFFICIAL_EVENTHDR_EVAL:
-                problems.append(
-                    "EventHDR split manifest eval root must declare exactly 1.h5 through 19.h5"
-                )
+            else:
+                if manifest.get("status") != "final" or manifest.get("split_schema") != (
+                    "official_separate_roots_v1"
+                ):
+                    problems.append(
+                        "EventHDR training requires a final "
+                        "official_separate_roots_v1 manifest"
+                    )
+                manifest_train = set(manifest.get("train_files", []))
+                manifest_eval = set(manifest.get("val_files", []))
+                if manifest_train != _OFFICIAL_EVENTHDR_TRAIN:
+                    problems.append(
+                        "EventHDR split manifest train root must declare exactly "
+                        "1.h5 through 51.h5"
+                    )
+                if manifest_eval != _OFFICIAL_EVENTHDR_EVAL:
+                    problems.append(
+                        "EventHDR split manifest eval root must declare exactly "
+                        "1.h5 through 19.h5"
+                    )
     if require_eventaid_all:
         aid_manifest_path = project_root / "manifests" / "eventaid_r.json"
         if aid_manifest_path.is_file():
-            aid_manifest = json.loads(aid_manifest_path.read_text(encoding="utf-8"))
-            aid_root = data_root / "EventAid-R"
-            aid_present = {path.name for path in aid_root.glob("R-*.zip")}
-            aid_required = {
-                f"{item['scene']}.zip"
-                for item in aid_manifest.get("files", [])
-                if isinstance(item, dict) and item.get("scene")
-            }
-            problem = _exact_coverage_problem("eventaid_r_zip", aid_present, aid_required)
-            if problem:
-                problems.append(problem)
+            try:
+                aid_manifest = json.loads(aid_manifest_path.read_text(encoding="utf-8"))
+                aid_root = data_root / "EventAid-R"
+                aid_present = {path.name for path in aid_root.glob("R-*.zip")}
+            except (OSError, TypeError, ValueError) as error:
+                message = _host_error(
+                    error,
+                    path_replacements,
+                    args.include_private_host_provenance,
+                )
+                problems.append(f"EventAid-R manifest validation failed: {message}")
+            else:
+                aid_required = {
+                    f"{item['scene']}.zip"
+                    for item in aid_manifest.get("files", [])
+                    if isinstance(item, dict) and item.get("scene")
+                }
+                problem = _exact_coverage_problem("eventaid_r_zip", aid_present, aid_required)
+                if problem:
+                    problems.append(problem)
         else:
-            problems.append(f"EventAid-R manifest is missing: {aid_manifest_path}")
+            problems.append(
+                "EventAid-R manifest is missing: $PROJECT_ROOT/manifests/eventaid_r.json"
+            )
     if problems:
-        raise SystemExit("; ".join(problems))
+        message = "; ".join(problems)
+        if args.include_private_host_provenance:
+            message = message.replace("$PROJECT_ROOT", str(project_root))
+            message = message.replace("$DATA_ROOT", str(data_root))
+            message = message.replace("$RUNS_ROOT", str(runs_root))
+            if lock_path is not None:
+                message = message.replace("$LOCK_FILE", str(lock_path))
+        else:
+            message = _redact_host_paths(message, path_replacements)
+        raise SystemExit(message)
 
 
 if __name__ == "__main__":

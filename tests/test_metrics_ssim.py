@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from unittest.mock import patch
+
 import pytest
 import torch
 from torch.nn import functional as F
 
-from asgcn_recon.metrics import structural_similarity
+from asgcn_unet.metrics import _gaussian_window, frame_metrics, structural_similarity
 
 
 def _reference_gaussian_ssim(
@@ -99,3 +101,44 @@ def test_ssim_disables_outer_autocast_for_stable_local_statistics() -> None:
     torch.testing.assert_close(result, torch.ones_like(result), rtol=0.0, atol=1e-6)
     assert prediction.grad is not None
     assert torch.isfinite(prediction.grad).all()
+
+
+def test_ssim_reuses_cached_device_dtype_channel_window() -> None:
+    _gaussian_window.cache_clear()
+    prediction = torch.rand((1, 2, 12, 12))
+    target = torch.rand_like(prediction)
+
+    structural_similarity(prediction, target)
+    first = _gaussian_window.cache_info()
+    structural_similarity(prediction, target)
+    second = _gaussian_window.cache_info()
+
+    assert first.misses == 1
+    assert second.misses == 1
+    assert second.hits == first.hits + 1
+
+
+def test_frame_metrics_reuses_mse_and_accepts_packed_extra_metric() -> None:
+    prediction = torch.tensor([[[[0.2, 0.4], [0.6, 0.8]]]])
+    target = torch.tensor([[[[0.1, 0.5], [0.7, 0.9]]]])
+    original_mse_loss = F.mse_loss
+
+    with patch("asgcn_unet.metrics.F.mse_loss", wraps=original_mse_loss) as mse_loss:
+        result = frame_metrics(
+            prediction,
+            target,
+            extra_metrics={"temporal_l1": torch.tensor(0.25)},
+        )
+
+    assert mse_loss.call_count == 1
+    assert result["rmse"] == pytest.approx(0.1)
+    assert result["temporal_l1"] == pytest.approx(0.25)
+
+
+def test_frame_metrics_caps_exact_match_psnr_at_documented_finite_value() -> None:
+    target = torch.full((1, 1, 4, 4), 0.5)
+
+    result = frame_metrics(target.clone(), target)
+
+    assert result["psnr"] == pytest.approx(120.0)
+    assert result["rmse"] == 0.0

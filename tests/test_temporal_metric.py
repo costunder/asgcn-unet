@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 import torch
 
-from asgcn_recon.metrics import MetricAccumulator, temporal_consistency_error
+from asgcn_unet.metrics import MetricAccumulator, temporal_consistency_error
 
 
 def test_temporal_consistency_error_compares_frame_changes() -> None:

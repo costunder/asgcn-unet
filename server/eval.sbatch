@@ -24,7 +24,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/eval.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=ALL,PROJECT_ROOT=/absolute/path/to/repo server/eval.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/eval.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -38,8 +38,8 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_ann.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr.json}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
@@ -51,13 +51,29 @@ export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
+# Let srun inherit this already filtered/prepared job environment without
+# re-importing the submit shell's environment.
+export SLURM_EXPORT_ENV=ALL
 
-echo "Host: $(hostname)"
-echo "Job: ${SLURM_JOB_ID:-local}"
-echo "Config: ${CONFIG_PATH}"
-echo "Checkpoint: ${CHECKPOINT_PATH}"
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
+  && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
+  echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
+  echo "Host: $(hostname)"
+  echo "Job: ${SLURM_JOB_ID:-local}"
+  echo "Project root: ${PROJECT_ROOT}"
+  echo "Config: ${CONFIG_PATH}"
+  echo "Checkpoint: ${CHECKPOINT_PATH}"
+else
+  echo "Host/job provenance: omitted from public log"
+  echo "Config: ${CONFIG_PATH##*/}"
+  echo "Checkpoint: ${CHECKPOINT_PATH##*/}"
+fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   echo "SNN dynamics: ${SNN_DYNAMICS}"
 fi

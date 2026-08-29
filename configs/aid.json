@@ -2,14 +2,17 @@
   "seed": 2026,
   "device": "auto",
   "dataset": {
-    "type": "eventhdr",
-    "root": "data/EventHDR/train",
-    "val_root": "data/EventHDR/eval",
-    "split_manifest": "manifests/eventhdr_split.json",
+    "type": "eventaid_r_zip",
+    "root": "data/EventAid-R",
+    "file_manifest": "manifests/eventaid_r.json",
+    "expected_file_count": 14,
     "target_channels": 1,
     "max_events": 8192,
     "crop_size": null,
-    "frame_stride": 1,
+    "target_offset": 1,
+    "target_normalization": {
+      "mode": "integer_dtype_max"
+    },
     "tone_map": "log",
     "tone_map_mu": 5000.0
   },
@@ -25,6 +28,7 @@
     "graph_radius": 0.08,
     "graph_position_dims": 3,
     "graph_chunk_size": 512,
+    "spline_chunk_size": 65536,
     "max_graph_edges": 2000000,
     "spline_kernel_size": 5,
     "spline_degree": 1,
@@ -35,34 +39,16 @@
     "output_channels": 1,
     "recurrent": true
   },
-  "train": {
-    "epochs": 40,
+  "eval": {
     "batch_size": 1,
-    "num_workers": 4,
+    "precision": "fp32",
+    "tf32": false,
+    "num_workers": 2,
     "persistent_workers": true,
     "prefetch_factor": 2,
-    "optimizer": "adam_gc",
-    "learning_rate": 0.001,
-    "weight_decay": 0.005,
-    "lr_milestones": [20, 30],
-    "lr_gamma": 0.1,
-    "grad_clip": 1.0,
-    "amp": true,
-    "log_every": 20,
-    "validate_every": null,
-    "resume": null,
-    "max_train_samples": null,
-    "max_val_samples": null,
-    "validation_context_frames": 64,
-    "rehash_data": false,
-    "loss_weights": {
-      "charbonnier": 1.0,
-      "ssim": 0.2,
-      "gradient": 0.1,
-      "temporal": 0.2
-    }
-  },
-  "output": {
-    "run_dir": "runs/eventhdr_asgcn"
+    "recurrent_context_frames": 32,
+    "max_samples": null,
+    "save_predictions": 20,
+    "output_dir": "runs/eval/aid"
   }
 }

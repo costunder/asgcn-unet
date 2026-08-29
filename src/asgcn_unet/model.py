@@ -5,84 +5,9 @@ from typing import Any
 
 import torch
 from torch import nn
-from torch.nn import functional as F
 
 from .graph import PAPER_CORE_VERSION, ASGCNEncoder, EventGraph, build_event_graph
-
-
-class ResidualBlock(nn.Module):
-    def __init__(self, channels: int) -> None:
-        super().__init__()
-        self.body = nn.Sequential(
-            nn.Conv2d(channels, channels, 3, padding=1),
-            nn.GroupNorm(1, channels),
-            nn.SiLU(inplace=True),
-            nn.Conv2d(channels, channels, 3, padding=1),
-            nn.GroupNorm(1, channels),
-        )
-
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return F.silu(x + self.body(x))
-
-
-class ConvGRUCell(nn.Module):
-    """Causal analog state; only the graph front-end is ANN-to-SNN converted."""
-
-    def __init__(self, input_channels: int, hidden_channels: int) -> None:
-        super().__init__()
-        merged = input_channels + hidden_channels
-        self.hidden_channels = hidden_channels
-        self.gates = nn.Conv2d(merged, hidden_channels * 2, 3, padding=1)
-        self.candidate = nn.Conv2d(merged, hidden_channels, 3, padding=1)
-
-    def forward(self, x: torch.Tensor, state: torch.Tensor | None) -> torch.Tensor:
-        expected = (x.shape[0], self.hidden_channels, x.shape[-2], x.shape[-1])
-        if state is None or tuple(state.shape) != expected:
-            state = torch.zeros(expected, device=x.device, dtype=x.dtype)
-        reset, update = torch.sigmoid(self.gates(torch.cat((x, state), dim=1))).chunk(2, dim=1)
-        candidate = torch.tanh(self.candidate(torch.cat((x, reset * state), dim=1)))
-        return (1.0 - update) * state + update * candidate
-
-
-class RasterDecoder(nn.Module):
-    def __init__(
-        self, input_channels: int, base_channels: int, output_channels: int, recurrent: bool = True
-    ) -> None:
-        super().__init__()
-        self.stem = nn.Conv2d(input_channels, base_channels, 3, padding=1)
-        self.enc1 = ResidualBlock(base_channels)
-        self.down1 = nn.Conv2d(base_channels, base_channels * 2, 3, stride=2, padding=1)
-        self.enc2 = ResidualBlock(base_channels * 2)
-        self.down2 = nn.Conv2d(base_channels * 2, base_channels * 4, 3, stride=2, padding=1)
-        self.bottleneck = nn.Sequential(
-            ResidualBlock(base_channels * 4), ResidualBlock(base_channels * 4)
-        )
-        self.recurrent = ConvGRUCell(base_channels * 4, base_channels * 4) if recurrent else None
-        self.up2 = nn.Conv2d(base_channels * 6, base_channels * 2, 3, padding=1)
-        self.dec2 = ResidualBlock(base_channels * 2)
-        self.up1 = nn.Conv2d(base_channels * 3, base_channels, 3, padding=1)
-        self.dec1 = ResidualBlock(base_channels)
-        self.head = nn.Conv2d(base_channels, output_channels, 3, padding=1)
-
-    def forward(
-        self,
-        x: torch.Tensor,
-        output_size: tuple[int, int],
-        state: torch.Tensor | None = None,
-    ) -> tuple[torch.Tensor, torch.Tensor | None]:
-        e1 = self.enc1(self.stem(x))
-        e2 = self.enc2(self.down1(e1))
-        b = self.bottleneck(self.down2(e2))
-        if self.recurrent is not None:
-            state = self.recurrent(b, state)
-            b = b + state
-        u2 = F.interpolate(b, size=e2.shape[-2:], mode="bilinear", align_corners=False)
-        u2 = self.dec2(self.up2(torch.cat((u2, e2), dim=1)))
-        u1 = F.interpolate(u2, size=e1.shape[-2:], mode="bilinear", align_corners=False)
-        u1 = self.dec1(self.up1(torch.cat((u1, e1), dim=1)))
-        output = torch.sigmoid(self.head(u1))
-        output = F.interpolate(output, size=output_size, mode="bilinear", align_corners=False)
-        return output, state
+from .unet import RecurrentUNetDecoder
 
 
 def rasterize_features(
@@ -111,7 +36,7 @@ def rasterize_features(
     return raster.transpose(0, 1).reshape(1, features.shape[-1], grid_h, grid_w)
 
 
-class ASGCNReconstructor(nn.Module):
+class ASGCNUNet(nn.Module):
     def __init__(
         self,
         architecture_version: int = PAPER_CORE_VERSION,
@@ -129,6 +54,7 @@ class ASGCNReconstructor(nn.Module):
         spline_kernel_size: int = 5,
         spline_degree: int = 1,
         spline_root_weight: bool = True,
+        spline_chunk_size: int | None = 65_536,
         snn_dynamics: str = "literal_eq15",
         raster_downsample: int = 4,
         decoder_channels: int = 48,
@@ -183,8 +109,26 @@ class ASGCNReconstructor(nn.Module):
             spline_kernel_size=spline_kernel_size,
             spline_degree=spline_degree,
             spline_root_weight=spline_root_weight,
+            spline_chunk_size=spline_chunk_size,
         )
-        self.decoder = RasterDecoder(hidden_dim, decoder_channels, output_channels, recurrent)
+        self.decoder = RecurrentUNetDecoder(
+            hidden_dim, decoder_channels, output_channels, recurrent
+        )
+        self.register_buffer(
+            "calibration_attempts",
+            torch.zeros((), dtype=torch.long),
+            persistent=True,
+        )
+        self.register_buffer(
+            "calibration_commitment_digest",
+            torch.zeros(32, dtype=torch.uint8),
+            persistent=True,
+        )
+        self.register_buffer(
+            "calibration_commitment_sealed",
+            torch.tensor(False),
+            persistent=True,
+        )
         self.event_sampling_factor = int(event_sampling_factor)
         self.graph_radius = float(graph_radius)
         self.graph_position_dims = int(graph_position_dims)
@@ -240,7 +184,8 @@ class ASGCNReconstructor(nn.Module):
         node_count = int(graph.node_features.shape[0])
         edge_count = int(graph.edge_index.shape[1])
         if node_count:
-            degree = torch.bincount(graph.edge_index[1], minlength=node_count)
+            assert graph.in_degree is not None
+            degree = graph.in_degree
             isolated_nodes = (degree == 0).sum()
             max_degree = degree.max()
         else:
@@ -307,6 +252,7 @@ class ASGCNReconstructor(nn.Module):
         graph = self._graph(sample)
         _, activations = self.encoder.forward_ann(graph, return_activations=True)
         self.encoder.update_activation_maxima(activations)
+        self.calibration_attempts.add_(1)
 
     @torch.no_grad()
     def fold_batch_norm(self) -> None:
@@ -315,10 +261,59 @@ class ASGCNReconstructor(nn.Module):
     @torch.no_grad()
     def reset_activation_maxima(self) -> None:
         self.encoder.reset_activation_maxima()
+        self.calibration_attempts.zero_()
+        self.calibration_commitment_digest.zero_()
+        self.calibration_commitment_sealed.fill_(False)
+
+    @torch.no_grad()
+    def seal_calibration_commitment(
+        self,
+        attempted_samples: int,
+        commitment_sha256: str,
+    ) -> None:
+        if (
+            isinstance(attempted_samples, bool)
+            or not isinstance(attempted_samples, int)
+            or attempted_samples < 1
+        ):
+            raise ValueError("attempted calibration sample count must be a positive integer")
+        if int(self.calibration_attempts.item()) != attempted_samples:
+            raise RuntimeError(
+                "Persistent calibration attempt count differs from the selected samples"
+            )
+        try:
+            digest = bytes.fromhex(commitment_sha256)
+        except (TypeError, ValueError) as error:
+            raise ValueError("calibration commitment digest must be SHA-256") from error
+        if len(digest) != 32 or commitment_sha256 != commitment_sha256.lower():
+            raise ValueError("calibration commitment digest must be lowercase SHA-256")
+        self.calibration_commitment_digest.copy_(
+            torch.tensor(
+                list(digest),
+                dtype=torch.uint8,
+                device=self.calibration_commitment_digest.device,
+            )
+        )
+        self.calibration_commitment_sealed.fill_(True)
 
     @torch.no_grad()
     def apply_parameter_normalization(self) -> None:
         self.encoder.apply_parameter_normalization()
 
-    def calibration_summary(self) -> dict[str, list[int] | int]:
-        return self.encoder.calibration_summary()
+    def calibration_summary(self) -> dict[str, list[int] | int | str | bool | None]:
+        summary: dict[str, list[int] | int | str | bool | None] = (
+            self.encoder.calibration_summary()
+        )
+        commitment_sealed = bool(self.calibration_commitment_sealed.item())
+        summary.update(
+            {
+                "attempted_samples": int(self.calibration_attempts.item()),
+                "calibration_commitment_sha256": (
+                    bytes(self.calibration_commitment_digest.tolist()).hex()
+                    if commitment_sealed
+                    else None
+                ),
+                "commitment_sealed": commitment_sealed,
+            }
+        )
+        return summary

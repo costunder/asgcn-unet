@@ -40,9 +40,9 @@ Windows와 Linux의 Python 3.10, 3.11, 3.12 조합은 GitHub Actions에서 `test
 다음 CLI 검사도 수행합니다.
 
 ```bash
-asgcn-recon inspect --config configs/hdr_train.json --samples 2
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2
-asgcn-recon inspect --config configs/aid_ann.json --samples 2
+asgcn-unet inspect --config configs/train.json --samples 2
+asgcn-unet inspect --config configs/hdr.json --samples 2
+asgcn-unet inspect --config configs/aid.json --samples 2
 ```
 
 ## Pull request 원칙

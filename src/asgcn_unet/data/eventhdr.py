@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 import zlib
 from pathlib import Path
 from typing import Any
@@ -17,9 +18,11 @@ from .common import (
     normalize_polarity,
     stratified_subsample,
     uniform_cap_ratio,
+    validate_target_normalization,
 )
 
 _EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
+_IMAGE_KEY_RE = re.compile(r"image(\d+)$")
 
 
 def _invalid_file(path: Path, detail: str) -> ValueError:
@@ -102,6 +105,7 @@ class EventHDRDataset(Dataset):
         frame_stride: int = 1,
         tone_map: str = "log",
         tone_map_mu: float = 5000.0,
+        target_normalization: dict[str, Any] | None = None,
         random_crop: bool = False,
         seed: int = 2026,
         allowed_files: list[str] | None = None,
@@ -114,6 +118,7 @@ class EventHDRDataset(Dataset):
         self.frame_stride = max(1, int(frame_stride))
         self.tone_map = tone_map
         self.tone_map_mu = float(tone_map_mu)
+        self.target_normalization = validate_target_normalization(target_normalization)
         self.random_crop = random_crop
         self.seed = int(seed)
         self._handles: dict[Path, h5py.File] = {}
@@ -205,9 +210,28 @@ class EventHDRDataset(Dataset):
                     )
                 event_count = lengths["ts"]
 
-                image_keys = sorted(k for k in images_group if k.startswith("image"))
-                if not image_keys:
+                numeric_image_keys: dict[int, str] = {}
+                for key in images_group:
+                    if not key.startswith("image"):
+                        continue
+                    match = _IMAGE_KEY_RE.fullmatch(key)
+                    if match is None:
+                        raise _invalid_file(
+                            path,
+                            f"images/{key} must use the numeric image<index> naming contract",
+                        )
+                    numeric_index = int(match.group(1))
+                    previous = numeric_image_keys.get(numeric_index)
+                    if previous is not None:
+                        raise _invalid_file(
+                            path,
+                            f"images/{key} duplicates numeric image index {numeric_index} "
+                            f"already used by images/{previous}",
+                        )
+                    numeric_image_keys[numeric_index] = key
+                if not numeric_image_keys:
                     raise _invalid_file(path, "group 'images' contains no image arrays")
+                image_keys = [numeric_image_keys[index] for index in sorted(numeric_image_keys)]
                 selected_start_idx = 0
                 selected_start_timestamp: float | None = None
                 selected_sequence_index = 0
@@ -289,6 +313,8 @@ class EventHDRDataset(Dataset):
             self.target_channels,
             tone_map=self.tone_map,
             tone_map_mu=self.tone_map_mu,
+            target_normalization=self.target_normalization,
+            source=f"{item['path']}::{item['image_key']}",
         )
         height, width = target.shape[-2:]
         _validate_event_values(

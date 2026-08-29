@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=asgcn-cal
+#SBATCH --job-name=asgcn-profile
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -11,10 +11,7 @@
 
 # Dependency example:
 #   profile_id=$(sbatch --parsable server/profile.sbatch)
-#   train_id=$(sbatch --parsable --dependency=afterok:${profile_id} server/train.sbatch)
-#   cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
-#   sbatch --dependency=afterok:${cal_id} --export=CONFIG_PATH=configs/hdr.json,\
-# CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn server/eval.sbatch
+#   sbatch --dependency=afterok:${profile_id} server/train.sbatch
 
 set -Eeuo pipefail
 
@@ -28,10 +25,9 @@ if [[ -z "${PROJECT_ROOT:-}" ]]; then
 fi
 if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
-  || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
+  || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
-  echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/calibrate.sbatch" >&2
+  echo "Submit from the repository root or export PROJECT_ROOT explicitly." >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -45,17 +41,13 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
-export OUTPUT_PATH="${OUTPUT_PATH:-runs/train/best_snn.pt}"
-export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
-export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
-export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
-export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
-export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
-export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
+export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
-export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export REQUIRE_CUDA=1
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
+export PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
+export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
 # Let srun inherit this already filtered/prepared job environment without
@@ -71,17 +63,12 @@ if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
   echo "Host: $(hostname)"
   echo "Job: ${SLURM_JOB_ID:-local}"
   echo "Project root: ${PROJECT_ROOT}"
-  echo "Config: ${CONFIG_PATH}"
-  echo "ANN checkpoint: ${CHECKPOINT_PATH}"
-  echo "SNN checkpoint: ${OUTPUT_PATH}"
+  echo "Config: ${TRAIN_CONFIG}"
+  echo "Profile output: ${PROFILE_OUTPUT}"
 else
   echo "Host/job provenance: omitted from public log"
-  echo "Config: ${CONFIG_PATH##*/}"
-  echo "ANN checkpoint: ${CHECKPOINT_PATH##*/}"
-  echo "SNN checkpoint: ${OUTPUT_PATH##*/}"
+  echo "Config: ${TRAIN_CONFIG##*/}"
+  echo "Profile output: ${PROFILE_OUTPUT##*/}"
 fi
-echo "Calibration samples: ${CALIBRATION_SAMPLES}"
 nvidia-smi || true
-
-srun bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
-  "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"
+srun bash "${PROJECT_ROOT}/scripts/run.sh" profile

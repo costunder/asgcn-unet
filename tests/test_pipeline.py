@@ -7,15 +7,15 @@ import numpy as np
 import pytest
 import torch
 
-from asgcn_recon.cli import inspect_dataset
-from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
-from asgcn_recon.data.common import stratified_subsample, uniform_cap_ratio
-from asgcn_recon.data.factory import build_dataset
-from asgcn_recon.engine import _data_loader, _model_state_sha256, benchmark, train
-from asgcn_recon.graph import build_radius_graph, prepare_event_nodes
-from asgcn_recon.losses import ReconstructionLoss
-from asgcn_recon.model import ASGCNReconstructor
-from asgcn_recon.utils import (
+from asgcn_unet.cli import inspect_dataset
+from asgcn_unet.data import EventAidRZipDataset, EventHDRDataset
+from asgcn_unet.data.common import stratified_subsample, uniform_cap_ratio
+from asgcn_unet.data.factory import build_dataset
+from asgcn_unet.engine import _data_loader, _model_state_sha256, benchmark, train
+from asgcn_unet.graph import build_radius_graph, prepare_event_nodes
+from asgcn_unet.losses import ReconstructionLoss
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import (
     load_json,
     resolve_experiment_paths,
 )
@@ -191,7 +191,7 @@ def test_empty_event_interval_uses_zero_node_graph():
         "sample_id": "empty/0",
         "metadata": {},
     }
-    model = ASGCNReconstructor(**_paper_model_config())
+    model = ASGCNUNet(**_paper_model_config())
     prediction, diagnostics = model.forward_sample(sample)
     prediction.mean().backward()
     assert torch.isfinite(prediction).all()
@@ -202,7 +202,7 @@ def test_empty_event_interval_uses_zero_node_graph():
 def test_model_forward_backward(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
-    model = ASGCNReconstructor(**_paper_model_config(hidden_dim=8, graph_layers=2))
+    model = ASGCNUNet(**_paper_model_config(hidden_dim=8, graph_layers=2))
     prediction, diagnostics = model.forward_sample(sample)
     loss, _ = ReconstructionLoss()(prediction, sample["target"].unsqueeze(0))
     loss.backward()
@@ -215,12 +215,12 @@ def test_bn_folding_and_explicit_snn_path(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
     model_config = _paper_model_config(hidden_dim=8, graph_layers=2, recurrent=False)
-    model = ASGCNReconstructor(**model_config).eval()
+    model = ASGCNUNet(**model_config).eval()
     with torch.no_grad():
         ann_before, _ = model.forward_sample(sample)
         model.fold_batch_norm()
         ann_after, _ = model.forward_sample(sample)
-        restored = ASGCNReconstructor(**model_config).eval()
+        restored = ASGCNUNet(**model_config).eval()
         restored.load_state_dict(model.state_dict())
         ann_restored, _ = restored.forward_sample(sample)
         model.reset_activation_maxima()
@@ -238,7 +238,7 @@ def test_bn_folding_and_explicit_snn_path(tmp_path):
 def test_cpu_autocast_keeps_raster_dtypes_compatible(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=16)[0]
-    model = ASGCNReconstructor(**_paper_model_config())
+    model = ASGCNUNet(**_paper_model_config())
     with torch.autocast("cpu", dtype=torch.bfloat16):
         prediction, _ = model.forward_sample(sample)
     assert prediction.dtype == torch.bfloat16
@@ -272,29 +272,45 @@ def test_config_paths_are_independent_of_shell_cwd(tmp_path):
 
 
 def test_eventhdr_split_names_all_missing_files(tmp_path):
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root)
-    manifest_path = tmp_path / "split.json"
-    manifest_path.write_text(
-        json.dumps({"train_files": ["1.h5", "2.h5"], "val_files": ["3.h5"]}),
-        encoding="utf-8",
-    )
-    config = {
-        "type": "eventhdr",
-        "root": str(data_root),
-        "split_manifest": str(manifest_path),
-    }
-    with pytest.raises(FileNotFoundError, match=r"1\.h5, 2\.h5"):
-        build_dataset(config, split="train")
-
-
-def test_eventhdr_manifest_accepts_nested_relative_paths(tmp_path):
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root / "scene")
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "val"
+    train_root.mkdir()
+    val_root.mkdir()
     manifest_path = tmp_path / "split.json"
     manifest_path.write_text(
         json.dumps(
             {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
+                "train_files": ["1.h5", "2.h5"],
+                "val_files": ["3.h5"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    config = {
+        "type": "eventhdr",
+        "root": str(train_root),
+        "val_root": str(val_root),
+        "split_manifest": str(manifest_path),
+    }
+    with pytest.raises(ValueError, match=r"missing: 1\.h5, 2\.h5"):
+        build_dataset(config, split="train")
+
+
+def test_eventhdr_manifest_accepts_nested_relative_paths(tmp_path):
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "val"
+    make_eventhdr(train_root / "scene")
+    make_eventhdr(val_root).rename(val_root / "unused.h5")
+    manifest_path = tmp_path / "split.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
                 "train_files": ["scene/test.h5"],
                 "val_files": ["unused.h5"],
             }
@@ -304,13 +320,14 @@ def test_eventhdr_manifest_accepts_nested_relative_paths(tmp_path):
     dataset = build_dataset(
         {
             "type": "eventhdr",
-            "root": str(data_root),
+            "root": str(train_root),
+            "val_root": str(val_root),
             "split_manifest": str(manifest_path),
         },
         split="train",
     )
     assert len(dataset) == 4
-    assert dataset[0]["metadata"]["scene"] == "scene/test.h5"
+    assert dataset[0]["metadata"]["scene"] == "official-train-h5::scene/test.h5"
 
 
 def test_factory_uses_val_root_for_validation_split(tmp_path):
@@ -324,6 +341,9 @@ def test_factory_uses_val_root_for_validation_split(tmp_path):
     manifest_path.write_text(
         json.dumps(
             {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
                 "train_files": ["train.h5"],
                 "val_files": ["val.h5"],
             }
@@ -344,12 +364,17 @@ def test_factory_uses_val_root_for_validation_split(tmp_path):
 
 
 def test_inspect_training_config_validates_both_manifest_splits(tmp_path):
-    data_root = tmp_path / "hdr"
-    make_eventhdr(data_root)
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "val"
+    make_eventhdr(train_root)
+    val_root.mkdir()
     manifest_path = tmp_path / "split.json"
     manifest_path.write_text(
         json.dumps(
             {
+                "status": "final",
+                "split_schema": "official_separate_roots_v1",
+                "group_semantics": "h5_sequence_file_not_physical_scene",
                 "train_files": ["test.h5"],
                 "val_files": ["missing_validation.h5"],
             }
@@ -359,11 +384,12 @@ def test_inspect_training_config_validates_both_manifest_splits(tmp_path):
     config = {
         "dataset": {
             "type": "eventhdr",
-            "root": str(data_root),
+            "root": str(train_root),
+            "val_root": str(val_root),
             "split_manifest": str(manifest_path),
         }
     }
-    with pytest.raises(FileNotFoundError, match=r"missing_validation\.h5"):
+    with pytest.raises(ValueError, match=r"missing: missing_validation\.h5"):
         inspect_dataset(config, samples=1)
 
 
@@ -397,11 +423,16 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     data_root = tmp_path / "hdr"
     make_eventhdr(data_root)
     config = _tiny_training_config(tmp_path, data_root)
+    # Explicit JSON null must use default loss weights without crashing temporal access.
+    config["train"]["loss_weights"] = None
     train(config)
     first = torch.load(tmp_path / "run/last.pt", map_location="cpu", weights_only=False)
     assert first["epoch"] == 1
     assert all(key in first for key in ("optimizer", "scheduler", "scaler", "rng_state"))
     assert (tmp_path / "run/.data_hash_cache.json").is_file()
+    assert str(data_root) not in (tmp_path / "run/.data_hash_cache.json").read_text()
+    assert str(data_root) not in (tmp_path / "run/config.json").read_text()
+    assert str(data_root) not in json.dumps(first["config"])
     protocol_text = json.dumps(first["validation_protocol"])
     assert str(data_root) not in protocol_text
     assert "mtime_ns" not in protocol_text
@@ -411,6 +442,7 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     assert first["model_state_sha256"] == _model_state_sha256(first["model"])
     assert len(first["best_model_state_sha256"]) == 64
     assert best["model_state_sha256"] == first["best_model_state_sha256"]
+    assert best["training_config"] == first["config"]
     for training_key in (
         "optimizer",
         "scheduler",
@@ -450,6 +482,19 @@ def test_null_validation_interval_scores_only_the_single_final_epoch(tmp_path) -
     assert checkpoint["validation_protocol"]["selection_metric"] == (
         "single_final_epoch_macro_ssim"
     )
+    assert checkpoint["training_protocol"]["terminal_validation"] == {
+        "mode": "single_final_epoch",
+        "planned_epoch": 2,
+    }
+    assert checkpoint["terminal_validation_state"] == {
+        "planned_epoch": 2,
+        "completed": True,
+        "completed_epoch": 2,
+    }
+
+    config["train"]["epochs"] = 3
+    with pytest.raises(ValueError, match="already completed"):
+        train(config, resume_from=tmp_path / "run/last.pt")
 
 
 def test_training_rejects_resume_into_a_different_run_directory(tmp_path):

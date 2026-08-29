@@ -3,9 +3,9 @@ requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "asgcn-reconstruction"
-version = "0.2.0"
-description = "ASGCN paper-core event-to-frame reconstruction for EventHDR and EventAid-R"
+name = "asgcn-unet"
+version = "0.3.0"
+description = "ASGCN paper-core graph encoder with a recurrent U-Net decoder for event-to-frame reconstruction"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -21,7 +21,7 @@ eval = ["lpips>=0.1.4"]
 dev = ["pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]
-asgcn-recon = "asgcn_recon.cli:main"
+asgcn-unet = "asgcn_unet.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

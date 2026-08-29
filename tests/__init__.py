@@ -1,1 +1,1 @@
-"""Test-only package; never installed with asgcn_recon."""
+"""Test-only package; never installed with asgcn_unet."""

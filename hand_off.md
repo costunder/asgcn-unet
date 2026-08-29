@@ -1,8 +1,41 @@
-# ASGCN Event Reconstruction 프로젝트 인계서
+# ASGCN-U-Net 프로젝트 인계서
 
 이 문서는 다른 ChatGPT나 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
-이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-29의 현재
+이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-30의 현재
 구현과 일치하도록 다시 대조했다.
+
+## 0. 검증 기록과 배포 판정 기준
+
+이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
+저장소는 private로 유지한다. 서버 계정명, hostname, 사용자별 Unix/Windows absolute home path를
+문서에서 제거했고, clone 위치는 `$HOME`, `$PWD`와 사용자가 정하는 `ASGCN_DIR`로만 표현한다.
+저장소 내부에는 과거의 구체 식별자를 회귀 fixture로도 보존하지 않는다. 대신
+`scripts/scan_private_text.py`와 `tests/test_repo_hygiene.py`가 다음을 검증한다.
+
+- 모든 Git tracked text와 생성된 `code_summary.md`의 generic user-home/labelled identity 검사
+- 저장소 밖 denylist 또는 `PRIVATE_MARKERS_B64`로 주입한 실제 marker의 current tree 및 전체 local-ref
+  reachable history 검사; `--require-external-patterns`에서 빈 denylist와 shallow history 거부
+- Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
+- README가 repository 전용 read-only Deploy key와 portable project directory를 사용하는지 검사
+- 기본 파일명이 아닌 Deploy key를 shell-safe `IdentityFile` option과 `IdentitiesOnly=yes`로 명시하는지 문서 검토
+
+2026-08-30 Windows CPU 검증은 **265 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
+shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
+실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
+과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 GitHub Actions 필수 gate
+통과를 함께 확인해야 한다. 로컬 테스트 결과나 이 문서만으로 원격 배포 완료를 간주하지 않는다.
+
+외부 검토자는 특히 다음을 확인해야 한다.
+
+1. 전체 tracked text와 `code_summary.md`뿐 아니라 모든 local ref의 history를 필수 외부 실제-marker
+   denylist로 검사했는가?
+2. private repository 절차가 key 생성 뒤 Deploy key 등록에서 명확히 멈추는가?
+3. 최초 SSH host fingerprint를 GitHub 공식 목록과 대조한 뒤에만 수락하도록 안내하는가?
+4. `ssh -T` 종료 코드가 아니라 exact-repository `git ls-remote ... HEAD`를 최종 인증 판정으로 쓰는가?
+5. clone 대상이 비어 있는지 확인하고 기존 파일을 자동 삭제하지 않는가?
+6. 이 보안·배포 수정이 model/data/experiment protocol을 의도치 않게 바꾸지 않았는가?
+7. 실제 GPU의 full-topology/densest-step profile이 checkpoint의 verified preflight gate로 이어지는가?
+8. ANN/SNN 평가 artifact가 sealed lineage와 현재 data/source/runtime/precision protocol을 갖는가?
 
 ## 1. 한 줄 결론과 주장 범위
 
@@ -20,10 +53,10 @@
 - 완전한 spiking network
 - FPGA/ASIC latency·전력·에너지 실측 또는 반도체 통합 구현 완료
 
-원격 origin은 다음 주소로 설정돼 있다.
+대상 private repository의 주소는 다음과 같다.
 
 ```text
-https://github.com/costunder/asgcn-event-reconstruction.git
+https://github.com/costunder/asgcn-unet.git
 ```
 
 ## 2. 프로젝트 목표와 전체 파이프라인
@@ -102,12 +135,6 @@ archive 중복·경로 이탈, HDF5 magic과 선택 데이터 100 GB 미만을 �
 bash scripts/get_aid.sh
 ```
 
-Windows PowerShell에서는 다음을 쓴다.
-
-```powershell
-.\scripts\get_aid.ps1
-```
-
 Linux downloader는 재개 가능한 `curl`, retry와 ZIP container 검사를 사용한다. 공식 checksum이
 없으므로 최종 내용 검사는 뒤의 `inspect --validate-all` 단계에서 모든 event block과 target을
 decode하는 방식이다.
@@ -118,17 +145,26 @@ EventHDR loader는 H5의 `events/{xs,ys,ts,ps}`와 `images/image*`의 `event_idx
 timestamp·event boundary가 단조롭고 좌표·polarity가 유효한지 확인한다. `frame_stride=1`에서 모든
 target interval을 유지하며 event가 0개인 interval도 삭제하지 않는다. 빈 interval은 zero-node graph와
 zero raster를 거쳐 recurrent decoder로 전달된다. `frame_stride>1`이면 건너뛴 interval의 event를
-다음 선택 target까지 합치지만 기본값은 1이다.
+다음 선택 target까지 합치지만 기본값은 1이다. image key는 `image<정수>` 형식과 numeric suffix
+uniqueness를 강제하고 숫자순으로 읽으므로 `image10`이 `image2`보다 앞서는 문자열 정렬 오류를 허용하지
+않는다.
 
 EventAid-R loader는 ZIP 안의 `event/i.txt`, `gt/j_img.png`, `timestamps.txt`, `shape.txt`를 직접
 읽는다. config의 `target_offset=1`은 event interval `i`를 다음 GT `i+1`과 짝짓는 구현 가정이다.
-연속 ID, timestamp coverage, shape, 좌표와 polarity를 검증한다. 이 pairing을 저자 공식 코드로
-확인한 것은 아니므로 보고서에서 가정으로 표시하고 offset이 다른 실험과 결과를 섞지 않는다.
+offset은 bool이나 실수를 정수로 조용히 변환하지 않고 정확한 정수만 받는다.
+연속 ID, timestamp coverage, shape, 좌표와 polarity뿐 아니라 numeric event/GT ID 중복,
+case-insensitive ZIP member 중복, metadata member 중복, 중복 timestamp와 잘못된 shape token도
+거부한다. 이 pairing을 저자 공식 코드로 확인한 것은 아니므로 보고서에서 가정으로 표시하고 offset이
+다른 실험과 결과를 섞지 않는다. full inspect는 각 event block의 원 timestamp min/max와 interval
+`t0/t1`, span ratio, offset 및 범위 이탈 수를 집계한다. 공식 14 ZIP에서 timestamp basis와 단위가
+확인되기 전까지 이 집계는 diagnostic이며 strict rejection 조건이 아니다.
 
-두 dataset 모두 target을 `[0,1]` luminance로 만든 뒤 기본 config에서
-`log1p(5000*x)/log1p(5000)`를 적용한다. EventAid-R의 8-bit 영상에 같은 log mapping을 쓰는 것은
-출력 수치 domain을 맞추기 위한 cross-domain 선택이지 두 센서의 radiometric response가 같다는
-뜻이 아니다.
+두 dataset 모두 `target_normalization.mode=integer_dtype_max`를 명시해 정수 dtype maximum으로
+`[0,1]` luminance를 만든 뒤 기본 config에서 `log1p(5000*x)/log1p(5000)`를 적용한다. float target은
+`known_scale` 또는 `already_normalized`를 명시해야 하고 NaN/Inf와 `[0,1]` 범위 위반은 거부한다.
+`percentile_debug_only`는 `debug_only=true`인 비보고용 진단에서만 허용된다. EventAid-R의 8-bit 영상에
+같은 log mapping을 쓰는 것은 출력 수치 domain을 맞추기 위한 cross-domain 선택이지 두 센서의
+radiometric response가 같다는 뜻이 아니다.
 
 ## 4. EventHDR manifest의 진실
 
@@ -153,7 +189,7 @@ train과 eval은 서로 다른 directory라 `1.h5` 같은 basename이 겹친다.
 만들어 recurrent state와 macro metric을 분리한다. 공식 schema에 임의의 physical-scene field를
 추가하면 거부한다. root의 missing/undeclared H5도 학습 전에 거부한다.
 
-`configs/hdr_train.json`의 `validate_every=null`은 EventHDR 공식 eval을 매 epoch 보지 않고 마지막
+`configs/train.json`의 `validate_every=null`은 EventHDR 공식 eval을 매 epoch 보지 않고 마지막
 40번째 epoch에서 단 한 번만 실행한다. 그 하나의 candidate를 `best.pt`로 export하므로 epoch 간
 selection은 하지 않는다. 그래도 같은 eval에서 산출한 수치는 독립 test나 physical-scene test가
 아니며 `EventHDR official eval internal result`로만 보고한다. 이 결과를 보고 hyperparameter를
@@ -164,7 +200,7 @@ tone mapping 또는 checkpoint를 바꾸면 기존 EventAid-R 결과를 잠긴 �
 
 ## 5. 기본 config와 학습 규칙
 
-`configs/hdr_train.json`의 핵심값은 다음과 같다.
+`configs/train.json`의 핵심값은 다음과 같다.
 
 | 영역 | 기본값 |
 |---|---|
@@ -178,6 +214,7 @@ tone mapping 또는 checkpoint를 바꾸면 기존 EventAid-R 결과를 잠긴 �
 | optimizer | Adam + gradient centralization, lr `1e-3`, weight decay `5e-3` |
 | scheduler | MultiStepLR epoch 20/30, gamma 0.1 |
 | stability | CUDA AMP, L2 grad clip 1.0, non-finite loss/gradient fail-fast |
+| preflight | train 전체 topology scan, edge 상위 10개 기록, 상위 3개 CUDA 학습 step |
 | validation | 마지막 epoch 1회, 전체 19 H5, recurrent context policy 기록 |
 
 event cap은 `N>8192`일 때 `np.linspace(0,N-1,8192)`로 시간축 전체에서 정확히 8,192개를 선택한다.
@@ -206,6 +243,10 @@ temporal term은 같은 group·shape에서 sequence index가 1 증가할 때만
 prediction은 detach돼 있다. SSIM은 `[0,1]`, Gaussian 11×11, sigma 1.5, valid convolution이고 작은
 영상에는 들어맞는 가장 큰 홀수 window를 쓴다.
 
+loss component는 GPU tensor로 유지하고 total과 component를 한 벡터로 묶어 CPU에 한 번만
+전송한다. 이 벡터를 finite 검사, 누적, logging에 함께 사용해 frame마다 여러 `.item()` 동기화가
+발생하지 않게 했다. gradient norm의 non-finite 검사는 optimizer step 전에 별도로 유지한다.
+
 ## 6. graph, B-spline, decoder 요약
 
 좌표는 `x/(W-1)`, `y/(H-1)`, interval 내 normalized `t`이고 polarity는 `-1/+1` node feature다.
@@ -218,21 +259,61 @@ node를 K=5 control point에 한 번 projection하고 edge마다 두 control poi
 incoming degree로 평균한다. 고정 graph의 basis/index는 graph layer와 IF timestep 전체에서
 재사용한다. mean message에 root transform과 bias를 더하고 ANN에서는 BatchNorm과 ReLU를 적용한다.
 
+`EventGraph.in_degree`는 graph 생성 때 한 번 계산해 6개 layer와 모든 SNN timestep, diagnostics가
+공유한다. `spline_chunk_size=65536`은 최대 2,000,000 edge의 message gather를 chunk 단위로 제한해
+peak GPU memory를 낮추며 edge를 생략하지 않는다. 테스트는 chunked/unchunked 출력뿐 아니라 input,
+edge attribute, kernel, root, bias gradient 동등성까지 확인한다. SNN state도 마지막 layer의 full spike
+sum만 유지하고 `standard_if`에서는 불필요한 previous-spike tensor를 만들지 않는다.
+
 node feature는 downsample 4의 raster cell 안에서 평균된다. decoder는 stem, 두 residual encoder
 level, 두 residual block bottleneck, analog ConvGRU, bilinear upsampling과 skip connection, sigmoid
-head로 구성된다. 자세한 구현 가정과 식 (15) 모호성은 `docs/ASGCN.md`를 본다.
+head로 구성된다. decoder 구현은 `src/asgcn_unet/unet.py`의 `RecurrentUNetDecoder`에 분리돼 있고
+`src/asgcn_unet/model.py`의 `ASGCNUNet`이 graph-raster bridge와 함께 호출한다. 자세한 구현 가정과
+식 (15) 모호성은 `docs/ASGCN.md`를 본다.
 
 ## 7. ANN→SNN calibration과 IF 경로
 
-`best.pt`는 변환되지 않은 ANN inference checkpoint다. calibration은 EventHDR train만 사용하며
-기본 wrapper는 모든 train sample을 사용한다.
+`best.pt`는 변환되지 않은 clean `ann_inference` checkpoint다. calibration은 EventHDR train만 사용한다.
+engine은 변환 전에 `best.pt`의 학습 당시 train 전체 content digest, target/event transform, final split
+manifest, source tree/Git 계약과 terminal validation 완료 상태를 현재 실행과 대조한다. 그 manifest의
+모든 training sample도 dataset index `0..N-1` 순서로 정확히 한 번씩 보정해야
+`calibration_protocol.sealed=true`가 된다. 일부 sample을 지정한 기본 실행은 변환 전에 실패한다.
+validation protocol v7은 train/validation index의 전체 sample 수, group별 수와 ordered sample identity
+SHA-256을 저장한다. 보고용 ANN은 train/validation sample cap이 모두 `null`이고 실제 validation sampling이
+이 commitment와 일치해야 하며, SNN calibration sampling은 source ANN의 train commitment와 같아야 한다.
+EventHDR 보고용 ANN은 `best_validation_macro_ssim` 대체 경로를 허용하지 않고, 사전 계획 epoch에서
+완료된 `single_final_epoch` terminal validation을 반드시 요구한다.
+학습 checkpoint의 verified CUDA preflight gate도 이 계약에 포함되므로 profile을 우회한 비보고용 ANN을
+보정해 보고용 SNN으로 승격할 수 없다.
+
+calibration은 index별 `dataset[index]` 직렬 loop가 아니라 선택 순서를 보존한 `Subset`과 기존
+DataLoader를 사용한다. `batch_size=1`, `shuffle=false`를 강제하면서 train config의 worker,
+pin-memory, persistent worker와 prefetch 설정을 재사용해 HDF5 decode와 GPU 계산을 겹친다.
 
 1. ANN graph layer의 BatchNorm을 kernel/root/bias에 fold한다.
 2. 각 layer의 feature별 ReLU maximum `lambda_l`를 측정한다.
 3. 식 (6)의 `lambda_(l-1)/lambda_l`와 `1/lambda_l` scaling을 적용한다.
-4. dead channel은 unit scale로 두고, 모든 threshold를 정확히 1로 둔다.
+4. dead channel의 raw maximum은 0과 mask로 보존하고 식 (6)에 쓰는 effective scale만 1로 두며,
+   모든 threshold를 정확히 1로 둔다.
 5. `best_snn.pt`에 valid sample count, dead-channel summary, persistent conversion flag와 tensor
-   SHA-256을 저장한다.
+   SHA-256뿐 아니라 source ANN checkpoint/model SHA, 선택 sample identity, data/transform/manifest,
+   source와 runtime을 묶은 calibration protocol을 저장한다.
+6. model state 최상위 persistent buffer `calibration_attempts`, 32-byte
+   `calibration_commitment_digest`, `calibration_commitment_sealed`에 실제 시도 수와
+   protocol/count/sampling 및 valid/minimum/dead-channel summary core commitment를 저장한다.
+   metadata summary와 layer별 `calibration_samples_seen`, `calibration_activation_max` raw tensor,
+   `normalization_scale`, `dead_channel_mask`도 교차검증한다. normalization 뒤에도 raw maximum과
+   mask가 보존되므로 dead channel이 있는 checkpoint의 save→strict reload가 가능하고, 부분 보정
+   tensor에 전체 metadata를 이식하거나 mask/dead-channel 수만 바꾸는 우회는 load 단계에서 거부한다.
+
+CLI의 `--allow-unsealed-calibration`은 합성 fixture나 비보고용 진단에서만 계약 불일치를 허용한다.
+이 경우 `sealed=false`와 모든 불일치 이유가 checkpoint에 영구 기록되므로 보고용 matrix에 사용하면
+안 된다. override 사용 자체가 taint이므로 전체 sample을 처리했더라도 `sealed=false`다. 기본 shell
+wrapper와 `run.sh`는 이 우회를 노출하지 않는다. SNN 평가 seal은 checkpoint를
+다시 열 때 transform, manifest, 전체 selected identity/sampling, runtime, calibration data와 source ANN
+training data, `training_source == calibration_source`를 독립적으로 재검사한다. source ANN의 epoch,
+model hash, selection score/rule과 terminal-validation state를 묶은 전체 reporting contract도 별도 hash로
+보존·재검증한다.
 
 SNN inference는 threshold/normalization/calibration metadata와 layer state가 모두 일치해야 열린다.
 초기 membrane은 0.5 threshold, spike amplitude는 threshold, soft reset을 쓴다.
@@ -244,28 +325,37 @@ SNN inference는 threshold/normalization/calibration metadata와 layer state가 
 rate에는 `lambda_L`를 곱해 analog decoder 단위로 보낸다. 이는 `literal_eq15`의 ANN parity 증명이
 아니다.
 
-## 8. `scripts/full.sh`의 전체 실행 순서
+## 8. `scripts/run.sh`의 전체 실행 순서
 
 이 script는 설치나 데이터 다운로드를 하지 않는다. 환경과 전체 데이터가 이미 준비된 뒤 저장소
 루트에서 실행한다.
 
 ```bash
-bash scripts/full.sh
+bash scripts/run.sh all
 ```
 
-실행 단계는 정확히 다음 5개다.
+script가 노출하는 stage는 `check`, `profile`, `train`, `calibrate`, `eval`, `all`이다. `all`은 다음 다섯 stage를
+순서대로 실행한다.
 
-1. `check_env.py --require-full-data --lock constraints/py312.txt`와 선택적 CUDA 검사
-2. `hdr_train`, `hdr_ann`, `aid_ann` 세 config에 대해 `inspect --validate-all`
-3. EventHDR ANN 40-epoch 학습 또는 `RESUME_CHECKPOINT` exact resume
-4. EventHDR train 전체를 사용한 ANN→SNN calibration
-5. EventHDR와 EventAid-R의 전체 quality evaluation + compute benchmark matrix
+1. `check`: dependency/CUDA/full-data coverage 검사, `configs/train.json`으로 EventHDR train+eval 전체,
+   `configs/aid.json`으로 EventAid-R 전체를 `inspect --validate-all`
+2. `profile`: EventHDR train 전체 graph topology scan, edge 수 상위 10개 기록, 상위 3개 CUDA
+   forward/backward·optimizer step과 peak allocated/reserved VRAM 측정
+3. `train`: profile을 현재 config/data/source/CUDA runtime에 다시 결합한 뒤 EventHDR ANN 40-epoch 학습
+   또는 `RESUME_CHECKPOINT` exact resume
+4. `calibrate`: EventHDR train 전체를 사용한 ANN→SNN calibration
+5. `eval`: EventHDR와 EventAid-R의 전체 quality evaluation + compute benchmark matrix
 
-2단계에서 `hdr_train` inspect는 manifest의 train 51개와 eval 19개 split을 모두 decode한다.
-`hdr_ann`은 standalone EventHDR eval config를, `aid_ann`은 14개 ZIP 전체를 다시 검증한다. 오래 걸려도
-파일을 조용히 제외하지 않는다.
+`runs/profile.json`은 전수 topology와 실제 선택 표본 학습 step을 결합한 empirical gate다. 결과 자체가
+명시하듯 `absolute_vram_guarantee=false`이며 전체 40 epoch의 모든 미래 allocator 상태를 증명하지
+않는다. 기존 profile output은 묵시적으로 덮어쓰지 않는다. 합성 fixture용
+`--allow-unverified-preflight`는 public config와 checkpoint에 `report_eligible=false`로 영구 기록되며
+`run.sh all`, 기본 train wrapper와 scheduler wrapper에서는 허용되지 않는다.
 
-5단계 matrix는 다음 18개 run이며 각 run마다 `evaluate`와 `benchmark`를 둘 다 실행한다.
+`train.json` inspect가 manifest의 train 51개와 eval 19개 split을 모두 검사하므로 같은 EventHDR eval을
+`hdr.json`으로 다시 decode하는 중복 검사는 두지 않는다. 오래 걸려도 파일을 조용히 제외하지 않는다.
+
+`eval` stage matrix는 다음 18개 run이며 각 run마다 `evaluate`와 `benchmark`를 둘 다 실행한다.
 
 | dataset | mode | dynamics | T | checkpoint |
 |---|---|---|---|---|
@@ -279,11 +369,12 @@ bash scripts/full.sh
 전체 schedule만 확인하려면 다음을 사용한다.
 
 ```bash
-DRY_RUN=1 bash scripts/full.sh
+DRY_RUN=1 bash scripts/run.sh all
 ```
 
-중요 override는 `RESUME_CHECKPOINT`, `CALIBRATION_SAMPLES`, `SIMULATION_STEPS_LIST`,
-`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, 다섯 config path, ANN/SNN checkpoint path와
+중요 override는 `RESUME_CHECKPOINT`, `PROFILE_OUTPUT`, `PROFILE_SAMPLES`, `PROFILE_TOP_DENSITY`,
+`CALIBRATION_SAMPLES`, `SIMULATION_STEPS_LIST`,
+`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, 세 config path, ANN/SNN checkpoint path와
 `REQUIRE_CUDA`다. calibration output과 evaluation artifact는 기본적으로 덮어쓰지 않는다. fresh
 training도 run directory에 기존 핵심 artifact가 있으면 중단한다. 기존 결과를 보존한 채 새 output
 directory/config를 쓰는 것이 원칙이다.
@@ -300,6 +391,10 @@ dependency가 있을 때만 LPIPS를 계산한다. 결과는 다음 세 수준�
 
 EventHDR의 `macro`를 physical scene macro라고 부르면 안 된다. standalone evaluation은 H5 filename을
 group으로 쓰고, training final validation은 split-local H5 group ID를 쓴다.
+
+frame metric은 MSE를 한 번만 계산해 PSNR/RMSE가 공유하고, Gaussian SSIM window는 device/dtype/
+channel/window별 bounded cache를 쓴다. PSNR·SSIM·RMSE·선택적 LPIPS·temporal 값을 stack해 frame당
+한 번의 CPU transfer로 가져온다.
 
 evaluate latency는 dataset read와 host-to-device copy 뒤에 graph construction+model forward를
 동기화해 잰다. benchmark는 dataset I/O와 H2D를 timer 밖에 두고 warmup 뒤 CUDA Event 또는 CPU
@@ -322,23 +417,70 @@ snn_standard_if_T32/
 동일 run label의 기존 artifact가 있으면 덮어쓰지 않고 실패한다. prediction filename은 순번, 안전한
 slug와 sample ID hash를 조합해 OS 금지 문자와 충돌을 피한다.
 
+JSON/CSV/checkpoint는 unique temporary file에 끝까지 기록하고 flush한 뒤 원자적으로 replace한다.
+JSON writer는 `allow_nan=false`이고 evaluate/benchmark는 target, prediction, metric, graph diagnostic,
+latency와 interval metadata를 저장 전에 재귀적으로 finite 검사한다. 완전 일치 frame의 PSNR은 무한대
+대신 문서화된 120 dB 상한을 사용한다. `scripts/run.sh`의 각 stage는 `runs/status/<stage>.json`에
+`RUNNING`, `COMPLETED`, `FAILED`와 종료 코드를 남겨 partial artifact와 완료 run을 구분한다.
+
+기본 평가 config는 quality 비교를 위해 `precision=fp32`, `tf32=false`를 명시한다. 별도 성능 run은
+`amp_fp16` 또는 `bf16`을 선택할 수 있지만 결과에는 requested/effective precision, autocast dtype,
+model parameter dtype, device와 requested/effective TF32가 함께 기록되므로 FP32 표와 섞지 않는다.
+config/checkpoint/output 경로는 shareable artifact에서 repository-relative label 또는 `$EXTERNAL/<name>`로
+저장하며 routine environment report도 명시적으로 private provenance를 요청하지 않는 한 사용자 경로와
+hostname을 출력하지 않는다.
+
+보고용 ANN 평가에는 verified CUDA preflight가 포함된 clean `ann_inference`, finite macro-SSIM selection,
+training protocol v4와 validation protocol v7이 필요하다. 보고용 SNN은 그 ANN에서 봉인된
+`calibration_protocol.sealed=true`를 요구한다. `metrics.json.evaluation_protocol`과
+`benchmark.json.benchmark_protocol`은 public config/model, checkpoint file·tensor와 lineage,
+현재 eval dataset의 전체 content SHA-256·transform·manifest·coverage·sampling, source,
+runtime/precision을 path-free canonical hash로 결합한다. 18-run 연속 실행은 SHA path-token과
+size/mtime/ctime signature만 담는 host-local cache로 대용량 파일 hash를 재사용한다.
+보고 가능한 quality evaluation은 `eval.max_samples=null`이어야 한다. cap이 있는 실행은 기본적으로
+거부되고 합성 테스트용 명시적 우회를 써도 `report_eligible=false`다. 반면 benchmark의 warmup/측정
+step 수는 품질 sample cap이 아닌 별도 compute-only sampling protocol이다.
+EventHDR lineage는 planned/completed/checkpoint epoch가 같고 selection rule이
+`single_final_epoch_macro_ssim`인 경우에만 보고 가능하다. `check_env.py`와 `inspect`의
+`--include-private-host-provenance`는 로컬 진단 전용이며 그 출력은 공개·첨부하지 않는다.
+source ANN은 EventHDR 학습만 허용하고 training protocol의 seed, optimizer/scheduler, loss, data order,
+AMP와 runtime을 public config에 다시 결합한다. 평가 root도 explicit expected file count와 final/fixed
+manifest의 정확한 파일 집합을 증명해야 한다. EventHDR 실행은 현재 content·transform·manifest가 source
+ANN validation과 같아야 하며 protocol hash는 실제 mode, SNN T와 effective dynamics를 포함한다.
+
+이 SHA-256 계약은 reproducibility identity와 우발적·부분적 metadata 변조 검출 수단이며 전자서명이
+아니다. checkpoint와 내부 hash 전부를 악의적으로 다시 쓰는 공격까지 인증하려면 각 최종 artifact의
+file SHA-256을 별도 immutable 실험 원장, 서명 release 또는 접근통제된 archive에 보존해야 한다.
+
+합성 테스트 전용 `--allow-unsealed-checkpoint-for-non-reporting`은 결과에
+`report_eligible=false`와 모든 이유를 영구 기록한다. public shell/scheduler wrapper는 이 옵션을
+노출하지 않으며 해당 결과는 보고용 표에 포함하면 안 된다.
+
 ## 10. provenance, checkpoint integrity와 exact resume
 
 학습 directory의 핵심 artifact는 `config.json`, `history.json`, `last.pt`, `best.pt`와 hidden data hash
 cache다. `validate_every=null`이므로 `history.json`의 validation은 마지막 epoch에서만 채워지고
-`best.pt`는 그 마지막 candidate다.
+`best.pt`는 그 마지막 candidate다. training protocol에는 처음부터 `planned_epoch=40`을 봉인하고
+checkpoint에는 terminal validation의 완료 여부와 완료 epoch를 저장한다. 마지막 평가가 끝난 뒤
+epochs만 늘려 같은 run을 resume하는 것은 거부하며, 연장 실험은 새 output의 새 protocol로 분리한다.
 
 validation protocol에는 dataset transform, manifest schema와 모든 file 목록/group mapping,
 validation sample identity/context policy, SSIM 정의, selection rule과 train/eval 원본 전체 file의
 SHA-256 결합 digest가 저장된다. 절대 root와 mtime은 checkpoint 비교 identity가 아니어서 같은 byte의
-복사본을 다른 mount에서 쓸 수 있다. hash cache는 같은 절대 path의 size/mtime/ctime이 모두 같을 때
-기존 full hash를 재사용한다. 원본을 교체·복원했거나 강제 전수 hash가 필요하면
-`train.rehash_data=true`를 둔다.
+복사본을 다른 mount에서 쓸 수 있다. local hash cache의 key도 absolute path 대신 path SHA token으로
+저장해 cache artifact가 mount/account를 노출하지 않게 했다. 같은 source의 size/mtime/ctime이 모두
+같을 때만 cached full hash를 재사용하며, 기본 `train.rehash_data=true`는 첫 sealed run에서 51+19 H5를
+전부 다시 읽어 digest를 계산한다.
 
 training protocol에는 optimizer/GC 축, scheduler, loss weights, gradient clip, data order/workers,
-effective AMP, final-only validation rule, recurrent detach, torch/CUDA/cuDNN/GPU/TF32/determinism,
-`src/**/*.py` tree hash, Git commit과 source dirty 여부가 들어간다. checkpoint의 model tensor bytes도
-이름·dtype·shape를 포함해 SHA-256으로 묶는다.
+effective AMP, 봉인된 final-only validation terminal epoch, recurrent detach,
+torch/CUDA/cuDNN/GPU/TF32/determinism, `src/**/*.py` tree hash, Git commit과 source dirty 여부가 들어간다.
+checkpoint의 model tensor bytes도 이름·dtype·shape를 포함해 SHA-256으로 묶는다.
+
+이 digest는 checkpoint 내부 metadata와 tensor bytes의 **일관성·우발적 손상 탐지** 용도다. 공격자가
+checkpoint와 내부 digest를 함께 바꾸는 경우를 막는 authenticity 서명이 아니다. 배포물의 출처 인증이
+필요하면 저장소 밖의 신뢰 경계에서 생성한 signed manifest 또는 서명된 release checksum이 별도로
+필요하다.
 
 exact resume은 다음을 모두 요구한다.
 
@@ -348,12 +490,13 @@ exact resume은 다음을 모두 요구한다.
 - Python, NumPy, torch와 visible CUDA device별 RNG state가 유효할 것
 - 과거 `best.pt`가 존재하고 `last.pt`의 best digest/protocol과 일치할 것
 - ANN/SNN conversion state와 checkpoint type이 일치할 것
+- checkpoint의 verified CUDA preflight gate가 현재 config/data/source/runtime과 일치할 것
 
 학습만 이어갈 때는 다음을 사용한다.
 
 ```bash
-RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  bash scripts/train.sh configs/hdr_train.json
+RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  bash scripts/run.sh train
 ```
 
 provenance가 엄격하므로 commit이나 source/runtime 변경 뒤에는 resume이 거부될 수 있다. 또한 runtime
@@ -364,11 +507,98 @@ bitwise 동일성을 과장하지 않는다.
 ## 11. MobaXterm/Linux GPU 서버 절차
 
 MobaXterm은 SSH/SFTP client이고 실제 연산은 접속한 Linux server에서 수행한다.
+본실험 전에는 sanitized history와 과거 CI run/artifact 정리 기록을 확인하고, 원격 `main`의 배포
+commit SHA가 같은 SHA의 GitHub Actions 필수 gate를 통과했는지 대조한다. 확인되지 않으면 아래
+checkout을 본실험에 사용하지 않는다. 최신 CI badge나 문서의 상태 설명만으로 대신하지 않는다.
+서버 SSH 로그인과 GitHub private repository 인증은 별개다. 공유 서버에서는 repository 범위의 읽기
+전용 Deploy key를 사용한다. `$HOME/.ssh/asgcn_unet_deploy`이 없다면 생성하고 공개키
+`$HOME/.ssh/asgcn_unet_deploy.pub`만
+[Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 등록한다. 개인키를 덮어쓰거나
+외부로 복사하면 안 된다. 문서에는 서버 계정명, hostname 또는 사용자별 절대 경로를 기록하지 않는다.
 
 ```bash
-git clone https://github.com/costunder/asgcn-event-reconstruction.git
-cd asgcn-event-reconstruction
+prepare_asgcn_deploy_key() {
+  local key="$HOME/.ssh/asgcn_unet_deploy"
+  local derived_pub stored_pub
 
+  mkdir -p "$HOME/.ssh" || return 1
+  chmod 700 "$HOME/.ssh" || return 1
+  if [[ -e "$key" || -e "$key.pub" ]]; then
+    if [[ ! -f "$key" || ! -f "$key.pub" ]]; then
+      echo "ERROR: incomplete deploy key pair; inspect it manually" >&2
+      return 1
+    fi
+    derived_pub="$(ssh-keygen -y -f "$key")" || return 1
+    stored_pub="$(awk 'NF >= 2 { print $1 " " $2; exit }' "$key.pub")"
+    if [[ -z "$stored_pub" || "$derived_pub" != "$stored_pub" ]]; then
+      echo "ERROR: deploy public key does not match the private key" >&2
+      return 1
+    fi
+    echo "Using the verified existing deploy key pair."
+  else
+    ssh-keygen -t ed25519 \
+      -C "asgcn-unet read-only deploy key" \
+      -f "$key" || return 1
+  fi
+
+  chmod 600 "$key" || return 1
+  chmod 644 "$key.pub" || return 1
+  cat "$key.pub"
+}
+
+prepare_asgcn_deploy_key
+unset -f prepare_asgcn_deploy_key
+```
+
+여기서 멈추고 출력된 `.pub` 한 줄만
+[Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 등록한다. `Allow write access`는
+체크하지 않는다. 등록을 마친 다음 새 명령 블록을 실행한다. 최초 연결 prompt에서는 `yes`를 입력하기
+전에 algorithm과 fingerprint를
+[GitHub 공식 목록](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)과
+대조한다.
+
+`ssh -T`는 성공 메시지와 함께 종료 코드 1을 반환하므로 `set -e` one-shot block과 분리한다.
+
+```bash
+ssh -o "IdentityFile=$HOME/.ssh/asgcn_unet_deploy" \
+  -o IdentitiesOnly=yes \
+  -T git@github.com
+```
+
+최종 자동 판정은 다음 독립 블록이다. `HEAD`가 출력된 경우에만 그 아래 clone 블록으로 넘어간다.
+
+```bash
+git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
+  ls-remote git@github.com:costunder/asgcn-unet.git HEAD
+```
+
+clone과 repository-local SSH 설정은 bounded subshell에서 fail-fast로 수행한다. 오류가 나도 MobaXterm
+로그인 shell 자체는 종료하지 않는다.
+
+```bash
+ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
+(
+  set -e
+  mkdir -p "$ASGCN_DIR"
+  cd "$ASGCN_DIR"
+  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+    echo "ERROR: clone target is not empty" >&2
+    exit 1
+  fi
+  git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
+    clone git@github.com:costunder/asgcn-unet.git .
+  git config core.sshCommand \
+    "ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes"
+)
+```
+
+clone이 성공하면 `git -C "$ASGCN_DIR" rev-parse HEAD`를 CI에서 확인한 배포 SHA와 대조한다.
+같은 SHA일 때만 설치·검증을 별도 fail-fast block으로 실행한다. 이후 pull 뒤에도 다시 대조한다.
+
+```bash
+(
+  set -e
+  cd "$ASGCN_DIR"
 python3.12 --version
 ldd --version | head -n 1
 nvidia-smi
@@ -382,7 +612,15 @@ python scripts/check_env.py --require-cuda --lock constraints/py312.txt
 python -m pip check
 python -m ruff check .
 python -m pytest -q
+)
 ```
+
+위 clone은 Deploy key 등록과 `ls-remote` 성공 뒤에만 실행한다. 검증한 fingerprint에 동의한 것은
+`known_hosts` 등록일 뿐 `publickey` 인증 성공이 아니다. `ssh -T`는 성공 메시지와 함께 종료 코드
+1을 반환할 수 있다. 전용 키는 기본 파일명이 아니므로 평범한
+`git clone git@github.com:...`만 실행해서는 안 된다.
+실험 종료 뒤 이 서버에서 pull이 더 필요 없으면 GitHub Deploy key를 revoke하고 서버 정책에 따라 전용
+key pair를 폐기한다. Deploy key는 자동 만료되지 않는다.
 
 프로젝트는 Python 3.10 이상을 지원한다. 재현용 lock은 Python 3.12.13에서 검증됐고 core/dev package와
 torch public version을 `constraints/py312.txt`에 고정한다. 현재 lock의 핵심은 torch 2.13.0,
@@ -403,26 +641,27 @@ python -m pip install -e '.[eval]'
 python scripts/check_env.py --require-cuda --require-full-data \
   --lock constraints/py312.txt
 
-asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
+asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
+asgcn-unet inspect --config configs/hdr.json --samples 2 --validate-all
+asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 ```
 
 `check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, lock mismatch, glibc, data와 runs의 남은
 공간, runs 쓰기 가능 여부, EventHDR exact 51/19 이름과 EventAid-R exact 14 ZIP을 출력·검사한다.
 `--validate-all`은 모든 target/event block을 실제 decode하므로 전체 데이터에서는 오래 걸린다.
 
-## 12. scheduler와 container
+## 12. scheduler
 
-SLURM과 PBS/Torque 각각 train, calibration, evaluation entrypoint가 있다.
+SLURM과 PBS/Torque 각각 profile, train, calibration, evaluation entrypoint가 있다.
 
 ```text
+server/profile.sbatch      server/profile.pbs
 server/train.sbatch        server/train.pbs
 server/calibrate.sbatch    server/calibrate.pbs
 server/eval.sbatch         server/eval.pbs
 ```
 
-기본 요청은 GPU 1개, CPU 8개, RAM 32 GB다. train은 48시간, calibration은 12시간, evaluation은
+기본 요청은 GPU 1개, CPU 8개, RAM 32 GB다. profile/calibration은 12시간, train은 48시간, evaluation은
 8시간으로 작성돼 있으나 partition/account/GPU type/resource 이름과 walltime은 cluster 규칙과 실제
 측정에 맞춰 바꿔야 한다. wrapper는 `PROJECT_ROOT` 또는 scheduler submit directory를 검증하고 잘못된
 checkout에서 실행하지 않는다. `CUDA_MODULE`은 opt-in이다.
@@ -430,100 +669,170 @@ checkout에서 실행하지 않는다. `CUDA_MODULE`은 opt-in이다.
 SLURM dependency 예시:
 
 ```bash
-train_id=$(sbatch --parsable server/train.sbatch)
+profile_id=$(sbatch --parsable server/profile.sbatch)
+train_id=$(sbatch --parsable --dependency=afterok:${profile_id} server/train.sbatch)
 cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
 sbatch --dependency=afterok:${cal_id} \
-  --export=ALL,CONFIG_PATH=configs/hdr_snn.json,CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  --export=CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
   server/eval.sbatch
 ```
+
+SLURM에는 login 환경 전체가 아니라 job에 필요한 변수만 전달한다. scheduler log는 기본적으로 host/job
+식별자를 생략하고 config/checkpoint basename만 기록한다. 정확한 값은 공개하지 않을 로컬 진단에서만
+`INCLUDE_PRIVATE_HOST_PROVENANCE=1`로 opt-in한다. Slurm의 `slurm-...-<job-id>.out/.err`와 PBS의
+`<job-name>.o<job-id>` 같은 raw scheduler log는 파일명 자체에 job ID가 있으므로 그대로 공개하지 않는다.
+기본 provenance log만 `logs/public/train.stdout.log` 같은 중립 파일명으로 복사하고 저장소 밖 denylist로
+공개 후보의 내용을 검사한 뒤 공유한다.
+
+```bash
+python scripts/scan_private_text.py logs/public/train.stdout.log \
+  --root "$PWD" --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+```
+
+scan 실패 log와 `INCLUDE_PRIVATE_HOST_PROVENANCE=1` opt-in log는 rename/copy 여부와 무관하게 비공개다.
 
 PBS/Torque dependency 예시:
 
 ```bash
-train_id=$(qsub server/train.pbs)
+profile_id=$(qsub server/profile.pbs)
+train_id=$(qsub -W depend=afterok:${profile_id} server/train.pbs)
 cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
 qsub -W depend=afterok:${cal_id} \
-  -v CONFIG_PATH=configs/hdr_snn.json,CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  -v CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
   server/eval.pbs
 ```
 
 전체 18-run matrix를 scheduler로 돌리려면 dataset/dynamics/T별 eval job을 각각 제출해야 한다.
-단일 allocation에서 순차 실행할 때만 `scripts/full.sh`를 직접 사용한다.
-
-Dockerfile은 Python 3.12와 같은 lock을 쓰며 compose는 data를 read-only, runs를 writable로 mount한다.
-
-```bash
-docker build \
-  --build-arg TORCH_VERSION=2.13.0 \
-  --build-arg TORCH_INDEX_URL="$TORCH_INDEX_URL" \
-  -t asgcn-event-reconstruction .
-
-docker compose run --rm experiment \
-  inspect --config configs/hdr_train.json --samples 2
-```
+단일 allocation에서 순차 실행할 때만 `scripts/run.sh`를 직접 사용한다. 이 저장소는 검증되지 않은
+Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native virtualenv와 scheduler wrapper만
+지원한다.
 
 ## 13. 파일별 책임
 
 | 경로 | 책임 |
 |---|---|
-| `src/asgcn_recon/graph.py` | node 정규화, exact radius graph, B-spline layer, BN fold, Eq.(6), IF loop |
-| `src/asgcn_recon/model.py` | graph build 연결, rasterization, residual U-Net, ConvGRU, diagnostics |
-| `src/asgcn_recon/data/eventhdr.py` | H5 index/검증, zero-event 보존, frame interval 구성 |
-| `src/asgcn_recon/data/eventaid_r.py` | ZIP 직접 읽기, next-GT pairing, timestamp/shape 검증 |
-| `src/asgcn_recon/data/common.py` | luminance/tone map, crop, exact-size event cap, sample schema |
-| `src/asgcn_recon/data/factory.py` | manifest schema, exact coverage, split-local H5 group |
-| `src/asgcn_recon/losses.py` | Charbonnier, SSIM loss, gradient loss |
-| `src/asgcn_recon/metrics.py` | Gaussian SSIM, PSNR, RMSE, temporal metric, micro/macro 집계 |
-| `src/asgcn_recon/engine.py` | train/validation/calibration/evaluate/benchmark, checkpoint·resume·provenance |
-| `src/asgcn_recon/cli.py` | inspect/train/calibrate/evaluate/benchmark CLI |
-| `configs/hdr_train.json` | EventHDR 51 train + 19 final-only internal eval 학습 protocol |
-| `configs/hdr_ann.json`, `configs/hdr_snn.json` | EventHDR official eval ANN/SNN 실행 |
-| `configs/aid_ann.json`, `configs/aid_snn.json` | EventAid-R 14-scene ANN/SNN 외부 실행 |
+| `src/asgcn_unet/graph.py` | node 정규화, exact radius graph, cached degree, chunked B-spline, BN fold, Eq.(6), IF loop |
+| `src/asgcn_unet/model.py` | `ASGCNUNet`, graph build 연결, rasterization, decoder 연결, diagnostics |
+| `src/asgcn_unet/unet.py` | residual U-Net, analog ConvGRU, `RecurrentUNetDecoder` |
+| `src/asgcn_unet/data/eventhdr.py` | H5 index/검증, zero-event 보존, frame interval 구성 |
+| `src/asgcn_unet/data/eventaid_r.py` | ZIP 직접 읽기, next-GT pairing, timestamp/shape 검증 |
+| `src/asgcn_unet/data/common.py` | luminance/tone map, crop, exact-size event cap, sample schema |
+| `src/asgcn_unet/data/factory.py` | manifest schema, exact coverage, split-local H5 group |
+| `src/asgcn_unet/losses.py` | Charbonnier, SSIM loss, gradient loss |
+| `src/asgcn_unet/metrics.py` | Gaussian SSIM, PSNR, RMSE, temporal metric, micro/macro 집계 |
+| `src/asgcn_unet/engine.py` | train/validation/calibration/evaluate/benchmark, checkpoint·resume·provenance |
+| `src/asgcn_unet/preflight.py` | 전체 train topology scan, 최고 밀도 CUDA 학습-step 측정·재검증 |
+| `src/asgcn_unet/cli.py` | inspect/profile/verify-profile/train/calibrate/evaluate/benchmark CLI |
+| `configs/train.json` | EventHDR 51 train + 19 final-only internal eval 학습 protocol |
+| `configs/hdr.json` | EventHDR official eval ANN/SNN 공용 설정 |
+| `configs/aid.json` | EventAid-R 14-scene ANN/SNN 공용 설정 |
 | `manifests/eventhdr_split.json` | official separate roots와 H5 sequence-file semantics |
 | `manifests/eventaid_r.json` | 14 ZIP 이름, URL, 표시 용량 |
 | `scripts/setup.sh`, `scripts/check_env.py` | server 설치와 환경/data inventory |
 | `scripts/get_hdr.py`, `scripts/get_hdr.sh` | browser/source/shared EventHDR 안전 import/check |
-| `scripts/get_aid.sh`, `scripts/get_aid.ps1` | EventAid-R 다운로드 |
+| `scripts/get_aid.sh` | EventAid-R 14 ZIP 다운로드/재개/검사 |
 | `scripts/train.sh`, `scripts/calibrate.sh`, `scripts/eval.sh` | 개별 GPU wrapper |
-| `scripts/full.sh` | 전체 5단계, 18-run matrix orchestration |
-| `server/` | SLURM/PBS train→calibrate→eval entrypoint |
+| `scripts/run.sh` | `check|profile|train|calibrate|eval|all`, CUDA gate와 18-run matrix orchestration |
+| `scripts/scan_private_text.py` | current tracked text와 전체 reachable Git blob의 generic/external-marker privacy gate |
+| `scripts/build_code_summary.py` | deterministic `code_summary.md`, file/snapshot SHA와 clean source provenance gate |
+| `server/` | SLURM/PBS profile→train→calibrate→eval entrypoint |
 | `docs/ASGCN.md` | 논문 core와 구현 가정의 경계 |
 | `docs/EXPERIMENT.md`, `docs/SERVER.md` | 실험 protocol과 server 운용 보조 문서 |
 | `tests/` | fixture 기반 CPU unit/integration/end-to-end 회귀검사 |
 
+`code_summary.md`는 generator output 자신을 제외한 모든 tracked UTF-8 text를 `# 파일경로`와 원문 code
+block 형태로 담는다. header에는 file별 SHA-256과 전체 snapshot SHA-256, 생성 당시 Git provenance가
+있다. dirty working tree에서 생성하면 superseded commit을 계속 가리키지 않도록 commit/tree identity를
+`null`로 두고 snapshot SHA-256을 검증 identity로 사용한다. clean generation의 commit/tree도 summary를
+포함하는 새 commit과 자기참조적으로 같을 수 없으므로 현재 remote SHA라고 주장하지 않는다. 본문과
+manifest의 정확한 동일성은 `--check`, remote 배포 동일성은 별도의 remote commit/CI 확인으로 판정한다.
+release에서는 코드뿐 아니라 README·인계서·서버 문서와 검증 수치 수정, history 정리까지 마친 뒤
+최종 sanitized source commit을 확정한다. clean source에서 summary를 재생성하고 summary만 별도
+commit한다. 이 사이에 다른 tracked 파일 수정이나 source history의 amend/rebase/rewrite를 끼우지
+않는다. 변경이 필요하면 새 source commit을 확정한 뒤 다시 생성한다.
+`--check --require-clean-provenance`는 기록된 source commit/tree가 유효하고 현재 HEAD까지 summary 외
+tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 release-only gate 통과를 주장하지
+않는다. summary-only commit 뒤 배포/CI 결과는 해당 최종 SHA의 Actions와 별도 배포 기록으로
+확인한다. 결과를 문서에 추가하는 경우에도 source 변경이므로 위 commit·재생성 순서를 다시 따른다.
+
 ## 14. 테스트 상태와 검증 범위
 
-현재 test collection은 159개이며 로컬 Windows CPU 환경에서 `158 passed, 1 skipped`가 기준이다.
-skip은 Windows symlink privilege가 없는 경우의 shared-storage link test다. Ruff도 통과해야 한다.
+2026-08-30 Windows CPU 통합 결과는 **265 passed, 1 skipped**이며, skip 1건은 symlink privilege가
+없는 환경의 shared-storage link test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
+아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
+
+history scanner는 `git rev-list --objects --all`의 LF 출력으로 통일했다. 구 Git이 `-z`를 받아도 최신
+NUL object protocol을 출력하지 않는 차이를 회피하며, LF fixture·SHA-1/SHA-256·공백/탭/CR/비ASCII
+path hint와 malformed OID 회귀를 추가했다. path hint는 개행에서 잘리거나 동일 blob의 여러 경로 중
+하나일 수 있으므로 실제 내용은 항상 OID로 읽는다. 로컬 Git 2.53.0.windows.3에서는 검증했지만 실제
+Linux Git 2.47.3 실행기는 없으므로 해당 환경의 실측 통과를 주장하지 않는다.
 
 ```bash
+python -m compileall -q src tests scripts
 python -m ruff check .
 python -m pytest -q
-bash -n scripts/*.sh server/*.sbatch server/*.pbs
+(
+  for script in scripts/*.sh server/*.sbatch server/*.pbs; do
+    bash -n "$script" || exit 1
+  done
+)
+python scripts/build_code_summary.py --check
+python scripts/scan_private_text.py --all-tracked --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+git diff --check
+```
+
+history 교체 전후에는 complete non-shallow clone에서 다음 privacy gate를 별도로 실행한다. 오염된
+history가 남아 있으면 실패하며, trusted `main` CI에서는 `PRIVATE_MARKERS_B64` secret이 없으면 검사
+자체가 실패한다.
+
+```bash
+python scripts/scan_private_text.py \
+  --all-tracked --all-history --require-external-patterns \
+  --extra-patterns /path/outside/repository/private_markers.txt
+```
+
+최종 sanitized source commit과 summary-only commit을 확정한 뒤에는 clean provenance gate도
+통과해야 한다. 원격 배포 후 같은 최종 SHA의 GitHub Actions에서 privacy·provenance를 포함한
+필수 job 전체의 성공을 확인한다. 로컬 통과나 다른 commit의 성공으로 대체하지 않는다.
+
+```bash
+python scripts/build_code_summary.py --check --require-clean-provenance
 ```
 
 주요 회귀 범위는 다음과 같다.
 
 - strict undirected radius graph와 cell implementation의 pairwise reference parity
 - degree-1 open B-spline endpoint, gradient, 초기화, hand calculation과 autograd
-- BN fold, 식 (6), dead channel, IF soft reset, dynamics 차이, basis cache
-- EventHDR/EventAid 구조·timestamp·좌표·polarity·pairing·multiprocess safety
+- BN fold, 식 (6), dead-channel raw/scale/mask save→strict reload, IF soft reset, dynamics 차이, basis cache
+- EventHDR numeric image order와 EventAid exact offset/timestamp diagnostic을 포함한 구조·좌표·polarity·pairing·multiprocess safety
 - exact-size event cap 경계와 zero-event frame
 - manifest separate-root/physical-scene claim 차단과 exact file coverage
 - final-only validation, balanced/context schedule, loss/gradient non-finite guard
 - checkpoint tensor digest, conversion state, provenance와 exact resume 거부 조건
-- evaluate/benchmark artifact, metrics, temporal continuity와 전체 orchestration matrix
+- sealed calibration data/source/runtime/final-manifest, 전체 sample coverage와 변조 거부,
+  final-only terminal epoch 변경 차단
+- full-train topology scan, 최고 밀도 CUDA probe report 계약과 train preflight 재결합/우회 전파
+- evaluate/benchmark checkpoint seal·전체 data/source/runtime/precision provenance,
+  strict/atomic artifact와 전체 orchestration matrix
+- float target 계약, EventAid ZIP logical duplicate, config/loss/batch/sample-limit fail-fast
+- 전체 tracked text의 generic/external-marker privacy scan과 deterministic code snapshot
+- 구·신 Git의 공통 LF history 열거와 모든 shell entrypoint의 개별 구문 검사
+- 공개 output의 absolute path/hostname redaction과 portable private-repository clone 절차
 
 GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
-syntax job을 정의한다. unit test는 공식 대용량 데이터나 GPU 없이 fixture로 실행된다. 따라서 test
-통과는 전체 데이터 GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
+syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
+고정한다. unit test는 공식 대용량 데이터나 GPU 없이 fixture로 실행되므로 test 통과는 전체 데이터
+GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 
 ## 15. 현재 한계와 교차검증 체크리스트
 
-현재 저장소에 전체 데이터 GPU run 결과나 A6000/A100 benchmark artifact가 커밋돼 있지 않다. 다음
-항목은 실제 server에서 `scripts/full.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
+2026-08-30 로컬 검증에서는 전체 데이터 CUDA 본실험과 A6000/A100 profile/benchmark를 실행하지 않았다.
+다음 항목은 실제 server에서 `scripts/run.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
 
 - EventHDR/EventAid-R 전체 decode 성공과 총 frame 수
+- A100/A6000 각각의 full topology scan, 최고 밀도 sample CUDA step과 `runs/profile.json`
 - 40-epoch loss/history, 마지막 epoch internal eval과 checkpoint digest
 - all-sample calibration의 layer별 valid count/dead channel
 - 18개 mode/dynamics/T의 quality, latency, memory, graph와 firing-rate artifact
@@ -552,6 +861,9 @@ syntax job을 정의한다. unit test는 공식 대용량 데이터나 GPU 없�
 6. graph가 strict `<D`, 양방향, self-loop 없음이며 cell optimization이 pairwise reference와 같은가?
 7. ANN과 SNN checkpoint type, BN fold, Eq.(6), threshold와 tensor digest가 일치하는가?
 8. EventAid-R을 본 뒤 model/config를 바꾸지 않았는가?
-9. 보고한 숫자가 실제 `metrics.json`, `benchmark.json`, `history.json`과 server provenance에 있는가?
+9. 학습 checkpoint가 현재 data/source/runtime에 재검증된 CUDA preflight gate를 가지는가?
+10. ANN/SNN artifact의 `report_eligible`, evaluation/benchmark protocol과 calibration seal이 유효한가?
+11. 보고한 숫자가 실제 `profile.json`, `metrics.json`, `benchmark.json`, `history.json`과 server
+    provenance에 있는가?
 
-이 아홉 항목 중 하나라도 확인되지 않으면 해당 수치는 예비 내부 결과로만 취급한다.
+이 열한 항목 중 하나라도 확인되지 않으면 해당 수치는 예비 내부 결과로만 취급한다.

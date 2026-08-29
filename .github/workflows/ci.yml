@@ -18,10 +18,13 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: "3.12"
           cache: pip
@@ -35,11 +38,48 @@ jobs:
           python -m pip install -c constraints/py312.txt -e ".[dev]"
           python scripts/check_env.py --lock constraints/py312.txt
 
+      - name: Exercise the Linux server setup entrypoint
+        env:
+          ENV_FILE: /dev/null
+          PYTHON_BIN: python
+          VENV_DIR: ${{ env.pythonLocation }}
+          TORCH_VERSION: 2.13.0
+          CONSTRAINTS_FILE: constraints/py312.txt
+          PROJECT_EXTRAS: dev
+          REQUIRE_CUDA: 0
+        run: bash scripts/setup.sh
+
       - name: Run Ruff
         run: python -m ruff check .
 
+      - name: Run tests with the locked Python 3.12 profile
+        run: python -m pytest -q
+
+      - name: Verify deterministic code snapshot
+        run: python scripts/build_code_summary.py --check
+
+      - name: Verify trusted main clean snapshot provenance
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: python scripts/build_code_summary.py --check --require-clean-provenance
+
+      - name: Scan tracked text with generic privacy rules
+        run: python scripts/scan_private_text.py --all-tracked
+
+      - name: Scan trusted main history with the required private denylist
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          PRIVATE_MARKERS_B64: ${{ secrets.PRIVATE_MARKERS_B64 }}
+        run: >
+          python scripts/scan_private_text.py
+          --all-tracked
+          --all-history
+          --require-external-patterns
+
       - name: Validate Linux shell entrypoints
-        run: bash -n scripts/*.sh server/*.sbatch server/*.pbs
+        run: |
+          for script in scripts/*.sh server/*.sbatch server/*.pbs; do
+            bash -n "$script" || exit 1
+          done
 
   test:
     name: ${{ matrix.os }} / Python ${{ matrix.python-version }}
@@ -53,10 +93,12 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip

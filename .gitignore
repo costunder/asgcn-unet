@@ -16,6 +16,9 @@ htmlcov/
 /logs/
 slurm-*.out
 slurm-*.err
+asgcn-*.o*
+asgcn-*.e*
+.data_hash_cache.json
 *.pt
 *.pth
 *.onnx

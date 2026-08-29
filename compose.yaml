@@ -4,6 +4,7 @@ services:
       context: .
       args:
         TORCH_INDEX_URL: ${TORCH_INDEX_URL:-}
+        TORCH_VERSION: ${TORCH_VERSION:-2.13.0}
     image: asgcn-event-reconstruction:local
     working_dir: /workspace
     volumes:

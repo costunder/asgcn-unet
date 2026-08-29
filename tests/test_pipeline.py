@@ -201,6 +201,61 @@ def test_eventhdr_split_names_all_missing_files(tmp_path):
         build_dataset(config, split="train")
 
 
+def test_eventhdr_manifest_accepts_nested_relative_paths(tmp_path):
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root / "scene")
+    manifest_path = tmp_path / "split.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "train_files": ["scene/test.h5"],
+                "val_files": ["unused.h5"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    dataset = build_dataset(
+        {
+            "type": "eventhdr",
+            "root": str(data_root),
+            "split_manifest": str(manifest_path),
+        },
+        split="train",
+    )
+    assert len(dataset) == 4
+    assert dataset[0]["metadata"]["scene"] == "scene/test.h5"
+
+
+def test_factory_uses_val_root_for_validation_split(tmp_path):
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "val"
+    train_path = make_eventhdr(train_root, frames=2)
+    val_path = make_eventhdr(val_root, frames=4)
+    train_path.rename(train_root / "train.h5")
+    val_path.rename(val_root / "val.h5")
+    manifest_path = tmp_path / "split.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "train_files": ["train.h5"],
+                "val_files": ["val.h5"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    dataset = build_dataset(
+        {
+            "type": "eventhdr",
+            "root": str(train_root),
+            "val_root": str(val_root),
+            "split_manifest": str(manifest_path),
+        },
+        split="val",
+    )
+    assert len(dataset) == 4
+    assert dataset[0]["metadata"]["source"].endswith("val.h5")
+
+
 def test_inspect_training_config_validates_both_manifest_splits(tmp_path):
     data_root = tmp_path / "hdr"
     make_eventhdr(data_root)
@@ -269,12 +324,61 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     first = torch.load(tmp_path / "run/last.pt", map_location="cpu", weights_only=False)
     assert first["epoch"] == 1
     assert "optimizer" in first and "scaler" in first and "rng_state" in first
+    assert (tmp_path / "run/.data_hash_cache.json").is_file()
+    protocol_text = json.dumps(first["validation_protocol"])
+    assert str(data_root) not in protocol_text
+    assert "mtime_ns" not in protocol_text
+    best = torch.load(tmp_path / "run/best.pt", map_location="cpu", weights_only=False)
+    assert best["checkpoint_type"] == "ann_inference"
+    for training_key in ("optimizer", "scaler", "history", "rng_state", "config"):
+        assert training_key not in best
 
     config["train"]["epochs"] = 2
     train(config, resume_from=tmp_path / "run/last.pt")
     resumed = torch.load(tmp_path / "run/last.pt", map_location="cpu", weights_only=False)
     assert resumed["epoch"] == 2
     assert [entry["epoch"] for entry in resumed["history"]] == [1, 2]
+
+    config["train"]["epochs"] = 3
+    config["seed"] = 18
+    with pytest.raises(ValueError, match="validation protocol differs"):
+        train(config, resume_from=tmp_path / "run/last.pt")
+
+
+def test_training_rejects_resume_into_a_different_run_directory(tmp_path):
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root)
+    config = _tiny_training_config(tmp_path, data_root)
+    train(config)
+    source = tmp_path / "run/last.pt"
+
+    config["train"]["epochs"] = 2
+    config["output"]["run_dir"] = str(tmp_path / "other-run")
+    with pytest.raises(ValueError, match="inside the configured run_dir"):
+        train(config, resume_from=source)
+
+
+def test_training_can_resume_before_first_validation_checkpoint(tmp_path):
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root)
+    config = _tiny_training_config(tmp_path, data_root)
+    train(config)
+
+    last_path = tmp_path / "run/last.pt"
+    checkpoint = torch.load(last_path, map_location="cpu", weights_only=False)
+    checkpoint["best_ssim"] = float("-inf")
+    checkpoint["val"] = {}
+    checkpoint["history"] = [
+        {"epoch": 1, "train_loss": checkpoint["history"][0]["train_loss"], "val": {}}
+    ]
+    torch.save(checkpoint, last_path)
+    (tmp_path / "run/best.pt").unlink()
+
+    config["train"]["epochs"] = 2
+    train(config, resume_from=last_path)
+    resumed = torch.load(last_path, map_location="cpu", weights_only=False)
+    assert resumed["epoch"] == 2
+    assert (tmp_path / "run/best.pt").is_file()
 
 
 def test_benchmark_rejects_empty_measurement(tmp_path):

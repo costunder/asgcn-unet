@@ -61,39 +61,37 @@ def build_causal_graph(
     """Connect each event only to recent events, enabling streaming inference.
 
     Restricting candidates avoids the quadratic radius-graph materialization that is
-    unsuitable for the target low-latency system.
+    unsuitable for the target low-latency system. Candidate offsets are materialized
+    in one bounded tensor operation to avoid launching one CUDA kernel chain per offset.
     """
     n = positions.shape[0]
     device = positions.device
-    src_parts: list[torch.Tensor] = []
-    dst_parts: list[torch.Tensor] = []
-    attr_parts: list[torch.Tensor] = []
     max_offset = min(max(0, int(candidates)), max(0, n - 1))
-    for offset in range(1, max_offset + 1):
-        src = torch.arange(0, n - offset, device=device)
-        dst = src + offset
-        delta = positions[dst] - positions[src]
-        spatial = torch.linalg.vector_norm(delta[:, :2], dim=-1)
-        valid = (spatial <= spatial_radius) & (delta[:, 2] <= temporal_radius)
-        # Appending empty tensors is cheap and avoids a device-to-host synchronization
-        # from ``if valid.any()`` for every candidate offset on CUDA.
-        kept_delta = delta[valid]
-        src_parts.append(src[valid])
-        dst_parts.append(dst[valid])
-        attr_parts.append(
-            torch.cat(
-                (kept_delta, torch.linalg.vector_norm(kept_delta, dim=-1, keepdim=True)),
-                dim=-1,
-            )
-        )
+    offsets = torch.arange(1, max_offset + 1, device=device).unsqueeze(1)
+    source_grid = torch.arange(n, device=device).unsqueeze(0).expand(max_offset, n)
+    destination_grid = source_grid + offsets
+    candidate_mask = destination_grid < n
+    source = source_grid[candidate_mask]
+    destination = destination_grid[candidate_mask]
+    delta = positions[destination] - positions[source]
+    spatial = torch.linalg.vector_norm(delta[:, :2], dim=-1)
+    valid = (spatial <= spatial_radius) & (delta[:, 2] <= temporal_radius)
+    source = source[valid]
+    destination = destination[valid]
+    kept_delta = delta[valid]
+    candidate_attr = torch.cat(
+        (kept_delta, torch.linalg.vector_norm(kept_delta, dim=-1, keepdim=True)),
+        dim=-1,
+    )
 
     # Self edges guarantee a defined degree for sparse non-empty crops.
     self_nodes = torch.arange(n, device=device)
-    src_parts.append(self_nodes)
-    dst_parts.append(self_nodes)
-    attr_parts.append(torch.zeros((n, 4), device=device, dtype=positions.dtype))
-    edge_index = torch.stack((torch.cat(src_parts), torch.cat(dst_parts)), dim=0)
-    edge_attr = torch.cat(attr_parts, dim=0)
+    edge_index = torch.stack(
+        (torch.cat((source, self_nodes)), torch.cat((destination, self_nodes))), dim=0
+    )
+    edge_attr = torch.cat(
+        (candidate_attr, torch.zeros((n, 4), device=device, dtype=positions.dtype)), dim=0
+    )
     return edge_index, edge_attr
 
 

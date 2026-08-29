@@ -18,6 +18,76 @@ from .common import (
     stratified_subsample,
 )
 
+_EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
+
+
+def _invalid_file(path: Path, detail: str) -> ValueError:
+    return ValueError(f"Invalid EventHDR file {path}: {detail}")
+
+
+def _numeric_scalar_attr(node: h5py.Dataset, name: str, path: Path) -> float:
+    if name not in node.attrs:
+        raise _invalid_file(path, f"images/{node.name.rsplit('/', 1)[-1]} is missing '{name}'")
+    raw = np.asarray(node.attrs[name])
+    if raw.size != 1 or raw.dtype.kind not in "iuf":
+        raise _invalid_file(
+            path,
+            f"images/{node.name.rsplit('/', 1)[-1]} attribute '{name}' must be one number",
+        )
+    value = float(raw.reshape(-1)[0])
+    if not np.isfinite(value):
+        raise _invalid_file(
+            path,
+            f"images/{node.name.rsplit('/', 1)[-1]} attribute '{name}' must be finite",
+        )
+    return value
+
+
+def _validate_event_values(
+    xs: np.ndarray,
+    ys: np.ndarray,
+    ts: np.ndarray,
+    ps: np.ndarray,
+    *,
+    expected: int,
+    height: int,
+    width: int,
+    source: str,
+) -> None:
+    arrays = {"xs": xs, "ys": ys, "ts": ts, "ps": ps}
+    lengths = {name: int(values.size) for name, values in arrays.items()}
+    if any(values.ndim != 1 for values in arrays.values()) or any(
+        length != expected for length in lengths.values()
+    ):
+        raise ValueError(
+            f"Invalid EventHDR event block {source}: expected {expected} values per array, "
+            f"got {lengths}"
+        )
+
+    if not np.all(np.isfinite(ts)):
+        raise ValueError(f"Invalid EventHDR event block {source}: timestamps must be finite")
+    if ts.size > 1 and np.any(ts[1:] < ts[:-1]):
+        raise ValueError(
+            f"Invalid EventHDR event block {source}: timestamps must be monotonically "
+            "non-decreasing"
+        )
+
+    if not np.all(np.isfinite(xs)) or not np.all(np.isfinite(ys)):
+        raise ValueError(f"Invalid EventHDR event block {source}: coordinates must be finite")
+    if np.any((xs < 0) | (xs >= width)) or np.any((ys < 0) | (ys >= height)):
+        raise ValueError(
+            f"Invalid EventHDR event block {source}: coordinates must lie within "
+            f"x=[0,{width}), y=[0,{height})"
+        )
+
+    if not np.all(np.isfinite(ps)):
+        raise ValueError(f"Invalid EventHDR event block {source}: polarity must be finite")
+    valid_polarity = (ps == -1) | (ps == 0) | (ps == 1)
+    if not np.all(valid_polarity):
+        raise ValueError(
+            f"Invalid EventHDR event block {source}: polarity values must be -1/1 or 0/1"
+        )
+
 
 class EventHDRDataset(Dataset):
     """Read the official EventHDR HDF5 structure without preprocessing copies."""
@@ -53,9 +123,12 @@ class EventHDRDataset(Dataset):
                 "Place the official files in this directory or update dataset.root."
             )
         self.files = discovered
+        self.file_keys = {
+            path: path.relative_to(self.root).as_posix() for path in discovered
+        }
         if allowed_files is not None:
-            allowed = set(allowed_files)
-            present = {path.name for path in discovered}
+            allowed = {str(value).replace("\\", "/") for value in allowed_files}
+            present = set(self.file_keys.values())
             missing = sorted(allowed - present)
             if missing:
                 preview = ", ".join(missing[:8])
@@ -64,7 +137,7 @@ class EventHDRDataset(Dataset):
                     f"EventHDR split requires {len(allowed)} files but {len(missing)} are "
                     f"missing under {self.root}: {preview}{suffix}"
                 )
-            self.files = [path for path in self.files if path.name in allowed]
+            self.files = [path for path in self.files if self.file_keys[path] in allowed]
         self.samples = self._build_index()
         if not self.samples:
             raise RuntimeError(f"No valid EventHDR frames found under {self.root}")
@@ -72,34 +145,82 @@ class EventHDRDataset(Dataset):
     def _build_index(self) -> list[dict[str, Any]]:
         samples: list[dict[str, Any]] = []
         for path in self.files:
+            scene = self.file_keys[path]
             with h5py.File(path, "r") as h5:
-                if "events" not in h5 or "images" not in h5:
-                    continue
-                image_keys = sorted(k for k in h5["images"] if k.startswith("image"))
+                events_group = h5.get("events")
+                images_group = h5.get("images")
+                if not isinstance(events_group, h5py.Group):
+                    raise _invalid_file(path, "required group 'events' is missing")
+                if not isinstance(images_group, h5py.Group):
+                    raise _invalid_file(path, "required group 'images' is missing")
+
+                lengths: dict[str, int] = {}
+                for name in _EVENT_ARRAY_NAMES:
+                    node = events_group.get(name)
+                    if not isinstance(node, h5py.Dataset):
+                        raise _invalid_file(path, f"required array 'events/{name}' is missing")
+                    allowed_kinds = "biuf" if name == "ps" else "iuf"
+                    if node.ndim != 1 or node.dtype.kind not in allowed_kinds:
+                        raise _invalid_file(
+                            path, f"events/{name} must be a one-dimensional numeric array"
+                        )
+                    lengths[name] = len(node)
+                if len(set(lengths.values())) != 1:
+                    raise _invalid_file(
+                        path, f"event arrays must have equal lengths, got {lengths}"
+                    )
+                event_count = lengths["ts"]
+
+                image_keys = sorted(k for k in images_group if k.startswith("image"))
+                if not image_keys:
+                    raise _invalid_file(path, "group 'images' contains no image arrays")
                 selected_start_idx = 0
                 selected_start_timestamp: float | None = None
+                selected_sequence_index = 0
+                previous_end_idx: int | None = None
+                previous_timestamp: float | None = None
                 for frame_index, key in enumerate(image_keys):
-                    node = h5["images"][key]
-                    end_idx = int(node.attrs.get("event_idx", selected_start_idx))
-                    timestamp = float(node.attrs.get("timestamp", frame_index))
-                    if (
-                        frame_index % self.frame_stride == 0
-                        and end_idx > selected_start_idx
-                    ):
+                    node = images_group[key]
+                    if not isinstance(node, h5py.Dataset):
+                        raise _invalid_file(path, f"images/{key} must be an image array")
+                    raw_end_idx = _numeric_scalar_attr(node, "event_idx", path)
+                    if not raw_end_idx.is_integer():
+                        raise _invalid_file(path, f"images/{key} event_idx must be an integer")
+                    end_idx = int(raw_end_idx)
+                    timestamp = _numeric_scalar_attr(node, "timestamp", path)
+                    if not 0 <= end_idx <= event_count:
+                        raise _invalid_file(
+                            path,
+                            f"images/{key} event_idx={end_idx} is outside [0,{event_count}]",
+                        )
+                    if previous_end_idx is not None and end_idx < previous_end_idx:
+                        raise _invalid_file(
+                            path, "image event_idx values must be monotonically non-decreasing"
+                        )
+                    if previous_timestamp is not None and timestamp < previous_timestamp:
+                        raise _invalid_file(
+                            path, "image timestamps must be monotonically non-decreasing"
+                        )
+                    previous_end_idx = end_idx
+                    previous_timestamp = timestamp
+                    if frame_index % self.frame_stride == 0 and end_idx > selected_start_idx:
                         samples.append(
                             {
                                 "path": path,
+                                "scene": scene,
                                 "image_key": key,
                                 "start_idx": selected_start_idx,
                                 "end_idx": end_idx,
                                 "t0": selected_start_timestamp,
                                 "timestamp": timestamp,
+                                "sequence_index": selected_sequence_index,
                             }
                         )
                         # With frame_stride > 1, aggregate every skipped event interval
                         # into the next selected output instead of silently discarding it.
                         selected_start_idx = end_idx
                         selected_start_timestamp = timestamp
+                        selected_sequence_index += 1
         return samples
 
     def __len__(self) -> int:
@@ -122,12 +243,7 @@ class EventHDRDataset(Dataset):
         xs = np.asarray(h5["events/xs"][start:end], dtype=np.float32)
         ys = np.asarray(h5["events/ys"][start:end], dtype=np.float32)
         ts = np.asarray(h5["events/ts"][start:end], dtype=np.float64)
-        ps = normalize_polarity(np.asarray(h5["events/ps"][start:end]))
-        events = np.column_stack((xs, ys, ts, ps))
-        if len(events):
-            time_span = max(float(events[-1, 2] - events[0, 2]), 1e-9)
-            events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
-        events = events.astype(np.float32, copy=False)
+        raw_ps = np.asarray(h5["events/ps"][start:end])
         image = np.asarray(h5["images"][item["image_key"]])
         target = image_array_to_tensor(
             image,
@@ -136,13 +252,29 @@ class EventHDRDataset(Dataset):
             tone_map_mu=self.tone_map_mu,
         )
         height, width = target.shape[-2:]
-        scene_seed = zlib.crc32(str(item["path"]).encode("utf-8"))
+        _validate_event_values(
+            xs,
+            ys,
+            ts,
+            raw_ps,
+            expected=end - start,
+            height=height,
+            width=width,
+            source=f"{item['path']}::{item['image_key']}",
+        )
+        ps = normalize_polarity(raw_ps)
+        events = np.column_stack((xs, ys, ts, ps))
+        if len(events):
+            time_span = max(float(events[-1, 2] - events[0, 2]), 1e-9)
+            events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
+        events = events.astype(np.float32, copy=False)
+        scene_seed = zlib.crc32(item["scene"].encode("utf-8"))
         rng = np.random.default_rng(self.seed + scene_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
         events = stratified_subsample(events, self.max_events)
-        sample_id = f"{item['path'].stem}/{item['image_key']}"
+        sample_id = f"{item['scene']}/{item['image_key']}"
         t0 = item["t0"]
         t1 = item["timestamp"]
         return make_sample(
@@ -157,7 +289,8 @@ class EventHDRDataset(Dataset):
                 "t1": t1,
                 "dt_us": round((t1 - t0) * 1_000_000) if t0 is not None else None,
                 "source": str(item["path"]),
-                "scene": item["path"].stem,
+                "scene": item["scene"],
+                "sequence_index": item["sequence_index"],
             },
         )
 

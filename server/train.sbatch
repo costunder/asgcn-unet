@@ -12,7 +12,22 @@
 set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+if [[ -z "${PROJECT_ROOT:-}" ]]; then
+  if [[ -n "${SLURM_SUBMIT_DIR:-}" ]]; then
+    PROJECT_ROOT="${SLURM_SUBMIT_DIR}"
+  elif [[ -z "${SLURM_JOB_ID:-}" ]]; then
+    PROJECT_ROOT="${SCRIPT_DIR}/.."
+  fi
+fi
+if [[ -z "${PROJECT_ROOT:-}" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
+  echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
+  echo "Run sbatch from the repository root or use:" >&2
+  echo "  sbatch --export=ALL,PROJECT_ROOT=/absolute/path/to/repo server/train.sbatch" >&2
+  exit 1
+fi
+PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
 cd "${PROJECT_ROOT}"
 
 # Cluster-specific modules remain opt-in:

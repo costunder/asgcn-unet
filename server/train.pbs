@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#PBS -N asgcn-train
+#PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
+#PBS -l walltime=48:00:00
+#PBS -j oe
+
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "${PROJECT_ROOT:-}" ]]; then
+  if [[ -n "${PBS_O_WORKDIR:-}" ]]; then
+    PROJECT_ROOT="${PBS_O_WORKDIR}"
+  elif [[ -z "${PBS_JOBID:-}" ]]; then
+    PROJECT_ROOT="${SCRIPT_DIR}/.."
+  fi
+fi
+if [[ -z "${PROJECT_ROOT:-}" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
+  echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
+  echo "Run qsub from the repository root or use:" >&2
+  echo "  qsub -v PROJECT_ROOT=/absolute/path/to/repo server/train.pbs" >&2
+  exit 1
+fi
+PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
+cd "${PROJECT_ROOT}"
+
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
+export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
+export PYTHONUNBUFFERED=1
+
+echo "Host: $(hostname)"
+echo "PBS job: ${PBS_JOBID:-interactive}"
+echo "Config: ${CONFIG_PATH}"
+nvidia-smi || true
+
+bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"

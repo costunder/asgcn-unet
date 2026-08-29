@@ -71,6 +71,9 @@ def test_train_eval_benchmark_contract(tmp_path):
 
     assert result["quality"]["frames"] == 2
     assert timing["frames"] == 2
+    assert timing["recurrent_context_frames"] == 1
+    assert timing["state_resets"] == 0
+    assert timing["state_reset_ratio"] == 0.0
     assert (output_dir / "metrics.json").is_file()
     assert (output_dir / "frames.csv").is_file()
     assert len(list((output_dir / "predictions").glob("*_pred.png"))) == 1

@@ -1,6 +1,7 @@
 FROM python:3.12-slim
 
 ARG TORCH_INDEX_URL=""
+ARG TORCH_VERSION="2.13.0"
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -14,15 +15,18 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml README.md requirements.txt ./
+COPY constraints ./constraints
 COPY src ./src
 
-RUN python -m pip install --upgrade pip setuptools wheel \
+RUN python -m pip install -c constraints/py312.txt --upgrade pip setuptools wheel \
     && if [ -n "$TORCH_INDEX_URL" ]; then \
-         python -m pip install torch --index-url "$TORCH_INDEX_URL"; \
+         python -m pip install -c constraints/py312.txt \
+           "torch==$TORCH_VERSION" --index-url "$TORCH_INDEX_URL"; \
        else \
-         python -m pip install torch; \
+         python -m pip install -c constraints/py312.txt "torch==$TORCH_VERSION"; \
        fi \
-    && python -m pip install -e ".[eval]"
+    && python -m pip install -c constraints/py312.txt -e . \
+    && python -m pip check
 
 COPY configs ./configs
 COPY manifests ./manifests

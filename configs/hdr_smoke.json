@@ -25,22 +25,23 @@
     "recurrent": true
   },
   "train": {
-    "epochs": 40,
+    "epochs": 1,
     "batch_size": 1,
-    "num_workers": 4,
+    "num_workers": 2,
     "persistent_workers": true,
     "prefetch_factor": 2,
     "learning_rate": 0.0002,
     "weight_decay": 0.000001,
     "grad_clip": 1.0,
     "amp": true,
-    "log_every": 20,
+    "log_every": 4,
     "validate_every": 1,
     "resume": null,
-    "max_train_samples": null,
-    "max_val_samples": 500,
-    "validation_context_frames": 64,
+    "max_train_samples": 32,
+    "max_val_samples": 32,
+    "validation_context_frames": 8,
     "rehash_data": false,
+    "allow_provisional_split": true,
     "loss_weights": {
       "charbonnier": 1.0,
       "ssim": 0.2,
@@ -49,7 +50,7 @@
     }
   },
   "output": {
-    "run_dir": "runs/eventhdr_asgcn",
-    "save_predictions": 8
+    "run_dir": "runs/smoke",
+    "save_predictions": 4
   }
 }

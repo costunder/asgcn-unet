@@ -27,6 +27,7 @@
     "num_workers": 2,
     "persistent_workers": true,
     "prefetch_factor": 2,
+    "recurrent_context_frames": 32,
     "max_samples": null,
     "save_predictions": 20,
     "output_dir": "runs/eventhdr_official_eval_ann"

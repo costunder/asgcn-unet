@@ -4,25 +4,38 @@ import argparse
 import json
 from typing import Any
 
+from tqdm import tqdm
+
 from .data import build_dataset
 from .engine import benchmark, calibrate, evaluate, train
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
 
 
-def _inspect_one_split(dataset: Any, samples: int) -> dict[str, Any]:
+def _inspect_one_split(
+    dataset: Any, samples: int, validate_all: bool = False
+) -> dict[str, Any]:
     details = []
-    for index in range(min(samples, len(dataset))):
+    preview_count = min(samples, len(dataset))
+    count = len(dataset) if validate_all else preview_count
+    indices = tqdm(range(count), desc="validate-data", disable=not validate_all)
+    for index in indices:
         item = dataset[index]
-        details.append(
-            {
-                "sample_id": item["sample_id"],
-                "events": int(item["events"].shape[0]),
-                "target_shape": list(item["target"].shape),
-                "sensor_size": list(item["sensor_size"]),
-                "metadata": item["metadata"],
-            }
-        )
-    result: dict[str, Any] = {"samples": len(dataset), "preview": details}
+        if index < preview_count:
+            details.append(
+                {
+                    "sample_id": item["sample_id"],
+                    "events": int(item["events"].shape[0]),
+                    "target_shape": list(item["target"].shape),
+                    "sensor_size": list(item["sensor_size"]),
+                    "metadata": item["metadata"],
+                }
+            )
+    result: dict[str, Any] = {
+        "samples": len(dataset),
+        "validated_samples": count,
+        "validation_complete": count == len(dataset),
+        "preview": details,
+    }
     if hasattr(dataset, "scene_info"):
         result["scenes"] = dataset.scene_info
     if hasattr(dataset, "files"):
@@ -30,7 +43,11 @@ def _inspect_one_split(dataset: Any, samples: int) -> dict[str, Any]:
     return result
 
 
-def inspect_dataset(config: dict[str, Any], samples: int = 3) -> dict[str, Any]:
+def inspect_dataset(
+    config: dict[str, Any], samples: int = 3, validate_all: bool = False
+) -> dict[str, Any]:
+    if samples < 0:
+        raise ValueError("inspect samples must be non-negative")
     data_config = config["dataset"]
     result: dict[str, Any] = {
         "dataset_type": data_config["type"],
@@ -41,7 +58,7 @@ def inspect_dataset(config: dict[str, Any], samples: int = 3) -> dict[str, Any]:
         for split in ("train", "val"):
             dataset = build_dataset(data_config, split=split)
             try:
-                split_details[split] = _inspect_one_split(dataset, samples)
+                split_details[split] = _inspect_one_split(dataset, samples, validate_all)
             finally:
                 if hasattr(dataset, "close"):
                     dataset.close()
@@ -51,7 +68,7 @@ def inspect_dataset(config: dict[str, Any], samples: int = 3) -> dict[str, Any]:
 
     dataset = build_dataset(data_config, split="eval")
     try:
-        result.update(_inspect_one_split(dataset, samples))
+        result.update(_inspect_one_split(dataset, samples, validate_all))
     finally:
         if hasattr(dataset, "close"):
             dataset.close()
@@ -65,6 +82,11 @@ def build_parser() -> argparse.ArgumentParser:
     inspect_cmd = subparsers.add_parser("inspect", help="validate dataset structure")
     inspect_cmd.add_argument("--config", required=True)
     inspect_cmd.add_argument("--samples", type=int, default=3)
+    inspect_cmd.add_argument(
+        "--validate-all",
+        action="store_true",
+        help="decode and validate every selected sample while keeping only the preview",
+    )
 
     train_cmd = subparsers.add_parser("train", help="train on EventHDR")
     train_cmd.add_argument("--config", required=True)
@@ -101,7 +123,7 @@ def main(argv: list[str] | None = None) -> None:
     config = resolve_experiment_paths(load_json(config_path), config_path)
     base_dir = experiment_base_dir(config_path)
     if args.command == "inspect":
-        result = inspect_dataset(config, args.samples)
+        result = inspect_dataset(config, args.samples, args.validate_all)
     elif args.command == "train":
         resume = resolve_path(args.resume, base_dir) if args.resume else None
         result = {"best_checkpoint": str(train(config, resume_from=resume))}

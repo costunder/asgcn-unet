@@ -1,20 +1,12 @@
-# Linux GPU 서버 실행 가이드
+# MobaXterm·Linux GPU 서버 실행 가이드
 
-MobaXterm은 SSH/SFTP 클라이언트이며 계산은 접속한 Linux 서버에서 수행된다. 아래 명령은 저장소
-루트 기준이다.
+MobaXterm은 Windows PC에서 Linux 서버에 접속하는 SSH terminal/SFTP client다. 학습과 평가는
+MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node에서 실행한다. 아래 명령은
+저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 본실험 경로만 설명한다.
 
-## 지원 경로
+## 1. clone과 환경 설치
 
-- 직접 접속 GPU 서버: `tmux` + Bash wrapper
-- interactive GPU allocation: 학교의 `ssai_agpu -g=1` 같은 명령 안에서 Bash wrapper
-- SLURM: `server/*.sbatch`
-- PBS/Torque: `server/*.pbs`
-- Docker + NVIDIA Container Toolkit
-
-현재 실측 완료 범위는 로컬 CPU다. GitHub Actions workflow는 구성했지만 최종 push commit의 성공
-여부는 Actions run에서 별도로 확인해야 한다. A100/A6000 CUDA 결과도 서버에서 생성해야 한다.
-
-## 설치
+MobaXterm에서 SSH session을 열고 서버 terminal에서 실행한다.
 
 ```bash
 git clone git@github.com:costunder/asgcn-event-reconstruction.git
@@ -23,255 +15,315 @@ cd asgcn-event-reconstruction
 python3.12 --version
 python3.12 -c "import venv, ensurepip; print('venv/ensurepip: OK')"
 curl --version | head -n 1
-tmux -V
 ldd --version | head -n 1
 
 cp .env.example .env
-read -r -p "Official PyTorch wheel index URL: " TORCH_INDEX_URL
-export TORCH_INDEX_URL
+# .env의 TORCH_INDEX_URL을 서버 driver에 맞는 PyTorch 공식 CUDA wheel index로 설정
 bash scripts/setup.sh
 
 source .venv/bin/activate
-python scripts/check_env.py --lock constraints/py312.txt
 python -m pip check
+python scripts/check_env.py --lock constraints/py312.txt
 python -m pytest -q
 ```
 
-`venv`/`ensurepip`은 설치, `curl`은 EventAid-R downloader에 필요하다. `tmux`는 직접 GPU 서버
-경로에서만 필요하므로 scheduler만 쓰면 생략할 수 있다. 빠진 명령은 학교 module 또는 OS package로
-준비한다.
-
-`constraints/py312.txt`는 Python 3.12.13, torch 2.13.0에서 검증한 core/dev profile이다. CUDA
-wheel build는 `nvidia-smi`의 driver와 [PyTorch 공식 설치 선택기](https://pytorch.org/get-started/locally/)
-결과에 맞춘다. 선택한 index에 torch 2.13.0 wheel이 실제로 있는지 확인해야 한다.
-
-설치 스크립트는 다음을 강제한다.
-
-- Python 3.10 이상
-- `py312.txt` 사용 시 venv Python 정확히 3.12
-- command-line environment가 `.env`보다 우선
-- 기존 venv의 실제 Python 재검사
-- Linux locked torch 2.13.0 profile에서 glibc 2.28 이상
-- 선택한 constraints를 torch와 editable install 양쪽에 적용
-- 마지막 `pip check`
-
-LPIPS는 기본 경로에 포함하지 않는다. 필요할 때만 torch와 맞는 torchvision을 확인하고 `eval`
-extra를 설치한다.
+공식 wheel index는 서버의 `nvidia-smi`와
+[PyTorch 설치 선택기](https://pytorch.org/get-started/locally/)를 기준으로 정한다. 명령행 환경변수가
+`.env`보다 우선하므로 GPU allocation 안에서 설치까지 검증하려면 다음처럼 실행할 수 있다.
 
 ```bash
-python -m pip install -e '.[eval]'
+REQUIRE_CUDA=1 TORCH_INDEX_URL=https://download.pytorch.org/whl/cuXYZ \
+  bash scripts/setup.sh
 ```
 
-`scripts/setup.sh`은 Linux glibc 2.28 미만에서 locked torch 2.13.0 조합을 venv 생성·network
-download 전에 fail-fast하고, `scripts/check_env.py --lock constraints/py312.txt`도 같은 조건을
-검사한다. 해당 구형 HPC OS에서는 무리하게 source build를 시작하지 말고 학교의 최신
-container/module 또는 검증된 별도 환경을 사용한다.
+`constraints/py312.txt`는 Python 3.12 profile과 core/dev package version을 고정한다. setup script는
+Python, 기존 venv, constraints, Linux glibc와 선택한 torch wheel을 검사하고 마지막에 `pip check`를
+실행한다. login node에서 GPU가 보이지 않는 것은 정상일 수 있으므로 `--require-cuda` 검사는 실제 GPU
+allocation 안에서 수행한다. cluster가 module을 쓴다면 Python/CUDA module을 먼저 load한다. Slurm
+wrapper들은 필요할 때 `CUDA_MODULE=cuda/<version>`도 받는다.
 
-## 데이터와 저장 공간
+## 2. 전체 데이터 배치
+
+최종 layout은 다음과 같다.
 
 ```text
 data/
 ├── EventHDR/
-│   ├── train/*.h5
-│   └── eval/*.h5
+│   ├── train/1.h5 ... 51.h5
+│   └── eval/1.h5 ... 19.h5
 └── EventAid-R/
-    └── R-*.zip
+    └── R-*.zip                 # manifest의 14개 ZIP
 ```
 
-대용량 데이터가 shared storage에 있으면 설치 스크립트가 만든 빈 폴더만 제거하고 symlink한다.
+### EventHDR: browser download 뒤 import
+
+공식 EventHDR OneDrive folder는 현재 unattended `curl` download를 허용하지 않는다.
+`scripts/get_hdr.sh`도 이를 우회한다고 주장하지 않으며, 이미 받은 archive/extracted directory를
+검사해 가져오는 도구다.
+
+1. Windows browser에서 공식 OneDrive의 train/eval release를 내려받는다.
+2. MobaXterm 왼쪽 SFTP panel로 서버의 예: `$HOME/uploads/`에 ZIP을 전송한다.
+3. 배포가 train/eval 별도 archive이면 각각 import한다.
 
 ```bash
-rmdir data/EventHDR/train data/EventHDR/eval data/EventHDR data/EventAid-R
-ln -s /shared/datasets/EventHDR data/EventHDR
-ln -s /shared/datasets/EventAid-R data/EventAid-R
+bash scripts/get_hdr.sh \
+  --archive "$HOME/uploads/EventHDR-train.zip" --split train
+bash scripts/get_hdr.sh \
+  --archive "$HOME/uploads/EventHDR-eval.zip" --split eval
 ```
 
-`rmdir`은 폴더가 비어 있지 않으면 실패하므로 기존 데이터를 지우지 않는다. data와 runs가 서로
-다른 filesystem일 수 있어 환경 진단은 두 위치의 남은 공간을 각각 표시한다.
-
-전체 EventAid-R를 받기 전 `R-bear` 하나로 ZIP loader만 확인할 때는 final 14-file guard가 있는
-`aid_ann.json` 대신 비보고용 `aid_smoke.json`을 쓴다.
+train/eval을 함께 담은 한 archive이면 `--split` 없이 한 번 실행한다.
 
 ```bash
-bash scripts/get_aid.sh R-bear
-asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
+bash scripts/get_hdr.sh --archive "$HOME/uploads/EventHDR.zip"
 ```
 
+이미 압축을 푼 directory는 안전하게 copy할 수 있다. source는 그 자체가 `train/`·`eval/`을
+포함하거나 상위 `EventHDR/` directory여도 된다.
+
 ```bash
-python scripts/check_env.py --require-full-data
+bash scripts/get_hdr.sh --source /shared/imports/EventHDR
+```
+
+shared storage의 검증된 H5를 복사하지 않고 쓸 때는 split directory symlink를 만든다.
+
+```bash
+bash scripts/get_hdr.sh --source /shared/datasets/EventHDR --link
+```
+
+`--link`는 source가 정확한 파일 집합인지 먼저 검사하고, destination split이 비어 있지 않으면
+교체하지 않는다. 현재 destination만 재검사하려면 다음 명령을 쓴다.
+
+```bash
+bash scripts/get_hdr.sh --check
+```
+
+import/check는 train `1.h5`–`51.h5`, eval `1.h5`–`19.h5`의 누락·추가 파일, nested H5, HDF5 magic과
+합계 100 GB 미만 조건을 검사한다. 기존 이름의 크기가 다른 파일을 덮어쓰지 않으며 archive extraction은
+temporary file과 atomic replace를 사용한다. 다른 위치를 쓰려면 모든 명령에
+`--destination /absolute/path/EventHDR`를 추가하고 config의 root도 그 위치에 맞춰야 한다.
+
+### EventAid-R 14개 ZIP
+
+```bash
+bash scripts/get_aid.sh --all
+```
+
+manifest의 14개 scene, 표시 합계 약 24.68 GB를 내려받는다. 각 파일이 ZIP container인지 검사하며
+loader가 archive member를 직접 읽으므로 압축을 풀지 않는다. shared storage를 쓰면
+`EVENTAID_ROOT=/shared/datasets/EventAid-R bash scripts/get_aid.sh --all`로 destination을 바꾸거나,
+config가 기대하는 `data/EventAid-R`를 해당 directory에 연결한다.
+
+### full-data와 decode 검사
+
+GPU allocation 안에서 다음 검사를 한 번 통과시킨다.
+
+```bash
+source .venv/bin/activate
+python scripts/check_env.py \
+  --require-cuda --require-full-data --lock constraints/py312.txt
+
 asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
 asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
 ```
 
-`--validate-all`은 모든 selected frame/event block을 decode하므로 50GB 전체에서는 오래 걸린다.
-`hdr_ann/hdr_snn`은 EventHDR eval H5 정확히 19개를, `aid_ann/aid_snn`은 manifest와 일치하는
-EventAid-R ZIP 정확히 14개를 강제한다.
+`hdr_train.json` inspect는 manifest에 따라 EventHDR train 51개와 eval 19개 root를 모두 검사한다.
+EventAid 명령은 manifest의 14개 ZIP에 있는 모든 선택 event block과 target을 decode한다.
+`--validate-all`은 metadata만 세는 명령이 아니므로 dataset 크기에 따라 오래 걸린다. 실패한 file을
+제외해 진행하지 말고 원본을 다시 전송·검증한다.
 
-## GPU allocation 검사와 smoke
+## 3. 직접 서버에서 전체 실행
 
-로그인 노드가 GPU를 숨겨도 정상일 수 있다. 실제 compute allocation 안에서 다음을 실행한다.
+실행 순서를 먼저 확인하려면 data/GPU 작업을 실제 수행하지 않는 schedule 출력을 본다.
 
 ```bash
-python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
-  --lock constraints/py312.txt
+DRY_RUN=1 bash scripts/full.sh
+```
+
+GPU shell 또는 allocation 안에서 전체 protocol을 시작한다.
+
+```bash
+source .venv/bin/activate
 mkdir -p logs
-bash scripts/train.sh configs/hdr_smoke.json 2>&1 | tee logs/smoke.log
+bash scripts/full.sh 2>&1 | tee logs/full.log
 ```
 
-smoke는 실제 EventHDR에서 최대 32 train sample과 32 scored validation sample, 1 epoch를 사용한다.
-validation에는 group당 최대 8개의 unscored recurrent context frame이 추가될 수 있다. 임시 split을
-허용한 비보고용 검사다. `manifests/eventhdr_smoke.json`이 지정한 `1.h5`, `2.h5`, `48.h5`,
-`49.h5`만 dataset content hash 대상으로 읽으며, EventHDR eval과 EventAid-R는 smoke에 필요하지 않다.
-`runs/smoke/history.json`에서 CUDA peak allocated/reserved memory를 확인한다.
-
-## 직접 GPU 서버
-
-물리 scene split manifest가 `final`인 경우에만 본학습이 열린다.
-최종 manifest는 `scene_groups`에 동일 물리 장면의 H5 목록을 묶고, 겹치지 않는 scene ID를
-`train_scenes`와 `val_scenes`에 배정해야 한다. 예를 들면 다음 schema다.
-
-```json
-{
-  "status": "final",
-  "scene_groups": {
-    "night-drive": ["1.h5", "2.h5"],
-    "day-drive": ["48.h5", "49.h5"]
-  },
-  "train_scenes": ["night-drive"],
-  "val_scenes": ["day-drive"]
-}
-```
-
-예시는 실제 scene mapping이 아니다. legacy `train_files`/`val_files`를 유지한 채 `status`만 바꾸면
-거부된다. legacy file-list schema는 `manifests/eventhdr_smoke.json`의 provisional smoke에서만 쓴다.
-final manifest는 `data/EventHDR/train` 아래 모든 H5를 정확히 한 scene에 포함하고 모든 scene을
-train/validation 중 하나에 배정해야 한다. root의 누락·미선언 H5도 본학습 전에 거부한다.
+SSH 연결 종료에 대비하려면 tmux를 사용한다.
 
 ```bash
+mkdir -p logs
 tmux new-session -s asgcn -c "$PWD" \
-  "bash -lc 'source .venv/bin/activate && bash scripts/train.sh configs/hdr_train.json'"
+  "bash -lc 'source .venv/bin/activate && bash scripts/full.sh 2>&1 | tee logs/full.log'"
 ```
 
-중단 후 resume:
+`full.sh`는 다음을 순서대로 수행한다.
+
+1. `check_env.py --require-full-data --lock constraints/py312.txt`와 기본 CUDA 검사
+2. EventHDR train/eval과 EventAid-R 전체 `inspect --validate-all`
+3. EventHDR ANN 40-epoch 학습 또는 `RESUME_CHECKPOINT` 재개
+4. EventHDR train 모든 frame을 이용한 `best.pt`→`best_snn.pt` 보정
+5. EventHDR/EventAid-R ANN과 `literal_eq15`/`standard_if` × `T=4,8,16,32` evaluate+benchmark
+
+기본 benchmark는 warmup 10, 측정 100 frame이다. 필요하면 실행 전에
+`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, `SIMULATION_STEPS_LIST`를 설정한다. 본실험 기본 행렬을 바꾼
+결과는 별도 protocol로 기록한다.
+
+기존 training/evaluation artifact는 묵시적으로 덮어쓰지 않는다. 기존 SNN checkpoint만 의도적으로
+다시 만들 때는 `OVERWRITE_CALIBRATION=1`을 사용하며 새 checkpoint가 완성된 뒤 atomic replace된다.
+evaluation directory가 이미 있으면 결과를 다른 보존 위치로 옮기거나 config의 `eval.output_dir`을
+바꾼 뒤 실행한다.
+
+## 4. 중단 후 epoch-boundary resume
+
+직접 실행은 다음과 같다.
+
+```bash
+RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  bash scripts/full.sh 2>&1 | tee logs/full-resume.log
+```
+
+학습만 재개하려면 다음 wrapper를 쓴다.
 
 ```bash
 RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
   bash scripts/train.sh configs/hdr_train.json
 ```
 
-첫 실행은 train/validation 원본의 full SHA-256을 계산한다. 같은 경로의 resume은 run 폴더 sidecar에서
-size/mtime/ctime이 모두 같은 파일의 hash를 재사용한다. 원본을 교체·복원했다면
-`train.rehash_data=true`로 한 번 전수 hash한다. 절대 데이터 root와 filesystem mtime/ctime은
-checkpoint protocol의 비교 항목이 아니며 상대 파일 identity와 full digest가 같아야 한다.
+`last.pt`는 각 완료 epoch 뒤에 저장되므로 종료된 epoch 내부 step은 되풀이된다. checkpoint는 같은
+configured run directory 안에 있어야 하며, source tree/Git 상태, model·optimizer·scheduler·AMP,
+validation/data full SHA-256과 PyTorch/CUDA/cuDNN·GPU 이름/compute capability·visible CUDA RNG state가
+일치해야 한다. 다른 GPU나 source checkout으로 옮기는 것은 일반 weight load가 아니라 exact resume
+요청이므로 거부될 수 있다. 상세 계약은 [EXPERIMENT.md](EXPERIMENT.md)의 resume 절을 따른다.
 
-## Interactive PBS/Torque wrapper
+## 5. Slurm: train → calibrate → evaluation matrix
 
-학교에서 다음처럼 GPU shell을 발급한다면:
+header의 partition/account/GPU type/walltime은 cluster 정책에 맞춰 수정한다. 기본 요청은 GPU 1개,
+CPU 8개, RAM 32 GB이며 train 48시간, calibration 12시간, evaluation 8시간이다. 저장소 root에서
+제출하면 `SLURM_SUBMIT_DIR`을 project root로 사용한다. 다른 위치에서 제출할 때는
+`--export=ALL,PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
 
-```bash
-ssai_agpu -g=1
-```
-
-발급된 shell 안에서:
-
-```bash
-cd /absolute/path/to/asgcn-event-reconstruction
-source .venv/bin/activate
-python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-bash scripts/train.sh configs/hdr_smoke.json
-```
-
-을 실행한다. wrapper 인자와 walltime 정책은 학교 문서를 따른다.
-
-## PBS/Torque batch
-
-`#PBS -l select=...:ngpus=...`의 resource 이름은 클러스터마다 다르므로 제출 전에 header를
-수정한다. 저장소 루트에서 제출하는 것이 기본이다.
+앞 절의 full-data/decode 검사를 완료한 뒤 다음 dependency chain을 제출한다.
 
 ```bash
-qsub server/train.pbs
+unset SNN_DYNAMICS
+
+train_id=$(sbatch --parsable \
+  --export=ALL,VALIDATE_DATASET=0 \
+  server/train.sbatch)
+
+cal_id=$(sbatch --parsable \
+  --dependency="afterok:${train_id}" \
+  --export=ALL,VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  server/calibrate.sbatch)
+
+for cfg in configs/hdr_ann.json configs/aid_ann.json; do
+  sbatch --dependency="afterok:${cal_id}" \
+    --export="ALL,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt,INFERENCE_MODE=ann" \
+    server/eval.sbatch
+done
+
+for cfg in configs/hdr_snn.json configs/aid_snn.json; do
+  for dynamics in literal_eq15 standard_if; do
+    for steps in 4 8 16 32; do
+      sbatch --dependency="afterok:${cal_id}" \
+        --export="ALL,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
+        server/eval.sbatch
+    done
+  done
+done
 ```
 
-저장소 밖에서 제출할 때는 절대 경로를 넘긴다. 스크립트는 잘못된 root를 자동으로 사용하지 않고
-중단한다.
+모든 evaluation job은 calibration 성공 후 열리며 mode/dynamics/T와 dataset별 output directory가 달라
+서로의 artifact를 덮어쓰지 않는다. Slurm log는 기본적으로 `slurm-<job-name>-<job-id>.out/.err`다.
+학습 재개 job으로 chain을 시작할 때는 첫 제출에 다음 값을 더한다.
 
 ```bash
-qsub -v PROJECT_ROOT=/absolute/path/to/repo server/train.pbs
+train_id=$(sbatch --parsable \
+  --export=ALL,VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  server/train.sbatch)
 ```
 
-SNN 외부평가 예시:
+## 6. PBS/Torque: train → calibrate → evaluation matrix
+
+`select`, `ngpus`, queue/project resource 이름은 site마다 다르므로 `server/*.pbs` header를 제출 전에
+확인한다. 저장소 root에서 제출하면 `PBS_O_WORKDIR`을 project root로 사용한다. 외부에서 제출할 때는
+`-v PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
 
 ```bash
-qsub -v PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
-SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 server/eval.pbs
+unset SNN_DYNAMICS
+
+train_id=$(qsub \
+  -v VALIDATE_DATASET=0 \
+  server/train.pbs)
+
+cal_id=$(qsub \
+  -W depend="afterok:${train_id}" \
+  -v VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  server/calibrate.pbs)
+
+for cfg in configs/hdr_ann.json configs/aid_ann.json; do
+  qsub -W depend="afterok:${cal_id}" \
+    -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt,INFERENCE_MODE=ann \
+    server/eval.pbs
+done
+
+for cfg in configs/hdr_snn.json configs/aid_snn.json; do
+  for dynamics in literal_eq15 standard_if; do
+    for steps in 4 8 16 32; do
+      qsub -W depend="afterok:${cal_id}" \
+        -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
+        server/eval.pbs
+    done
+  done
+done
 ```
 
-`SNN_DYNAMICS=standard_if`로 바꾸면 같은 calibrated checkpoint의 비공식 standard-IF 대조군을
-실행한다. 결과는 dynamics와 timestep이 포함된 별도 하위 폴더에 저장된다.
-
-`#PBS -V`는 login shell의 불필요한 credential/module까지 전달할 수 있어 사용하지 않는다. 필요한
-값만 `-v`로 전달한다.
-
-## SLURM
-
-저장소 루트에서 제출한다. Slurm은 compute node에서 job script의 spool 사본을 실행할 수 있으므로
-스크립트는 `PROJECT_ROOT`, `SLURM_SUBMIT_DIR` 순으로 root를 찾고 `pyproject.toml`과 wrapper를
-검증한다. 저장소 밖에서 제출할 때는 절대 경로를 명시한다.
+PBS에서 resume chain을 시작할 때는 다음처럼 `RESUME_CHECKPOINT`를 넘긴다.
 
 ```bash
-sbatch server/train.sbatch
-
-sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_ann.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt server/eval.sbatch
-
-sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
-SIMULATION_STEPS=16,SNN_DYNAMICS=standard_if server/eval.sbatch
+train_id=$(qsub \
+  -v VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  server/train.pbs)
 ```
 
-기본 요청은 GPU 1개, CPU 8개, RAM 32GB다. partition, account, GPU type, walltime과 module은
-클러스터 정책에 맞춰 수정한다. 본학습 40 epoch는 현재 serial frame 처리 때문에 기본 2일을 넘을
-수 있으므로 smoke에서 측정한 step time으로 walltime을 먼저 계산한다.
+PBS는 login environment 전체를 전달하는 `#PBS -V`를 사용하지 않는다. site module이 필수이면
+해당 cluster용 `module load`를 job script에 추가한다. 별도 venv나 checkout을 쓸 때는
+`PYTHON_BIN`, `PROJECT_ROOT`를 `-v`로 명시한다.
 
-평가 artifact는 `<eval.output_dir>/ann/` 또는
-`<eval.output_dir>/snn_<dynamics>_T<steps>/` 아래에 저장된다. `metrics.json`, `frames.csv`,
-`predictions/`는 evaluate가, `benchmark.json`은 benchmark가 쓴다. 같은 mode/dynamics/T 결과가
-있으면 덮어쓰지 않고 실패하므로 기존 결과를 옮기거나 새 output directory를 사용한다.
+## 7. 산출물 확인과 운영상 오류
 
-## Docker
-
-Dockerfile은 Python 3.12와 `constraints/py312.txt`를 사용한다.
+학습이 끝나면 다음 파일을 먼저 확인한다.
 
 ```bash
-docker build \
-  --build-arg TORCH_VERSION=2.13.0 \
-  --build-arg TORCH_INDEX_URL="$TORCH_INDEX_URL" \
-  -t asgcn-event-reconstruction .
-
-docker compose run --rm experiment \
-  inspect --config configs/hdr_train.json --samples 2
+ls -lh runs/eventhdr_asgcn/{last.pt,best.pt,best_snn.pt,history.json,config.json}
+find runs -name metrics.json -o -name benchmark.json | sort
 ```
 
-`compose.yaml`은 data를 read-only, runs를 writable volume으로 연결한다.
+평가 artifact는 다음 위치에 있다.
 
-## 흔한 오류
+```text
+runs/eventhdr_official_eval_ann/ann/
+runs/eventhdr_official_eval_snn/snn_<dynamics>_T<steps>/
+runs/eventaid_r_external_ann/ann/
+runs/eventaid_r_external_snn/snn_<dynamics>_T<steps>/
+```
 
-- `CUDA available: false`: GPU allocation 안인지, CPU torch wheel인지, driver와 wheel index가
-  맞는지 확인한다.
-- `glibc 2.28 or newer` 또는 `No matching distribution`: locked torch 2.13.0 profile에는 Linux
-  glibc 2.28 이상이 필요하다. 학교의 최신 container/module과 CUDA index 조합을 확인한다.
-- `Dependency profile requires Python 3.12`: 기존 `.venv`를 삭제해야 한다면 그 폴더가 정확히 이
-  저장소의 venv인지 확인한 뒤 재생성한다.
-- `status='provisional'` 또는 `requires scene_groups`: 본학습 차단이 정상이다. 최종 manifest에
-  `scene_groups`, `train_scenes`, `val_scenes`를 모두 작성하거나 smoke config를 쓴다. status만
-  `final`로 바꾸는 것은 허용되지 않는다.
-- `missing manifest files`: EventHDR 1–51 배치와 symlink 위치를 확인한다.
-- SNN calibrated checkpoint 오류: ANN `best.pt`를 먼저 `calibrate`해 `best_snn.pt`를 만든다.
-- OOM: 기본값에서 먼저 측정하고 `max_events`, `graph_radius`, `decoder_channels` 순으로 낮춘다.
-  `graph_radius`를 바꾸면 graph 구조도 달라지므로 해당 run의 config를 함께 보존한다.
-- `max_graph_edges` 오류: 기본 2,000,000 directed-edge 메모리 guard가 밀집 graph를 탐지한 것이다.
-  edge를 임의로 버리지 말고 `graph_radius`/`max_events`를 낮춰 재측정한다. guard 상향은 peak reserved
-  memory를 확인한 별도 config에서만 수행한다.
-- SSH 종료: interactive shell이 아니라 tmux 또는 scheduler job을 사용한다.
+각 run의 `metrics.json`, `frames.csv`, `predictions/`, `benchmark.json`을 config, Git commit, scheduler
+log, `check_env.py` 출력과 함께 보존한다.
+
+자주 중단되는 조건은 다음과 같다.
+
+- `CUDA available: false`: login node가 아닌 GPU allocation인지, CUDA wheel과 driver가 맞는지 확인한다.
+- `EventHDR ... exact official file set`: OneDrive 전송이 끝났는지, train 51/eval 19 외 H5가 섞이지
+  않았는지 `get_hdr.sh --check`로 확인한다.
+- `eventaid_r_zip must contain exactly 14`: `get_aid.sh --all`을 완료하고 ZIP을 압축 해제하지 않는다.
+- `Fresh training run_dir is not empty`: 새 run이면 별도 `output.run_dir`, 중단 run이면 `last.pt` resume를
+  사용한다.
+- resume protocol mismatch: source/GPU/software/data를 원래 run과 일치시킨다. 단순 checkpoint weight
+  이식과 exact training resume를 혼동하지 않는다.
+- calibrated checkpoint 오류: ANN `best.pt`를 `scripts/calibrate.sh`로 변환한 뒤 SNN 평가에
+  `best_snn.pt`를 사용한다.
+- evaluation output exists: 기존 artifact를 보존 위치로 옮기거나 별도 output directory를 쓴다.
+- `max_graph_edges=2,000,000` 또는 OOM: edge를 조용히 잘라 진행하지 않는다. 별도 config에서
+  `max_events`, `graph_radius`, model width를 변경하고 peak memory를 다시 측정해 다른 실험으로 기록한다.
+- SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.

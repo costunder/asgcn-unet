@@ -15,6 +15,7 @@ PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 
 cd "${PROJECT_ROOT}"
 if [[ ! -x "${PYTHON_BIN}" ]]; then
@@ -30,6 +31,14 @@ fi
 if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
   echo "ERROR: checkpoint not found: ${CHECKPOINT_PATH}" >&2
   exit 1
+fi
+if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
+  echo "ERROR: VALIDATE_DATASET must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INSPECT_VALIDATE_ALL}" != "0" && "${INSPECT_VALIDATE_ALL}" != "1" ]]; then
+  echo "ERROR: INSPECT_VALIDATE_ALL must be 0 or 1" >&2
+  exit 2
 fi
 if [[ "${INFERENCE_MODE}" != "ann" && "${INFERENCE_MODE}" != "snn" ]]; then
   echo "ERROR: INFERENCE_MODE must be ann or snn" >&2
@@ -68,8 +77,14 @@ if [[ -n "${SNN_DYNAMICS}" ]]; then
 fi
 
 if [[ "${VALIDATE_DATASET}" == "1" ]]; then
-  "${PYTHON_BIN}" -m asgcn_recon.cli inspect \
-    --config "${CONFIG_PATH}" --samples "${INSPECT_SAMPLES}"
+  INSPECT_ARGS=(
+    --config "${CONFIG_PATH}"
+    --samples "${INSPECT_SAMPLES}"
+  )
+  if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
+    INSPECT_ARGS+=(--validate-all)
+  fi
+  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 echo "Evaluating ${CHECKPOINT_PATH} on ${CONFIG_PATH} (${INFERENCE_MODE})"

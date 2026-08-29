@@ -15,6 +15,7 @@ from asgcn_recon.data import (
     build_dataset,
     load_eventhdr_split_manifest,
 )
+from asgcn_recon.engine import _dataset_coverage_summary
 from tests.fixtures import make_eventaid, make_eventhdr
 
 
@@ -122,6 +123,138 @@ def test_final_eventhdr_manifest_normalizes_physical_scene_groups(tmp_path: Path
         "nested/chunk_01.hdf5": "night-drive-a",
         "validation.h5": "night-drive-b",
     }
+
+
+def test_official_separate_root_manifest_maps_overlapping_names_to_sequence_groups(
+    tmp_path: Path,
+) -> None:
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["1.h5"],
+            "val_files": ["1.h5"],
+        },
+    )
+
+    manifest = load_eventhdr_split_manifest(manifest_path)
+
+    assert manifest["split_schema"] == "official_separate_roots_v1"
+    assert manifest["group_semantics"] == "h5_sequence_file_not_physical_scene"
+    assert manifest["train_files"] == ["1.h5"]
+    assert manifest["val_files"] == ["1.h5"]
+    assert manifest["file_to_group"] == {
+        "train": {"1.h5": "official-train-h5::1.h5"},
+        "val": {"1.h5": "official-eval-h5::1.h5"},
+    }
+
+
+def test_factory_uses_split_local_sequence_groups_for_overlapping_official_names(
+    tmp_path: Path,
+) -> None:
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "eval"
+    make_eventhdr(train_root).rename(train_root / "1.h5")
+    make_eventhdr(val_root).rename(val_root / "1.h5")
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["1.h5"],
+            "val_files": ["1.h5"],
+        },
+    )
+    config = {
+        "type": "eventhdr",
+        "root": str(train_root),
+        "val_root": str(val_root),
+        "split_manifest": str(manifest_path),
+    }
+
+    train_dataset = build_dataset(config, split="train")
+    val_dataset = build_dataset(config, split="val")
+    try:
+        assert train_dataset.group_semantics == "h5_sequence_file_not_physical_scene"
+        assert val_dataset.group_semantics == "h5_sequence_file_not_physical_scene"
+        assert train_dataset[0]["metadata"]["scene"] == "official-train-h5::1.h5"
+        assert val_dataset[0]["metadata"]["scene"] == "official-eval-h5::1.h5"
+        coverage = _dataset_coverage_summary(val_dataset, config)
+        assert coverage["quality_grouping"] == "source_h5_sequence_file"
+    finally:
+        train_dataset.close()
+        val_dataset.close()
+
+    make_eventhdr(tmp_path / "extra").rename(val_root / "2.h5")
+    with pytest.raises(ValueError, match=r"dataset\.val_root.*undeclared: 2\.h5"):
+        build_dataset(config, split="val")
+
+
+def test_official_separate_root_manifest_requires_distinct_roots(tmp_path: Path) -> None:
+    root = tmp_path / "eventhdr"
+    make_eventhdr(root).rename(root / "1.h5")
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["1.h5"],
+            "val_files": ["1.h5"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="requires distinct"):
+        build_dataset(
+            {
+                "type": "eventhdr",
+                "root": str(root),
+                "val_root": str(root),
+                "split_manifest": str(manifest_path),
+            },
+            split="train",
+        )
+
+
+def test_official_sequence_file_schema_rejects_physical_scene_fields(tmp_path: Path) -> None:
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["1.h5"],
+            "val_files": ["1.h5"],
+            "scene_groups": {"unsupported-claim": ["1.h5"]},
+            "train_scenes": ["unsupported-claim"],
+            "val_scenes": ["unsupported-claim"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="must not declare physical-scene fields"):
+        load_eventhdr_split_manifest(manifest_path)
+
+
+def test_checked_in_full_eventhdr_protocol_uses_official_roots_and_all_frames() -> None:
+    repository = Path(__file__).resolve().parents[1]
+    manifest = load_eventhdr_split_manifest(repository / "manifests/eventhdr_split.json")
+    config = json.loads((repository / "configs/hdr_train.json").read_text(encoding="utf-8"))
+
+    assert manifest["status"] == "final"
+    assert manifest["split_schema"] == "official_separate_roots_v1"
+    assert manifest["group_semantics"] == "h5_sequence_file_not_physical_scene"
+    assert set(manifest["train_files"]) == {f"{index}.h5" for index in range(1, 52)}
+    assert set(manifest["val_files"]) == {f"{index}.h5" for index in range(1, 20)}
+    assert config["dataset"]["root"] == "data/EventHDR/train"
+    assert config["dataset"]["val_root"] == "data/EventHDR/eval"
+    assert config["dataset"]["frame_stride"] == 1
+    assert config["dataset"]["crop_size"] is None
+    assert config["train"]["max_train_samples"] is None
+    assert config["train"]["max_val_samples"] is None
+    assert config["train"]["validate_every"] is None
 
 
 def test_final_eventhdr_manifest_rejects_legacy_file_lists(tmp_path: Path) -> None:

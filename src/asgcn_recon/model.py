@@ -234,7 +234,9 @@ class ASGCNReconstructor(nn.Module):
             raise ValueError(f"Unknown inference_mode: {inference_mode}")
         raster = rasterize_features(features, graph, sample["sensor_size"], self.raster_downsample)
         prediction, next_state = self.decoder(raster, sample["sensor_size"], recurrent_state)
-        dataset_sampling_factor = int(sample.get("metadata", {}).get("dataset_sampling_factor", 1))
+        dataset_sampling_ratio = float(
+            sample.get("metadata", {}).get("dataset_sampling_ratio", 1.0)
+        )
         node_count = int(graph.node_features.shape[0])
         edge_count = int(graph.edge_index.shape[1])
         if node_count:
@@ -259,8 +261,8 @@ class ASGCNReconstructor(nn.Module):
             "max_degree": max_degree,
             "edge_feature": "normalized_scalar_distance",
             "event_sampling_factor": self.event_sampling_factor,
-            "dataset_sampling_factor": dataset_sampling_factor,
-            "effective_sampling_factor": (dataset_sampling_factor * self.event_sampling_factor),
+            "dataset_sampling_ratio": dataset_sampling_ratio,
+            "effective_sampling_ratio": (dataset_sampling_ratio * self.event_sampling_factor),
             "snn_dynamics": self.snn_dynamics if inference_mode == "snn" else None,
             "decoder_input_lambda_applied": inference_mode == "snn",
             "firing_rates": firing_rates,

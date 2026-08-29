@@ -1,6 +1,0 @@
-{
-  "status": "provisional",
-  "note": "Smoke-only file split. Do not report it as a physical-scene-disjoint validation result.",
-  "train_files": ["1.h5", "2.h5"],
-  "val_files": ["48.h5", "49.h5"]
-}

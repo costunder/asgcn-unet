@@ -93,6 +93,64 @@ def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
 
     scene_fields = ("scene_groups", "train_scenes", "val_scenes")
     present_scene_fields = [field for field in scene_fields if field in manifest]
+    declared_schema = manifest.get("split_schema")
+    if declared_schema is not None and not isinstance(declared_schema, str):
+        raise TypeError(
+            f"EventHDR split manifest {manifest_path} field 'split_schema' must be a string"
+        )
+    if declared_schema == "official_separate_roots_v1":
+        if status != "final":
+            raise ValueError(
+                f"Official EventHDR separate-root manifest {manifest_path} must have "
+                "status='final'"
+            )
+        if present_scene_fields:
+            raise ValueError(
+                f"Official EventHDR separate-root manifest {manifest_path} must not "
+                "declare physical-scene fields"
+            )
+        deprecated_group_fields = [
+            field for field in ("train_scene_groups", "val_scene_groups") if field in manifest
+        ]
+        if deprecated_group_fields:
+            raise ValueError(
+                f"Official EventHDR separate-root manifest {manifest_path} generates "
+                "split-local H5 sequence groups automatically; remove: "
+                + ", ".join(deprecated_group_fields)
+            )
+        required_semantics = "h5_sequence_file_not_physical_scene"
+        if manifest.get("group_semantics") != required_semantics:
+            raise ValueError(
+                f"Official EventHDR separate-root manifest {manifest_path} must set "
+                f"group_semantics='{required_semantics}'"
+            )
+        manifest["train_files"] = _normalize_file_list(
+            manifest.get("train_files"), field="train_files", manifest_path=manifest_path
+        )
+        manifest["val_files"] = _normalize_file_list(
+            manifest.get("val_files"), field="val_files", manifest_path=manifest_path
+        )
+        manifest["train_file_to_group"] = {
+            file_key: f"official-train-h5::{file_key}"
+            for file_key in manifest["train_files"]
+        }
+        manifest["val_file_to_group"] = {
+            file_key: f"official-eval-h5::{file_key}" for file_key in manifest["val_files"]
+        }
+        # ``EventHDRDataset`` keeps the historical file_to_scene API, but values in
+        # this schema are explicitly H5 sequence groups, not physical-scene labels.
+        manifest["train_file_to_scene"] = manifest["train_file_to_group"]
+        manifest["val_file_to_scene"] = manifest["val_file_to_group"]
+        manifest["file_to_group"] = {
+            "train": manifest["train_file_to_group"],
+            "val": manifest["val_file_to_group"],
+        }
+        manifest["file_to_scene"] = {
+            "train": manifest["train_file_to_scene"],
+            "val": manifest["val_file_to_scene"],
+        }
+        return manifest
+
     if present_scene_fields and len(present_scene_fields) != len(scene_fields):
         missing = ", ".join(field for field in scene_fields if field not in manifest)
         raise ValueError(
@@ -119,8 +177,13 @@ def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
                 + (" ..." if len(overlap) > 8 else "")
             )
         manifest["split_schema"] = "legacy_files_v1"
+        manifest["train_file_to_scene"] = {
+            key: key for key in manifest["train_files"]
+        }
+        manifest["val_file_to_scene"] = {key: key for key in manifest["val_files"]}
         manifest["file_to_scene"] = {
-            key: key for key in (*manifest["train_files"], *manifest["val_files"])
+            **manifest["train_file_to_scene"],
+            **manifest["val_file_to_scene"],
         }
         return manifest
 
@@ -194,6 +257,12 @@ def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
     manifest["train_scenes"] = train_scenes
     manifest["val_scenes"] = val_scenes
     manifest["file_to_scene"] = dict(sorted(file_to_scene.items()))
+    manifest["train_file_to_scene"] = {
+        file_key: file_to_scene[file_key] for file_key in train_files
+    }
+    manifest["val_file_to_scene"] = {
+        file_key: file_to_scene[file_key] for file_key in val_files
+    }
     manifest["split_schema"] = "physical_scenes_v1"
     return manifest
 
@@ -234,11 +303,25 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
     split_manifest = cfg.pop("split_manifest", None)
     cfg["random_crop"] = split == "train" and cfg.get("crop_size") is not None
     if dataset_type == "eventhdr":
+        eventhdr_group_semantics: str | None = None
         if split_manifest and split in {"train", "val", "calibration"}:
             manifest_path = Path(split_manifest)
             manifest = load_eventhdr_split_manifest(manifest_path)
+            eventhdr_group_semantics = manifest.get("group_semantics")
+            if eventhdr_group_semantics is None:
+                eventhdr_group_semantics = (
+                    "physical_scene"
+                    if manifest["split_schema"] == "physical_scenes_v1"
+                    else "h5_sequence_file_not_physical_scene"
+                )
             if manifest["status"] == "final":
-                if training_root.resolve() == validation_root.resolve():
+                roots_match = training_root.resolve() == validation_root.resolve()
+                if manifest["split_schema"] == "official_separate_roots_v1" and roots_match:
+                    raise ValueError(
+                        "Official EventHDR train/eval split requires distinct dataset.root "
+                        "and dataset.val_root directories"
+                    )
+                if roots_match:
                     coverage_specs = (
                         (
                             "dataset.root",
@@ -281,11 +364,17 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
                             + ")"
                         )
             key = "val_files" if split == "val" else "train_files"
+            if manifest["split_schema"] == "official_separate_roots_v1":
+                mapping_key = "val_file_to_group" if split == "val" else "train_file_to_group"
+            else:
+                mapping_key = (
+                    "val_file_to_scene" if split == "val" else "train_file_to_scene"
+                )
             cfg["allowed_files"] = manifest[key]
-            cfg["file_to_scene"] = {
-                file_key: manifest["file_to_scene"][file_key] for file_key in manifest[key]
-            }
+            cfg["file_to_scene"] = manifest[mapping_key]
         dataset = EventHDRDataset(root=root, **cfg)
+        if eventhdr_group_semantics is not None:
+            dataset.group_semantics = eventhdr_group_semantics
         if expected_file_count is not None and len(dataset.files) != int(expected_file_count):
             dataset.close()
             raise ValueError(

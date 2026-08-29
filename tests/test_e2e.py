@@ -89,8 +89,8 @@ def test_train_eval_benchmark_contract(tmp_path):
     assert result["quality"]["frames"] == 2
     assert timing["frames"] == 2
     assert timing["mean_raw_events"] == 80
-    assert timing["mean_retained_events"] == 27
-    assert timing["retention_ratio"] == 27 / 80
+    assert timing["mean_retained_events"] == 32
+    assert timing["retention_ratio"] == 32 / 80
     assert timing["raw_events_per_second"] > timing["retained_events_per_second"]
     assert timing["graph_nodes_per_second"] == timing["retained_events_per_second"]
     assert timing["events_per_second"] == timing["retained_events_per_second"]

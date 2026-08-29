@@ -1,9 +1,12 @@
 PYTHON ?= .venv/bin/python
 
-.PHONY: setup doctor test lint inspect train
+.PHONY: setup data doctor test lint inspect train full
 
 setup:
 	bash scripts/setup.sh
+
+data:
+	bash scripts/get_aid.sh --all
 
 doctor:
 	$(PYTHON) scripts/check_env.py
@@ -19,3 +22,6 @@ inspect:
 
 train:
 	$(PYTHON) -m asgcn_recon.cli train --config configs/hdr_train.json
+
+full:
+	bash scripts/full.sh

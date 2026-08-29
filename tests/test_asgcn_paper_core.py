@@ -434,7 +434,7 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
         "target": torch.zeros((1, 4, 4)),
         "sensor_size": (4, 4),
         "sample_id": "known-scale",
-        "metadata": {"dataset_sampling_factor": 1},
+        "metadata": {"dataset_sampling_ratio": 1.0},
     }
     captured: dict[str, torch.Tensor] = {}
 

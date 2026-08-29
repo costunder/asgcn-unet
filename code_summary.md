@@ -1,14 +1,6 @@
-# 프로젝트 코드 전체 스냅샷
-
-- 생성 기준: 현재 Git 작업 트리
-- 포함 범위: code_summary.md 자체를 제외한 Git 추적/신규 텍스트 파일 65개
-- hand_off.md 포함
-- 로컬 검증: Python 3.12.13, torch 2.13.0+cpu, pytest 136 passed
-- 각 `# 파일경로` 아래의 fenced block은 해당 파일 전체 원문
-
 # .dockerignore
 
-~~~~~~text
+~~~~~~~~text
 /.git
 /.github
 /.venv
@@ -24,11 +16,11 @@ __pycache__
 /runs
 /logs
 *.hwp
-~~~~~~
+~~~~~~~~
 
 # .editorconfig
 
-~~~~~~text
+~~~~~~~~text
 root = true
 
 [*]
@@ -47,11 +39,11 @@ indent_size = 2
 
 [*.ps1]
 end_of_line = crlf
-~~~~~~
+~~~~~~~~
 
 # .env.example
 
-~~~~~~text
+~~~~~~~~text
 # Host paths mounted by Docker Compose.
 DATA_DIR=./data
 RUNS_DIR=./runs
@@ -70,11 +62,11 @@ REQUIRE_CUDA=0
 TORCH_VERSION=2.13.0
 CONSTRAINTS_FILE=constraints/py312.txt
 EXPECTED_PYTHON_MINOR=3.12
-~~~~~~
+~~~~~~~~
 
 # .gitattributes
 
-~~~~~~text
+~~~~~~~~text
 * text=auto
 *.py text eol=lf
 *.sh text eol=lf
@@ -96,11 +88,11 @@ Makefile text eol=lf
 *.hwp binary
 *.h5 binary
 *.zip binary
-~~~~~~
+~~~~~~~~
 
 # .github/ISSUE_TEMPLATE/bug_report.yml
 
-~~~~~~yaml
+~~~~~~~~yaml
 name: 버그 보고
 description: 재현 가능한 오류나 잘못된 결과를 보고합니다.
 title: "[Bug]: "
@@ -191,11 +183,11 @@ body:
           required: true
         - label: 이슈에 개인 정보, 인증 정보 또는 비공개 데이터가 포함되지 않았습니다.
           required: true
-~~~~~~
+~~~~~~~~
 
 # .github/pull_request_template.md
 
-~~~~~~markdown
+~~~~~~~~markdown
 ## 변경 내용
 
 - 무엇을 변경했고 왜 필요한지 적어 주세요.
@@ -216,11 +208,11 @@ body:
 ## 추가 정보
 
 관련 이슈, 실험 결과 또는 호환성 관련 참고 사항이 있다면 적어 주세요.
-~~~~~~
+~~~~~~~~
 
 # .github/workflows/ci.yml
 
-~~~~~~yaml
+~~~~~~~~yaml
 name: CI
 
 on:
@@ -292,11 +284,11 @@ jobs:
 
       - name: Run unit and end-to-end tests
         run: python -m pytest -q
-~~~~~~
+~~~~~~~~
 
 # .gitignore
 
-~~~~~~text
+~~~~~~~~text
 /.venv/
 .env
 .idea/
@@ -324,11 +316,11 @@ asgcn-*.e*
 
 # Local project source documents may contain non-public application details.
 *.hwp
-~~~~~~
+~~~~~~~~
 
 # compose.yaml
 
-~~~~~~yaml
+~~~~~~~~yaml
 services:
   experiment:
     build:
@@ -350,11 +342,11 @@ services:
               count: 1
               capabilities: [gpu]
     command: ["inspect", "--config", "configs/hdr_train.json"]
-~~~~~~
+~~~~~~~~
 
 # configs/aid_ann.json
 
-~~~~~~json
+~~~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
@@ -403,61 +395,11 @@ services:
     "output_dir": "runs/eventaid_r_external_ann"
   }
 }
-~~~~~~
-
-# configs/aid_smoke.json
-
-~~~~~~json
-{
-  "purpose": "non-reportable partial EventAid-R loader smoke",
-  "seed": 2026,
-  "device": "auto",
-  "dataset": {
-    "type": "eventaid_r_zip",
-    "root": "data/EventAid-R",
-    "target_channels": 1,
-    "max_events": 8192,
-    "crop_size": null,
-    "target_offset": 1,
-    "tone_map": "log",
-    "tone_map_mu": 5000.0
-  },
-  "model": {
-    "architecture_version": 2,
-    "hidden_dim": 64,
-    "graph_layers": 6,
-    "graph_operator": "spline",
-    "spline_backend": "torch",
-    "spline_pseudo": "distance_over_radius",
-    "spline_is_open": true,
-    "event_sampling_factor": 1,
-    "graph_radius": 0.08,
-    "graph_position_dims": 3,
-    "graph_chunk_size": 512,
-    "max_graph_edges": 2000000,
-    "spline_kernel_size": 5,
-    "spline_degree": 1,
-    "spline_root_weight": true,
-    "snn_dynamics": "literal_eq15",
-    "raster_downsample": 4,
-    "decoder_channels": 48,
-    "output_channels": 1,
-    "recurrent": true
-  },
-  "eval": {
-    "batch_size": 1,
-    "num_workers": 0,
-    "recurrent_context_frames": 8,
-    "max_samples": 8,
-    "save_predictions": 4,
-    "output_dir": "runs/eventaid_r_smoke"
-  }
-}
-~~~~~~
+~~~~~~~~
 
 # configs/aid_snn.json
 
-~~~~~~json
+~~~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
@@ -506,11 +448,11 @@ services:
     "output_dir": "runs/eventaid_r_external_snn"
   }
 }
-~~~~~~
+~~~~~~~~
 
 # configs/hdr_ann.json
 
-~~~~~~json
+~~~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
@@ -558,85 +500,11 @@ services:
     "output_dir": "runs/eventhdr_official_eval_ann"
   }
 }
-~~~~~~
-
-# configs/hdr_smoke.json
-
-~~~~~~json
-{
-  "seed": 2026,
-  "device": "auto",
-  "dataset": {
-    "type": "eventhdr",
-    "root": "data/EventHDR/train",
-    "val_root": "data/EventHDR/train",
-    "split_manifest": "manifests/eventhdr_smoke.json",
-    "target_channels": 1,
-    "max_events": 8192,
-    "crop_size": [256, 256],
-    "frame_stride": 1,
-    "tone_map": "log",
-    "tone_map_mu": 5000.0
-  },
-  "model": {
-    "architecture_version": 2,
-    "hidden_dim": 64,
-    "graph_layers": 6,
-    "graph_operator": "spline",
-    "spline_backend": "torch",
-    "spline_pseudo": "distance_over_radius",
-    "spline_is_open": true,
-    "event_sampling_factor": 1,
-    "graph_radius": 0.08,
-    "graph_position_dims": 3,
-    "graph_chunk_size": 512,
-    "max_graph_edges": 2000000,
-    "spline_kernel_size": 5,
-    "spline_degree": 1,
-    "spline_root_weight": true,
-    "snn_dynamics": "literal_eq15",
-    "raster_downsample": 4,
-    "decoder_channels": 48,
-    "output_channels": 1,
-    "recurrent": true
-  },
-  "train": {
-    "epochs": 1,
-    "batch_size": 1,
-    "num_workers": 2,
-    "persistent_workers": true,
-    "prefetch_factor": 2,
-    "optimizer": "adam_gc",
-    "learning_rate": 0.001,
-    "weight_decay": 0.005,
-    "lr_milestones": [20, 30],
-    "lr_gamma": 0.1,
-    "grad_clip": 1.0,
-    "amp": true,
-    "log_every": 4,
-    "validate_every": 1,
-    "resume": null,
-    "max_train_samples": 32,
-    "max_val_samples": 32,
-    "validation_context_frames": 8,
-    "rehash_data": false,
-    "allow_provisional_split": true,
-    "loss_weights": {
-      "charbonnier": 1.0,
-      "ssim": 0.2,
-      "gradient": 0.1,
-      "temporal": 0.2
-    }
-  },
-  "output": {
-    "run_dir": "runs/smoke"
-  }
-}
-~~~~~~
+~~~~~~~~
 
 # configs/hdr_snn.json
 
-~~~~~~json
+~~~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
@@ -684,22 +552,22 @@ services:
     "output_dir": "runs/eventhdr_official_eval_snn"
   }
 }
-~~~~~~
+~~~~~~~~
 
 # configs/hdr_train.json
 
-~~~~~~json
+~~~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
   "dataset": {
     "type": "eventhdr",
     "root": "data/EventHDR/train",
-    "val_root": "data/EventHDR/train",
+    "val_root": "data/EventHDR/eval",
     "split_manifest": "manifests/eventhdr_split.json",
     "target_channels": 1,
     "max_events": 8192,
-    "crop_size": [256, 256],
+    "crop_size": null,
     "frame_stride": 1,
     "tone_map": "log",
     "tone_map_mu": 5000.0
@@ -740,10 +608,10 @@ services:
     "grad_clip": 1.0,
     "amp": true,
     "log_every": 20,
-    "validate_every": 1,
+    "validate_every": null,
     "resume": null,
     "max_train_samples": null,
-    "max_val_samples": 500,
+    "max_val_samples": null,
     "validation_context_frames": 64,
     "rehash_data": false,
     "loss_weights": {
@@ -757,11 +625,11 @@ services:
     "run_dir": "runs/eventhdr_asgcn"
   }
 }
-~~~~~~
+~~~~~~~~
 
 # constraints/py312.txt
 
-~~~~~~text
+~~~~~~~~text
 # Reproducible core/dev profile validated with Python 3.12.13.
 # Select the CUDA build of torch from the official PyTorch wheel index via
 # TORCH_INDEX_URL; the public version remains fixed here.
@@ -784,11 +652,11 @@ sympy==1.14.0
 torch==2.13.0
 tqdm==4.70.0
 typing_extensions==4.16.0
-~~~~~~
+~~~~~~~~
 
 # CONTRIBUTING.md
 
-~~~~~~markdown
+~~~~~~~~markdown
 # 기여 가이드
 
 버그 수정과 재현성 개선을 환영합니다. 기본 단위 테스트는 공식 데이터셋이나 GPU를 요구하지
@@ -842,7 +710,9 @@ asgcn-recon inspect --config configs/aid_ann.json --samples 2
 - 모델, 손실 함수, 그래프 생성 또는 데이터 정렬을 변경하면 근거와 예상 영향을 설명합니다.
 - 새로운 기능에는 `tests/` 내부 fixture를 사용하는 최소 단위 테스트를 추가합니다.
 - CLI나 설정 형식이 바뀌면 README와 예제 config도 함께 갱신합니다.
-- EventHDR 공식 eval이나 EventAid-R을 학습·튜닝에 사용하지 않습니다.
+- EventHDR 공식 eval과 EventAid-R은 gradient update나 hyperparameter tuning에 사용하지 않습니다.
+  기본 프로토콜은 official eval을 마지막 epoch에서 한 번만 계산하고 EventAid-R은 그 뒤 외부평가에만
+  사용합니다.
 - 포매터가 아닌 Ruff 검사 결과를 기준으로 기존 코드 스타일을 유지합니다.
 
 ## 데이터와 생성물
@@ -856,13 +726,14 @@ asgcn-recon inspect --config configs/aid_ann.json --samples 2
 
 - EventAid-R 이벤트 구간의 target은 동일 번호가 아니라 다음 번호의 GT입니다.
 - 프레임 속도를 상수로 가정하지 말고 제공된 timestamp 차이를 사용합니다.
-- EventHDR train holdout과 공식 eval의 역할을 섞지 않습니다.
+- EventHDR 공개 H5 번호를 물리 장면 ID로 주장하지 않습니다. 공식 eval은 마지막 epoch의 내부 결과,
+  EventAid-R은 외부 일반화 결과로 구분합니다.
 - 데이터 형식 검증 실패는 가능한 한 파일명과 기대한 구조를 포함한 명확한 오류로 보고합니다.
-~~~~~~
+~~~~~~~~
 
 # Dockerfile
 
-~~~~~~dockerfile
+~~~~~~~~dockerfile
 FROM python:3.12-slim
 
 ARG TORCH_INDEX_URL=""
@@ -902,408 +773,443 @@ RUN mkdir -p /workspace/data /workspace/runs
 
 ENTRYPOINT ["asgcn-recon"]
 CMD ["--help"]
-~~~~~~
+~~~~~~~~
 
 # docs/ASGCN.md
 
-~~~~~~markdown
-# ASGCN 구현 범위
+~~~~~~~~markdown
+# ASGCN paper-core 구현 범위
 
-이 저장소의 graph core는 AAAI 2025 논문에 공개된 ASGCN 수식 중 정적 graph/ANN→SNN core를
-직접 구현하지만,
-저자 공식 코드를 그대로 실행한 **완전 재현본**은 아니다. 2026-08-29 기준 공개 배포된 저자
-코드는 확인할 수 없었다. 확인 가능한
-[AAAI 공식 논문 페이지](https://ojs.aaai.org/index.php/AAAI/article/view/32154)와
-[공식 PDF](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)에는 저자 코드 링크가
-없고, 아래에 적은 구현 세부값 일부도 논문에 명시되지 않았다. 따라서 논문으로 확인되는 부분과
-이 저장소의 가정·과제용 확장을 분리해 기록한다.
+이 저장소는 AAAI 2025 ASGCN 논문의 공개 수식에서 확인할 수 있는 event graph와 ANN→SNN
+변환 핵심을 구현한 뒤, event-to-frame 복원용 decoder를 연결한 연구 코드다. 원 논문은 event
+classification을 다루지만 이 프로젝트의 출력은 luminance frame이다. 따라서 이 코드는 저자 공식
+구현, 원 논문의 classification pipeline, 또는 공식 성능표의 완전 재현본이 아니다.
 
-## 논문에 정의된 graph/SNN core
+근거로 삼은 공개 자료는 [AAAI 논문 페이지](https://ojs.aaai.org/index.php/AAAI/article/view/32154)와
+[공식 PDF](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)다. 확인 가능한 논문에는
+저자 코드와 checkpoint 링크가 없으며, 복원 과제에 필요한 graph·spline·decoder 설정도 모두
+주어지지 않는다. 문서와 결과에서는 반드시 `ASGCN paper-core 기반 복원 적응` 또는 `공개 수식
+기반 구현`으로 표현하고, `저자 공식 코드`, `공식 ASGCN 완전 재현`, `논문 성능 재현`이라고
+표현하지 않는다.
 
-- 입력 event를 sampling factor `R`로 균일하게 줄인다.
-- event 좌표 사이의 유클리드 거리가 `D`보다 작은 두 node를 잇는 simple undirected radius graph를
-  만들고, scalar distance를 edge pseudo-coordinate로 쓴다.
-- 식 (11)은 실제 이웃 수로 평균한 weighted tensor-product B-spline message aggregation을,
-  ANN update는 ReLU를 정의한다.
-- 식 (6)은 layer-wise lambda를 이용한 ANN parameter normalization을 정의한다. 별도 threshold
-  설명은 feature dimension별 maximum activation을 사용한다.
-- batch normalization은 식 (13)–(14)에 따라 convolution parameter에 fold한다.
-- SNN 경로는 별도 rate encoding 없이 IF membrane을 timestep마다 전개한다. 초기 membrane은
-  `theta/2`, 발화량은 `theta`, 발화 뒤에는 soft reset을 적용한다. 기본
-  `snn_dynamics=literal_eq15`는 식 (15)의 `+h_i^l(t-1)`까지 문자 그대로 실행한다.
-- 학습 optimizer는 Adam과 gradient centralization을 사용하며, 초기 learning rate는 `1e-3`, L2
-  weight decay는 `5e-3`이다. 논문은 milestone decay를 명시하지만 정확한 epoch와 gamma는 공개하지
-  않는다.
+## 1. 논문 수식에서 가져온 core
 
-`architecture_version: 2` checkpoint만 이 의미론을 나타낸다. 현재 공통 설정은
-`graph_operator: spline`, `spline_backend: torch`,
-`spline_pseudo: distance_over_radius`다. 마지막 이름은 논문이 말한 원시 거리값 자체가 아니라
-SplineConv 정의역에 맞춘 `distance / D` 재매개화임을 의도적으로 드러낸다.
+현재 `architecture_version=2`의 graph encoder가 다음 항목을 구현한다.
 
-## 논문에 없는 구현 가정
+1. event sequence를 고정 정수 sampling factor `R`로 균일하게 선택한다.
+2. event를 node로 만들고, 좌표 거리 조건 `d(i,j) < D`를 만족하는 node 쌍을 잇는다.
+3. scalar edge distance를 pseudo-coordinate로 쓰는 weighted B-spline graph convolution과 실제
+   incoming degree 기반 mean aggregation을 적용한다.
+4. ANN 경로에서는 graph affine update, BatchNorm, ReLU를 순서대로 실행한다.
+5. ANN 학습 뒤 식 (13)–(14)의 BatchNorm folding과 식 (6)의 layer-wise parameter
+   normalization을 적용한다.
+6. SNN 경로에서는 별도 stochastic/rate input encoder 없이 IF membrane을 명시적 timestep으로
+   전개한다. 초기 membrane은 threshold의 절반, spike amplitude는 threshold이며 발화 뒤 soft
+   reset을 사용한다.
 
-논문만으로 단일한 정답을 정할 수 없는 값은 config에 노출했다. 기본값은 다음과 같다.
+원 논문의 graph clustering, graph pooling, edge remapping과 classification head는 구현하지 않았다.
+이 프로젝트는 graph encoder의 node feature를 raster로 바꿔 복원 decoder에 전달한다.
 
-| 항목 | 이 저장소의 명시적 가정 |
-|---|---|
-| graph position | `x, y, t`를 각각 `[0,1]`로 정규화한 3차원 좌표 |
-| polarity node feature | 음극성 `-1`, 양극성 `+1` |
-| graph radius/pseudo | 정규화 좌표에서 `D=0.08`, scalar distance를 `D`로 나눠 `[0,1]` pseudo-coordinate로 사용 |
-| B-spline/update | open degree-1 spline, kernel size 5, 별도 root weight·affine bias와 현재 ReLU/BN 적용 순서 |
-| graph width/depth | hidden feature 64, graph layer 6; 논문이 복원 과제용 값을 제공하지 않아 설정값으로 고정 |
-| paper sampling | model의 고정 `event_sampling_factor=1`로 기본 비축소 |
-| adaptive safety cap | crop 뒤 `ceil(N/max_events)` 정수 stride로 먼저 줄이는 reconstruction/server 가정이며 논문의 공식 `R`이 아님 |
-| graph construction | 결과를 바꾸지 않는 512-node chunk 계산 |
-| ANN→SNN scale | layer-wise lambda와 feature-wise threshold 결합이 모호해 feature-wise lambda와 정규화 뒤 unit threshold 사용 |
-| first-layer scale | lambda^0은 `[1,1,1,1]`; 이후 lambda는 calibration activation maxima. `[0,1]`의 `x,y,t`와 `±1` polarity를 근거로 한 저장소 선택이며 논문에는 없음 |
-| dead activation channel | calibration ReLU maximum이 0인 feature는 epsilon으로 나누지 않고 lambda 1을 사용하며, 변환 전 dead-channel 수를 checkpoint metadata에 기록 |
-| gradient centralization axes | spline `[K,Cin,Cout]`와 root `[Cin,Cout]`는 마지막 output axis 외 차원, Conv/Linear는 첫 output axis 외 차원에서 평균을 제거; 저자 코드로 확인되지 않은 tensor-layout 선택 |
-| edge memory guard | directed edge가 2,000,000개를 넘으면 자르지 않고 실패; 8,192-node 밀집 graph의 O(N²) OOM을 막는 서버 안전장치 |
-| connectivity | `D`가 만든 graph를 강제로 연결하지 않고 평가 결과에 isolated node 비율과 max degree를 기록 |
+## 2. 논문에 없는 명시적 가정
 
-실제 전처리 순서는 spatial crop → adaptive `max_events` stride → model의 고정 paper sampling factor
-`R`이다. 두 factor와 raw/cropped/retained count를 분리해 기록하며 adaptive cap을 ASGCN 논문의 공식
-sampling 설정으로 보고하지 않는다.
+논문만으로 결정할 수 없는 값은 config에 노출했고 checkpoint의 `model_config`에 보존한다. 기본
+본실험 설정은 다음과 같다.
 
-순수 PyTorch spline 구현은 Linux 서버 설치를 단순하게 하기 위한 선택이다. B-spline
-pseudo-coordinate의 `[0,1]` 범위, open spline, degree, kernel과 root-weight 개념은
-[PyTorch SplineConv 공식 연산자 소스](https://github.com/rusty1s/pytorch_spline_conv)를 참고했다.
-지원하는 scalar/open/degree-1 범위에서는 endpoint index·pseudo gradient와 weight/root 초기화 bound도
-공식 연산자 동작에 맞추고 회귀 테스트로 고정했다. 고정 graph의 basis/index는 한 번만 계산해 모든
-layer와 IF timestep에서 재사용한다.
-이는 ASGCN 저자 코드와 동일하다는 증거가 아니며, 논문에 없는 kernel size·degree·root 설정을
-공식값으로 오인하면 안 된다.
+| 항목 | 저장소의 선택 | 해석 |
+|---|---:|---|
+| node feature | `[x,y,t,p]` | `x,y,t`는 `[0,1]`, polarity는 `-1/+1` |
+| graph distance | 정규화된 `x,y,t` 3차원 | polarity는 기본 거리에서 제외 |
+| radius | `D=0.08` | 원 논문의 복원 과제용 공식값이 아님 |
+| edge pseudo | `u=d/D` | 원시 distance를 SplineConv의 `[0,1]` 정의역으로 재매개화 |
+| graph width/depth | 64 features, 6 layers | 복원 과제 가정 |
+| spline | scalar, open, degree 1, `K=5` | degree/kernel/open 여부는 논문 미공개 |
+| update terms | mean message + root transform + bias | root/bias는 PyG 계열 동작을 참고한 선택 |
+| paper sampling `R` | `event_sampling_factor=1` | dataset의 8,192-event cap과 별개 |
+| raster | 4배 downsample grid에서 cell mean | 논문에 없는 event-to-frame bridge |
+| decoder | base 48 residual U-Net + analog ConvGRU | 논문에 없는 복원 확장 |
+| SNN dynamics | `literal_eq15` | 공개 식을 우선한 선택; 아래 모호성 참조 |
+| edge guard | directed edge 2,000,000개 | 초과 시 graph를 자르지 않고 실패 |
 
-### 식 (15)와 rate conversion의 공개 모호성
+dataset loader의 `max_events=8192`는 논문의 `R`이 아니다. crop 뒤 event가 cap을 넘으면
+`np.linspace(0, N-1, 8192)`로 정확히 8,192개를 시간축 전체에서 결정적으로 선택하며 양 끝 event를
+포함한다. 그 뒤 model의 고정 factor `R`이 `events[::R]`로 적용된다. 결과에는 raw/cropped/retained
+event 수, dataset sampling ratio, model factor와 두 비율의 곱을 따로 기록한다.
 
-논문 식 (15)는 `v_tilde(t)=v(t-1)+c(t)+h(t-1)`로 적혀 있다. 이 `+h(t-1)` self-feedback을
-문자 그대로 실행하면 작은 양의 정전류도 첫 발화 뒤 firing rate 1에 가까워질 수 있어, 표준
-soft-reset IF의 `firing rate ≈ normalized ANN activation` 유도와 양립하지 않는다. 저자 코드나
-인덱스 설명이 없어 이를 임의로 오타 처리하지 않았다.
+## 3. exact cell radius graph
 
-- `literal_eq15`: 저장소 기본값. 공개 식 (15)–(17)을 그대로 실행한다.
-- `standard_if`: `+h(t-1)`를 제거한 rate-conversion 대조군이며, 공식 ASGCN 값이라고 주장하지 않는다.
+`build_radius_graph`는 dense `N×N` distance matrix를 만들지 않고 uniform-cell candidate search를
+사용하지만, 만들어지는 graph의 의미는 brute-force strict radius graph와 같다.
 
-Eq. (6) 뒤 마지막 `lambda_L`를 곱하는 단계는 spike 출력을 학습된 analog decoder의 단위로 보내기
-위한 차원 변환이다. `standard_if`에서는 보정 ANN activation과의 parity test가 있지만,
-`literal_eq15`에서 유한 T의 ANN-rate 동등성을 보장한다는 뜻은 아니다. 두 dynamics의 장기-T 차이를
-단위 테스트로 고정하고 checkpoint의 model config에 선택값을 보존한다.
+- 선택한 `d`차원 좌표에서 cell 폭을 정확히 `D`로 둔다.
+- 각 source node의 cell과 축별 offset `{-1,0,1}`의 조합인 `3^d` 인접 cell만 검색한다. cell 폭이
+  `D`이므로 그 밖의 cell에는 `d < D`인 이웃이 존재할 수 없다.
+- sorted cell hash의 범위를 `searchsorted`로 찾아 후보를 만들고, 모든 후보에 대해 Euclidean
+  distance를 다시 계산한다.
+- `source != destination`와 `distance < D`를 모두 만족할 때만 edge를 남긴다. 경계 `distance=D`는
+  포함하지 않는다.
+- 모든 node를 source로 처리하므로 각 유효한 무방향 쌍의 두 ordered direction을 모두
+  materialize한다. self-loop와 중복 edge는 없다.
+- 최종 edge는 `(source,destination)` 순서로 정렬하며 edge attribute는 `distance/D`다.
 
-## Event-to-frame 과제용 확장
+`graph_chunk_size=512`와 내부 candidate chunk 축소는 계산을 나누는 메모리 최적화일 뿐 neighbor를
+근사하거나 누락하지 않는다. 다만 한 cell에 event가 몰리는 최악의 경우 후보 수와 실제 edge 수는
+여전히 `O(N²)`가 될 수 있다. `max_graph_edges`는 이 경우 조용히 edge를 버리지 않고 오류를 내는
+fail-fast 장치다. radius가 만든 graph를 강제로 연결하지 않으므로 isolated node는 root transform과
+bias만 받으며 isolate ratio와 maximum degree가 결과에 기록된다.
 
-원 논문은 event graph를 pooling한 뒤 MLP로 분류한다. 이 저장소는 분류기를 재현하는 대신
-EventHDR에서 luminance frame을 복원하도록 다음 모듈을 연결한다.
+## 4. degree-1 open B-spline과 계산 최적화
+
+scalar pseudo-coordinate `u`에 대해 `scaled=u(K-1)`를 계산한다. degree 1이므로 edge마다 활성
+basis는 인접한 두 control point뿐이고, 가중치는 `1-frac(scaled)`와 `frac(scaled)`다. 두 가중치의
+합은 endpoint를 포함해 1이다. `u=1`에서는 마지막 control point의 가중치가 정확히 1이 되도록
+endpoint 동작과 pseudo-coordinate gradient를 테스트로 고정했다.
+
+각 `PaperSplineConv` layer의 계산은 다음과 같다.
 
 ```text
-uniform event sampling
-  -> undirected radius graph
-  -> B-spline graph encoder (ANN 또는 literal-Eq15/standard-IF timestep)
-  -> feature rasterization
-  -> residual U-Net + analog ConvGRU
-  -> luminance frame
+node projection for every control point: [N,Cin] x [K,Cin,Cout] -> [N,K,Cout]
+edge gather: source node의 활성 control point 두 개만 선택
+weighted message: 두 basis weight로 합산
+aggregation: destination의 실제 incoming degree로 평균
+update: mean message + optional root transform + bias
+ANN activation: BatchNorm -> ReLU
 ```
 
-따라서 residual U-Net, ConvGRU, rasterization, EventHDR/EventAid-R loader, tone mapping,
-Charbonnier·SSIM·gradient·temporal loss는 ASGCN 논문의 구성요소가 아니라 연구과제에 맞춘
-재구성 확장이다. SNN 전환은 graph encoder에만 적용되고 decoder와 ConvGRU는 analog 연산이다.
+edge마다 작은 matrix multiplication을 반복하지 않고 node를 `K`개 control point에 한 번씩 projection한
+뒤 두 활성 항만 gather한다. 고정 graph의 basis index와 weight도 sample당 한 번 계산해 6개 graph
+layer와 모든 IF timestep에서 재사용한다. 이는 연산 중복을 줄이는 exact optimization이며 graph나
+spline 값을 바꾸지 않는다. 구현은 순수 PyTorch라 `torch-spline-conv` binary extension에
+의존하지 않는다.
 
-## 아직 구현하지 않은 논문·하드웨어 범위
+weight 초기화 bound는 `1/sqrt(K*Cin)`, root bound는 `1/sqrt(Cin)`으로 고정했다. open degree 1,
+scalar pseudo-coordinate, mean aggregation, root weight와 bias 범위에서만 구현·테스트했으며 이를
+ASGCN 저자의 미공개 hyperparameter와 동일하다고 주장하지 않는다.
 
-- 새 event가 들어올 때 영향받는 K-hop ego-network만 갱신하는 동적 asynchronous 실행
-- 논문 식 (18)–(19)의 node clustering, graph pooling과 edge remapping
-- 원 논문의 classification MLP와 N-MNIST/CIFAR10-DVS/N-Caltech101/N-Cars 성능표 재현
-- 논문의 연산 수 기반 energy 추정 및 실제 FPGA/ASIC 전력·에너지 측정
-- event compression·transport protocol과 반도체 RTL
+## 5. ANN 학습과 ANN→SNN 변환
 
-현재 코드는 논문의 공개 정의에 맞춘 **ASGCN paper-core 기반 event-to-frame 연구
-프로토타입**이다. 누락된 저자 구현 세부정보와 다른 출력 과제 때문에 “공식 ASGCN 완전 재현”이나
-원 논문 성능 재현으로 표현하지 않는다. 해당 주장은 저자 코드·동일 데이터 전처리·분류 head·공식
-checkpoint를 확보해 parity를 검증한 뒤에만 가능하다.
-~~~~~~
+ANN graph layer는 B-spline affine update, BatchNorm, ReLU로 학습한다. 기본 optimizer는 Adam에
+gradient centralization을 추가한 `adam_gc`이며 learning rate `1e-3`, weight decay `5e-3`, epoch
+20/30의 MultiStepLR과 gamma `0.1`을 사용한다. milestone과 gamma, tensor별 centralization 축은
+저자 코드로 검증된 공식값이 아니라 config 선택이다.
+
+변환 순서는 다음과 같다.
+
+1. 학습된 ANN checkpoint를 불러온다.
+2. 각 graph layer의 BatchNorm scale을 spline kernel, root와 bias에 fold한다.
+3. EventHDR train 전체에서 각 graph layer의 feature별 ReLU maximum `lambda_l`를 측정한다.
+4. 식 (6)에 따라 kernel과 root에 `lambda_(l-1)/lambda_l`, bias에 `1/lambda_l`를 적용한다.
+5. 첫 layer의 입력 scale `lambda_0`은 `[1,1,1,1]`로 둔다.
+6. calibration에서 항상 0인 channel은 epsilon으로 폭증시키지 않고 unit scale을 사용한다.
+7. 변환 뒤 threshold를 정확히 1로 두고, 마지막 spike rate에 `lambda_L`를 곱해 analog decoder의
+   학습 단위로 복원한다.
+
+각 layer의 persistent BN-fold/normalization flag, valid calibration count, dead-channel 수, threshold,
+model tensor SHA-256과 checkpoint metadata를 load 시 교차검증한다. ANN checkpoint와 변환된 SNN
+checkpoint의 inference mode를 서로 바꿔 사용하는 것도 거부한다.
+
+## 6. IF dynamics와 식 (15)의 모호성
+
+논문 식 (15)는 다음 self-feedback 항을 포함한다.
+
+```text
+v_tilde(t) = v(t-1) + c(t) + h(t-1)
+```
+
+`literal_eq15`는 이 `+h(t-1)`을 문자 그대로 실행한다. 각 timestep에서 threshold 이상이면 threshold
+크기의 spike를 내고 membrane에서 그 값을 빼는 soft reset을 한다. 그러나 이전 spike의 재주입은
+작은 양의 정전류도 첫 발화 뒤 장기 firing rate 1에 가깝게 만들 수 있어 표준 ANN rate-conversion
+유도와 충돌한다. 저자 코드나 정정 자료가 없으므로 임의로 오타 처리하지 않았다.
+
+- `literal_eq15`: 기본 경로. 공개 식 (15)–(17)을 문자 그대로 실행한다.
+- `standard_if`: `+h(t-1)`을 제거한 대조군이다. 공식 ASGCN 설정이 아니다.
+
+마지막 `lambda_L` 곱은 decoder 입력의 단위 변환이지, `literal_eq15`가 유한 timestep에서 ANN과
+동등하다는 증명이 아니다. 두 dynamics는 같은 calibrated checkpoint로 비교할 수 있지만 결과는
+반드시 별도 dynamics와 timestep으로 표기한다.
+
+## 7. hybrid event-to-frame decoder
+
+전체 forward는 다음과 같다.
+
+```text
+event interval [N,x,y,t,p]
+  -> exact-size dataset cap
+  -> fixed paper sampling factor R
+  -> strict undirected radius graph
+  -> B-spline graph encoder (ANN 또는 explicit IF-SNN)
+  -> downsampled feature raster: pixel-cell별 node feature mean
+  -> residual U-Net encoder
+  -> bottleneck analog ConvGRU
+  -> bilinear upsampling + skip connections
+  -> sigmoid luminance frame, 원 sensor size로 interpolation
+```
+
+U-Net은 두 번 downsample하고 bottleneck에 residual block 두 개를 둔다. ConvGRU state는 같은 H5/ZIP
+sequence group, 연속 sequence index, 같은 sensor shape일 때만 전달되고 불연속에서는 초기화된다.
+학습 시 state와 이전 prediction은 frame마다 detach하므로 전체 sequence backpropagation이 아니라
+frame 단위 truncated recurrence다. SNN 변환 대상은 graph encoder뿐이며 rasterization, U-Net,
+ConvGRU와 output head는 모두 analog 연산이다.
+
+EventHDR의 zero-event target interval도 버리지 않는다. 빈 event tensor는 zero-node/zero-edge graph와
+zero raster를 만들고 recurrent decoder가 해당 target frame을 학습·평가하도록 한다. `frame_stride>1`을
+사용하면 건너뛴 interval의 event를 다음 선택 frame까지 합치지만 기본 본실험은 `frame_stride=1`이다.
+
+## 8. 구현하지 않은 범위와 주장 한계
+
+- 새 event에 영향받는 K-hop subgraph만 갱신하는 asynchronous incremental 실행
+- sliding window node 만료와 graph/SNN state의 하드웨어 친화적 관리
+- 논문 식 (18)–(19)의 clustering, pooling, edge remapping
+- 원 논문의 classification MLP, 원 데이터셋 전처리와 성능표
+- 실제 DVS sensor ingest, event compression·전송 protocol
+- FPGA/ASIC RTL, synthesis, 실제 latency·전력·에너지 측정
+- analog U-Net/ConvGRU까지 포함한 완전한 spiking network
+
+현재 구현으로 보고할 수 있는 것은 PyTorch GPU/CPU에서의 paper-core 기반 복원 품질, graph 통계,
+compute latency와 firing-rate 통계다. 이를 저자 공식 재현, neuromorphic hardware latency, 반도체
+전력·에너지 또는 통합 칩 구현 완료로 확대해 해석하면 안 된다.
+~~~~~~~~
 
 # docs/EXPERIMENT.md
 
-~~~~~~markdown
-# 실험 프로토콜
+~~~~~~~~markdown
+# 본실험 프로토콜
 
-## 1. 고정할 연구 질문
+이 문서는 `configs/hdr_train.json`, `configs/hdr_{ann,snn}.json`,
+`configs/aid_{ann,snn}.json`과 현재 실행 코드를 기준으로 한다. 전체 기본 실행은
+`bash scripts/full.sh`이며, 일부 파일이나 일부 frame만 사용한 결과는 본실험 결과로 합치지 않는다.
+ASGCN 수식과 이 저장소의 과제용 확장 범위는 [ASGCN.md](ASGCN.md)를 함께 참고한다.
 
-1. EventHDR의 실제 이벤트에서 luminance frame을 얼마나 잘 복원하는가?
-2. ASGCN paper-core의 graph depth와 radius가 복원 품질·비용에 어떤 영향을 주는가?
-3. EventAid-R의 다른 장면·운동에서 품질이 얼마나 유지되는가?
-4. ANN, 논문 식 (15)를 문자 그대로 실행한 IF, 표준 IF 대조군의 품질·연산 지연 차이는 무엇인가?
+## 1. 연구 질문과 데이터 역할
 
-현재 `snn` 모드는 graph encoder의 IF membrane을 timestep마다 전개하지만 U-Net·ConvGRU decoder는
-analog이고 GPU에서 기능을 모사한다. 따라서 저전력·에너지 우위를 검증하는 질문에는 답할 수 없으며,
-해당 주장은 연산량 모델 또는 hardware 측정 후에만 추가한다. 논문 재현 범위는
-[ASGCN 구현 범위](ASGCN.md)를 따른다.
+1. EventHDR 실제 event로 luminance frame을 얼마나 잘 복원하는가?
+2. 동일 ANN checkpoint를 보정한 뒤 `literal_eq15`와 `standard_if`가
+   `T=4,8,16,32`에서 보이는 품질·지연 차이는 무엇인가?
+3. 학습과 보정에 쓰지 않은 EventAid-R 14개 scene에서 성능이 얼마나 유지되는가?
 
-기본 `literal_eq15`의 `+h(t-1)` self-feedback은 표준 rate-conversion IF와 동등하지 않다. 따라서
-ANN↔SNN 오차는 `snn_dynamics`와 T를 함께 표기한다. `standard_if`는 모호성 분석용 대조군이지
-ASGCN 저자 공식 구현이라고 간주하지 않는다.
-
-## 2. 데이터 역할과 누수 방지
-
-| 단계 | 데이터 | 허용되는 사용 |
+| 단계 | 고정 데이터 | 코드상 역할 |
 |---|---|---|
-| 학습 | EventHDR train | weight 최적화·crop |
-| 검증 | EventHDR holdout | 물리 scene split 확정 후 macro SSIM checkpoint 선택 |
-| 보정 | EventHDR train | BN folding·feature-wise threshold·parameter normalization |
-| 내부 최종시험 | EventHDR 공식 eval | 학습 종료 후 1회 |
-| 외부 최종시험 | EventAid-R | 학습·보정·threshold 선택 금지 |
+| 학습 | EventHDR 공식 train root의 `1.h5`–`51.h5` | 40 epoch weight 최적화 |
+| 내부 평가 | EventHDR 공식 eval root의 `1.h5`–`19.h5` | 마지막 epoch에서만 ANN 평가하고 `best.pt` 생성 |
+| ANN→SNN 보정 | EventHDR train 51개 H5의 모든 선택 frame | BN folding, activation maximum, 식 (6) 정규화 |
+| 내부 비교 | 동일 EventHDR eval 19개 H5 | ANN과 두 IF dynamics × 네 T 비교 |
+| 외부 비교 | EventAid-R manifest의 14개 ZIP | 고정 checkpoint의 외부 일반화 평가 |
 
-`manifests/eventhdr_split.json`은 현재 물리 scene 대응표가 없는 legacy file-list
-`provisional` 상태다. 최종 manifest는 아래처럼 동일 물리 장면의 파일을 `scene_groups`로 묶고,
-겹치지 않는 scene ID를 `train_scenes`와 `val_scenes`에 넣어야 한다.
+`manifests/eventhdr_split.json`은 `status=final`,
+`split_schema=official_separate_roots_v1`이다. train과 eval은 별도 root이고 숫자 basename이 겹치는
+공식 배포 구조다. H5 하나를 recurrent state와 metric의 sequence group으로 사용할 뿐, 공개 자료에
+물리 scene 대응표가 없으므로 두 root가 물리 scene-disjoint이거나 통계적으로 독립이라고 주장하지
+않는다. JSON의 `macro`/`per_scene`도 EventHDR에서는 물리 scene이 아니라 H5 sequence-file 단위다.
 
-```json
-{
-  "status": "final",
-  "scene_groups": {
-    "night-drive": ["1.h5", "2.h5"],
-    "day-drive": ["48.h5", "49.h5"]
-  },
-  "train_scenes": ["night-drive"],
-  "val_scenes": ["day-drive"]
-}
-```
+`train.validate_every=null`이므로 1–39 epoch에는 내부 평가를 하지 않고 40번째 마지막 epoch에서만
+EventHDR eval 전체를 평가한다. 따라서 현재 `best.pt`는 여러 epoch를 비교해 고른 checkpoint가 아니라
+마지막 epoch checkpoint다. 파일명 `best.pt`와 `best_metric=macro_ssim`은 공통 checkpoint 계약을 위한
+것이다. 이후 같은 eval root에서 생성하는 ANN/SNN 표는 내부 비교이며 독립 잠금시험으로 표현하지
+않는다. EventAid-R 결과를 본 뒤 설정·보정·threshold를 바꾸면 그 결과 역시 외부시험으로 해석할 수
+없다.
 
-예시는 schema 설명일 뿐 실제 mapping이 아니다. `status`만 `final`로 바꾸거나 legacy 목록만 남기면
-검증에서 거부된다. `configs/hdr_smoke.json`만 비보고용 provisional legacy schema를 허용한다.
-smoke는 별도 `manifests/eventhdr_smoke.json`의 train `1.h5`, `2.h5`와 validation `48.h5`,
-`49.h5`만 사용하고 content fingerprint도 이 네 파일만 hash한다.
-final manifest는 `data/EventHDR/train` 아래의 모든 H5를 정확히 한 scene에 소유시키고 모든 scene을
-train 또는 validation에 배정해야 한다. 누락·미선언 파일과 미배정·중복 scene/file은 거부한다.
+## 2. 고정 전처리
 
-validation sample limit은 채점 frame 수에만 적용된다. `hdr_train`은 최대 500개, `hdr_smoke`는
-최대 32개를 채점하며 아래 recurrent context frame은 이 수에 포함하지 않는다.
-
-1. group(final은 physical scene, provisional은 H5 file)별 quota를 round-robin으로 배정한다.
-2. 각 group의 dataset index에서 deterministic contiguous window를 선택한다.
-3. recurrent 모델은 window 앞의 같은 group predecessor를 `validation_context_frames` 한도에서
-   metric 없이 replay해 streaming ConvGRU state를 예열한다. 기본값은 본학습 64, smoke 8이며
-   `null`이면 전체 prefix다. non-recurrent 모델은 context를 replay하지 않는다.
-4. sample limit이 group 수보다 작으면 일부 group을 버리지 않고 오류로 중단한다.
-5. checkpoint 선택에는 scene별 SSIM 평균의 평균인 macro SSIM을 쓴다.
-
-calibration은 recurrent state를 쓰지 않으므로 각 group(final은 physical scene, provisional은 H5
-file)의 전체 index 범위를 `linspace`로 덮는다.
-benchmark는 recurrent 모델이면 group별 연속 window와 최대 `eval.recurrent_context_frames`개의
-unmeasured predecessor(현재 eval config 기본 32), 비순환 모델이면 time-spread sample을 사용한다.
-`--warmup`은 recurrent context가 아니라 device/kernel warmup이다.
-장면, sequence index, sensor shape가 끊기는 경계에서는 state를 초기화하며 benchmark 결과에 reset 수와
-비율을 기록한다.
-
-random crop의 RNG는 scene·source file/member를 합친 안정적인 sequence identity로 결정한다. 따라서
-worker 수나 resume 여부와 무관하고, 같은 연속 sequence의 모든 frame은 동일한 sensor ROI를 사용해
-ConvGRU pixel state와 temporal loss를 정렬한다. 이는 epoch마다 바뀌는 random augmentation이 아니다.
-
-event 전처리는 spatial crop → adaptive `max_events` cap → model의 고정 paper sampling factor `R`
-순서다. adaptive cap은 crop 뒤 event 수 `N`에 대해 `ceil(N/max_events)` 정수 stride를 사용하며,
-서버 메모리를 위한 재구성 가정이지 논문의 공식 `R`이 아니다. sample metadata는 cap 전후를
-`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_factor`로 분리한다.
-
-## 3. 학습 optimizer protocol
-
-논문에 명시된 Adam, gradient centralization, 초기 learning rate `1e-3`, L2 weight decay `5e-3`를
-`optimizer=adam_gc`, `learning_rate=0.001`, `weight_decay=0.005`로 고정한다. 논문은 milestone에서
-learning rate를 낮춘다고만 쓰고 정확한 epoch와 gamma를 공개하지 않는다. 따라서 40-epoch 복원
-적응에서는 `lr_milestones=[20,30]`, `lr_gamma=0.1`을 명시적 가정으로 사용한다. 1-epoch smoke도
-동일한 protocol을 기록하지만 milestone에 도달하지 않는다.
-gradient centralization의 axis도 구현 가정이다. spline `[K,Cin,Cout]`와 root `[Cin,Cout]`는 마지막
-output axis 외 차원에서, Conv/Linear는 첫 output axis 외 차원에서 gradient 평균을 제거한다.
-
-## 4. output domain
-
-EventHDR와 EventAid-R 모두 다음 target 변환을 쓴다.
+두 dataset의 target은 다음 순서로 `[0,1]` luminance domain에 놓는다.
 
 ```text
-integer image -> dtype range로 [0,1] 정규화
-RGB이면 BT.709 luminance
-y = log1p(5000*x) / log1p(5000)
+integer image / dtype maximum
+  -> RGB이면 BT.709 luminance
+  -> y = log1p(5000*x) / log1p(5000)
 ```
 
-이는 output 수치 domain만 통일한다. 센서 response와 exposure가 동일하다는 보장은 없으므로 두
-dataset의 절대 PSNR/SSIM을 동일 분포처럼 해석하지 않는다.
-EventAid-R은 event block `i`를 GT `i+1`과 짝짓는 `target_offset=1`을 명시적 protocol 가정으로
-사용한다. 이 정렬을 바꾼 결과는 같은 외부시험으로 합치지 않는다.
+EventAid-R은 event block `i`와 GT `i+1`을 짝짓는 `target_offset=1`을 사용한다. 이는 이 과제를
+위한 정렬 가정이며 다른 offset 결과와 섞지 않는다. 두 dataset의 sensor response와 exposure가 같다는
+보장은 없으므로 절대 PSNR/SSIM을 동일 분포의 수치처럼 직접 비교하지 않는다.
 
-## 5. 실행 순서
+event 전처리는 다음 순서다.
+
+1. 설정된 sensor crop을 적용한다. 본실험 config는 `crop_size=null`이라 전체 sensor를 쓴다.
+2. crop 뒤 event 수가 `max_events=8192`를 넘으면, 양 끝 timestamp를 포함하는 결정적 `linspace`
+   index로 **정확히 8,192개**를 시간 전역에서 남긴다. 8,192개 이하면 그대로 둔다.
+3. model의 논문식 균일 sampling factor `R=event_sampling_factor=1`을 적용한다.
+
+두 번째 단계는 graph memory를 제한하기 위한 과제용 cap이며 ASGCN 논문의 공식 `R`이 아니다.
+`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_ratio`를 분리해
+기록한다. 동일 source sequence의 crop은 seed와 상대 sequence identity로 결정되므로 worker 수와
+resume 여부에 따라 바뀌지 않는다.
+
+EventHDR에서 연속 target 사이 event가 0개인 interval도 sample로 보존한다. EventAid-R의 빈 event
+text도 빈 `[0,4]` tensor로 유지한다. 빈 sample은 0 node·0 edge graph와 zero raster를 거쳐 analog
+decoder/ConvGRU로 처리되며 임의 event를 합성하지 않는다. 보정에서는 비어 있는 activation이 layer의
+유효 calibration observation으로 집계되지 않고, 어느 graph layer든 non-empty observation이 0개면
+변환을 거부한다.
+
+## 3. graph와 모델 고정값
+
+기본 graph node feature는 정규화한 `(x,y,t,polarity)`이고, 거리 계산은 `[0,1]`로 정규화한
+`(x,y,t)` 3차원에서 한다. `graph_radius=0.08`보다 Euclidean 거리가 **엄격히 작은** 서로 다른 node를
+연결하고 양 방향 directed edge를 저장한다. edge pseudo-coordinate는 `distance/radius` 한 값이다.
+
+구현은 폭이 radius인 uniform cell과 인접 `3^3` cell로 후보를 찾은 뒤 exact Euclidean 조건을 다시
+적용한다. 이는 근사 k-NN이나 edge truncation이 아니다. directed edge 수가
+`max_graph_edges=2,000,000`을 넘으면 일부 edge를 버리지 않고 실패한다. isolated node도 유지하며
+비율과 최대 degree를 결과에 기록한다.
+
+고정 모델은 6-layer, hidden 64의 pure-PyTorch open degree-1 B-spline graph encoder, feature
+rasterization, residual U-Net과 analog ConvGRU decoder다. ANN→SNN 변환과 IF timestep은 graph
+encoder에만 적용된다. decoder는 두 모드 모두 analog이다.
+
+## 4. 학습과 checkpoint 선택
+
+본학습 설정은 다음과 같다.
+
+- 40 epochs, chronological `batch_size=1`, shuffle 없음
+- Adam + gradient centralization, learning rate `1e-3`, weight decay `5e-3`
+- MultiStepLR milestones 20/30, gamma 0.1
+- CUDA에서 AMP, gradient norm clip 1.0
+- Charbonnier 1.0 + SSIM 0.2 + gradient 0.1 + temporal 0.2
+- train/validation sample cap 없음, 마지막 epoch에서만 전체 EventHDR eval 평가
+
+ConvGRU state와 temporal loss는 같은 H5 sequence에서 index가 1씩 이어지고 sensor shape가 같을 때만
+이어진다. 경계에서는 state와 이전 prediction/target을 초기화한다. 내부 평가도 모든 frame을
+사용하므로 별도 표본 추출은 없다.
+
+training artifact는 `runs/eventhdr_asgcn/`에 기록한다.
+
+- `config.json`: 실행 시 resolve된 전체 config
+- `history.json`: epoch별 loss, 마지막 epoch validation, learning rate, CUDA peak memory
+- `last.pt`: 매 epoch 끝에 저장하는 model/optimizer/scheduler/scaler/RNG 포함 재개 checkpoint
+- `best.pt`: 현재 protocol에서는 마지막 epoch의 clean ANN inference checkpoint
+- `.data_hash_cache.json`: full source hash 계산을 가속하는 로컬 cache
+
+새 학습은 위 핵심 artifact가 이미 있는 run directory를 덮어쓰지 않는다. 중단된 run은 `last.pt`로
+재개한다.
+
+## 5. 전체 ANN→SNN 보정
+
+기본 본실험은 EventHDR train의 모든 frame을 사용한다.
 
 ```bash
-# 전체 EventAid-R 전 작은 ZIP 하나로 loader만 비보고 점검
-bash scripts/get_aid.sh R-bear
-asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
-
-# smoke용 EventHDR train과 GPU만 먼저 확인
-python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
-  --lock constraints/py312.txt
-
-# smoke manifest의 네 H5만 decode/hash하는 1 epoch 점검
-asgcn-recon inspect --config configs/hdr_smoke.json --samples 2 --validate-all
-asgcn-recon train --config configs/hdr_smoke.json
-
-# 본학습·고정 내부/외부 평가 전 전체 파일 수 확인
-python scripts/check_env.py --require-cuda --require-full-data \
-  --lock constraints/py312.txt
-
-# 모든 event block 검증
-asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
-
-# scene split final 이후 ANN 본학습
-asgcn-recon train --config configs/hdr_train.json
-
-# EventHDR train만으로 IF-SNN 보정·변환
-asgcn-recon calibrate \
-  --config configs/hdr_train.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt \
-  --output runs/eventhdr_asgcn/best_snn.pt \
-  --samples 500
-
-# 고정 내부시험
-asgcn-recon evaluate \
-  --config configs/hdr_ann.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt
-
-asgcn-recon evaluate \
-  --config configs/hdr_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics literal_eq15
-
-# 같은 calibrated checkpoint를 쓰는 비공식 standard-IF 대조군
-asgcn-recon evaluate \
-  --config configs/hdr_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics standard_if
-
-# 고정 외부시험
-asgcn-recon evaluate \
-  --config configs/aid_ann.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt
-
-asgcn-recon evaluate \
-  --config configs/aid_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics literal_eq15
+bash scripts/calibrate.sh \
+  configs/hdr_train.json \
+  runs/eventhdr_asgcn/best.pt \
+  runs/eventhdr_asgcn/best_snn.pt
 ```
 
-SNN 명령은 ANN checkpoint, 모든 graph layer에서 유효한 non-empty calibration observation이 0개인
-checkpoint, BN 미fold·parameter 미정규화 상태, 비정수 또는 `simulation_steps < 1`을 거부한다.
-checkpoint metadata는 persistent graph-layer flag 및 변환 뒤 unit threshold와도 교차검증한다.
-모든 ANN/SNN/training checkpoint는 model tensor byte의 SHA-256을 저장하고 load 전에 검증한다.
-반대로 Eq. (6)이
-적용된 SNN checkpoint를 ANN 모드에 넣는 것도 거부하므로 ANN 평가는 변환 전 `best.pt`를 쓴다.
-`scripts/eval.sh`에서는 동일한 override를 `SNN_DYNAMICS=literal_eq15` 또는
-`SNN_DYNAMICS=standard_if`로 전달한다.
+wrapper 기본값 `CALIBRATION_SAMPLES=all`은 모든 training frame을 선택한다. model을 eval mode로
+전환해 graph BN을 convolution parameter에 fold하고, non-empty sample의 layer별 feature-wise ReLU
+maximum을 측정한 뒤 식 (6) parameter normalization과 unit threshold를 적용한다. 출력
+`best_snn.pt`는 optimizer와 training history를 제거한 SNN inference checkpoint이며 calibration
+표본 수·유효 표본 수·dead channel 수·sampling summary와 model tensor SHA-256을 포함한다.
 
-최종 EventHDR eval config는 H5 정확히 19개를, EventAid-R final config는 manifest와 이름이 같은
-ZIP 정확히 14개를 강제한다. 일부 EventAid-R만 허용하는 `aid_smoke.json` 결과는 보고용 외부시험이
-아니다.
+기존 출력은 기본적으로 보호한다. 명시적으로 다시 보정해야 할 때만
+`OVERWRITE_CALIBRATION=1`을 wrapper에 전달한다. engine은 새 checkpoint를 끝까지 만든 뒤 atomic
+replace하므로 변환 실패 전에 기존 파일을 먼저 삭제하지 않는다. ANN 평가는 변환 전 `best.pt`, SNN
+평가는 `best_snn.pt`를 써야 하며 서로 바꾸면 checkpoint 검증에서 거부된다.
 
-## 6. 품질 지표
+## 6. 고정 평가·benchmark 행렬
 
-- PSNR: `[0,1]` data range
-- SSIM: 11×11, σ=1.5 Gaussian valid window; 작은 영상은 fitting odd window
-- RMSE
-- `temporal_l1`: 같은 scene·sensor shape에서 sequence index가 정확히 1 증가하는 frame 사이에만
-  `L1((pred_t-pred_t-1), (gt_t-gt_t-1))`
-- LPIPS: `eval.lpips=true`일 때만 선택적으로 실행
+`scripts/full.sh`는 full data/environment 검사와 모든 선택 sample의 decode 검증, 학습 또는 재개,
+전체 보정, 아래 행렬의 evaluate와 benchmark를 순서대로 실행한다.
 
-결과는 micro, group macro, per-group으로 계산한다. final holdout의 group은 physical scene,
-provisional/EventHDR 공식 eval은 H5 파일, EventAid-R은 `R-*.zip` scene이다. JSON의 기존
-`macro`/`per_scene` 이름은 호환성을 위해 유지한다. 첫 frame과 장면·index·shape 불연속 뒤 첫
-frame은 `temporal_l1` 집계에서 제외되고 CSV에는 null이 들어간다.
+| dataset | mode | dynamics | T | checkpoint |
+|---|---|---|---|---|
+| EventHDR eval 19 | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventHDR eval 19 | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventHDR eval 19 | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R 14 | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventAid-R 14 | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R 14 | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
 
-기존 논문과 SSIM을 비교할 때는 해당 논문의 구현, crop, border, color space, tone mapping까지
-동일하게 맞춰 별도 검증한다. 현재 Gaussian 구현을 사용했다는 이유만으로 공식 수치와 완전히
-동일하다고 가정하지 않는다.
+즉 dataset마다 ANN 1개와 SNN 8개, 전체 18개 quality evaluation과 18개 compute benchmark를 만든다.
+benchmark 기본값은 warmup 10 frame, 측정 100 frame이다. recurrent benchmark는 각 측정 window 앞의
+같은 H5/ZIP sequence predecessor를 최대 32개까지 timer 밖에서 replay한다. dataset read와
+host-to-device 이동도 timer 밖이며, CUDA에서는 CUDA Event로 model forward를 측정한다. graph 생성은
+model forward 안에 있으므로 측정에 포함된다.
 
-## 7. 지연·메모리 지표
+`literal_eq15`는 공개 식 (15)의 `+h(t-1)`까지 문자 그대로 실행한다. `standard_if`는 그 항을 뺀
+rate-conversion 대조군이며 저자 공식 dynamics라고 주장하지 않는다. 두 모드 모두 T회의 IF
+recurrence를 실제 실행하지만 analog decoder 때문에 결과를 완전 SNN hardware 성능으로 해석하지
+않는다.
 
-- evaluate: graph 생성과 model forward latency, 첫 frame cold start 포함
-- benchmark: dataset read와 host-to-device 이동 제외, warmup 이후 CUDA Event 측정
-- mean, p50, p90, p95, p99, max, FPS
-- `raw_events_per_second`: spatial crop/cap 전 source interval event 수 / model compute time
-- `retained_events_per_second`: crop과 adaptive cap 뒤 event 수 / model compute time
-- `graph_nodes_per_second`: model의 추가 factor `R` 뒤 graph node 수 / model compute time
-- `mean_raw_events`, `mean_retained_events`, `retention_ratio`, 평균 edge
-- isolate 비율과 max degree; `max_graph_edges=2,000,000` 초과는 graph를 자르지 않고 실패
-- SNN layer별 `총 spike / 총 neuron-step` 발화율과 전체 가중 발화율
-- timestamp 기반 RTF, deadline miss ratio
-- peak allocated/reserved GPU memory
+## 7. 지표와 산출물
 
-세 rate 모두 benchmark가 제외한 dataset read/I/O throughput이 아니라, 같은 model compute 시간으로
-정규화한 workload rate다. 기존 `events_per_second`는 deprecated 하위 호환 alias이며 항상
-`retained_events_per_second`와 같다. metadata가 없는 custom dataset은 tensor에 실제 남아 있는 event
-수를 raw와 retained 양쪽의 안전한 fallback으로 쓴다.
+quality는 frame별 PSNR, Gaussian-window SSIM, RMSE와 연속 frame 사이의 `temporal_l1`을 기록한다.
+`temporal_l1`은
+`L1((pred_t-pred_{t-1}), (target_t-target_{t-1}))`이며 sequence 경계의 첫 frame은 집계에서 제외되고
+CSV에는 null이다. 요약은 모든 frame의 `micro`, H5/ZIP group 평균을 다시 평균한 `macro`, 호환 key
+`per_scene`으로 나뉜다. LPIPS는 `eval.lpips=true`와 optional dependency를 명시한 별도 run에서만
+계산한다.
 
-`snn` 경로는 T번 IF membrane timestep을 실제로 실행하고 fixed edge의 B-spline basis/index는
-sample당 한 번 계산해 layer와 timestep에서 재사용한다. 따라서 `T=4/8/16/32`는 이 PyTorch
-구현에서 dynamics별 timestep 수에 따른 품질·GPU latency ablation이다. decoder는 analog이므로 이를
-neuromorphic accelerator의 latency나 에너지로 환산하지 않는다.
+evaluate는 quality, model-forward latency, RTF/deadline miss, graph topology, dataset coverage와
+CUDA peak allocated/reserved memory를 기록한다. benchmark는 mean/p50/p90/p95/p99/max latency, FPS,
+raw/retained event rate, graph node rate, event retention, node/edge/isolated-node 수, SNN firing rate,
+RTF, state reset과 peak GPU memory를 기록한다.
 
-artifact는 `<eval.output_dir>/ann/` 또는
-`<eval.output_dir>/snn_<dynamics>_T<steps>/`에 `metrics.json`, `frames.csv`, `predictions/`,
-`benchmark.json`으로 나뉜다. 같은 mode/dynamics/T artifact가 이미 있으면 덮어쓰지 않고 실패한다.
-`benchmark.json`은 benchmark가, 나머지는 evaluate가 기록한다.
-prediction PNG는 평가 순번, 안전한 slug, 전체 sample ID hash를 결합해 파일명 충돌과 OS 금지 문자를
-차단한다.
+```text
+runs/eventhdr_official_eval_ann/ann/
+runs/eventhdr_official_eval_snn/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
+runs/eventaid_r_external_ann/ann/
+runs/eventaid_r_external_snn/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
+```
 
-## 8. 최소 비교표
+각 directory의 `metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고
+`benchmark.json`은 benchmark가 만든다. prediction은 config 기본값에 따라 처음 20 frame의 pred/GT
+PNG를 저장한다. 같은 mode/dynamics/T artifact가 있으면 묵시적으로 덮어쓰지 않고 실패하므로 재실행
+전 기존 결과를 보존 위치로 옮기거나 별도 `eval.output_dir` config를 사용한다.
 
-1. `graph_layers=3` vs 6
-2. ANN vs `literal_eq15` vs `standard_if`, 각각 `T=4/8/16/32`
-3. `max_events=4096/8192/16384`
-4. 정규화된 `x,y,t`에서 `graph_radius=0.04/0.08/0.12`
-5. ConvGRU on/off
-6. EventHDR 내부 macro/per-scene vs EventAid-R 외부 macro/per-scene
+## 8. epoch-boundary exact resume
 
-모든 비교는 split, seed, tone mapping, crop, 해상도, checkpoint selection rule을 고정한다. 비교마다
-config 원문, Git commit, `check_env.py` 출력, GPU 이름, CUDA/PyTorch, peak memory와 wall-clock을 함께
-보존한다.
+```bash
+RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  bash scripts/full.sh
+```
 
-exact resume protocol은 선택 frame identity, group 길이, transform, manifest와 선택된
-train/validation 원본의 SHA-256을 저장한다. smoke에서는 네 H5만, 본학습에서는 최종 manifest의
-모든 H5를 hash한다. 절대경로와 mtime은 protocol에서 비교하지 않아 상대 파일 identity와 byte가
-같은 복사본은 다른 mount에서도 재개할 수 있다. 같은 경로의 resume은 run 폴더 sidecar에서
-size/mtime/ctime이 모두 같은 파일의 기존 full hash를 재사용한다.
-원본을 교체·복원했거나 전수 확인하려면 `rehash_data=true`로 cache를 무시한다.
+`last.pt`는 완료된 epoch 뒤에만 저장된다. 따라서 중간에 종료된 epoch의 일부 step부터 이어가는 것이
+아니라 마지막으로 완료된 epoch 다음부터 동일 trajectory를 재개한다. resume checkpoint는 configured
+`run_dir` 안에 있어야 하고, 검증 score가 이미 있으면 같은 run의 historical `best.pt`도 필요하다.
 
-## 9. 중단 조건
+exact resume은 다음 항목의 일치를 강제한다.
 
-- manifest가 provisional이면 본학습 금지; `status`만 바꾸고 final scene schema를 생략해도 금지
-- 전체 dataset validation 실패 시 해당 파일 제외가 아니라 원본 재다운로드/검증
-- A100 10GB smoke OOM이면 full training 전에 기본 graph/model 설정을 재검토
-- NaN loss/metric, 비단조 timestamp, 범위 밖 좌표 발생 시 결과 폐기
-- EventAid-R 결과를 본 뒤 hyperparameter나 threshold를 바꾸면 기존 결과를 잠금시험으로 표기 금지
-- A6000/A100 latency를 FPGA/ASIC latency 또는 에너지로 환산해 주장 금지
-~~~~~~
+- model, optimizer/GC, scheduler, loss, batch/order/worker, AMP·TF32·determinism 설정
+- seed, validation protocol, official manifest, transform와 선택 sample identity
+- train 51개와 eval 19개 source의 상대 파일 identity·size·full SHA-256
+- `src/**/*.py` byte의 SHA-256, Git commit과 source dirty 상태
+- device type, PyTorch/CUDA/cuDNN, GPU 이름·compute capability와 CUDA backend flags
+- CUDA RNG state 수와 현재 visible CUDA device 수
+
+따라서 다른 GPU 종류, CUDA/PyTorch 조합, source checkout, worker protocol이나 dataset byte로 옮긴
+checkpoint는 “exact” 재개로 허용되지 않는다. 절대 data mount path와 mtime/ctime 자체는 checkpoint
+protocol에 넣지 않는다. 같은 상대 파일과 byte를 다른 mount에 복사하면 다시 full hash한 뒤 일치할
+수 있다. `.data_hash_cache.json`은 같은 절대 경로의 size/mtime/ctime이 모두 같을 때만 기존 full
+hash를 재사용하며, 원본을 교체·복원했으면 `train.rehash_data=true`인 별도 config로 cache를 무시한다.
+
+## 9. 과학적 한계와 중단 조건
+
+- 공개된 저자 공식 코드가 확인되지 않아 논문에 없는 graph normalization, spline hyperparameter,
+  threshold 세부값은 이 저장소의 명시적 가정이다. “공식 ASGCN 완전 재현”으로 표현하지 않는다.
+- 원 ASGCN의 classification pooling/MLP와 dynamic asynchronous K-hop update는 구현하지 않았다.
+  현재 graph는 frame interval마다 정적으로 다시 만든다.
+- residual U-Net, rasterization, analog ConvGRU, 복원 loss, tone mapping, 정확한 `max_events` cap과
+  EventAid-R offset은 과제용 확장이다.
+- graph encoder만 IF로 변환된다. PyTorch GPU latency·발화율은 FPGA/ASIC latency, power 또는 energy
+  측정이 아니며 event 전송·압축 protocol이나 RTL도 구현하지 않았다.
+- EventHDR 공식 train/eval의 물리 scene 독립성을 입증하지 못했으므로 내부 결과에 독립 test-set
+  일반화 주장을 붙이지 않는다. EventAid-R도 sensor/domain 차이를 통제한 benchmark는 아니다.
+- `literal_eq15`의 self-feedback은 표준 rate conversion과 수학적으로 동등하지 않을 수 있다.
+  dynamics와 T를 생략한 ANN↔SNN 비교는 보고하지 않는다.
+- file coverage/HDF5·ZIP decode 실패, non-finite loss/metric, 비단조 timestamp, 좌표 범위 오류,
+  `max_graph_edges` 초과 또는 OOM이 발생하면 해당 sample을 조용히 제외하지 말고 run을 폐기해 원인과
+  설정을 고친 뒤 새 artifact로 실행한다.
+~~~~~~~~
 
 # docs/SERVER.md
 
-~~~~~~markdown
-# Linux GPU 서버 실행 가이드
+~~~~~~~~markdown
+# MobaXterm·Linux GPU 서버 실행 가이드
 
-MobaXterm은 SSH/SFTP 클라이언트이며 계산은 접속한 Linux 서버에서 수행된다. 아래 명령은 저장소
-루트 기준이다.
+MobaXterm은 Windows PC에서 Linux 서버에 접속하는 SSH terminal/SFTP client다. 학습과 평가는
+MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node에서 실행한다. 아래 명령은
+저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 본실험 경로만 설명한다.
 
-## 지원 경로
+## 1. clone과 환경 설치
 
-- 직접 접속 GPU 서버: `tmux` + Bash wrapper
-- interactive GPU allocation: 학교의 `ssai_agpu -g=1` 같은 명령 안에서 Bash wrapper
-- SLURM: `server/*.sbatch`
-- PBS/Torque: `server/*.pbs`
-- Docker + NVIDIA Container Toolkit
-
-현재 실측 완료 범위는 로컬 CPU다. GitHub Actions workflow는 구성했지만 최종 push commit의 성공
-여부는 Actions run에서 별도로 확인해야 한다. A100/A6000 CUDA 결과도 서버에서 생성해야 한다.
-
-## 설치
+MobaXterm에서 SSH session을 열고 서버 terminal에서 실행한다.
 
 ```bash
 git clone git@github.com:costunder/asgcn-event-reconstruction.git
@@ -1312,226 +1218,776 @@ cd asgcn-event-reconstruction
 python3.12 --version
 python3.12 -c "import venv, ensurepip; print('venv/ensurepip: OK')"
 curl --version | head -n 1
-tmux -V
 ldd --version | head -n 1
 
 cp .env.example .env
-read -r -p "Official PyTorch wheel index URL: " TORCH_INDEX_URL
-export TORCH_INDEX_URL
+# .env의 TORCH_INDEX_URL을 서버 driver에 맞는 PyTorch 공식 CUDA wheel index로 설정
 bash scripts/setup.sh
 
 source .venv/bin/activate
-python scripts/check_env.py --lock constraints/py312.txt
 python -m pip check
+python scripts/check_env.py --lock constraints/py312.txt
 python -m pytest -q
 ```
 
-`venv`/`ensurepip`은 설치, `curl`은 EventAid-R downloader에 필요하다. `tmux`는 직접 GPU 서버
-경로에서만 필요하므로 scheduler만 쓰면 생략할 수 있다. 빠진 명령은 학교 module 또는 OS package로
-준비한다.
-
-`constraints/py312.txt`는 Python 3.12.13, torch 2.13.0에서 검증한 core/dev profile이다. CUDA
-wheel build는 `nvidia-smi`의 driver와 [PyTorch 공식 설치 선택기](https://pytorch.org/get-started/locally/)
-결과에 맞춘다. 선택한 index에 torch 2.13.0 wheel이 실제로 있는지 확인해야 한다.
-
-설치 스크립트는 다음을 강제한다.
-
-- Python 3.10 이상
-- `py312.txt` 사용 시 venv Python 정확히 3.12
-- command-line environment가 `.env`보다 우선
-- 기존 venv의 실제 Python 재검사
-- Linux locked torch 2.13.0 profile에서 glibc 2.28 이상
-- 선택한 constraints를 torch와 editable install 양쪽에 적용
-- 마지막 `pip check`
-
-LPIPS는 기본 경로에 포함하지 않는다. 필요할 때만 torch와 맞는 torchvision을 확인하고 `eval`
-extra를 설치한다.
+공식 wheel index는 서버의 `nvidia-smi`와
+[PyTorch 설치 선택기](https://pytorch.org/get-started/locally/)를 기준으로 정한다. 명령행 환경변수가
+`.env`보다 우선하므로 GPU allocation 안에서 설치까지 검증하려면 다음처럼 실행할 수 있다.
 
 ```bash
-python -m pip install -e '.[eval]'
+REQUIRE_CUDA=1 TORCH_INDEX_URL=https://download.pytorch.org/whl/cuXYZ \
+  bash scripts/setup.sh
 ```
 
-`scripts/setup.sh`은 Linux glibc 2.28 미만에서 locked torch 2.13.0 조합을 venv 생성·network
-download 전에 fail-fast하고, `scripts/check_env.py --lock constraints/py312.txt`도 같은 조건을
-검사한다. 해당 구형 HPC OS에서는 무리하게 source build를 시작하지 말고 학교의 최신
-container/module 또는 검증된 별도 환경을 사용한다.
+`constraints/py312.txt`는 Python 3.12 profile과 core/dev package version을 고정한다. setup script는
+Python, 기존 venv, constraints, Linux glibc와 선택한 torch wheel을 검사하고 마지막에 `pip check`를
+실행한다. login node에서 GPU가 보이지 않는 것은 정상일 수 있으므로 `--require-cuda` 검사는 실제 GPU
+allocation 안에서 수행한다. cluster가 module을 쓴다면 Python/CUDA module을 먼저 load한다. Slurm
+wrapper들은 필요할 때 `CUDA_MODULE=cuda/<version>`도 받는다.
 
-## 데이터와 저장 공간
+## 2. 전체 데이터 배치
+
+최종 layout은 다음과 같다.
 
 ```text
 data/
 ├── EventHDR/
-│   ├── train/*.h5
-│   └── eval/*.h5
+│   ├── train/1.h5 ... 51.h5
+│   └── eval/1.h5 ... 19.h5
 └── EventAid-R/
-    └── R-*.zip
+    └── R-*.zip                 # manifest의 14개 ZIP
 ```
 
-대용량 데이터가 shared storage에 있으면 설치 스크립트가 만든 빈 폴더만 제거하고 symlink한다.
+### EventHDR: browser download 뒤 import
+
+공식 EventHDR OneDrive folder는 현재 unattended `curl` download를 허용하지 않는다.
+`scripts/get_hdr.sh`도 이를 우회한다고 주장하지 않으며, 이미 받은 archive/extracted directory를
+검사해 가져오는 도구다.
+
+1. Windows browser에서 공식 OneDrive의 train/eval release를 내려받는다.
+2. MobaXterm 왼쪽 SFTP panel로 서버의 예: `$HOME/uploads/`에 ZIP을 전송한다.
+3. 배포가 train/eval 별도 archive이면 각각 import한다.
 
 ```bash
-rmdir data/EventHDR/train data/EventHDR/eval data/EventHDR data/EventAid-R
-ln -s /shared/datasets/EventHDR data/EventHDR
-ln -s /shared/datasets/EventAid-R data/EventAid-R
+bash scripts/get_hdr.sh \
+  --archive "$HOME/uploads/EventHDR-train.zip" --split train
+bash scripts/get_hdr.sh \
+  --archive "$HOME/uploads/EventHDR-eval.zip" --split eval
 ```
 
-`rmdir`은 폴더가 비어 있지 않으면 실패하므로 기존 데이터를 지우지 않는다. data와 runs가 서로
-다른 filesystem일 수 있어 환경 진단은 두 위치의 남은 공간을 각각 표시한다.
-
-전체 EventAid-R를 받기 전 `R-bear` 하나로 ZIP loader만 확인할 때는 final 14-file guard가 있는
-`aid_ann.json` 대신 비보고용 `aid_smoke.json`을 쓴다.
+train/eval을 함께 담은 한 archive이면 `--split` 없이 한 번 실행한다.
 
 ```bash
-bash scripts/get_aid.sh R-bear
-asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
+bash scripts/get_hdr.sh --archive "$HOME/uploads/EventHDR.zip"
 ```
 
+이미 압축을 푼 directory는 안전하게 copy할 수 있다. source는 그 자체가 `train/`·`eval/`을
+포함하거나 상위 `EventHDR/` directory여도 된다.
+
 ```bash
-python scripts/check_env.py --require-full-data
+bash scripts/get_hdr.sh --source /shared/imports/EventHDR
+```
+
+shared storage의 검증된 H5를 복사하지 않고 쓸 때는 split directory symlink를 만든다.
+
+```bash
+bash scripts/get_hdr.sh --source /shared/datasets/EventHDR --link
+```
+
+`--link`는 source가 정확한 파일 집합인지 먼저 검사하고, destination split이 비어 있지 않으면
+교체하지 않는다. 현재 destination만 재검사하려면 다음 명령을 쓴다.
+
+```bash
+bash scripts/get_hdr.sh --check
+```
+
+import/check는 train `1.h5`–`51.h5`, eval `1.h5`–`19.h5`의 누락·추가 파일, nested H5, HDF5 magic과
+합계 100 GB 미만 조건을 검사한다. 기존 이름의 크기가 다른 파일을 덮어쓰지 않으며 archive extraction은
+temporary file과 atomic replace를 사용한다. 다른 위치를 쓰려면 모든 명령에
+`--destination /absolute/path/EventHDR`를 추가하고 config의 root도 그 위치에 맞춰야 한다.
+
+### EventAid-R 14개 ZIP
+
+```bash
+bash scripts/get_aid.sh --all
+```
+
+manifest의 14개 scene, 표시 합계 약 24.68 GB를 내려받는다. 각 파일이 ZIP container인지 검사하며
+loader가 archive member를 직접 읽으므로 압축을 풀지 않는다. shared storage를 쓰면
+`EVENTAID_ROOT=/shared/datasets/EventAid-R bash scripts/get_aid.sh --all`로 destination을 바꾸거나,
+config가 기대하는 `data/EventAid-R`를 해당 directory에 연결한다.
+
+### full-data와 decode 검사
+
+GPU allocation 안에서 다음 검사를 한 번 통과시킨다.
+
+```bash
+source .venv/bin/activate
+python scripts/check_env.py \
+  --require-cuda --require-full-data --lock constraints/py312.txt
+
 asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
 asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
 ```
 
-`--validate-all`은 모든 selected frame/event block을 decode하므로 50GB 전체에서는 오래 걸린다.
-`hdr_ann/hdr_snn`은 EventHDR eval H5 정확히 19개를, `aid_ann/aid_snn`은 manifest와 일치하는
-EventAid-R ZIP 정확히 14개를 강제한다.
+`hdr_train.json` inspect는 manifest에 따라 EventHDR train 51개와 eval 19개 root를 모두 검사한다.
+EventAid 명령은 manifest의 14개 ZIP에 있는 모든 선택 event block과 target을 decode한다.
+`--validate-all`은 metadata만 세는 명령이 아니므로 dataset 크기에 따라 오래 걸린다. 실패한 file을
+제외해 진행하지 말고 원본을 다시 전송·검증한다.
 
-## GPU allocation 검사와 smoke
+## 3. 직접 서버에서 전체 실행
 
-로그인 노드가 GPU를 숨겨도 정상일 수 있다. 실제 compute allocation 안에서 다음을 실행한다.
+실행 순서를 먼저 확인하려면 data/GPU 작업을 실제 수행하지 않는 schedule 출력을 본다.
 
 ```bash
-python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
-  --lock constraints/py312.txt
+DRY_RUN=1 bash scripts/full.sh
+```
+
+GPU shell 또는 allocation 안에서 전체 protocol을 시작한다.
+
+```bash
+source .venv/bin/activate
 mkdir -p logs
-bash scripts/train.sh configs/hdr_smoke.json 2>&1 | tee logs/smoke.log
+bash scripts/full.sh 2>&1 | tee logs/full.log
 ```
 
-smoke는 실제 EventHDR에서 최대 32 train sample과 32 scored validation sample, 1 epoch를 사용한다.
-validation에는 group당 최대 8개의 unscored recurrent context frame이 추가될 수 있다. 임시 split을
-허용한 비보고용 검사다. `manifests/eventhdr_smoke.json`이 지정한 `1.h5`, `2.h5`, `48.h5`,
-`49.h5`만 dataset content hash 대상으로 읽으며, EventHDR eval과 EventAid-R는 smoke에 필요하지 않다.
-`runs/smoke/history.json`에서 CUDA peak allocated/reserved memory를 확인한다.
-
-## 직접 GPU 서버
-
-물리 scene split manifest가 `final`인 경우에만 본학습이 열린다.
-최종 manifest는 `scene_groups`에 동일 물리 장면의 H5 목록을 묶고, 겹치지 않는 scene ID를
-`train_scenes`와 `val_scenes`에 배정해야 한다. 예를 들면 다음 schema다.
-
-```json
-{
-  "status": "final",
-  "scene_groups": {
-    "night-drive": ["1.h5", "2.h5"],
-    "day-drive": ["48.h5", "49.h5"]
-  },
-  "train_scenes": ["night-drive"],
-  "val_scenes": ["day-drive"]
-}
-```
-
-예시는 실제 scene mapping이 아니다. legacy `train_files`/`val_files`를 유지한 채 `status`만 바꾸면
-거부된다. legacy file-list schema는 `manifests/eventhdr_smoke.json`의 provisional smoke에서만 쓴다.
-final manifest는 `data/EventHDR/train` 아래 모든 H5를 정확히 한 scene에 포함하고 모든 scene을
-train/validation 중 하나에 배정해야 한다. root의 누락·미선언 H5도 본학습 전에 거부한다.
+SSH 연결 종료에 대비하려면 tmux를 사용한다.
 
 ```bash
+mkdir -p logs
 tmux new-session -s asgcn -c "$PWD" \
-  "bash -lc 'source .venv/bin/activate && bash scripts/train.sh configs/hdr_train.json'"
+  "bash -lc 'source .venv/bin/activate && bash scripts/full.sh 2>&1 | tee logs/full.log'"
 ```
 
-중단 후 resume:
+`full.sh`는 다음을 순서대로 수행한다.
+
+1. `check_env.py --require-full-data --lock constraints/py312.txt`와 기본 CUDA 검사
+2. EventHDR train/eval과 EventAid-R 전체 `inspect --validate-all`
+3. EventHDR ANN 40-epoch 학습 또는 `RESUME_CHECKPOINT` 재개
+4. EventHDR train 모든 frame을 이용한 `best.pt`→`best_snn.pt` 보정
+5. EventHDR/EventAid-R ANN과 `literal_eq15`/`standard_if` × `T=4,8,16,32` evaluate+benchmark
+
+기본 benchmark는 warmup 10, 측정 100 frame이다. 필요하면 실행 전에
+`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, `SIMULATION_STEPS_LIST`를 설정한다. 본실험 기본 행렬을 바꾼
+결과는 별도 protocol로 기록한다.
+
+기존 training/evaluation artifact는 묵시적으로 덮어쓰지 않는다. 기존 SNN checkpoint만 의도적으로
+다시 만들 때는 `OVERWRITE_CALIBRATION=1`을 사용하며 새 checkpoint가 완성된 뒤 atomic replace된다.
+evaluation directory가 이미 있으면 결과를 다른 보존 위치로 옮기거나 config의 `eval.output_dir`을
+바꾼 뒤 실행한다.
+
+## 4. 중단 후 epoch-boundary resume
+
+직접 실행은 다음과 같다.
+
+```bash
+RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  bash scripts/full.sh 2>&1 | tee logs/full-resume.log
+```
+
+학습만 재개하려면 다음 wrapper를 쓴다.
 
 ```bash
 RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
   bash scripts/train.sh configs/hdr_train.json
 ```
 
-첫 실행은 train/validation 원본의 full SHA-256을 계산한다. 같은 경로의 resume은 run 폴더 sidecar에서
-size/mtime/ctime이 모두 같은 파일의 hash를 재사용한다. 원본을 교체·복원했다면
-`train.rehash_data=true`로 한 번 전수 hash한다. 절대 데이터 root와 filesystem mtime/ctime은
-checkpoint protocol의 비교 항목이 아니며 상대 파일 identity와 full digest가 같아야 한다.
+`last.pt`는 각 완료 epoch 뒤에 저장되므로 종료된 epoch 내부 step은 되풀이된다. checkpoint는 같은
+configured run directory 안에 있어야 하며, source tree/Git 상태, model·optimizer·scheduler·AMP,
+validation/data full SHA-256과 PyTorch/CUDA/cuDNN·GPU 이름/compute capability·visible CUDA RNG state가
+일치해야 한다. 다른 GPU나 source checkout으로 옮기는 것은 일반 weight load가 아니라 exact resume
+요청이므로 거부될 수 있다. 상세 계약은 [EXPERIMENT.md](EXPERIMENT.md)의 resume 절을 따른다.
 
-## Interactive PBS/Torque wrapper
+## 5. Slurm: train → calibrate → evaluation matrix
 
-학교에서 다음처럼 GPU shell을 발급한다면:
+header의 partition/account/GPU type/walltime은 cluster 정책에 맞춰 수정한다. 기본 요청은 GPU 1개,
+CPU 8개, RAM 32 GB이며 train 48시간, calibration 12시간, evaluation 8시간이다. 저장소 root에서
+제출하면 `SLURM_SUBMIT_DIR`을 project root로 사용한다. 다른 위치에서 제출할 때는
+`--export=ALL,PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
+
+앞 절의 full-data/decode 검사를 완료한 뒤 다음 dependency chain을 제출한다.
 
 ```bash
-ssai_agpu -g=1
+unset SNN_DYNAMICS
+
+train_id=$(sbatch --parsable \
+  --export=ALL,VALIDATE_DATASET=0 \
+  server/train.sbatch)
+
+cal_id=$(sbatch --parsable \
+  --dependency="afterok:${train_id}" \
+  --export=ALL,VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  server/calibrate.sbatch)
+
+for cfg in configs/hdr_ann.json configs/aid_ann.json; do
+  sbatch --dependency="afterok:${cal_id}" \
+    --export="ALL,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt,INFERENCE_MODE=ann" \
+    server/eval.sbatch
+done
+
+for cfg in configs/hdr_snn.json configs/aid_snn.json; do
+  for dynamics in literal_eq15 standard_if; do
+    for steps in 4 8 16 32; do
+      sbatch --dependency="afterok:${cal_id}" \
+        --export="ALL,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
+        server/eval.sbatch
+    done
+  done
+done
 ```
 
-발급된 shell 안에서:
+모든 evaluation job은 calibration 성공 후 열리며 mode/dynamics/T와 dataset별 output directory가 달라
+서로의 artifact를 덮어쓰지 않는다. Slurm log는 기본적으로 `slurm-<job-name>-<job-id>.out/.err`다.
+학습 재개 job으로 chain을 시작할 때는 첫 제출에 다음 값을 더한다.
 
 ```bash
-cd /absolute/path/to/asgcn-event-reconstruction
+train_id=$(sbatch --parsable \
+  --export=ALL,VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  server/train.sbatch)
+```
+
+## 6. PBS/Torque: train → calibrate → evaluation matrix
+
+`select`, `ngpus`, queue/project resource 이름은 site마다 다르므로 `server/*.pbs` header를 제출 전에
+확인한다. 저장소 root에서 제출하면 `PBS_O_WORKDIR`을 project root로 사용한다. 외부에서 제출할 때는
+`-v PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
+
+```bash
+unset SNN_DYNAMICS
+
+train_id=$(qsub \
+  -v VALIDATE_DATASET=0 \
+  server/train.pbs)
+
+cal_id=$(qsub \
+  -W depend="afterok:${train_id}" \
+  -v VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  server/calibrate.pbs)
+
+for cfg in configs/hdr_ann.json configs/aid_ann.json; do
+  qsub -W depend="afterok:${cal_id}" \
+    -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt,INFERENCE_MODE=ann \
+    server/eval.pbs
+done
+
+for cfg in configs/hdr_snn.json configs/aid_snn.json; do
+  for dynamics in literal_eq15 standard_if; do
+    for steps in 4 8 16 32; do
+      qsub -W depend="afterok:${cal_id}" \
+        -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
+        server/eval.pbs
+    done
+  done
+done
+```
+
+PBS에서 resume chain을 시작할 때는 다음처럼 `RESUME_CHECKPOINT`를 넘긴다.
+
+```bash
+train_id=$(qsub \
+  -v VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  server/train.pbs)
+```
+
+PBS는 login environment 전체를 전달하는 `#PBS -V`를 사용하지 않는다. site module이 필수이면
+해당 cluster용 `module load`를 job script에 추가한다. 별도 venv나 checkout을 쓸 때는
+`PYTHON_BIN`, `PROJECT_ROOT`를 `-v`로 명시한다.
+
+## 7. 산출물 확인과 운영상 오류
+
+학습이 끝나면 다음 파일을 먼저 확인한다.
+
+```bash
+ls -lh runs/eventhdr_asgcn/{last.pt,best.pt,best_snn.pt,history.json,config.json}
+find runs -name metrics.json -o -name benchmark.json | sort
+```
+
+평가 artifact는 다음 위치에 있다.
+
+```text
+runs/eventhdr_official_eval_ann/ann/
+runs/eventhdr_official_eval_snn/snn_<dynamics>_T<steps>/
+runs/eventaid_r_external_ann/ann/
+runs/eventaid_r_external_snn/snn_<dynamics>_T<steps>/
+```
+
+각 run의 `metrics.json`, `frames.csv`, `predictions/`, `benchmark.json`을 config, Git commit, scheduler
+log, `check_env.py` 출력과 함께 보존한다.
+
+자주 중단되는 조건은 다음과 같다.
+
+- `CUDA available: false`: login node가 아닌 GPU allocation인지, CUDA wheel과 driver가 맞는지 확인한다.
+- `EventHDR ... exact official file set`: OneDrive 전송이 끝났는지, train 51/eval 19 외 H5가 섞이지
+  않았는지 `get_hdr.sh --check`로 확인한다.
+- `eventaid_r_zip must contain exactly 14`: `get_aid.sh --all`을 완료하고 ZIP을 압축 해제하지 않는다.
+- `Fresh training run_dir is not empty`: 새 run이면 별도 `output.run_dir`, 중단 run이면 `last.pt` resume를
+  사용한다.
+- resume protocol mismatch: source/GPU/software/data를 원래 run과 일치시킨다. 단순 checkpoint weight
+  이식과 exact training resume를 혼동하지 않는다.
+- calibrated checkpoint 오류: ANN `best.pt`를 `scripts/calibrate.sh`로 변환한 뒤 SNN 평가에
+  `best_snn.pt`를 사용한다.
+- evaluation output exists: 기존 artifact를 보존 위치로 옮기거나 별도 output directory를 쓴다.
+- `max_graph_edges=2,000,000` 또는 OOM: edge를 조용히 잘라 진행하지 않는다. 별도 config에서
+  `max_events`, `graph_radius`, model width를 변경하고 peak memory를 다시 측정해 다른 실험으로 기록한다.
+- SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.
+~~~~~~~~
+
+# hand_off.md
+
+~~~~~~~~markdown
+# ASGCN Event Reconstruction 프로젝트 인계서
+
+이 문서는 다른 ChatGPT나 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
+이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-29의 현재
+구현과 일치하도록 다시 대조했다.
+
+## 1. 한 줄 결론과 주장 범위
+
+이 프로젝트는 EventHDR로 event-to-frame ANN을 학습하고, ASGCN 논문의 공개 graph/SNN 수식을
+적용해 변환한 뒤 EventHDR 공식 eval과 EventAid-R에서 평가하는 연구 코드다. graph encoder 뒤에는
+과제용 residual U-Net과 analog ConvGRU가 붙는다.
+
+저자 공식 저장소나 공식 checkpoint를 실행한 것이 아니며 원 논문의 classification pipeline도
+재현하지 않는다. 사용할 수 있는 표현은 `ASGCN paper-core 기반 event-to-frame 복원 적응` 또는
+`공개 수식 기반 graph/SNN core 구현`이다. 다음 주장은 금지한다.
+
+- 저자 공식 ASGCN 코드 또는 공식 checkpoint
+- 공식 ASGCN 완전 재현
+- 원 논문의 classification 성능 재현
+- 완전한 spiking network
+- FPGA/ASIC latency·전력·에너지 실측 또는 반도체 통합 구현 완료
+
+원격 origin은 다음 주소로 설정돼 있다.
+
+```text
+https://github.com/costunder/asgcn-event-reconstruction.git
+```
+
+## 2. 프로젝트 목표와 전체 파이프라인
+
+목표는 DVS event interval을 저지연 graph 연산으로 처리해 luminance frame을 복원하고, ANN과
+ANN→SNN graph encoder의 품질·지연·발화율을 같은 조건에서 비교하는 것이다.
+
+```text
+EventHDR H5 / EventAid-R ZIP
+  -> event interval [N, x, y, t, p] + target luminance frame
+  -> spatial crop (기본 full frame)
+  -> exact-size max_events cap (기본 8,192)
+  -> ASGCN 고정 event sampling factor R (기본 1)
+  -> normalized node feature [x,y,t,p]
+  -> strict d(i,j)<D undirected radius graph
+  -> scalar u=d/D degree-1 open B-spline graph encoder
+       ANN: affine -> BatchNorm -> ReLU
+       SNN: BN fold -> Eq.(6) normalization -> explicit IF timesteps
+  -> graph feature rasterization
+  -> residual U-Net + bottleneck analog ConvGRU
+  -> sigmoid [0,1] luminance frame
+  -> quality / temporal / latency / graph / firing-rate metrics
+```
+
+SNN으로 바뀌는 부분은 graph encoder뿐이다. rasterization, U-Net, ConvGRU와 output head는 analog다.
+세부 수식 대응과 공개 논문 대비 가정은 `docs/ASGCN.md`가 기준이다.
+
+## 3. 데이터셋의 정확한 역할과 용량
+
+| 데이터 | 공식 배포 구조 | 표시 용량 | 현재 프로토콜의 역할 |
+|---|---|---:|---|
+| EventHDR train | `1.h5`–`51.h5`, 51개 | EventHDR 전체 약 25.72 GB | ANN gradient 학습, ANN→SNN calibration |
+| EventHDR eval | `1.h5`–`19.h5`, 19개 | 위 전체에 포함 | 마지막 epoch 1회 내부 검증, ANN/SNN 공식 eval 내부 결과 |
+| EventAid-R | `R-*.zip`, 14개 | 약 24.68024 GB | 학습·calibration 뒤 외부 일반화 평가 |
+
+두 데이터셋의 공식 배포 표시 용량 합은 약 50.40 GB로 100 GB 미만이다. EventAid-R은 ZIP을
+추출하지 않고 직접 읽어 중복 저장을 피한다. EventHDR를 browser archive에서 복사할 때는 archive와
+배치된 H5가 일시적으로 함께 존재할 수 있으므로 서버의 실제 여유 공간은 별도로 확인한다.
+
+### 3.1 EventHDR 획득과 배치
+
+공식 배포는 [EventHDR 저장소](https://github.com/yunhao-zou/EventHDR)의 OneDrive 링크다. OneDrive가
+비대화형 `curl` 요청을 거부하므로 이 저장소는 동작하지 않는 자동 downloader를 제공하지 않는다.
+사용자가 browser로 받은 ZIP, 이미 풀어 둔 directory 또는 shared filesystem directory를 아래
+도구로 안전하게 배치한다.
+
+```bash
+# browser로 받은 train/eval 포함 ZIP을 직접 읽어 data/EventHDR로 복사
+bash scripts/get_hdr.sh --archive /absolute/path/EventHDR.zip
+
+# 이미 풀어 둔 EventHDR/{train,eval} 또는 {train,eval} root에서 복사
+bash scripts/get_hdr.sh --source /absolute/path/EventHDR
+
+# shared storage를 복사하지 않고 split directory symlink로 연결
+bash scripts/get_hdr.sh --source /shared/datasets/EventHDR --link
+
+# train/eval을 따로 받았을 때
+bash scripts/get_hdr.sh --source /downloads/train --split train
+bash scripts/get_hdr.sh --source /downloads/eval --split eval
+
+# 현재 목적지 재검사
+bash scripts/get_hdr.sh --check
+```
+
+`scripts/get_hdr.py`는 train의 정확한 51개 이름, eval의 정확한 19개 이름, missing/extra/nested H5,
+archive 중복·경로 이탈, HDF5 magic과 선택 데이터 100 GB 미만을 검사한다. 복사는 `.part` 임시 파일
+뒤 atomic replace로 완료하며 기존의 다른 크기 파일은 덮어쓰지 않는다. 공식 checksum이 공개되지
+않았으므로 이 검사는 배포자 cryptographic checksum 검증을 대신하지 않는다.
+
+### 3.2 EventAid-R 획득과 배치
+
+`manifests/eventaid_r.json`에는 공식 benchmark page가 연결한 14개 Dropbox URL, scene 이름과 표시
+용량이 고정돼 있다. Linux에서는 인자 없이 실행하면 전체 14개를 받는다.
+
+```bash
+bash scripts/get_aid.sh
+```
+
+Windows PowerShell에서는 다음을 쓴다.
+
+```powershell
+.\scripts\get_aid.ps1
+```
+
+Linux downloader는 재개 가능한 `curl`, retry와 ZIP container 검사를 사용한다. 공식 checksum이
+없으므로 최종 내용 검사는 뒤의 `inspect --validate-all` 단계에서 모든 event block과 target을
+decode하는 방식이다.
+
+### 3.3 loader 의미론
+
+EventHDR loader는 H5의 `events/{xs,ys,ts,ps}`와 `images/image*`의 `event_idx`, `timestamp`를 검사한다.
+timestamp·event boundary가 단조롭고 좌표·polarity가 유효한지 확인한다. `frame_stride=1`에서 모든
+target interval을 유지하며 event가 0개인 interval도 삭제하지 않는다. 빈 interval은 zero-node graph와
+zero raster를 거쳐 recurrent decoder로 전달된다. `frame_stride>1`이면 건너뛴 interval의 event를
+다음 선택 target까지 합치지만 기본값은 1이다.
+
+EventAid-R loader는 ZIP 안의 `event/i.txt`, `gt/j_img.png`, `timestamps.txt`, `shape.txt`를 직접
+읽는다. config의 `target_offset=1`은 event interval `i`를 다음 GT `i+1`과 짝짓는 구현 가정이다.
+연속 ID, timestamp coverage, shape, 좌표와 polarity를 검증한다. 이 pairing을 저자 공식 코드로
+확인한 것은 아니므로 보고서에서 가정으로 표시하고 offset이 다른 실험과 결과를 섞지 않는다.
+
+두 dataset 모두 target을 `[0,1]` luminance로 만든 뒤 기본 config에서
+`log1p(5000*x)/log1p(5000)`를 적용한다. EventAid-R의 8-bit 영상에 같은 log mapping을 쓰는 것은
+출력 수치 domain을 맞추기 위한 cross-domain 선택이지 두 센서의 radiometric response가 같다는
+뜻이 아니다.
+
+## 4. EventHDR manifest의 진실
+
+`manifests/eventhdr_split.json`은 다음 의미를 갖는다.
+
+```json
+{
+  "status": "final",
+  "split_schema": "official_separate_roots_v1",
+  "group_semantics": "h5_sequence_file_not_physical_scene",
+  "train_files": ["1.h5", "...", "51.h5"],
+  "val_files": ["1.h5", "...", "19.h5"]
+}
+```
+
+여기서 `final`은 공식 배포 file set과 separate root manifest가 확정됐다는 뜻이다. H5 번호가 물리
+scene ID라는 뜻이 아니며, 공개 자료에서 51개 train H5와 물리 촬영 scene 사이의 대응표는 확인되지
+않았다. 따라서 이 split으로 physical-scene-disjoint 일반화를 주장할 수 없다.
+
+train과 eval은 서로 다른 directory라 `1.h5` 같은 basename이 겹친다. factory는
+`official-train-h5::1.h5`와 `official-eval-h5::1.h5`처럼 split-local sequence group ID를 자동으로
+만들어 recurrent state와 macro metric을 분리한다. 공식 schema에 임의의 physical-scene field를
+추가하면 거부한다. root의 missing/undeclared H5도 학습 전에 거부한다.
+
+`configs/hdr_train.json`의 `validate_every=null`은 EventHDR 공식 eval을 매 epoch 보지 않고 마지막
+40번째 epoch에서 단 한 번만 실행한다. 그 하나의 candidate를 `best.pt`로 export하므로 epoch 간
+selection은 하지 않는다. 그래도 같은 eval에서 산출한 수치는 독립 test나 physical-scene test가
+아니며 `EventHDR official eval internal result`로만 보고한다. 이 결과를 보고 hyperparameter를
+바꾸면 이후 run에서는 사실상 개발 정보로 사용한 것이므로 독립성 주장을 더 할 수 없다.
+
+EventAid-R은 training과 calibration에 사용하지 않는다. 외부 결과를 본 뒤 radius, cap, threshold,
+tone mapping 또는 checkpoint를 바꾸면 기존 EventAid-R 결과를 잠긴 외부 일반화 평가로 부를 수 없다.
+
+## 5. 기본 config와 학습 규칙
+
+`configs/hdr_train.json`의 핵심값은 다음과 같다.
+
+| 영역 | 기본값 |
+|---|---|
+| seed / device | `2026` / `auto` |
+| data | train 51 H5, eval 19 H5, full frame, stride 1, log tone map |
+| event cap | crop 뒤 정확히 최대 8,192개 |
+| graph | `x,y,t`, radius 0.08, chunk 512, directed edge guard 2,000,000 |
+| spline encoder | hidden 64, 6 layers, open degree 1, K=5, root weight |
+| decoder | raster downsample 4, base 48, output 1, ConvGRU on |
+| training | 40 epoch, batch 1, chronological, workers 4, persistent/prefetch 2 |
+| optimizer | Adam + gradient centralization, lr `1e-3`, weight decay `5e-3` |
+| scheduler | MultiStepLR epoch 20/30, gamma 0.1 |
+| stability | CUDA AMP, L2 grad clip 1.0, non-finite loss/gradient fail-fast |
+| validation | 마지막 epoch 1회, 전체 19 H5, recurrent context policy 기록 |
+
+event cap은 `N>8192`일 때 `np.linspace(0,N-1,8192)`로 시간축 전체에서 정확히 8,192개를 선택한다.
+8,193개 입력이 절반으로 급락하는 ceil-stride 경계 문제를 피하며 양 끝 event를 포함한다. cap이
+필요 없으면 원본을 그대로 쓴다. metadata의 `raw_event_count`, `cropped_event_count`,
+`retained_event_count`, `dataset_sampling_ratio`와 model diagnostics의 `event_sampling_factor`,
+`effective_sampling_ratio`가 provenance와 CSV에 남는다.
+
+batch size는 recurrent chronology 때문에 1이고 shuffle하지 않는다. H5/ZIP group, sensor shape,
+sequence index가 정확히 이어질 때만 ConvGRU state와 temporal reference를 유지한다. 불연속에서는
+초기화한다. state와 이전 prediction은 매 frame detach하므로 full-sequence BPTT가 아니다.
+
+### 5.1 loss
+
+기본 loss는 다음 합이다.
+
+```text
+L = 1.0 * Charbonnier(epsilon=1e-3)
+  + 0.2 * (1 - Gaussian SSIM)
+  + 0.1 * spatial gradient L1
+  + 0.2 * frame-delta temporal L1
+```
+
+temporal term은 같은 group·shape에서 sequence index가 1 증가할 때만
+`L1((pred_t-pred_t-1),(gt_t-gt_t-1))`로 계산한다. optical-flow warp metric이 아니며 이전
+prediction은 detach돼 있다. SSIM은 `[0,1]`, Gaussian 11×11, sigma 1.5, valid convolution이고 작은
+영상에는 들어맞는 가장 큰 홀수 window를 쓴다.
+
+## 6. graph, B-spline, decoder 요약
+
+좌표는 `x/(W-1)`, `y/(H-1)`, interval 내 normalized `t`이고 polarity는 `-1/+1` node feature다.
+기본 거리에는 `x,y,t`만 쓴다. radius graph는 cell 폭을 정확히 `D`로 두고 `3^d` 인접 cell에서
+후보를 찾은 뒤 Euclidean `distance<D`를 다시 검사한다. 모든 ordered source를 처리해 무방향 쌍의
+양 방향 edge를 만들고 self-loop는 제외한다. chunking은 exact 계산 분할이며 approximation이 아니다.
+
+edge pseudo-coordinate `u=distance/D`에 open degree-1 B-spline basis 두 개만 활성화된다. layer는
+node를 K=5 control point에 한 번 projection하고 edge마다 두 control point만 gather한 뒤 destination
+incoming degree로 평균한다. 고정 graph의 basis/index는 graph layer와 IF timestep 전체에서
+재사용한다. mean message에 root transform과 bias를 더하고 ANN에서는 BatchNorm과 ReLU를 적용한다.
+
+node feature는 downsample 4의 raster cell 안에서 평균된다. decoder는 stem, 두 residual encoder
+level, 두 residual block bottleneck, analog ConvGRU, bilinear upsampling과 skip connection, sigmoid
+head로 구성된다. 자세한 구현 가정과 식 (15) 모호성은 `docs/ASGCN.md`를 본다.
+
+## 7. ANN→SNN calibration과 IF 경로
+
+`best.pt`는 변환되지 않은 ANN inference checkpoint다. calibration은 EventHDR train만 사용하며
+기본 wrapper는 모든 train sample을 사용한다.
+
+1. ANN graph layer의 BatchNorm을 kernel/root/bias에 fold한다.
+2. 각 layer의 feature별 ReLU maximum `lambda_l`를 측정한다.
+3. 식 (6)의 `lambda_(l-1)/lambda_l`와 `1/lambda_l` scaling을 적용한다.
+4. dead channel은 unit scale로 두고, 모든 threshold를 정확히 1로 둔다.
+5. `best_snn.pt`에 valid sample count, dead-channel summary, persistent conversion flag와 tensor
+   SHA-256을 저장한다.
+
+SNN inference는 threshold/normalization/calibration metadata와 layer state가 모두 일치해야 열린다.
+초기 membrane은 0.5 threshold, spike amplitude는 threshold, soft reset을 쓴다.
+
+- `literal_eq15`: 논문 식 (15)의 `+previous_spike` self-feedback까지 문자 그대로 실행한다.
+- `standard_if`: 그 항을 제거한 비공식 rate-conversion 대조군이다.
+
+두 dynamics는 같은 `best_snn.pt`에서 inference-only override로 비교한다. 마지막 graph layer의 spike
+rate에는 `lambda_L`를 곱해 analog decoder 단위로 보낸다. 이는 `literal_eq15`의 ANN parity 증명이
+아니다.
+
+## 8. `scripts/full.sh`의 전체 실행 순서
+
+이 script는 설치나 데이터 다운로드를 하지 않는다. 환경과 전체 데이터가 이미 준비된 뒤 저장소
+루트에서 실행한다.
+
+```bash
+bash scripts/full.sh
+```
+
+실행 단계는 정확히 다음 5개다.
+
+1. `check_env.py --require-full-data --lock constraints/py312.txt`와 선택적 CUDA 검사
+2. `hdr_train`, `hdr_ann`, `aid_ann` 세 config에 대해 `inspect --validate-all`
+3. EventHDR ANN 40-epoch 학습 또는 `RESUME_CHECKPOINT` exact resume
+4. EventHDR train 전체를 사용한 ANN→SNN calibration
+5. EventHDR와 EventAid-R의 전체 quality evaluation + compute benchmark matrix
+
+2단계에서 `hdr_train` inspect는 manifest의 train 51개와 eval 19개 split을 모두 decode한다.
+`hdr_ann`은 standalone EventHDR eval config를, `aid_ann`은 14개 ZIP 전체를 다시 검증한다. 오래 걸려도
+파일을 조용히 제외하지 않는다.
+
+5단계 matrix는 다음 18개 run이며 각 run마다 `evaluate`와 `benchmark`를 둘 다 실행한다.
+
+| dataset | mode | dynamics | T | checkpoint |
+|---|---|---|---|---|
+| EventHDR | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventHDR | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventHDR | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventAid-R | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
+
+전체 schedule만 확인하려면 다음을 사용한다.
+
+```bash
+DRY_RUN=1 bash scripts/full.sh
+```
+
+중요 override는 `RESUME_CHECKPOINT`, `CALIBRATION_SAMPLES`, `SIMULATION_STEPS_LIST`,
+`BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, 다섯 config path, ANN/SNN checkpoint path와
+`REQUIRE_CUDA`다. calibration output과 evaluation artifact는 기본적으로 덮어쓰지 않는다. fresh
+training도 run directory에 기존 핵심 artifact가 있으면 중단한다. 기존 결과를 보존한 채 새 output
+directory/config를 쓰는 것이 원칙이다.
+
+## 9. 평가 지표와 artifact
+
+quality는 frame별 PSNR, Gaussian SSIM, RMSE와 조건부 `temporal_l1`이다. `eval.lpips=true`와 optional
+dependency가 있을 때만 LPIPS를 계산한다. 결과는 다음 세 수준으로 집계한다.
+
+- `micro`: 모든 frame 평균
+- `macro`: group별 평균을 다시 같은 가중치로 평균
+- `per_scene`: 호환성을 위해 유지된 JSON key; EventHDR에서는 H5 sequence-file group,
+  EventAid-R에서는 ZIP scene group이다
+
+EventHDR의 `macro`를 physical scene macro라고 부르면 안 된다. standalone evaluation은 H5 filename을
+group으로 쓰고, training final validation은 split-local H5 group ID를 쓴다.
+
+evaluate latency는 dataset read와 host-to-device copy 뒤에 graph construction+model forward를
+동기화해 잰다. benchmark는 dataset I/O와 H2D를 timer 밖에 두고 warmup 뒤 CUDA Event 또는 CPU
+`perf_counter`를 쓴다. benchmark가 기록하는 항목은 mean/p50/p90/p95/p99/max latency, FPS,
+raw/retained events per second, graph nodes per second, event retention, 평균 node/edge, isolate ratio,
+max degree, SNN layer별 firing rate, 전체 firing rate, RTF p95, deadline miss ratio와 peak allocated/
+reserved GPU memory다.
+
+`eval.output_dir` 아래 run label은 다음과 같다.
+
+```text
+ann/
+snn_literal_eq15_T4/
+snn_literal_eq15_T8/
+...
+snn_standard_if_T32/
+```
+
+`metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고 `benchmark.json`은 benchmark가 만든다.
+동일 run label의 기존 artifact가 있으면 덮어쓰지 않고 실패한다. prediction filename은 순번, 안전한
+slug와 sample ID hash를 조합해 OS 금지 문자와 충돌을 피한다.
+
+## 10. provenance, checkpoint integrity와 exact resume
+
+학습 directory의 핵심 artifact는 `config.json`, `history.json`, `last.pt`, `best.pt`와 hidden data hash
+cache다. `validate_every=null`이므로 `history.json`의 validation은 마지막 epoch에서만 채워지고
+`best.pt`는 그 마지막 candidate다.
+
+validation protocol에는 dataset transform, manifest schema와 모든 file 목록/group mapping,
+validation sample identity/context policy, SSIM 정의, selection rule과 train/eval 원본 전체 file의
+SHA-256 결합 digest가 저장된다. 절대 root와 mtime은 checkpoint 비교 identity가 아니어서 같은 byte의
+복사본을 다른 mount에서 쓸 수 있다. hash cache는 같은 절대 path의 size/mtime/ctime이 모두 같을 때
+기존 full hash를 재사용한다. 원본을 교체·복원했거나 강제 전수 hash가 필요하면
+`train.rehash_data=true`를 둔다.
+
+training protocol에는 optimizer/GC 축, scheduler, loss weights, gradient clip, data order/workers,
+effective AMP, final-only validation rule, recurrent detach, torch/CUDA/cuDNN/GPU/TF32/determinism,
+`src/**/*.py` tree hash, Git commit과 source dirty 여부가 들어간다. checkpoint의 model tensor bytes도
+이름·dtype·shape를 포함해 SHA-256으로 묶는다.
+
+exact resume은 다음을 모두 요구한다.
+
+- resume checkpoint가 같은 configured run directory 안에 있을 것
+- model config, validation protocol, training protocol과 source/data digest가 일치할 것
+- optimizer, scheduler, GradScaler, history, epoch와 best score가 있을 것
+- Python, NumPy, torch와 visible CUDA device별 RNG state가 유효할 것
+- 과거 `best.pt`가 존재하고 `last.pt`의 best digest/protocol과 일치할 것
+- ANN/SNN conversion state와 checkpoint type이 일치할 것
+
+학습만 이어갈 때는 다음을 사용한다.
+
+```bash
+RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  bash scripts/train.sh configs/hdr_train.json
+```
+
+provenance가 엄격하므로 commit이나 source/runtime 변경 뒤에는 resume이 거부될 수 있다. 또한 runtime
+상태를 기록하고 비교하더라도 PyTorch/CUDA의 모든 kernel이 bitwise deterministic하다는 보장은
+없다. exact resume은 저장된 state와 protocol의 정확한 복원을 뜻하며 서로 다른 hardware에서의
+bitwise 동일성을 과장하지 않는다.
+
+## 11. MobaXterm/Linux GPU 서버 절차
+
+MobaXterm은 SSH/SFTP client이고 실제 연산은 접속한 Linux server에서 수행한다.
+
+```bash
+git clone https://github.com/costunder/asgcn-event-reconstruction.git
+cd asgcn-event-reconstruction
+
+python3.12 --version
+ldd --version | head -n 1
+nvidia-smi
+
+cp .env.example .env
+# .env에서 server driver와 맞는 공식 TORCH_INDEX_URL 등을 설정
+bash scripts/setup.sh
 source .venv/bin/activate
+
 python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-bash scripts/train.sh configs/hdr_smoke.json
+python -m pip check
+python -m ruff check .
+python -m pytest -q
 ```
 
-을 실행한다. wrapper 인자와 walltime 정책은 학교 문서를 따른다.
+프로젝트는 Python 3.10 이상을 지원한다. 재현용 lock은 Python 3.12.13에서 검증됐고 core/dev package와
+torch public version을 `constraints/py312.txt`에 고정한다. 현재 lock의 핵심은 torch 2.13.0,
+numpy 2.5.2, h5py 3.16.0, Pillow 12.3.0, pytest 9.1.1, Ruff 0.16.5다. Linux torch 2.13.0 lock
+profile은 glibc 2.28 이상을 요구한다. CUDA build는 `nvidia-smi` driver와 PyTorch 공식 selector에
+맞는 `TORCH_INDEX_URL`에서 먼저 설치한다.
 
-## PBS/Torque batch
-
-`#PBS -l select=...:ngpus=...`의 resource 이름은 클러스터마다 다르므로 제출 전에 header를
-수정한다. 저장소 루트에서 제출하는 것이 기본이다.
+core runtime dependency는 torch, NumPy, h5py, Pillow와 tqdm이다. development extra는 pytest와
+Ruff다. LPIPS만 필요할 때 optional eval extra를 설치한다.
 
 ```bash
-qsub server/train.pbs
+python -m pip install -e '.[eval]'
 ```
 
-저장소 밖에서 제출할 때는 절대 경로를 넘긴다. 스크립트는 잘못된 root를 자동으로 사용하지 않고
-중단한다.
+데이터 배치 뒤 전체 readiness를 검사한다.
 
 ```bash
-qsub -v PROJECT_ROOT=/absolute/path/to/repo server/train.pbs
+python scripts/check_env.py --require-cuda --require-full-data \
+  --lock constraints/py312.txt
+
+asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
+asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
+asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
 ```
 
-SNN 외부평가 예시:
+`check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, lock mismatch, glibc, data와 runs의 남은
+공간, runs 쓰기 가능 여부, EventHDR exact 51/19 이름과 EventAid-R exact 14 ZIP을 출력·검사한다.
+`--validate-all`은 모든 target/event block을 실제 decode하므로 전체 데이터에서는 오래 걸린다.
+
+## 12. scheduler와 container
+
+SLURM과 PBS/Torque 각각 train, calibration, evaluation entrypoint가 있다.
+
+```text
+server/train.sbatch        server/train.pbs
+server/calibrate.sbatch    server/calibrate.pbs
+server/eval.sbatch         server/eval.pbs
+```
+
+기본 요청은 GPU 1개, CPU 8개, RAM 32 GB다. train은 48시간, calibration은 12시간, evaluation은
+8시간으로 작성돼 있으나 partition/account/GPU type/resource 이름과 walltime은 cluster 규칙과 실제
+측정에 맞춰 바꿔야 한다. wrapper는 `PROJECT_ROOT` 또는 scheduler submit directory를 검증하고 잘못된
+checkout에서 실행하지 않는다. `CUDA_MODULE`은 opt-in이다.
+
+SLURM dependency 예시:
 
 ```bash
-qsub -v PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
-SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 server/eval.pbs
+train_id=$(sbatch --parsable server/train.sbatch)
+cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
+sbatch --dependency=afterok:${cal_id} \
+  --export=ALL,CONFIG_PATH=configs/hdr_snn.json,CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  server/eval.sbatch
 ```
 
-`SNN_DYNAMICS=standard_if`로 바꾸면 같은 calibrated checkpoint의 비공식 standard-IF 대조군을
-실행한다. 결과는 dynamics와 timestep이 포함된 별도 하위 폴더에 저장된다.
-
-`#PBS -V`는 login shell의 불필요한 credential/module까지 전달할 수 있어 사용하지 않는다. 필요한
-값만 `-v`로 전달한다.
-
-## SLURM
-
-저장소 루트에서 제출한다. Slurm은 compute node에서 job script의 spool 사본을 실행할 수 있으므로
-스크립트는 `PROJECT_ROOT`, `SLURM_SUBMIT_DIR` 순으로 root를 찾고 `pyproject.toml`과 wrapper를
-검증한다. 저장소 밖에서 제출할 때는 절대 경로를 명시한다.
+PBS/Torque dependency 예시:
 
 ```bash
-sbatch server/train.sbatch
-
-sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_ann.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt server/eval.sbatch
-
-sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
-SIMULATION_STEPS=16,SNN_DYNAMICS=standard_if server/eval.sbatch
+train_id=$(qsub server/train.pbs)
+cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
+qsub -W depend=afterok:${cal_id} \
+  -v CONFIG_PATH=configs/hdr_snn.json,CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  server/eval.pbs
 ```
 
-기본 요청은 GPU 1개, CPU 8개, RAM 32GB다. partition, account, GPU type, walltime과 module은
-클러스터 정책에 맞춰 수정한다. 본학습 40 epoch는 현재 serial frame 처리 때문에 기본 2일을 넘을
-수 있으므로 smoke에서 측정한 step time으로 walltime을 먼저 계산한다.
+전체 18-run matrix를 scheduler로 돌리려면 dataset/dynamics/T별 eval job을 각각 제출해야 한다.
+단일 allocation에서 순차 실행할 때만 `scripts/full.sh`를 직접 사용한다.
 
-평가 artifact는 `<eval.output_dir>/ann/` 또는
-`<eval.output_dir>/snn_<dynamics>_T<steps>/` 아래에 저장된다. `metrics.json`, `frames.csv`,
-`predictions/`는 evaluate가, `benchmark.json`은 benchmark가 쓴다. 같은 mode/dynamics/T 결과가
-있으면 덮어쓰지 않고 실패하므로 기존 결과를 옮기거나 새 output directory를 사용한다.
-
-## Docker
-
-Dockerfile은 Python 3.12와 `constraints/py312.txt`를 사용한다.
+Dockerfile은 Python 3.12와 같은 lock을 쓰며 compose는 data를 read-only, runs를 writable로 mount한다.
 
 ```bash
 docker build \
@@ -1543,544 +1999,113 @@ docker compose run --rm experiment \
   inspect --config configs/hdr_train.json --samples 2
 ```
 
-`compose.yaml`은 data를 read-only, runs를 writable volume으로 연결한다.
+## 13. 파일별 책임
 
-## 흔한 오류
-
-- `CUDA available: false`: GPU allocation 안인지, CPU torch wheel인지, driver와 wheel index가
-  맞는지 확인한다.
-- `glibc 2.28 or newer` 또는 `No matching distribution`: locked torch 2.13.0 profile에는 Linux
-  glibc 2.28 이상이 필요하다. 학교의 최신 container/module과 CUDA index 조합을 확인한다.
-- `Dependency profile requires Python 3.12`: 기존 `.venv`를 삭제해야 한다면 그 폴더가 정확히 이
-  저장소의 venv인지 확인한 뒤 재생성한다.
-- `status='provisional'` 또는 `requires scene_groups`: 본학습 차단이 정상이다. 최종 manifest에
-  `scene_groups`, `train_scenes`, `val_scenes`를 모두 작성하거나 smoke config를 쓴다. status만
-  `final`로 바꾸는 것은 허용되지 않는다.
-- `missing manifest files`: EventHDR 1–51 배치와 symlink 위치를 확인한다.
-- SNN calibrated checkpoint 오류: ANN `best.pt`를 먼저 `calibrate`해 `best_snn.pt`를 만든다.
-- OOM: 기본값에서 먼저 측정하고 `max_events`, `graph_radius`, `decoder_channels` 순으로 낮춘다.
-  `graph_radius`를 바꾸면 graph 구조도 달라지므로 해당 run의 config를 함께 보존한다.
-- `max_graph_edges` 오류: 기본 2,000,000 directed-edge 메모리 guard가 밀집 graph를 탐지한 것이다.
-  edge를 임의로 버리지 말고 `graph_radius`/`max_events`를 낮춰 재측정한다. guard 상향은 peak reserved
-  memory를 확인한 별도 config에서만 수행한다.
-- SSH 종료: interactive shell이 아니라 tmux 또는 scheduler job을 사용한다.
-~~~~~~
-
-# hand_off.md
-
-~~~~~~markdown
-# ASGCN Event Reconstruction 인수인계
-
-## 1. 현재 결론
-
-이 저장소는 EventHDR로 학습하고 EventHDR 공식 eval과 EventAid-R에서 평가하는
-**ASGCN paper-core 기반 event-to-frame 연구 프로토타입**이다. MobaXterm으로 Linux GPU 서버에
-SSH 접속한 뒤 clone, 설치, 데이터 배치, 검사, 학습, ANN→SNN 보정, 평가, benchmark까지 수행할 수
-있다.
-
-이 저장소는 ASGCN 저자의 공식 저장소가 아니다. 2026-08-29 기준 확인 가능한
-[AAAI 논문 페이지](https://ojs.aaai.org/index.php/AAAI/article/view/32154)와
-[공식 PDF](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)에서 공개 저자 코드나
-checkpoint 링크를 확인하지 못했다. 따라서 다음 표현만 사용한다.
-
-- 가능한 표현: `ASGCN paper-core 기반 복원 적응`, `공개 수식의 정적 graph/SNN core 구현`
-- 금지 표현: `저자 공식 코드`, `공식 ASGCN 완전 재현`, `논문 분류 성능 재현`
-
-원 논문은 event graph classification을 수행하지만 본 과제는 event-to-frame 복원이다. 논문의
-sampling, radius graph, B-spline graph convolution, BN folding, ANN→SNN parameter normalization,
-IF recurrence를 graph encoder에 사용하고, 그 뒤에 과제용 rasterization, residual U-Net, analog
-ConvGRU를 연결했다.
-
-비공개 원격 저장소:
-
-```text
-https://github.com/costunder/asgcn-event-reconstruction
-```
-
-## 2. 최종 파이프라인
-
-```text
-EventHDR/EventAid-R event interval [N, x,y,t,p]
-  -> spatial crop
-  -> adaptive integer-stride max_events safety cap
-  -> fixed paper sampling factor R
-  -> normalized event nodes [x,y,t,p]
-  -> strict d(i,j) < D undirected radius graph
-  -> scalar pseudo-coordinate u=d/D
-  -> degree-1 open B-spline graph encoder
-       ANN: affine + BN + ReLU
-       SNN: BN fold + Eq.(6) calibration + explicit IF timesteps
-  -> graph feature rasterization
-  -> residual U-Net + analog ConvGRU
-  -> [0,1] luminance frame
-  -> PSNR / Gaussian SSIM / RMSE / temporal L1 / latency
-```
-
-전처리의 두 sampling은 서로 다르다.
-
-1. dataset의 adaptive cap은 crop 뒤 `ceil(N/max_events)` 정수 stride를 사용한다. 서버 메모리
-   안전장치이며 논문의 공식 `R`이 아니다.
-2. model의 `event_sampling_factor`가 논문의 고정 `R`이다. 기본값은 1이다.
-
-각 sample에는 `raw_event_count`, `cropped_event_count`, `retained_event_count`,
-`dataset_sampling_factor`가 들어가며 model diagnostics에는 model factor와 두 값의 곱도 기록된다.
-
-## 3. 공개 논문과 맞춘 부분
-
-### 3.1 event graph
-
-- event 하나를 node 하나로 사용한다.
-- node feature는 `x,y,t,p`다.
-- 기본 graph 거리는 `[0,1]`로 정규화한 `x,y,t` 3차원에서 계산한다.
-- 두 node의 Euclidean distance가 `D`보다 작을 때만 edge를 만든다.
-- self edge 없이 두 방향을 모두 materialize해 simple undirected graph를 표현한다.
-- edge message는 실제 incoming degree로 평균한다.
-- `distance/D`는 PyG SplineConv의 `[0,1]` pseudo-domain에 맞춘 명시적 재매개화다. 논문의 원시
-  distance를 그대로 넣었다고 주장하지 않는다.
-
-### 3.2 B-spline operator
-
-순수 PyTorch `PaperSplineConv`를 사용하므로 Linux에서 `torch-spline-conv` C++/CUDA extension을
-별도로 빌드하지 않는다. 지원 범위는 scalar pseudo-coordinate, open degree 1, mean aggregation이다.
-기본 kernel size는 5다.
-
-공식 `pytorch_spline_conv` source와 맞춘 항목:
-
-- degree-1 basis index와 partition of unity
-- exact `u=1` modulo endpoint와 pseudo-coordinate gradient
-- spline weight bound `1/sqrt(K*Cin)`
-- root weight bound `1/sqrt(Cin)`
-- mean message aggregation, root transform, output bias
-
-root weight, bias, degree, openness, kernel size는 논문이 공개하지 않은 선택이다. root/bias는 식 (12)의
-update 선택 및 공식 PyG 기본 동작에 대응하지만 식 (11)에 문자 그대로 쓰여 있는 항은 아니다.
-고정 edge basis/index는 sample당 한 번 계산해 모든 graph layer와 IF timestep에서 재사용한다.
-
-### 3.3 ANN→SNN 변환
-
-1. ANN을 일반 역전파로 학습한다.
-2. graph layer BN을 식 (13)–(14)처럼 kernel/root/bias에 정확히 fold한다.
-3. EventHDR train calibration sample에서 feature별 ReLU maximum `lambda_l`를 측정한다.
-4. 식 (6)의 `W_l * lambda_(l-1)/lambda_l`, `b_l/lambda_l`를 kernel, root, bias에 적용한다.
-5. 유효한 non-empty calibration sample이 없는 layer는 변환을 거부한다.
-6. calibration에서 항상 0이었던 dead channel은 epsilon으로 폭증시키지 않고 unit scale을 사용하고,
-   변환 전 dead-channel 수를 checkpoint metadata에 보존한다.
-7. 마지막 normalized spike output에는 `lambda_L`를 곱해 학습된 analog decoder 단위로 보낸다.
-
-SNN checkpoint metadata와 각 layer의 persistent `bn_bypassed`, `snn_normalized`, 변환 뒤 exact-unit
-threshold state가 다르면 load를 거부한다. 모든 checkpoint는 model tensor byte SHA-256도 load 전에
-재계산한다. 변환한 `best_snn.pt`를 ANN mode로 읽는 것도 거부한다.
-
-## 4. 식 (15)의 중요한 모호성
-
-논문 식 (15)는 다음 self-feedback을 포함한다.
-
-```text
-v_tilde(t) = v(t-1) + c(t) + h(t-1)
-```
-
-이 식을 문자 그대로 실행하면 작은 양의 정전류도 첫 발화 뒤 이전 spike가 재주입되어 장기 firing
-rate가 1에 가까워질 수 있다. 이는 표준 soft-reset IF의 `firing rate ≈ normalized ANN activation`
-유도와 수학적으로 양립하지 않는다. 저자 코드나 정정 자료가 없으므로 임의로 오타 처리하지 않았다.
-
-- `snn_dynamics=literal_eq15`: 모든 기본 config. 식 (15)–(17)을 문자 그대로 실행한다.
-- `snn_dynamics=standard_if`: `+h(t-1)`를 제거한 rate-conversion 대조군이다. 공식 ASGCN 값이 아니다.
-
-테스트는 `c=0.1`, `theta=1`, `T=100`에서 literal 결과 0.96과 standard 결과 0.10을 각각 고정한다.
-따라서 literal 결과에 대해 “ANN activation을 정확히 rate로 근사한다”고 쓰면 안 된다. 마지막
-`lambda_L` 곱은 decoder 단위 변환이며 literal recurrence의 ANN parity 증명이 아니다.
-
-## 5. 논문에 없는 과제용 가정
-
-기본 config의 주요 값:
-
-| 항목 | 값 | 상태 |
-|---|---:|---|
-| architecture version | 2 | 구형 edge-MLP checkpoint 차단 |
-| hidden features | 64 | 복원 과제 가정 |
-| graph layers | 6 | 복원 과제 가정 |
-| normalized radius D | 0.08 | ablation 필요 |
-| graph dimensions | x,y,t | polarity는 node feature만 사용 |
-| B-spline | open degree 1, K=5 | 논문 미공개값 |
-| root weight | true | 식 (12)/PyG 기반 선택 |
-| raster downsample | 4 | 품질·메모리 ablation 필요 |
-| decoder channels | 48 | 복원 과제 가정 |
-| recurrent decoder | true | analog ConvGRU |
-| max events | 8192 | dataset/server safety cap |
-| max directed edges | 2,000,000 | OOM fail-fast guard |
-| SNN dynamics | literal_eq15 | 공개 식 우선 선택 |
-
-random crop은 scene+source-file 단위로 고정한다. 같은 연속 sequence에서 frame마다 ROI를 바꾸면
-ConvGRU pixel state와 temporal loss가 공간적으로 어긋나므로 per-frame crop을 사용하지 않는다.
-현재 crop은 resume/worker에 대해 결정적이고 epoch별 증강은 아니다.
-
-radius graph는 `D`가 만든 결과를 강제로 연결하지 않는다. isolated node는 root transform만 받는다.
-평가 CSV와 benchmark에는 isolate 비율과 max degree가 기록된다. directed edge가 2,000,000개를 넘으면
-edge를 몰래 잘라 다른 graph로 바꾸지 않고 오류로 중단한다.
-
-## 6. 아직 구현하지 않은 범위
-
-- 새 event의 K-hop ego-network만 갱신하는 동적 asynchronous 실행
-- sliding window에서 만료된 node 제거와 membrane state 관리
-- 식 (18)–(19)의 clustering, pooling, edge remapping
-- 원 논문의 classification MLP와 원 데이터셋 성능표
-- 식 (20)–(21)의 완전한 energy model과 실제 FPGA/ASIC 측정
-- event compression/transport protocol, RTL, FPGA/ASIC accelerator
-- full-resolution learned upsampling ablation
-- 실제 센서 I/O, H2D를 포함한 end-to-end ingest throughput
-
-이 항목 때문에 현재 결과를 반도체 구현 완료나 공식 논문 재현이라고 부를 수 없다.
-
-## 7. 데이터셋 역할
-
-| 데이터 | 저장 용량 참고 | 역할 |
-|---|---:|---|
-| EventHDR | 약 25.72 GB | ANN 학습, holdout validation, 공식 eval, SNN calibration |
-| EventAid-R | 공식 ZIP 합계 약 24.68 GB | 학습·보정 없는 외부 일반화 평가 |
-
-두 데이터 target은 `[0,1]` luminance로 변환한 뒤
-`log1p(5000*x)/log1p(5000)` tone mapping을 사용한다. 이는 수치 output domain만 맞추며 센서의
-radiometric response가 같다는 뜻은 아니다.
-
-EventAid-R에서 event index `i`를 다음 영상 `i+1`의 복원 입력으로 해석하는 `target_offset=1`은
-공개 파일 배열을 바탕으로 둔 구현 가정이다. 논문 저자 코드로 확인된 공식 pairing 규칙이 아니므로
-최종 보고서에는 이 가정을 명시하고, 필요하면 offset ablation을 별도로 수행한다.
-
-예상 배치:
-
-```text
-data/
-├── EventHDR/
-│   ├── train/*.h5
-│   └── eval/*.h5
-└── EventAid-R/
-    └── R-*.zip
-```
-
-EventAid-R는 ZIP을 추출하지 않고 직접 읽는다. `scripts/get_aid.sh`와 `scripts/get_aid.ps1`은 공식
-URL/manifest를 사용해 필요한 scene을 내려받고 검증한다. EventHDR는 README가 연결한 공식 저장소의
-배포 링크에서 받은 H5를 위 경로에 둔다.
-
-## 8. split과 데이터 누수 방지
-
-`manifests/eventhdr_split.json`은 물리 scene 대응표가 확보되지 않아 `provisional`이다. 본학습 config는
-이 상태에서 중단된다. 단순히 `status`만 `final`로 바꾸면 안 된다.
-
-최종 schema:
-
-```json
-{
-  "status": "final",
-  "scene_groups": {
-    "physical-scene-a": ["1.h5", "2.h5"],
-    "physical-scene-b": ["48.h5", "49.h5"]
-  },
-  "train_scenes": ["physical-scene-a"],
-  "val_scenes": ["physical-scene-b"]
-}
-```
-
-실제 mapping을 확인한 뒤 scene 간 file 중복이 없도록 작성한다. final manifest에서는
-`metadata.scene`이 H5 파일명이 아니라 physical scene ID가 된다.
-
-final manifest는 train root 아래의 모든 H5를 정확히 한 번 `scene_groups`에 포함하고, 모든 scene을
-train 또는 validation 중 정확히 한 split에 배정해야 한다. 누락 파일, root에 없는 선언, 중복 소속,
-미배정 scene은 모두 거부된다.
-
-smoke만 `manifests/eventhdr_smoke.json`의 provisional legacy file list를 허용한다. smoke는 train
-`1.h5`, `2.h5`, validation `48.h5`, `49.h5`만 열고 hash하므로 전체 25 GB를 불필요하게 읽지 않는다.
-
-## 9. MobaXterm/Linux 서버 시작 절차
-
-MobaXterm은 SSH/SFTP 클라이언트다. 실제 명령은 접속한 Linux 서버에서 실행한다.
-
-```bash
-git clone git@github.com:costunder/asgcn-event-reconstruction.git
-cd asgcn-event-reconstruction
-
-nvidia-smi
-ldd --version | head -n 1
-python3.12 --version
-
-cp .env.example .env
-read -r -p "Official PyTorch wheel index URL: " TORCH_INDEX_URL
-export TORCH_INDEX_URL
-bash scripts/setup.sh
-source .venv/bin/activate
-python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-python -m pytest -q
-```
-
-기본 locked profile은 Python 3.12, torch 2.13.0이다. Linux wheel은 glibc 2.28 이상을 요구하므로
-Ubuntu 18.04 기반 image에서 실패할 수 있다. 이때 Ubuntu 22.04/24.04 계열 container를 사용한다.
-`TORCH_INDEX_URL`에는 PyTorch 공식 selector가 제시하는 서버 driver 호환 wheel index URL을 넣는다.
-torch 2.13.0 wheel이 해당 index에 실제로 존재해야 하며, 임의의 CUDA suffix를 가정하지 않는다.
-정확한 명령은 `README.md`와 `docs/SERVER.md`를 우선한다.
-
-## 10. 데이터 검사와 실행 명령
-
-### smoke
-
-```bash
-chmod +x scripts/get_aid.sh
-bash scripts/get_aid.sh bear
-asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
-
-python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
-  --lock constraints/py312.txt
-asgcn-recon inspect --config configs/hdr_smoke.json --samples 2 --validate-all
-asgcn-recon train --config configs/hdr_smoke.json
-```
-
-`aid_smoke.json`은 단일/부분 ZIP loader smoke 전용이며 결과 보고용이 아니다. 최종 EventAid-R 평가인
-`aid_ann.json`과 `aid_snn.json`은 manifest의 14개 ZIP을 정확히 요구한다.
-
-### 본학습 전 전체 검사
-
-```bash
-python scripts/check_env.py --require-cuda --require-full-data \
-  --lock constraints/py312.txt
-asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
-```
-
-### ANN 학습
-
-```bash
-asgcn-recon train --config configs/hdr_train.json
-```
-
-현재 provisional split guard 때문에 physical scene mapping 확정 전에는 위 본학습이 의도적으로
-중단된다.
-
-### ANN→SNN calibration
-
-```bash
-asgcn-recon calibrate \
-  --config configs/hdr_train.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt \
-  --output runs/eventhdr_asgcn/best_snn.pt \
-  --samples 500
-```
-
-calibration은 EventHDR train만 사용하며 EventHDR eval/EventAid-R를 사용하지 않는다.
-
-### 평가
-
-```bash
-asgcn-recon evaluate --config configs/hdr_ann.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt
-
-asgcn-recon evaluate --config configs/hdr_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics literal_eq15
-
-asgcn-recon evaluate --config configs/hdr_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics standard_if
-
-asgcn-recon evaluate --config configs/aid_ann.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt
-
-asgcn-recon evaluate --config configs/aid_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics literal_eq15
-```
-
-`scripts/eval.sh`/SLURM/PBS wrapper에서도 `SNN_DYNAMICS=literal_eq15` 또는 `standard_if`를 명시할
-수 있다. 두 dynamics 결과는 별도 실험으로 보고한다.
-
-## 11. 학습 protocol과 exact resume
-
-논문이 공개한 optimizer 조건에 맞춰 본 config는 다음을 사용한다.
-
-- Adam + gradient centralization
-- learning rate `1e-3`
-- L2 weight decay `5e-3`
-- MultiStepLR `[20,30]`, gamma `0.1`은 논문 미공개값에 대한 복원 과제 가정
-
-Spline weight `[K,Cin,Cout]`와 root `[Cin,Cout]`는 output axis를 제외한 dimension에서 gradient를
-centralize한다. Conv/Linear는 output-first layout에 맞춰 첫 axis를 제외한다.
-
-`last.pt`에는 model, optimizer, scheduler, GradScaler, epoch, history, RNG, validation/data fingerprint,
-training protocol을 넣는다. resume 시 다음처럼 optimization trajectory를 바꾸는 값이 다르면 거부한다.
-
-- optimizer, learning rate, weight decay, scheduler
-- loss weights, grad clipping
-- batch size, max train sample 수, validation 주기
-- AMP 요청값과 실제 device 적용 상태
-- model config, split, transforms, source SHA-256
-
-`epochs`, `log_every`, resume path, output control처럼 이미 완료한 optimizer step을 바꾸지 않는 값만
-resume에서 달라질 수 있다. `best.pt`는 ANN inference-only, `best_snn.pt`는 SNN inference-only다.
-
-## 12. fail-fast 장치
-
-- non-finite event coordinate/timestamp/polarity 거부
-- 비단조 timestamp/event index 거부
-- 범위 밖 image/event coordinate 거부
-- loss component/total non-finite 즉시 중단
-- gradient clipping 뒤 non-finite gradient 즉시 중단
-- validation metric/macro SSIM non-finite 즉시 중단
-- `simulation_steps`의 bool/float/0 입력 거부
-- 빈 calibration layer 거부
-- ANN/SNN checkpoint mode 혼용 거부
-- checkpoint metadata/state flag 불일치 거부
-- partial BN-fold/parameter normalization 거부
-- final scene schema 누락/scene leakage 거부
-- radius graph edge budget 초과 거부
-
-## 13. 평가와 benchmark 의미
-
-품질:
-
-- PSNR, RMSE
-- 11×11 sigma 1.5 Gaussian-window SSIM
-- scene macro/micro/per-scene 집계
-- 같은 scene에서 연속 index일 때만 temporal L1
-- 선택적 LPIPS
-
-품질 집계의 grouping은 구현 가정이다. final physical-scene manifest에서는 physical scene ID,
-provisional/EventHDR official eval에서는 H5 파일, EventAid-R에서는 ZIP scene을 group으로 사용한다.
-JSON의 `per_scene`/`scene_count` 이름은 하위 호환을 위해 유지한다.
-
-성능:
-
-- evaluate: graph 생성과 model forward를 포함, dataset read는 timer 전
-- benchmark: dataset read와 H2D 제외, CUDA Event 사용
-- p50/p90/p95/p99/max, FPS, RTF/deadline miss
-- raw events/s, retained events/s, graph nodes/s
-- isolate ratio, max degree, mean node/edge
-- SNN layer별 `총 spike / 총 neuron-step` 발화율과 전체 가중 발화율
-- peak allocated/reserved GPU memory
-
-`events_per_second`는 deprecated compatibility alias이며 retained events/s와 같다. 어느 값도 센서
-ingest 또는 반도체 전송 throughput으로 해석하지 않는다. PyTorch GPU IF latency/발화율도 FPGA/ASIC
-energy 측정값이 아니다.
-
-평가 산출물은 `<output_dir>/ann/` 또는
-`<output_dir>/snn_<dynamics>_T<T>/` 아래의 `metrics.json`, `frames.csv`, `predictions/`,
-`benchmark.json`으로 모드별 분리된다. 기존 산출물이 있는 run directory는 덮어쓰지 않고 거부하므로
-새 output root를 쓰거나 이전 결과를 명시적으로 보존·이동해야 한다. 최종 EventHDR 평가는 19개 H5,
-최종 EventAid-R 평가는 manifest의 14개 ZIP 전체 coverage guard를 통과해야 한다.
-prediction PNG는 평가 순번과 full sample-ID hash를 포함한 cross-platform filename을 쓴다.
-
-## 14. checkpoint 종류
-
-| 파일 | 용도 | optimizer/RNG | BN fold | Eq.(6) |
-|---|---|---|---|---|
-| `last.pt` | exact training resume | 포함 | 아니오 | 아니오 |
-| `best.pt` | ANN 평가 | 미포함 | 아니오 | 아니오 |
-| `best_snn.pt` | SNN 평가 | 미포함 | 예 | 예 |
-
-checkpoint는 embedded `model_config`와 `architecture_version=2`를 요구한다. 구형 edge-MLP/raw state
-dict를 paper-core model로 조용히 읽지 않는다. 세 checkpoint 모두 `model_state_sha256`를 가지며
-일반 평가, calibration, exact resume가 tensor byte와의 일치를 강제한다.
-
-## 15. 로컬 검증 결과
-
-검증 환경:
-
-```text
-Windows 11
-Python 3.12.13
-torch 2.13.0+cpu
-CUDA unavailable on this host
-```
-
-마지막 검증 결과:
-
-- Ruff: 통과
-- Python compileall: 통과
-- pytest: 136 passed
-- JSON config 7개, manifest 3개 parse: 통과
-- `scripts/check_env.py --lock constraints/py312.txt`: 통과
-- HWP/HWPX와 dummy implementation 파일: 없음
-
-현재 로컬에 있는 일부 실제 데이터도 전수 decode/finite 검사했다.
-
-| 데이터 | 파일 | sample | 검사 결과 |
-|---|---|---:|---|
-| EventHDR | `data/EventHDR/train/26.h5` | 500 | 전부 통과 |
-| EventAid-R | `data/EventAid-R/R-bear.zip` | 65 | 전부 통과 |
-
-실제 EventHDR 마지막 sample의 기본 ANN CPU forward:
-
-```text
-sample: 26.h5/image000000499
-output: [1,1,240,256], finite
-nodes: 4134
-directed edges: 90156
-isolated nodes: 3
-max degree: 57
-model parameters: 4,409,617
-CPU forward: 약 0.37 s (성능 보증값 아님)
-```
-
-실제 EventHDR sample에서 6개 layer calibration, Eq. (6), literal-Eq15 `T=2` SNN forward도 finite
-output을 확인했다. GPU/CUDA AMP, A100/A6000 peak memory와 full dataset 40-epoch 학습은 이 host에서
-실측하지 않았다.
-
-## 16. 주요 파일 지도
-
-| 경로 | 역할 |
+| 경로 | 책임 |
 |---|---|
-| `README.md` | clone부터 데이터·학습·평가까지 사용자 실행 가이드 |
-| `docs/ASGCN.md` | 논문 근거, 구현 가정, 식 (15) 모호성, 비재현 범위 |
-| `docs/EXPERIMENT.md` | split, protocol, ablation, metric 해석 |
-| `docs/SERVER.md` | MobaXterm/Linux/CUDA/SLURM/PBS/Docker 운영 |
-| `src/asgcn_recon/graph.py` | radius graph, SplineConv, BN folding, Eq. (6), IF loop |
-| `src/asgcn_recon/model.py` | graph encoder, rasterizer, U-Net/ConvGRU decoder |
-| `src/asgcn_recon/engine.py` | train/resume/calibrate/evaluate/benchmark/checkpoint |
-| `src/asgcn_recon/data/eventhdr.py` | EventHDR H5 direct loader/validation |
-| `src/asgcn_recon/data/eventaid_r.py` | EventAid-R ZIP direct loader/validation |
-| `src/asgcn_recon/data/factory.py` | split manifest, physical scene schema, leakage checks |
-| `configs/*.json` | `hdr_smoke`/`aid_smoke`, train, internal/external ANN/SNN 실험 설정 |
-| `manifests/*.json` | EventHDR split/smoke와 EventAid-R 파일 manifest |
-| `scripts/setup.sh` | venv와 CPU/CUDA locked dependency 설치 |
-| `scripts/check_env.py` | Python/torch/CUDA/glibc/data/disk/lock 검사 |
-| `server/*` | SLURM/PBS template |
-| `tests/*` | 수식, operator, loader, protocol, resume, end-to-end 회귀 |
-| `code_summary.md` | ChatGPT 교차검증용 전체 text file snapshot |
+| `src/asgcn_recon/graph.py` | node 정규화, exact radius graph, B-spline layer, BN fold, Eq.(6), IF loop |
+| `src/asgcn_recon/model.py` | graph build 연결, rasterization, residual U-Net, ConvGRU, diagnostics |
+| `src/asgcn_recon/data/eventhdr.py` | H5 index/검증, zero-event 보존, frame interval 구성 |
+| `src/asgcn_recon/data/eventaid_r.py` | ZIP 직접 읽기, next-GT pairing, timestamp/shape 검증 |
+| `src/asgcn_recon/data/common.py` | luminance/tone map, crop, exact-size event cap, sample schema |
+| `src/asgcn_recon/data/factory.py` | manifest schema, exact coverage, split-local H5 group |
+| `src/asgcn_recon/losses.py` | Charbonnier, SSIM loss, gradient loss |
+| `src/asgcn_recon/metrics.py` | Gaussian SSIM, PSNR, RMSE, temporal metric, micro/macro 집계 |
+| `src/asgcn_recon/engine.py` | train/validation/calibration/evaluate/benchmark, checkpoint·resume·provenance |
+| `src/asgcn_recon/cli.py` | inspect/train/calibrate/evaluate/benchmark CLI |
+| `configs/hdr_train.json` | EventHDR 51 train + 19 final-only internal eval 학습 protocol |
+| `configs/hdr_ann.json`, `configs/hdr_snn.json` | EventHDR official eval ANN/SNN 실행 |
+| `configs/aid_ann.json`, `configs/aid_snn.json` | EventAid-R 14-scene ANN/SNN 외부 실행 |
+| `manifests/eventhdr_split.json` | official separate roots와 H5 sequence-file semantics |
+| `manifests/eventaid_r.json` | 14 ZIP 이름, URL, 표시 용량 |
+| `scripts/setup.sh`, `scripts/check_env.py` | server 설치와 환경/data inventory |
+| `scripts/get_hdr.py`, `scripts/get_hdr.sh` | browser/source/shared EventHDR 안전 import/check |
+| `scripts/get_aid.sh`, `scripts/get_aid.ps1` | EventAid-R 다운로드 |
+| `scripts/train.sh`, `scripts/calibrate.sh`, `scripts/eval.sh` | 개별 GPU wrapper |
+| `scripts/full.sh` | 전체 5단계, 18-run matrix orchestration |
+| `server/` | SLURM/PBS train→calibrate→eval entrypoint |
+| `docs/ASGCN.md` | 논문 core와 구현 가정의 경계 |
+| `docs/EXPERIMENT.md`, `docs/SERVER.md` | 실험 protocol과 server 운용 보조 문서 |
+| `tests/` | fixture 기반 CPU unit/integration/end-to-end 회귀검사 |
 
-## 17. 다음 담당자의 우선순위
+## 14. 테스트 상태와 검증 범위
 
-1. EventHDR 배포 정보에서 물리 scene↔H5 mapping을 확보하고 final manifest를 작성한다.
-2. A6000 또는 A100에서 `hdr_smoke`를 먼저 실행해 peak allocated/reserved memory와 edge 분포를 본다.
-3. 기본 config의 isolate ratio와 edge budget hit 여부를 확인한다.
-4. `literal_eq15`와 `standard_if`를 T=4/8/16/32로 분리 보고한다.
-5. `graph_layers=3/6`, radius 0.04/0.08/0.12, raster downsample 1/2/4를 ablation한다.
-6. full training 전에 학습/검증 scene이 겹치지 않는지 manifest validation 결과를 보존한다.
-7. full training 뒤 EventHDR official eval과 EventAid-R를 한 번만 고정 평가한다.
-8. 과제의 저지연·고효율 주장에는 실제 hardware 또는 명시적 operation/energy model을 추가한다.
+현재 test collection은 159개이며 로컬 Windows CPU 환경에서 `158 passed, 1 skipped`가 기준이다.
+skip은 Windows symlink privilege가 없는 경우의 shared-storage link test다. Ruff도 통과해야 한다.
 
-## 18. 최종 주의사항
+```bash
+python -m ruff check .
+python -m pytest -q
+bash -n scripts/*.sh server/*.sbatch server/*.pbs
+```
 
-- provisional manifest의 `status`만 바꾸지 않는다.
-- EventAid-R를 보고 hyperparameter/threshold를 조정한 뒤 외부 잠금시험이라고 부르지 않는다.
-- edge guard를 단순 상향하기 전에 GPU peak reserved memory를 측정한다.
-- literal Eq. (15)를 standard rate IF처럼 설명하지 않는다.
-- PyTorch GPU latency를 FPGA/ASIC latency나 energy로 환산하지 않는다.
-- 전체 공식 데이터와 GPU full run을 하지 않은 상태에서 실험 완료라고 쓰지 않는다.
+주요 회귀 범위는 다음과 같다.
 
-현재 코드는 더미 골격이나 edge-MLP proxy가 아니라 공개 수식 기반 graph/SNN core와 복원 decoder가
-실제로 실행되는 연구 코드다. 동시에 논문과 과제의 경계, 저자 코드 부재, 공개 식의 모호성, 미구현
-hardware 범위를 숨기지 않는 것이 이 저장소의 재현성 원칙이다.
-~~~~~~
+- strict undirected radius graph와 cell implementation의 pairwise reference parity
+- degree-1 open B-spline endpoint, gradient, 초기화, hand calculation과 autograd
+- BN fold, 식 (6), dead channel, IF soft reset, dynamics 차이, basis cache
+- EventHDR/EventAid 구조·timestamp·좌표·polarity·pairing·multiprocess safety
+- exact-size event cap 경계와 zero-event frame
+- manifest separate-root/physical-scene claim 차단과 exact file coverage
+- final-only validation, balanced/context schedule, loss/gradient non-finite guard
+- checkpoint tensor digest, conversion state, provenance와 exact resume 거부 조건
+- evaluate/benchmark artifact, metrics, temporal continuity와 전체 orchestration matrix
+
+GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
+syntax job을 정의한다. unit test는 공식 대용량 데이터나 GPU 없이 fixture로 실행된다. 따라서 test
+통과는 전체 데이터 GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
+
+## 15. 현재 한계와 교차검증 체크리스트
+
+현재 저장소에 전체 데이터 GPU run 결과나 A6000/A100 benchmark artifact가 커밋돼 있지 않다. 다음
+항목은 실제 server에서 `scripts/full.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
+
+- EventHDR/EventAid-R 전체 decode 성공과 총 frame 수
+- 40-epoch loss/history, 마지막 epoch internal eval과 checkpoint digest
+- all-sample calibration의 layer별 valid count/dead channel
+- 18개 mode/dynamics/T의 quality, latency, memory, graph와 firing-rate artifact
+- A6000/A100별 driver, CUDA wheel, torch, peak memory와 walltime
+
+알고 있어야 할 구조적 한계:
+
+- cell search는 exact지만 dense event cell의 최악 복잡도는 여전히 `O(N²)`다.
+- single-GPU, chronological batch 1, sample별 Python loop라 전체 실행 시간이 길 수 있다.
+- 8,192-event cap은 메모리 안전 선택이며 고이벤트 interval 정보를 줄인다.
+- EventHDR H5는 물리 scene ID가 아니며 official eval은 독립 test가 아니다.
+- EventAid-R `target_offset=1`과 log tone mapping은 명시적 cross-domain 가정이다.
+- `literal_eq15`의 self-feedback은 표준 rate-conversion과 수학적 긴장이 있다.
+- decoder가 analog라 firing-rate/latency를 완전한 neuromorphic system 수치로 해석할 수 없다.
+- downloader 검사는 공식 checksum을 대체하지 못한다.
+- optional LPIPS는 core lock에 포함되지 않는다.
+- 실제 sensor ingest, network transport, compression, RTL, synthesis와 power 측정은 범위 밖이다.
+
+다른 ChatGPT가 교차검증할 때는 최소한 다음 질문에 답해야 한다.
+
+1. 결과 설명이 `paper-core 기반 복원 적응` 범위를 넘어 공식 재현을 주장하는가?
+2. EventHDR가 정확히 train 51/eval 19이고 EventAid-R이 정확히 14 ZIP인가?
+3. H5 sequence group을 physical scene으로 잘못 해석했는가?
+4. `validate_every=null`과 마지막 epoch 단 1회 internal eval이 실제 checkpoint에 기록됐는가?
+5. event cap이 정확히 8,192개를 선택하고 zero-event interval을 보존하는가?
+6. graph가 strict `<D`, 양방향, self-loop 없음이며 cell optimization이 pairwise reference와 같은가?
+7. ANN과 SNN checkpoint type, BN fold, Eq.(6), threshold와 tensor digest가 일치하는가?
+8. EventAid-R을 본 뒤 model/config를 바꾸지 않았는가?
+9. 보고한 숫자가 실제 `metrics.json`, `benchmark.json`, `history.json`과 server provenance에 있는가?
+
+이 아홉 항목 중 하나라도 확인되지 않으면 해당 수치는 예비 내부 결과로만 취급한다.
+~~~~~~~~
 
 # Makefile
 
-~~~~~~makefile
+~~~~~~~~makefile
 PYTHON ?= .venv/bin/python
 
-.PHONY: setup doctor test lint inspect train
+.PHONY: setup data doctor test lint inspect train full
 
 setup:
 	bash scripts/setup.sh
+
+data:
+	bash scripts/get_aid.sh --all
 
 doctor:
 	$(PYTHON) scripts/check_env.py
@@ -2096,11 +2121,14 @@ inspect:
 
 train:
 	$(PYTHON) -m asgcn_recon.cli train --config configs/hdr_train.json
-~~~~~~
+
+full:
+	bash scripts/full.sh
+~~~~~~~~
 
 # manifests/eventaid_r.json
 
-~~~~~~json
+~~~~~~~~json
 {
   "source": "https://sites.google.com/view/eventaid-benchmark",
   "displayed_total_gb": 24.68024,
@@ -2121,40 +2149,37 @@ train:
     {"scene":"R-wall","size":"2GB","url":"https://www.dropbox.com/scl/fo/7l4jytyqpvdf5w9x3t8zi/AFj-qvqZ7f8Ma9Q2tWXrb5k/EventAid-R/R-wall.zip?rlkey=aq4t4jg5xerfrhfkut6tddh5w&dl=1"}
   ]
 }
-~~~~~~
-
-# manifests/eventhdr_smoke.json
-
-~~~~~~json
-{
-  "status": "provisional",
-  "note": "Smoke-only file split. Do not report it as a physical-scene-disjoint validation result.",
-  "train_files": ["1.h5", "2.h5"],
-  "val_files": ["48.h5", "49.h5"]
-}
-~~~~~~
+~~~~~~~~
 
 # manifests/eventhdr_split.json
 
-~~~~~~json
+~~~~~~~~json
 {
-  "status": "provisional",
-  "note": "Provisional legacy file lists only. For final training replace them with scene_groups, train_scenes, and val_scenes, then set status to final; changing status alone is rejected.",
+  "status": "final",
+  "split_schema": "official_separate_roots_v1",
+  "group_semantics": "h5_sequence_file_not_physical_scene",
+  "source": "https://github.com/yunhao-zou/EventHDR",
+  "note": "Official OneDrive distribution split. Train and eval are distinct roots whose numeric basenames intentionally overlap. H5 files are recurrent/metric sequence groups, not claimed physical-scene identities.",
   "train_files": [
     "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
     "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
     "18.h5", "19.h5", "20.h5", "21.h5", "22.h5", "23.h5", "24.h5", "25.h5",
     "26.h5", "27.h5", "28.h5", "29.h5", "30.h5", "31.h5", "32.h5", "33.h5",
     "34.h5", "35.h5", "36.h5", "37.h5", "38.h5", "39.h5", "40.h5", "41.h5",
-    "42.h5", "43.h5", "44.h5", "45.h5", "46.h5", "47.h5"
+    "42.h5", "43.h5", "44.h5", "45.h5", "46.h5", "47.h5", "48.h5", "49.h5",
+    "50.h5", "51.h5"
   ],
-  "val_files": ["48.h5", "49.h5", "50.h5", "51.h5"]
+  "val_files": [
+    "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
+    "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
+    "18.h5", "19.h5"
+  ]
 }
-~~~~~~
+~~~~~~~~
 
 # pyproject.toml
 
-~~~~~~toml
+~~~~~~~~toml
 [build-system]
 requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -2192,155 +2217,129 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-~~~~~~
+~~~~~~~~
 
 # README.md
 
-~~~~~~markdown
-# ASGCN paper-core 기반 Event-to-Frame 실험
+~~~~~~~~markdown
+# ASGCN paper-core 기반 전체 Event-to-Frame 실험
 
 [![CI](https://github.com/costunder/asgcn-event-reconstruction/actions/workflows/ci.yml/badge.svg)](https://github.com/costunder/asgcn-event-reconstruction/actions/workflows/ci.yml)
 
-EventHDR로 학습하고 EventHDR 공식 eval과 EventAid-R에서 평가하는 event-to-frame 연구
-프로토타입이다. GitHub clone 후 MobaXterm/SSH로 접속한 Linux GPU 서버에서 설치·검사·학습·평가할
-수 있게 구성했다.
+EventHDR 전체 공개 배포본으로 학습하고 EventHDR 공식 eval과 EventAid-R 전체에서 평가하는
+event-to-frame 연구 코드다. MobaXterm으로 Linux GPU 서버에 SSH 접속한 뒤 clone, 설치, 데이터
+구축, 학습, ANN→SNN 보정, 전체 평가를 한 번에 재현할 수 있다.
 
-정확한 기술 범위는 다음과 같다.
+기본 실험 범위는 다음과 같다.
 
-- encoder: uniform event sampling + undirected radius graph + B-spline graph convolution
-- decoder: residual U-Net + analog ConvGRU
-- ANN 경로: 학습과 기본 평가
-- `snn` 경로: BN folding·parameter normalization 뒤 논문 식 (15)–(17)을 timestep별로 전개하는 IF graph encoder
-- 데이터: EventHDR H5 직접 읽기, EventAid-R ZIP 직접 읽기
+- EventHDR `train/1.h5`–`51.h5` 전체로 40 epoch ANN 학습
+- EventHDR `eval/1.h5`–`19.h5` 전체로 마지막 epoch에 한 번 내부 평가
+- EventHDR train의 모든 calibration sample로 BN folding·parameter normalization 수행
+- EventHDR eval과 EventAid-R 14개 ZIP 전체에서 ANN 평가
+- 두 SNN dynamics(`literal_eq15`, `standard_if`)를 각각 `T=4,8,16,32`로 전체 평가
+- 전체 품질 지표와 별도의 compute-only latency benchmark 기록
 
-graph/SNN core는 AAAI 논문에 공개된 sampling, radius graph, B-spline aggregation, BN folding,
-ANN→SNN normalization과 IF membrane 식을 구현한다. 다만 2026-08-29 기준 공개 배포된 저자
-코드는 확인할 수 없었고, 논문에 없는 spline·좌표 세부값은 명시적 가정이며, 원 논문의 분류 head
-대신 복원 decoder를 붙였다.
-논문의 layer-wise lambda와 feature-wise threshold 결합도 단일하게 규정되지 않아 이 저장소는
-feature-wise lambda를 적용하고 정규화 뒤 unit threshold를 쓰는 선택을 명시했다.
-따라서 “공식 ASGCN 완전 재현”이 아니라 paper-core 기반 연구 프로토타입이다. 근거와 경계는
-[ASGCN 구현 범위](docs/ASGCN.md)에 정리했다. 반도체 RTL/FPGA/ASIC, 전력·에너지 측정, 이벤트 전송
-protocol은 포함하지 않는다.
+## 구현 범위와 모델 구조
 
-기본 `snn_dynamics=literal_eq15`는 논문의 `+h(t-1)` self-feedback까지 그대로 실행한다. 이 식은
-표준 ANN→SNN rate-conversion IF와 수학적으로 맞지 않는 공개 모호성이 있으므로, 저장소는 이를
-숨기지 않고 `standard_if` 대조군과 장기-timestep 회귀 테스트를 함께 둔다. 기본 결과를 단순히
-“ANN activation을 정확히 근사한 firing rate”라고 주장하지 않는다.
+이 저장소는 ASGCN 저자의 공식 코드를 그대로 실행한 완전 재현본이 아니다. [AAAI 공식
+논문](https://ojs.aaai.org/index.php/AAAI/article/view/32154)에 공개된 uniform sampling, radius
+graph, B-spline graph convolution, BN folding, parameter normalization과 IF 식을 직접 복원하고,
+원 논문의 분류 head를 이 과제의 프레임 복원 head로 바꾼 **ASGCN paper-core 기반 확장**이다.
+논문에 공개되지 않은 spline·좌표·threshold 결합 세부값은 config에 고정한 구현 가정이다. 근거와
+가정의 경계는 [docs/ASGCN.md](docs/ASGCN.md)에 정리했다.
+
+```text
+events [N, x, y, t, p]
+  -> full-frame 좌표 정규화
+  -> max_events 초과 시 정확히 max_events개를 균일 index로 결정론적 선택
+  -> ASGCN sampling factor R
+  -> undirected radius graph
+  -> B-spline graph encoder (ANN 또는 IF-SNN)
+  -> feature rasterization
+  -> residual U-Net + analog ConvGRU
+  -> luminance frame
+```
+
+SNN 변환 대상은 graph encoder다. residual U-Net과 ConvGRU decoder는 ANN/SNN 평가 모두에서 analog
+연산으로 남는다. `literal_eq15`는 논문 식 (15)의 self-feedback 항을 문자 그대로 실행하고,
+`standard_if`는 그 항을 제거한 rate-conversion 대조군이다. 후자를 공식 저자 설정이라고 주장하지
+않는다.
+
+기본 config는 모든 파일과 모든 frame sample을 사용하며 `crop_size: null`, `frame_stride: 1`,
+`max_train_samples: null`, `max_val_samples: null`, `eval.max_samples: null`이다. 다만 그래프 메모리를
+제어하기 위해 한 frame의 crop 후 event가 8,192개를 넘으면 시작·끝을 보존하는 균일 index로 정확히
+8,192개를 선택한다. 이는 ASGCN 논문의 고정 sampling factor `R`과 구분해 결과 metadata에 기록되는
+복원 시스템용 안전 제한이다.
 
 ## 데이터와 실험 역할
 
-| 단계 | 데이터 | 목적 |
-|---|---|---|
-| ANN 학습 | EventHDR train | 복원 weight 최적화 |
-| 모델 선택 | EventHDR holdout | 최종 physical-scene/provisional file group-balanced macro SSIM 기준 `best.pt` 선택 |
-| SNN 보정 | EventHDR train | 같은 group 기준 BN folding·feature threshold·parameter normalization |
-| 내부시험 | EventHDR 공식 eval | 학습 완료 후 고정 평가 |
-| 외부시험 | EventAid-R 14장면 | 학습·보정 없이 일반화 평가 |
+| 데이터 | 공개 파일 | 용량 | 이 저장소의 역할 |
+|---|---:|---:|---|
+| EventHDR train | H5 51개 | EventHDR 합계 약 25.72GB | ANN 학습 및 ANN→SNN 보정 |
+| EventHDR eval | H5 19개 | 위 합계에 포함 | 마지막 epoch 내부 평가와 최종 평가 |
+| EventAid-R | ZIP 14개 | 약 24.68GB | 학습·보정에 쓰지 않는 외부 평가 |
 
-두 데이터의 target은 모두 `[0,1]` luminance에 동일한
-`log1p(5000*x)/log1p(5000)` 변환을 적용한다. 이는 수치 output domain을 맞추는 조치이며,
-서로 다른 센서의 radiometric response가 동일하다는 뜻은 아니다.
-EventAid-R은 event block `i`를 다음 GT `i+1`과 짝짓는 `target_offset=1`을 명시적 정렬
-가정으로 사용한다. 이 값은 ASGCN 논문 값이 아니며 다른 정렬과 비교할 때 별도 run으로 기록한다.
+두 데이터의 합계는 약 **50.4GB**로 100GB 미만이다. 가상환경, checkpoint, prediction, 로그와
+EventHDR 업로드용 ZIP을 동시에 보관하면 추가 공간이 필요하다.
 
-```text
-events [N, x,y,t,p]
-  -> deterministic spatial crop
-  -> adaptive integer-stride max_events cap (reconstruction/server safety)
-  -> fixed factor-R sampling + undirected radius graph
-  -> B-spline graph encoder (ANN 또는 calibrated literal-Eq15/standard-IF)
-  -> feature rasterization
-  -> residual U-Net + ConvGRU
-  -> luminance frame
-  -> PSNR / Gaussian SSIM / RMSE / temporal_l1 / latency
-```
+EventHDR 공식 배포는 train 51 H5와 eval 19 H5를 서로 다른 root로 제공한다. 공개 자료에는 이
+70개 H5와 실제 촬영 physical scene 사이의 완전한 대응표가 없다. 따라서
+`manifests/eventhdr_split.json`은 공식 train/eval root를 그대로 고정하며 H5 sequence file을 recurrent
+state와 macro metric의 group 단위로 사용한다. 확인되지 않은 physical-scene 대응을 만들어내지
+않는다.
 
-## 본학습 전 차단 장치
+`configs/hdr_train.json`의 `validate_every: null`은 EventHDR eval을 **40번째(마지막) epoch에 단 한 번만**
+평가한다는 뜻이다. eval loss는 gradient에 들어가지 않고 여러 epoch 중 checkpoint를 고르는 데도
+사용되지 않는다. 호환성을 위해 파일명은 `best.pt`지만, 이 설정에서는 마지막 epoch에서 한 번
+계산한 finite macro SSIM을 가진 모델이다. EventAid-R은 그 이후 외부 일반화 평가에만 사용한다.
 
-- recurrent validation은 group별(final은 physical scene, provisional은 H5 file) 가능한 한 균등한
-  quota의 연속 window를 채점한다. 본학습은
-  최대 500개, smoke는 32개를 채점하며, window 앞 group당 최대 64 frame(smoke는 8)을 별도로
-  replay해 ConvGRU 상태를 예열한다. non-recurrent validation에는 이 context replay가 없다.
-- calibration은 각 group의 index 범위에서 등간격으로 뽑는다. recurrent benchmark는 균형 연속 window와
-  group당 최대 32개의 unmeasured predecessor를 쓰고, non-recurrent benchmark는 time-spread sample을 쓴다.
-- calibration에서 모든 ReLU가 0인 feature는 0 또는 epsilon으로 나누지 않고 unit lambda를 사용하며,
-  dead-channel 수를 checkpoint에 기록한다. 이는 논문 미공개 경우에 대한 구현 가정이다.
-- gradient centralization은 spline/root에서는 마지막 output axis를, Conv/Linear에서는 첫 output
-  axis를 제외한 차원에 적용한다. 이 axis 규칙도 저자 코드로 확인된 공식값이 아니다.
-- 장면·프레임 연속 번호·해상도 중 하나라도 끊기면 recurrent state와 temporal metric을 초기화한다.
-- checkpoint 선택은 frame 수가 많은 scene에 치우치는 micro 값이 아니라 macro SSIM을 사용한다.
-- EventHDR/EventAid-R의 timestamp, event index, 좌표, polarity와 배열 구조를 검사한다.
-- random crop은 안정적인 scene+source-file identity로 결정한다. 같은 연속 sequence의 모든 frame은
-  동일한 sensor ROI를 써 ConvGRU state와 temporal loss를 정렬하고, worker 수와 resume에도 동일하다.
-  epoch별로 ROI가 바뀌는 증강은 아니다.
-- `snn` 평가는 `simulation_steps >= 1`, BN folding, parameter normalization과 모든 graph layer에서
-  최소 1개의 유효한 non-empty calibration observation을 강제한다.
-- SNN checkpoint metadata와 각 graph layer의 persistent BN-fold/Eq. (6) flag, 변환 뒤 정확한 unit
-  threshold를 교차검증한다.
-- `last.pt`, `best.pt`, `best_snn.pt`는 모두 model tensor byte의 SHA-256을 저장하며, 평가·보정·resume
-  전에 digest를 다시 계산해 finite 값의 조용한 변조도 거부한다.
-- radius graph가 `max_graph_edges=2,000,000`을 넘으면 edge를 몰래 버리지 않고 OOM 전에 실패한다.
-- Eq. (6)으로 변환한 `best_snn.pt`를 ANN 모드로 읽는 것도 거부한다. ANN에는 변환 전 `best.pt`를 쓴다.
-- 보정 checkpoint에는 optimizer/scaler/RNG/history를 넣지 않아 training resume과 분리한다.
-- checkpoint는 CPU에서 읽고 model만 GPU로 옮겨 평가 peak memory에서 optimizer state를 제외한다.
-- `best.pt`는 ANN inference용 clean checkpoint이고 optimizer/RNG/history는 `last.pt`에만 둔다.
-- exact resume의 checkpoint protocol은 절대 root/mtime 대신 상대 파일 identity와 train/validation
-  원본 전체의 SHA-256, 기존 `best.pt`를 검증한다. 계산한 hash의 재사용 정책은 아래에 별도로 적었다.
-- 임시 파일 번호 split으로 40 epoch 본학습을 실행하지 못하게 막는다. 물리 scene 분할을 확정하고
-  manifest의 `status`를 `final`로 바꿔야 한다.
+두 loader는 target을 `[0,1]` luminance로 만든 뒤 동일한
+`log1p(5000*x)/log1p(5000)` tone mapping을 적용한다. EventAid-R은 event block `i`를 다음 GT
+`i+1`과 짝짓는 `target_offset: 1`을 사용한다. 이는 이 저장소의 정렬 가정이지 ASGCN 논문 값은
+아니다.
 
-## MobaXterm/Linux GPU 서버 실행
+## MobaXterm/Linux GPU 서버 재현
 
-MobaXterm은 SSH/SFTP 클라이언트다. 아래 명령은 접속한 Linux 서버의 저장소 루트에서 실행한다.
+MobaXterm은 SSH/SFTP 접속에만 사용한다. 아래 명령은 접속한 Linux 서버의 저장소 root에서
+실행한다.
 
 ### 1. 비공개 저장소 clone
 
-서버 SSH key를 GitHub에 등록했다면:
+서버 SSH key가 GitHub 계정에 등록되어 있으면:
 
 ```bash
 git clone git@github.com:costunder/asgcn-event-reconstruction.git
 cd asgcn-event-reconstruction
 ```
 
-HTTPS를 쓰면 GitHub 비밀번호 대신 접근 token이 필요하다.
+HTTPS를 사용하면 GitHub 계정 비밀번호가 아니라 private repository 접근 token이 필요하다.
 
 ```bash
 git clone https://github.com/costunder/asgcn-event-reconstruction.git
 cd asgcn-event-reconstruction
 ```
 
-### 2. 서버와 CUDA wheel 확인
+### 2. Python/CUDA 환경 설치
+
+먼저 서버 상태를 확인한다.
 
 ```bash
-git --version
 python3.12 --version
-python3.12 -c "import venv, ensurepip; print('venv/ensurepip: OK')"
-curl --version | head -n 1
-tmux -V
 nvidia-smi
 ldd --version | head -n 1
+curl --version | head -n 1
 ```
 
-`venv`/`ensurepip`은 가상환경 생성에, `curl`은 EventAid-R downloader에 필요하다. `tmux`는 직접
-GPU 서버에서 장시간 학습할 때만 필요하며, scheduler만 쓰는 서버에서는 생략할 수 있다. 명령이
-없으면 서버 관리자에게 해당 모듈 또는 OS package 이름을 확인한다.
-
-기본 재현 프로필은 다음을 고정한다.
-
-- Python 3.12
-- torch 2.13.0
-- `constraints/py312.txt`의 NumPy/h5py/Pillow/tqdm/dev 의존성
-- CUDA build는 서버 드라이버와 호환되는 공식 PyTorch wheel index
-- Linux에서 이 locked torch 2.13.0 profile은 glibc 2.28 이상
-
-[PyTorch 공식 설치 선택기](https://pytorch.org/get-started/locally/)에서 **torch 2.13.0을 실제로
-제공하는** CUDA index를 선택한다. 예시 URL을 그대로 복사하지 말고 해당 서버에서 확인한다.
+재현 프로필은 Python 3.12, `constraints/py312.txt`, PyTorch 2.13.0을 사용한다. Linux의 locked
+PyTorch profile은 glibc 2.28 이상을 요구하며 설치 스크립트가 이를 먼저 검사한다. 서버 NVIDIA
+driver에 맞는 CUDA wheel index는 [PyTorch 공식 설치 선택기](https://pytorch.org/get-started/locally/)
+에서 확인한다.
 
 ```bash
 cp .env.example .env
-read -r -p "Official PyTorch wheel index URL: " TORCH_INDEX_URL
-export TORCH_INDEX_URL
+# .env의 PYTHON_BIN과 필요 항목을 서버에 맞게 확인한다.
+# 아래 값은 공식 선택기에서 확인한 실제 URL로 바꾼다.
+export TORCH_INDEX_URL='<official PyTorch CUDA wheel index URL>'
 
 bash scripts/setup.sh
 source .venv/bin/activate
@@ -2349,313 +2348,346 @@ python -m pip check
 python -m pytest -q
 ```
 
-`scripts/setup.sh`은 locked torch 2.13.0과 Linux glibc 2.28 미만 조합을 venv 생성·download 전에
-중단하고, `scripts/check_env.py --lock constraints/py312.txt`도 같은 조건을 fail-fast한다. 해당
-서버에서는 무작정 source build하지 말고 더 최신인 학교 module 또는 container를 사용한다.
-
-명령행에서 export한 값은 `.env`보다 우선한다. 서버에 Python 3.12가 없다면 `py312` constraints를
-억지로 사용하지 말고, 서버의 Python/CUDA 조합에서 별도 lock을 검증한 뒤 설정해야 한다.
-
-`PROJECT_EXTRAS=dev`가 기본이다. LPIPS는 기본 평가에 필요하지 않으며, 사용할 때만 torch와 맞는
-torchvision을 먼저 확인한 뒤 `python -m pip install -e '.[eval]'`로 추가한다.
-
-로그인 노드에서 GPU가 숨겨지는 클러스터도 있다. 실제 GPU allocation 안에서는 반드시:
+로그인 node가 GPU를 숨기는 클러스터에서는 설치 시 `.env`의 `REQUIRE_CUDA=0`을 유지해도 된다.
+학습 전에는 반드시 실제 GPU allocation 안에서 다음 검사를 통과시킨다.
 
 ```bash
+source .venv/bin/activate
 python scripts/check_env.py --require-cuda --lock constraints/py312.txt
 ```
 
-을 통과시킨다.
+### 3. EventAid-R 전체 자동 다운로드
 
-### 3. 데이터 배치
+EventAid-R은 공식 manifest의 14개 ZIP을 내려받고 ZIP container를 검증한다. 압축을 풀 필요가 없으며
+loader가 ZIP을 직접 읽는다.
+
+```bash
+source .venv/bin/activate
+bash scripts/get_aid.sh --all
+```
+
+중단되면 같은 명령을 다시 실행한다. 유효한 ZIP은 유지하고 `curl --continue-at -`로 미완료 파일을
+이어받는다.
+
+### 4. EventHDR 전체 가져오기
+
+EventHDR는 [공식 저장소](https://github.com/yunhao-zou/EventHDR)의
+[공식 OneDrive 배포 폴더](https://1drv.ms/f/s!AuA3qjJbfh9FjQa4GvHC_9Fn9UQm?e=jODI9N)에서
+받는다. OneDrive 공개 폴더가 무인 `curl` 요청을 거부하므로 가짜 자동 downloader를 두지 않았다.
+브라우저로 받은 파일을 MobaXterm SFTP로 서버에 올린 뒤 아래 세 방법 중 하나를 사용한다.
+
+train/eval을 각각 ZIP으로 받았다면:
+
+```bash
+bash scripts/get_hdr.sh --archive /path/to/train.zip --split train
+bash scripts/get_hdr.sh --archive /path/to/eval.zip --split eval
+```
+
+train/eval을 함께 포함한 하나의 ZIP을 받았다면:
+
+```bash
+bash scripts/get_hdr.sh --archive /path/to/EventHDR.zip
+```
+
+이미 압축을 풀었거나 서버 shared storage에 있다면 복사하거나 symlink한다.
+
+```bash
+bash scripts/get_hdr.sh --source /path/to/EventHDR
+# 대용량 복제를 피하려면:
+bash scripts/get_hdr.sh --source /shared/path/EventHDR --link
+```
+
+각 split만 따로 존재하는 source에는 `--split train` 또는 `--split eval`을 함께 준다. importer는
+정확히 train `1.h5`–`51.h5`, eval `1.h5`–`19.h5`인지, 예상 밖 H5가 없는지, 각 파일이 HDF5인지,
+합계가 100GB 미만인지 검사한다. 기존의 다른 파일을 덮어쓰지 않으며 복사는 `.part` 임시 파일 뒤
+원자적으로 완료된다.
+
+최종 배치는 다음과 같다.
 
 ```text
 data/
 ├── EventHDR/
 │   ├── train/1.h5 ... 51.h5
-│   └── eval/*.h5                 # 공식 eval 19개
+│   └── eval/1.h5 ... 19.h5
 └── EventAid-R/
-    └── R-*.zip                   # 전체 14개 scene
+    └── R-*.zip                  # 14개
 ```
 
-EventHDR는 [공식 저장소](https://github.com/yunhao-zou/EventHDR)의 배포 링크에서 받은 뒤
-MobaXterm SFTP 또는 shared storage symlink로 배치한다. 자동 downloader는 제공하지 않는다.
-
-EventAid-R은 작은 `R-bear`로 먼저 loader를 확인하고, 최종 외부평가 전에만 전체를 받는다.
+가져온 EventHDR와 두 데이터의 전체 coverage를 확인한다.
 
 ```bash
-bash scripts/get_aid.sh R-bear
-asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
-
-# 최종 14-scene 외부평가 직전에만 실행
-bash scripts/get_aid.sh --all
+bash scripts/get_hdr.sh --check
+python scripts/check_env.py --require-full-data --lock constraints/py312.txt
 ```
 
-`aid_smoke.json`은 일부 ZIP을 허용하는 비보고용 loader 점검 설정이다. `aid_ann.json`과
-`aid_snn.json`은 manifest의 정확한 14개 ZIP이 모두 없으면 중단한다.
+### 5. 전체 실험 한 번에 실행
 
-ZIP은 압축을 풀지 않는다. 두 데이터 합계 약 50.4GB이며 가상환경·checkpoint·결과를 포함해
-70GB 이상의 여유 공간을 권장한다.
-
-최종 내부·외부 평가 전에 전체 파일 수와 manifest 누락을 확인한다.
+GPU allocation 안에서 다음 한 명령을 실행한다.
 
 ```bash
-python scripts/check_env.py --require-full-data
-```
-
-빠른 구조 검사:
-
-```bash
-asgcn-recon inspect --config configs/hdr_train.json --samples 2
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2
-asgcn-recon inspect --config configs/aid_ann.json --samples 2
-```
-
-본실험 전에는 모든 selected sample을 실제로 decode해 좌표·timestamp까지 검사한다. 시간이 걸리는
-의도적인 전체 검사다.
-
-```bash
-asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
-```
-
-### 4. scene split 확정
-
-`manifests/eventhdr_split.json`은 현재 legacy `train_files`/`val_files`만 가진
-`status: provisional` 임시 holdout이라 본학습용이 아니다. 최종 manifest는 동일 물리 장면의 H5를
-하나의 group으로 묶고, 겹치지 않는 scene ID를 train/validation에 배정하는 다음 schema를 써야 한다.
-
-```json
-{
-  "status": "final",
-  "scene_groups": {
-    "night-drive": ["1.h5", "2.h5"],
-    "day-drive": ["48.h5", "49.h5"]
-  },
-  "train_scenes": ["night-drive"],
-  "val_scenes": ["day-drive"]
-}
-```
-
-예시는 schema 설명일 뿐 실제 scene 대응표가 아니다. 공식 대응표를 확보하지 않은 채
-`status`만 `final`로 바꾸거나 legacy 파일 목록만 유지하면 loader가 거부한다. 현재 상태에서
-`configs/hdr_train.json`을 실행해도 의도적으로 중단된다. `manifests/eventhdr_smoke.json`의 legacy
-파일 목록 schema는 비보고용 provisional smoke에만 허용한다.
-final manifest는 `data/EventHDR/train` 아래의 모든 H5를 정확히 한 scene에 포함하고 모든 scene을
-train 또는 validation에 배정해야 한다. 누락 파일, 미선언 파일, 중복 소유권이 하나라도 있으면
-본학습 전에 중단한다.
-
-### 5. A100/A6000 real-data smoke
-
-`configs/hdr_smoke.json`은 `manifests/eventhdr_smoke.json`의 `1.h5`, `2.h5`를 train으로,
-`48.h5`, `49.h5`를 validation으로 쓰는 1 epoch 점검용이다. 최대 32 train sample과 32 scored
-validation sample을 쓰며, group당 최대 8개의 unscored context frame이 추가될 수 있다. 이 run의
-content fingerprint는 네 smoke-manifest H5만 SHA-256으로 읽고 전체 EventHDR/EventAid-R를 hash하지
-않는다. 임시 파일 split 결과는 논문 성능으로 보고하지 않는다.
-
-smoke와 본학습은 논문의 Adam+gradient centralization, 초기 learning rate `1e-3`, L2 weight decay
-`5e-3`를 쓴다. 논문이 정확한 decay epoch와 gamma를 공개하지 않아 `[20,30]`과 `0.1`은 40-epoch
-복원 실험용 명시적 가정으로 고정했다. smoke는 1 epoch라 milestone에 도달하지 않는다.
-
-```bash
+source .venv/bin/activate
 mkdir -p logs
-python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
-  --lock constraints/py312.txt
-bash scripts/train.sh configs/hdr_smoke.json 2>&1 | tee logs/smoke.log
+bash scripts/full.sh 2>&1 | tee logs/full.log
 ```
 
-`runs/smoke/history.json`의 `gpu_memory.peak_allocated_mib`와 `peak_reserved_mib`를 확인한다. 먼저
-A100 10GB에서 기본 설정 그대로 통과시킨 뒤 A6000에서 본학습 예상 시간을 재는 순서가 안전하다.
-이 저장소에서는 아직 두 GPU의 실측 결과를 제공하지 않는다.
-
-### 6. EventHDR ANN 본학습
-
-scene split이 `final`이고 smoke가 통과한 뒤 실행한다.
+MobaXterm 연결이 끊겨도 계속 실행하려면 `tmux` 안에서 시작한다.
 
 ```bash
-tmux new-session -s asgcn -c "$PWD" \
-  "bash -lc 'source .venv/bin/activate && bash scripts/train.sh configs/hdr_train.json'"
+tmux new-session -s asgcn
+source .venv/bin/activate
+mkdir -p logs
+bash scripts/full.sh 2>&1 | tee logs/full.log
 ```
 
-분리: `Ctrl-b`, `d`
+분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다.
 
-재접속: `tmux attach -t asgcn`
+`scripts/full.sh`은 다음 순서를 fail-fast로 실행한다.
 
-epoch 단위 resume:
+1. CUDA, locked dependencies, EventHDR 51+19 H5, EventAid-R 14 ZIP coverage 검사
+2. EventHDR train/eval과 EventAid-R의 모든 sample을 실제 decode하고 event/target 구조 검사
+3. EventHDR train 전체 40 epoch ANN 학습
+4. EventHDR train의 모든 calibration sample로 `best_snn.pt` 생성
+5. EventHDR eval과 EventAid-R 전체에 대해 ANN 1회 및
+   `literal_eq15`/`standard_if` × `T=4,8,16,32` 평가·benchmark
+
+전체 품질 평가는 모든 sample을 사용한다. 기본 `BENCHMARK_STEPS=100`은 GPU compute latency를 재는
+별도 timing 반복 수이며 품질 평가를 100 sample로 줄이는 설정이 아니다. `save_predictions: 20`도
+PNG 저장 수만 제한하고 metric 계산 범위는 제한하지 않는다.
+
+실행될 명령표만 확인하려면 데이터와 GPU 없이 다음을 사용할 수 있다.
+
+```bash
+DRY_RUN=1 bash scripts/full.sh
+```
+
+## 중단 후 재개와 결과 보호
+
+학습은 매 epoch 종료 시 `last.pt`를 원자적으로 갱신한다. 중단 후 같은 run을 epoch 경계에서 재개한다.
 
 ```bash
 RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
-  bash scripts/train.sh configs/hdr_train.json
+  bash scripts/full.sh 2>&1 | tee -a logs/full.log
 ```
 
-출력은 `runs/eventhdr_asgcn/{config.json,history.json,best.pt,last.pt}`다.
-`--resume` 없이 시작할 때 이 폴더에 기존 결과가 있으면 덮어쓰지 않고 중단하므로, 기존 run을
-재개하거나 `output.run_dir`가 다른 config를 사용한다.
+resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
+전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다. 일치하지 않으면 조용히 다른 실험을
+이어 붙이지 않고 중단한다.
 
-### 7. ANN → IF-SNN 보정·변환
+기존 calibration 또는 평가 결과도 자동 덮어쓰지 않는다. 의도적으로 calibration만 다시 만들 때는
+`OVERWRITE_CALIBRATION=1`을 명시할 수 있지만, 이미 완료된 평가 artifact는 보존하거나 config의
+`eval.output_dir`를 새 경로로 바꿔 별도 run으로 실행해야 한다.
 
-EventHDR train의 여러 파일과 시간대를 균형 있게 사용한다. EventAid-R은 보정에 사용하지 않는다.
-
-```bash
-asgcn-recon calibrate \
-  --config configs/hdr_train.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt \
-  --output runs/eventhdr_asgcn/best_snn.pt \
-  --samples 500
-```
-
-### 8. 내부·외부 평가
-
-```bash
-INFERENCE_MODE=ann RUN_BENCHMARK=1 \
-  bash scripts/eval.sh configs/hdr_ann.json runs/eventhdr_asgcn/best.pt \
-  2>&1 | tee logs/hdr_ann.log
-
-INFERENCE_MODE=snn SIMULATION_STEPS=16 SNN_DYNAMICS=literal_eq15 RUN_BENCHMARK=1 \
-  bash scripts/eval.sh configs/hdr_snn.json runs/eventhdr_asgcn/best_snn.pt \
-  2>&1 | tee logs/hdr_snn.log
-
-# 같은 calibrated checkpoint의 standard-IF 대조군
-INFERENCE_MODE=snn SIMULATION_STEPS=16 SNN_DYNAMICS=standard_if RUN_BENCHMARK=1 \
-  bash scripts/eval.sh configs/hdr_snn.json runs/eventhdr_asgcn/best_snn.pt \
-  2>&1 | tee logs/hdr_standard_if.log
-
-INFERENCE_MODE=ann RUN_BENCHMARK=1 \
-  bash scripts/eval.sh configs/aid_ann.json runs/eventhdr_asgcn/best.pt \
-  2>&1 | tee logs/aid_ann.log
-
-INFERENCE_MODE=snn SIMULATION_STEPS=16 SNN_DYNAMICS=literal_eq15 RUN_BENCHMARK=1 \
-  bash scripts/eval.sh configs/aid_snn.json runs/eventhdr_asgcn/best_snn.pt \
-  2>&1 | tee logs/aid_snn.log
-```
-
-`evaluate`는 end-to-end model forward latency를, `benchmark`는 데이터 I/O와 host-to-device 이동을
-제외한 model compute latency를 기록한다. `snn` graph encoder는 T번 IF membrane timestep을 실제로
-전개하고 고정 B-spline basis는 한 번만 계산해 재사용하지만 residual U-Net과 ConvGRU는 analog다.
-이 PyTorch GPU latency를 neuromorphic 하드웨어
-latency나 에너지로 해석하면 안 된다.
-
-## Scheduler 실행
-
-SLURM도 저장소 루트에서 제출한다. compute node에서는 Slurm spool 사본이 실행될 수 있으므로
-스크립트가 `SLURM_SUBMIT_DIR` 또는 명시적인 `PROJECT_ROOT`를 확인한다.
-
-```bash
-sbatch server/train.sbatch
-sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_ann.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt server/eval.sbatch
-```
-
-PBS/Torque는 저장소 루트에서 제출한다. `select/ngpus/queue/account` 명칭은 학교 설정에 맞춰
-`server/*.pbs` 헤더를 수정해야 한다.
-
-```bash
-qsub server/train.pbs
-qsub -v PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
-CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
-SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 server/eval.pbs
-```
-
-학교 wrapper가 `ssai_agpu -g=1`처럼 interactive allocation을 제공하면 allocation 안에서 일반
-Bash 명령을 실행한다.
-
-```bash
-ssai_agpu -g=1
-source .venv/bin/activate
-python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-bash scripts/train.sh configs/hdr_smoke.json
-```
-
-자세한 내용은 [서버 가이드](docs/SERVER.md)와 [실험 프로토콜](docs/EXPERIMENT.md)에 있다.
-
-## 결과와 지표
-
-각 config의 `eval.output_dir` 아래에 inference별 하위 폴더가 생긴다.
+주요 출력은 다음과 같다.
 
 ```text
-<output_dir>/ann/{metrics.json,frames.csv,predictions/,benchmark.json}
-<output_dir>/snn_literal_eq15_T16/{metrics.json,frames.csv,predictions/,benchmark.json}
-<output_dir>/snn_standard_if_T16/{metrics.json,frames.csv,predictions/,benchmark.json}
+runs/eventhdr_asgcn/
+├── config.json
+├── history.json
+├── last.pt                       # 학습 재개용 전체 상태
+├── best.pt                       # ANN inference용 clean checkpoint
+└── best_snn.pt                   # 보정된 SNN graph encoder checkpoint
+
+runs/eventhdr_official_eval_ann/ann/
+runs/eventhdr_official_eval_snn/snn_literal_eq15_T{4,8,16,32}/
+runs/eventhdr_official_eval_snn/snn_standard_if_T{4,8,16,32}/
+runs/eventaid_r_external_ann/ann/
+runs/eventaid_r_external_snn/snn_literal_eq15_T{4,8,16,32}/
+runs/eventaid_r_external_snn/snn_standard_if_T{4,8,16,32}/
 ```
 
-같은 mode/dynamics/T의 결과가 이미 있으면 덮어쓰지 않고 중단한다. 기존 결과를 이동·보존하거나
-새 `eval.output_dir`를 사용한다. `benchmark.json`은 compute-only 지표이고 나머지 artifact는
-`evaluate`가 기록한다. prediction PNG 이름에는 평가 순번과 전체 sample ID hash를 넣어 서로 다른
-ID의 slug 충돌과 Windows 금지 문자를 피한다.
+각 평가 폴더에는 `metrics.json`, `frames.csv`, `predictions/`, `benchmark.json`이 생긴다. 품질 지표는
+PSNR, Gaussian SSIM, RMSE, temporal L1과 micro/H5-or-ZIP-group macro 집계를 포함한다. benchmark는
+data I/O와 host-to-device 이동을 제외한 model compute latency, FPS, percentile, graph 처리량, spike
+rate와 GPU peak memory를 기록한다. PyTorch GPU latency를 FPGA/ASIC latency나 에너지로 해석하면 안
+된다.
 
-- 품질: PSNR, Gaussian-window SSIM, RMSE, 선택적 LPIPS
-- temporal: 같은 scene·해상도의 연속 sequence frame만 사용하는 `temporal_l1`
-- 집계: micro, group macro, per-group. final holdout은 physical scene, provisional/EventHDR 공식
-  eval은 H5 파일, EventAid-R은 `R-*.zip` scene을 group key로 쓴다. JSON의 기존 필드명은
-  호환성을 위해 `macro`/`per_scene`으로 유지한다.
-- 지연: mean, p50/p90/p95/p99, FPS, RTF, deadline miss ratio
-- graph: raw events/s, retained events/s, graph nodes/s, 평균 node/edge, isolate 비율/max degree,
-  layer별 `총 spike / 총 neuron-step` IF firing rate
-- GPU: peak allocated/reserved memory
+## SLURM/PBS scheduler
 
-첫 학습 시 선택된 manifest의 EventHDR train/validation 원본을 읽어 SHA-256을 계산한다. 따라서
-smoke는 `1.h5`, `2.h5`, `48.h5`, `49.h5`만, 본학습은 최종 `eventhdr_split.json`에 든 파일 전체를
-hash한다. 같은 경로의 resume은 run 폴더의 `.data_hash_cache.json`에서 size/mtime/ctime이 모두 같은
-파일의 기존 full hash를 재사용한다.
-절대경로나 filesystem mtime/ctime은 checkpoint protocol에 들어가지 않으며, 데이터 경로가 달라도
-상대 파일 identity와 byte가 같으면 재개할 수 있다. 원본을 교체·복원했거나 다시 전수 hash하려면 config에서
-`train.rehash_data=true`로 바꾼다.
+클러스터 batch job은 저장소 root에서 제출한다. SLURM에서 학습→전체 calibration 의존성은 다음과
+같이 건다.
 
-고정 평가는 coverage도 강제한다. EventHDR 공식 eval config는 H5 정확히 19개를, EventAid-R 최종
-config는 `manifests/eventaid_r.json`과 이름이 일치하는 ZIP 정확히 14개를 요구한다. 일부
-EventAid-R만 확인할 때는 최종 config가 아니라 `configs/aid_smoke.json`을 사용한다.
-
-SSIM 구현은 11×11, σ=1.5 Gaussian valid window를 사용한다. 기존 논문과 수치를 직접 비교할 때는
-그 논문의 crop, border, color space, data range, SSIM package까지 동일하게 맞춰야 한다.
-
-benchmark의 `raw_events_per_second`는 crop/cap 전 source interval event 수를,
-`retained_events_per_second`는 spatial crop과 adaptive `max_events` cap 뒤 수를,
-`graph_nodes_per_second`는 model의 추가 고정 factor `R`까지 적용한 graph node 수를 각각 측정된
-model compute time으로 나눈 값이다. 따라서 dataset read를 포함한 ingest throughput이 아니다.
-`retention_ratio`는 retained/raw 합계 비율이며 `events_per_second`는 하위 호환용으로만 남긴
-deprecated alias로서 항상 `retained_events_per_second`와 같다. 각 sample metadata에는
-`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_factor`도 기록한다.
-
-## Windows 개발
-
-```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -c constraints\py312.txt -e ".[dev]"
-.\.venv\Scripts\python.exe scripts\check_env.py --lock constraints\py312.txt
-.\.venv\Scripts\python.exe -m pip check
-.\.venv\Scripts\python.exe -m pytest -q
-.\scripts\get_aid.ps1 -Destination .\data\EventAid-R -Scenes R-bear
-.\.venv\Scripts\asgcn-recon.exe inspect --config configs\aid_smoke.json --samples 2
+```bash
+train_id=$(sbatch --parsable --export=ALL,PROJECT_ROOT="$PWD" server/train.sbatch)
+cal_id=$(sbatch --parsable --dependency=afterok:${train_id} \
+  --export=ALL,PROJECT_ROOT="$PWD" server/calibrate.sbatch)
 ```
 
-`py -3.12`가 없으면 Python 3.12를 설치하거나 해당 interpreter의 절대 경로로 venv를 만든다.
+ANN 두 평가와 SNN 전체 행렬을 dependency로 제출한다.
 
-## 남은 연구 한계
+```bash
+for config in configs/hdr_ann.json configs/aid_ann.json; do
+  sbatch --dependency=afterok:${train_id} \
+    --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt,INFERENCE_MODE=ann \
+    server/eval.sbatch
+done
 
-- EventHDR 물리 scene 대응표를 확보해 provisional manifest를 확정해야 한다.
-- 전체 공식 데이터와 A100/A6000에서 full training·CUDA AMP·peak memory·latency를 아직 실측하지
-  않았다.
-- recurrent batch size는 1이고 frame마다 state를 detach하므로 GPU 활용률과 장기 BPTT가 제한된다.
-- radius graph 생성은 chunked all-pairs 계산이며 2,000,000 directed-edge fail-fast guard가 있어도
-  worst-case 계산은 O(N²)이다. decoder와 sample 처리도 여전히 serial하다.
-- LPIPS의 CUDA/torchvision 조합과 공식 metric implementation은 별도 고정이 필요하다.
-- 동적 asynchronous K-hop update, 논문의 pooling/classifier, 연산량·에너지 모델,
-  event compression/transport와 accelerator hardware는 후속 구현 범위다.
+for config in configs/hdr_snn.json configs/aid_snn.json; do
+  for dynamics in literal_eq15 standard_if; do
+    for timestep in 4 8 16 32; do
+      sbatch --dependency=afterok:${cal_id} \
+        --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
+        server/eval.sbatch
+    done
+  done
+done
+```
 
-코드 전체 스냅샷과 더 세부적인 인수인계는 `code_summary.md`, `hand_off.md`를 참조한다.
-~~~~~~
+학습 resume job에는 `RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt"`를 `--export`에 추가한다.
+PBS/Torque용 동등 wrapper는 `server/train.pbs`, `server/calibrate.pbs`, `server/eval.pbs`이며
+`qsub -W depend=afterok:<job-id>`로 같은 의존성을 건다. `#SBATCH`/`#PBS`의 GPU, memory, walltime,
+queue, account는 학교 scheduler 정책에 맞게 조정해야 한다. 자세한 서버 운용은
+[docs/SERVER.md](docs/SERVER.md), 실험 정의는 [docs/EXPERIMENT.md](docs/EXPERIMENT.md)에 있다.
+
+## 현재 검증 상태와 한계
+
+- 코드의 unit/integration test와 Linux 의존성 검사는 구성되어 있지만, EventHDR+EventAid-R 전체
+  실데이터를 사용한 CUDA 학습·전체 행렬 실행, A6000/A100 peak memory·runtime·latency 실측은 아직
+  수행하지 않았다. 따라서 README는 실행 절차를 보장하는 코드 경로이지 측정 완료 보고서가 아니다.
+- 공개 자료에 EventHDR H5↔physical-scene 완전 대응표가 없어 공식 train/eval root 이상의
+  scene-disjoint 주장을 하지 않는다.
+- 원 논문의 동적 asynchronous K-hop update, pooling/classifier, energy model은 포함하지 않는다.
+- 반도체 RTL/FPGA/ASIC, event compression/transport, 실제 전력·에너지 측정은 후속 과제 범위다.
+- recurrent batch size는 1이고 resume granularity는 epoch 단위다. 전체 실행 시간과 저장 공간은
+  서버 GPU, filesystem, dataset decode 속도에 따라 달라진다.
+
+코드 전체 스냅샷은 [code_summary.md](code_summary.md), 인수인계와 연구상 주의점은
+[hand_off.md](hand_off.md)를 참조한다.
+~~~~~~~~
 
 # requirements.txt
 
-~~~~~~text
+~~~~~~~~text
 -c constraints/py312.txt
 -e .[dev]
-~~~~~~
+~~~~~~~~
+
+# scripts/calibrate.sh
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  printf '%s\n' \
+    "Usage: bash scripts/calibrate.sh [CONFIG [ANN_CHECKPOINT [SNN_CHECKPOINT]]]" \
+    "" \
+    "Environment:" \
+    "  CALIBRATION_SAMPLES=all|N   Default: all EventHDR calibration samples" \
+    "  OVERWRITE_CALIBRATION=0|1  Default: 0; protect an existing output" \
+    "  VALIDATE_DATASET=0|1       Default: 1" \
+    "  INSPECT_VALIDATE_ALL=0|1   Default: 0" \
+    "  INSPECT_SAMPLES=N          Default: 1" \
+    "  REQUIRE_CUDA=0|1           Default: 1" \
+    "  PYTHON_BIN=PATH            Default: <repo>/.venv/bin/python"
+  exit 0
+fi
+
+CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_train.json}}"
+CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}}"
+OUTPUT_PATH="${3:-${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}}"
+CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
+OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
+PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
+INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+
+cd "${PROJECT_ROOT}"
+if [[ ! -x "${PYTHON_BIN}" ]]; then
+  echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
+  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
+  exit 1
+fi
+if [[ ! -f "${CONFIG_PATH}" ]]; then
+  echo "ERROR: calibration config not found: ${CONFIG_PATH}" >&2
+  exit 1
+fi
+if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
+  echo "ERROR: ANN checkpoint not found: ${CHECKPOINT_PATH}" >&2
+  exit 1
+fi
+for flag_name in REQUIRE_CUDA VALIDATE_DATASET INSPECT_VALIDATE_ALL OVERWRITE_CALIBRATION; do
+  flag_value="${!flag_name}"
+  if [[ "${flag_value}" != "0" && "${flag_value}" != "1" ]]; then
+    echo "ERROR: ${flag_name} must be 0 or 1" >&2
+    exit 2
+  fi
+done
+
+"${PYTHON_BIN}" - "${CHECKPOINT_PATH}" "${OUTPUT_PATH}" <<'PY'
+from pathlib import Path
+import sys
+
+source = Path(sys.argv[1]).expanduser().resolve()
+output = Path(sys.argv[2]).expanduser().resolve()
+if source == output:
+    raise SystemExit("ANN input and calibrated SNN output must be different files")
+PY
+
+if [[ -e "${OUTPUT_PATH}" || -L "${OUTPUT_PATH}" ]]; then
+  if [[ "${OVERWRITE_CALIBRATION}" != "1" ]]; then
+    echo "ERROR: calibrated output already exists: ${OUTPUT_PATH}" >&2
+    echo "Set OVERWRITE_CALIBRATION=1 only when replacing it is intentional." >&2
+    exit 1
+  fi
+  if [[ -d "${OUTPUT_PATH}" ]]; then
+    echo "ERROR: calibrated output path is a directory: ${OUTPUT_PATH}" >&2
+    exit 1
+  fi
+fi
+
+"${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
+import sys
+import torch
+
+required = sys.argv[1] == "1"
+available = torch.cuda.is_available()
+print(f"PyTorch {torch.__version__}; CUDA runtime={torch.version.cuda}; available={available}")
+if available:
+    print(f"GPU: {torch.cuda.get_device_name(0)}")
+elif required:
+    raise SystemExit("CUDA GPU is required. Set REQUIRE_CUDA=0 only for a deliberate CPU run.")
+PY
+
+export PYTHONUNBUFFERED=1
+export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
+
+if [[ "${VALIDATE_DATASET}" == "1" ]]; then
+  INSPECT_ARGS=(
+    --config "${CONFIG_PATH}"
+    --samples "${INSPECT_SAMPLES}"
+  )
+  if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
+    INSPECT_ARGS+=(--validate-all)
+  fi
+  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
+fi
+
+if [[ "${CALIBRATION_SAMPLES}" != "all" && ! "${CALIBRATION_SAMPLES}" =~ ^[1-9][0-9]*$ ]]; then
+  echo "ERROR: CALIBRATION_SAMPLES must be 'all' or a positive integer" >&2
+  exit 2
+fi
+
+echo "Calibrating ${CHECKPOINT_PATH} with ${CALIBRATION_SAMPLES} EventHDR samples"
+CALIBRATE_ARGS=(
+  --config "${CONFIG_PATH}"
+  --checkpoint "${CHECKPOINT_PATH}"
+  --output "${OUTPUT_PATH}"
+  --samples "${CALIBRATION_SAMPLES}"
+)
+if [[ "${OVERWRITE_CALIBRATION}" == "1" ]]; then
+  CALIBRATE_ARGS+=(--overwrite)
+fi
+exec "${PYTHON_BIN}" -m asgcn_recon.cli calibrate "${CALIBRATE_ARGS[@]}"
+~~~~~~~~
 
 # scripts/check_env.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import argparse
@@ -2667,11 +2699,14 @@ import re
 import shutil
 import socket
 import sys
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 
 import torch
 
 from asgcn_recon.data import load_eventhdr_split_manifest
+
+_OFFICIAL_EVENTHDR_TRAIN = {f"{index}.h5" for index in range(1, 52)}
+_OFFICIAL_EVENTHDR_EVAL = {f"{index}.h5" for index in range(1, 20)}
 
 
 def _eventhdr_files(root: Path) -> list[Path]:
@@ -2682,6 +2717,26 @@ def _eventhdr_files(root: Path) -> list[Path]:
 
 def _count_files(root: Path, pattern: str) -> int:
     return sum(1 for _ in root.glob(pattern)) if root.exists() else 0
+
+
+def _exact_coverage_problem(
+    label: str,
+    present: set[str],
+    expected: set[str],
+) -> str | None:
+    missing = sorted(expected - present)
+    extra = sorted(present - expected)
+    if not missing and not extra:
+        return None
+    details = []
+    if missing:
+        details.append("missing=" + ", ".join(missing[:8]) + (" ..." if len(missing) > 8 else ""))
+    if extra:
+        details.append("extra=" + ", ".join(extra[:8]) + (" ..." if len(extra) > 8 else ""))
+    return (
+        f"{label} must contain exactly {len(expected)} official files "
+        f"({'; '.join(details)})"
+    )
 
 
 def _locked_versions(path: Path) -> dict[str, str]:
@@ -2718,7 +2773,6 @@ def main() -> None:
     parser.add_argument("--data-root", type=Path, default=None)
     parser.add_argument("--runs-root", type=Path, default=None)
     parser.add_argument("--require-cuda", action="store_true")
-    parser.add_argument("--require-eventhdr-smoke", action="store_true")
     parser.add_argument("--require-eventhdr-train", action="store_true")
     parser.add_argument("--require-eventhdr-eval", action="store_true")
     parser.add_argument("--require-eventaid-all", action="store_true")
@@ -2749,17 +2803,8 @@ def main() -> None:
     eval_files = _eventhdr_files(data_root / "EventHDR" / "eval")
     train_root = data_root / "EventHDR" / "train"
     train_present = {path.relative_to(train_root).as_posix() for path in train_files}
-    smoke_manifest_path = project_root / "manifests" / "eventhdr_smoke.json"
-    smoke_required: set[str] = set()
-    if smoke_manifest_path.is_file():
-        smoke_manifest = load_eventhdr_split_manifest(smoke_manifest_path)
-        smoke_required = {
-            PurePosixPath(str(value).replace("\\", "/")).as_posix()
-            for value in (
-                list(smoke_manifest.get("train_files", []))
-                + list(smoke_manifest.get("val_files", []))
-            )
-        }
+    eval_root = data_root / "EventHDR" / "eval"
+    eval_present = {path.relative_to(eval_root).as_posix() for path in eval_files}
     data_disk = shutil.disk_usage(data_root if data_root.exists() else project_root)
     runs_disk = shutil.disk_usage(runs_root)
     libc_name, libc_version = platform.libc_ver()
@@ -2778,7 +2823,6 @@ def main() -> None:
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
         "data_root": str(data_root),
         "eventhdr_train_h5": len(train_files),
-        "eventhdr_smoke_h5": len(smoke_required & train_present),
         "eventhdr_eval_h5": len(eval_files),
         "eventaid_r_zip": _count_files(data_root / "EventAid-R", "R-*.zip"),
         "runs_root": str(runs_root),
@@ -2819,40 +2863,39 @@ def main() -> None:
     require_eventhdr_train = args.require_full_data or args.require_eventhdr_train
     require_eventhdr_eval = args.require_full_data or args.require_eventhdr_eval
     require_eventaid_all = args.require_full_data or args.require_eventaid_all
-    expected_counts = {
-        "eventhdr_train_h5": (51, require_eventhdr_train),
-        "eventhdr_eval_h5": (19, require_eventhdr_eval),
-        "eventaid_r_zip": (14, require_eventaid_all),
-    }
-    for key, (expected, required) in expected_counts.items():
-        actual = int(report[key])
-        if required and actual < expected:
-            problems.append(f"{key} has {actual} files; at least {expected} are required")
-    if args.require_eventhdr_smoke:
-        if not smoke_required:
-            problems.append(f"Smoke manifest has no required H5 files: {smoke_manifest_path}")
-        smoke_missing = sorted(smoke_required - train_present)
-        if smoke_missing:
-            problems.append(
-                "EventHDR train directory is missing smoke manifest files: "
-                + ", ".join(smoke_missing)
-            )
+    if require_eventhdr_train:
+        problem = _exact_coverage_problem(
+            "eventhdr_train_h5", train_present, _OFFICIAL_EVENTHDR_TRAIN
+        )
+        if problem:
+            problems.append(problem)
+    if require_eventhdr_eval:
+        problem = _exact_coverage_problem(
+            "eventhdr_eval_h5", eval_present, _OFFICIAL_EVENTHDR_EVAL
+        )
+        if problem:
+            problems.append(problem)
     if require_eventhdr_train:
         manifest_path = project_root / "manifests" / "eventhdr_split.json"
-        if manifest_path.is_file():
+        if not manifest_path.is_file():
+            problems.append(f"Official EventHDR split manifest is missing: {manifest_path}")
+        else:
             manifest = load_eventhdr_split_manifest(manifest_path)
-            required = {
-                PurePosixPath(str(value).replace("\\", "/")).as_posix()
-                for value in (
-                    list(manifest.get("train_files", [])) + list(manifest.get("val_files", []))
-                )
-            }
-            missing = sorted(required - train_present)
-            if missing:
+            if manifest.get("status") != "final" or manifest.get("split_schema") != (
+                "official_separate_roots_v1"
+            ):
                 problems.append(
-                    "EventHDR train directory is missing manifest files: "
-                    + ", ".join(missing[:8])
-                    + (" ..." if len(missing) > 8 else "")
+                    "EventHDR training requires a final official_separate_roots_v1 manifest"
+                )
+            manifest_train = set(manifest.get("train_files", []))
+            manifest_eval = set(manifest.get("val_files", []))
+            if manifest_train != _OFFICIAL_EVENTHDR_TRAIN:
+                problems.append(
+                    "EventHDR split manifest train root must declare exactly 1.h5 through 51.h5"
+                )
+            if manifest_eval != _OFFICIAL_EVENTHDR_EVAL:
+                problems.append(
+                    "EventHDR split manifest eval root must declare exactly 1.h5 through 19.h5"
                 )
     if require_eventaid_all:
         aid_manifest_path = project_root / "manifests" / "eventaid_r.json"
@@ -2865,24 +2908,22 @@ def main() -> None:
                 for item in aid_manifest.get("files", [])
                 if isinstance(item, dict) and item.get("scene")
             }
-            aid_missing = sorted(aid_required - aid_present)
-            if aid_missing:
-                problems.append(
-                    "EventAid-R directory is missing manifest files: "
-                    + ", ".join(aid_missing[:8])
-                    + (" ..." if len(aid_missing) > 8 else "")
-                )
+            problem = _exact_coverage_problem("eventaid_r_zip", aid_present, aid_required)
+            if problem:
+                problems.append(problem)
+        else:
+            problems.append(f"EventAid-R manifest is missing: {aid_manifest_path}")
     if problems:
         raise SystemExit("; ".join(problems))
 
 
 if __name__ == "__main__":
     main()
-~~~~~~
+~~~~~~~~
 
 # scripts/eval.sh
 
-~~~~~~bash
+~~~~~~~~bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -2900,6 +2941,7 @@ PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 
 cd "${PROJECT_ROOT}"
 if [[ ! -x "${PYTHON_BIN}" ]]; then
@@ -2915,6 +2957,14 @@ fi
 if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
   echo "ERROR: checkpoint not found: ${CHECKPOINT_PATH}" >&2
   exit 1
+fi
+if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
+  echo "ERROR: VALIDATE_DATASET must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INSPECT_VALIDATE_ALL}" != "0" && "${INSPECT_VALIDATE_ALL}" != "1" ]]; then
+  echo "ERROR: INSPECT_VALIDATE_ALL must be 0 or 1" >&2
+  exit 2
 fi
 if [[ "${INFERENCE_MODE}" != "ann" && "${INFERENCE_MODE}" != "snn" ]]; then
   echo "ERROR: INFERENCE_MODE must be ann or snn" >&2
@@ -2953,8 +3003,14 @@ if [[ -n "${SNN_DYNAMICS}" ]]; then
 fi
 
 if [[ "${VALIDATE_DATASET}" == "1" ]]; then
-  "${PYTHON_BIN}" -m asgcn_recon.cli inspect \
-    --config "${CONFIG_PATH}" --samples "${INSPECT_SAMPLES}"
+  INSPECT_ARGS=(
+    --config "${CONFIG_PATH}"
+    --samples "${INSPECT_SAMPLES}"
+  )
+  if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
+    INSPECT_ARGS+=(--validate-all)
+  fi
+  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 echo "Evaluating ${CHECKPOINT_PATH} on ${CONFIG_PATH} (${INFERENCE_MODE})"
@@ -2976,11 +3032,201 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     --simulation-steps "${SIMULATION_STEPS}" \
     "${DYNAMICS_ARGS[@]}"
 fi
-~~~~~~
+~~~~~~~~
+
+# scripts/full.sh
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  printf '%s\n' \
+    "Usage: bash scripts/full.sh" \
+    "" \
+    "Runs, in order:" \
+    "  full environment/data check and complete EventHDR/EventAid-R validation" \
+    "  EventHDR ANN train (or RESUME_CHECKPOINT resume)" \
+    "  all-sample EventHDR ANN-to-SNN calibration" \
+    "  EventHDR and EventAid-R ANN evaluation+benchmark" \
+    "  literal_eq15 and standard_if SNN evaluation+benchmark at T=4,8,16,32" \
+    "" \
+    "Important environment:" \
+    "  RESUME_CHECKPOINT=PATH" \
+    "  TRAIN_CONFIG / HDR_ANN_CONFIG / HDR_SNN_CONFIG" \
+    "  AID_ANN_CONFIG / AID_SNN_CONFIG" \
+    "  ANN_CHECKPOINT / SNN_CHECKPOINT" \
+    "  PYTHON_BIN=PATH                         Default: <repo>/.venv/bin/python" \
+    "  REQUIRE_CUDA=0|1                       Default: 1" \
+    "  CALIBRATION_SAMPLES=all|N              Default: all" \
+    "  SIMULATION_STEPS_LIST='4 8 16 32'" \
+    "  BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N" \
+    "  OVERWRITE_CALIBRATION=0|1              Default: 0" \
+    "  DRY_RUN=0|1                            Print the complete command schedule"
+  exit 0
+fi
+
+PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
+TRAIN_CONFIG="${TRAIN_CONFIG:-configs/hdr_train.json}"
+HDR_ANN_CONFIG="${HDR_ANN_CONFIG:-configs/hdr_ann.json}"
+HDR_SNN_CONFIG="${HDR_SNN_CONFIG:-configs/hdr_snn.json}"
+AID_ANN_CONFIG="${AID_ANN_CONFIG:-configs/aid_ann.json}"
+AID_SNN_CONFIG="${AID_SNN_CONFIG:-configs/aid_snn.json}"
+ANN_CHECKPOINT="${ANN_CHECKPOINT:-runs/eventhdr_asgcn/best.pt}"
+SNN_CHECKPOINT="${SNN_CHECKPOINT:-runs/eventhdr_asgcn/best_snn.pt}"
+RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
+CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
+OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
+SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"
+BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
+BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
+INSPECT_SAMPLES="${INSPECT_SAMPLES:-2}"
+DRY_RUN="${DRY_RUN:-0}"
+
+cd "${PROJECT_ROOT}"
+for flag_name in REQUIRE_CUDA OVERWRITE_CALIBRATION DRY_RUN; do
+  flag_value="${!flag_name}"
+  if [[ "${flag_value}" != "0" && "${flag_value}" != "1" ]]; then
+    echo "ERROR: ${flag_name} must be 0 or 1" >&2
+    exit 2
+  fi
+done
+if [[ "${DRY_RUN}" != "1" && ! -x "${PYTHON_BIN}" ]]; then
+  echo "ERROR: Python not found or not executable: ${PYTHON_BIN}" >&2
+  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
+  exit 1
+fi
+for required_path in \
+  "${CONSTRAINTS_FILE}" \
+  "${TRAIN_CONFIG}" \
+  "${HDR_ANN_CONFIG}" \
+  "${HDR_SNN_CONFIG}" \
+  "${AID_ANN_CONFIG}" \
+  "${AID_SNN_CONFIG}"; do
+  if [[ ! -f "${required_path}" ]]; then
+    echo "ERROR: required full-run file not found: ${required_path}" >&2
+    exit 1
+  fi
+done
+if [[ -n "${RESUME_CHECKPOINT}" && "${DRY_RUN}" != "1" && ! -f "${RESUME_CHECKPOINT}" ]]; then
+  echo "ERROR: resume checkpoint not found: ${RESUME_CHECKPOINT}" >&2
+  exit 1
+fi
+
+read -r -a SIMULATION_STEPS <<< "${SIMULATION_STEPS_LIST}"
+if [[ "${#SIMULATION_STEPS[@]}" -eq 0 ]]; then
+  echo "ERROR: SIMULATION_STEPS_LIST must contain at least one positive integer" >&2
+  exit 2
+fi
+for step in "${SIMULATION_STEPS[@]}"; do
+  if [[ ! "${step}" =~ ^[1-9][0-9]*$ ]]; then
+    echo "ERROR: invalid simulation step '${step}' in SIMULATION_STEPS_LIST" >&2
+    exit 2
+  fi
+done
+
+run_cmd() {
+  printf ' +'
+  printf ' %q' "$@"
+  printf '\n'
+  if [[ "${DRY_RUN}" != "1" ]]; then
+    "$@"
+  fi
+}
+
+run_evaluation() {
+  local config_path="$1"
+  local checkpoint_path="$2"
+  local mode="$3"
+  local simulation_steps="$4"
+  local dynamics="$5"
+  run_cmd env \
+    REQUIRE_CUDA="${REQUIRE_CUDA}" \
+    VALIDATE_DATASET=0 \
+    RUN_BENCHMARK=1 \
+    BENCHMARK_WARMUP="${BENCHMARK_WARMUP}" \
+    BENCHMARK_STEPS="${BENCHMARK_STEPS}" \
+    INFERENCE_MODE="${mode}" \
+    SIMULATION_STEPS="${simulation_steps}" \
+    SNN_DYNAMICS="${dynamics}" \
+    PYTHON_BIN="${PYTHON_BIN}" \
+    bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
+}
+
+echo "[1/5] Full environment and dataset inventory"
+CHECK_ARGS=("${PYTHON_BIN}" scripts/check_env.py --require-full-data --lock "${CONSTRAINTS_FILE}")
+if [[ "${REQUIRE_CUDA}" == "1" ]]; then
+  CHECK_ARGS+=(--require-cuda)
+fi
+run_cmd "${CHECK_ARGS[@]}"
+
+echo "[2/5] Decode and validate every EventHDR train/eval and EventAid-R sample"
+# TRAIN_CONFIG inspection covers both EventHDR roots. Inspecting HDR_ANN_CONFIG
+# here would decode the same 19 eval files a second time without adding coverage.
+for config_path in "${TRAIN_CONFIG}" "${AID_ANN_CONFIG}"; do
+  run_cmd "${PYTHON_BIN}" -m asgcn_recon.cli inspect \
+    --config "${config_path}" \
+    --samples "${INSPECT_SAMPLES}" \
+    --validate-all
+done
+
+echo "[3/5] EventHDR ANN training"
+run_cmd env \
+  REQUIRE_CUDA="${REQUIRE_CUDA}" \
+  VALIDATE_DATASET=0 \
+  RESUME_CHECKPOINT="${RESUME_CHECKPOINT}" \
+  PYTHON_BIN="${PYTHON_BIN}" \
+  bash "${PROJECT_ROOT}/scripts/train.sh" "${TRAIN_CONFIG}"
+if [[ "${DRY_RUN}" != "1" && ! -f "${ANN_CHECKPOINT}" ]]; then
+  echo "ERROR: training completed without ANN checkpoint: ${ANN_CHECKPOINT}" >&2
+  exit 1
+fi
+
+echo "[4/5] Full EventHDR ANN-to-SNN calibration"
+run_cmd env \
+  REQUIRE_CUDA="${REQUIRE_CUDA}" \
+  VALIDATE_DATASET=0 \
+  CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES}" \
+  OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION}" \
+  PYTHON_BIN="${PYTHON_BIN}" \
+  bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+    "${TRAIN_CONFIG}" "${ANN_CHECKPOINT}" "${SNN_CHECKPOINT}"
+if [[ "${DRY_RUN}" != "1" && ! -f "${SNN_CHECKPOINT}" ]]; then
+  echo "ERROR: calibration completed without SNN checkpoint: ${SNN_CHECKPOINT}" >&2
+  exit 1
+fi
+
+echo "[5/5] Full EventHDR and EventAid-R evaluation and compute benchmark matrix"
+for dataset_spec in \
+  "${HDR_ANN_CONFIG}|${HDR_SNN_CONFIG}" \
+  "${AID_ANN_CONFIG}|${AID_SNN_CONFIG}"; do
+  IFS='|' read -r ann_config snn_config <<< "${dataset_spec}"
+  run_evaluation "${ann_config}" "${ANN_CHECKPOINT}" ann 16 ""
+  for dynamics in literal_eq15 standard_if; do
+    for simulation_steps in "${SIMULATION_STEPS[@]}"; do
+      run_evaluation \
+        "${snn_config}" \
+        "${SNN_CHECKPOINT}" \
+        snn \
+        "${simulation_steps}" \
+        "${dynamics}"
+    done
+  done
+done
+
+echo "Full experiment matrix completed."
+echo "ANN checkpoint: ${ANN_CHECKPOINT}"
+echo "SNN checkpoint: ${SNN_CHECKPOINT}"
+~~~~~~~~
 
 # scripts/get_aid.ps1
 
-~~~~~~powershell
+~~~~~~~~powershell
 param(
     [string]$Destination = ".\data\EventAid-R",
     [string[]]$Scenes = @()
@@ -3013,11 +3259,11 @@ foreach ($item in $selected) {
     }
 }
 Write-Host "Done. ZIP files are read directly; do not extract them."
-~~~~~~
+~~~~~~~~
 
 # scripts/get_aid.sh
 
-~~~~~~bash
+~~~~~~~~bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -3032,16 +3278,16 @@ usage() {
 Usage:
   ./scripts/get_aid.sh [options] [SCENE ...]
 
-With no SCENE, only the small R-bear sample is downloaded. ZIP files stay
+With no SCENE, the complete 14-scene release is downloaded. ZIP files stay
 compressed because the loader reads them directly.
 
 Options:
   -d, --destination DIR  Download directory (default: data/EventAid-R)
-  --all                  Download all 14 scenes (~24.68 GB)
+  --all                  Explicitly download all 14 scenes (~24.68 GB)
   -h, --help             Show this help
 
 Examples:
-  ./scripts/get_aid.sh
+  ./scripts/get_aid.sh                  # all 14 scenes
   ./scripts/get_aid.sh R-bear R-outdoor
   ./scripts/get_aid.sh --all
 EOF
@@ -3089,7 +3335,7 @@ if ((DOWNLOAD_ALL == 1)) && ((${#SCENES[@]} > 0)); then
   exit 2
 fi
 if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then
-  SCENES=(R-bear)
+  DOWNLOAD_ALL=1
 fi
 
 if ! command -v curl >/dev/null 2>&1; then
@@ -3169,11 +3415,482 @@ PY
 done <"${SELECTION_FILE}"
 
 echo "Done. Keep the ZIP files compressed; the EventAid-R loader reads them directly."
-~~~~~~
+~~~~~~~~
+
+# scripts/get_hdr.py
+
+~~~~~~~~python
+#!/usr/bin/env python3
+"""Import the complete official EventHDR release without pretending to download it.
+
+The public OneDrive folder currently rejects unattended curl requests.  This
+tool therefore accepts either a browser-downloaded ZIP, an extracted source
+directory, or a shared-storage directory and verifies the official file set
+before making it visible under ``data/EventHDR``.
+"""
+
+from __future__ import annotations
+
+import argparse
+import os
+import shutil
+import sys
+import tempfile
+import zipfile
+from collections.abc import Iterable
+from pathlib import Path, PurePosixPath
+from typing import BinaryIO
+
+HDF5_MAGIC = b"\x89HDF\r\n\x1a\n"
+MAX_DATASET_BYTES = 100_000_000_000
+EXPECTED: dict[str, tuple[str, ...]] = {
+    "train": tuple(f"{index}.h5" for index in range(1, 52)),
+    "eval": tuple(f"{index}.h5" for index in range(1, 20)),
+}
+
+
+class ImportError(RuntimeError):
+    """Raised when an EventHDR source cannot be imported safely."""
+
+
+def _format_names(names: Iterable[str], limit: int = 8) -> str:
+    ordered = sorted(names, key=lambda name: (len(name), name))
+    preview = ", ".join(ordered[:limit])
+    return preview + (" ..." if len(ordered) > limit else "")
+
+
+def _validate_exact_names(names: Iterable[str], split: str, source: str) -> None:
+    present = set(names)
+    expected = set(EXPECTED[split])
+    missing = expected - present
+    extra = present - expected
+    if missing or extra:
+        details = []
+        if missing:
+            details.append("missing=" + _format_names(missing))
+        if extra:
+            details.append("extra=" + _format_names(extra))
+        raise ImportError(
+            f"{source} does not contain the exact official EventHDR {split} file set "
+            f"({'; '.join(details)})"
+        )
+
+
+def _validate_magic(stream: BinaryIO, source: str) -> None:
+    magic = stream.read(len(HDF5_MAGIC))
+    if magic != HDF5_MAGIC:
+        raise ImportError(f"Not an HDF5 file: {source}")
+
+
+def _h5_files(directory: Path) -> dict[str, Path]:
+    files: dict[str, Path] = {}
+    for path in directory.iterdir():
+        if path.is_file() and path.suffix.lower() in {".h5", ".hdf5"}:
+            if path.name in files:
+                raise ImportError(f"Duplicate HDF5 filename under {directory}: {path.name}")
+            files[path.name] = path
+    nested = [
+        path
+        for path in directory.rglob("*")
+        if path.parent != directory
+        and path.is_file()
+        and path.suffix.lower() in {".h5", ".hdf5"}
+    ]
+    if nested:
+        raise ImportError(
+            f"Nested HDF5 files are not allowed under {directory}: "
+            + _format_names(path.relative_to(directory).as_posix() for path in nested)
+        )
+    return files
+
+
+def validate_split_dir(directory: Path, split: str) -> dict[str, Path]:
+    if not directory.is_dir():
+        raise ImportError(f"EventHDR {split} directory does not exist: {directory}")
+    files = _h5_files(directory)
+    _validate_exact_names(files, split, str(directory))
+    total_bytes = 0
+    for name in EXPECTED[split]:
+        path = files[name]
+        total_bytes += path.stat().st_size
+        with path.open("rb") as stream:
+            _validate_magic(stream, str(path))
+    if total_bytes >= MAX_DATASET_BYTES:
+        raise ImportError(
+            f"EventHDR {split} source is {total_bytes} bytes; the accepted dataset must be "
+            "smaller than 100 GB"
+        )
+    return files
+
+
+def _validate_combined_size(files_by_split: dict[str, dict[str, Path]], source: str) -> None:
+    total_bytes = sum(
+        path.stat().st_size
+        for split_files in files_by_split.values()
+        for path in split_files.values()
+    )
+    if total_bytes >= MAX_DATASET_BYTES:
+        raise ImportError(
+            f"EventHDR source is {total_bytes} bytes; the complete accepted dataset must be "
+            "smaller than 100 GB: "
+            + source
+        )
+
+
+def _candidate_split_dirs(source: Path, split: str) -> list[Path]:
+    candidates = (source, source / split, source / "EventHDR" / split)
+    result: list[Path] = []
+    for candidate in candidates:
+        if candidate.is_dir() and any(
+            child.is_file() and child.suffix.lower() in {".h5", ".hdf5"}
+            for child in candidate.iterdir()
+        ):
+            resolved = candidate.resolve()
+            if resolved not in result:
+                result.append(resolved)
+    return result
+
+
+def locate_source(source: Path, splits: tuple[str, ...]) -> dict[str, Path]:
+    source = source.expanduser().resolve()
+    if not source.is_dir():
+        raise ImportError(f"Source directory does not exist: {source}")
+    located: dict[str, Path] = {}
+    for split in splits:
+        candidates = _candidate_split_dirs(source, split)
+        valid: list[Path] = []
+        failures: list[str] = []
+        for candidate in candidates:
+            try:
+                validate_split_dir(candidate, split)
+            except ImportError as error:
+                failures.append(str(error))
+            else:
+                valid.append(candidate)
+        if len(valid) != 1:
+            if len(valid) > 1:
+                raise ImportError(
+                    f"Ambiguous EventHDR {split} source directories: "
+                    + ", ".join(str(path) for path in valid)
+                )
+            detail = "; ".join(failures) if failures else "no candidate directory found"
+            raise ImportError(f"Could not locate exact EventHDR {split} data: {detail}")
+        located[split] = valid[0]
+    _validate_combined_size(
+        {split: validate_split_dir(path, split) for split, path in located.items()},
+        str(source),
+    )
+    return located
+
+
+def _destination_extras(directory: Path, split: str) -> set[str]:
+    if not directory.exists() or directory.is_symlink():
+        return set()
+    if not directory.is_dir():
+        raise ImportError(f"Destination is not a directory: {directory}")
+    return set(_h5_files(directory)) - set(EXPECTED[split])
+
+
+def _prepare_copy_destination(destination: Path, splits: tuple[str, ...]) -> None:
+    destination.mkdir(parents=True, exist_ok=True)
+    if destination.is_symlink():
+        raise ImportError(
+            f"Copy mode refuses a symlinked EventHDR root; use --check or --link: {destination}"
+        )
+    for split in splits:
+        split_dir = destination / split
+        if split_dir.is_symlink():
+            raise ImportError(f"Copy mode refuses a symlinked destination: {split_dir}")
+        split_dir.mkdir(parents=True, exist_ok=True)
+        extras = _destination_extras(split_dir, split)
+        if extras:
+            raise ImportError(
+                f"Destination {split_dir} contains unexpected HDF5 files: "
+                + _format_names(extras)
+            )
+
+
+def _copy_one(source: Path, target: Path) -> str:
+    if target.exists():
+        if target.stat().st_size != source.stat().st_size:
+            raise ImportError(
+                f"Refusing to overwrite a different existing file: {target} "
+                f"({target.stat().st_size} != {source.stat().st_size} bytes)"
+            )
+        with target.open("rb") as stream:
+            _validate_magic(stream, str(target))
+        return "kept"
+
+    temporary: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            prefix=f".{target.name}.", suffix=".part", dir=target.parent, delete=False
+        ) as stream:
+            temporary = Path(stream.name)
+        shutil.copy2(source, temporary)
+        with temporary.open("rb") as stream:
+            _validate_magic(stream, str(temporary))
+        os.replace(temporary, target)
+        temporary = None
+        return "copied"
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def copy_source(source_dirs: dict[str, Path], destination: Path) -> dict[str, int]:
+    splits = tuple(source_dirs)
+    source_files = {
+        split: validate_split_dir(source_dirs[split], split) for split in splits
+    }
+    _prepare_copy_destination(destination, splits)
+    counts = {"copied": 0, "kept": 0}
+    for split in splits:
+        for name in EXPECTED[split]:
+            outcome = _copy_one(source_files[split][name], destination / split / name)
+            counts[outcome] += 1
+        validate_split_dir(destination / split, split)
+    return counts
+
+
+def _safe_zip_parts(name: str) -> tuple[str, ...]:
+    path = PurePosixPath(name.replace("\\", "/"))
+    if path.is_absolute() or ".." in path.parts or not path.parts:
+        raise ImportError(f"Unsafe archive member path: {name!r}")
+    return path.parts
+
+
+def locate_archive_members(
+    archive: zipfile.ZipFile, splits: tuple[str, ...]
+) -> dict[str, dict[str, zipfile.ZipInfo]]:
+    selected: dict[str, dict[str, zipfile.ZipInfo]] = {split: {} for split in splits}
+    split_set = set(splits)
+    for info in archive.infolist():
+        if info.is_dir():
+            continue
+        parts = _safe_zip_parts(info.filename)
+        name = parts[-1]
+        if Path(name).suffix.lower() not in {".h5", ".hdf5"}:
+            continue
+
+        owner: str | None = None
+        if len(splits) == 1 and len(parts) == 1:
+            owner = splits[0]
+        elif len(parts) >= 2 and parts[-2].lower() in split_set:
+            owner = parts[-2].lower()
+        if owner is None:
+            raise ImportError(
+                f"Cannot assign archive HDF5 member to train/eval: {info.filename}"
+            )
+        if name in selected[owner]:
+            raise ImportError(
+                f"Archive contains duplicate EventHDR {owner} filename {name}: "
+                f"{selected[owner][name].filename}, {info.filename}"
+            )
+        selected[owner][name] = info
+
+    for split in splits:
+        _validate_exact_names(selected[split], split, "archive")
+        total_bytes = sum(info.file_size for info in selected[split].values())
+        if total_bytes >= MAX_DATASET_BYTES:
+            raise ImportError(
+                f"EventHDR {split} archive content is {total_bytes} bytes; the accepted "
+                "dataset must be smaller than 100 GB"
+            )
+        for name in EXPECTED[split]:
+            with archive.open(selected[split][name], "r") as stream:
+                _validate_magic(stream, f"archive::{selected[split][name].filename}")
+    combined_bytes = sum(
+        info.file_size for split_members in selected.values() for info in split_members.values()
+    )
+    if combined_bytes >= MAX_DATASET_BYTES:
+        raise ImportError(
+            f"EventHDR archive content is {combined_bytes} bytes; the complete accepted "
+            "dataset must be smaller than 100 GB"
+        )
+    return selected
+
+
+def _copy_archive_member(
+    archive: zipfile.ZipFile, info: zipfile.ZipInfo, target: Path
+) -> str:
+    if target.exists():
+        if target.stat().st_size != info.file_size:
+            raise ImportError(
+                f"Refusing to overwrite a different existing file: {target} "
+                f"({target.stat().st_size} != {info.file_size} bytes)"
+            )
+        with target.open("rb") as stream:
+            _validate_magic(stream, str(target))
+        return "kept"
+
+    temporary: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            prefix=f".{target.name}.", suffix=".part", dir=target.parent, delete=False
+        ) as output:
+            temporary = Path(output.name)
+            with archive.open(info, "r") as source:
+                shutil.copyfileobj(source, output, length=8 * 1024 * 1024)
+            output.flush()
+            os.fsync(output.fileno())
+        with temporary.open("rb") as stream:
+            _validate_magic(stream, str(temporary))
+        os.replace(temporary, target)
+        temporary = None
+        return "copied"
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def copy_archive(
+    archive_path: Path, destination: Path, splits: tuple[str, ...]
+) -> dict[str, int]:
+    archive_path = archive_path.expanduser().resolve()
+    if not archive_path.is_file():
+        raise ImportError(f"Archive does not exist: {archive_path}")
+    try:
+        archive = zipfile.ZipFile(archive_path, "r")
+    except (OSError, zipfile.BadZipFile) as error:
+        raise ImportError(f"Invalid ZIP archive {archive_path}: {error}") from error
+    with archive:
+        members = locate_archive_members(archive, splits)
+        _prepare_copy_destination(destination, splits)
+        counts = {"copied": 0, "kept": 0}
+        for split in splits:
+            for name in EXPECTED[split]:
+                outcome = _copy_archive_member(
+                    archive, members[split][name], destination / split / name
+                )
+                counts[outcome] += 1
+            validate_split_dir(destination / split, split)
+        return counts
+
+
+def link_source(source_dirs: dict[str, Path], destination: Path) -> dict[str, int]:
+    for split, source_dir in source_dirs.items():
+        validate_split_dir(source_dir, split)
+    destination.mkdir(parents=True, exist_ok=True)
+    linked = 0
+    kept = 0
+    for split, source_dir in source_dirs.items():
+        target = destination / split
+        if target.is_symlink():
+            if target.resolve() != source_dir.resolve():
+                raise ImportError(f"Destination symlink points elsewhere: {target}")
+            kept += 1
+            continue
+        if target.exists():
+            if not target.is_dir() or any(target.iterdir()):
+                raise ImportError(
+                    f"Refusing to replace a non-empty destination; move it first: {target}"
+                )
+            target.rmdir()
+        target.symlink_to(source_dir.resolve(), target_is_directory=True)
+        linked += 1
+    for split in source_dirs:
+        validate_split_dir(destination / split, split)
+    return {"linked": linked, "kept": kept}
+
+
+def check_destination(destination: Path, splits: tuple[str, ...]) -> None:
+    files_by_split = {
+        split: validate_split_dir(destination / split, split) for split in splits
+    }
+    _validate_combined_size(files_by_split, str(destination))
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Import/check the complete official EventHDR train (1-51) and eval (1-19) "
+            "HDF5 release. This tool does not claim to bypass OneDrive's browser download."
+        )
+    )
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--source", type=Path, help="extracted EventHDR/train/eval source")
+    mode.add_argument("--archive", type=Path, help="browser-downloaded ZIP archive")
+    mode.add_argument("--check", action="store_true", help="check files already in destination")
+    parser.add_argument(
+        "--destination",
+        type=Path,
+        default=Path("data/EventHDR"),
+        help="logical EventHDR destination (default: data/EventHDR)",
+    )
+    parser.add_argument(
+        "--split",
+        choices=tuple(EXPECTED),
+        help="import/check only one separately downloaded train or eval folder",
+    )
+    parser.add_argument(
+        "--link",
+        action="store_true",
+        help="symlink an extracted/shared source instead of copying it",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    destination = args.destination.expanduser().resolve()
+    splits = (args.split,) if args.split else tuple(EXPECTED)
+    try:
+        if args.link and args.source is None:
+            raise ImportError("--link requires --source")
+        if args.check:
+            check_destination(destination, splits)
+            print(
+                f"EventHDR check passed: {destination} "
+                + ", ".join(f"{split}={len(EXPECTED[split])}" for split in splits)
+            )
+            return 0
+        if args.source is not None:
+            source_dirs = locate_source(args.source, splits)
+            counts = (
+                link_source(source_dirs, destination)
+                if args.link
+                else copy_source(source_dirs, destination)
+            )
+        else:
+            counts = copy_archive(args.archive, destination, splits)
+        check_destination(destination, splits)
+        print(
+            f"EventHDR import passed: {destination} "
+            + ", ".join(f"{key}={value}" for key, value in sorted(counts.items()))
+        )
+        return 0
+    except (ImportError, OSError, zipfile.BadZipFile) as error:
+        print(f"ERROR: {error}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+~~~~~~~~
+
+# scripts/get_hdr.sh
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+
+if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
+  echo "ERROR: Python executable not found: ${PYTHON_BIN}" >&2
+  exit 1
+fi
+
+cd -- "${PROJECT_ROOT}"
+exec "${PYTHON_BIN}" "${SCRIPT_DIR}/get_hdr.py" "$@"
+~~~~~~~~
 
 # scripts/setup.sh
 
-~~~~~~bash
+~~~~~~~~bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -3363,14 +4080,14 @@ PY
 echo
 echo "Installation complete."
 echo "Python: ${VENV_PYTHON}"
-echo "Next: ./scripts/get_aid.sh R-bear"
-echo "Then: ${VENV_PYTHON} -m asgcn_recon.cli inspect --config configs/aid_smoke.json --samples 2"
-echo "Then place EventHDR H5 files under data/EventHDR/train and data/EventHDR/eval."
-~~~~~~
+echo "Next: ./scripts/get_aid.sh --all"
+echo "Then: ./scripts/get_hdr.sh --archive /path/to/EventHDR.zip"
+echo "Finally: ./scripts/full.sh"
+~~~~~~~~
 
 # scripts/train.sh
 
-~~~~~~bash
+~~~~~~~~bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -3381,6 +4098,7 @@ PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
 
 cd "${PROJECT_ROOT}"
@@ -3392,6 +4110,14 @@ fi
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: training config not found: ${CONFIG_PATH}" >&2
   exit 1
+fi
+if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
+  echo "ERROR: VALIDATE_DATASET must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INSPECT_VALIDATE_ALL}" != "0" && "${INSPECT_VALIDATE_ALL}" != "1" ]]; then
+  echo "ERROR: INSPECT_VALIDATE_ALL must be 0 or 1" >&2
+  exit 2
 fi
 
 "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
@@ -3411,8 +4137,14 @@ export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
 
 if [[ "${VALIDATE_DATASET}" == "1" ]]; then
-  "${PYTHON_BIN}" -m asgcn_recon.cli inspect \
-    --config "${CONFIG_PATH}" --samples "${INSPECT_SAMPLES}"
+  INSPECT_ARGS=(
+    --config "${CONFIG_PATH}"
+    --samples "${INSPECT_SAMPLES}"
+  )
+  if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
+    INSPECT_ARGS+=(--validate-all)
+  fi
+  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 echo "Starting EventHDR training with ${CONFIG_PATH}"
@@ -3426,11 +4158,154 @@ if [[ -n "${RESUME_CHECKPOINT}" ]]; then
   TRAIN_ARGS+=(--resume "${RESUME_CHECKPOINT}")
 fi
 exec "${PYTHON_BIN}" -m asgcn_recon.cli train "${TRAIN_ARGS[@]}"
-~~~~~~
+~~~~~~~~
+
+# server/calibrate.pbs
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+#PBS -N asgcn-cal
+#PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+# Dependency example:
+#   train_id=$(qsub server/train.pbs)
+#   cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
+#   qsub -W depend=afterok:${cal_id} -v CONFIG_PATH=configs/hdr_snn.json,\
+# CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn server/eval.pbs
+
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "${PROJECT_ROOT:-}" ]]; then
+  if [[ -n "${PBS_O_WORKDIR:-}" ]]; then
+    PROJECT_ROOT="${PBS_O_WORKDIR}"
+  elif [[ -z "${PBS_JOBID:-}" ]]; then
+    PROJECT_ROOT="${SCRIPT_DIR}/.."
+  fi
+fi
+if [[ -z "${PROJECT_ROOT:-}" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
+  echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
+  echo "Run qsub from the repository root or use:" >&2
+  echo "  qsub -v PROJECT_ROOT=/absolute/path/to/repo server/calibrate.pbs" >&2
+  exit 1
+fi
+PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
+cd "${PROJECT_ROOT}"
+
+if [[ -n "${CUDA_MODULE:-}" ]]; then
+  if ! command -v module >/dev/null 2>&1; then
+    echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
+    exit 1
+  fi
+  module load "${CUDA_MODULE}"
+fi
+
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}"
+export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
+export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
+export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
+export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
+export PYTHONUNBUFFERED=1
+
+echo "Host: $(hostname)"
+echo "PBS job: ${PBS_JOBID:-interactive}"
+echo "Config: ${CONFIG_PATH}"
+echo "ANN checkpoint: ${CHECKPOINT_PATH}"
+echo "SNN checkpoint: ${OUTPUT_PATH}"
+echo "Calibration samples: ${CALIBRATION_SAMPLES}"
+nvidia-smi || true
+
+bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+  "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"
+~~~~~~~~
+
+# server/calibrate.sbatch
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+#SBATCH --job-name=asgcn-cal
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:1
+#SBATCH --mem=32G
+#SBATCH --time=12:00:00
+#SBATCH --output=slurm-%x-%j.out
+#SBATCH --error=slurm-%x-%j.err
+
+# Dependency example:
+#   train_id=$(sbatch --parsable server/train.sbatch)
+#   cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
+#   sbatch --dependency=afterok:${cal_id} --export=ALL,CONFIG_PATH=configs/hdr_snn.json,\
+# CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn server/eval.sbatch
+
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "${PROJECT_ROOT:-}" ]]; then
+  if [[ -n "${SLURM_SUBMIT_DIR:-}" ]]; then
+    PROJECT_ROOT="${SLURM_SUBMIT_DIR}"
+  elif [[ -z "${SLURM_JOB_ID:-}" ]]; then
+    PROJECT_ROOT="${SCRIPT_DIR}/.."
+  fi
+fi
+if [[ -z "${PROJECT_ROOT:-}" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
+  echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
+  echo "Run sbatch from the repository root or use:" >&2
+  echo "  sbatch --export=ALL,PROJECT_ROOT=/absolute/path/to/repo server/calibrate.sbatch" >&2
+  exit 1
+fi
+PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
+cd "${PROJECT_ROOT}"
+
+if [[ -n "${CUDA_MODULE:-}" ]]; then
+  if ! command -v module >/dev/null 2>&1; then
+    echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
+    exit 1
+  fi
+  module load "${CUDA_MODULE}"
+fi
+
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}"
+export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
+export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
+export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
+export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
+export PYTHONUNBUFFERED=1
+
+echo "Host: $(hostname)"
+echo "Job: ${SLURM_JOB_ID:-local}"
+echo "Config: ${CONFIG_PATH}"
+echo "ANN checkpoint: ${CHECKPOINT_PATH}"
+echo "SNN checkpoint: ${OUTPUT_PATH}"
+echo "Calibration samples: ${CALIBRATION_SAMPLES}"
+nvidia-smi || true
+
+srun bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+  "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"
+~~~~~~~~
 
 # server/eval.pbs
 
-~~~~~~text
+~~~~~~~~bash
 #!/usr/bin/env bash
 #PBS -N asgcn-eval
 #PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
@@ -3468,6 +4343,9 @@ export BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 export BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
+export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
 export PYTHONUNBUFFERED=1
 
@@ -3482,11 +4360,11 @@ nvidia-smi || true
 
 bash "${PROJECT_ROOT}/scripts/eval.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}"
-~~~~~~
+~~~~~~~~
 
 # server/eval.sbatch
 
-~~~~~~text
+~~~~~~~~bash
 #!/usr/bin/env bash
 #SBATCH --job-name=asgcn-eval
 #SBATCH --nodes=1
@@ -3537,6 +4415,9 @@ export BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 export BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
+export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
 
@@ -3551,11 +4432,11 @@ nvidia-smi || true
 
 srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}"
-~~~~~~
+~~~~~~~~
 
 # server/train.pbs
 
-~~~~~~text
+~~~~~~~~bash
 #!/usr/bin/env bash
 #PBS -N asgcn-train
 #PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
@@ -3586,6 +4467,9 @@ cd "${PROJECT_ROOT}"
 export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
+export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
 export PYTHONUNBUFFERED=1
 
@@ -3595,11 +4479,11 @@ echo "Config: ${CONFIG_PATH}"
 nvidia-smi || true
 
 bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
-~~~~~~
+~~~~~~~~
 
 # server/train.sbatch
 
-~~~~~~text
+~~~~~~~~bash
 #!/usr/bin/env bash
 #SBATCH --job-name=asgcn-train
 #SBATCH --nodes=1
@@ -3645,6 +4529,9 @@ fi
 export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
 export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
+export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
 
@@ -3657,19 +4544,19 @@ fi
 nvidia-smi || true
 
 srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/__init__.py
 
-~~~~~~python
+~~~~~~~~python
 """ASGCN-style event-to-frame reconstruction."""
 
 __version__ = "0.1.0"
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/cli.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import argparse
@@ -3710,7 +4597,21 @@ def _inspect_one_split(dataset: Any, samples: int, validate_all: bool = False) -
         result["scenes"] = dataset.scene_info
     if hasattr(dataset, "files"):
         result["files"] = len(dataset.files)
+    if hasattr(dataset, "zero_event_intervals"):
+        result["zero_event_intervals"] = int(dataset.zero_event_intervals)
     return result
+
+
+def _calibration_sample_limit(value: str) -> int | None:
+    if value.strip().lower() == "all":
+        return None
+    try:
+        parsed = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("samples must be a positive integer or 'all'") from error
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("samples must be a positive integer or 'all'")
+    return parsed
 
 
 def inspect_dataset(
@@ -3794,7 +4695,18 @@ def build_parser() -> argparse.ArgumentParser:
     calibrate_cmd.add_argument("--config", required=True)
     calibrate_cmd.add_argument("--checkpoint", required=True)
     calibrate_cmd.add_argument("--output", required=True)
-    calibrate_cmd.add_argument("--samples", type=int, default=100)
+    calibrate_cmd.add_argument(
+        "--samples",
+        type=_calibration_sample_limit,
+        default=None,
+        metavar="N|all",
+        help="balanced calibration sample count; default 'all' uses every training frame",
+    )
+    calibrate_cmd.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="explicitly replace an existing calibrated output checkpoint",
+    )
     return parser
 
 
@@ -3834,6 +4746,7 @@ def main(argv: list[str] | None = None) -> None:
                     resolve_path(args.checkpoint, base_dir),
                     resolve_path(args.output, base_dir),
                     samples=args.samples,
+                    overwrite=args.overwrite,
                 )
             )
         }
@@ -3844,11 +4757,11 @@ def main(argv: list[str] | None = None) -> None:
 
 if __name__ == "__main__":
     main()
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/data/__init__.py
 
-~~~~~~python
+~~~~~~~~python
 from .eventaid_r import EventAidRZipDataset
 from .eventhdr import EventHDRDataset
 from .factory import build_dataset, collate_samples, load_eventhdr_split_manifest
@@ -3860,14 +4773,13 @@ __all__ = [
     "collate_samples",
     "load_eventhdr_split_manifest",
 ]
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/data/common.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass
 from typing import Any
 
@@ -3891,19 +4803,24 @@ def normalize_polarity(p: np.ndarray) -> np.ndarray:
     return np.where(p >= 0, 1.0, -1.0).astype(np.float32, copy=False)
 
 
-def uniform_cap_factor(event_count: int, max_events: int | None) -> int:
-    """Return the integer stride needed to keep at most ``max_events`` events."""
+def uniform_cap_ratio(event_count: int, max_events: int | None) -> float:
+    """Return the source-to-retained ratio of the exact-size uniform cap."""
     if max_events is None or max_events <= 0 or event_count <= max_events:
-        return 1
-    return math.ceil(event_count / max_events)
+        return 1.0
+    return float(event_count) / float(max_events)
 
 
 def stratified_subsample(events: np.ndarray, max_events: int | None) -> np.ndarray:
-    """Uniformly stride-sample events to bound graph memory without linspace jitter."""
-    factor = uniform_cap_factor(len(events), max_events)
-    if factor == 1:
+    """Select exactly ``max_events`` time-spread events when a cap is required.
+
+    A ceil-stride cap has a severe boundary discontinuity: 8,193 inputs retain only
+    4,097 values for an 8,192 cap.  Linspace selection keeps the requested count,
+    includes both temporal endpoints, and remains deterministic.
+    """
+    if max_events is None or max_events <= 0 or len(events) <= max_events:
         return events.astype(np.float32, copy=False)
-    return events[::factor].astype(np.float32, copy=False)
+    indices = np.linspace(0, len(events) - 1, num=int(max_events), dtype=np.int64)
+    return events[indices].astype(np.float32, copy=False)
 
 
 def choose_crop(
@@ -3999,11 +4916,11 @@ def make_sample(
         "sensor_size": tuple(int(v) for v in sensor_size),
         "metadata": metadata or {},
     }
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/data/eventaid_r.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import io
@@ -4027,7 +4944,7 @@ from .common import (
     normalize_polarity,
     pil_to_array,
     stratified_subsample,
-    uniform_cap_factor,
+    uniform_cap_ratio,
 )
 
 _EVENT_RE = re.compile(r"(?:^|/)event/(\d+)\.txt$", re.IGNORECASE)
@@ -4260,7 +5177,7 @@ class EventAidRZipDataset(Dataset):
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
         cropped_event_count = len(events)
-        dataset_sampling_factor = uniform_cap_factor(cropped_event_count, self.max_events)
+        dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
         events = stratified_subsample(events, self.max_events)
         retained_event_count = len(events)
         sample_id = f"{item['scene']}/{item['frame_id']:06d}"
@@ -4282,7 +5199,7 @@ class EventAidRZipDataset(Dataset):
                 "raw_event_count": raw_event_count,
                 "cropped_event_count": cropped_event_count,
                 "retained_event_count": retained_event_count,
-                "dataset_sampling_factor": dataset_sampling_factor,
+                "dataset_sampling_ratio": dataset_sampling_ratio,
                 "crop": {
                     "left": crop.left,
                     "top": crop.top,
@@ -4309,11 +5226,11 @@ class EventAidRZipDataset(Dataset):
 
     def __del__(self) -> None:
         self.close()
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/data/eventhdr.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import os
@@ -4332,7 +5249,7 @@ from .common import (
     make_sample,
     normalize_polarity,
     stratified_subsample,
-    uniform_cap_factor,
+    uniform_cap_ratio,
 )
 
 _EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
@@ -4434,6 +5351,7 @@ class EventHDRDataset(Dataset):
         self.seed = int(seed)
         self._handles: dict[Path, h5py.File] = {}
         self._owner_pid = os.getpid()
+        self.zero_event_intervals = 0
         discovered = sorted([*self.root.rglob("*.h5"), *self.root.rglob("*.hdf5")])
         if not discovered:
             raise FileNotFoundError(
@@ -4552,7 +5470,10 @@ class EventHDRDataset(Dataset):
                         )
                     previous_end_idx = end_idx
                     previous_timestamp = timestamp
-                    if frame_index % self.frame_stride == 0 and end_idx > selected_start_idx:
+                    if frame_index % self.frame_stride == 0:
+                        is_zero_event_interval = end_idx == selected_start_idx
+                        if is_zero_event_interval:
+                            self.zero_event_intervals += 1
                         samples.append(
                             {
                                 "path": path,
@@ -4564,6 +5485,7 @@ class EventHDRDataset(Dataset):
                                 "t0": selected_start_timestamp,
                                 "timestamp": timestamp,
                                 "sequence_index": selected_sequence_index,
+                                "zero_event_interval": is_zero_event_interval,
                             }
                         )
                         # With frame_stride > 1, aggregate every skipped event interval
@@ -4629,7 +5551,7 @@ class EventHDRDataset(Dataset):
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
         cropped_event_count = len(events)
-        dataset_sampling_factor = uniform_cap_factor(cropped_event_count, self.max_events)
+        dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
         events = stratified_subsample(events, self.max_events)
         retained_event_count = len(events)
         sample_id = (
@@ -4657,7 +5579,8 @@ class EventHDRDataset(Dataset):
                 "raw_event_count": raw_event_count,
                 "cropped_event_count": cropped_event_count,
                 "retained_event_count": retained_event_count,
-                "dataset_sampling_factor": dataset_sampling_factor,
+                "dataset_sampling_ratio": dataset_sampling_ratio,
+                "zero_event_interval": bool(item["zero_event_interval"]),
                 "crop": {
                     "left": crop.left,
                     "top": crop.top,
@@ -4684,11 +5607,11 @@ class EventHDRDataset(Dataset):
 
     def __del__(self) -> None:
         self.close()
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/data/factory.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import json
@@ -4784,6 +5707,64 @@ def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
 
     scene_fields = ("scene_groups", "train_scenes", "val_scenes")
     present_scene_fields = [field for field in scene_fields if field in manifest]
+    declared_schema = manifest.get("split_schema")
+    if declared_schema is not None and not isinstance(declared_schema, str):
+        raise TypeError(
+            f"EventHDR split manifest {manifest_path} field 'split_schema' must be a string"
+        )
+    if declared_schema == "official_separate_roots_v1":
+        if status != "final":
+            raise ValueError(
+                f"Official EventHDR separate-root manifest {manifest_path} must have "
+                "status='final'"
+            )
+        if present_scene_fields:
+            raise ValueError(
+                f"Official EventHDR separate-root manifest {manifest_path} must not "
+                "declare physical-scene fields"
+            )
+        deprecated_group_fields = [
+            field for field in ("train_scene_groups", "val_scene_groups") if field in manifest
+        ]
+        if deprecated_group_fields:
+            raise ValueError(
+                f"Official EventHDR separate-root manifest {manifest_path} generates "
+                "split-local H5 sequence groups automatically; remove: "
+                + ", ".join(deprecated_group_fields)
+            )
+        required_semantics = "h5_sequence_file_not_physical_scene"
+        if manifest.get("group_semantics") != required_semantics:
+            raise ValueError(
+                f"Official EventHDR separate-root manifest {manifest_path} must set "
+                f"group_semantics='{required_semantics}'"
+            )
+        manifest["train_files"] = _normalize_file_list(
+            manifest.get("train_files"), field="train_files", manifest_path=manifest_path
+        )
+        manifest["val_files"] = _normalize_file_list(
+            manifest.get("val_files"), field="val_files", manifest_path=manifest_path
+        )
+        manifest["train_file_to_group"] = {
+            file_key: f"official-train-h5::{file_key}"
+            for file_key in manifest["train_files"]
+        }
+        manifest["val_file_to_group"] = {
+            file_key: f"official-eval-h5::{file_key}" for file_key in manifest["val_files"]
+        }
+        # ``EventHDRDataset`` keeps the historical file_to_scene API, but values in
+        # this schema are explicitly H5 sequence groups, not physical-scene labels.
+        manifest["train_file_to_scene"] = manifest["train_file_to_group"]
+        manifest["val_file_to_scene"] = manifest["val_file_to_group"]
+        manifest["file_to_group"] = {
+            "train": manifest["train_file_to_group"],
+            "val": manifest["val_file_to_group"],
+        }
+        manifest["file_to_scene"] = {
+            "train": manifest["train_file_to_scene"],
+            "val": manifest["val_file_to_scene"],
+        }
+        return manifest
+
     if present_scene_fields and len(present_scene_fields) != len(scene_fields):
         missing = ", ".join(field for field in scene_fields if field not in manifest)
         raise ValueError(
@@ -4810,8 +5791,13 @@ def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
                 + (" ..." if len(overlap) > 8 else "")
             )
         manifest["split_schema"] = "legacy_files_v1"
+        manifest["train_file_to_scene"] = {
+            key: key for key in manifest["train_files"]
+        }
+        manifest["val_file_to_scene"] = {key: key for key in manifest["val_files"]}
         manifest["file_to_scene"] = {
-            key: key for key in (*manifest["train_files"], *manifest["val_files"])
+            **manifest["train_file_to_scene"],
+            **manifest["val_file_to_scene"],
         }
         return manifest
 
@@ -4885,6 +5871,12 @@ def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
     manifest["train_scenes"] = train_scenes
     manifest["val_scenes"] = val_scenes
     manifest["file_to_scene"] = dict(sorted(file_to_scene.items()))
+    manifest["train_file_to_scene"] = {
+        file_key: file_to_scene[file_key] for file_key in train_files
+    }
+    manifest["val_file_to_scene"] = {
+        file_key: file_to_scene[file_key] for file_key in val_files
+    }
     manifest["split_schema"] = "physical_scenes_v1"
     return manifest
 
@@ -4925,11 +5917,25 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
     split_manifest = cfg.pop("split_manifest", None)
     cfg["random_crop"] = split == "train" and cfg.get("crop_size") is not None
     if dataset_type == "eventhdr":
+        eventhdr_group_semantics: str | None = None
         if split_manifest and split in {"train", "val", "calibration"}:
             manifest_path = Path(split_manifest)
             manifest = load_eventhdr_split_manifest(manifest_path)
+            eventhdr_group_semantics = manifest.get("group_semantics")
+            if eventhdr_group_semantics is None:
+                eventhdr_group_semantics = (
+                    "physical_scene"
+                    if manifest["split_schema"] == "physical_scenes_v1"
+                    else "h5_sequence_file_not_physical_scene"
+                )
             if manifest["status"] == "final":
-                if training_root.resolve() == validation_root.resolve():
+                roots_match = training_root.resolve() == validation_root.resolve()
+                if manifest["split_schema"] == "official_separate_roots_v1" and roots_match:
+                    raise ValueError(
+                        "Official EventHDR train/eval split requires distinct dataset.root "
+                        "and dataset.val_root directories"
+                    )
+                if roots_match:
                     coverage_specs = (
                         (
                             "dataset.root",
@@ -4972,11 +5978,17 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
                             + ")"
                         )
             key = "val_files" if split == "val" else "train_files"
+            if manifest["split_schema"] == "official_separate_roots_v1":
+                mapping_key = "val_file_to_group" if split == "val" else "train_file_to_group"
+            else:
+                mapping_key = (
+                    "val_file_to_scene" if split == "val" else "train_file_to_scene"
+                )
             cfg["allowed_files"] = manifest[key]
-            cfg["file_to_scene"] = {
-                file_key: manifest["file_to_scene"][file_key] for file_key in manifest[key]
-            }
+            cfg["file_to_scene"] = manifest[mapping_key]
         dataset = EventHDRDataset(root=root, **cfg)
+        if eventhdr_group_semantics is not None:
+            dataset.group_semantics = eventhdr_group_semantics
         if expected_file_count is not None and len(dataset.files) != int(expected_file_count):
             dataset.close()
             raise ValueError(
@@ -5019,11 +6031,11 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
 def collate_samples(batch: list[dict[str, Any]]) -> list[dict[str, Any]]:
     # Graphs and sensor resolutions are variable-sized; the model loops over this small list.
     return batch
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/engine.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import copy
@@ -5032,6 +6044,7 @@ import math
 import random
 import re
 import statistics
+import subprocess
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -5920,6 +6933,47 @@ def _centralize_gradients(model: torch.nn.Module) -> None:
         gradient.subtract_(gradient.mean(dim=dimensions, keepdim=True))
 
 
+def _source_tree_sha256(project_root: Path) -> str:
+    """Hash executable project source so resume cannot cross silent code edits."""
+    digest = hashlib.sha256()
+    source_root = project_root / "src"
+    files = sorted(path for path in source_root.rglob("*.py") if path.is_file())
+    if not files:
+        raise FileNotFoundError(f"No Python source files found under {source_root}")
+    for path in files:
+        relative = path.relative_to(project_root).as_posix()
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def _git_provenance(project_root: Path) -> dict[str, Any]:
+    """Return best-effort Git identity without making Git a runtime dependency."""
+
+    def run(*arguments: str) -> str | None:
+        try:
+            result = subprocess.run(
+                ["git", "-c", f"safe.directory={project_root.as_posix()}", *arguments],
+                cwd=project_root,
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except (FileNotFoundError, OSError, subprocess.TimeoutExpired):
+            return None
+        return result.stdout.strip() if result.returncode == 0 else None
+
+    commit = run("rev-parse", "HEAD")
+    status = run("status", "--porcelain", "--untracked-files=normal", "--", "src")
+    return {
+        "git_commit": commit,
+        "git_source_dirty": None if status is None else bool(status),
+    }
+
+
 def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str, Any]:
     """Return every configured choice that can change the optimization trajectory.
 
@@ -5956,8 +7010,21 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
     )
     optimizer_mode = _optimizer_mode(train_config)
     optimizer_name = "AdamW" if optimizer_mode == "adamw" else "Adam"
+    raw_validate_every = train_config.get("validate_every", 1)
+    validate_every = (
+        None if raw_validate_every is None else max(1, int(raw_validate_every))
+    )
+    project_root = Path(__file__).resolve().parents[2]
+    git_provenance = _git_provenance(project_root)
+    if device.type == "cuda":
+        device_index = device.index if device.index is not None else torch.cuda.current_device()
+        gpu_name = torch.cuda.get_device_name(device_index)
+        compute_capability = list(torch.cuda.get_device_capability(device_index))
+    else:
+        gpu_name = None
+        compute_capability = None
     return {
-        "version": 1,
+        "version": 3,
         "seed": int(config.get("seed", 2026)),
         "optimizer": {
             "mode": optimizer_mode,
@@ -5995,13 +7062,32 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
             "autocast_dtype": "float16" if effective_amp else None,
             "gradient_scaler": effective_amp,
         },
-        "validate_every": max(1, int(train_config.get("validate_every", 1))),
+        "validate_every": validate_every,
+        "checkpoint_selection": (
+            "single_final_epoch" if validate_every is None else "best_validation_macro_ssim"
+        ),
         "recurrent_state_detached_each_sample": True,
         "runtime": {
             "device_type": device.type,
             "torch": str(torch.__version__),
             "cuda_runtime": torch.version.cuda if device.type == "cuda" else None,
             "cudnn": (torch.backends.cudnn.version() if device.type == "cuda" else None),
+            "gpu_name": gpu_name,
+            "compute_capability": compute_capability,
+            "cuda_matmul_allow_tf32": (
+                bool(torch.backends.cuda.matmul.allow_tf32) if device.type == "cuda" else None
+            ),
+            "cudnn_allow_tf32": (
+                bool(torch.backends.cudnn.allow_tf32) if device.type == "cuda" else None
+            ),
+            "cudnn_benchmark": (
+                bool(torch.backends.cudnn.benchmark) if device.type == "cuda" else None
+            ),
+            "deterministic_algorithms": bool(torch.are_deterministic_algorithms_enabled()),
+        },
+        "source": {
+            "source_tree_sha256": _source_tree_sha256(project_root),
+            **git_provenance,
         },
     }
 
@@ -6106,7 +7192,7 @@ def _validation_protocol(
             )
     print("Verifying cached hashes or hashing train/validation files for exact resume...")
     return {
-        "version": 4,
+        "version": 5,
         "seed": int(config.get("seed", 2026)),
         "recurrent": bool(config["model"].get("recurrent", True)),
         "dataset_transform": data,
@@ -6117,7 +7203,11 @@ def _validation_protocol(
         },
         "max_val_samples": config["train"].get("max_val_samples"),
         "sampling": val_sampling,
-        "selection_metric": "macro_ssim",
+        "selection_metric": (
+            "single_final_epoch_macro_ssim"
+            if config["train"].get("validate_every", 1) is None
+            else "macro_ssim"
+        ),
         "ssim": "gaussian_valid_11_sigma1.5",
     }
 
@@ -6128,12 +7218,10 @@ def _enforce_training_split_status(config: dict[str, Any]) -> None:
         return
     manifest = load_eventhdr_split_manifest(manifest_path)
     status = str(manifest.get("status", "missing")).strip().lower()
-    allow_provisional = bool(config.get("train", {}).get("allow_provisional_split", False))
-    if status != "final" and not allow_provisional:
+    if status != "final":
         raise ValueError(
             f"Training split manifest {manifest_path} has status='{status}', not 'final'. "
-            "Finalize the scene-level split or explicitly set "
-            "train.allow_provisional_split=true for a non-reportable smoke run."
+            "A provisional split cannot be used for training."
         )
 
 
@@ -6371,7 +7459,10 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         _restore_rng_state(resume_checkpoint.pop("rng_state"))
 
     epochs = int(train_config.get("epochs", 40))
-    validate_every = max(1, int(train_config.get("validate_every", 1)))
+    raw_validate_every = train_config.get("validate_every", 1)
+    validate_every = (
+        None if raw_validate_every is None else max(1, int(raw_validate_every))
+    )
     max_train_samples = train_config.get("max_train_samples")
     for epoch in range(start_epoch, epochs + 1):
         epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
@@ -6453,7 +7544,9 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             if step % int(train_config.get("log_every", 20)) == 0:
                 progress.set_postfix(loss=f"{running_loss / max(seen, 1):.4f}", **loss_parts)
 
-        should_validate = epoch % validate_every == 0 or epoch == epochs
+        should_validate = epoch == epochs or (
+            validate_every is not None and epoch % validate_every == 0
+        )
         val_metrics = (
             validate(
                 model,
@@ -6510,6 +7603,11 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             "best_ssim": best_ssim,
             "best_model_state_sha256": best_model_state_sha256,
             "best_metric": "macro_ssim",
+            "checkpoint_selection": (
+                "single_final_epoch"
+                if validate_every is None
+                else "best_validation_macro_ssim"
+            ),
             "paper_core_version": PAPER_CORE_VERSION,
             "validation_protocol": validation_protocol,
             "training_protocol": training_protocol,
@@ -6530,6 +7628,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 "val_sampling": checkpoint["val_sampling"],
                 "best_ssim": checkpoint["best_ssim"],
                 "best_metric": checkpoint["best_metric"],
+                "checkpoint_selection": checkpoint["checkpoint_selection"],
                 "model_state_sha256": best_model_state_sha256,
                 "paper_core_version": checkpoint["paper_core_version"],
                 "validation_protocol": checkpoint["validation_protocol"],
@@ -6685,9 +7784,9 @@ def evaluate(
             ),
             "retained_events": int(sample["events"].shape[0]),
             "events": int(sample["events"].shape[0]),
-            "dataset_sampling_factor": diagnostics["dataset_sampling_factor"],
+            "dataset_sampling_ratio": diagnostics["dataset_sampling_ratio"],
             "model_sampling_factor": diagnostics["event_sampling_factor"],
-            "effective_sampling_factor": diagnostics["effective_sampling_factor"],
+            "effective_sampling_ratio": diagnostics["effective_sampling_ratio"],
             "nodes": diagnostics["nodes"],
             "edges": diagnostics["edges"],
             "isolated_nodes": int(diagnostics["isolated_nodes"]),
@@ -6778,11 +7877,17 @@ def _dataset_coverage_summary(dataset, data_config: dict[str, Any]) -> dict[str,
         root = Path(dataset.root)
         files = sorted(path.relative_to(root).as_posix() for path in dataset.files)
         mapping = getattr(dataset, "file_to_scene", {})
-        grouping = (
-            "physical_scene"
-            if any(mapping.get(file_key) != file_key for file_key in files)
-            else "source_h5_file"
-        )
+        declared_semantics = getattr(dataset, "group_semantics", None)
+        if declared_semantics == "h5_sequence_file_not_physical_scene":
+            grouping = "source_h5_sequence_file"
+        elif declared_semantics == "physical_scene":
+            grouping = "physical_scene"
+        else:
+            grouping = (
+                "physical_scene"
+                if any(mapping.get(file_key) != file_key for file_key in files)
+                else "source_h5_file"
+            )
     elif dataset_type == "eventaid_r_zip":
         files = sorted(path.name for path in dataset.zip_paths)
         grouping = "eventaid_scene_zip"
@@ -7041,10 +8146,20 @@ def calibrate(
     config: dict[str, Any],
     checkpoint_path: str | Path,
     output_path: str | Path,
-    samples: int = 100,
+    samples: int | None = None,
+    overwrite: bool = False,
 ) -> Path:
-    if int(samples) < 1:
+    if samples is not None and int(samples) < 1:
         raise ValueError("calibration samples must be at least 1")
+    checkpoint_path = Path(checkpoint_path)
+    output_path = Path(output_path)
+    if checkpoint_path.resolve() == output_path.resolve():
+        raise ValueError("ANN input and calibrated SNN output must be different files")
+    if output_path.exists() and not overwrite:
+        raise FileExistsError(
+            f"Calibrated checkpoint already exists: {output_path}. Move it or choose a new "
+            "output path, or explicitly request overwrite."
+        )
     _enforce_training_split_status(config)
     device = resolve_device(config.get("device", "auto"))
     data_config = copy.deepcopy(config["dataset"])
@@ -7056,42 +8171,44 @@ def calibrate(
     model.eval()
     model.fold_batch_norm()
     model.reset_activation_maxima()
+    calibration_limit = len(dataset) if samples is None else min(int(samples), len(dataset))
     calibration_indices = _balanced_sample_indices(
-        dataset,
-        min(int(samples), len(dataset)),
-        seed=int(config.get("seed", 2026)),
+        dataset, calibration_limit, seed=int(config.get("seed", 2026))
     )
-    calibration_sampling = _sampling_summary(dataset, calibration_indices)
-    for index in tqdm(calibration_indices, desc="calibrate-SNN"):
-        sample = move_sample(dataset[index], device)
-        model.calibrate_sample(sample, momentum=-1.0)
-    calibration_summary = model.calibration_summary()
-    model.apply_parameter_normalization()
-    model_state = model.state_dict()
-    inference_checkpoint = {
-        "checkpoint_type": "snn_inference",
-        "model": model_state,
-        "model_state_sha256": _model_state_sha256(model_state),
-        "model_config": checkpoint.get("model_config", config["model"]),
-        "epoch": checkpoint.get("epoch"),
-        "source_checkpoint": str(checkpoint_path),
-        "batch_norm_folded": True,
-        "snn_calibrated": True,
-        "paper_core_version": PAPER_CORE_VERSION,
-        "parameter_normalized": True,
-        "snn_calibration_samples": len(calibration_indices),
-        "snn_calibration_valid_samples": calibration_summary["minimum_valid_samples"],
-        "snn_calibration_summary": calibration_summary,
-        "snn_calibration_sampling": calibration_sampling,
-    }
-    output_path = Path(output_path)
+    try:
+        calibration_sampling = _sampling_summary(dataset, calibration_indices)
+        for index in tqdm(calibration_indices, desc="calibrate-SNN"):
+            sample = move_sample(dataset[index], device)
+            model.calibrate_sample(sample, momentum=-1.0)
+        calibration_summary = model.calibration_summary()
+        model.apply_parameter_normalization()
+        model_state = model.state_dict()
+        inference_checkpoint = {
+            "checkpoint_type": "snn_inference",
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "model_config": checkpoint.get("model_config", config["model"]),
+            "epoch": checkpoint.get("epoch"),
+            "source_checkpoint": str(checkpoint_path),
+            "batch_norm_folded": True,
+            "snn_calibrated": True,
+            "paper_core_version": PAPER_CORE_VERSION,
+            "parameter_normalized": True,
+            "snn_calibration_samples": len(calibration_indices),
+            "snn_calibration_valid_samples": calibration_summary["minimum_valid_samples"],
+            "snn_calibration_summary": calibration_summary,
+            "snn_calibration_sampling": calibration_sampling,
+        }
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
     atomic_torch_save(inference_checkpoint, output_path)
     return output_path
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/graph.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import math
@@ -7181,12 +8298,13 @@ def build_radius_graph(
     chunk_size: int = 512,
     max_edges: int | None = None,
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    """Build the paper's simple undirected distance graph without self edges.
+    """Build the paper's exact radius graph with a uniform-cell candidate search.
 
     Every ordered edge direction is materialized so source-to-target aggregation is
-    equivalent to an undirected graph. Pairwise distances are evaluated in chunks to
-    bound temporary memory without changing the radius-graph result. The scalar edge
-    pseudo-coordinate is distance / D in [0,1], as required by a B-spline kernel.
+    equivalent to an undirected graph.  Cells have width ``radius``; therefore only
+    the 3^d adjacent cells can contain a valid neighbor.  Exact Euclidean filtering
+    after candidate generation preserves the brute-force graph while avoiding the
+    O(N^2) distance matrix on sparse event volumes.
     """
     radius = float(radius)
     if not math.isfinite(radius) or radius <= 0:
@@ -7215,20 +8333,68 @@ def build_radius_graph(
     coordinates = positions[:, :position_dims]
     if not bool(torch.isfinite(coordinates).all()):
         raise ValueError("Graph coordinates must be finite")
+    if bool(((coordinates < 0) | (coordinates > 1)).any()):
+        raise ValueError("Normalized graph coordinates must lie in [0,1]")
+
+    cells_per_axis = max(2, math.ceil(1.0 / radius) + 1)
+    if cells_per_axis**position_dims >= torch.iinfo(torch.long).max:
+        raise ValueError("graph_radius is too small for integer spatial hashing")
+    strides = torch.tensor(
+        [cells_per_axis**dimension for dimension in range(position_dims)],
+        device=device,
+        dtype=torch.long,
+    )
+    cells = torch.floor(coordinates / radius).to(torch.long)
+    cells = cells.clamp_(0, cells_per_axis - 1)
+    cell_hash = (cells * strides).sum(dim=1)
+    sorted_hash, sorted_nodes = torch.sort(cell_hash)
+    offset_axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
+    offsets = torch.cartesian_prod(*([offset_axis] * position_dims)).reshape(
+        -1, position_dims
+    )
+
     sources: list[torch.Tensor] = []
     destination_chunks: list[torch.Tensor] = []
     distances_kept: list[torch.Tensor] = []
     retained_edge_count = 0
-    for start in range(0, count, chunk_size):
-        stop = min(start + chunk_size, count)
-        distances = torch.cdist(coordinates[start:stop], coordinates)
-        within_radius = distances < radius
-        local_rows = torch.arange(stop - start, device=device)
-        within_radius[local_rows, local_rows + start] = False
-        chunk_edge_count = int(within_radius.sum().item()) if max_edges is not None else None
+    # Bound worst-case candidate materialization even if every event occupies one cell.
+    effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
+    for start in range(0, count, effective_chunk_size):
+        stop = min(start + effective_chunk_size, count)
+        local_sources = torch.arange(start, stop, device=device, dtype=torch.long)
+        neighbor_cells = cells[start:stop, None, :] + offsets[None, :, :]
+        valid_cells = ((neighbor_cells >= 0) & (neighbor_cells < cells_per_axis)).all(dim=2)
+        neighbor_hashes = (neighbor_cells * strides).sum(dim=2)
+        candidate_sources = local_sources[:, None].expand_as(neighbor_hashes)[valid_cells]
+        candidate_hashes = neighbor_hashes[valid_cells]
+        left = torch.searchsorted(sorted_hash, candidate_hashes, right=False)
+        right = torch.searchsorted(sorted_hash, candidate_hashes, right=True)
+        counts = right - left
+        nonempty = counts > 0
+        if not bool(nonempty.any()):
+            continue
+        candidate_sources = candidate_sources[nonempty]
+        left = left[nonempty]
+        counts = counts[nonempty]
+        candidate_count = int(counts.sum().item())
+        expanded_sources = torch.repeat_interleave(
+            candidate_sources, counts, output_size=candidate_count
+        )
+        expanded_left = torch.repeat_interleave(left, counts, output_size=candidate_count)
+        starts = counts.cumsum(0) - counts
+        within_group = torch.arange(candidate_count, device=device) - torch.repeat_interleave(
+            starts, counts, output_size=candidate_count
+        )
+        candidate_destinations = sorted_nodes[expanded_left + within_group]
+        candidate_distances = torch.linalg.vector_norm(
+            coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
+        )
+        within_radius = (expanded_sources != candidate_destinations) & (
+            candidate_distances < radius
+        )
+        chunk_edge_count = int(within_radius.sum().item())
         if (
             max_edges is not None
-            and chunk_edge_count is not None
             and retained_edge_count + chunk_edge_count > max_edges
         ):
             raise RuntimeError(
@@ -7237,17 +8403,12 @@ def build_radius_graph(
                 "graph_radius/max_events or raise the explicit memory guard after "
                 "measuring accelerator memory."
             )
-        local_sources, local_destinations = torch.nonzero(
-            within_radius,
-            as_tuple=True,
-        )
-        if local_sources.numel() == 0:
+        if chunk_edge_count == 0:
             continue
-        sources_global = local_sources + start
-        retained_edge_count += int(local_sources.numel())
-        sources.append(sources_global)
-        distances_kept.append(distances[local_sources, local_destinations])
-        destination_chunks.append(local_destinations)
+        retained_edge_count += chunk_edge_count
+        sources.append(expanded_sources[within_radius])
+        destination_chunks.append(candidate_destinations[within_radius])
+        distances_kept.append(candidate_distances[within_radius])
 
     if not sources:
         return (
@@ -7257,6 +8418,10 @@ def build_radius_graph(
     source = torch.cat(sources)
     destination = torch.cat(destination_chunks)
     distance = torch.cat(distances_kept)
+    order = torch.argsort(source * count + destination)
+    source = source[order]
+    destination = destination[order]
+    distance = distance[order]
     edge_index = torch.stack((source, destination), dim=0)
     edge_attr = (distance / radius).clamp(0.0, 1.0).unsqueeze(-1)
     return edge_index, edge_attr
@@ -7410,23 +8575,16 @@ class PaperSplineConv(nn.Module):
                 if basis_cache is not None
                 else linear_open_bspline_basis(edge_attr, self.kernel_size)
             )
-            for kernel_index in range(self.kernel_size):
-                coefficient = torch.where(
-                    indices[:, 0] == kernel_index,
-                    basis[:, 0],
-                    torch.zeros_like(basis[:, 0]),
-                )
-                coefficient = coefficient + torch.where(
-                    indices[:, 1] == kernel_index,
-                    basis[:, 1],
-                    torch.zeros_like(basis[:, 1]),
-                )
-                # Project each node once per control point instead of materializing
-                # an [E,Cin,Cout] kernel or repeating an edge-wise matrix product.
-                projected = x @ self.weight[kernel_index]
-                messages = projected[source] * coefficient[:, None].to(projected.dtype)
-                messages = messages.to(output.dtype)
-                output.index_add_(0, destination, messages)
+            # Project nodes once for every control point, then gather only the two
+            # degree-1 basis terms that are active on each edge.
+            projected = torch.einsum("ni,kio->nko", x, self.weight)
+            for active_basis in range(2):
+                messages = projected[source, indices[:, active_basis]]
+                messages = messages * basis[:, active_basis, None].to(messages.dtype)
+                # CPU autocast can produce bfloat16 projections while ``x``
+                # (and therefore ``output``) remains float32. ``index_add_``
+                # requires matching dtypes, so accumulate in the output dtype.
+                output.index_add_(0, destination, messages.to(output.dtype))
             degree = torch.zeros((x.shape[0], 1), device=x.device, dtype=x.dtype)
             degree.index_add_(
                 0,
@@ -7703,11 +8861,11 @@ class ASGCNEncoder(nn.Module):
         if not self.layers[-1]._snn_is_normalized:
             raise RuntimeError("Output activation scale is available after Eq. (6) conversion")
         return self.layers[-1].activation_max.to(reference)
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/losses.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 from typing import Any
@@ -7751,11 +8909,11 @@ class ReconstructionLoss(nn.Module):
         }
         values["total"] = float(total.detach().cpu())
         return total, values
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/metrics.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import math
@@ -7936,11 +9094,11 @@ def percentile(values: list[float], q: float) -> float:
     if lower == upper:
         return ordered[lower]
     return ordered[lower] * (upper - position) + ordered[upper] * (position - lower)
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/model.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import math
@@ -8177,7 +9335,9 @@ class ASGCNReconstructor(nn.Module):
             raise ValueError(f"Unknown inference_mode: {inference_mode}")
         raster = rasterize_features(features, graph, sample["sensor_size"], self.raster_downsample)
         prediction, next_state = self.decoder(raster, sample["sensor_size"], recurrent_state)
-        dataset_sampling_factor = int(sample.get("metadata", {}).get("dataset_sampling_factor", 1))
+        dataset_sampling_ratio = float(
+            sample.get("metadata", {}).get("dataset_sampling_ratio", 1.0)
+        )
         node_count = int(graph.node_features.shape[0])
         edge_count = int(graph.edge_index.shape[1])
         if node_count:
@@ -8202,8 +9362,8 @@ class ASGCNReconstructor(nn.Module):
             "max_degree": max_degree,
             "edge_feature": "normalized_scalar_distance",
             "event_sampling_factor": self.event_sampling_factor,
-            "dataset_sampling_factor": dataset_sampling_factor,
-            "effective_sampling_factor": (dataset_sampling_factor * self.event_sampling_factor),
+            "dataset_sampling_ratio": dataset_sampling_ratio,
+            "effective_sampling_ratio": (dataset_sampling_ratio * self.event_sampling_factor),
             "snn_dynamics": self.snn_dynamics if inference_mode == "snn" else None,
             "decoder_input_lambda_applied": inference_mode == "snn",
             "firing_rates": firing_rates,
@@ -8263,11 +9423,11 @@ class ASGCNReconstructor(nn.Module):
 
     def calibration_summary(self) -> dict[str, list[int] | int]:
         return self.encoder.calibration_summary()
-~~~~~~
+~~~~~~~~
 
 # src/asgcn_recon/utils.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import copy
@@ -8389,17 +9549,17 @@ def atomic_torch_save(value: Any, path: str | Path) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     torch.save(value, temporary)
     os.replace(temporary, path)
-~~~~~~
+~~~~~~~~
 
 # tests/__init__.py
 
-~~~~~~python
+~~~~~~~~python
 """Test-only package; never installed with asgcn_recon."""
-~~~~~~
+~~~~~~~~
 
 # tests/fixtures.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import io
@@ -8473,11 +9633,11 @@ def make_eventaid(root: Path, frames: int = 4) -> Path:
             ]
             zf.writestr(f"event/{index:06d}.txt", "\n".join(rows) + "\n")
     return path
-~~~~~~
+~~~~~~~~
 
 # tests/test_asgcn_paper_core.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 from unittest.mock import patch
@@ -8914,7 +10074,7 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
         "target": torch.zeros((1, 4, 4)),
         "sensor_size": (4, 4),
         "sample_id": "known-scale",
-        "metadata": {"dataset_sampling_factor": 1},
+        "metadata": {"dataset_sampling_ratio": 1.0},
     }
     captured: dict[str, torch.Tensor] = {}
 
@@ -8947,11 +10107,11 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
     assert diagnostics["decoder_input_lambda_applied"] is True
     assert diagnostics["isolated_nodes"].item() == 1
     assert diagnostics["max_degree"].item() == 0
-~~~~~~
+~~~~~~~~
 
 # tests/test_data_validation.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import json
@@ -8969,6 +10129,7 @@ from asgcn_recon.data import (
     build_dataset,
     load_eventhdr_split_manifest,
 )
+from asgcn_recon.engine import _dataset_coverage_summary
 from tests.fixtures import make_eventaid, make_eventhdr
 
 
@@ -9076,6 +10237,138 @@ def test_final_eventhdr_manifest_normalizes_physical_scene_groups(tmp_path: Path
         "nested/chunk_01.hdf5": "night-drive-a",
         "validation.h5": "night-drive-b",
     }
+
+
+def test_official_separate_root_manifest_maps_overlapping_names_to_sequence_groups(
+    tmp_path: Path,
+) -> None:
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["1.h5"],
+            "val_files": ["1.h5"],
+        },
+    )
+
+    manifest = load_eventhdr_split_manifest(manifest_path)
+
+    assert manifest["split_schema"] == "official_separate_roots_v1"
+    assert manifest["group_semantics"] == "h5_sequence_file_not_physical_scene"
+    assert manifest["train_files"] == ["1.h5"]
+    assert manifest["val_files"] == ["1.h5"]
+    assert manifest["file_to_group"] == {
+        "train": {"1.h5": "official-train-h5::1.h5"},
+        "val": {"1.h5": "official-eval-h5::1.h5"},
+    }
+
+
+def test_factory_uses_split_local_sequence_groups_for_overlapping_official_names(
+    tmp_path: Path,
+) -> None:
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "eval"
+    make_eventhdr(train_root).rename(train_root / "1.h5")
+    make_eventhdr(val_root).rename(val_root / "1.h5")
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["1.h5"],
+            "val_files": ["1.h5"],
+        },
+    )
+    config = {
+        "type": "eventhdr",
+        "root": str(train_root),
+        "val_root": str(val_root),
+        "split_manifest": str(manifest_path),
+    }
+
+    train_dataset = build_dataset(config, split="train")
+    val_dataset = build_dataset(config, split="val")
+    try:
+        assert train_dataset.group_semantics == "h5_sequence_file_not_physical_scene"
+        assert val_dataset.group_semantics == "h5_sequence_file_not_physical_scene"
+        assert train_dataset[0]["metadata"]["scene"] == "official-train-h5::1.h5"
+        assert val_dataset[0]["metadata"]["scene"] == "official-eval-h5::1.h5"
+        coverage = _dataset_coverage_summary(val_dataset, config)
+        assert coverage["quality_grouping"] == "source_h5_sequence_file"
+    finally:
+        train_dataset.close()
+        val_dataset.close()
+
+    make_eventhdr(tmp_path / "extra").rename(val_root / "2.h5")
+    with pytest.raises(ValueError, match=r"dataset\.val_root.*undeclared: 2\.h5"):
+        build_dataset(config, split="val")
+
+
+def test_official_separate_root_manifest_requires_distinct_roots(tmp_path: Path) -> None:
+    root = tmp_path / "eventhdr"
+    make_eventhdr(root).rename(root / "1.h5")
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["1.h5"],
+            "val_files": ["1.h5"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="requires distinct"):
+        build_dataset(
+            {
+                "type": "eventhdr",
+                "root": str(root),
+                "val_root": str(root),
+                "split_manifest": str(manifest_path),
+            },
+            split="train",
+        )
+
+
+def test_official_sequence_file_schema_rejects_physical_scene_fields(tmp_path: Path) -> None:
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "split_schema": "official_separate_roots_v1",
+            "group_semantics": "h5_sequence_file_not_physical_scene",
+            "train_files": ["1.h5"],
+            "val_files": ["1.h5"],
+            "scene_groups": {"unsupported-claim": ["1.h5"]},
+            "train_scenes": ["unsupported-claim"],
+            "val_scenes": ["unsupported-claim"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="must not declare physical-scene fields"):
+        load_eventhdr_split_manifest(manifest_path)
+
+
+def test_checked_in_full_eventhdr_protocol_uses_official_roots_and_all_frames() -> None:
+    repository = Path(__file__).resolve().parents[1]
+    manifest = load_eventhdr_split_manifest(repository / "manifests/eventhdr_split.json")
+    config = json.loads((repository / "configs/hdr_train.json").read_text(encoding="utf-8"))
+
+    assert manifest["status"] == "final"
+    assert manifest["split_schema"] == "official_separate_roots_v1"
+    assert manifest["group_semantics"] == "h5_sequence_file_not_physical_scene"
+    assert set(manifest["train_files"]) == {f"{index}.h5" for index in range(1, 52)}
+    assert set(manifest["val_files"]) == {f"{index}.h5" for index in range(1, 20)}
+    assert config["dataset"]["root"] == "data/EventHDR/train"
+    assert config["dataset"]["val_root"] == "data/EventHDR/eval"
+    assert config["dataset"]["frame_stride"] == 1
+    assert config["dataset"]["crop_size"] is None
+    assert config["train"]["max_train_samples"] is None
+    assert config["train"]["max_val_samples"] is None
+    assert config["train"]["validate_every"] is None
 
 
 def test_final_eventhdr_manifest_rejects_legacy_file_lists(tmp_path: Path) -> None:
@@ -9502,11 +10795,11 @@ def test_eventaid_requires_timestamp_for_every_pair(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="does not cover"):
         EventAidRZipDataset(path.parent)
-~~~~~~
+~~~~~~~~
 
 # tests/test_e2e.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import torch
@@ -9598,8 +10891,8 @@ def test_train_eval_benchmark_contract(tmp_path):
     assert result["quality"]["frames"] == 2
     assert timing["frames"] == 2
     assert timing["mean_raw_events"] == 80
-    assert timing["mean_retained_events"] == 27
-    assert timing["retention_ratio"] == 27 / 80
+    assert timing["mean_retained_events"] == 32
+    assert timing["retention_ratio"] == 32 / 80
     assert timing["raw_events_per_second"] > timing["retained_events_per_second"]
     assert timing["graph_nodes_per_second"] == timing["retained_events_per_second"]
     assert timing["events_per_second"] == timing["retained_events_per_second"]
@@ -9614,11 +10907,11 @@ def test_train_eval_benchmark_contract(tmp_path):
 
     hdr.close()
     aid.close()
-~~~~~~
+~~~~~~~~
 
 # tests/test_engine_integrity.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import copy
@@ -9678,6 +10971,10 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
         "autocast_dtype": None,
         "gradient_scaler": False,
     }
+    assert len(protocol["source"]["source_tree_sha256"]) == 64
+    assert protocol["runtime"]["gpu_name"] is None
+    assert protocol["runtime"]["compute_capability"] is None
+    assert protocol["version"] == 3
 
     allowed = copy.deepcopy(config)
     allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})
@@ -9690,6 +10987,14 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
             {"training_protocol": protocol},
             _training_protocol(changed, torch.device("cpu")),
         )
+
+
+def test_training_protocol_can_reserve_validation_for_the_final_epoch() -> None:
+    config = _config()
+    config["train"]["validate_every"] = None
+    protocol = _training_protocol(config, torch.device("cpu"))
+    assert protocol["validate_every"] is None
+    assert protocol["checkpoint_selection"] == "single_final_epoch"
 
 
 def test_paper_optimizer_mode_records_gc_and_milestone_schedule() -> None:
@@ -9858,11 +11163,6 @@ def test_prediction_artifact_stems_are_cross_platform_safe_and_collision_resista
     ("flag", "required_key", "absent_keys"),
     [
         (
-            "--require-eventhdr-smoke",
-            "smoke manifest files",
-            ("at least 51", "eventhdr_eval_h5", "eventaid_r_zip"),
-        ),
-        (
             "--require-eventhdr-train",
             "eventhdr_train_h5",
             ("eventhdr_eval_h5", "eventaid_r_zip"),
@@ -9927,30 +11227,238 @@ def test_check_env_full_data_preserves_all_requirements(tmp_path, monkeypatch) -
     assert "eventaid_r_zip" in message
 
 
-def test_check_env_smoke_accepts_only_the_four_manifest_h5_files(tmp_path, monkeypatch) -> None:
-    data_root = tmp_path / "data"
-    train_root = data_root / "EventHDR" / "train"
-    train_root.mkdir(parents=True)
-    for name in ("1.h5", "2.h5", "48.h5", "49.h5"):
-        (train_root / name).touch()
+@pytest.mark.parametrize(
+    ("flag", "subdirectory", "expected_count"),
+    [
+        ("--require-eventhdr-train", "train", 51),
+        ("--require-eventhdr-eval", "eval", 19),
+    ],
+)
+def test_check_env_requires_exact_official_eventhdr_names(
+    tmp_path, monkeypatch, flag: str, subdirectory: str, expected_count: int
+) -> None:
+    root = tmp_path / "data" / "EventHDR" / subdirectory
+    root.mkdir(parents=True)
+    for index in range(1, expected_count):
+        (root / f"{index}.h5").touch()
+    (root / f"{expected_count + 1}.h5").touch()
     monkeypatch.setattr(
         sys,
         "argv",
         [
             "check_env.py",
             "--data-root",
-            str(data_root),
+            str(tmp_path / "data"),
             "--runs-root",
             str(tmp_path / "runs"),
-            "--require-eventhdr-smoke",
+            flag,
         ],
     )
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    message = str(error.value)
+    assert f"missing={expected_count}.h5" in message
+    assert f"extra={expected_count + 1}.h5" in message
+
+
+def test_check_env_accepts_exact_official_eventhdr_names(tmp_path, monkeypatch) -> None:
+    train_root = tmp_path / "data" / "EventHDR" / "train"
+    eval_root = tmp_path / "data" / "EventHDR" / "eval"
+    train_root.mkdir(parents=True)
+    eval_root.mkdir(parents=True)
+    for index in range(1, 52):
+        (train_root / f"{index}.h5").touch()
+    for index in range(1, 20):
+        (eval_root / f"{index}.h5").touch()
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "check_env.py",
+            "--data-root",
+            str(tmp_path / "data"),
+            "--runs-root",
+            str(tmp_path / "runs"),
+            "--require-eventhdr-train",
+            "--require-eventhdr-eval",
+        ],
+    )
+
     check_env.main()
-~~~~~~
+~~~~~~~~
+
+# tests/test_get_hdr.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import importlib.util
+import os
+import zipfile
+from pathlib import Path
+from types import ModuleType
+
+import pytest
+
+
+def _load_script() -> ModuleType:
+    path = Path(__file__).resolve().parents[1] / "scripts" / "get_hdr.py"
+    spec = importlib.util.spec_from_file_location("get_hdr", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+get_hdr = _load_script()
+
+
+def _write_split(root: Path, split: str, *, missing: str | None = None) -> Path:
+    directory = root / split
+    directory.mkdir(parents=True)
+    for name in get_hdr.EXPECTED[split]:
+        if name != missing:
+            (directory / name).write_bytes(get_hdr.HDF5_MAGIC + name.encode("ascii"))
+    return directory
+
+
+def _write_complete(root: Path) -> Path:
+    _write_split(root, "train")
+    _write_split(root, "eval")
+    return root
+
+
+def test_copy_complete_source_and_idempotent_check(tmp_path: Path) -> None:
+    source = _write_complete(tmp_path / "download" / "EventHDR")
+    destination = tmp_path / "data" / "EventHDR"
+
+    assert get_hdr.main(["--source", str(source), "--destination", str(destination)]) == 0
+    assert get_hdr.main(["--check", "--destination", str(destination)]) == 0
+    assert get_hdr.main(["--source", str(source), "--destination", str(destination)]) == 0
+    assert len(list((destination / "train").glob("*.h5"))) == 51
+    assert len(list((destination / "eval").glob("*.h5"))) == 19
+
+
+def test_missing_source_is_rejected_before_destination_creation(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    source = tmp_path / "download"
+    _write_split(source, "train", missing="51.h5")
+    _write_split(source, "eval")
+    destination = tmp_path / "data" / "EventHDR"
+
+    assert get_hdr.main(["--source", str(source), "--destination", str(destination)]) == 1
+    assert not destination.exists()
+    assert "missing=51.h5" in capsys.readouterr().err
+
+
+def test_extra_or_nested_h5_is_rejected(tmp_path: Path) -> None:
+    source = _write_complete(tmp_path / "download")
+    (source / "train" / "52.h5").write_bytes(get_hdr.HDF5_MAGIC)
+    with pytest.raises(get_hdr.ImportError, match="extra=52.h5"):
+        get_hdr.locate_source(source, ("train", "eval"))
+
+    (source / "train" / "52.h5").unlink()
+    nested = source / "train" / "nested"
+    nested.mkdir()
+    (nested / "1.h5").write_bytes(get_hdr.HDF5_MAGIC)
+    with pytest.raises(get_hdr.ImportError, match="Nested HDF5"):
+        get_hdr.validate_split_dir(source / "train", "train")
+
+
+def test_separate_split_source_directory_is_supported(tmp_path: Path) -> None:
+    source = _write_split(tmp_path / "browser-download", "eval")
+    destination = tmp_path / "data" / "EventHDR"
+    assert (
+        get_hdr.main(
+            [
+                "--source",
+                str(source),
+                "--split",
+                "eval",
+                "--destination",
+                str(destination),
+            ]
+        )
+        == 0
+    )
+    assert len(list((destination / "eval").glob("*.h5"))) == 19
+    assert not (destination / "train").exists()
+
+
+def test_archive_import_streams_exact_members_without_extract_tree(tmp_path: Path) -> None:
+    archive_path = tmp_path / "EventHDR.zip"
+    with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_STORED) as archive:
+        for split, names in get_hdr.EXPECTED.items():
+            for name in names:
+                archive.writestr(f"EventHDR/{split}/{name}", get_hdr.HDF5_MAGIC + b"data")
+        archive.writestr("EventHDR/pretrained/model.pt", b"ignored")
+    destination = tmp_path / "data" / "EventHDR"
+
+    assert (
+        get_hdr.main(
+            ["--archive", str(archive_path), "--destination", str(destination)]
+        )
+        == 0
+    )
+    assert len(list((destination / "train").glob("*.h5"))) == 51
+    assert len(list((destination / "eval").glob("*.h5"))) == 19
+    assert not (destination / "pretrained").exists()
+
+
+def test_archive_rejects_unsafe_or_duplicate_members(tmp_path: Path) -> None:
+    archive_path = tmp_path / "unsafe.zip"
+    with zipfile.ZipFile(archive_path, "w") as archive:
+        for name in get_hdr.EXPECTED["eval"]:
+            archive.writestr(f"eval/{name}", get_hdr.HDF5_MAGIC)
+        archive.writestr("../eval/other.h5", get_hdr.HDF5_MAGIC)
+    with (
+        zipfile.ZipFile(archive_path) as archive,
+        pytest.raises(get_hdr.ImportError, match="Unsafe archive member"),
+    ):
+        get_hdr.locate_archive_members(archive, ("eval",))
+
+    duplicate_path = tmp_path / "duplicate.zip"
+    with zipfile.ZipFile(duplicate_path, "w") as archive:
+        for name in get_hdr.EXPECTED["eval"]:
+            archive.writestr(f"eval/{name}", get_hdr.HDF5_MAGIC)
+        archive.writestr("prefix/eval/1.h5", get_hdr.HDF5_MAGIC)
+    with (
+        zipfile.ZipFile(duplicate_path) as archive,
+        pytest.raises(get_hdr.ImportError, match="duplicate"),
+    ):
+        get_hdr.locate_archive_members(archive, ("eval",))
+
+
+def test_check_rejects_bad_hdf5_magic(tmp_path: Path) -> None:
+    destination = _write_complete(tmp_path / "data" / "EventHDR")
+    (destination / "train" / "26.h5").write_bytes(b"not-hdf5")
+    with pytest.raises(get_hdr.ImportError, match="Not an HDF5"):
+        get_hdr.check_destination(destination, ("train", "eval"))
+
+
+def test_link_mode_uses_shared_storage_without_copy(tmp_path: Path) -> None:
+    source = _write_complete(tmp_path / "shared" / "EventHDR")
+    destination = tmp_path / "repo" / "data" / "EventHDR"
+    try:
+        result = get_hdr.link_source(
+            {"train": source / "train", "eval": source / "eval"}, destination
+        )
+    except OSError as error:
+        if os.name == "nt":
+            pytest.skip(f"Windows symlink privilege is unavailable: {error}")
+        raise
+    assert result == {"linked": 2, "kept": 0}
+    assert (destination / "train").is_symlink()
+    assert (destination / "eval").is_symlink()
+    get_hdr.check_destination(destination, ("train", "eval"))
+~~~~~~~~
 
 # tests/test_graph_vectorized.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import torch
@@ -10010,11 +11518,11 @@ def test_radius_graph_handles_empty_input() -> None:
 
     assert edge_index.shape == (2, 0)
     assert edge_attr.shape == (0, 1)
-~~~~~~
+~~~~~~~~
 
 # tests/test_inspect_all.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import json
@@ -10086,11 +11594,11 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
 
     assert result["splits"]["train"]["preview"][0]["metadata"]["source"].endswith("train.h5")
     assert result["splits"]["val"]["preview"][0]["metadata"]["source"].endswith("val.h5")
-~~~~~~
+~~~~~~~~
 
 # tests/test_metrics_ssim.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import pytest
@@ -10192,11 +11700,11 @@ def test_ssim_disables_outer_autocast_for_stable_local_statistics() -> None:
     torch.testing.assert_close(result, torch.ones_like(result), rtol=0.0, atol=1e-6)
     assert prediction.grad is not None
     assert torch.isfinite(prediction.grad).all()
-~~~~~~
+~~~~~~~~
 
 # tests/test_p0_engine.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import json
@@ -10417,7 +11925,7 @@ def test_resume_rejects_unrelated_historical_best_checkpoint() -> None:
         _validate_resume_best_pair(resume, best)
 
 
-def test_training_rejects_nonfinal_split_without_explicit_override(tmp_path) -> None:
+def test_training_rejects_nonfinal_split(tmp_path) -> None:
     manifest = tmp_path / "split.json"
     split = {
         "status": "provisional",
@@ -10427,16 +11935,13 @@ def test_training_rejects_nonfinal_split_without_explicit_override(tmp_path) -> 
     manifest.write_text(json.dumps(split), encoding="utf-8")
     config = {
         "dataset": {"split_manifest": str(manifest)},
-        "train": {"allow_provisional_split": False},
+        "train": {},
     }
-    with pytest.raises(ValueError, match="allow_provisional_split"):
+    with pytest.raises(ValueError, match="cannot be used for training"):
         _enforce_training_split_status(config)
-    config["train"]["allow_provisional_split"] = True
-    _enforce_training_split_status(config)
 
     split["status"] = "final"
     manifest.write_text(json.dumps(split), encoding="utf-8")
-    config["train"]["allow_provisional_split"] = False
     with pytest.raises(ValueError, match="requires scene_groups"):
         _enforce_training_split_status(config)
 
@@ -10586,6 +12091,8 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
     config = _eval_config(root, tmp_path / "eval")
     output = tmp_path / "snn.pt"
     calibrate(config, source, output, samples=2)
+    with pytest.raises(FileExistsError, match="already exists"):
+        calibrate(config, source, output, samples=1)
 
     checkpoint = torch.load(output, map_location="cpu", weights_only=False)
     assert checkpoint["checkpoint_type"] == "snn_inference"
@@ -10666,6 +12173,10 @@ def test_public_snn_paths_reject_invalid_requests(tmp_path) -> None:
         evaluate({}, tmp_path / "unused.pt", inference_mode="snn", simulation_steps=0)
     with pytest.raises(ValueError, match="calibration samples"):
         calibrate({}, tmp_path / "unused.pt", tmp_path / "out.pt", samples=0)
+    same_path = tmp_path / "same.pt"
+    same_path.touch()
+    with pytest.raises(ValueError, match="must be different"):
+        calibrate({}, same_path, same_path, samples=1, overwrite=True)
 
     root = tmp_path / "hdr"
     make_eventhdr(root)
@@ -10708,22 +12219,23 @@ def test_balanced_sampler_uses_eventhdr_files(tmp_path) -> None:
     paths = Counter(str(dataset.samples[index]["path"]) for index in indices)
     assert sorted(paths.values()) == [2, 2]
     dataset.close()
-~~~~~~
+~~~~~~~~
 
 # tests/test_pipeline.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import json
 
+import h5py
 import numpy as np
 import pytest
 import torch
 
 from asgcn_recon.cli import inspect_dataset
 from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
-from asgcn_recon.data.common import stratified_subsample, uniform_cap_factor
+from asgcn_recon.data.common import stratified_subsample, uniform_cap_ratio
 from asgcn_recon.data.factory import build_dataset
 from asgcn_recon.engine import _data_loader, _model_state_sha256, benchmark, train
 from asgcn_recon.graph import build_radius_graph, prepare_event_nodes
@@ -10775,7 +12287,7 @@ def test_eventhdr_loader(tmp_path):
     assert sample["metadata"]["raw_event_count"] == 96
     assert sample["metadata"]["cropped_event_count"] == 96
     assert sample["metadata"]["retained_event_count"] == 32
-    assert sample["metadata"]["dataset_sampling_factor"] == 3
+    assert sample["metadata"]["dataset_sampling_ratio"] == 3.0
     assert dataset[1]["metadata"]["dt_us"] == 2_000
 
 
@@ -10788,7 +12300,24 @@ def test_eventhdr_stride_aggregates_intervals(tmp_path):
     assert dataset[1]["metadata"]["raw_event_count"] == 192
     assert dataset[1]["metadata"]["cropped_event_count"] == 192
     assert dataset[1]["metadata"]["retained_event_count"] == 192
-    assert dataset[1]["metadata"]["dataset_sampling_factor"] == 1
+    assert dataset[1]["metadata"]["dataset_sampling_ratio"] == 1.0
+
+
+def test_eventhdr_preserves_zero_event_target_intervals(tmp_path):
+    path = make_eventhdr(tmp_path / "hdr")
+    with h5py.File(path, "r+") as h5:
+        first_end = int(h5["images/image000000000"].attrs["event_idx"])
+        h5["images/image000000001"].attrs["event_idx"] = first_end
+
+    dataset = EventHDRDataset(path.parent, max_events=None)
+    assert len(dataset) == 4
+    assert dataset.zero_event_intervals == 1
+    empty = dataset[1]
+    assert empty["events"].shape == (0, 4)
+    assert empty["metadata"]["zero_event_interval"] is True
+    assert empty["metadata"]["raw_event_count"] == 0
+    assert empty["metadata"]["sequence_index"] == 1
+    assert empty["metadata"]["dt_us"] == 2_000
 
 
 def test_eventaid_next_frame_alignment(tmp_path):
@@ -10800,17 +12329,25 @@ def test_eventaid_next_frame_alignment(tmp_path):
     assert dataset[0]["metadata"]["dt_us"] == 10_000
     assert dataset[0]["metadata"]["raw_event_count"] == 80
     assert dataset[0]["metadata"]["cropped_event_count"] == 80
-    assert dataset[0]["metadata"]["retained_event_count"] == 27
-    assert dataset[0]["metadata"]["dataset_sampling_factor"] == 3
+    assert dataset[0]["metadata"]["retained_event_count"] == 32
+    assert dataset[0]["metadata"]["dataset_sampling_ratio"] == 2.5
 
 
-def test_max_events_uses_exact_integer_stride_sampling() -> None:
+def test_max_events_uses_exact_size_uniform_sampling() -> None:
     events = np.arange(13 * 4, dtype=np.float32).reshape(13, 4)
-    assert uniform_cap_factor(len(events), max_events=5) == 3
+    assert uniform_cap_ratio(len(events), max_events=5) == 2.6
     retained = stratified_subsample(events, max_events=5)
     np.testing.assert_array_equal(retained, events[[0, 3, 6, 9, 12]])
-    assert uniform_cap_factor(len(events), max_events=None) == 1
+    assert uniform_cap_ratio(len(events), max_events=None) == 1.0
     np.testing.assert_array_equal(stratified_subsample(events, None), events)
+
+
+def test_max_events_has_no_one_event_boundary_collapse() -> None:
+    at_cap = np.arange(8192 * 4, dtype=np.float32).reshape(8192, 4)
+    over_cap = np.arange(8193 * 4, dtype=np.float32).reshape(8193, 4)
+    assert len(stratified_subsample(at_cap, 8192)) == 8192
+    assert len(stratified_subsample(over_cap, 8192)) == 8192
+    assert uniform_cap_ratio(len(over_cap), 8192) == pytest.approx(8193 / 8192)
 
 
 @pytest.mark.parametrize("dataset_name", ["eventhdr", "eventaid"])
@@ -10839,7 +12376,7 @@ def test_random_crop_is_deterministic_and_sequence_aligned(tmp_path, dataset_nam
         sample["metadata"]["raw_event_count"]
         >= sample["metadata"]["cropped_event_count"]
         == sample["metadata"]["retained_event_count"]
-        and sample["metadata"]["dataset_sampling_factor"] == 1
+        and sample["metadata"]["dataset_sampling_ratio"] == 1.0
         for sample in first_samples
     )
     assert any(
@@ -11122,6 +12659,25 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
         train(config, resume_from=tmp_path / "run/last.pt")
 
 
+def test_null_validation_interval_scores_only_the_single_final_epoch(tmp_path) -> None:
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root)
+    config = _tiny_training_config(tmp_path, data_root)
+    config["train"].update({"epochs": 2, "validate_every": None})
+
+    train(config)
+
+    checkpoint = torch.load(
+        tmp_path / "run/last.pt", map_location="cpu", weights_only=False
+    )
+    assert checkpoint["history"][0]["val"] == {}
+    assert checkpoint["history"][1]["val"]["frames"] == 1
+    assert checkpoint["checkpoint_selection"] == "single_final_epoch"
+    assert checkpoint["validation_protocol"]["selection_metric"] == (
+        "single_final_epoch_macro_ssim"
+    )
+
+
 def test_training_rejects_resume_into_a_different_run_directory(tmp_path):
     data_root = tmp_path / "hdr"
     make_eventhdr(data_root)
@@ -11226,11 +12782,83 @@ def test_hdf5_and_zip_loaders_are_multiprocess_safe(tmp_path):
         )
         sample = next(iter(loader))[0]
         assert sample["events"].shape == (8, 4)
-~~~~~~
+~~~~~~~~
+
+# tests/test_server_orchestration.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _text(relative: str) -> str:
+    return (ROOT / relative).read_text(encoding="utf-8")
+
+
+def test_full_script_covers_the_complete_ordered_experiment_matrix() -> None:
+    script = _text("scripts/full.sh")
+
+    preflight = script.index("[1/5]")
+    inspection = script.index("[2/5]")
+    training = script.index("[3/5]")
+    calibration = script.index("[4/5]")
+    evaluation = script.index("[5/5]")
+    assert preflight < inspection < training < calibration < evaluation
+
+    for config in (
+        "configs/hdr_train.json",
+        "configs/hdr_ann.json",
+        "configs/hdr_snn.json",
+        "configs/aid_ann.json",
+        "configs/aid_snn.json",
+    ):
+        assert config in script
+    assert 'SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"' in script
+    assert "for dynamics in literal_eq15 standard_if" in script
+    assert "RUN_BENCHMARK=1" in script
+    assert 'CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"' in script
+    assert 'for config_path in "${TRAIN_CONFIG}" "${AID_ANN_CONFIG}"' in script
+
+
+def test_calibration_wrapper_defaults_to_all_samples_and_protects_output() -> None:
+    script = _text("scripts/calibrate.sh")
+    assert 'CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"' in script
+    assert 'OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"' in script
+    assert '--samples "${CALIBRATION_SAMPLES}"' in script
+    assert "calibrated output already exists" in script
+    assert "CALIBRATE_ARGS+=(--overwrite)" in script
+    assert "rm -f" not in script
+
+
+def test_all_wrappers_support_optional_validate_all_preflight() -> None:
+    for relative in ("scripts/train.sh", "scripts/eval.sh", "scripts/calibrate.sh"):
+        script = _text(relative)
+        assert "INSPECT_VALIDATE_ALL" in script
+        assert "INSPECT_ARGS+=(--validate-all)" in script
+
+
+def test_calibration_has_slurm_and_pbs_entrypoints_with_dependency_examples() -> None:
+    for relative in ("server/calibrate.sbatch", "server/calibrate.pbs"):
+        script = _text(relative)
+        assert script.startswith("#!/usr/bin/env bash\n")
+        assert "scripts/calibrate.sh" in script
+        assert "CALIBRATION_SAMPLES" in script
+        assert "depend" in script
+
+
+def test_eventaid_downloader_defaults_to_the_complete_release() -> None:
+    script = _text("scripts/get_aid.sh")
+    assert "the complete 14-scene release is downloaded" in script
+    assert "SCENES=(R-bear)" not in script
+    assert 'if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then\n  DOWNLOAD_ALL=1' in script
+~~~~~~~~
 
 # tests/test_temporal_metric.py
 
-~~~~~~python
+~~~~~~~~python
 from __future__ import annotations
 
 import pytest
@@ -11262,4 +12890,4 @@ def test_metric_accumulator_supports_temporal_metric_after_first_frame() -> None
     assert summary["micro"]["temporal_l1"] == pytest.approx(0.2)
     assert summary["macro"]["temporal_l1"] == pytest.approx(0.2)
     assert summary["per_scene"]["scene-a"]["temporal_l1_frames"] == 1
-~~~~~~
+~~~~~~~~

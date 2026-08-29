@@ -38,7 +38,21 @@ def _inspect_one_split(dataset: Any, samples: int, validate_all: bool = False) -
         result["scenes"] = dataset.scene_info
     if hasattr(dataset, "files"):
         result["files"] = len(dataset.files)
+    if hasattr(dataset, "zero_event_intervals"):
+        result["zero_event_intervals"] = int(dataset.zero_event_intervals)
     return result
+
+
+def _calibration_sample_limit(value: str) -> int | None:
+    if value.strip().lower() == "all":
+        return None
+    try:
+        parsed = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("samples must be a positive integer or 'all'") from error
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("samples must be a positive integer or 'all'")
+    return parsed
 
 
 def inspect_dataset(
@@ -122,7 +136,18 @@ def build_parser() -> argparse.ArgumentParser:
     calibrate_cmd.add_argument("--config", required=True)
     calibrate_cmd.add_argument("--checkpoint", required=True)
     calibrate_cmd.add_argument("--output", required=True)
-    calibrate_cmd.add_argument("--samples", type=int, default=100)
+    calibrate_cmd.add_argument(
+        "--samples",
+        type=_calibration_sample_limit,
+        default=None,
+        metavar="N|all",
+        help="balanced calibration sample count; default 'all' uses every training frame",
+    )
+    calibrate_cmd.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="explicitly replace an existing calibrated output checkpoint",
+    )
     return parser
 
 
@@ -162,6 +187,7 @@ def main(argv: list[str] | None = None) -> None:
                     resolve_path(args.checkpoint, base_dir),
                     resolve_path(args.output, base_dir),
                     samples=args.samples,
+                    overwrite=args.overwrite,
                 )
             )
         }

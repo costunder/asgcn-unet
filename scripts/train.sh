@@ -8,6 +8,7 @@ PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
 
 cd "${PROJECT_ROOT}"
@@ -19,6 +20,14 @@ fi
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: training config not found: ${CONFIG_PATH}" >&2
   exit 1
+fi
+if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
+  echo "ERROR: VALIDATE_DATASET must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${INSPECT_VALIDATE_ALL}" != "0" && "${INSPECT_VALIDATE_ALL}" != "1" ]]; then
+  echo "ERROR: INSPECT_VALIDATE_ALL must be 0 or 1" >&2
+  exit 2
 fi
 
 "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
@@ -38,8 +47,14 @@ export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
 
 if [[ "${VALIDATE_DATASET}" == "1" ]]; then
-  "${PYTHON_BIN}" -m asgcn_recon.cli inspect \
-    --config "${CONFIG_PATH}" --samples "${INSPECT_SAMPLES}"
+  INSPECT_ARGS=(
+    --config "${CONFIG_PATH}"
+    --samples "${INSPECT_SAMPLES}"
+  )
+  if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
+    INSPECT_ARGS+=(--validate-all)
+  fi
+  "${PYTHON_BIN}" -m asgcn_recon.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 echo "Starting EventHDR training with ${CONFIG_PATH}"

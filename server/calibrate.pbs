@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+#PBS -N asgcn-cal
+#PBS -l select=1:ncpus=8:ngpus=1:mem=32gb
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+# Dependency example:
+#   train_id=$(qsub server/train.pbs)
+#   cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
+#   qsub -W depend=afterok:${cal_id} -v CONFIG_PATH=configs/hdr_snn.json,\
+# CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn server/eval.pbs
+
+set -Eeuo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "${PROJECT_ROOT:-}" ]]; then
+  if [[ -n "${PBS_O_WORKDIR:-}" ]]; then
+    PROJECT_ROOT="${PBS_O_WORKDIR}"
+  elif [[ -z "${PBS_JOBID:-}" ]]; then
+    PROJECT_ROOT="${SCRIPT_DIR}/.."
+  fi
+fi
+if [[ -z "${PROJECT_ROOT:-}" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
+  || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
+  echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
+  echo "Run qsub from the repository root or use:" >&2
+  echo "  qsub -v PROJECT_ROOT=/absolute/path/to/repo server/calibrate.pbs" >&2
+  exit 1
+fi
+PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
+cd "${PROJECT_ROOT}"
+
+if [[ -n "${CUDA_MODULE:-}" ]]; then
+  if ! command -v module >/dev/null 2>&1; then
+    echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
+    exit 1
+  fi
+  module load "${CUDA_MODULE}"
+fi
+
+export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}"
+export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
+export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
+export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
+export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
+export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
+export PYTHONUNBUFFERED=1
+
+echo "Host: $(hostname)"
+echo "PBS job: ${PBS_JOBID:-interactive}"
+echo "Config: ${CONFIG_PATH}"
+echo "ANN checkpoint: ${CHECKPOINT_PATH}"
+echo "SNN checkpoint: ${OUTPUT_PATH}"
+echo "Calibration samples: ${CALIBRATION_SAMPLES}"
+nvidia-smi || true
+
+bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+  "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"

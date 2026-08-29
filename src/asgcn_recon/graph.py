@@ -87,12 +87,13 @@ def build_radius_graph(
     chunk_size: int = 512,
     max_edges: int | None = None,
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    """Build the paper's simple undirected distance graph without self edges.
+    """Build the paper's exact radius graph with a uniform-cell candidate search.
 
     Every ordered edge direction is materialized so source-to-target aggregation is
-    equivalent to an undirected graph. Pairwise distances are evaluated in chunks to
-    bound temporary memory without changing the radius-graph result. The scalar edge
-    pseudo-coordinate is distance / D in [0,1], as required by a B-spline kernel.
+    equivalent to an undirected graph.  Cells have width ``radius``; therefore only
+    the 3^d adjacent cells can contain a valid neighbor.  Exact Euclidean filtering
+    after candidate generation preserves the brute-force graph while avoiding the
+    O(N^2) distance matrix on sparse event volumes.
     """
     radius = float(radius)
     if not math.isfinite(radius) or radius <= 0:
@@ -121,20 +122,68 @@ def build_radius_graph(
     coordinates = positions[:, :position_dims]
     if not bool(torch.isfinite(coordinates).all()):
         raise ValueError("Graph coordinates must be finite")
+    if bool(((coordinates < 0) | (coordinates > 1)).any()):
+        raise ValueError("Normalized graph coordinates must lie in [0,1]")
+
+    cells_per_axis = max(2, math.ceil(1.0 / radius) + 1)
+    if cells_per_axis**position_dims >= torch.iinfo(torch.long).max:
+        raise ValueError("graph_radius is too small for integer spatial hashing")
+    strides = torch.tensor(
+        [cells_per_axis**dimension for dimension in range(position_dims)],
+        device=device,
+        dtype=torch.long,
+    )
+    cells = torch.floor(coordinates / radius).to(torch.long)
+    cells = cells.clamp_(0, cells_per_axis - 1)
+    cell_hash = (cells * strides).sum(dim=1)
+    sorted_hash, sorted_nodes = torch.sort(cell_hash)
+    offset_axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
+    offsets = torch.cartesian_prod(*([offset_axis] * position_dims)).reshape(
+        -1, position_dims
+    )
+
     sources: list[torch.Tensor] = []
     destination_chunks: list[torch.Tensor] = []
     distances_kept: list[torch.Tensor] = []
     retained_edge_count = 0
-    for start in range(0, count, chunk_size):
-        stop = min(start + chunk_size, count)
-        distances = torch.cdist(coordinates[start:stop], coordinates)
-        within_radius = distances < radius
-        local_rows = torch.arange(stop - start, device=device)
-        within_radius[local_rows, local_rows + start] = False
-        chunk_edge_count = int(within_radius.sum().item()) if max_edges is not None else None
+    # Bound worst-case candidate materialization even if every event occupies one cell.
+    effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
+    for start in range(0, count, effective_chunk_size):
+        stop = min(start + effective_chunk_size, count)
+        local_sources = torch.arange(start, stop, device=device, dtype=torch.long)
+        neighbor_cells = cells[start:stop, None, :] + offsets[None, :, :]
+        valid_cells = ((neighbor_cells >= 0) & (neighbor_cells < cells_per_axis)).all(dim=2)
+        neighbor_hashes = (neighbor_cells * strides).sum(dim=2)
+        candidate_sources = local_sources[:, None].expand_as(neighbor_hashes)[valid_cells]
+        candidate_hashes = neighbor_hashes[valid_cells]
+        left = torch.searchsorted(sorted_hash, candidate_hashes, right=False)
+        right = torch.searchsorted(sorted_hash, candidate_hashes, right=True)
+        counts = right - left
+        nonempty = counts > 0
+        if not bool(nonempty.any()):
+            continue
+        candidate_sources = candidate_sources[nonempty]
+        left = left[nonempty]
+        counts = counts[nonempty]
+        candidate_count = int(counts.sum().item())
+        expanded_sources = torch.repeat_interleave(
+            candidate_sources, counts, output_size=candidate_count
+        )
+        expanded_left = torch.repeat_interleave(left, counts, output_size=candidate_count)
+        starts = counts.cumsum(0) - counts
+        within_group = torch.arange(candidate_count, device=device) - torch.repeat_interleave(
+            starts, counts, output_size=candidate_count
+        )
+        candidate_destinations = sorted_nodes[expanded_left + within_group]
+        candidate_distances = torch.linalg.vector_norm(
+            coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
+        )
+        within_radius = (expanded_sources != candidate_destinations) & (
+            candidate_distances < radius
+        )
+        chunk_edge_count = int(within_radius.sum().item())
         if (
             max_edges is not None
-            and chunk_edge_count is not None
             and retained_edge_count + chunk_edge_count > max_edges
         ):
             raise RuntimeError(
@@ -143,17 +192,12 @@ def build_radius_graph(
                 "graph_radius/max_events or raise the explicit memory guard after "
                 "measuring accelerator memory."
             )
-        local_sources, local_destinations = torch.nonzero(
-            within_radius,
-            as_tuple=True,
-        )
-        if local_sources.numel() == 0:
+        if chunk_edge_count == 0:
             continue
-        sources_global = local_sources + start
-        retained_edge_count += int(local_sources.numel())
-        sources.append(sources_global)
-        distances_kept.append(distances[local_sources, local_destinations])
-        destination_chunks.append(local_destinations)
+        retained_edge_count += chunk_edge_count
+        sources.append(expanded_sources[within_radius])
+        destination_chunks.append(candidate_destinations[within_radius])
+        distances_kept.append(candidate_distances[within_radius])
 
     if not sources:
         return (
@@ -163,6 +207,10 @@ def build_radius_graph(
     source = torch.cat(sources)
     destination = torch.cat(destination_chunks)
     distance = torch.cat(distances_kept)
+    order = torch.argsort(source * count + destination)
+    source = source[order]
+    destination = destination[order]
+    distance = distance[order]
     edge_index = torch.stack((source, destination), dim=0)
     edge_attr = (distance / radius).clamp(0.0, 1.0).unsqueeze(-1)
     return edge_index, edge_attr
@@ -316,23 +364,16 @@ class PaperSplineConv(nn.Module):
                 if basis_cache is not None
                 else linear_open_bspline_basis(edge_attr, self.kernel_size)
             )
-            for kernel_index in range(self.kernel_size):
-                coefficient = torch.where(
-                    indices[:, 0] == kernel_index,
-                    basis[:, 0],
-                    torch.zeros_like(basis[:, 0]),
-                )
-                coefficient = coefficient + torch.where(
-                    indices[:, 1] == kernel_index,
-                    basis[:, 1],
-                    torch.zeros_like(basis[:, 1]),
-                )
-                # Project each node once per control point instead of materializing
-                # an [E,Cin,Cout] kernel or repeating an edge-wise matrix product.
-                projected = x @ self.weight[kernel_index]
-                messages = projected[source] * coefficient[:, None].to(projected.dtype)
-                messages = messages.to(output.dtype)
-                output.index_add_(0, destination, messages)
+            # Project nodes once for every control point, then gather only the two
+            # degree-1 basis terms that are active on each edge.
+            projected = torch.einsum("ni,kio->nko", x, self.weight)
+            for active_basis in range(2):
+                messages = projected[source, indices[:, active_basis]]
+                messages = messages * basis[:, active_basis, None].to(messages.dtype)
+                # CPU autocast can produce bfloat16 projections while ``x``
+                # (and therefore ``output``) remains float32. ``index_add_``
+                # requires matching dtypes, so accumulate in the output dtype.
+                output.index_add_(0, destination, messages.to(output.dtype))
             degree = torch.zeros((x.shape[0], 1), device=x.device, dtype=x.dtype)
             degree.index_add_(
                 0,

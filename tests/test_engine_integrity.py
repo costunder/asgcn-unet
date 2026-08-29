@@ -57,6 +57,10 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
         "autocast_dtype": None,
         "gradient_scaler": False,
     }
+    assert len(protocol["source"]["source_tree_sha256"]) == 64
+    assert protocol["runtime"]["gpu_name"] is None
+    assert protocol["runtime"]["compute_capability"] is None
+    assert protocol["version"] == 3
 
     allowed = copy.deepcopy(config)
     allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})
@@ -69,6 +73,14 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
             {"training_protocol": protocol},
             _training_protocol(changed, torch.device("cpu")),
         )
+
+
+def test_training_protocol_can_reserve_validation_for_the_final_epoch() -> None:
+    config = _config()
+    config["train"]["validate_every"] = None
+    protocol = _training_protocol(config, torch.device("cpu"))
+    assert protocol["validate_every"] is None
+    assert protocol["checkpoint_selection"] == "single_final_epoch"
 
 
 def test_paper_optimizer_mode_records_gc_and_milestone_schedule() -> None:
@@ -237,11 +249,6 @@ def test_prediction_artifact_stems_are_cross_platform_safe_and_collision_resista
     ("flag", "required_key", "absent_keys"),
     [
         (
-            "--require-eventhdr-smoke",
-            "smoke manifest files",
-            ("at least 51", "eventhdr_eval_h5", "eventaid_r_zip"),
-        ),
-        (
             "--require-eventhdr-train",
             "eventhdr_train_h5",
             ("eventhdr_eval_h5", "eventaid_r_zip"),
@@ -306,22 +313,63 @@ def test_check_env_full_data_preserves_all_requirements(tmp_path, monkeypatch) -
     assert "eventaid_r_zip" in message
 
 
-def test_check_env_smoke_accepts_only_the_four_manifest_h5_files(tmp_path, monkeypatch) -> None:
-    data_root = tmp_path / "data"
-    train_root = data_root / "EventHDR" / "train"
-    train_root.mkdir(parents=True)
-    for name in ("1.h5", "2.h5", "48.h5", "49.h5"):
-        (train_root / name).touch()
+@pytest.mark.parametrize(
+    ("flag", "subdirectory", "expected_count"),
+    [
+        ("--require-eventhdr-train", "train", 51),
+        ("--require-eventhdr-eval", "eval", 19),
+    ],
+)
+def test_check_env_requires_exact_official_eventhdr_names(
+    tmp_path, monkeypatch, flag: str, subdirectory: str, expected_count: int
+) -> None:
+    root = tmp_path / "data" / "EventHDR" / subdirectory
+    root.mkdir(parents=True)
+    for index in range(1, expected_count):
+        (root / f"{index}.h5").touch()
+    (root / f"{expected_count + 1}.h5").touch()
     monkeypatch.setattr(
         sys,
         "argv",
         [
             "check_env.py",
             "--data-root",
-            str(data_root),
+            str(tmp_path / "data"),
             "--runs-root",
             str(tmp_path / "runs"),
-            "--require-eventhdr-smoke",
+            flag,
         ],
     )
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    message = str(error.value)
+    assert f"missing={expected_count}.h5" in message
+    assert f"extra={expected_count + 1}.h5" in message
+
+
+def test_check_env_accepts_exact_official_eventhdr_names(tmp_path, monkeypatch) -> None:
+    train_root = tmp_path / "data" / "EventHDR" / "train"
+    eval_root = tmp_path / "data" / "EventHDR" / "eval"
+    train_root.mkdir(parents=True)
+    eval_root.mkdir(parents=True)
+    for index in range(1, 52):
+        (train_root / f"{index}.h5").touch()
+    for index in range(1, 20):
+        (eval_root / f"{index}.h5").touch()
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "check_env.py",
+            "--data-root",
+            str(tmp_path / "data"),
+            "--runs-root",
+            str(tmp_path / "runs"),
+            "--require-eventhdr-train",
+            "--require-eventhdr-eval",
+        ],
+    )
+
     check_env.main()

@@ -21,7 +21,7 @@ from .common import (
     normalize_polarity,
     pil_to_array,
     stratified_subsample,
-    uniform_cap_factor,
+    uniform_cap_ratio,
 )
 
 _EVENT_RE = re.compile(r"(?:^|/)event/(\d+)\.txt$", re.IGNORECASE)
@@ -254,7 +254,7 @@ class EventAidRZipDataset(Dataset):
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
         cropped_event_count = len(events)
-        dataset_sampling_factor = uniform_cap_factor(cropped_event_count, self.max_events)
+        dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
         events = stratified_subsample(events, self.max_events)
         retained_event_count = len(events)
         sample_id = f"{item['scene']}/{item['frame_id']:06d}"
@@ -276,7 +276,7 @@ class EventAidRZipDataset(Dataset):
                 "raw_event_count": raw_event_count,
                 "cropped_event_count": cropped_event_count,
                 "retained_event_count": retained_event_count,
-                "dataset_sampling_factor": dataset_sampling_factor,
+                "dataset_sampling_ratio": dataset_sampling_ratio,
                 "crop": {
                     "left": crop.left,
                     "top": crop.top,

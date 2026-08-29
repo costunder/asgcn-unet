@@ -1,13 +1,21 @@
 {
-  "status": "provisional",
-  "note": "Provisional legacy file lists only. For final training replace them with scene_groups, train_scenes, and val_scenes, then set status to final; changing status alone is rejected.",
+  "status": "final",
+  "split_schema": "official_separate_roots_v1",
+  "group_semantics": "h5_sequence_file_not_physical_scene",
+  "source": "https://github.com/yunhao-zou/EventHDR",
+  "note": "Official OneDrive distribution split. Train and eval are distinct roots whose numeric basenames intentionally overlap. H5 files are recurrent/metric sequence groups, not claimed physical-scene identities.",
   "train_files": [
     "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
     "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
     "18.h5", "19.h5", "20.h5", "21.h5", "22.h5", "23.h5", "24.h5", "25.h5",
     "26.h5", "27.h5", "28.h5", "29.h5", "30.h5", "31.h5", "32.h5", "33.h5",
     "34.h5", "35.h5", "36.h5", "37.h5", "38.h5", "39.h5", "40.h5", "41.h5",
-    "42.h5", "43.h5", "44.h5", "45.h5", "46.h5", "47.h5"
+    "42.h5", "43.h5", "44.h5", "45.h5", "46.h5", "47.h5", "48.h5", "49.h5",
+    "50.h5", "51.h5"
   ],
-  "val_files": ["48.h5", "49.h5", "50.h5", "51.h5"]
+  "val_files": [
+    "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
+    "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
+    "18.h5", "19.h5"
+  ]
 }

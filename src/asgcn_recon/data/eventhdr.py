@@ -16,7 +16,7 @@ from .common import (
     make_sample,
     normalize_polarity,
     stratified_subsample,
-    uniform_cap_factor,
+    uniform_cap_ratio,
 )
 
 _EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
@@ -118,6 +118,7 @@ class EventHDRDataset(Dataset):
         self.seed = int(seed)
         self._handles: dict[Path, h5py.File] = {}
         self._owner_pid = os.getpid()
+        self.zero_event_intervals = 0
         discovered = sorted([*self.root.rglob("*.h5"), *self.root.rglob("*.hdf5")])
         if not discovered:
             raise FileNotFoundError(
@@ -236,7 +237,10 @@ class EventHDRDataset(Dataset):
                         )
                     previous_end_idx = end_idx
                     previous_timestamp = timestamp
-                    if frame_index % self.frame_stride == 0 and end_idx > selected_start_idx:
+                    if frame_index % self.frame_stride == 0:
+                        is_zero_event_interval = end_idx == selected_start_idx
+                        if is_zero_event_interval:
+                            self.zero_event_intervals += 1
                         samples.append(
                             {
                                 "path": path,
@@ -248,6 +252,7 @@ class EventHDRDataset(Dataset):
                                 "t0": selected_start_timestamp,
                                 "timestamp": timestamp,
                                 "sequence_index": selected_sequence_index,
+                                "zero_event_interval": is_zero_event_interval,
                             }
                         )
                         # With frame_stride > 1, aggregate every skipped event interval
@@ -313,7 +318,7 @@ class EventHDRDataset(Dataset):
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
         cropped_event_count = len(events)
-        dataset_sampling_factor = uniform_cap_factor(cropped_event_count, self.max_events)
+        dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
         events = stratified_subsample(events, self.max_events)
         retained_event_count = len(events)
         sample_id = (
@@ -341,7 +346,8 @@ class EventHDRDataset(Dataset):
                 "raw_event_count": raw_event_count,
                 "cropped_event_count": cropped_event_count,
                 "retained_event_count": retained_event_count,
-                "dataset_sampling_factor": dataset_sampling_factor,
+                "dataset_sampling_ratio": dataset_sampling_ratio,
+                "zero_event_interval": bool(item["zero_event_interval"]),
                 "crop": {
                     "left": crop.left,
                     "top": crop.top,

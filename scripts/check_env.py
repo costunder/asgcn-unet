@@ -9,11 +9,14 @@ import re
 import shutil
 import socket
 import sys
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 
 import torch
 
 from asgcn_recon.data import load_eventhdr_split_manifest
+
+_OFFICIAL_EVENTHDR_TRAIN = {f"{index}.h5" for index in range(1, 52)}
+_OFFICIAL_EVENTHDR_EVAL = {f"{index}.h5" for index in range(1, 20)}
 
 
 def _eventhdr_files(root: Path) -> list[Path]:
@@ -24,6 +27,26 @@ def _eventhdr_files(root: Path) -> list[Path]:
 
 def _count_files(root: Path, pattern: str) -> int:
     return sum(1 for _ in root.glob(pattern)) if root.exists() else 0
+
+
+def _exact_coverage_problem(
+    label: str,
+    present: set[str],
+    expected: set[str],
+) -> str | None:
+    missing = sorted(expected - present)
+    extra = sorted(present - expected)
+    if not missing and not extra:
+        return None
+    details = []
+    if missing:
+        details.append("missing=" + ", ".join(missing[:8]) + (" ..." if len(missing) > 8 else ""))
+    if extra:
+        details.append("extra=" + ", ".join(extra[:8]) + (" ..." if len(extra) > 8 else ""))
+    return (
+        f"{label} must contain exactly {len(expected)} official files "
+        f"({'; '.join(details)})"
+    )
 
 
 def _locked_versions(path: Path) -> dict[str, str]:
@@ -60,7 +83,6 @@ def main() -> None:
     parser.add_argument("--data-root", type=Path, default=None)
     parser.add_argument("--runs-root", type=Path, default=None)
     parser.add_argument("--require-cuda", action="store_true")
-    parser.add_argument("--require-eventhdr-smoke", action="store_true")
     parser.add_argument("--require-eventhdr-train", action="store_true")
     parser.add_argument("--require-eventhdr-eval", action="store_true")
     parser.add_argument("--require-eventaid-all", action="store_true")
@@ -91,17 +113,8 @@ def main() -> None:
     eval_files = _eventhdr_files(data_root / "EventHDR" / "eval")
     train_root = data_root / "EventHDR" / "train"
     train_present = {path.relative_to(train_root).as_posix() for path in train_files}
-    smoke_manifest_path = project_root / "manifests" / "eventhdr_smoke.json"
-    smoke_required: set[str] = set()
-    if smoke_manifest_path.is_file():
-        smoke_manifest = load_eventhdr_split_manifest(smoke_manifest_path)
-        smoke_required = {
-            PurePosixPath(str(value).replace("\\", "/")).as_posix()
-            for value in (
-                list(smoke_manifest.get("train_files", []))
-                + list(smoke_manifest.get("val_files", []))
-            )
-        }
+    eval_root = data_root / "EventHDR" / "eval"
+    eval_present = {path.relative_to(eval_root).as_posix() for path in eval_files}
     data_disk = shutil.disk_usage(data_root if data_root.exists() else project_root)
     runs_disk = shutil.disk_usage(runs_root)
     libc_name, libc_version = platform.libc_ver()
@@ -120,7 +133,6 @@ def main() -> None:
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
         "data_root": str(data_root),
         "eventhdr_train_h5": len(train_files),
-        "eventhdr_smoke_h5": len(smoke_required & train_present),
         "eventhdr_eval_h5": len(eval_files),
         "eventaid_r_zip": _count_files(data_root / "EventAid-R", "R-*.zip"),
         "runs_root": str(runs_root),
@@ -161,40 +173,39 @@ def main() -> None:
     require_eventhdr_train = args.require_full_data or args.require_eventhdr_train
     require_eventhdr_eval = args.require_full_data or args.require_eventhdr_eval
     require_eventaid_all = args.require_full_data or args.require_eventaid_all
-    expected_counts = {
-        "eventhdr_train_h5": (51, require_eventhdr_train),
-        "eventhdr_eval_h5": (19, require_eventhdr_eval),
-        "eventaid_r_zip": (14, require_eventaid_all),
-    }
-    for key, (expected, required) in expected_counts.items():
-        actual = int(report[key])
-        if required and actual < expected:
-            problems.append(f"{key} has {actual} files; at least {expected} are required")
-    if args.require_eventhdr_smoke:
-        if not smoke_required:
-            problems.append(f"Smoke manifest has no required H5 files: {smoke_manifest_path}")
-        smoke_missing = sorted(smoke_required - train_present)
-        if smoke_missing:
-            problems.append(
-                "EventHDR train directory is missing smoke manifest files: "
-                + ", ".join(smoke_missing)
-            )
+    if require_eventhdr_train:
+        problem = _exact_coverage_problem(
+            "eventhdr_train_h5", train_present, _OFFICIAL_EVENTHDR_TRAIN
+        )
+        if problem:
+            problems.append(problem)
+    if require_eventhdr_eval:
+        problem = _exact_coverage_problem(
+            "eventhdr_eval_h5", eval_present, _OFFICIAL_EVENTHDR_EVAL
+        )
+        if problem:
+            problems.append(problem)
     if require_eventhdr_train:
         manifest_path = project_root / "manifests" / "eventhdr_split.json"
-        if manifest_path.is_file():
+        if not manifest_path.is_file():
+            problems.append(f"Official EventHDR split manifest is missing: {manifest_path}")
+        else:
             manifest = load_eventhdr_split_manifest(manifest_path)
-            required = {
-                PurePosixPath(str(value).replace("\\", "/")).as_posix()
-                for value in (
-                    list(manifest.get("train_files", [])) + list(manifest.get("val_files", []))
-                )
-            }
-            missing = sorted(required - train_present)
-            if missing:
+            if manifest.get("status") != "final" or manifest.get("split_schema") != (
+                "official_separate_roots_v1"
+            ):
                 problems.append(
-                    "EventHDR train directory is missing manifest files: "
-                    + ", ".join(missing[:8])
-                    + (" ..." if len(missing) > 8 else "")
+                    "EventHDR training requires a final official_separate_roots_v1 manifest"
+                )
+            manifest_train = set(manifest.get("train_files", []))
+            manifest_eval = set(manifest.get("val_files", []))
+            if manifest_train != _OFFICIAL_EVENTHDR_TRAIN:
+                problems.append(
+                    "EventHDR split manifest train root must declare exactly 1.h5 through 51.h5"
+                )
+            if manifest_eval != _OFFICIAL_EVENTHDR_EVAL:
+                problems.append(
+                    "EventHDR split manifest eval root must declare exactly 1.h5 through 19.h5"
                 )
     if require_eventaid_all:
         aid_manifest_path = project_root / "manifests" / "eventaid_r.json"
@@ -207,13 +218,11 @@ def main() -> None:
                 for item in aid_manifest.get("files", [])
                 if isinstance(item, dict) and item.get("scene")
             }
-            aid_missing = sorted(aid_required - aid_present)
-            if aid_missing:
-                problems.append(
-                    "EventAid-R directory is missing manifest files: "
-                    + ", ".join(aid_missing[:8])
-                    + (" ..." if len(aid_missing) > 8 else "")
-                )
+            problem = _exact_coverage_problem("eventaid_r_zip", aid_present, aid_required)
+            if problem:
+                problems.append(problem)
+        else:
+            problems.append(f"EventAid-R manifest is missing: {aid_manifest_path}")
     if problems:
         raise SystemExit("; ".join(problems))
 

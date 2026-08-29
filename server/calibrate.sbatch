@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=asgcn-train
+#SBATCH --job-name=asgcn-cal
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:1
 #SBATCH --mem=32G
-#SBATCH --time=2-00:00:00
+#SBATCH --time=12:00:00
 #SBATCH --output=slurm-%x-%j.out
 #SBATCH --error=slurm-%x-%j.err
+
+# Dependency example:
+#   train_id=$(sbatch --parsable server/train.sbatch)
+#   cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
+#   sbatch --dependency=afterok:${cal_id} --export=ALL,CONFIG_PATH=configs/hdr_snn.json,\
+# CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn server/eval.sbatch
 
 set -Eeuo pipefail
 
@@ -21,17 +27,15 @@ if [[ -z "${PROJECT_ROOT:-}" ]]; then
 fi
 if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
-  || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
+  || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=ALL,PROJECT_ROOT=/absolute/path/to/repo server/train.sbatch" >&2
+  echo "  sbatch --export=ALL,PROJECT_ROOT=/absolute/path/to/repo server/calibrate.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
 cd "${PROJECT_ROOT}"
 
-# Cluster-specific modules remain opt-in:
-#   sbatch --export=ALL,CUDA_MODULE=cuda/12.4 server/train.sbatch
 if [[ -n "${CUDA_MODULE:-}" ]]; then
   if ! command -v module >/dev/null 2>&1; then
     echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
@@ -41,20 +45,25 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
 fi
 
 export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_train.json}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
-export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-runs/eventhdr_asgcn/best_snn.pt}"
+export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
+export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
+export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
 
 echo "Host: $(hostname)"
 echo "Job: ${SLURM_JOB_ID:-local}"
 echo "Config: ${CONFIG_PATH}"
-if [[ -n "${RESUME_CHECKPOINT:-}" ]]; then
-  echo "Resume: ${RESUME_CHECKPOINT}"
-fi
+echo "ANN checkpoint: ${CHECKPOINT_PATH}"
+echo "SNN checkpoint: ${OUTPUT_PATH}"
+echo "Calibration samples: ${CALIBRATION_SAMPLES}"
 nvidia-smi || true
 
-srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
+srun bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+  "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"

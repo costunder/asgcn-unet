@@ -6,6 +6,7 @@ import math
 import random
 import re
 import statistics
+import subprocess
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -894,6 +895,47 @@ def _centralize_gradients(model: torch.nn.Module) -> None:
         gradient.subtract_(gradient.mean(dim=dimensions, keepdim=True))
 
 
+def _source_tree_sha256(project_root: Path) -> str:
+    """Hash executable project source so resume cannot cross silent code edits."""
+    digest = hashlib.sha256()
+    source_root = project_root / "src"
+    files = sorted(path for path in source_root.rglob("*.py") if path.is_file())
+    if not files:
+        raise FileNotFoundError(f"No Python source files found under {source_root}")
+    for path in files:
+        relative = path.relative_to(project_root).as_posix()
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def _git_provenance(project_root: Path) -> dict[str, Any]:
+    """Return best-effort Git identity without making Git a runtime dependency."""
+
+    def run(*arguments: str) -> str | None:
+        try:
+            result = subprocess.run(
+                ["git", "-c", f"safe.directory={project_root.as_posix()}", *arguments],
+                cwd=project_root,
+                check=False,
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except (FileNotFoundError, OSError, subprocess.TimeoutExpired):
+            return None
+        return result.stdout.strip() if result.returncode == 0 else None
+
+    commit = run("rev-parse", "HEAD")
+    status = run("status", "--porcelain", "--untracked-files=normal", "--", "src")
+    return {
+        "git_commit": commit,
+        "git_source_dirty": None if status is None else bool(status),
+    }
+
+
 def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str, Any]:
     """Return every configured choice that can change the optimization trajectory.
 
@@ -930,8 +972,21 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
     )
     optimizer_mode = _optimizer_mode(train_config)
     optimizer_name = "AdamW" if optimizer_mode == "adamw" else "Adam"
+    raw_validate_every = train_config.get("validate_every", 1)
+    validate_every = (
+        None if raw_validate_every is None else max(1, int(raw_validate_every))
+    )
+    project_root = Path(__file__).resolve().parents[2]
+    git_provenance = _git_provenance(project_root)
+    if device.type == "cuda":
+        device_index = device.index if device.index is not None else torch.cuda.current_device()
+        gpu_name = torch.cuda.get_device_name(device_index)
+        compute_capability = list(torch.cuda.get_device_capability(device_index))
+    else:
+        gpu_name = None
+        compute_capability = None
     return {
-        "version": 1,
+        "version": 3,
         "seed": int(config.get("seed", 2026)),
         "optimizer": {
             "mode": optimizer_mode,
@@ -969,13 +1024,32 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
             "autocast_dtype": "float16" if effective_amp else None,
             "gradient_scaler": effective_amp,
         },
-        "validate_every": max(1, int(train_config.get("validate_every", 1))),
+        "validate_every": validate_every,
+        "checkpoint_selection": (
+            "single_final_epoch" if validate_every is None else "best_validation_macro_ssim"
+        ),
         "recurrent_state_detached_each_sample": True,
         "runtime": {
             "device_type": device.type,
             "torch": str(torch.__version__),
             "cuda_runtime": torch.version.cuda if device.type == "cuda" else None,
             "cudnn": (torch.backends.cudnn.version() if device.type == "cuda" else None),
+            "gpu_name": gpu_name,
+            "compute_capability": compute_capability,
+            "cuda_matmul_allow_tf32": (
+                bool(torch.backends.cuda.matmul.allow_tf32) if device.type == "cuda" else None
+            ),
+            "cudnn_allow_tf32": (
+                bool(torch.backends.cudnn.allow_tf32) if device.type == "cuda" else None
+            ),
+            "cudnn_benchmark": (
+                bool(torch.backends.cudnn.benchmark) if device.type == "cuda" else None
+            ),
+            "deterministic_algorithms": bool(torch.are_deterministic_algorithms_enabled()),
+        },
+        "source": {
+            "source_tree_sha256": _source_tree_sha256(project_root),
+            **git_provenance,
         },
     }
 
@@ -1080,7 +1154,7 @@ def _validation_protocol(
             )
     print("Verifying cached hashes or hashing train/validation files for exact resume...")
     return {
-        "version": 4,
+        "version": 5,
         "seed": int(config.get("seed", 2026)),
         "recurrent": bool(config["model"].get("recurrent", True)),
         "dataset_transform": data,
@@ -1091,7 +1165,11 @@ def _validation_protocol(
         },
         "max_val_samples": config["train"].get("max_val_samples"),
         "sampling": val_sampling,
-        "selection_metric": "macro_ssim",
+        "selection_metric": (
+            "single_final_epoch_macro_ssim"
+            if config["train"].get("validate_every", 1) is None
+            else "macro_ssim"
+        ),
         "ssim": "gaussian_valid_11_sigma1.5",
     }
 
@@ -1102,12 +1180,10 @@ def _enforce_training_split_status(config: dict[str, Any]) -> None:
         return
     manifest = load_eventhdr_split_manifest(manifest_path)
     status = str(manifest.get("status", "missing")).strip().lower()
-    allow_provisional = bool(config.get("train", {}).get("allow_provisional_split", False))
-    if status != "final" and not allow_provisional:
+    if status != "final":
         raise ValueError(
             f"Training split manifest {manifest_path} has status='{status}', not 'final'. "
-            "Finalize the scene-level split or explicitly set "
-            "train.allow_provisional_split=true for a non-reportable smoke run."
+            "A provisional split cannot be used for training."
         )
 
 
@@ -1345,7 +1421,10 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         _restore_rng_state(resume_checkpoint.pop("rng_state"))
 
     epochs = int(train_config.get("epochs", 40))
-    validate_every = max(1, int(train_config.get("validate_every", 1)))
+    raw_validate_every = train_config.get("validate_every", 1)
+    validate_every = (
+        None if raw_validate_every is None else max(1, int(raw_validate_every))
+    )
     max_train_samples = train_config.get("max_train_samples")
     for epoch in range(start_epoch, epochs + 1):
         epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
@@ -1427,7 +1506,9 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             if step % int(train_config.get("log_every", 20)) == 0:
                 progress.set_postfix(loss=f"{running_loss / max(seen, 1):.4f}", **loss_parts)
 
-        should_validate = epoch % validate_every == 0 or epoch == epochs
+        should_validate = epoch == epochs or (
+            validate_every is not None and epoch % validate_every == 0
+        )
         val_metrics = (
             validate(
                 model,
@@ -1484,6 +1565,11 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             "best_ssim": best_ssim,
             "best_model_state_sha256": best_model_state_sha256,
             "best_metric": "macro_ssim",
+            "checkpoint_selection": (
+                "single_final_epoch"
+                if validate_every is None
+                else "best_validation_macro_ssim"
+            ),
             "paper_core_version": PAPER_CORE_VERSION,
             "validation_protocol": validation_protocol,
             "training_protocol": training_protocol,
@@ -1504,6 +1590,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 "val_sampling": checkpoint["val_sampling"],
                 "best_ssim": checkpoint["best_ssim"],
                 "best_metric": checkpoint["best_metric"],
+                "checkpoint_selection": checkpoint["checkpoint_selection"],
                 "model_state_sha256": best_model_state_sha256,
                 "paper_core_version": checkpoint["paper_core_version"],
                 "validation_protocol": checkpoint["validation_protocol"],
@@ -1659,9 +1746,9 @@ def evaluate(
             ),
             "retained_events": int(sample["events"].shape[0]),
             "events": int(sample["events"].shape[0]),
-            "dataset_sampling_factor": diagnostics["dataset_sampling_factor"],
+            "dataset_sampling_ratio": diagnostics["dataset_sampling_ratio"],
             "model_sampling_factor": diagnostics["event_sampling_factor"],
-            "effective_sampling_factor": diagnostics["effective_sampling_factor"],
+            "effective_sampling_ratio": diagnostics["effective_sampling_ratio"],
             "nodes": diagnostics["nodes"],
             "edges": diagnostics["edges"],
             "isolated_nodes": int(diagnostics["isolated_nodes"]),
@@ -1752,11 +1839,17 @@ def _dataset_coverage_summary(dataset, data_config: dict[str, Any]) -> dict[str,
         root = Path(dataset.root)
         files = sorted(path.relative_to(root).as_posix() for path in dataset.files)
         mapping = getattr(dataset, "file_to_scene", {})
-        grouping = (
-            "physical_scene"
-            if any(mapping.get(file_key) != file_key for file_key in files)
-            else "source_h5_file"
-        )
+        declared_semantics = getattr(dataset, "group_semantics", None)
+        if declared_semantics == "h5_sequence_file_not_physical_scene":
+            grouping = "source_h5_sequence_file"
+        elif declared_semantics == "physical_scene":
+            grouping = "physical_scene"
+        else:
+            grouping = (
+                "physical_scene"
+                if any(mapping.get(file_key) != file_key for file_key in files)
+                else "source_h5_file"
+            )
     elif dataset_type == "eventaid_r_zip":
         files = sorted(path.name for path in dataset.zip_paths)
         grouping = "eventaid_scene_zip"
@@ -2015,10 +2108,20 @@ def calibrate(
     config: dict[str, Any],
     checkpoint_path: str | Path,
     output_path: str | Path,
-    samples: int = 100,
+    samples: int | None = None,
+    overwrite: bool = False,
 ) -> Path:
-    if int(samples) < 1:
+    if samples is not None and int(samples) < 1:
         raise ValueError("calibration samples must be at least 1")
+    checkpoint_path = Path(checkpoint_path)
+    output_path = Path(output_path)
+    if checkpoint_path.resolve() == output_path.resolve():
+        raise ValueError("ANN input and calibrated SNN output must be different files")
+    if output_path.exists() and not overwrite:
+        raise FileExistsError(
+            f"Calibrated checkpoint already exists: {output_path}. Move it or choose a new "
+            "output path, or explicitly request overwrite."
+        )
     _enforce_training_split_status(config)
     device = resolve_device(config.get("device", "auto"))
     data_config = copy.deepcopy(config["dataset"])
@@ -2030,34 +2133,36 @@ def calibrate(
     model.eval()
     model.fold_batch_norm()
     model.reset_activation_maxima()
+    calibration_limit = len(dataset) if samples is None else min(int(samples), len(dataset))
     calibration_indices = _balanced_sample_indices(
-        dataset,
-        min(int(samples), len(dataset)),
-        seed=int(config.get("seed", 2026)),
+        dataset, calibration_limit, seed=int(config.get("seed", 2026))
     )
-    calibration_sampling = _sampling_summary(dataset, calibration_indices)
-    for index in tqdm(calibration_indices, desc="calibrate-SNN"):
-        sample = move_sample(dataset[index], device)
-        model.calibrate_sample(sample, momentum=-1.0)
-    calibration_summary = model.calibration_summary()
-    model.apply_parameter_normalization()
-    model_state = model.state_dict()
-    inference_checkpoint = {
-        "checkpoint_type": "snn_inference",
-        "model": model_state,
-        "model_state_sha256": _model_state_sha256(model_state),
-        "model_config": checkpoint.get("model_config", config["model"]),
-        "epoch": checkpoint.get("epoch"),
-        "source_checkpoint": str(checkpoint_path),
-        "batch_norm_folded": True,
-        "snn_calibrated": True,
-        "paper_core_version": PAPER_CORE_VERSION,
-        "parameter_normalized": True,
-        "snn_calibration_samples": len(calibration_indices),
-        "snn_calibration_valid_samples": calibration_summary["minimum_valid_samples"],
-        "snn_calibration_summary": calibration_summary,
-        "snn_calibration_sampling": calibration_sampling,
-    }
-    output_path = Path(output_path)
+    try:
+        calibration_sampling = _sampling_summary(dataset, calibration_indices)
+        for index in tqdm(calibration_indices, desc="calibrate-SNN"):
+            sample = move_sample(dataset[index], device)
+            model.calibrate_sample(sample, momentum=-1.0)
+        calibration_summary = model.calibration_summary()
+        model.apply_parameter_normalization()
+        model_state = model.state_dict()
+        inference_checkpoint = {
+            "checkpoint_type": "snn_inference",
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "model_config": checkpoint.get("model_config", config["model"]),
+            "epoch": checkpoint.get("epoch"),
+            "source_checkpoint": str(checkpoint_path),
+            "batch_norm_folded": True,
+            "snn_calibrated": True,
+            "paper_core_version": PAPER_CORE_VERSION,
+            "parameter_normalized": True,
+            "snn_calibration_samples": len(calibration_indices),
+            "snn_calibration_valid_samples": calibration_summary["minimum_valid_samples"],
+            "snn_calibration_summary": calibration_summary,
+            "snn_calibration_sampling": calibration_sampling,
+        }
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
     atomic_torch_save(inference_checkpoint, output_path)
     return output_path

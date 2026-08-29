@@ -187,6 +187,6 @@ PY
 echo
 echo "Installation complete."
 echo "Python: ${VENV_PYTHON}"
-echo "Next: ./scripts/get_aid.sh R-bear"
-echo "Then: ${VENV_PYTHON} -m asgcn_recon.cli inspect --config configs/aid_smoke.json --samples 2"
-echo "Then place EventHDR H5 files under data/EventHDR/train and data/EventHDR/eval."
+echo "Next: ./scripts/get_aid.sh --all"
+echo "Then: ./scripts/get_hdr.sh --archive /path/to/EventHDR.zip"
+echo "Finally: ./scripts/full.sh"

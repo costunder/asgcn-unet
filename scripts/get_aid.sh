@@ -12,16 +12,16 @@ usage() {
 Usage:
   ./scripts/get_aid.sh [options] [SCENE ...]
 
-With no SCENE, only the small R-bear sample is downloaded. ZIP files stay
+With no SCENE, the complete 14-scene release is downloaded. ZIP files stay
 compressed because the loader reads them directly.
 
 Options:
   -d, --destination DIR  Download directory (default: data/EventAid-R)
-  --all                  Download all 14 scenes (~24.68 GB)
+  --all                  Explicitly download all 14 scenes (~24.68 GB)
   -h, --help             Show this help
 
 Examples:
-  ./scripts/get_aid.sh
+  ./scripts/get_aid.sh                  # all 14 scenes
   ./scripts/get_aid.sh R-bear R-outdoor
   ./scripts/get_aid.sh --all
 EOF
@@ -69,7 +69,7 @@ if ((DOWNLOAD_ALL == 1)) && ((${#SCENES[@]} > 0)); then
   exit 2
 fi
 if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then
-  SCENES=(R-bear)
+  DOWNLOAD_ALL=1
 fi
 
 if ! command -v curl >/dev/null 2>&1; then

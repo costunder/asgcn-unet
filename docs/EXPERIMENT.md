@@ -1,258 +1,224 @@
-# 실험 프로토콜
+# 본실험 프로토콜
 
-## 1. 고정할 연구 질문
+이 문서는 `configs/hdr_train.json`, `configs/hdr_{ann,snn}.json`,
+`configs/aid_{ann,snn}.json`과 현재 실행 코드를 기준으로 한다. 전체 기본 실행은
+`bash scripts/full.sh`이며, 일부 파일이나 일부 frame만 사용한 결과는 본실험 결과로 합치지 않는다.
+ASGCN 수식과 이 저장소의 과제용 확장 범위는 [ASGCN.md](ASGCN.md)를 함께 참고한다.
 
-1. EventHDR의 실제 이벤트에서 luminance frame을 얼마나 잘 복원하는가?
-2. ASGCN paper-core의 graph depth와 radius가 복원 품질·비용에 어떤 영향을 주는가?
-3. EventAid-R의 다른 장면·운동에서 품질이 얼마나 유지되는가?
-4. ANN, 논문 식 (15)를 문자 그대로 실행한 IF, 표준 IF 대조군의 품질·연산 지연 차이는 무엇인가?
+## 1. 연구 질문과 데이터 역할
 
-현재 `snn` 모드는 graph encoder의 IF membrane을 timestep마다 전개하지만 U-Net·ConvGRU decoder는
-analog이고 GPU에서 기능을 모사한다. 따라서 저전력·에너지 우위를 검증하는 질문에는 답할 수 없으며,
-해당 주장은 연산량 모델 또는 hardware 측정 후에만 추가한다. 논문 재현 범위는
-[ASGCN 구현 범위](ASGCN.md)를 따른다.
+1. EventHDR 실제 event로 luminance frame을 얼마나 잘 복원하는가?
+2. 동일 ANN checkpoint를 보정한 뒤 `literal_eq15`와 `standard_if`가
+   `T=4,8,16,32`에서 보이는 품질·지연 차이는 무엇인가?
+3. 학습과 보정에 쓰지 않은 EventAid-R 14개 scene에서 성능이 얼마나 유지되는가?
 
-기본 `literal_eq15`의 `+h(t-1)` self-feedback은 표준 rate-conversion IF와 동등하지 않다. 따라서
-ANN↔SNN 오차는 `snn_dynamics`와 T를 함께 표기한다. `standard_if`는 모호성 분석용 대조군이지
-ASGCN 저자 공식 구현이라고 간주하지 않는다.
-
-## 2. 데이터 역할과 누수 방지
-
-| 단계 | 데이터 | 허용되는 사용 |
+| 단계 | 고정 데이터 | 코드상 역할 |
 |---|---|---|
-| 학습 | EventHDR train | weight 최적화·crop |
-| 검증 | EventHDR holdout | 물리 scene split 확정 후 macro SSIM checkpoint 선택 |
-| 보정 | EventHDR train | BN folding·feature-wise threshold·parameter normalization |
-| 내부 최종시험 | EventHDR 공식 eval | 학습 종료 후 1회 |
-| 외부 최종시험 | EventAid-R | 학습·보정·threshold 선택 금지 |
+| 학습 | EventHDR 공식 train root의 `1.h5`–`51.h5` | 40 epoch weight 최적화 |
+| 내부 평가 | EventHDR 공식 eval root의 `1.h5`–`19.h5` | 마지막 epoch에서만 ANN 평가하고 `best.pt` 생성 |
+| ANN→SNN 보정 | EventHDR train 51개 H5의 모든 선택 frame | BN folding, activation maximum, 식 (6) 정규화 |
+| 내부 비교 | 동일 EventHDR eval 19개 H5 | ANN과 두 IF dynamics × 네 T 비교 |
+| 외부 비교 | EventAid-R manifest의 14개 ZIP | 고정 checkpoint의 외부 일반화 평가 |
 
-`manifests/eventhdr_split.json`은 현재 물리 scene 대응표가 없는 legacy file-list
-`provisional` 상태다. 최종 manifest는 아래처럼 동일 물리 장면의 파일을 `scene_groups`로 묶고,
-겹치지 않는 scene ID를 `train_scenes`와 `val_scenes`에 넣어야 한다.
+`manifests/eventhdr_split.json`은 `status=final`,
+`split_schema=official_separate_roots_v1`이다. train과 eval은 별도 root이고 숫자 basename이 겹치는
+공식 배포 구조다. H5 하나를 recurrent state와 metric의 sequence group으로 사용할 뿐, 공개 자료에
+물리 scene 대응표가 없으므로 두 root가 물리 scene-disjoint이거나 통계적으로 독립이라고 주장하지
+않는다. JSON의 `macro`/`per_scene`도 EventHDR에서는 물리 scene이 아니라 H5 sequence-file 단위다.
 
-```json
-{
-  "status": "final",
-  "scene_groups": {
-    "night-drive": ["1.h5", "2.h5"],
-    "day-drive": ["48.h5", "49.h5"]
-  },
-  "train_scenes": ["night-drive"],
-  "val_scenes": ["day-drive"]
-}
-```
+`train.validate_every=null`이므로 1–39 epoch에는 내부 평가를 하지 않고 40번째 마지막 epoch에서만
+EventHDR eval 전체를 평가한다. 따라서 현재 `best.pt`는 여러 epoch를 비교해 고른 checkpoint가 아니라
+마지막 epoch checkpoint다. 파일명 `best.pt`와 `best_metric=macro_ssim`은 공통 checkpoint 계약을 위한
+것이다. 이후 같은 eval root에서 생성하는 ANN/SNN 표는 내부 비교이며 독립 잠금시험으로 표현하지
+않는다. EventAid-R 결과를 본 뒤 설정·보정·threshold를 바꾸면 그 결과 역시 외부시험으로 해석할 수
+없다.
 
-예시는 schema 설명일 뿐 실제 mapping이 아니다. `status`만 `final`로 바꾸거나 legacy 목록만 남기면
-검증에서 거부된다. `configs/hdr_smoke.json`만 비보고용 provisional legacy schema를 허용한다.
-smoke는 별도 `manifests/eventhdr_smoke.json`의 train `1.h5`, `2.h5`와 validation `48.h5`,
-`49.h5`만 사용하고 content fingerprint도 이 네 파일만 hash한다.
-final manifest는 `data/EventHDR/train` 아래의 모든 H5를 정확히 한 scene에 소유시키고 모든 scene을
-train 또는 validation에 배정해야 한다. 누락·미선언 파일과 미배정·중복 scene/file은 거부한다.
+## 2. 고정 전처리
 
-validation sample limit은 채점 frame 수에만 적용된다. `hdr_train`은 최대 500개, `hdr_smoke`는
-최대 32개를 채점하며 아래 recurrent context frame은 이 수에 포함하지 않는다.
-
-1. group(final은 physical scene, provisional은 H5 file)별 quota를 round-robin으로 배정한다.
-2. 각 group의 dataset index에서 deterministic contiguous window를 선택한다.
-3. recurrent 모델은 window 앞의 같은 group predecessor를 `validation_context_frames` 한도에서
-   metric 없이 replay해 streaming ConvGRU state를 예열한다. 기본값은 본학습 64, smoke 8이며
-   `null`이면 전체 prefix다. non-recurrent 모델은 context를 replay하지 않는다.
-4. sample limit이 group 수보다 작으면 일부 group을 버리지 않고 오류로 중단한다.
-5. checkpoint 선택에는 scene별 SSIM 평균의 평균인 macro SSIM을 쓴다.
-
-calibration은 recurrent state를 쓰지 않으므로 각 group(final은 physical scene, provisional은 H5
-file)의 전체 index 범위를 `linspace`로 덮는다.
-benchmark는 recurrent 모델이면 group별 연속 window와 최대 `eval.recurrent_context_frames`개의
-unmeasured predecessor(현재 eval config 기본 32), 비순환 모델이면 time-spread sample을 사용한다.
-`--warmup`은 recurrent context가 아니라 device/kernel warmup이다.
-장면, sequence index, sensor shape가 끊기는 경계에서는 state를 초기화하며 benchmark 결과에 reset 수와
-비율을 기록한다.
-
-random crop의 RNG는 scene·source file/member를 합친 안정적인 sequence identity로 결정한다. 따라서
-worker 수나 resume 여부와 무관하고, 같은 연속 sequence의 모든 frame은 동일한 sensor ROI를 사용해
-ConvGRU pixel state와 temporal loss를 정렬한다. 이는 epoch마다 바뀌는 random augmentation이 아니다.
-
-event 전처리는 spatial crop → adaptive `max_events` cap → model의 고정 paper sampling factor `R`
-순서다. adaptive cap은 crop 뒤 event 수 `N`에 대해 `ceil(N/max_events)` 정수 stride를 사용하며,
-서버 메모리를 위한 재구성 가정이지 논문의 공식 `R`이 아니다. sample metadata는 cap 전후를
-`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_factor`로 분리한다.
-
-## 3. 학습 optimizer protocol
-
-논문에 명시된 Adam, gradient centralization, 초기 learning rate `1e-3`, L2 weight decay `5e-3`를
-`optimizer=adam_gc`, `learning_rate=0.001`, `weight_decay=0.005`로 고정한다. 논문은 milestone에서
-learning rate를 낮춘다고만 쓰고 정확한 epoch와 gamma를 공개하지 않는다. 따라서 40-epoch 복원
-적응에서는 `lr_milestones=[20,30]`, `lr_gamma=0.1`을 명시적 가정으로 사용한다. 1-epoch smoke도
-동일한 protocol을 기록하지만 milestone에 도달하지 않는다.
-gradient centralization의 axis도 구현 가정이다. spline `[K,Cin,Cout]`와 root `[Cin,Cout]`는 마지막
-output axis 외 차원에서, Conv/Linear는 첫 output axis 외 차원에서 gradient 평균을 제거한다.
-
-## 4. output domain
-
-EventHDR와 EventAid-R 모두 다음 target 변환을 쓴다.
+두 dataset의 target은 다음 순서로 `[0,1]` luminance domain에 놓는다.
 
 ```text
-integer image -> dtype range로 [0,1] 정규화
-RGB이면 BT.709 luminance
-y = log1p(5000*x) / log1p(5000)
+integer image / dtype maximum
+  -> RGB이면 BT.709 luminance
+  -> y = log1p(5000*x) / log1p(5000)
 ```
 
-이는 output 수치 domain만 통일한다. 센서 response와 exposure가 동일하다는 보장은 없으므로 두
-dataset의 절대 PSNR/SSIM을 동일 분포처럼 해석하지 않는다.
-EventAid-R은 event block `i`를 GT `i+1`과 짝짓는 `target_offset=1`을 명시적 protocol 가정으로
-사용한다. 이 정렬을 바꾼 결과는 같은 외부시험으로 합치지 않는다.
+EventAid-R은 event block `i`와 GT `i+1`을 짝짓는 `target_offset=1`을 사용한다. 이는 이 과제를
+위한 정렬 가정이며 다른 offset 결과와 섞지 않는다. 두 dataset의 sensor response와 exposure가 같다는
+보장은 없으므로 절대 PSNR/SSIM을 동일 분포의 수치처럼 직접 비교하지 않는다.
 
-## 5. 실행 순서
+event 전처리는 다음 순서다.
+
+1. 설정된 sensor crop을 적용한다. 본실험 config는 `crop_size=null`이라 전체 sensor를 쓴다.
+2. crop 뒤 event 수가 `max_events=8192`를 넘으면, 양 끝 timestamp를 포함하는 결정적 `linspace`
+   index로 **정확히 8,192개**를 시간 전역에서 남긴다. 8,192개 이하면 그대로 둔다.
+3. model의 논문식 균일 sampling factor `R=event_sampling_factor=1`을 적용한다.
+
+두 번째 단계는 graph memory를 제한하기 위한 과제용 cap이며 ASGCN 논문의 공식 `R`이 아니다.
+`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_ratio`를 분리해
+기록한다. 동일 source sequence의 crop은 seed와 상대 sequence identity로 결정되므로 worker 수와
+resume 여부에 따라 바뀌지 않는다.
+
+EventHDR에서 연속 target 사이 event가 0개인 interval도 sample로 보존한다. EventAid-R의 빈 event
+text도 빈 `[0,4]` tensor로 유지한다. 빈 sample은 0 node·0 edge graph와 zero raster를 거쳐 analog
+decoder/ConvGRU로 처리되며 임의 event를 합성하지 않는다. 보정에서는 비어 있는 activation이 layer의
+유효 calibration observation으로 집계되지 않고, 어느 graph layer든 non-empty observation이 0개면
+변환을 거부한다.
+
+## 3. graph와 모델 고정값
+
+기본 graph node feature는 정규화한 `(x,y,t,polarity)`이고, 거리 계산은 `[0,1]`로 정규화한
+`(x,y,t)` 3차원에서 한다. `graph_radius=0.08`보다 Euclidean 거리가 **엄격히 작은** 서로 다른 node를
+연결하고 양 방향 directed edge를 저장한다. edge pseudo-coordinate는 `distance/radius` 한 값이다.
+
+구현은 폭이 radius인 uniform cell과 인접 `3^3` cell로 후보를 찾은 뒤 exact Euclidean 조건을 다시
+적용한다. 이는 근사 k-NN이나 edge truncation이 아니다. directed edge 수가
+`max_graph_edges=2,000,000`을 넘으면 일부 edge를 버리지 않고 실패한다. isolated node도 유지하며
+비율과 최대 degree를 결과에 기록한다.
+
+고정 모델은 6-layer, hidden 64의 pure-PyTorch open degree-1 B-spline graph encoder, feature
+rasterization, residual U-Net과 analog ConvGRU decoder다. ANN→SNN 변환과 IF timestep은 graph
+encoder에만 적용된다. decoder는 두 모드 모두 analog이다.
+
+## 4. 학습과 checkpoint 선택
+
+본학습 설정은 다음과 같다.
+
+- 40 epochs, chronological `batch_size=1`, shuffle 없음
+- Adam + gradient centralization, learning rate `1e-3`, weight decay `5e-3`
+- MultiStepLR milestones 20/30, gamma 0.1
+- CUDA에서 AMP, gradient norm clip 1.0
+- Charbonnier 1.0 + SSIM 0.2 + gradient 0.1 + temporal 0.2
+- train/validation sample cap 없음, 마지막 epoch에서만 전체 EventHDR eval 평가
+
+ConvGRU state와 temporal loss는 같은 H5 sequence에서 index가 1씩 이어지고 sensor shape가 같을 때만
+이어진다. 경계에서는 state와 이전 prediction/target을 초기화한다. 내부 평가도 모든 frame을
+사용하므로 별도 표본 추출은 없다.
+
+training artifact는 `runs/eventhdr_asgcn/`에 기록한다.
+
+- `config.json`: 실행 시 resolve된 전체 config
+- `history.json`: epoch별 loss, 마지막 epoch validation, learning rate, CUDA peak memory
+- `last.pt`: 매 epoch 끝에 저장하는 model/optimizer/scheduler/scaler/RNG 포함 재개 checkpoint
+- `best.pt`: 현재 protocol에서는 마지막 epoch의 clean ANN inference checkpoint
+- `.data_hash_cache.json`: full source hash 계산을 가속하는 로컬 cache
+
+새 학습은 위 핵심 artifact가 이미 있는 run directory를 덮어쓰지 않는다. 중단된 run은 `last.pt`로
+재개한다.
+
+## 5. 전체 ANN→SNN 보정
+
+기본 본실험은 EventHDR train의 모든 frame을 사용한다.
 
 ```bash
-# 전체 EventAid-R 전 작은 ZIP 하나로 loader만 비보고 점검
-bash scripts/get_aid.sh R-bear
-asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
-
-# smoke용 EventHDR train과 GPU만 먼저 확인
-python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
-  --lock constraints/py312.txt
-
-# smoke manifest의 네 H5만 decode/hash하는 1 epoch 점검
-asgcn-recon inspect --config configs/hdr_smoke.json --samples 2 --validate-all
-asgcn-recon train --config configs/hdr_smoke.json
-
-# 본학습·고정 내부/외부 평가 전 전체 파일 수 확인
-python scripts/check_env.py --require-cuda --require-full-data \
-  --lock constraints/py312.txt
-
-# 모든 event block 검증
-asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
-asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
-
-# scene split final 이후 ANN 본학습
-asgcn-recon train --config configs/hdr_train.json
-
-# EventHDR train만으로 IF-SNN 보정·변환
-asgcn-recon calibrate \
-  --config configs/hdr_train.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt \
-  --output runs/eventhdr_asgcn/best_snn.pt \
-  --samples 500
-
-# 고정 내부시험
-asgcn-recon evaluate \
-  --config configs/hdr_ann.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt
-
-asgcn-recon evaluate \
-  --config configs/hdr_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics literal_eq15
-
-# 같은 calibrated checkpoint를 쓰는 비공식 standard-IF 대조군
-asgcn-recon evaluate \
-  --config configs/hdr_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics standard_if
-
-# 고정 외부시험
-asgcn-recon evaluate \
-  --config configs/aid_ann.json \
-  --checkpoint runs/eventhdr_asgcn/best.pt
-
-asgcn-recon evaluate \
-  --config configs/aid_snn.json \
-  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16 \
-  --snn-dynamics literal_eq15
+bash scripts/calibrate.sh \
+  configs/hdr_train.json \
+  runs/eventhdr_asgcn/best.pt \
+  runs/eventhdr_asgcn/best_snn.pt
 ```
 
-SNN 명령은 ANN checkpoint, 모든 graph layer에서 유효한 non-empty calibration observation이 0개인
-checkpoint, BN 미fold·parameter 미정규화 상태, 비정수 또는 `simulation_steps < 1`을 거부한다.
-checkpoint metadata는 persistent graph-layer flag 및 변환 뒤 unit threshold와도 교차검증한다.
-모든 ANN/SNN/training checkpoint는 model tensor byte의 SHA-256을 저장하고 load 전에 검증한다.
-반대로 Eq. (6)이
-적용된 SNN checkpoint를 ANN 모드에 넣는 것도 거부하므로 ANN 평가는 변환 전 `best.pt`를 쓴다.
-`scripts/eval.sh`에서는 동일한 override를 `SNN_DYNAMICS=literal_eq15` 또는
-`SNN_DYNAMICS=standard_if`로 전달한다.
+wrapper 기본값 `CALIBRATION_SAMPLES=all`은 모든 training frame을 선택한다. model을 eval mode로
+전환해 graph BN을 convolution parameter에 fold하고, non-empty sample의 layer별 feature-wise ReLU
+maximum을 측정한 뒤 식 (6) parameter normalization과 unit threshold를 적용한다. 출력
+`best_snn.pt`는 optimizer와 training history를 제거한 SNN inference checkpoint이며 calibration
+표본 수·유효 표본 수·dead channel 수·sampling summary와 model tensor SHA-256을 포함한다.
 
-최종 EventHDR eval config는 H5 정확히 19개를, EventAid-R final config는 manifest와 이름이 같은
-ZIP 정확히 14개를 강제한다. 일부 EventAid-R만 허용하는 `aid_smoke.json` 결과는 보고용 외부시험이
-아니다.
+기존 출력은 기본적으로 보호한다. 명시적으로 다시 보정해야 할 때만
+`OVERWRITE_CALIBRATION=1`을 wrapper에 전달한다. engine은 새 checkpoint를 끝까지 만든 뒤 atomic
+replace하므로 변환 실패 전에 기존 파일을 먼저 삭제하지 않는다. ANN 평가는 변환 전 `best.pt`, SNN
+평가는 `best_snn.pt`를 써야 하며 서로 바꾸면 checkpoint 검증에서 거부된다.
 
-## 6. 품질 지표
+## 6. 고정 평가·benchmark 행렬
 
-- PSNR: `[0,1]` data range
-- SSIM: 11×11, σ=1.5 Gaussian valid window; 작은 영상은 fitting odd window
-- RMSE
-- `temporal_l1`: 같은 scene·sensor shape에서 sequence index가 정확히 1 증가하는 frame 사이에만
-  `L1((pred_t-pred_t-1), (gt_t-gt_t-1))`
-- LPIPS: `eval.lpips=true`일 때만 선택적으로 실행
+`scripts/full.sh`는 full data/environment 검사와 모든 선택 sample의 decode 검증, 학습 또는 재개,
+전체 보정, 아래 행렬의 evaluate와 benchmark를 순서대로 실행한다.
 
-결과는 micro, group macro, per-group으로 계산한다. final holdout의 group은 physical scene,
-provisional/EventHDR 공식 eval은 H5 파일, EventAid-R은 `R-*.zip` scene이다. JSON의 기존
-`macro`/`per_scene` 이름은 호환성을 위해 유지한다. 첫 frame과 장면·index·shape 불연속 뒤 첫
-frame은 `temporal_l1` 집계에서 제외되고 CSV에는 null이 들어간다.
+| dataset | mode | dynamics | T | checkpoint |
+|---|---|---|---|---|
+| EventHDR eval 19 | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventHDR eval 19 | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventHDR eval 19 | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R 14 | ANN | 해당 없음 | 해당 없음 | `best.pt` |
+| EventAid-R 14 | SNN | `literal_eq15` | 4, 8, 16, 32 | `best_snn.pt` |
+| EventAid-R 14 | SNN | `standard_if` | 4, 8, 16, 32 | `best_snn.pt` |
 
-기존 논문과 SSIM을 비교할 때는 해당 논문의 구현, crop, border, color space, tone mapping까지
-동일하게 맞춰 별도 검증한다. 현재 Gaussian 구현을 사용했다는 이유만으로 공식 수치와 완전히
-동일하다고 가정하지 않는다.
+즉 dataset마다 ANN 1개와 SNN 8개, 전체 18개 quality evaluation과 18개 compute benchmark를 만든다.
+benchmark 기본값은 warmup 10 frame, 측정 100 frame이다. recurrent benchmark는 각 측정 window 앞의
+같은 H5/ZIP sequence predecessor를 최대 32개까지 timer 밖에서 replay한다. dataset read와
+host-to-device 이동도 timer 밖이며, CUDA에서는 CUDA Event로 model forward를 측정한다. graph 생성은
+model forward 안에 있으므로 측정에 포함된다.
 
-## 7. 지연·메모리 지표
+`literal_eq15`는 공개 식 (15)의 `+h(t-1)`까지 문자 그대로 실행한다. `standard_if`는 그 항을 뺀
+rate-conversion 대조군이며 저자 공식 dynamics라고 주장하지 않는다. 두 모드 모두 T회의 IF
+recurrence를 실제 실행하지만 analog decoder 때문에 결과를 완전 SNN hardware 성능으로 해석하지
+않는다.
 
-- evaluate: graph 생성과 model forward latency, 첫 frame cold start 포함
-- benchmark: dataset read와 host-to-device 이동 제외, warmup 이후 CUDA Event 측정
-- mean, p50, p90, p95, p99, max, FPS
-- `raw_events_per_second`: spatial crop/cap 전 source interval event 수 / model compute time
-- `retained_events_per_second`: crop과 adaptive cap 뒤 event 수 / model compute time
-- `graph_nodes_per_second`: model의 추가 factor `R` 뒤 graph node 수 / model compute time
-- `mean_raw_events`, `mean_retained_events`, `retention_ratio`, 평균 edge
-- isolate 비율과 max degree; `max_graph_edges=2,000,000` 초과는 graph를 자르지 않고 실패
-- SNN layer별 `총 spike / 총 neuron-step` 발화율과 전체 가중 발화율
-- timestamp 기반 RTF, deadline miss ratio
-- peak allocated/reserved GPU memory
+## 7. 지표와 산출물
 
-세 rate 모두 benchmark가 제외한 dataset read/I/O throughput이 아니라, 같은 model compute 시간으로
-정규화한 workload rate다. 기존 `events_per_second`는 deprecated 하위 호환 alias이며 항상
-`retained_events_per_second`와 같다. metadata가 없는 custom dataset은 tensor에 실제 남아 있는 event
-수를 raw와 retained 양쪽의 안전한 fallback으로 쓴다.
+quality는 frame별 PSNR, Gaussian-window SSIM, RMSE와 연속 frame 사이의 `temporal_l1`을 기록한다.
+`temporal_l1`은
+`L1((pred_t-pred_{t-1}), (target_t-target_{t-1}))`이며 sequence 경계의 첫 frame은 집계에서 제외되고
+CSV에는 null이다. 요약은 모든 frame의 `micro`, H5/ZIP group 평균을 다시 평균한 `macro`, 호환 key
+`per_scene`으로 나뉜다. LPIPS는 `eval.lpips=true`와 optional dependency를 명시한 별도 run에서만
+계산한다.
 
-`snn` 경로는 T번 IF membrane timestep을 실제로 실행하고 fixed edge의 B-spline basis/index는
-sample당 한 번 계산해 layer와 timestep에서 재사용한다. 따라서 `T=4/8/16/32`는 이 PyTorch
-구현에서 dynamics별 timestep 수에 따른 품질·GPU latency ablation이다. decoder는 analog이므로 이를
-neuromorphic accelerator의 latency나 에너지로 환산하지 않는다.
+evaluate는 quality, model-forward latency, RTF/deadline miss, graph topology, dataset coverage와
+CUDA peak allocated/reserved memory를 기록한다. benchmark는 mean/p50/p90/p95/p99/max latency, FPS,
+raw/retained event rate, graph node rate, event retention, node/edge/isolated-node 수, SNN firing rate,
+RTF, state reset과 peak GPU memory를 기록한다.
 
-artifact는 `<eval.output_dir>/ann/` 또는
-`<eval.output_dir>/snn_<dynamics>_T<steps>/`에 `metrics.json`, `frames.csv`, `predictions/`,
-`benchmark.json`으로 나뉜다. 같은 mode/dynamics/T artifact가 이미 있으면 덮어쓰지 않고 실패한다.
-`benchmark.json`은 benchmark가, 나머지는 evaluate가 기록한다.
-prediction PNG는 평가 순번, 안전한 slug, 전체 sample ID hash를 결합해 파일명 충돌과 OS 금지 문자를
-차단한다.
+```text
+runs/eventhdr_official_eval_ann/ann/
+runs/eventhdr_official_eval_snn/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
+runs/eventaid_r_external_ann/ann/
+runs/eventaid_r_external_snn/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
+```
 
-## 8. 최소 비교표
+각 directory의 `metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고
+`benchmark.json`은 benchmark가 만든다. prediction은 config 기본값에 따라 처음 20 frame의 pred/GT
+PNG를 저장한다. 같은 mode/dynamics/T artifact가 있으면 묵시적으로 덮어쓰지 않고 실패하므로 재실행
+전 기존 결과를 보존 위치로 옮기거나 별도 `eval.output_dir` config를 사용한다.
 
-1. `graph_layers=3` vs 6
-2. ANN vs `literal_eq15` vs `standard_if`, 각각 `T=4/8/16/32`
-3. `max_events=4096/8192/16384`
-4. 정규화된 `x,y,t`에서 `graph_radius=0.04/0.08/0.12`
-5. ConvGRU on/off
-6. EventHDR 내부 macro/per-scene vs EventAid-R 외부 macro/per-scene
+## 8. epoch-boundary exact resume
 
-모든 비교는 split, seed, tone mapping, crop, 해상도, checkpoint selection rule을 고정한다. 비교마다
-config 원문, Git commit, `check_env.py` 출력, GPU 이름, CUDA/PyTorch, peak memory와 wall-clock을 함께
-보존한다.
+```bash
+RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
+  bash scripts/full.sh
+```
 
-exact resume protocol은 선택 frame identity, group 길이, transform, manifest와 선택된
-train/validation 원본의 SHA-256을 저장한다. smoke에서는 네 H5만, 본학습에서는 최종 manifest의
-모든 H5를 hash한다. 절대경로와 mtime은 protocol에서 비교하지 않아 상대 파일 identity와 byte가
-같은 복사본은 다른 mount에서도 재개할 수 있다. 같은 경로의 resume은 run 폴더 sidecar에서
-size/mtime/ctime이 모두 같은 파일의 기존 full hash를 재사용한다.
-원본을 교체·복원했거나 전수 확인하려면 `rehash_data=true`로 cache를 무시한다.
+`last.pt`는 완료된 epoch 뒤에만 저장된다. 따라서 중간에 종료된 epoch의 일부 step부터 이어가는 것이
+아니라 마지막으로 완료된 epoch 다음부터 동일 trajectory를 재개한다. resume checkpoint는 configured
+`run_dir` 안에 있어야 하고, 검증 score가 이미 있으면 같은 run의 historical `best.pt`도 필요하다.
 
-## 9. 중단 조건
+exact resume은 다음 항목의 일치를 강제한다.
 
-- manifest가 provisional이면 본학습 금지; `status`만 바꾸고 final scene schema를 생략해도 금지
-- 전체 dataset validation 실패 시 해당 파일 제외가 아니라 원본 재다운로드/검증
-- A100 10GB smoke OOM이면 full training 전에 기본 graph/model 설정을 재검토
-- NaN loss/metric, 비단조 timestamp, 범위 밖 좌표 발생 시 결과 폐기
-- EventAid-R 결과를 본 뒤 hyperparameter나 threshold를 바꾸면 기존 결과를 잠금시험으로 표기 금지
-- A6000/A100 latency를 FPGA/ASIC latency 또는 에너지로 환산해 주장 금지
+- model, optimizer/GC, scheduler, loss, batch/order/worker, AMP·TF32·determinism 설정
+- seed, validation protocol, official manifest, transform와 선택 sample identity
+- train 51개와 eval 19개 source의 상대 파일 identity·size·full SHA-256
+- `src/**/*.py` byte의 SHA-256, Git commit과 source dirty 상태
+- device type, PyTorch/CUDA/cuDNN, GPU 이름·compute capability와 CUDA backend flags
+- CUDA RNG state 수와 현재 visible CUDA device 수
+
+따라서 다른 GPU 종류, CUDA/PyTorch 조합, source checkout, worker protocol이나 dataset byte로 옮긴
+checkpoint는 “exact” 재개로 허용되지 않는다. 절대 data mount path와 mtime/ctime 자체는 checkpoint
+protocol에 넣지 않는다. 같은 상대 파일과 byte를 다른 mount에 복사하면 다시 full hash한 뒤 일치할
+수 있다. `.data_hash_cache.json`은 같은 절대 경로의 size/mtime/ctime이 모두 같을 때만 기존 full
+hash를 재사용하며, 원본을 교체·복원했으면 `train.rehash_data=true`인 별도 config로 cache를 무시한다.
+
+## 9. 과학적 한계와 중단 조건
+
+- 공개된 저자 공식 코드가 확인되지 않아 논문에 없는 graph normalization, spline hyperparameter,
+  threshold 세부값은 이 저장소의 명시적 가정이다. “공식 ASGCN 완전 재현”으로 표현하지 않는다.
+- 원 ASGCN의 classification pooling/MLP와 dynamic asynchronous K-hop update는 구현하지 않았다.
+  현재 graph는 frame interval마다 정적으로 다시 만든다.
+- residual U-Net, rasterization, analog ConvGRU, 복원 loss, tone mapping, 정확한 `max_events` cap과
+  EventAid-R offset은 과제용 확장이다.
+- graph encoder만 IF로 변환된다. PyTorch GPU latency·발화율은 FPGA/ASIC latency, power 또는 energy
+  측정이 아니며 event 전송·압축 protocol이나 RTL도 구현하지 않았다.
+- EventHDR 공식 train/eval의 물리 scene 독립성을 입증하지 못했으므로 내부 결과에 독립 test-set
+  일반화 주장을 붙이지 않는다. EventAid-R도 sensor/domain 차이를 통제한 benchmark는 아니다.
+- `literal_eq15`의 self-feedback은 표준 rate conversion과 수학적으로 동등하지 않을 수 있다.
+  dynamics와 T를 생략한 ANN↔SNN 비교는 보고하지 않는다.
+- file coverage/HDF5·ZIP decode 실패, non-finite loss/metric, 비단조 timestamp, 좌표 범위 오류,
+  `max_graph_edges` 초과 또는 OOM이 발생하면 해당 sample을 조용히 제외하지 말고 run을 폐기해 원인과
+  설정을 고친 뒤 새 artifact로 실행한다.

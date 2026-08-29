@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import json
 
+import h5py
 import numpy as np
 import pytest
 import torch
 
 from asgcn_recon.cli import inspect_dataset
 from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
-from asgcn_recon.data.common import stratified_subsample, uniform_cap_factor
+from asgcn_recon.data.common import stratified_subsample, uniform_cap_ratio
 from asgcn_recon.data.factory import build_dataset
 from asgcn_recon.engine import _data_loader, _model_state_sha256, benchmark, train
 from asgcn_recon.graph import build_radius_graph, prepare_event_nodes
@@ -60,7 +61,7 @@ def test_eventhdr_loader(tmp_path):
     assert sample["metadata"]["raw_event_count"] == 96
     assert sample["metadata"]["cropped_event_count"] == 96
     assert sample["metadata"]["retained_event_count"] == 32
-    assert sample["metadata"]["dataset_sampling_factor"] == 3
+    assert sample["metadata"]["dataset_sampling_ratio"] == 3.0
     assert dataset[1]["metadata"]["dt_us"] == 2_000
 
 
@@ -73,7 +74,24 @@ def test_eventhdr_stride_aggregates_intervals(tmp_path):
     assert dataset[1]["metadata"]["raw_event_count"] == 192
     assert dataset[1]["metadata"]["cropped_event_count"] == 192
     assert dataset[1]["metadata"]["retained_event_count"] == 192
-    assert dataset[1]["metadata"]["dataset_sampling_factor"] == 1
+    assert dataset[1]["metadata"]["dataset_sampling_ratio"] == 1.0
+
+
+def test_eventhdr_preserves_zero_event_target_intervals(tmp_path):
+    path = make_eventhdr(tmp_path / "hdr")
+    with h5py.File(path, "r+") as h5:
+        first_end = int(h5["images/image000000000"].attrs["event_idx"])
+        h5["images/image000000001"].attrs["event_idx"] = first_end
+
+    dataset = EventHDRDataset(path.parent, max_events=None)
+    assert len(dataset) == 4
+    assert dataset.zero_event_intervals == 1
+    empty = dataset[1]
+    assert empty["events"].shape == (0, 4)
+    assert empty["metadata"]["zero_event_interval"] is True
+    assert empty["metadata"]["raw_event_count"] == 0
+    assert empty["metadata"]["sequence_index"] == 1
+    assert empty["metadata"]["dt_us"] == 2_000
 
 
 def test_eventaid_next_frame_alignment(tmp_path):
@@ -85,17 +103,25 @@ def test_eventaid_next_frame_alignment(tmp_path):
     assert dataset[0]["metadata"]["dt_us"] == 10_000
     assert dataset[0]["metadata"]["raw_event_count"] == 80
     assert dataset[0]["metadata"]["cropped_event_count"] == 80
-    assert dataset[0]["metadata"]["retained_event_count"] == 27
-    assert dataset[0]["metadata"]["dataset_sampling_factor"] == 3
+    assert dataset[0]["metadata"]["retained_event_count"] == 32
+    assert dataset[0]["metadata"]["dataset_sampling_ratio"] == 2.5
 
 
-def test_max_events_uses_exact_integer_stride_sampling() -> None:
+def test_max_events_uses_exact_size_uniform_sampling() -> None:
     events = np.arange(13 * 4, dtype=np.float32).reshape(13, 4)
-    assert uniform_cap_factor(len(events), max_events=5) == 3
+    assert uniform_cap_ratio(len(events), max_events=5) == 2.6
     retained = stratified_subsample(events, max_events=5)
     np.testing.assert_array_equal(retained, events[[0, 3, 6, 9, 12]])
-    assert uniform_cap_factor(len(events), max_events=None) == 1
+    assert uniform_cap_ratio(len(events), max_events=None) == 1.0
     np.testing.assert_array_equal(stratified_subsample(events, None), events)
+
+
+def test_max_events_has_no_one_event_boundary_collapse() -> None:
+    at_cap = np.arange(8192 * 4, dtype=np.float32).reshape(8192, 4)
+    over_cap = np.arange(8193 * 4, dtype=np.float32).reshape(8193, 4)
+    assert len(stratified_subsample(at_cap, 8192)) == 8192
+    assert len(stratified_subsample(over_cap, 8192)) == 8192
+    assert uniform_cap_ratio(len(over_cap), 8192) == pytest.approx(8193 / 8192)
 
 
 @pytest.mark.parametrize("dataset_name", ["eventhdr", "eventaid"])
@@ -124,7 +150,7 @@ def test_random_crop_is_deterministic_and_sequence_aligned(tmp_path, dataset_nam
         sample["metadata"]["raw_event_count"]
         >= sample["metadata"]["cropped_event_count"]
         == sample["metadata"]["retained_event_count"]
-        and sample["metadata"]["dataset_sampling_factor"] == 1
+        and sample["metadata"]["dataset_sampling_ratio"] == 1.0
         for sample in first_samples
     )
     assert any(
@@ -405,6 +431,25 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     config["seed"] = 18
     with pytest.raises(ValueError, match="validation protocol differs"):
         train(config, resume_from=tmp_path / "run/last.pt")
+
+
+def test_null_validation_interval_scores_only_the_single_final_epoch(tmp_path) -> None:
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root)
+    config = _tiny_training_config(tmp_path, data_root)
+    config["train"].update({"epochs": 2, "validate_every": None})
+
+    train(config)
+
+    checkpoint = torch.load(
+        tmp_path / "run/last.pt", map_location="cpu", weights_only=False
+    )
+    assert checkpoint["history"][0]["val"] == {}
+    assert checkpoint["history"][1]["val"]["frames"] == 1
+    assert checkpoint["checkpoint_selection"] == "single_final_epoch"
+    assert checkpoint["validation_protocol"]["selection_metric"] == (
+        "single_final_epoch_macro_ssim"
+    )
 
 
 def test_training_rejects_resume_into_a_different_run_directory(tmp_path):

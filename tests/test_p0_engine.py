@@ -218,7 +218,7 @@ def test_resume_rejects_unrelated_historical_best_checkpoint() -> None:
         _validate_resume_best_pair(resume, best)
 
 
-def test_training_rejects_nonfinal_split_without_explicit_override(tmp_path) -> None:
+def test_training_rejects_nonfinal_split(tmp_path) -> None:
     manifest = tmp_path / "split.json"
     split = {
         "status": "provisional",
@@ -228,16 +228,13 @@ def test_training_rejects_nonfinal_split_without_explicit_override(tmp_path) -> 
     manifest.write_text(json.dumps(split), encoding="utf-8")
     config = {
         "dataset": {"split_manifest": str(manifest)},
-        "train": {"allow_provisional_split": False},
+        "train": {},
     }
-    with pytest.raises(ValueError, match="allow_provisional_split"):
+    with pytest.raises(ValueError, match="cannot be used for training"):
         _enforce_training_split_status(config)
-    config["train"]["allow_provisional_split"] = True
-    _enforce_training_split_status(config)
 
     split["status"] = "final"
     manifest.write_text(json.dumps(split), encoding="utf-8")
-    config["train"]["allow_provisional_split"] = False
     with pytest.raises(ValueError, match="requires scene_groups"):
         _enforce_training_split_status(config)
 
@@ -387,6 +384,8 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
     config = _eval_config(root, tmp_path / "eval")
     output = tmp_path / "snn.pt"
     calibrate(config, source, output, samples=2)
+    with pytest.raises(FileExistsError, match="already exists"):
+        calibrate(config, source, output, samples=1)
 
     checkpoint = torch.load(output, map_location="cpu", weights_only=False)
     assert checkpoint["checkpoint_type"] == "snn_inference"
@@ -467,6 +466,10 @@ def test_public_snn_paths_reject_invalid_requests(tmp_path) -> None:
         evaluate({}, tmp_path / "unused.pt", inference_mode="snn", simulation_steps=0)
     with pytest.raises(ValueError, match="calibration samples"):
         calibrate({}, tmp_path / "unused.pt", tmp_path / "out.pt", samples=0)
+    same_path = tmp_path / "same.pt"
+    same_path.touch()
+    with pytest.raises(ValueError, match="must be different"):
+        calibrate({}, same_path, same_path, samples=1, overwrite=True)
 
     root = tmp_path / "hdr"
     make_eventhdr(root)

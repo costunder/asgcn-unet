@@ -1,12 +1,10 @@
 # 프로젝트 코드 전체 스냅샷
 
-- 생성 기준: 이 문서를 포함한 현재 Git 작업 트리
-- 포함 범위: Git이 추적하거나 새로 추가된 텍스트 파일 59개
-- 제외: `code_summary.md` 자체, 별도 인수인계서 `hand_off.md`, Git에서 제외된 데이터·실행 결과·체크포인트·바이너리
-- 로컬 검증: Python 3.12.13, torch 2.13.0+cpu, pytest 81 passed
-- 읽는 법: 각 `# 파일경로` 아래 fenced block이 해당 파일의 전체 원문이다.
-
-이 문서는 다른 ChatGPT가 저장소를 파일 단위로 교차 검증할 수 있도록 만든 정적 스냅샷이다. 실행 절차, 설계 의도, 한계와 미검증 항목은 `hand_off.md`를 함께 본다.
+- 생성 기준: 현재 Git 작업 트리
+- 포함 범위: code_summary.md 자체를 제외한 Git 추적/신규 텍스트 파일 65개
+- hand_off.md 포함
+- 로컬 검증: Python 3.12.13, torch 2.13.0+cpu, pytest 136 passed
+- 각 `# 파일경로` 아래의 fenced block은 해당 파일 전체 원문
 
 # .dockerignore
 
@@ -27,6 +25,7 @@ __pycache__
 /logs
 *.hwp
 ~~~~~~
+
 # .editorconfig
 
 ~~~~~~text
@@ -101,7 +100,7 @@ Makefile text eol=lf
 
 # .github/ISSUE_TEMPLATE/bug_report.yml
 
-~~~~~~text
+~~~~~~yaml
 name: 버그 보고
 description: 재현 가능한 오류나 잘못된 결과를 보고합니다.
 title: "[Bug]: "
@@ -196,7 +195,7 @@ body:
 
 # .github/pull_request_template.md
 
-~~~~~~text
+~~~~~~markdown
 ## 변경 내용
 
 - 무엇을 변경했고 왜 필요한지 적어 주세요.
@@ -221,7 +220,7 @@ body:
 
 # .github/workflows/ci.yml
 
-~~~~~~text
+~~~~~~yaml
 name: CI
 
 on:
@@ -329,7 +328,7 @@ asgcn-*.e*
 
 # compose.yaml
 
-~~~~~~text
+~~~~~~yaml
 services:
   experiment:
     build:
@@ -355,13 +354,15 @@ services:
 
 # configs/aid_ann.json
 
-~~~~~~text
+~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
   "dataset": {
     "type": "eventaid_r_zip",
     "root": "data/EventAid-R",
+    "file_manifest": "manifests/eventaid_r.json",
+    "expected_file_count": 14,
     "target_channels": 1,
     "max_events": 8192,
     "crop_size": null,
@@ -370,11 +371,22 @@ services:
     "tone_map_mu": 5000.0
   },
   "model": {
+    "architecture_version": 2,
     "hidden_dim": 64,
     "graph_layers": 6,
-    "causal_candidates": 32,
-    "spatial_radius": 0.12,
-    "temporal_radius": 0.30,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
     "raster_downsample": 4,
     "decoder_channels": 48,
     "output_channels": 1,
@@ -393,10 +405,11 @@ services:
 }
 ~~~~~~
 
-# configs/aid_snn.json
+# configs/aid_smoke.json
 
-~~~~~~text
+~~~~~~json
 {
+  "purpose": "non-reportable partial EventAid-R loader smoke",
   "seed": 2026,
   "device": "auto",
   "dataset": {
@@ -410,11 +423,73 @@ services:
     "tone_map_mu": 5000.0
   },
   "model": {
+    "architecture_version": 2,
     "hidden_dim": 64,
     "graph_layers": 6,
-    "causal_candidates": 32,
-    "spatial_radius": 0.12,
-    "temporal_radius": 0.30,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "eval": {
+    "batch_size": 1,
+    "num_workers": 0,
+    "recurrent_context_frames": 8,
+    "max_samples": 8,
+    "save_predictions": 4,
+    "output_dir": "runs/eventaid_r_smoke"
+  }
+}
+~~~~~~
+
+# configs/aid_snn.json
+
+~~~~~~json
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventaid_r_zip",
+    "root": "data/EventAid-R",
+    "file_manifest": "manifests/eventaid_r.json",
+    "expected_file_count": 14,
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "target_offset": 1,
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
+  },
+  "model": {
+    "architecture_version": 2,
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
     "raster_downsample": 4,
     "decoder_channels": 48,
     "output_channels": 1,
@@ -435,13 +510,14 @@ services:
 
 # configs/hdr_ann.json
 
-~~~~~~text
+~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
   "dataset": {
     "type": "eventhdr",
     "root": "data/EventHDR/eval",
+    "expected_file_count": 19,
     "target_channels": 1,
     "max_events": 8192,
     "crop_size": null,
@@ -450,11 +526,22 @@ services:
     "tone_map_mu": 5000.0
   },
   "model": {
+    "architecture_version": 2,
     "hidden_dim": 64,
     "graph_layers": 6,
-    "causal_candidates": 32,
-    "spatial_radius": 0.12,
-    "temporal_radius": 0.30,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
     "raster_downsample": 4,
     "decoder_channels": 48,
     "output_channels": 1,
@@ -475,7 +562,7 @@ services:
 
 # configs/hdr_smoke.json
 
-~~~~~~text
+~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
@@ -483,7 +570,7 @@ services:
     "type": "eventhdr",
     "root": "data/EventHDR/train",
     "val_root": "data/EventHDR/train",
-    "split_manifest": "manifests/eventhdr_split.json",
+    "split_manifest": "manifests/eventhdr_smoke.json",
     "target_channels": 1,
     "max_events": 8192,
     "crop_size": [256, 256],
@@ -492,11 +579,22 @@ services:
     "tone_map_mu": 5000.0
   },
   "model": {
+    "architecture_version": 2,
     "hidden_dim": 64,
     "graph_layers": 6,
-    "causal_candidates": 32,
-    "spatial_radius": 0.12,
-    "temporal_radius": 0.30,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
     "raster_downsample": 4,
     "decoder_channels": 48,
     "output_channels": 1,
@@ -508,8 +606,11 @@ services:
     "num_workers": 2,
     "persistent_workers": true,
     "prefetch_factor": 2,
-    "learning_rate": 0.0002,
-    "weight_decay": 0.000001,
+    "optimizer": "adam_gc",
+    "learning_rate": 0.001,
+    "weight_decay": 0.005,
+    "lr_milestones": [20, 30],
+    "lr_gamma": 0.1,
     "grad_clip": 1.0,
     "amp": true,
     "log_every": 4,
@@ -528,21 +629,21 @@ services:
     }
   },
   "output": {
-    "run_dir": "runs/smoke",
-    "save_predictions": 4
+    "run_dir": "runs/smoke"
   }
 }
 ~~~~~~
 
 # configs/hdr_snn.json
 
-~~~~~~text
+~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
   "dataset": {
     "type": "eventhdr",
     "root": "data/EventHDR/eval",
+    "expected_file_count": 19,
     "target_channels": 1,
     "max_events": 8192,
     "crop_size": null,
@@ -551,11 +652,22 @@ services:
     "tone_map_mu": 5000.0
   },
   "model": {
+    "architecture_version": 2,
     "hidden_dim": 64,
     "graph_layers": 6,
-    "causal_candidates": 32,
-    "spatial_radius": 0.12,
-    "temporal_radius": 0.30,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
     "raster_downsample": 4,
     "decoder_channels": 48,
     "output_channels": 1,
@@ -576,7 +688,7 @@ services:
 
 # configs/hdr_train.json
 
-~~~~~~text
+~~~~~~json
 {
   "seed": 2026,
   "device": "auto",
@@ -593,11 +705,22 @@ services:
     "tone_map_mu": 5000.0
   },
   "model": {
+    "architecture_version": 2,
     "hidden_dim": 64,
     "graph_layers": 6,
-    "causal_candidates": 32,
-    "spatial_radius": 0.12,
-    "temporal_radius": 0.30,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
     "raster_downsample": 4,
     "decoder_channels": 48,
     "output_channels": 1,
@@ -609,8 +732,11 @@ services:
     "num_workers": 4,
     "persistent_workers": true,
     "prefetch_factor": 2,
-    "learning_rate": 0.0002,
-    "weight_decay": 0.000001,
+    "optimizer": "adam_gc",
+    "learning_rate": 0.001,
+    "weight_decay": 0.005,
+    "lr_milestones": [20, 30],
+    "lr_gamma": 0.1,
     "grad_clip": 1.0,
     "amp": true,
     "log_every": 20,
@@ -628,8 +754,7 @@ services:
     }
   },
   "output": {
-    "run_dir": "runs/eventhdr_asgcn",
-    "save_predictions": 8
+    "run_dir": "runs/eventhdr_asgcn"
   }
 }
 ~~~~~~
@@ -663,7 +788,7 @@ typing_extensions==4.16.0
 
 # CONTRIBUTING.md
 
-~~~~~~text
+~~~~~~markdown
 # 기여 가이드
 
 버그 수정과 재현성 개선을 환영합니다. 기본 단위 테스트는 공식 데이터셋이나 GPU를 요구하지
@@ -737,7 +862,7 @@ asgcn-recon inspect --config configs/aid_ann.json --samples 2
 
 # Dockerfile
 
-~~~~~~text
+~~~~~~dockerfile
 FROM python:3.12-slim
 
 ARG TORCH_INDEX_URL=""
@@ -779,20 +904,143 @@ ENTRYPOINT ["asgcn-recon"]
 CMD ["--help"]
 ~~~~~~
 
+# docs/ASGCN.md
+
+~~~~~~markdown
+# ASGCN 구현 범위
+
+이 저장소의 graph core는 AAAI 2025 논문에 공개된 ASGCN 수식 중 정적 graph/ANN→SNN core를
+직접 구현하지만,
+저자 공식 코드를 그대로 실행한 **완전 재현본**은 아니다. 2026-08-29 기준 공개 배포된 저자
+코드는 확인할 수 없었다. 확인 가능한
+[AAAI 공식 논문 페이지](https://ojs.aaai.org/index.php/AAAI/article/view/32154)와
+[공식 PDF](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)에는 저자 코드 링크가
+없고, 아래에 적은 구현 세부값 일부도 논문에 명시되지 않았다. 따라서 논문으로 확인되는 부분과
+이 저장소의 가정·과제용 확장을 분리해 기록한다.
+
+## 논문에 정의된 graph/SNN core
+
+- 입력 event를 sampling factor `R`로 균일하게 줄인다.
+- event 좌표 사이의 유클리드 거리가 `D`보다 작은 두 node를 잇는 simple undirected radius graph를
+  만들고, scalar distance를 edge pseudo-coordinate로 쓴다.
+- 식 (11)은 실제 이웃 수로 평균한 weighted tensor-product B-spline message aggregation을,
+  ANN update는 ReLU를 정의한다.
+- 식 (6)은 layer-wise lambda를 이용한 ANN parameter normalization을 정의한다. 별도 threshold
+  설명은 feature dimension별 maximum activation을 사용한다.
+- batch normalization은 식 (13)–(14)에 따라 convolution parameter에 fold한다.
+- SNN 경로는 별도 rate encoding 없이 IF membrane을 timestep마다 전개한다. 초기 membrane은
+  `theta/2`, 발화량은 `theta`, 발화 뒤에는 soft reset을 적용한다. 기본
+  `snn_dynamics=literal_eq15`는 식 (15)의 `+h_i^l(t-1)`까지 문자 그대로 실행한다.
+- 학습 optimizer는 Adam과 gradient centralization을 사용하며, 초기 learning rate는 `1e-3`, L2
+  weight decay는 `5e-3`이다. 논문은 milestone decay를 명시하지만 정확한 epoch와 gamma는 공개하지
+  않는다.
+
+`architecture_version: 2` checkpoint만 이 의미론을 나타낸다. 현재 공통 설정은
+`graph_operator: spline`, `spline_backend: torch`,
+`spline_pseudo: distance_over_radius`다. 마지막 이름은 논문이 말한 원시 거리값 자체가 아니라
+SplineConv 정의역에 맞춘 `distance / D` 재매개화임을 의도적으로 드러낸다.
+
+## 논문에 없는 구현 가정
+
+논문만으로 단일한 정답을 정할 수 없는 값은 config에 노출했다. 기본값은 다음과 같다.
+
+| 항목 | 이 저장소의 명시적 가정 |
+|---|---|
+| graph position | `x, y, t`를 각각 `[0,1]`로 정규화한 3차원 좌표 |
+| polarity node feature | 음극성 `-1`, 양극성 `+1` |
+| graph radius/pseudo | 정규화 좌표에서 `D=0.08`, scalar distance를 `D`로 나눠 `[0,1]` pseudo-coordinate로 사용 |
+| B-spline/update | open degree-1 spline, kernel size 5, 별도 root weight·affine bias와 현재 ReLU/BN 적용 순서 |
+| graph width/depth | hidden feature 64, graph layer 6; 논문이 복원 과제용 값을 제공하지 않아 설정값으로 고정 |
+| paper sampling | model의 고정 `event_sampling_factor=1`로 기본 비축소 |
+| adaptive safety cap | crop 뒤 `ceil(N/max_events)` 정수 stride로 먼저 줄이는 reconstruction/server 가정이며 논문의 공식 `R`이 아님 |
+| graph construction | 결과를 바꾸지 않는 512-node chunk 계산 |
+| ANN→SNN scale | layer-wise lambda와 feature-wise threshold 결합이 모호해 feature-wise lambda와 정규화 뒤 unit threshold 사용 |
+| first-layer scale | lambda^0은 `[1,1,1,1]`; 이후 lambda는 calibration activation maxima. `[0,1]`의 `x,y,t`와 `±1` polarity를 근거로 한 저장소 선택이며 논문에는 없음 |
+| dead activation channel | calibration ReLU maximum이 0인 feature는 epsilon으로 나누지 않고 lambda 1을 사용하며, 변환 전 dead-channel 수를 checkpoint metadata에 기록 |
+| gradient centralization axes | spline `[K,Cin,Cout]`와 root `[Cin,Cout]`는 마지막 output axis 외 차원, Conv/Linear는 첫 output axis 외 차원에서 평균을 제거; 저자 코드로 확인되지 않은 tensor-layout 선택 |
+| edge memory guard | directed edge가 2,000,000개를 넘으면 자르지 않고 실패; 8,192-node 밀집 graph의 O(N²) OOM을 막는 서버 안전장치 |
+| connectivity | `D`가 만든 graph를 강제로 연결하지 않고 평가 결과에 isolated node 비율과 max degree를 기록 |
+
+실제 전처리 순서는 spatial crop → adaptive `max_events` stride → model의 고정 paper sampling factor
+`R`이다. 두 factor와 raw/cropped/retained count를 분리해 기록하며 adaptive cap을 ASGCN 논문의 공식
+sampling 설정으로 보고하지 않는다.
+
+순수 PyTorch spline 구현은 Linux 서버 설치를 단순하게 하기 위한 선택이다. B-spline
+pseudo-coordinate의 `[0,1]` 범위, open spline, degree, kernel과 root-weight 개념은
+[PyTorch SplineConv 공식 연산자 소스](https://github.com/rusty1s/pytorch_spline_conv)를 참고했다.
+지원하는 scalar/open/degree-1 범위에서는 endpoint index·pseudo gradient와 weight/root 초기화 bound도
+공식 연산자 동작에 맞추고 회귀 테스트로 고정했다. 고정 graph의 basis/index는 한 번만 계산해 모든
+layer와 IF timestep에서 재사용한다.
+이는 ASGCN 저자 코드와 동일하다는 증거가 아니며, 논문에 없는 kernel size·degree·root 설정을
+공식값으로 오인하면 안 된다.
+
+### 식 (15)와 rate conversion의 공개 모호성
+
+논문 식 (15)는 `v_tilde(t)=v(t-1)+c(t)+h(t-1)`로 적혀 있다. 이 `+h(t-1)` self-feedback을
+문자 그대로 실행하면 작은 양의 정전류도 첫 발화 뒤 firing rate 1에 가까워질 수 있어, 표준
+soft-reset IF의 `firing rate ≈ normalized ANN activation` 유도와 양립하지 않는다. 저자 코드나
+인덱스 설명이 없어 이를 임의로 오타 처리하지 않았다.
+
+- `literal_eq15`: 저장소 기본값. 공개 식 (15)–(17)을 그대로 실행한다.
+- `standard_if`: `+h(t-1)`를 제거한 rate-conversion 대조군이며, 공식 ASGCN 값이라고 주장하지 않는다.
+
+Eq. (6) 뒤 마지막 `lambda_L`를 곱하는 단계는 spike 출력을 학습된 analog decoder의 단위로 보내기
+위한 차원 변환이다. `standard_if`에서는 보정 ANN activation과의 parity test가 있지만,
+`literal_eq15`에서 유한 T의 ANN-rate 동등성을 보장한다는 뜻은 아니다. 두 dynamics의 장기-T 차이를
+단위 테스트로 고정하고 checkpoint의 model config에 선택값을 보존한다.
+
+## Event-to-frame 과제용 확장
+
+원 논문은 event graph를 pooling한 뒤 MLP로 분류한다. 이 저장소는 분류기를 재현하는 대신
+EventHDR에서 luminance frame을 복원하도록 다음 모듈을 연결한다.
+
+```text
+uniform event sampling
+  -> undirected radius graph
+  -> B-spline graph encoder (ANN 또는 literal-Eq15/standard-IF timestep)
+  -> feature rasterization
+  -> residual U-Net + analog ConvGRU
+  -> luminance frame
+```
+
+따라서 residual U-Net, ConvGRU, rasterization, EventHDR/EventAid-R loader, tone mapping,
+Charbonnier·SSIM·gradient·temporal loss는 ASGCN 논문의 구성요소가 아니라 연구과제에 맞춘
+재구성 확장이다. SNN 전환은 graph encoder에만 적용되고 decoder와 ConvGRU는 analog 연산이다.
+
+## 아직 구현하지 않은 논문·하드웨어 범위
+
+- 새 event가 들어올 때 영향받는 K-hop ego-network만 갱신하는 동적 asynchronous 실행
+- 논문 식 (18)–(19)의 node clustering, graph pooling과 edge remapping
+- 원 논문의 classification MLP와 N-MNIST/CIFAR10-DVS/N-Caltech101/N-Cars 성능표 재현
+- 논문의 연산 수 기반 energy 추정 및 실제 FPGA/ASIC 전력·에너지 측정
+- event compression·transport protocol과 반도체 RTL
+
+현재 코드는 논문의 공개 정의에 맞춘 **ASGCN paper-core 기반 event-to-frame 연구
+프로토타입**이다. 누락된 저자 구현 세부정보와 다른 출력 과제 때문에 “공식 ASGCN 완전 재현”이나
+원 논문 성능 재현으로 표현하지 않는다. 해당 주장은 저자 코드·동일 데이터 전처리·분류 head·공식
+checkpoint를 확보해 parity를 검증한 뒤에만 가능하다.
+~~~~~~
+
 # docs/EXPERIMENT.md
 
-~~~~~~text
+~~~~~~markdown
 # 실험 프로토콜
 
 ## 1. 고정할 연구 질문
 
 1. EventHDR의 실제 이벤트에서 luminance frame을 얼마나 잘 복원하는가?
-2. ASGCN-inspired graph message passing이 graph layer 없는 baseline보다 유효한가?
+2. ASGCN paper-core의 graph depth와 radius가 복원 품질·비용에 어떤 영향을 주는가?
 3. EventAid-R의 다른 장면·운동에서 품질이 얼마나 유지되는가?
-4. ANN과 calibrated rate proxy의 품질·연산 지연 차이는 무엇인가?
+4. ANN, 논문 식 (15)를 문자 그대로 실행한 IF, 표준 IF 대조군의 품질·연산 지연 차이는 무엇인가?
 
-현재 `snn` 모드는 실제 timestep IF/LIF가 아니므로 저전력·에너지 우위를 검증하는 질문에는 답할
-수 없다. 해당 주장은 별도 spike simulation 또는 hardware 측정 후에만 추가한다.
+현재 `snn` 모드는 graph encoder의 IF membrane을 timestep마다 전개하지만 U-Net·ConvGRU decoder는
+analog이고 GPU에서 기능을 모사한다. 따라서 저전력·에너지 우위를 검증하는 질문에는 답할 수 없으며,
+해당 주장은 연산량 모델 또는 hardware 측정 후에만 추가한다. 논문 재현 범위는
+[ASGCN 구현 범위](ASGCN.md)를 따른다.
+
+기본 `literal_eq15`의 `+h(t-1)` self-feedback은 표준 rate-conversion IF와 동등하지 않다. 따라서
+ANN↔SNN 오차는 `snn_dynamics`와 T를 함께 표기한다. `standard_if`는 모호성 분석용 대조군이지
+ASGCN 저자 공식 구현이라고 간주하지 않는다.
 
 ## 2. 데이터 역할과 누수 방지
 
@@ -800,33 +1048,72 @@ CMD ["--help"]
 |---|---|---|
 | 학습 | EventHDR train | weight 최적화·crop |
 | 검증 | EventHDR holdout | 물리 scene split 확정 후 macro SSIM checkpoint 선택 |
-| 보정 | EventHDR train | BN folding·rate threshold |
+| 보정 | EventHDR train | BN folding·feature-wise threshold·parameter normalization |
 | 내부 최종시험 | EventHDR 공식 eval | 학습 종료 후 1회 |
 | 외부 최종시험 | EventAid-R | 학습·보정·threshold 선택 금지 |
 
-`manifests/eventhdr_split.json`은 현재 물리 scene 대응표가 없는 `provisional` 상태다. 같은 장면의
-파일이 train/validation에 동시에 들어가지 않도록 목록을 고친 뒤 `status: final`로 바꾸기 전에는
-`configs/hdr_train.json`이 중단된다. `configs/hdr_smoke.json`만 비보고용으로 이 제한을 우회한다.
+`manifests/eventhdr_split.json`은 현재 물리 scene 대응표가 없는 legacy file-list
+`provisional` 상태다. 최종 manifest는 아래처럼 동일 물리 장면의 파일을 `scene_groups`로 묶고,
+겹치지 않는 scene ID를 `train_scenes`와 `val_scenes`에 넣어야 한다.
+
+```json
+{
+  "status": "final",
+  "scene_groups": {
+    "night-drive": ["1.h5", "2.h5"],
+    "day-drive": ["48.h5", "49.h5"]
+  },
+  "train_scenes": ["night-drive"],
+  "val_scenes": ["day-drive"]
+}
+```
+
+예시는 schema 설명일 뿐 실제 mapping이 아니다. `status`만 `final`로 바꾸거나 legacy 목록만 남기면
+검증에서 거부된다. `configs/hdr_smoke.json`만 비보고용 provisional legacy schema를 허용한다.
+smoke는 별도 `manifests/eventhdr_smoke.json`의 train `1.h5`, `2.h5`와 validation `48.h5`,
+`49.h5`만 사용하고 content fingerprint도 이 네 파일만 hash한다.
+final manifest는 `data/EventHDR/train` 아래의 모든 H5를 정확히 한 scene에 소유시키고 모든 scene을
+train 또는 validation에 배정해야 한다. 누락·미선언 파일과 미배정·중복 scene/file은 거부한다.
 
 validation sample limit은 채점 frame 수에만 적용된다. `hdr_train`은 최대 500개, `hdr_smoke`는
 최대 32개를 채점하며 아래 recurrent context frame은 이 수에 포함하지 않는다.
 
-1. file/scene별 quota를 round-robin으로 배정한다.
-2. 각 파일에서 deterministic contiguous window를 선택한다.
-3. recurrent 모델은 window 앞의 같은 file/scene predecessor를 `validation_context_frames` 한도에서
+1. group(final은 physical scene, provisional은 H5 file)별 quota를 round-robin으로 배정한다.
+2. 각 group의 dataset index에서 deterministic contiguous window를 선택한다.
+3. recurrent 모델은 window 앞의 같은 group predecessor를 `validation_context_frames` 한도에서
    metric 없이 replay해 streaming ConvGRU state를 예열한다. 기본값은 본학습 64, smoke 8이며
    `null`이면 전체 prefix다. non-recurrent 모델은 context를 replay하지 않는다.
-4. sample limit이 file/scene 수보다 작으면 일부 group을 버리지 않고 오류로 중단한다.
+4. sample limit이 group 수보다 작으면 일부 group을 버리지 않고 오류로 중단한다.
 5. checkpoint 선택에는 scene별 SSIM 평균의 평균인 macro SSIM을 쓴다.
 
-calibration은 recurrent state를 쓰지 않으므로 각 train file 전체 시간축을 `linspace`로 덮는다.
+calibration은 recurrent state를 쓰지 않으므로 각 group(final은 physical scene, provisional은 H5
+file)의 전체 index 범위를 `linspace`로 덮는다.
 benchmark는 recurrent 모델이면 group별 연속 window와 최대 `eval.recurrent_context_frames`개의
 unmeasured predecessor(현재 eval config 기본 32), 비순환 모델이면 time-spread sample을 사용한다.
 `--warmup`은 recurrent context가 아니라 device/kernel warmup이다.
 장면, sequence index, sensor shape가 끊기는 경계에서는 state를 초기화하며 benchmark 결과에 reset 수와
 비율을 기록한다.
 
-## 3. output domain
+random crop의 RNG는 scene·source file/member를 합친 안정적인 sequence identity로 결정한다. 따라서
+worker 수나 resume 여부와 무관하고, 같은 연속 sequence의 모든 frame은 동일한 sensor ROI를 사용해
+ConvGRU pixel state와 temporal loss를 정렬한다. 이는 epoch마다 바뀌는 random augmentation이 아니다.
+
+event 전처리는 spatial crop → adaptive `max_events` cap → model의 고정 paper sampling factor `R`
+순서다. adaptive cap은 crop 뒤 event 수 `N`에 대해 `ceil(N/max_events)` 정수 stride를 사용하며,
+서버 메모리를 위한 재구성 가정이지 논문의 공식 `R`이 아니다. sample metadata는 cap 전후를
+`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_factor`로 분리한다.
+
+## 3. 학습 optimizer protocol
+
+논문에 명시된 Adam, gradient centralization, 초기 learning rate `1e-3`, L2 weight decay `5e-3`를
+`optimizer=adam_gc`, `learning_rate=0.001`, `weight_decay=0.005`로 고정한다. 논문은 milestone에서
+learning rate를 낮춘다고만 쓰고 정확한 epoch와 gamma를 공개하지 않는다. 따라서 40-epoch 복원
+적응에서는 `lr_milestones=[20,30]`, `lr_gamma=0.1`을 명시적 가정으로 사용한다. 1-epoch smoke도
+동일한 protocol을 기록하지만 milestone에 도달하지 않는다.
+gradient centralization의 axis도 구현 가정이다. spline `[K,Cin,Cout]`와 root `[Cin,Cout]`는 마지막
+output axis 외 차원에서, Conv/Linear는 첫 output axis 외 차원에서 gradient 평균을 제거한다.
+
+## 4. output domain
 
 EventHDR와 EventAid-R 모두 다음 target 변환을 쓴다.
 
@@ -838,11 +1125,25 @@ y = log1p(5000*x) / log1p(5000)
 
 이는 output 수치 domain만 통일한다. 센서 response와 exposure가 동일하다는 보장은 없으므로 두
 dataset의 절대 PSNR/SSIM을 동일 분포처럼 해석하지 않는다.
+EventAid-R은 event block `i`를 GT `i+1`과 짝짓는 `target_offset=1`을 명시적 protocol 가정으로
+사용한다. 이 정렬을 바꾼 결과는 같은 외부시험으로 합치지 않는다.
 
-## 4. 실행 순서
+## 5. 실행 순서
 
 ```bash
-# 환경과 전체 파일 수
+# 전체 EventAid-R 전 작은 ZIP 하나로 loader만 비보고 점검
+bash scripts/get_aid.sh R-bear
+asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
+
+# smoke용 EventHDR train과 GPU만 먼저 확인
+python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
+  --lock constraints/py312.txt
+
+# smoke manifest의 네 H5만 decode/hash하는 1 epoch 점검
+asgcn-recon inspect --config configs/hdr_smoke.json --samples 2 --validate-all
+asgcn-recon train --config configs/hdr_smoke.json
+
+# 본학습·고정 내부/외부 평가 전 전체 파일 수 확인
 python scripts/check_env.py --require-cuda --require-full-data \
   --lock constraints/py312.txt
 
@@ -851,13 +1152,10 @@ asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
 asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
 asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
 
-# 1 epoch real-data smoke
-asgcn-recon train --config configs/hdr_smoke.json
-
 # scene split final 이후 ANN 본학습
 asgcn-recon train --config configs/hdr_train.json
 
-# EventHDR train만으로 rate proxy 보정
+# EventHDR train만으로 IF-SNN 보정·변환
 asgcn-recon calibrate \
   --config configs/hdr_train.json \
   --checkpoint runs/eventhdr_asgcn/best.pt \
@@ -872,7 +1170,15 @@ asgcn-recon evaluate \
 asgcn-recon evaluate \
   --config configs/hdr_snn.json \
   --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16
+  --inference-mode snn --simulation-steps 16 \
+  --snn-dynamics literal_eq15
+
+# 같은 calibrated checkpoint를 쓰는 비공식 standard-IF 대조군
+asgcn-recon evaluate \
+  --config configs/hdr_snn.json \
+  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
+  --inference-mode snn --simulation-steps 16 \
+  --snn-dynamics standard_if
 
 # 고정 외부시험
 asgcn-recon evaluate \
@@ -882,12 +1188,24 @@ asgcn-recon evaluate \
 asgcn-recon evaluate \
   --config configs/aid_snn.json \
   --checkpoint runs/eventhdr_asgcn/best_snn.pt \
-  --inference-mode snn --simulation-steps 16
+  --inference-mode snn --simulation-steps 16 \
+  --snn-dynamics literal_eq15
 ```
 
-SNN 명령은 ANN checkpoint, 0개 calibration, BN 미fold 상태, `simulation_steps < 1`을 거부한다.
+SNN 명령은 ANN checkpoint, 모든 graph layer에서 유효한 non-empty calibration observation이 0개인
+checkpoint, BN 미fold·parameter 미정규화 상태, 비정수 또는 `simulation_steps < 1`을 거부한다.
+checkpoint metadata는 persistent graph-layer flag 및 변환 뒤 unit threshold와도 교차검증한다.
+모든 ANN/SNN/training checkpoint는 model tensor byte의 SHA-256을 저장하고 load 전에 검증한다.
+반대로 Eq. (6)이
+적용된 SNN checkpoint를 ANN 모드에 넣는 것도 거부하므로 ANN 평가는 변환 전 `best.pt`를 쓴다.
+`scripts/eval.sh`에서는 동일한 override를 `SNN_DYNAMICS=literal_eq15` 또는
+`SNN_DYNAMICS=standard_if`로 전달한다.
 
-## 5. 품질 지표
+최종 EventHDR eval config는 H5 정확히 19개를, EventAid-R final config는 manifest와 이름이 같은
+ZIP 정확히 14개를 강제한다. 일부 EventAid-R만 허용하는 `aid_smoke.json` 결과는 보고용 외부시험이
+아니다.
+
+## 6. 품질 지표
 
 - PSNR: `[0,1]` data range
 - SSIM: 11×11, σ=1.5 Gaussian valid window; 작은 영상은 fitting odd window
@@ -896,31 +1214,52 @@ SNN 명령은 ANN checkpoint, 0개 calibration, BN 미fold 상태, `simulation_s
   `L1((pred_t-pred_t-1), (gt_t-gt_t-1))`
 - LPIPS: `eval.lpips=true`일 때만 선택적으로 실행
 
-결과는 micro, scene macro, per-scene으로 저장한다. 첫 frame과 장면·index·shape 불연속 뒤 첫
+결과는 micro, group macro, per-group으로 계산한다. final holdout의 group은 physical scene,
+provisional/EventHDR 공식 eval은 H5 파일, EventAid-R은 `R-*.zip` scene이다. JSON의 기존
+`macro`/`per_scene` 이름은 호환성을 위해 유지한다. 첫 frame과 장면·index·shape 불연속 뒤 첫
 frame은 `temporal_l1` 집계에서 제외되고 CSV에는 null이 들어간다.
 
 기존 논문과 SSIM을 비교할 때는 해당 논문의 구현, crop, border, color space, tone mapping까지
 동일하게 맞춰 별도 검증한다. 현재 Gaussian 구현을 사용했다는 이유만으로 공식 수치와 완전히
 동일하다고 가정하지 않는다.
 
-## 6. 지연·메모리 지표
+## 7. 지연·메모리 지표
 
 - evaluate: graph 생성과 model forward latency, 첫 frame cold start 포함
 - benchmark: dataset read와 host-to-device 이동 제외, warmup 이후 CUDA Event 측정
 - mean, p50, p90, p95, p99, max, FPS
-- events/s, 평균 node/edge
+- `raw_events_per_second`: spatial crop/cap 전 source interval event 수 / model compute time
+- `retained_events_per_second`: crop과 adaptive cap 뒤 event 수 / model compute time
+- `graph_nodes_per_second`: model의 추가 factor `R` 뒤 graph node 수 / model compute time
+- `mean_raw_events`, `mean_retained_events`, `retention_ratio`, 평균 edge
+- isolate 비율과 max degree; `max_graph_edges=2,000,000` 초과는 graph를 자르지 않고 실패
+- SNN layer별 `총 spike / 총 neuron-step` 발화율과 전체 가중 발화율
 - timestamp 기반 RTF, deadline miss ratio
 - peak allocated/reserved GPU memory
 
-`snn` rate conversion은 T번 graph propagation을 실행하지 않는다. 따라서 `T=4/8/16/32`는
-activation 양자화 해상도 ablation이며, 실제 timestep latency ablation이 아니다.
+세 rate 모두 benchmark가 제외한 dataset read/I/O throughput이 아니라, 같은 model compute 시간으로
+정규화한 workload rate다. 기존 `events_per_second`는 deprecated 하위 호환 alias이며 항상
+`retained_events_per_second`와 같다. metadata가 없는 custom dataset은 tensor에 실제 남아 있는 event
+수를 raw와 retained 양쪽의 안전한 fallback으로 쓴다.
 
-## 7. 최소 비교표
+`snn` 경로는 T번 IF membrane timestep을 실제로 실행하고 fixed edge의 B-spline basis/index는
+sample당 한 번 계산해 layer와 timestep에서 재사용한다. 따라서 `T=4/8/16/32`는 이 PyTorch
+구현에서 dynamics별 timestep 수에 따른 품질·GPU latency ablation이다. decoder는 analog이므로 이를
+neuromorphic accelerator의 latency나 에너지로 환산하지 않는다.
 
-1. `graph_layers=0` vs 6
-2. ANN vs calibrated rate proxy `T=4/8/16/32`
+artifact는 `<eval.output_dir>/ann/` 또는
+`<eval.output_dir>/snn_<dynamics>_T<steps>/`에 `metrics.json`, `frames.csv`, `predictions/`,
+`benchmark.json`으로 나뉜다. 같은 mode/dynamics/T artifact가 이미 있으면 덮어쓰지 않고 실패한다.
+`benchmark.json`은 benchmark가, 나머지는 evaluate가 기록한다.
+prediction PNG는 평가 순번, 안전한 slug, 전체 sample ID hash를 결합해 파일명 충돌과 OS 금지 문자를
+차단한다.
+
+## 8. 최소 비교표
+
+1. `graph_layers=3` vs 6
+2. ANN vs `literal_eq15` vs `standard_if`, 각각 `T=4/8/16/32`
 3. `max_events=4096/8192/16384`
-4. `causal_candidates=16/32/64`
+4. 정규화된 `x,y,t`에서 `graph_radius=0.04/0.08/0.12`
 5. ConvGRU on/off
 6. EventHDR 내부 macro/per-scene vs EventAid-R 외부 macro/per-scene
 
@@ -928,15 +1267,16 @@ activation 양자화 해상도 ablation이며, 실제 timestep latency ablation�
 config 원문, Git commit, `check_env.py` 출력, GPU 이름, CUDA/PyTorch, peak memory와 wall-clock을 함께
 보존한다.
 
-exact resume protocol은 선택 frame identity, group 길이, transform, manifest와 train/validation 원본
-전체의 SHA-256을 저장한다. 절대경로와 mtime은 protocol에서 비교하지 않아 상대 파일 identity와
-byte가 같은 복사본은 다른 mount에서도 재개할 수 있다. 최초 실행은 전체 원본을 읽고, 같은 경로의
-resume은 run 폴더 sidecar에서 size/mtime/ctime이 모두 같은 파일의 기존 full hash를 재사용한다.
+exact resume protocol은 선택 frame identity, group 길이, transform, manifest와 선택된
+train/validation 원본의 SHA-256을 저장한다. smoke에서는 네 H5만, 본학습에서는 최종 manifest의
+모든 H5를 hash한다. 절대경로와 mtime은 protocol에서 비교하지 않아 상대 파일 identity와 byte가
+같은 복사본은 다른 mount에서도 재개할 수 있다. 같은 경로의 resume은 run 폴더 sidecar에서
+size/mtime/ctime이 모두 같은 파일의 기존 full hash를 재사용한다.
 원본을 교체·복원했거나 전수 확인하려면 `rehash_data=true`로 cache를 무시한다.
 
-## 8. 중단 조건
+## 9. 중단 조건
 
-- manifest가 provisional이면 본학습 금지
+- manifest가 provisional이면 본학습 금지; `status`만 바꾸고 final scene schema를 생략해도 금지
 - 전체 dataset validation 실패 시 해당 파일 제외가 아니라 원본 재다운로드/검증
 - A100 10GB smoke OOM이면 full training 전에 기본 graph/model 설정을 재검토
 - NaN loss/metric, 비단조 timestamp, 범위 밖 좌표 발생 시 결과 폐기
@@ -946,7 +1286,7 @@ resume은 run 폴더 sidecar에서 size/mtime/ctime이 모두 같은 파일의 �
 
 # docs/SERVER.md
 
-~~~~~~text
+~~~~~~markdown
 # Linux GPU 서버 실행 가이드
 
 MobaXterm은 SSH/SFTP 클라이언트이며 계산은 접속한 Linux 서버에서 수행된다. 아래 명령은 저장소
@@ -973,6 +1313,7 @@ python3.12 --version
 python3.12 -c "import venv, ensurepip; print('venv/ensurepip: OK')"
 curl --version | head -n 1
 tmux -V
+ldd --version | head -n 1
 
 cp .env.example .env
 read -r -p "Official PyTorch wheel index URL: " TORCH_INDEX_URL
@@ -999,6 +1340,7 @@ wheel build는 `nvidia-smi`의 driver와 [PyTorch 공식 설치 선택기](https
 - `py312.txt` 사용 시 venv Python 정확히 3.12
 - command-line environment가 `.env`보다 우선
 - 기존 venv의 실제 Python 재검사
+- Linux locked torch 2.13.0 profile에서 glibc 2.28 이상
 - 선택한 constraints를 torch와 editable install 양쪽에 적용
 - 마지막 `pip check`
 
@@ -1009,9 +1351,10 @@ extra를 설치한다.
 python -m pip install -e '.[eval]'
 ```
 
-구형 HPC OS는 최신 PyTorch wheel의 glibc 요구사항을 충족하지 않을 수 있다. wheel이 없다고 나오면
-무리하게 source build를 시작하기 전에 `ldd --version`을 확인하고, 학교 container/module 또는
-호환 가능한 별도 환경을 사용한다.
+`scripts/setup.sh`은 Linux glibc 2.28 미만에서 locked torch 2.13.0 조합을 venv 생성·network
+download 전에 fail-fast하고, `scripts/check_env.py --lock constraints/py312.txt`도 같은 조건을
+검사한다. 해당 구형 HPC OS에서는 무리하게 source build를 시작하지 말고 학교의 최신
+container/module 또는 검증된 별도 환경을 사용한다.
 
 ## 데이터와 저장 공간
 
@@ -1035,6 +1378,14 @@ ln -s /shared/datasets/EventAid-R data/EventAid-R
 `rmdir`은 폴더가 비어 있지 않으면 실패하므로 기존 데이터를 지우지 않는다. data와 runs가 서로
 다른 filesystem일 수 있어 환경 진단은 두 위치의 남은 공간을 각각 표시한다.
 
+전체 EventAid-R를 받기 전 `R-bear` 하나로 ZIP loader만 확인할 때는 final 14-file guard가 있는
+`aid_ann.json` 대신 비보고용 `aid_smoke.json`을 쓴다.
+
+```bash
+bash scripts/get_aid.sh R-bear
+asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
+```
+
 ```bash
 python scripts/check_env.py --require-full-data
 asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
@@ -1043,13 +1394,15 @@ asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
 ```
 
 `--validate-all`은 모든 selected frame/event block을 decode하므로 50GB 전체에서는 오래 걸린다.
+`hdr_ann/hdr_snn`은 EventHDR eval H5 정확히 19개를, `aid_ann/aid_snn`은 manifest와 일치하는
+EventAid-R ZIP 정확히 14개를 강제한다.
 
 ## GPU allocation 검사와 smoke
 
 로그인 노드가 GPU를 숨겨도 정상일 수 있다. 실제 compute allocation 안에서 다음을 실행한다.
 
 ```bash
-python scripts/check_env.py --require-cuda --require-full-data \
+python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
   --lock constraints/py312.txt
 mkdir -p logs
 bash scripts/train.sh configs/hdr_smoke.json 2>&1 | tee logs/smoke.log
@@ -1057,11 +1410,32 @@ bash scripts/train.sh configs/hdr_smoke.json 2>&1 | tee logs/smoke.log
 
 smoke는 실제 EventHDR에서 최대 32 train sample과 32 scored validation sample, 1 epoch를 사용한다.
 validation에는 group당 최대 8개의 unscored recurrent context frame이 추가될 수 있다. 임시 split을
-허용한 비보고용 검사다. `runs/smoke/history.json`에서 CUDA peak allocated/reserved memory를 확인한다.
+허용한 비보고용 검사다. `manifests/eventhdr_smoke.json`이 지정한 `1.h5`, `2.h5`, `48.h5`,
+`49.h5`만 dataset content hash 대상으로 읽으며, EventHDR eval과 EventAid-R는 smoke에 필요하지 않다.
+`runs/smoke/history.json`에서 CUDA peak allocated/reserved memory를 확인한다.
 
 ## 직접 GPU 서버
 
 물리 scene split manifest가 `final`인 경우에만 본학습이 열린다.
+최종 manifest는 `scene_groups`에 동일 물리 장면의 H5 목록을 묶고, 겹치지 않는 scene ID를
+`train_scenes`와 `val_scenes`에 배정해야 한다. 예를 들면 다음 schema다.
+
+```json
+{
+  "status": "final",
+  "scene_groups": {
+    "night-drive": ["1.h5", "2.h5"],
+    "day-drive": ["48.h5", "49.h5"]
+  },
+  "train_scenes": ["night-drive"],
+  "val_scenes": ["day-drive"]
+}
+```
+
+예시는 실제 scene mapping이 아니다. legacy `train_files`/`val_files`를 유지한 채 `status`만 바꾸면
+거부된다. legacy file-list schema는 `manifests/eventhdr_smoke.json`의 provisional smoke에서만 쓴다.
+final manifest는 `data/EventHDR/train` 아래 모든 H5를 정확히 한 scene에 포함하고 모든 scene을
+train/validation 중 하나에 배정해야 한다. root의 누락·미선언 H5도 본학습 전에 거부한다.
 
 ```bash
 tmux new-session -s asgcn -c "$PWD" \
@@ -1120,8 +1494,11 @@ SNN 외부평가 예시:
 ```bash
 qsub -v PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
 CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
-SIMULATION_STEPS=16 server/eval.pbs
+SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 server/eval.pbs
 ```
+
+`SNN_DYNAMICS=standard_if`로 바꾸면 같은 calibrated checkpoint의 비공식 standard-IF 대조군을
+실행한다. 결과는 dynamics와 timestep이 포함된 별도 하위 폴더에 저장된다.
 
 `#PBS -V`는 login shell의 불필요한 credential/module까지 전달할 수 있어 사용하지 않는다. 필요한
 값만 `-v`로 전달한다.
@@ -1137,11 +1514,20 @@ sbatch server/train.sbatch
 
 sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_ann.json,\
 CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt server/eval.sbatch
+
+sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
+CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
+SIMULATION_STEPS=16,SNN_DYNAMICS=standard_if server/eval.sbatch
 ```
 
 기본 요청은 GPU 1개, CPU 8개, RAM 32GB다. partition, account, GPU type, walltime과 module은
 클러스터 정책에 맞춰 수정한다. 본학습 40 epoch는 현재 serial frame 처리 때문에 기본 2일을 넘을
 수 있으므로 smoke에서 측정한 step time으로 walltime을 먼저 계산한다.
+
+평가 artifact는 `<eval.output_dir>/ann/` 또는
+`<eval.output_dir>/snn_<dynamics>_T<steps>/` 아래에 저장된다. `metrics.json`, `frames.csv`,
+`predictions/`는 evaluate가, `benchmark.json`은 benchmark가 쓴다. 같은 mode/dynamics/T 결과가
+있으면 덮어쓰지 않고 실패하므로 기존 결과를 옮기거나 새 output directory를 사용한다.
 
 ## Docker
 
@@ -1163,19 +1549,532 @@ docker compose run --rm experiment \
 
 - `CUDA available: false`: GPU allocation 안인지, CPU torch wheel인지, driver와 wheel index가
   맞는지 확인한다.
-- `No matching distribution`: Python minor, glibc, torch version과 CUDA index 조합을 확인한다.
+- `glibc 2.28 or newer` 또는 `No matching distribution`: locked torch 2.13.0 profile에는 Linux
+  glibc 2.28 이상이 필요하다. 학교의 최신 container/module과 CUDA index 조합을 확인한다.
 - `Dependency profile requires Python 3.12`: 기존 `.venv`를 삭제해야 한다면 그 폴더가 정확히 이
   저장소의 venv인지 확인한 뒤 재생성한다.
-- `status='provisional'`: 본학습 차단이 정상이다. scene mapping을 확정하거나 smoke config를 쓴다.
+- `status='provisional'` 또는 `requires scene_groups`: 본학습 차단이 정상이다. 최종 manifest에
+  `scene_groups`, `train_scenes`, `val_scenes`를 모두 작성하거나 smoke config를 쓴다. status만
+  `final`로 바꾸는 것은 허용되지 않는다.
 - `missing manifest files`: EventHDR 1–51 배치와 symlink 위치를 확인한다.
 - SNN calibrated checkpoint 오류: ANN `best.pt`를 먼저 `calibrate`해 `best_snn.pt`를 만든다.
-- OOM: 기본값에서 먼저 측정하고 `max_events`, `causal_candidates`, `decoder_channels` 순으로 낮춘다.
+- OOM: 기본값에서 먼저 측정하고 `max_events`, `graph_radius`, `decoder_channels` 순으로 낮춘다.
+  `graph_radius`를 바꾸면 graph 구조도 달라지므로 해당 run의 config를 함께 보존한다.
+- `max_graph_edges` 오류: 기본 2,000,000 directed-edge 메모리 guard가 밀집 graph를 탐지한 것이다.
+  edge를 임의로 버리지 말고 `graph_radius`/`max_events`를 낮춰 재측정한다. guard 상향은 peak reserved
+  memory를 확인한 별도 config에서만 수행한다.
 - SSH 종료: interactive shell이 아니라 tmux 또는 scheduler job을 사용한다.
+~~~~~~
+
+# hand_off.md
+
+~~~~~~markdown
+# ASGCN Event Reconstruction 인수인계
+
+## 1. 현재 결론
+
+이 저장소는 EventHDR로 학습하고 EventHDR 공식 eval과 EventAid-R에서 평가하는
+**ASGCN paper-core 기반 event-to-frame 연구 프로토타입**이다. MobaXterm으로 Linux GPU 서버에
+SSH 접속한 뒤 clone, 설치, 데이터 배치, 검사, 학습, ANN→SNN 보정, 평가, benchmark까지 수행할 수
+있다.
+
+이 저장소는 ASGCN 저자의 공식 저장소가 아니다. 2026-08-29 기준 확인 가능한
+[AAAI 논문 페이지](https://ojs.aaai.org/index.php/AAAI/article/view/32154)와
+[공식 PDF](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)에서 공개 저자 코드나
+checkpoint 링크를 확인하지 못했다. 따라서 다음 표현만 사용한다.
+
+- 가능한 표현: `ASGCN paper-core 기반 복원 적응`, `공개 수식의 정적 graph/SNN core 구현`
+- 금지 표현: `저자 공식 코드`, `공식 ASGCN 완전 재현`, `논문 분류 성능 재현`
+
+원 논문은 event graph classification을 수행하지만 본 과제는 event-to-frame 복원이다. 논문의
+sampling, radius graph, B-spline graph convolution, BN folding, ANN→SNN parameter normalization,
+IF recurrence를 graph encoder에 사용하고, 그 뒤에 과제용 rasterization, residual U-Net, analog
+ConvGRU를 연결했다.
+
+비공개 원격 저장소:
+
+```text
+https://github.com/costunder/asgcn-event-reconstruction
+```
+
+## 2. 최종 파이프라인
+
+```text
+EventHDR/EventAid-R event interval [N, x,y,t,p]
+  -> spatial crop
+  -> adaptive integer-stride max_events safety cap
+  -> fixed paper sampling factor R
+  -> normalized event nodes [x,y,t,p]
+  -> strict d(i,j) < D undirected radius graph
+  -> scalar pseudo-coordinate u=d/D
+  -> degree-1 open B-spline graph encoder
+       ANN: affine + BN + ReLU
+       SNN: BN fold + Eq.(6) calibration + explicit IF timesteps
+  -> graph feature rasterization
+  -> residual U-Net + analog ConvGRU
+  -> [0,1] luminance frame
+  -> PSNR / Gaussian SSIM / RMSE / temporal L1 / latency
+```
+
+전처리의 두 sampling은 서로 다르다.
+
+1. dataset의 adaptive cap은 crop 뒤 `ceil(N/max_events)` 정수 stride를 사용한다. 서버 메모리
+   안전장치이며 논문의 공식 `R`이 아니다.
+2. model의 `event_sampling_factor`가 논문의 고정 `R`이다. 기본값은 1이다.
+
+각 sample에는 `raw_event_count`, `cropped_event_count`, `retained_event_count`,
+`dataset_sampling_factor`가 들어가며 model diagnostics에는 model factor와 두 값의 곱도 기록된다.
+
+## 3. 공개 논문과 맞춘 부분
+
+### 3.1 event graph
+
+- event 하나를 node 하나로 사용한다.
+- node feature는 `x,y,t,p`다.
+- 기본 graph 거리는 `[0,1]`로 정규화한 `x,y,t` 3차원에서 계산한다.
+- 두 node의 Euclidean distance가 `D`보다 작을 때만 edge를 만든다.
+- self edge 없이 두 방향을 모두 materialize해 simple undirected graph를 표현한다.
+- edge message는 실제 incoming degree로 평균한다.
+- `distance/D`는 PyG SplineConv의 `[0,1]` pseudo-domain에 맞춘 명시적 재매개화다. 논문의 원시
+  distance를 그대로 넣었다고 주장하지 않는다.
+
+### 3.2 B-spline operator
+
+순수 PyTorch `PaperSplineConv`를 사용하므로 Linux에서 `torch-spline-conv` C++/CUDA extension을
+별도로 빌드하지 않는다. 지원 범위는 scalar pseudo-coordinate, open degree 1, mean aggregation이다.
+기본 kernel size는 5다.
+
+공식 `pytorch_spline_conv` source와 맞춘 항목:
+
+- degree-1 basis index와 partition of unity
+- exact `u=1` modulo endpoint와 pseudo-coordinate gradient
+- spline weight bound `1/sqrt(K*Cin)`
+- root weight bound `1/sqrt(Cin)`
+- mean message aggregation, root transform, output bias
+
+root weight, bias, degree, openness, kernel size는 논문이 공개하지 않은 선택이다. root/bias는 식 (12)의
+update 선택 및 공식 PyG 기본 동작에 대응하지만 식 (11)에 문자 그대로 쓰여 있는 항은 아니다.
+고정 edge basis/index는 sample당 한 번 계산해 모든 graph layer와 IF timestep에서 재사용한다.
+
+### 3.3 ANN→SNN 변환
+
+1. ANN을 일반 역전파로 학습한다.
+2. graph layer BN을 식 (13)–(14)처럼 kernel/root/bias에 정확히 fold한다.
+3. EventHDR train calibration sample에서 feature별 ReLU maximum `lambda_l`를 측정한다.
+4. 식 (6)의 `W_l * lambda_(l-1)/lambda_l`, `b_l/lambda_l`를 kernel, root, bias에 적용한다.
+5. 유효한 non-empty calibration sample이 없는 layer는 변환을 거부한다.
+6. calibration에서 항상 0이었던 dead channel은 epsilon으로 폭증시키지 않고 unit scale을 사용하고,
+   변환 전 dead-channel 수를 checkpoint metadata에 보존한다.
+7. 마지막 normalized spike output에는 `lambda_L`를 곱해 학습된 analog decoder 단위로 보낸다.
+
+SNN checkpoint metadata와 각 layer의 persistent `bn_bypassed`, `snn_normalized`, 변환 뒤 exact-unit
+threshold state가 다르면 load를 거부한다. 모든 checkpoint는 model tensor byte SHA-256도 load 전에
+재계산한다. 변환한 `best_snn.pt`를 ANN mode로 읽는 것도 거부한다.
+
+## 4. 식 (15)의 중요한 모호성
+
+논문 식 (15)는 다음 self-feedback을 포함한다.
+
+```text
+v_tilde(t) = v(t-1) + c(t) + h(t-1)
+```
+
+이 식을 문자 그대로 실행하면 작은 양의 정전류도 첫 발화 뒤 이전 spike가 재주입되어 장기 firing
+rate가 1에 가까워질 수 있다. 이는 표준 soft-reset IF의 `firing rate ≈ normalized ANN activation`
+유도와 수학적으로 양립하지 않는다. 저자 코드나 정정 자료가 없으므로 임의로 오타 처리하지 않았다.
+
+- `snn_dynamics=literal_eq15`: 모든 기본 config. 식 (15)–(17)을 문자 그대로 실행한다.
+- `snn_dynamics=standard_if`: `+h(t-1)`를 제거한 rate-conversion 대조군이다. 공식 ASGCN 값이 아니다.
+
+테스트는 `c=0.1`, `theta=1`, `T=100`에서 literal 결과 0.96과 standard 결과 0.10을 각각 고정한다.
+따라서 literal 결과에 대해 “ANN activation을 정확히 rate로 근사한다”고 쓰면 안 된다. 마지막
+`lambda_L` 곱은 decoder 단위 변환이며 literal recurrence의 ANN parity 증명이 아니다.
+
+## 5. 논문에 없는 과제용 가정
+
+기본 config의 주요 값:
+
+| 항목 | 값 | 상태 |
+|---|---:|---|
+| architecture version | 2 | 구형 edge-MLP checkpoint 차단 |
+| hidden features | 64 | 복원 과제 가정 |
+| graph layers | 6 | 복원 과제 가정 |
+| normalized radius D | 0.08 | ablation 필요 |
+| graph dimensions | x,y,t | polarity는 node feature만 사용 |
+| B-spline | open degree 1, K=5 | 논문 미공개값 |
+| root weight | true | 식 (12)/PyG 기반 선택 |
+| raster downsample | 4 | 품질·메모리 ablation 필요 |
+| decoder channels | 48 | 복원 과제 가정 |
+| recurrent decoder | true | analog ConvGRU |
+| max events | 8192 | dataset/server safety cap |
+| max directed edges | 2,000,000 | OOM fail-fast guard |
+| SNN dynamics | literal_eq15 | 공개 식 우선 선택 |
+
+random crop은 scene+source-file 단위로 고정한다. 같은 연속 sequence에서 frame마다 ROI를 바꾸면
+ConvGRU pixel state와 temporal loss가 공간적으로 어긋나므로 per-frame crop을 사용하지 않는다.
+현재 crop은 resume/worker에 대해 결정적이고 epoch별 증강은 아니다.
+
+radius graph는 `D`가 만든 결과를 강제로 연결하지 않는다. isolated node는 root transform만 받는다.
+평가 CSV와 benchmark에는 isolate 비율과 max degree가 기록된다. directed edge가 2,000,000개를 넘으면
+edge를 몰래 잘라 다른 graph로 바꾸지 않고 오류로 중단한다.
+
+## 6. 아직 구현하지 않은 범위
+
+- 새 event의 K-hop ego-network만 갱신하는 동적 asynchronous 실행
+- sliding window에서 만료된 node 제거와 membrane state 관리
+- 식 (18)–(19)의 clustering, pooling, edge remapping
+- 원 논문의 classification MLP와 원 데이터셋 성능표
+- 식 (20)–(21)의 완전한 energy model과 실제 FPGA/ASIC 측정
+- event compression/transport protocol, RTL, FPGA/ASIC accelerator
+- full-resolution learned upsampling ablation
+- 실제 센서 I/O, H2D를 포함한 end-to-end ingest throughput
+
+이 항목 때문에 현재 결과를 반도체 구현 완료나 공식 논문 재현이라고 부를 수 없다.
+
+## 7. 데이터셋 역할
+
+| 데이터 | 저장 용량 참고 | 역할 |
+|---|---:|---|
+| EventHDR | 약 25.72 GB | ANN 학습, holdout validation, 공식 eval, SNN calibration |
+| EventAid-R | 공식 ZIP 합계 약 24.68 GB | 학습·보정 없는 외부 일반화 평가 |
+
+두 데이터 target은 `[0,1]` luminance로 변환한 뒤
+`log1p(5000*x)/log1p(5000)` tone mapping을 사용한다. 이는 수치 output domain만 맞추며 센서의
+radiometric response가 같다는 뜻은 아니다.
+
+EventAid-R에서 event index `i`를 다음 영상 `i+1`의 복원 입력으로 해석하는 `target_offset=1`은
+공개 파일 배열을 바탕으로 둔 구현 가정이다. 논문 저자 코드로 확인된 공식 pairing 규칙이 아니므로
+최종 보고서에는 이 가정을 명시하고, 필요하면 offset ablation을 별도로 수행한다.
+
+예상 배치:
+
+```text
+data/
+├── EventHDR/
+│   ├── train/*.h5
+│   └── eval/*.h5
+└── EventAid-R/
+    └── R-*.zip
+```
+
+EventAid-R는 ZIP을 추출하지 않고 직접 읽는다. `scripts/get_aid.sh`와 `scripts/get_aid.ps1`은 공식
+URL/manifest를 사용해 필요한 scene을 내려받고 검증한다. EventHDR는 README가 연결한 공식 저장소의
+배포 링크에서 받은 H5를 위 경로에 둔다.
+
+## 8. split과 데이터 누수 방지
+
+`manifests/eventhdr_split.json`은 물리 scene 대응표가 확보되지 않아 `provisional`이다. 본학습 config는
+이 상태에서 중단된다. 단순히 `status`만 `final`로 바꾸면 안 된다.
+
+최종 schema:
+
+```json
+{
+  "status": "final",
+  "scene_groups": {
+    "physical-scene-a": ["1.h5", "2.h5"],
+    "physical-scene-b": ["48.h5", "49.h5"]
+  },
+  "train_scenes": ["physical-scene-a"],
+  "val_scenes": ["physical-scene-b"]
+}
+```
+
+실제 mapping을 확인한 뒤 scene 간 file 중복이 없도록 작성한다. final manifest에서는
+`metadata.scene`이 H5 파일명이 아니라 physical scene ID가 된다.
+
+final manifest는 train root 아래의 모든 H5를 정확히 한 번 `scene_groups`에 포함하고, 모든 scene을
+train 또는 validation 중 정확히 한 split에 배정해야 한다. 누락 파일, root에 없는 선언, 중복 소속,
+미배정 scene은 모두 거부된다.
+
+smoke만 `manifests/eventhdr_smoke.json`의 provisional legacy file list를 허용한다. smoke는 train
+`1.h5`, `2.h5`, validation `48.h5`, `49.h5`만 열고 hash하므로 전체 25 GB를 불필요하게 읽지 않는다.
+
+## 9. MobaXterm/Linux 서버 시작 절차
+
+MobaXterm은 SSH/SFTP 클라이언트다. 실제 명령은 접속한 Linux 서버에서 실행한다.
+
+```bash
+git clone git@github.com:costunder/asgcn-event-reconstruction.git
+cd asgcn-event-reconstruction
+
+nvidia-smi
+ldd --version | head -n 1
+python3.12 --version
+
+cp .env.example .env
+read -r -p "Official PyTorch wheel index URL: " TORCH_INDEX_URL
+export TORCH_INDEX_URL
+bash scripts/setup.sh
+source .venv/bin/activate
+python scripts/check_env.py --require-cuda --lock constraints/py312.txt
+python -m pytest -q
+```
+
+기본 locked profile은 Python 3.12, torch 2.13.0이다. Linux wheel은 glibc 2.28 이상을 요구하므로
+Ubuntu 18.04 기반 image에서 실패할 수 있다. 이때 Ubuntu 22.04/24.04 계열 container를 사용한다.
+`TORCH_INDEX_URL`에는 PyTorch 공식 selector가 제시하는 서버 driver 호환 wheel index URL을 넣는다.
+torch 2.13.0 wheel이 해당 index에 실제로 존재해야 하며, 임의의 CUDA suffix를 가정하지 않는다.
+정확한 명령은 `README.md`와 `docs/SERVER.md`를 우선한다.
+
+## 10. 데이터 검사와 실행 명령
+
+### smoke
+
+```bash
+chmod +x scripts/get_aid.sh
+bash scripts/get_aid.sh bear
+asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
+
+python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
+  --lock constraints/py312.txt
+asgcn-recon inspect --config configs/hdr_smoke.json --samples 2 --validate-all
+asgcn-recon train --config configs/hdr_smoke.json
+```
+
+`aid_smoke.json`은 단일/부분 ZIP loader smoke 전용이며 결과 보고용이 아니다. 최종 EventAid-R 평가인
+`aid_ann.json`과 `aid_snn.json`은 manifest의 14개 ZIP을 정확히 요구한다.
+
+### 본학습 전 전체 검사
+
+```bash
+python scripts/check_env.py --require-cuda --require-full-data \
+  --lock constraints/py312.txt
+asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
+asgcn-recon inspect --config configs/hdr_ann.json --samples 2 --validate-all
+asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
+```
+
+### ANN 학습
+
+```bash
+asgcn-recon train --config configs/hdr_train.json
+```
+
+현재 provisional split guard 때문에 physical scene mapping 확정 전에는 위 본학습이 의도적으로
+중단된다.
+
+### ANN→SNN calibration
+
+```bash
+asgcn-recon calibrate \
+  --config configs/hdr_train.json \
+  --checkpoint runs/eventhdr_asgcn/best.pt \
+  --output runs/eventhdr_asgcn/best_snn.pt \
+  --samples 500
+```
+
+calibration은 EventHDR train만 사용하며 EventHDR eval/EventAid-R를 사용하지 않는다.
+
+### 평가
+
+```bash
+asgcn-recon evaluate --config configs/hdr_ann.json \
+  --checkpoint runs/eventhdr_asgcn/best.pt
+
+asgcn-recon evaluate --config configs/hdr_snn.json \
+  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
+  --inference-mode snn --simulation-steps 16 \
+  --snn-dynamics literal_eq15
+
+asgcn-recon evaluate --config configs/hdr_snn.json \
+  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
+  --inference-mode snn --simulation-steps 16 \
+  --snn-dynamics standard_if
+
+asgcn-recon evaluate --config configs/aid_ann.json \
+  --checkpoint runs/eventhdr_asgcn/best.pt
+
+asgcn-recon evaluate --config configs/aid_snn.json \
+  --checkpoint runs/eventhdr_asgcn/best_snn.pt \
+  --inference-mode snn --simulation-steps 16 \
+  --snn-dynamics literal_eq15
+```
+
+`scripts/eval.sh`/SLURM/PBS wrapper에서도 `SNN_DYNAMICS=literal_eq15` 또는 `standard_if`를 명시할
+수 있다. 두 dynamics 결과는 별도 실험으로 보고한다.
+
+## 11. 학습 protocol과 exact resume
+
+논문이 공개한 optimizer 조건에 맞춰 본 config는 다음을 사용한다.
+
+- Adam + gradient centralization
+- learning rate `1e-3`
+- L2 weight decay `5e-3`
+- MultiStepLR `[20,30]`, gamma `0.1`은 논문 미공개값에 대한 복원 과제 가정
+
+Spline weight `[K,Cin,Cout]`와 root `[Cin,Cout]`는 output axis를 제외한 dimension에서 gradient를
+centralize한다. Conv/Linear는 output-first layout에 맞춰 첫 axis를 제외한다.
+
+`last.pt`에는 model, optimizer, scheduler, GradScaler, epoch, history, RNG, validation/data fingerprint,
+training protocol을 넣는다. resume 시 다음처럼 optimization trajectory를 바꾸는 값이 다르면 거부한다.
+
+- optimizer, learning rate, weight decay, scheduler
+- loss weights, grad clipping
+- batch size, max train sample 수, validation 주기
+- AMP 요청값과 실제 device 적용 상태
+- model config, split, transforms, source SHA-256
+
+`epochs`, `log_every`, resume path, output control처럼 이미 완료한 optimizer step을 바꾸지 않는 값만
+resume에서 달라질 수 있다. `best.pt`는 ANN inference-only, `best_snn.pt`는 SNN inference-only다.
+
+## 12. fail-fast 장치
+
+- non-finite event coordinate/timestamp/polarity 거부
+- 비단조 timestamp/event index 거부
+- 범위 밖 image/event coordinate 거부
+- loss component/total non-finite 즉시 중단
+- gradient clipping 뒤 non-finite gradient 즉시 중단
+- validation metric/macro SSIM non-finite 즉시 중단
+- `simulation_steps`의 bool/float/0 입력 거부
+- 빈 calibration layer 거부
+- ANN/SNN checkpoint mode 혼용 거부
+- checkpoint metadata/state flag 불일치 거부
+- partial BN-fold/parameter normalization 거부
+- final scene schema 누락/scene leakage 거부
+- radius graph edge budget 초과 거부
+
+## 13. 평가와 benchmark 의미
+
+품질:
+
+- PSNR, RMSE
+- 11×11 sigma 1.5 Gaussian-window SSIM
+- scene macro/micro/per-scene 집계
+- 같은 scene에서 연속 index일 때만 temporal L1
+- 선택적 LPIPS
+
+품질 집계의 grouping은 구현 가정이다. final physical-scene manifest에서는 physical scene ID,
+provisional/EventHDR official eval에서는 H5 파일, EventAid-R에서는 ZIP scene을 group으로 사용한다.
+JSON의 `per_scene`/`scene_count` 이름은 하위 호환을 위해 유지한다.
+
+성능:
+
+- evaluate: graph 생성과 model forward를 포함, dataset read는 timer 전
+- benchmark: dataset read와 H2D 제외, CUDA Event 사용
+- p50/p90/p95/p99/max, FPS, RTF/deadline miss
+- raw events/s, retained events/s, graph nodes/s
+- isolate ratio, max degree, mean node/edge
+- SNN layer별 `총 spike / 총 neuron-step` 발화율과 전체 가중 발화율
+- peak allocated/reserved GPU memory
+
+`events_per_second`는 deprecated compatibility alias이며 retained events/s와 같다. 어느 값도 센서
+ingest 또는 반도체 전송 throughput으로 해석하지 않는다. PyTorch GPU IF latency/발화율도 FPGA/ASIC
+energy 측정값이 아니다.
+
+평가 산출물은 `<output_dir>/ann/` 또는
+`<output_dir>/snn_<dynamics>_T<T>/` 아래의 `metrics.json`, `frames.csv`, `predictions/`,
+`benchmark.json`으로 모드별 분리된다. 기존 산출물이 있는 run directory는 덮어쓰지 않고 거부하므로
+새 output root를 쓰거나 이전 결과를 명시적으로 보존·이동해야 한다. 최종 EventHDR 평가는 19개 H5,
+최종 EventAid-R 평가는 manifest의 14개 ZIP 전체 coverage guard를 통과해야 한다.
+prediction PNG는 평가 순번과 full sample-ID hash를 포함한 cross-platform filename을 쓴다.
+
+## 14. checkpoint 종류
+
+| 파일 | 용도 | optimizer/RNG | BN fold | Eq.(6) |
+|---|---|---|---|---|
+| `last.pt` | exact training resume | 포함 | 아니오 | 아니오 |
+| `best.pt` | ANN 평가 | 미포함 | 아니오 | 아니오 |
+| `best_snn.pt` | SNN 평가 | 미포함 | 예 | 예 |
+
+checkpoint는 embedded `model_config`와 `architecture_version=2`를 요구한다. 구형 edge-MLP/raw state
+dict를 paper-core model로 조용히 읽지 않는다. 세 checkpoint 모두 `model_state_sha256`를 가지며
+일반 평가, calibration, exact resume가 tensor byte와의 일치를 강제한다.
+
+## 15. 로컬 검증 결과
+
+검증 환경:
+
+```text
+Windows 11
+Python 3.12.13
+torch 2.13.0+cpu
+CUDA unavailable on this host
+```
+
+마지막 검증 결과:
+
+- Ruff: 통과
+- Python compileall: 통과
+- pytest: 136 passed
+- JSON config 7개, manifest 3개 parse: 통과
+- `scripts/check_env.py --lock constraints/py312.txt`: 통과
+- HWP/HWPX와 dummy implementation 파일: 없음
+
+현재 로컬에 있는 일부 실제 데이터도 전수 decode/finite 검사했다.
+
+| 데이터 | 파일 | sample | 검사 결과 |
+|---|---|---:|---|
+| EventHDR | `data/EventHDR/train/26.h5` | 500 | 전부 통과 |
+| EventAid-R | `data/EventAid-R/R-bear.zip` | 65 | 전부 통과 |
+
+실제 EventHDR 마지막 sample의 기본 ANN CPU forward:
+
+```text
+sample: 26.h5/image000000499
+output: [1,1,240,256], finite
+nodes: 4134
+directed edges: 90156
+isolated nodes: 3
+max degree: 57
+model parameters: 4,409,617
+CPU forward: 약 0.37 s (성능 보증값 아님)
+```
+
+실제 EventHDR sample에서 6개 layer calibration, Eq. (6), literal-Eq15 `T=2` SNN forward도 finite
+output을 확인했다. GPU/CUDA AMP, A100/A6000 peak memory와 full dataset 40-epoch 학습은 이 host에서
+실측하지 않았다.
+
+## 16. 주요 파일 지도
+
+| 경로 | 역할 |
+|---|---|
+| `README.md` | clone부터 데이터·학습·평가까지 사용자 실행 가이드 |
+| `docs/ASGCN.md` | 논문 근거, 구현 가정, 식 (15) 모호성, 비재현 범위 |
+| `docs/EXPERIMENT.md` | split, protocol, ablation, metric 해석 |
+| `docs/SERVER.md` | MobaXterm/Linux/CUDA/SLURM/PBS/Docker 운영 |
+| `src/asgcn_recon/graph.py` | radius graph, SplineConv, BN folding, Eq. (6), IF loop |
+| `src/asgcn_recon/model.py` | graph encoder, rasterizer, U-Net/ConvGRU decoder |
+| `src/asgcn_recon/engine.py` | train/resume/calibrate/evaluate/benchmark/checkpoint |
+| `src/asgcn_recon/data/eventhdr.py` | EventHDR H5 direct loader/validation |
+| `src/asgcn_recon/data/eventaid_r.py` | EventAid-R ZIP direct loader/validation |
+| `src/asgcn_recon/data/factory.py` | split manifest, physical scene schema, leakage checks |
+| `configs/*.json` | `hdr_smoke`/`aid_smoke`, train, internal/external ANN/SNN 실험 설정 |
+| `manifests/*.json` | EventHDR split/smoke와 EventAid-R 파일 manifest |
+| `scripts/setup.sh` | venv와 CPU/CUDA locked dependency 설치 |
+| `scripts/check_env.py` | Python/torch/CUDA/glibc/data/disk/lock 검사 |
+| `server/*` | SLURM/PBS template |
+| `tests/*` | 수식, operator, loader, protocol, resume, end-to-end 회귀 |
+| `code_summary.md` | ChatGPT 교차검증용 전체 text file snapshot |
+
+## 17. 다음 담당자의 우선순위
+
+1. EventHDR 배포 정보에서 물리 scene↔H5 mapping을 확보하고 final manifest를 작성한다.
+2. A6000 또는 A100에서 `hdr_smoke`를 먼저 실행해 peak allocated/reserved memory와 edge 분포를 본다.
+3. 기본 config의 isolate ratio와 edge budget hit 여부를 확인한다.
+4. `literal_eq15`와 `standard_if`를 T=4/8/16/32로 분리 보고한다.
+5. `graph_layers=3/6`, radius 0.04/0.08/0.12, raster downsample 1/2/4를 ablation한다.
+6. full training 전에 학습/검증 scene이 겹치지 않는지 manifest validation 결과를 보존한다.
+7. full training 뒤 EventHDR official eval과 EventAid-R를 한 번만 고정 평가한다.
+8. 과제의 저지연·고효율 주장에는 실제 hardware 또는 명시적 operation/energy model을 추가한다.
+
+## 18. 최종 주의사항
+
+- provisional manifest의 `status`만 바꾸지 않는다.
+- EventAid-R를 보고 hyperparameter/threshold를 조정한 뒤 외부 잠금시험이라고 부르지 않는다.
+- edge guard를 단순 상향하기 전에 GPU peak reserved memory를 측정한다.
+- literal Eq. (15)를 standard rate IF처럼 설명하지 않는다.
+- PyTorch GPU latency를 FPGA/ASIC latency나 energy로 환산하지 않는다.
+- 전체 공식 데이터와 GPU full run을 하지 않은 상태에서 실험 완료라고 쓰지 않는다.
+
+현재 코드는 더미 골격이나 edge-MLP proxy가 아니라 공개 수식 기반 graph/SNN core와 복원 decoder가
+실제로 실행되는 연구 코드다. 동시에 논문과 과제의 경계, 저자 코드 부재, 공개 식의 모호성, 미구현
+hardware 범위를 숨기지 않는 것이 이 저장소의 재현성 원칙이다.
 ~~~~~~
 
 # Makefile
 
-~~~~~~text
+~~~~~~makefile
 PYTHON ?= .venv/bin/python
 
 .PHONY: setup doctor test lint inspect train
@@ -1201,7 +2100,7 @@ train:
 
 # manifests/eventaid_r.json
 
-~~~~~~text
+~~~~~~json
 {
   "source": "https://sites.google.com/view/eventaid-benchmark",
   "displayed_total_gb": 24.68024,
@@ -1224,12 +2123,23 @@ train:
 }
 ~~~~~~
 
-# manifests/eventhdr_split.json
+# manifests/eventhdr_smoke.json
 
-~~~~~~text
+~~~~~~json
 {
   "status": "provisional",
-  "note": "Replace both lists with physical-scene-disjoint groups and set status to final before full training.",
+  "note": "Smoke-only file split. Do not report it as a physical-scene-disjoint validation result.",
+  "train_files": ["1.h5", "2.h5"],
+  "val_files": ["48.h5", "49.h5"]
+}
+~~~~~~
+
+# manifests/eventhdr_split.json
+
+~~~~~~json
+{
+  "status": "provisional",
+  "note": "Provisional legacy file lists only. For final training replace them with scene_groups, train_scenes, and val_scenes, then set status to final; changing status alone is rejected.",
   "train_files": [
     "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
     "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",
@@ -1244,15 +2154,15 @@ train:
 
 # pyproject.toml
 
-~~~~~~text
+~~~~~~toml
 [build-system]
 requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "asgcn-reconstruction"
-version = "0.1.0"
-description = "ASGCN-style event-to-frame reconstruction for EventHDR and EventAid-R"
+version = "0.2.0"
+description = "ASGCN paper-core event-to-frame reconstruction for EventHDR and EventAid-R"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -1286,8 +2196,8 @@ target-version = "py310"
 
 # README.md
 
-~~~~~~text
-# ASGCN-inspired Event-to-Frame 실험
+~~~~~~markdown
+# ASGCN paper-core 기반 Event-to-Frame 실험
 
 [![CI](https://github.com/costunder/asgcn-event-reconstruction/actions/workflows/ci.yml/badge.svg)](https://github.com/costunder/asgcn-event-reconstruction/actions/workflows/ci.yml)
 
@@ -1297,34 +2207,49 @@ EventHDR로 학습하고 EventHDR 공식 eval과 EventAid-R에서 평가하는 e
 
 정확한 기술 범위는 다음과 같다.
 
-- encoder: ASGCN에서 착안한 causal edge-conditioned graph network
+- encoder: uniform event sampling + undirected radius graph + B-spline graph convolution
 - decoder: residual U-Net + analog ConvGRU
 - ANN 경로: 학습과 기본 평가
-- `snn` 경로: 보정된 graph activation의 spike-rate 양자화 proxy
+- `snn` 경로: BN folding·parameter normalization 뒤 논문 식 (15)–(17)을 timestep별로 전개하는 IF graph encoder
 - 데이터: EventHDR H5 직접 읽기, EventAid-R ZIP 직접 읽기
 
-원 논문의 B-spline ASGCN을 그대로 재현한 코드는 아니며, `snn` 경로도 membrane timestep을
-전개하는 완전한 IF/LIF SNN이 아니다. 현재 저장소는 반도체 RTL/FPGA/ASIC, 전력·에너지 측정,
-이벤트 전송 protocol을 포함하지 않는다.
+graph/SNN core는 AAAI 논문에 공개된 sampling, radius graph, B-spline aggregation, BN folding,
+ANN→SNN normalization과 IF membrane 식을 구현한다. 다만 2026-08-29 기준 공개 배포된 저자
+코드는 확인할 수 없었고, 논문에 없는 spline·좌표 세부값은 명시적 가정이며, 원 논문의 분류 head
+대신 복원 decoder를 붙였다.
+논문의 layer-wise lambda와 feature-wise threshold 결합도 단일하게 규정되지 않아 이 저장소는
+feature-wise lambda를 적용하고 정규화 뒤 unit threshold를 쓰는 선택을 명시했다.
+따라서 “공식 ASGCN 완전 재현”이 아니라 paper-core 기반 연구 프로토타입이다. 근거와 경계는
+[ASGCN 구현 범위](docs/ASGCN.md)에 정리했다. 반도체 RTL/FPGA/ASIC, 전력·에너지 측정, 이벤트 전송
+protocol은 포함하지 않는다.
+
+기본 `snn_dynamics=literal_eq15`는 논문의 `+h(t-1)` self-feedback까지 그대로 실행한다. 이 식은
+표준 ANN→SNN rate-conversion IF와 수학적으로 맞지 않는 공개 모호성이 있으므로, 저장소는 이를
+숨기지 않고 `standard_if` 대조군과 장기-timestep 회귀 테스트를 함께 둔다. 기본 결과를 단순히
+“ANN activation을 정확히 근사한 firing rate”라고 주장하지 않는다.
 
 ## 데이터와 실험 역할
 
 | 단계 | 데이터 | 목적 |
 |---|---|---|
 | ANN 학습 | EventHDR train | 복원 weight 최적화 |
-| 모델 선택 | EventHDR holdout | 물리 scene split 확정 후 file-balanced macro SSIM 기준 `best.pt` 선택 |
-| SNN 보정 | EventHDR train | file-balanced BN folding·threshold 계산 |
+| 모델 선택 | EventHDR holdout | 최종 physical-scene/provisional file group-balanced macro SSIM 기준 `best.pt` 선택 |
+| SNN 보정 | EventHDR train | 같은 group 기준 BN folding·feature threshold·parameter normalization |
 | 내부시험 | EventHDR 공식 eval | 학습 완료 후 고정 평가 |
 | 외부시험 | EventAid-R 14장면 | 학습·보정 없이 일반화 평가 |
 
 두 데이터의 target은 모두 `[0,1]` luminance에 동일한
 `log1p(5000*x)/log1p(5000)` 변환을 적용한다. 이는 수치 output domain을 맞추는 조치이며,
 서로 다른 센서의 radiometric response가 동일하다는 뜻은 아니다.
+EventAid-R은 event block `i`를 다음 GT `i+1`과 짝짓는 `target_offset=1`을 명시적 정렬
+가정으로 사용한다. 이 값은 ASGCN 논문 값이 아니며 다른 정렬과 비교할 때 별도 run으로 기록한다.
 
 ```text
 events [N, x,y,t,p]
-  -> bounded causal graph
-  -> ASGCN-inspired graph encoder (ANN 또는 calibrated rate proxy)
+  -> deterministic spatial crop
+  -> adaptive integer-stride max_events cap (reconstruction/server safety)
+  -> fixed factor-R sampling + undirected radius graph
+  -> B-spline graph encoder (ANN 또는 calibrated literal-Eq15/standard-IF)
   -> feature rasterization
   -> residual U-Net + ConvGRU
   -> luminance frame
@@ -1333,15 +2258,30 @@ events [N, x,y,t,p]
 
 ## 본학습 전 차단 장치
 
-- recurrent validation은 file/scene별 가능한 한 균등한 quota의 연속 window를 채점한다. 본학습은
+- recurrent validation은 group별(final은 physical scene, provisional은 H5 file) 가능한 한 균등한
+  quota의 연속 window를 채점한다. 본학습은
   최대 500개, smoke는 32개를 채점하며, window 앞 group당 최대 64 frame(smoke는 8)을 별도로
   replay해 ConvGRU 상태를 예열한다. non-recurrent validation에는 이 context replay가 없다.
-- calibration은 각 파일 시간축에서 등간격으로 뽑는다. recurrent benchmark는 균형 연속 window와
+- calibration은 각 group의 index 범위에서 등간격으로 뽑는다. recurrent benchmark는 균형 연속 window와
   group당 최대 32개의 unmeasured predecessor를 쓰고, non-recurrent benchmark는 time-spread sample을 쓴다.
+- calibration에서 모든 ReLU가 0인 feature는 0 또는 epsilon으로 나누지 않고 unit lambda를 사용하며,
+  dead-channel 수를 checkpoint에 기록한다. 이는 논문 미공개 경우에 대한 구현 가정이다.
+- gradient centralization은 spline/root에서는 마지막 output axis를, Conv/Linear에서는 첫 output
+  axis를 제외한 차원에 적용한다. 이 axis 규칙도 저자 코드로 확인된 공식값이 아니다.
 - 장면·프레임 연속 번호·해상도 중 하나라도 끊기면 recurrent state와 temporal metric을 초기화한다.
 - checkpoint 선택은 frame 수가 많은 scene에 치우치는 micro 값이 아니라 macro SSIM을 사용한다.
 - EventHDR/EventAid-R의 timestamp, event index, 좌표, polarity와 배열 구조를 검사한다.
-- `snn` 평가는 `simulation_steps >= 1`, BN folding, 1개 이상의 calibration sample을 강제한다.
+- random crop은 안정적인 scene+source-file identity로 결정한다. 같은 연속 sequence의 모든 frame은
+  동일한 sensor ROI를 써 ConvGRU state와 temporal loss를 정렬하고, worker 수와 resume에도 동일하다.
+  epoch별로 ROI가 바뀌는 증강은 아니다.
+- `snn` 평가는 `simulation_steps >= 1`, BN folding, parameter normalization과 모든 graph layer에서
+  최소 1개의 유효한 non-empty calibration observation을 강제한다.
+- SNN checkpoint metadata와 각 graph layer의 persistent BN-fold/Eq. (6) flag, 변환 뒤 정확한 unit
+  threshold를 교차검증한다.
+- `last.pt`, `best.pt`, `best_snn.pt`는 모두 model tensor byte의 SHA-256을 저장하며, 평가·보정·resume
+  전에 digest를 다시 계산해 finite 값의 조용한 변조도 거부한다.
+- radius graph가 `max_graph_edges=2,000,000`을 넘으면 edge를 몰래 버리지 않고 OOM 전에 실패한다.
+- Eq. (6)으로 변환한 `best_snn.pt`를 ANN 모드로 읽는 것도 거부한다. ANN에는 변환 전 `best.pt`를 쓴다.
 - 보정 checkpoint에는 optimizer/scaler/RNG/history를 넣지 않아 training resume과 분리한다.
 - checkpoint는 CPU에서 읽고 model만 GPU로 옮겨 평가 peak memory에서 optimizer state를 제외한다.
 - `best.pt`는 ANN inference용 clean checkpoint이고 optimizer/RNG/history는 `last.pt`에만 둔다.
@@ -1392,6 +2332,7 @@ GPU 서버에서 장시간 학습할 때만 필요하며, scheduler만 쓰는 �
 - torch 2.13.0
 - `constraints/py312.txt`의 NumPy/h5py/Pillow/tqdm/dev 의존성
 - CUDA build는 서버 드라이버와 호환되는 공식 PyTorch wheel index
+- Linux에서 이 locked torch 2.13.0 profile은 glibc 2.28 이상
 
 [PyTorch 공식 설치 선택기](https://pytorch.org/get-started/locally/)에서 **torch 2.13.0을 실제로
 제공하는** CUDA index를 선택한다. 예시 URL을 그대로 복사하지 말고 해당 서버에서 확인한다.
@@ -1407,6 +2348,10 @@ python scripts/check_env.py --lock constraints/py312.txt
 python -m pip check
 python -m pytest -q
 ```
+
+`scripts/setup.sh`은 locked torch 2.13.0과 Linux glibc 2.28 미만 조합을 venv 생성·download 전에
+중단하고, `scripts/check_env.py --lock constraints/py312.txt`도 같은 조건을 fail-fast한다. 해당
+서버에서는 무작정 source build하지 말고 더 최신인 학교 module 또는 container를 사용한다.
 
 명령행에서 export한 값은 `.env`보다 우선한다. 서버에 Python 3.12가 없다면 `py312` constraints를
 억지로 사용하지 말고, 서버의 Python/CUDA 조합에서 별도 lock을 검증한 뒤 설정해야 한다.
@@ -1440,13 +2385,19 @@ EventAid-R은 작은 `R-bear`로 먼저 loader를 확인하고, 최종 외부평
 
 ```bash
 bash scripts/get_aid.sh R-bear
+asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
+
+# 최종 14-scene 외부평가 직전에만 실행
 bash scripts/get_aid.sh --all
 ```
+
+`aid_smoke.json`은 일부 ZIP을 허용하는 비보고용 loader 점검 설정이다. `aid_ann.json`과
+`aid_snn.json`은 manifest의 정확한 14개 ZIP이 모두 없으면 중단한다.
 
 ZIP은 압축을 풀지 않는다. 두 데이터 합계 약 50.4GB이며 가상환경·checkpoint·결과를 포함해
 70GB 이상의 여유 공간을 권장한다.
 
-파일 수와 manifest 누락을 확인한다.
+최종 내부·외부 평가 전에 전체 파일 수와 manifest 누락을 확인한다.
 
 ```bash
 python scripts/check_env.py --require-full-data
@@ -1471,26 +2422,45 @@ asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
 
 ### 4. scene split 확정
 
-`manifests/eventhdr_split.json`은 현재 `status: provisional`이다. 파일 번호만으로 나눈 임시
-holdout이므로 본학습용이 아니다. 동일 물리 장면의 파일을 한 group으로 묶어 train/validation이
-겹치지 않게 두 목록을 수정하고 다음 값을 바꾼다.
+`manifests/eventhdr_split.json`은 현재 legacy `train_files`/`val_files`만 가진
+`status: provisional` 임시 holdout이라 본학습용이 아니다. 최종 manifest는 동일 물리 장면의 H5를
+하나의 group으로 묶고, 겹치지 않는 scene ID를 train/validation에 배정하는 다음 schema를 써야 한다.
 
 ```json
-"status": "final"
+{
+  "status": "final",
+  "scene_groups": {
+    "night-drive": ["1.h5", "2.h5"],
+    "day-drive": ["48.h5", "49.h5"]
+  },
+  "train_scenes": ["night-drive"],
+  "val_scenes": ["day-drive"]
+}
 ```
 
-공식 scene 대응표를 확보하지 못한 상태에서 임의로 `final`로 바꾸면 안 된다. 현재 상태에서
-`configs/hdr_train.json`을 실행하면 의도적으로 중단된다.
+예시는 schema 설명일 뿐 실제 scene 대응표가 아니다. 공식 대응표를 확보하지 않은 채
+`status`만 `final`로 바꾸거나 legacy 파일 목록만 유지하면 loader가 거부한다. 현재 상태에서
+`configs/hdr_train.json`을 실행해도 의도적으로 중단된다. `manifests/eventhdr_smoke.json`의 legacy
+파일 목록 schema는 비보고용 provisional smoke에만 허용한다.
+final manifest는 `data/EventHDR/train` 아래의 모든 H5를 정확히 한 scene에 포함하고 모든 scene을
+train 또는 validation에 배정해야 한다. 누락 파일, 미선언 파일, 중복 소유권이 하나라도 있으면
+본학습 전에 중단한다.
 
 ### 5. A100/A6000 real-data smoke
 
-`configs/hdr_smoke.json`은 임시 split 사용을 명시적으로 허용하는 최대 32 train sample과 32 scored
-validation sample, 1 epoch 점검용이다. validation에는 group당 최대 8개의 unscored context frame이
-추가될 수 있다. 결과는 논문 성능으로 보고하지 않는다.
+`configs/hdr_smoke.json`은 `manifests/eventhdr_smoke.json`의 `1.h5`, `2.h5`를 train으로,
+`48.h5`, `49.h5`를 validation으로 쓰는 1 epoch 점검용이다. 최대 32 train sample과 32 scored
+validation sample을 쓰며, group당 최대 8개의 unscored context frame이 추가될 수 있다. 이 run의
+content fingerprint는 네 smoke-manifest H5만 SHA-256으로 읽고 전체 EventHDR/EventAid-R를 hash하지
+않는다. 임시 파일 split 결과는 논문 성능으로 보고하지 않는다.
+
+smoke와 본학습은 논문의 Adam+gradient centralization, 초기 learning rate `1e-3`, L2 weight decay
+`5e-3`를 쓴다. 논문이 정확한 decay epoch와 gamma를 공개하지 않아 `[20,30]`과 `0.1`은 40-epoch
+복원 실험용 명시적 가정으로 고정했다. smoke는 1 epoch라 milestone에 도달하지 않는다.
 
 ```bash
 mkdir -p logs
-python scripts/check_env.py --require-cuda --require-full-data \
+python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
   --lock constraints/py312.txt
 bash scripts/train.sh configs/hdr_smoke.json 2>&1 | tee logs/smoke.log
 ```
@@ -1523,7 +2493,7 @@ RESUME_CHECKPOINT="$PWD/runs/eventhdr_asgcn/last.pt" \
 `--resume` 없이 시작할 때 이 폴더에 기존 결과가 있으면 덮어쓰지 않고 중단하므로, 기존 run을
 재개하거나 `output.run_dir`가 다른 config를 사용한다.
 
-### 7. ANN → rate-proxy 보정
+### 7. ANN → IF-SNN 보정·변환
 
 EventHDR train의 여러 파일과 시간대를 균형 있게 사용한다. EventAid-R은 보정에 사용하지 않는다.
 
@@ -1542,22 +2512,29 @@ INFERENCE_MODE=ann RUN_BENCHMARK=1 \
   bash scripts/eval.sh configs/hdr_ann.json runs/eventhdr_asgcn/best.pt \
   2>&1 | tee logs/hdr_ann.log
 
-INFERENCE_MODE=snn SIMULATION_STEPS=16 RUN_BENCHMARK=1 \
+INFERENCE_MODE=snn SIMULATION_STEPS=16 SNN_DYNAMICS=literal_eq15 RUN_BENCHMARK=1 \
   bash scripts/eval.sh configs/hdr_snn.json runs/eventhdr_asgcn/best_snn.pt \
   2>&1 | tee logs/hdr_snn.log
+
+# 같은 calibrated checkpoint의 standard-IF 대조군
+INFERENCE_MODE=snn SIMULATION_STEPS=16 SNN_DYNAMICS=standard_if RUN_BENCHMARK=1 \
+  bash scripts/eval.sh configs/hdr_snn.json runs/eventhdr_asgcn/best_snn.pt \
+  2>&1 | tee logs/hdr_standard_if.log
 
 INFERENCE_MODE=ann RUN_BENCHMARK=1 \
   bash scripts/eval.sh configs/aid_ann.json runs/eventhdr_asgcn/best.pt \
   2>&1 | tee logs/aid_ann.log
 
-INFERENCE_MODE=snn SIMULATION_STEPS=16 RUN_BENCHMARK=1 \
+INFERENCE_MODE=snn SIMULATION_STEPS=16 SNN_DYNAMICS=literal_eq15 RUN_BENCHMARK=1 \
   bash scripts/eval.sh configs/aid_snn.json runs/eventhdr_asgcn/best_snn.pt \
   2>&1 | tee logs/aid_snn.log
 ```
 
 `evaluate`는 end-to-end model forward latency를, `benchmark`는 데이터 I/O와 host-to-device 이동을
-제외한 model compute latency를 기록한다. rate proxy는 timestep loop가 아니므로 T에 따른 GPU
-latency를 neuromorphic 하드웨어 latency나 에너지로 해석하면 안 된다.
+제외한 model compute latency를 기록한다. `snn` graph encoder는 T번 IF membrane timestep을 실제로
+전개하고 고정 B-spline basis는 한 번만 계산해 재사용하지만 residual U-Net과 ConvGRU는 analog다.
+이 PyTorch GPU latency를 neuromorphic 하드웨어
+latency나 에너지로 해석하면 안 된다.
 
 ## Scheduler 실행
 
@@ -1577,7 +2554,7 @@ PBS/Torque는 저장소 루트에서 제출한다. `select/ngpus/queue/account` 
 qsub server/train.pbs
 qsub -v PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
 CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
-SIMULATION_STEPS=16 server/eval.pbs
+SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 server/eval.pbs
 ```
 
 학교 wrapper가 `ssai_agpu -g=1`처럼 interactive allocation을 제공하면 allocation 안에서 일반
@@ -1594,23 +2571,51 @@ bash scripts/train.sh configs/hdr_smoke.json
 
 ## 결과와 지표
 
-평가 폴더에는 `metrics.json`, `frames.csv`, `predictions/`가 생긴다.
+각 config의 `eval.output_dir` 아래에 inference별 하위 폴더가 생긴다.
+
+```text
+<output_dir>/ann/{metrics.json,frames.csv,predictions/,benchmark.json}
+<output_dir>/snn_literal_eq15_T16/{metrics.json,frames.csv,predictions/,benchmark.json}
+<output_dir>/snn_standard_if_T16/{metrics.json,frames.csv,predictions/,benchmark.json}
+```
+
+같은 mode/dynamics/T의 결과가 이미 있으면 덮어쓰지 않고 중단한다. 기존 결과를 이동·보존하거나
+새 `eval.output_dir`를 사용한다. `benchmark.json`은 compute-only 지표이고 나머지 artifact는
+`evaluate`가 기록한다. prediction PNG 이름에는 평가 순번과 전체 sample ID hash를 넣어 서로 다른
+ID의 slug 충돌과 Windows 금지 문자를 피한다.
 
 - 품질: PSNR, Gaussian-window SSIM, RMSE, 선택적 LPIPS
 - temporal: 같은 scene·해상도의 연속 sequence frame만 사용하는 `temporal_l1`
-- 집계: micro, scene macro, per-scene
+- 집계: micro, group macro, per-group. final holdout은 physical scene, provisional/EventHDR 공식
+  eval은 H5 파일, EventAid-R은 `R-*.zip` scene을 group key로 쓴다. JSON의 기존 필드명은
+  호환성을 위해 `macro`/`per_scene`으로 유지한다.
 - 지연: mean, p50/p90/p95/p99, FPS, RTF, deadline miss ratio
-- graph: events/s, node/edge 수, rate-proxy firing rate
+- graph: raw events/s, retained events/s, graph nodes/s, 평균 node/edge, isolate 비율/max degree,
+  layer별 `총 spike / 총 neuron-step` IF firing rate
 - GPU: peak allocated/reserved memory
 
-첫 학습 시 EventHDR train/validation 원본 전체를 읽어 SHA-256을 계산한다. 같은 경로의 resume은 run
-폴더의 `.data_hash_cache.json`에서 size/mtime/ctime이 모두 같은 파일의 기존 full hash를 재사용한다.
+첫 학습 시 선택된 manifest의 EventHDR train/validation 원본을 읽어 SHA-256을 계산한다. 따라서
+smoke는 `1.h5`, `2.h5`, `48.h5`, `49.h5`만, 본학습은 최종 `eventhdr_split.json`에 든 파일 전체를
+hash한다. 같은 경로의 resume은 run 폴더의 `.data_hash_cache.json`에서 size/mtime/ctime이 모두 같은
+파일의 기존 full hash를 재사용한다.
 절대경로나 filesystem mtime/ctime은 checkpoint protocol에 들어가지 않으며, 데이터 경로가 달라도
 상대 파일 identity와 byte가 같으면 재개할 수 있다. 원본을 교체·복원했거나 다시 전수 hash하려면 config에서
 `train.rehash_data=true`로 바꾼다.
 
+고정 평가는 coverage도 강제한다. EventHDR 공식 eval config는 H5 정확히 19개를, EventAid-R 최종
+config는 `manifests/eventaid_r.json`과 이름이 일치하는 ZIP 정확히 14개를 요구한다. 일부
+EventAid-R만 확인할 때는 최종 config가 아니라 `configs/aid_smoke.json`을 사용한다.
+
 SSIM 구현은 11×11, σ=1.5 Gaussian valid window를 사용한다. 기존 논문과 수치를 직접 비교할 때는
 그 논문의 crop, border, color space, data range, SSIM package까지 동일하게 맞춰야 한다.
+
+benchmark의 `raw_events_per_second`는 crop/cap 전 source interval event 수를,
+`retained_events_per_second`는 spatial crop과 adaptive `max_events` cap 뒤 수를,
+`graph_nodes_per_second`는 model의 추가 고정 factor `R`까지 적용한 graph node 수를 각각 측정된
+model compute time으로 나눈 값이다. 따라서 dataset read를 포함한 ingest throughput이 아니다.
+`retention_ratio`는 retained/raw 합계 비율이며 `events_per_second`는 하위 호환용으로만 남긴
+deprecated alias로서 항상 `retained_events_per_second`와 같다. 각 sample metadata에는
+`raw_event_count`, `cropped_event_count`, `retained_event_count`, `dataset_sampling_factor`도 기록한다.
 
 ## Windows 개발
 
@@ -1621,7 +2626,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip check
 .\.venv\Scripts\python.exe -m pytest -q
 .\scripts\get_aid.ps1 -Destination .\data\EventAid-R -Scenes R-bear
-.\.venv\Scripts\asgcn-recon.exe inspect --config configs\aid_ann.json --samples 2
+.\.venv\Scripts\asgcn-recon.exe inspect --config configs\aid_smoke.json --samples 2
 ```
 
 `py -3.12`가 없으면 Python 3.12를 설치하거나 해당 interpreter의 절대 경로로 venv를 만든다.
@@ -1632,10 +2637,11 @@ py -3.12 -m venv .venv
 - 전체 공식 데이터와 A100/A6000에서 full training·CUDA AMP·peak memory·latency를 아직 실측하지
   않았다.
 - recurrent batch size는 1이고 frame마다 state를 detach하므로 GPU 활용률과 장기 BPTT가 제한된다.
-- graph 후보 생성은 vectorized됐지만 decoder와 sample 처리는 여전히 serial하다.
+- radius graph 생성은 chunked all-pairs 계산이며 2,000,000 directed-edge fail-fast guard가 있어도
+  worst-case 계산은 O(N²)이다. decoder와 sample 처리도 여전히 serial하다.
 - LPIPS의 CUDA/torchvision 조합과 공식 metric implementation은 별도 고정이 필요하다.
-- 실제 timestep SNN, 연산량/에너지 모델, event compression/transport, accelerator hardware는 후속
-  구현 범위다.
+- 동적 asynchronous K-hop update, 논문의 pooling/classifier, 연산량·에너지 모델,
+  event compression/transport와 accelerator hardware는 후속 구현 범위다.
 
 코드 전체 스냅샷과 더 세부적인 인수인계는 `code_summary.md`, `hand_off.md`를 참조한다.
 ~~~~~~
@@ -1649,7 +2655,7 @@ py -3.12 -m venv .venv
 
 # scripts/check_env.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import argparse
@@ -1664,6 +2670,8 @@ import sys
 from pathlib import Path, PurePosixPath
 
 import torch
+
+from asgcn_recon.data import load_eventhdr_split_manifest
 
 
 def _eventhdr_files(root: Path) -> list[Path]:
@@ -1701,11 +2709,19 @@ def _check_lock(path: Path) -> dict[str, dict[str, str | None]]:
     return mismatches
 
 
+def _version_tuple(value: str) -> tuple[int, ...]:
+    return tuple(int(part) for part in re.findall(r"\d+", value))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Check ASGCN server readiness")
     parser.add_argument("--data-root", type=Path, default=None)
     parser.add_argument("--runs-root", type=Path, default=None)
     parser.add_argument("--require-cuda", action="store_true")
+    parser.add_argument("--require-eventhdr-smoke", action="store_true")
+    parser.add_argument("--require-eventhdr-train", action="store_true")
+    parser.add_argument("--require-eventhdr-eval", action="store_true")
+    parser.add_argument("--require-eventaid-all", action="store_true")
     parser.add_argument("--require-full-data", action="store_true")
     parser.add_argument("--lock", type=Path, default=None)
     args = parser.parse_args()
@@ -1731,12 +2747,27 @@ def main() -> None:
             lock_python_match = platform.python_version().startswith(f"{expected_python}.")
     train_files = _eventhdr_files(data_root / "EventHDR" / "train")
     eval_files = _eventhdr_files(data_root / "EventHDR" / "eval")
+    train_root = data_root / "EventHDR" / "train"
+    train_present = {path.relative_to(train_root).as_posix() for path in train_files}
+    smoke_manifest_path = project_root / "manifests" / "eventhdr_smoke.json"
+    smoke_required: set[str] = set()
+    if smoke_manifest_path.is_file():
+        smoke_manifest = load_eventhdr_split_manifest(smoke_manifest_path)
+        smoke_required = {
+            PurePosixPath(str(value).replace("\\", "/")).as_posix()
+            for value in (
+                list(smoke_manifest.get("train_files", []))
+                + list(smoke_manifest.get("val_files", []))
+            )
+        }
     data_disk = shutil.disk_usage(data_root if data_root.exists() else project_root)
     runs_disk = shutil.disk_usage(runs_root)
+    libc_name, libc_version = platform.libc_ver()
     report = {
         "project_root": str(project_root),
         "hostname": socket.gethostname(),
         "platform": platform.platform(),
+        "libc": {"name": libc_name or None, "version": libc_version or None},
         "python": sys.version.split()[0],
         "torch": torch.__version__,
         "cuda_available": cuda_available,
@@ -1747,6 +2778,7 @@ def main() -> None:
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
         "data_root": str(data_root),
         "eventhdr_train_h5": len(train_files),
+        "eventhdr_smoke_h5": len(smoke_required & train_present),
         "eventhdr_eval_h5": len(eval_files),
         "eventaid_r_zip": _count_files(data_root / "EventAid-R", "R-*.zip"),
         "runs_root": str(runs_root),
@@ -1754,9 +2786,7 @@ def main() -> None:
         "data_disk_free_gib": round(data_disk.free / (1024**3), 2),
         "runs_disk_free_gib": round(runs_disk.free / (1024**3), 2),
         "lock_file": str(lock_path) if lock_path else None,
-        "constraint_versions_match": (
-            not lock_mismatches if lock_mismatches is not None else None
-        ),
+        "constraint_versions_match": (not lock_mismatches if lock_mismatches is not None else None),
         "constraint_python_match": lock_python_match,
         "lock_mismatches": lock_mismatches,
     }
@@ -1773,35 +2803,58 @@ def main() -> None:
         problems.append(f"Installed packages differ from dependency lock: {lock_path}")
     if lock_python_match is False:
         problems.append(f"Python version does not match dependency profile: {lock_path}")
-    if args.require_full_data:
-        expected_counts = {
-            "eventhdr_train_h5": 51,
-            "eventhdr_eval_h5": 19,
-            "eventaid_r_zip": 14,
-        }
-        for key, expected in expected_counts.items():
-            actual = int(report[key])
-            if actual < expected:
-                problems.append(f"{key} has {actual} files; at least {expected} are required")
+    locked_torch = (
+        _locked_versions(lock_path).get("torch") if lock_path and lock_path.is_file() else None
+    )
+    if (
+        platform.system() == "Linux"
+        and libc_name.lower() == "glibc"
+        and locked_torch == "2.13.0"
+        and _version_tuple(libc_version) < (2, 28)
+    ):
+        problems.append(
+            f"torch 2.13.0 wheel profile requires glibc>=2.28; found {libc_version}. "
+            "Use a newer cluster container/module instead of building from source blindly"
+        )
+    require_eventhdr_train = args.require_full_data or args.require_eventhdr_train
+    require_eventhdr_eval = args.require_full_data or args.require_eventhdr_eval
+    require_eventaid_all = args.require_full_data or args.require_eventaid_all
+    expected_counts = {
+        "eventhdr_train_h5": (51, require_eventhdr_train),
+        "eventhdr_eval_h5": (19, require_eventhdr_eval),
+        "eventaid_r_zip": (14, require_eventaid_all),
+    }
+    for key, (expected, required) in expected_counts.items():
+        actual = int(report[key])
+        if required and actual < expected:
+            problems.append(f"{key} has {actual} files; at least {expected} are required")
+    if args.require_eventhdr_smoke:
+        if not smoke_required:
+            problems.append(f"Smoke manifest has no required H5 files: {smoke_manifest_path}")
+        smoke_missing = sorted(smoke_required - train_present)
+        if smoke_missing:
+            problems.append(
+                "EventHDR train directory is missing smoke manifest files: "
+                + ", ".join(smoke_missing)
+            )
+    if require_eventhdr_train:
         manifest_path = project_root / "manifests" / "eventhdr_split.json"
         if manifest_path.is_file():
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            train_root = data_root / "EventHDR" / "train"
-            present = {path.relative_to(train_root).as_posix() for path in train_files}
+            manifest = load_eventhdr_split_manifest(manifest_path)
             required = {
                 PurePosixPath(str(value).replace("\\", "/")).as_posix()
                 for value in (
-                    list(manifest.get("train_files", []))
-                    + list(manifest.get("val_files", []))
+                    list(manifest.get("train_files", [])) + list(manifest.get("val_files", []))
                 )
             }
-            missing = sorted(required - present)
+            missing = sorted(required - train_present)
             if missing:
                 problems.append(
                     "EventHDR train directory is missing manifest files: "
                     + ", ".join(missing[:8])
                     + (" ..." if len(missing) > 8 else "")
                 )
+    if require_eventaid_all:
         aid_manifest_path = project_root / "manifests" / "eventaid_r.json"
         if aid_manifest_path.is_file():
             aid_manifest = json.loads(aid_manifest_path.read_text(encoding="utf-8"))
@@ -1829,7 +2882,7 @@ if __name__ == "__main__":
 
 # scripts/eval.sh
 
-~~~~~~text
+~~~~~~bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -1839,6 +2892,7 @@ CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_ann.json}}"
 CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}}"
 INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
+SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
@@ -1866,6 +2920,16 @@ if [[ "${INFERENCE_MODE}" != "ann" && "${INFERENCE_MODE}" != "snn" ]]; then
   echo "ERROR: INFERENCE_MODE must be ann or snn" >&2
   exit 2
 fi
+if [[ -n "${SNN_DYNAMICS}" ]]; then
+  if [[ "${INFERENCE_MODE}" != "snn" ]]; then
+    echo "ERROR: SNN_DYNAMICS is only valid when INFERENCE_MODE=snn" >&2
+    exit 2
+  fi
+  if [[ "${SNN_DYNAMICS}" != "literal_eq15" && "${SNN_DYNAMICS}" != "standard_if" ]]; then
+    echo "ERROR: SNN_DYNAMICS must be literal_eq15 or standard_if" >&2
+    exit 2
+  fi
+fi
 
 "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
 import sys
@@ -1883,6 +2947,11 @@ PY
 export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
 
+DYNAMICS_ARGS=()
+if [[ -n "${SNN_DYNAMICS}" ]]; then
+  DYNAMICS_ARGS=(--snn-dynamics "${SNN_DYNAMICS}")
+fi
+
 if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   "${PYTHON_BIN}" -m asgcn_recon.cli inspect \
     --config "${CONFIG_PATH}" --samples "${INSPECT_SAMPLES}"
@@ -1893,7 +2962,8 @@ echo "Evaluating ${CHECKPOINT_PATH} on ${CONFIG_PATH} (${INFERENCE_MODE})"
   --config "${CONFIG_PATH}" \
   --checkpoint "${CHECKPOINT_PATH}" \
   --inference-mode "${INFERENCE_MODE}" \
-  --simulation-steps "${SIMULATION_STEPS}"
+  --simulation-steps "${SIMULATION_STEPS}" \
+  "${DYNAMICS_ARGS[@]}"
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"
@@ -1903,13 +2973,14 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     --warmup "${BENCHMARK_WARMUP}" \
     --steps "${BENCHMARK_STEPS}" \
     --inference-mode "${INFERENCE_MODE}" \
-    --simulation-steps "${SIMULATION_STEPS}"
+    --simulation-steps "${SIMULATION_STEPS}" \
+    "${DYNAMICS_ARGS[@]}"
 fi
 ~~~~~~
 
 # scripts/get_aid.ps1
 
-~~~~~~text
+~~~~~~powershell
 param(
     [string]$Destination = ".\data\EventAid-R",
     [string[]]$Scenes = @()
@@ -1946,7 +3017,7 @@ Write-Host "Done. ZIP files are read directly; do not extract them."
 
 # scripts/get_aid.sh
 
-~~~~~~text
+~~~~~~bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -2102,7 +3173,7 @@ echo "Done. Keep the ZIP files compressed; the EventAid-R loader reads them dire
 
 # scripts/setup.sh
 
-~~~~~~text
+~~~~~~bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -2190,6 +3261,33 @@ if sys.version_info < (3, 10):
 print(f"Using Python {sys.version.split()[0]}")
 PY
 
+"${PYTHON_BIN}" - "${TORCH_VERSION}" "${CONSTRAINTS_FILE}" <<'PY'
+import platform
+import re
+import sys
+from pathlib import Path
+
+requested_torch = sys.argv[1]
+constraint_path = Path(sys.argv[2]) if sys.argv[2] else None
+if not requested_torch and constraint_path is not None:
+    for raw_line in constraint_path.read_text(encoding="utf-8").splitlines():
+        match = re.fullmatch(r"\s*torch==([^\s#]+)\s*", raw_line)
+        if match:
+            requested_torch = match.group(1).split("+", maxsplit=1)[0]
+            break
+
+if platform.system() == "Linux" and requested_torch == "2.13.0":
+    libc_name, libc_version = platform.libc_ver()
+    numbers = tuple(int(value) for value in re.findall(r"\d+", libc_version))
+    if libc_name.lower() != "glibc" or numbers < (2, 28):
+        found = f"{libc_name or 'unknown'} {libc_version or 'unknown'}"
+        raise SystemExit(
+            "The locked torch 2.13.0 wheel profile requires Linux glibc>=2.28; "
+            f"found {found}. Use a newer cluster container/module."
+        )
+    print(f"glibc preflight: {libc_version} (minimum 2.28)")
+PY
+
 if [[ ! -x "${VENV_DIR}/bin/python" ]]; then
   echo "Creating virtual environment: ${VENV_DIR}"
   "${PYTHON_BIN}" -m venv "${VENV_DIR}"
@@ -2266,12 +3364,13 @@ echo
 echo "Installation complete."
 echo "Python: ${VENV_PYTHON}"
 echo "Next: ./scripts/get_aid.sh R-bear"
+echo "Then: ${VENV_PYTHON} -m asgcn_recon.cli inspect --config configs/aid_smoke.json --samples 2"
 echo "Then place EventHDR H5 files under data/EventHDR/train and data/EventHDR/eval."
 ~~~~~~
 
 # scripts/train.sh
 
-~~~~~~text
+~~~~~~bash
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -2363,6 +3462,7 @@ export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_ann.json}"
 export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
+export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 export RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 export BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 export BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
@@ -2375,6 +3475,9 @@ echo "Host: $(hostname)"
 echo "PBS job: ${PBS_JOBID:-interactive}"
 echo "Config: ${CONFIG_PATH}"
 echo "Checkpoint: ${CHECKPOINT_PATH}"
+if [[ -n "${SNN_DYNAMICS}" ]]; then
+  echo "SNN dynamics: ${SNN_DYNAMICS}"
+fi
 nvidia-smi || true
 
 bash "${PROJECT_ROOT}/scripts/eval.sh" \
@@ -2428,6 +3531,7 @@ export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_ann.json}"
 export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
+export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 export RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 export BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 export BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
@@ -2440,6 +3544,9 @@ echo "Host: $(hostname)"
 echo "Job: ${SLURM_JOB_ID:-local}"
 echo "Config: ${CONFIG_PATH}"
 echo "Checkpoint: ${CHECKPOINT_PATH}"
+if [[ -n "${SNN_DYNAMICS}" ]]; then
+  echo "SNN dynamics: ${SNN_DYNAMICS}"
+fi
 nvidia-smi || true
 
 srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
@@ -2554,7 +3661,7 @@ srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
 
 # src/asgcn_recon/__init__.py
 
-~~~~~~text
+~~~~~~python
 """ASGCN-style event-to-frame reconstruction."""
 
 __version__ = "0.1.0"
@@ -2562,7 +3669,7 @@ __version__ = "0.1.0"
 
 # src/asgcn_recon/cli.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import argparse
@@ -2576,9 +3683,7 @@ from .engine import benchmark, calibrate, evaluate, train
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
 
 
-def _inspect_one_split(
-    dataset: Any, samples: int, validate_all: bool = False
-) -> dict[str, Any]:
+def _inspect_one_split(dataset: Any, samples: int, validate_all: bool = False) -> dict[str, Any]:
     details = []
     preview_count = min(samples, len(dataset))
     count = len(dataset) if validate_all else preview_count
@@ -2665,6 +3770,12 @@ def build_parser() -> argparse.ArgumentParser:
     eval_cmd.add_argument("--checkpoint", required=True)
     eval_cmd.add_argument("--inference-mode", choices=["ann", "snn"], default="ann")
     eval_cmd.add_argument("--simulation-steps", type=int, default=16)
+    eval_cmd.add_argument(
+        "--snn-dynamics",
+        choices=["literal_eq15", "standard_if"],
+        default=None,
+        help="inference-only override; the checkpoint architecture remains unchanged",
+    )
 
     bench_cmd = subparsers.add_parser("benchmark", help="benchmark compute-only latency")
     bench_cmd.add_argument("--config", required=True)
@@ -2673,6 +3784,11 @@ def build_parser() -> argparse.ArgumentParser:
     bench_cmd.add_argument("--steps", type=int, default=100)
     bench_cmd.add_argument("--inference-mode", choices=["ann", "snn"], default="ann")
     bench_cmd.add_argument("--simulation-steps", type=int, default=16)
+    bench_cmd.add_argument(
+        "--snn-dynamics",
+        choices=["literal_eq15", "standard_if"],
+        default=None,
+    )
 
     calibrate_cmd = subparsers.add_parser("calibrate", help="calibrate ANN-to-SNN thresholds")
     calibrate_cmd.add_argument("--config", required=True)
@@ -2698,6 +3814,7 @@ def main(argv: list[str] | None = None) -> None:
             resolve_path(args.checkpoint, base_dir),
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
+            snn_dynamics=args.snn_dynamics,
         )
     elif args.command == "benchmark":
         result = benchmark(
@@ -2707,6 +3824,7 @@ def main(argv: list[str] | None = None) -> None:
             steps=args.steps,
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
+            snn_dynamics=args.snn_dynamics,
         )
     elif args.command == "calibrate":
         result = {
@@ -2730,7 +3848,7 @@ if __name__ == "__main__":
 
 # src/asgcn_recon/data/__init__.py
 
-~~~~~~text
+~~~~~~python
 from .eventaid_r import EventAidRZipDataset
 from .eventhdr import EventHDRDataset
 from .factory import build_dataset, collate_samples, load_eventhdr_split_manifest
@@ -2746,9 +3864,10 @@ __all__ = [
 
 # src/asgcn_recon/data/common.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Any
 
@@ -2772,12 +3891,19 @@ def normalize_polarity(p: np.ndarray) -> np.ndarray:
     return np.where(p >= 0, 1.0, -1.0).astype(np.float32, copy=False)
 
 
+def uniform_cap_factor(event_count: int, max_events: int | None) -> int:
+    """Return the integer stride needed to keep at most ``max_events`` events."""
+    if max_events is None or max_events <= 0 or event_count <= max_events:
+        return 1
+    return math.ceil(event_count / max_events)
+
+
 def stratified_subsample(events: np.ndarray, max_events: int | None) -> np.ndarray:
-    """Keep temporal coverage while bounding graph memory."""
-    if max_events is None or max_events <= 0 or len(events) <= max_events:
+    """Uniformly stride-sample events to bound graph memory without linspace jitter."""
+    factor = uniform_cap_factor(len(events), max_events)
+    if factor == 1:
         return events.astype(np.float32, copy=False)
-    indices = np.linspace(0, len(events) - 1, max_events, dtype=np.int64)
-    return events[indices].astype(np.float32, copy=False)
+    return events[::factor].astype(np.float32, copy=False)
 
 
 def choose_crop(
@@ -2839,9 +3965,7 @@ def image_array_to_tensor(
 
     if target_channels == 1 and image.shape[-1] != 1:
         rgb = image[..., :3]
-        image = (
-            0.2126 * rgb[..., 0] + 0.7152 * rgb[..., 1] + 0.0722 * rgb[..., 2]
-        )[..., None]
+        image = (0.2126 * rgb[..., 0] + 0.7152 * rgb[..., 1] + 0.0722 * rgb[..., 2])[..., None]
     elif target_channels == 3 and image.shape[-1] == 1:
         image = np.repeat(image, 3, axis=-1)
     elif image.shape[-1] > target_channels:
@@ -2879,7 +4003,7 @@ def make_sample(
 
 # src/asgcn_recon/data/eventaid_r.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import io
@@ -2903,6 +4027,7 @@ from .common import (
     normalize_polarity,
     pil_to_array,
     stratified_subsample,
+    uniform_cap_factor,
 )
 
 _EVENT_RE = re.compile(r"(?:^|/)event/(\d+)\.txt$", re.IGNORECASE)
@@ -3006,13 +4131,13 @@ class EventAidRZipDataset(Dataset):
                         f"Invalid EventAid-R scene {path}: event and GT files are required"
                     )
                 if event_ids != list(range(event_ids[0], event_ids[-1] + 1)):
-                    raise ValueError(f"Invalid EventAid-R scene {path}: event IDs are not contiguous")
+                    raise ValueError(
+                        f"Invalid EventAid-R scene {path}: event IDs are not contiguous"
+                    )
                 if target_ids != list(range(target_ids[0], target_ids[-1] + 1)):
                     raise ValueError(f"Invalid EventAid-R scene {path}: GT IDs are not contiguous")
                 paired_ids = [
-                    event_id
-                    for event_id in event_ids
-                    if event_id + self.target_offset in targets
+                    event_id for event_id in event_ids if event_id + self.target_offset in targets
                 ]
                 boundary = abs(self.target_offset)
                 if self.target_offset >= 0:
@@ -3022,9 +4147,7 @@ class EventAidRZipDataset(Dataset):
                     allowed_event_gaps = set(event_ids[:boundary])
                     allowed_target_gaps = set(target_ids[-boundary:])
                 unpaired_events = set(event_ids) - set(paired_ids)
-                paired_targets = {
-                    event_id + self.target_offset for event_id in paired_ids
-                }
+                paired_targets = {event_id + self.target_offset for event_id in paired_ids}
                 unpaired_targets = set(target_ids) - paired_targets
                 if (
                     not paired_ids
@@ -3076,9 +4199,7 @@ class EventAidRZipDataset(Dataset):
         if not raw.strip():
             return np.empty((0, 4), dtype=np.float32)
         try:
-            rows = np.loadtxt(
-                io.BytesIO(raw), dtype=np.float64, comments=None, ndmin=2
-            )
+            rows = np.loadtxt(io.BytesIO(raw), dtype=np.float64, comments=None, ndmin=2)
         except (UnicodeDecodeError, ValueError) as error:
             raise ValueError(
                 f"Invalid EventAid-R event block {source}: every token must be numeric"
@@ -3130,12 +4251,18 @@ class EventAidRZipDataset(Dataset):
                 f"{item['scene']} shape.txt={item['shape']} but target={(height, width)}"
             )
         _validate_event_coordinates(events, height=height, width=width, source=source)
-        scene_seed = zlib.crc32(item["scene"].encode("utf-8"))
-        rng = np.random.default_rng(self.seed + scene_seed)
+        raw_event_count = len(events)
+        # Keep the sensor ROI aligned for recurrent/temporal evaluation.
+        crop_identity = f"{item['scene']}\0{item['path'].name}"
+        crop_seed = (self.seed + zlib.crc32(crop_identity.encode("utf-8"))) % (2**32)
+        rng = np.random.default_rng(crop_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
+        cropped_event_count = len(events)
+        dataset_sampling_factor = uniform_cap_factor(cropped_event_count, self.max_events)
         events = stratified_subsample(events, self.max_events)
+        retained_event_count = len(events)
         sample_id = f"{item['scene']}/{item['frame_id']:06d}"
         return make_sample(
             events,
@@ -3152,6 +4279,16 @@ class EventAidRZipDataset(Dataset):
                 "dt_us": (item["t1_us"] - item["t0_us"])
                 if item["t0_us"] is not None and item["t1_us"] is not None
                 else None,
+                "raw_event_count": raw_event_count,
+                "cropped_event_count": cropped_event_count,
+                "retained_event_count": retained_event_count,
+                "dataset_sampling_factor": dataset_sampling_factor,
+                "crop": {
+                    "left": crop.left,
+                    "top": crop.top,
+                    "width": crop.width,
+                    "height": crop.height,
+                },
             },
         )
 
@@ -3176,7 +4313,7 @@ class EventAidRZipDataset(Dataset):
 
 # src/asgcn_recon/data/eventhdr.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import os
@@ -3195,6 +4332,7 @@ from .common import (
     make_sample,
     normalize_polarity,
     stratified_subsample,
+    uniform_cap_factor,
 )
 
 _EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
@@ -3283,6 +4421,7 @@ class EventHDRDataset(Dataset):
         random_crop: bool = False,
         seed: int = 2026,
         allowed_files: list[str] | None = None,
+        file_to_scene: dict[str, str] | None = None,
     ) -> None:
         self.root = Path(root).expanduser()
         self.target_channels = int(target_channels)
@@ -3301,14 +4440,14 @@ class EventHDRDataset(Dataset):
                 f"No EventHDR .h5/.hdf5 files found under {self.root}. "
                 "Place the official files in this directory or update dataset.root."
             )
+        self.file_keys = {path: path.relative_to(self.root).as_posix() for path in discovered}
+        key_to_path = {key: path for path, key in self.file_keys.items()}
         self.files = discovered
-        self.file_keys = {
-            path: path.relative_to(self.root).as_posix() for path in discovered
-        }
         if allowed_files is not None:
-            allowed = {str(value).replace("\\", "/") for value in allowed_files}
-            present = set(self.file_keys.values())
-            missing = sorted(allowed - present)
+            allowed = [str(value).replace("\\", "/") for value in allowed_files]
+            if len(allowed) != len(set(allowed)):
+                raise ValueError("EventHDR allowed_files contains duplicate paths")
+            missing = sorted(set(allowed) - set(key_to_path))
             if missing:
                 preview = ", ".join(missing[:8])
                 suffix = " ..." if len(missing) > 8 else ""
@@ -3316,7 +4455,37 @@ class EventHDRDataset(Dataset):
                     f"EventHDR split requires {len(allowed)} files but {len(missing)} are "
                     f"missing under {self.root}: {preview}{suffix}"
                 )
-            self.files = [path for path in self.files if self.file_keys[path] in allowed]
+            self.files = [key_to_path[key] for key in allowed]
+        selected_keys = [self.file_keys[path] for path in self.files]
+        if file_to_scene is None:
+            self.file_to_scene = {key: key for key in selected_keys}
+        else:
+            if not isinstance(file_to_scene, dict):
+                raise TypeError("EventHDR file_to_scene must be a dictionary")
+            normalized_mapping: dict[str, str] = {}
+            for raw_key, scene_id in file_to_scene.items():
+                if not isinstance(raw_key, str) or not raw_key.strip():
+                    raise ValueError("EventHDR file_to_scene contains an invalid file key")
+                key = raw_key.replace("\\", "/")
+                if key in normalized_mapping:
+                    raise ValueError(
+                        f"EventHDR file_to_scene contains duplicate normalized key: {key}"
+                    )
+                if (
+                    not isinstance(scene_id, str)
+                    or not scene_id.strip()
+                    or scene_id != scene_id.strip()
+                ):
+                    raise ValueError(f"EventHDR file_to_scene has an invalid scene ID for {key}")
+                normalized_mapping[key] = scene_id
+            missing_scenes = sorted(set(selected_keys) - set(normalized_mapping))
+            if missing_scenes:
+                raise ValueError(
+                    "EventHDR file_to_scene is missing selected files: "
+                    + ", ".join(missing_scenes[:8])
+                    + (" ..." if len(missing_scenes) > 8 else "")
+                )
+            self.file_to_scene = {key: normalized_mapping[key] for key in selected_keys}
         self.samples = self._build_index()
         if not self.samples:
             raise RuntimeError(f"No valid EventHDR frames found under {self.root}")
@@ -3324,7 +4493,8 @@ class EventHDRDataset(Dataset):
     def _build_index(self) -> list[dict[str, Any]]:
         samples: list[dict[str, Any]] = []
         for path in self.files:
-            scene = self.file_keys[path]
+            source_file = self.file_keys[path]
+            scene = self.file_to_scene[source_file]
             with h5py.File(path, "r") as h5:
                 events_group = h5.get("events")
                 images_group = h5.get("images")
@@ -3387,6 +4557,7 @@ class EventHDRDataset(Dataset):
                             {
                                 "path": path,
                                 "scene": scene,
+                                "source_file": source_file,
                                 "image_key": key,
                                 "start_idx": selected_start_idx,
                                 "end_idx": end_idx,
@@ -3447,13 +4618,25 @@ class EventHDRDataset(Dataset):
             time_span = max(float(events[-1, 2] - events[0, 2]), 1e-9)
             events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
         events = events.astype(np.float32, copy=False)
-        scene_seed = zlib.crc32(item["scene"].encode("utf-8"))
-        rng = np.random.default_rng(self.seed + scene_seed)
+        raw_event_count = len(events)
+        # Recurrent pixels and temporal losses must refer to the same sensor ROI
+        # throughout one source sequence. The crop is deterministic per file, not
+        # per frame; epoch-varying sequence crops are intentionally not implemented.
+        crop_identity = f"{item['scene']}\0{item['source_file']}"
+        crop_seed = (self.seed + zlib.crc32(crop_identity.encode("utf-8"))) % (2**32)
+        rng = np.random.default_rng(crop_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
+        cropped_event_count = len(events)
+        dataset_sampling_factor = uniform_cap_factor(cropped_event_count, self.max_events)
         events = stratified_subsample(events, self.max_events)
-        sample_id = f"{item['scene']}/{item['image_key']}"
+        retained_event_count = len(events)
+        sample_id = (
+            f"{item['scene']}/{item['image_key']}"
+            if item["scene"] == item["source_file"]
+            else f"{item['scene']}/{item['source_file']}/{item['image_key']}"
+        )
         t0 = item["t0"]
         t1 = item["timestamp"]
         return make_sample(
@@ -3468,8 +4651,19 @@ class EventHDRDataset(Dataset):
                 "t1": t1,
                 "dt_us": round((t1 - t0) * 1_000_000) if t0 is not None else None,
                 "source": str(item["path"]),
+                "source_file": item["source_file"],
                 "scene": item["scene"],
                 "sequence_index": item["sequence_index"],
+                "raw_event_count": raw_event_count,
+                "cropped_event_count": cropped_event_count,
+                "retained_event_count": retained_event_count,
+                "dataset_sampling_factor": dataset_sampling_factor,
+                "crop": {
+                    "left": crop.left,
+                    "top": crop.top,
+                    "width": crop.width,
+                    "height": crop.height,
+                },
             },
         )
 
@@ -3494,7 +4688,7 @@ class EventHDRDataset(Dataset):
 
 # src/asgcn_recon/data/factory.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import json
@@ -3516,10 +4710,55 @@ def _normalize_eventhdr_file_key(value: str, manifest_path: Path) -> str:
         or key.suffix.lower() not in {".h5", ".hdf5"}
     ):
         raise ValueError(
-            f"EventHDR split manifest {manifest_path} has invalid relative HDF5 path: "
-            f"{value!r}"
+            f"EventHDR split manifest {manifest_path} has invalid relative HDF5 path: {value!r}"
         )
     return key.as_posix()
+
+
+def _normalize_file_list(
+    values: Any,
+    *,
+    field: str,
+    manifest_path: Path,
+) -> list[str]:
+    if not isinstance(values, list) or not values:
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} field '{field}' must be "
+            "a non-empty list of HDF5 filenames"
+        )
+    if any(not isinstance(value, str) or not value.strip() for value in values):
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} field '{field}' contains "
+            "a non-string or empty filename"
+        )
+    normalized = [_normalize_eventhdr_file_key(value, manifest_path) for value in values]
+    if len(normalized) != len(set(normalized)):
+        raise ValueError(f"EventHDR split manifest {manifest_path} field '{field}' has duplicates")
+    return normalized
+
+
+def _normalize_scene_list(
+    values: Any,
+    *,
+    field: str,
+    manifest_path: Path,
+) -> list[str]:
+    if not isinstance(values, list) or not values:
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} field '{field}' must be "
+            "a non-empty list of physical scene IDs"
+        )
+    if any(
+        not isinstance(value, str) or not value.strip() or value != value.strip()
+        for value in values
+    ):
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} field '{field}' contains "
+            "an invalid physical scene ID"
+        )
+    if len(values) != len(set(values)):
+        raise ValueError(f"EventHDR split manifest {manifest_path} field '{field}' has duplicates")
+    return list(values)
 
 
 def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
@@ -3531,37 +4770,154 @@ def load_eventhdr_split_manifest(path: str | Path) -> dict[str, Any]:
         )
     with manifest_path.open("r", encoding="utf-8") as handle:
         manifest = json.load(handle)
-    for key in ("train_files", "val_files"):
-        values = manifest.get(key)
-        if not isinstance(values, list) or not values:
-            raise ValueError(
-                f"EventHDR split manifest {manifest_path} field '{key}' must be "
-                "a non-empty list of HDF5 filenames"
-            )
-        if any(not isinstance(value, str) or not value.strip() for value in values):
-            raise ValueError(
-                f"EventHDR split manifest {manifest_path} field '{key}' contains "
-                "a non-string or empty filename"
-            )
-        normalized = [_normalize_eventhdr_file_key(value, manifest_path) for value in values]
-        if len(normalized) != len(set(normalized)):
-            raise ValueError(
-                f"EventHDR split manifest {manifest_path} field '{key}' has duplicates"
-            )
-        manifest[key] = sorted(normalized)
-    overlap = sorted(set(manifest["train_files"]) & set(manifest["val_files"]))
-    if overlap:
+    if not isinstance(manifest, dict):
+        raise TypeError(f"EventHDR split manifest {manifest_path} must contain an object")
+    raw_status = manifest.get("status", "provisional")
+    if not isinstance(raw_status, str):
+        raise TypeError(f"EventHDR split manifest {manifest_path} field 'status' must be a string")
+    status = raw_status.strip().lower()
+    if status not in {"provisional", "final"}:
         raise ValueError(
-            f"EventHDR split manifest {manifest_path} leaks files across train/val: "
-            + ", ".join(overlap[:8])
-            + (" ..." if len(overlap) > 8 else "")
+            f"EventHDR split manifest {manifest_path} status must be 'provisional' or 'final'"
         )
+    manifest["status"] = status
+
+    scene_fields = ("scene_groups", "train_scenes", "val_scenes")
+    present_scene_fields = [field for field in scene_fields if field in manifest]
+    if present_scene_fields and len(present_scene_fields) != len(scene_fields):
+        missing = ", ".join(field for field in scene_fields if field not in manifest)
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} has an incomplete physical-scene "
+            f"schema; missing: {missing}"
+        )
+
+    if not present_scene_fields:
+        if status == "final":
+            raise ValueError(
+                f"Final EventHDR split manifest {manifest_path} requires scene_groups, "
+                "train_scenes, and val_scenes; legacy train_files/val_files cannot "
+                "prove physical-scene separation"
+            )
+        for field in ("train_files", "val_files"):
+            manifest[field] = sorted(
+                _normalize_file_list(manifest.get(field), field=field, manifest_path=manifest_path)
+            )
+        overlap = sorted(set(manifest["train_files"]) & set(manifest["val_files"]))
+        if overlap:
+            raise ValueError(
+                f"EventHDR split manifest {manifest_path} leaks files across train/val: "
+                + ", ".join(overlap[:8])
+                + (" ..." if len(overlap) > 8 else "")
+            )
+        manifest["split_schema"] = "legacy_files_v1"
+        manifest["file_to_scene"] = {
+            key: key for key in (*manifest["train_files"], *manifest["val_files"])
+        }
+        return manifest
+
+    raw_groups = manifest["scene_groups"]
+    if not isinstance(raw_groups, dict) or not raw_groups:
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} field 'scene_groups' must be "
+            "a non-empty object"
+        )
+    scene_groups: dict[str, list[str]] = {}
+    file_to_scene: dict[str, str] = {}
+    for scene_id, values in raw_groups.items():
+        if not isinstance(scene_id, str) or not scene_id.strip() or scene_id != scene_id.strip():
+            raise ValueError(
+                f"EventHDR split manifest {manifest_path} has an invalid physical scene ID"
+            )
+        files = _normalize_file_list(
+            values,
+            field=f"scene_groups.{scene_id}",
+            manifest_path=manifest_path,
+        )
+        for file_key in files:
+            owner = file_to_scene.get(file_key)
+            if owner is not None:
+                raise ValueError(
+                    f"EventHDR split manifest {manifest_path} assigns file {file_key!r} "
+                    f"to multiple physical scenes: {owner!r}, {scene_id!r}"
+                )
+            file_to_scene[file_key] = scene_id
+        scene_groups[scene_id] = files
+
+    train_scenes = _normalize_scene_list(
+        manifest["train_scenes"], field="train_scenes", manifest_path=manifest_path
+    )
+    val_scenes = _normalize_scene_list(
+        manifest["val_scenes"], field="val_scenes", manifest_path=manifest_path
+    )
+    unknown_scenes = sorted((set(train_scenes) | set(val_scenes)) - set(scene_groups))
+    if unknown_scenes:
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} references undefined physical "
+            "scenes: " + ", ".join(unknown_scenes)
+        )
+    scene_overlap = sorted(set(train_scenes) & set(val_scenes))
+    if scene_overlap:
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} leaks physical scenes across "
+            "train/val: " + ", ".join(scene_overlap)
+        )
+    unassigned_scenes = sorted(set(scene_groups) - set(train_scenes) - set(val_scenes))
+    if unassigned_scenes:
+        raise ValueError(
+            f"EventHDR split manifest {manifest_path} leaves physical scenes unassigned: "
+            + ", ".join(unassigned_scenes)
+        )
+
+    train_files = [file for scene in train_scenes for file in scene_groups[scene]]
+    val_files = [file for scene in val_scenes for file in scene_groups[scene]]
+    for field, normalized in (("train_files", train_files), ("val_files", val_files)):
+        if field in manifest:
+            declared = _normalize_file_list(
+                manifest[field], field=field, manifest_path=manifest_path
+            )
+            if set(declared) != set(normalized):
+                raise ValueError(
+                    f"EventHDR split manifest {manifest_path} field '{field}' does not "
+                    "match the physical-scene assignment"
+                )
+        manifest[field] = normalized
+    manifest["scene_groups"] = dict(sorted(scene_groups.items()))
+    manifest["train_scenes"] = train_scenes
+    manifest["val_scenes"] = val_scenes
+    manifest["file_to_scene"] = dict(sorted(file_to_scene.items()))
+    manifest["split_schema"] = "physical_scenes_v1"
     return manifest
+
+
+def _discover_eventhdr_files(
+    root: Path,
+    *,
+    exclude_roots: tuple[Path, ...] = (),
+) -> set[str]:
+    """List H5 keys under one logical root without double-counting nested roots."""
+    resolved_root = root.resolve()
+    resolved_excludes = tuple(
+        candidate.resolve()
+        for candidate in exclude_roots
+        if candidate.resolve() != resolved_root
+        and candidate.resolve().is_relative_to(resolved_root)
+    )
+    discovered: set[str] = set()
+    for pattern in ("*.h5", "*.hdf5"):
+        for path in root.rglob(pattern):
+            if any(path.resolve().is_relative_to(excluded) for excluded in resolved_excludes):
+                continue
+            discovered.add(path.relative_to(root).as_posix())
+    return discovered
 
 
 def build_dataset(config: dict[str, Any], split: str = "train"):
     cfg = dict(config)
     dataset_type = cfg.pop("type")
+    expected_file_count = cfg.pop("expected_file_count", None)
+    file_manifest = cfg.pop("file_manifest", None)
+    training_root = Path(cfg["root"])
+    validation_root = Path(cfg["val_root"]) if cfg.get("val_root") else training_root
     if split == "val" and cfg.get("val_root"):
         cfg["root"] = cfg["val_root"]
     root = cfg.pop("root")
@@ -3572,11 +4928,91 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
         if split_manifest and split in {"train", "val", "calibration"}:
             manifest_path = Path(split_manifest)
             manifest = load_eventhdr_split_manifest(manifest_path)
+            if manifest["status"] == "final":
+                if training_root.resolve() == validation_root.resolve():
+                    coverage_specs = (
+                        (
+                            "dataset.root",
+                            training_root,
+                            set(manifest["file_to_scene"]),
+                            (),
+                        ),
+                    )
+                else:
+                    coverage_specs = (
+                        (
+                            "dataset.root train_files",
+                            training_root,
+                            set(manifest["train_files"]),
+                            (validation_root,),
+                        ),
+                        (
+                            "dataset.val_root val_files",
+                            validation_root,
+                            set(manifest["val_files"]),
+                            (training_root,),
+                        ),
+                    )
+                for label, coverage_root, declared, excluded_roots in coverage_specs:
+                    discovered = _discover_eventhdr_files(
+                        coverage_root,
+                        exclude_roots=excluded_roots,
+                    )
+                    undeclared = sorted(discovered - declared)
+                    missing = sorted(declared - discovered)
+                    if undeclared or missing:
+                        details = []
+                        if undeclared:
+                            details.append("undeclared: " + ", ".join(undeclared[:8]))
+                        if missing:
+                            details.append("missing: " + ", ".join(missing[:8]))
+                        raise ValueError(
+                            f"Final EventHDR manifest must cover every H5 under {label} ("
+                            + "; ".join(details)
+                            + ")"
+                        )
             key = "val_files" if split == "val" else "train_files"
             cfg["allowed_files"] = manifest[key]
-        return EventHDRDataset(root=root, **cfg)
+            cfg["file_to_scene"] = {
+                file_key: manifest["file_to_scene"][file_key] for file_key in manifest[key]
+            }
+        dataset = EventHDRDataset(root=root, **cfg)
+        if expected_file_count is not None and len(dataset.files) != int(expected_file_count):
+            dataset.close()
+            raise ValueError(
+                f"EventHDR coverage requires exactly {int(expected_file_count)} H5 files; "
+                f"found {len(dataset.files)}"
+            )
+        return dataset
     if dataset_type == "eventaid_r_zip":
-        return EventAidRZipDataset(root=root, **cfg)
+        dataset = EventAidRZipDataset(root=root, **cfg)
+        if file_manifest is not None:
+            manifest_path = Path(file_manifest)
+            if not manifest_path.is_file():
+                dataset.close()
+                raise FileNotFoundError(f"EventAid-R file manifest does not exist: {manifest_path}")
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            expected = {
+                f"{item['scene']}.zip"
+                for item in manifest.get("files", [])
+                if isinstance(item, dict) and item.get("scene")
+            }
+            present = {path.name for path in dataset.zip_paths}
+            if not expected or present != expected:
+                dataset.close()
+                missing = sorted(expected - present)
+                extra = sorted(present - expected)
+                raise ValueError(
+                    "EventAid-R coverage does not match the fixed file manifest "
+                    f"(missing={missing}, extra={extra})"
+                )
+        if expected_file_count is not None and len(dataset.zip_paths) != int(expected_file_count):
+            dataset.close()
+            raise ValueError(
+                f"EventAid-R coverage requires exactly {int(expected_file_count)} ZIP files; "
+                f"found {len(dataset.zip_paths)}"
+            )
+        return dataset
     raise ValueError(f"Unsupported dataset type: {dataset_type}")
 
 
@@ -3587,13 +5023,14 @@ def collate_samples(batch: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 # src/asgcn_recon/engine.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import copy
 import hashlib
 import math
 import random
+import re
 import statistics
 import time
 from collections import Counter, defaultdict
@@ -3607,6 +5044,7 @@ from torch.utils.data import DataLoader, Subset
 from tqdm import tqdm
 
 from .data import build_dataset, collate_samples, load_eventhdr_split_manifest
+from .graph import PAPER_CORE_VERSION, PaperSplineConv
 from .losses import ReconstructionLoss
 from .metrics import (
     MetricAccumulator,
@@ -3638,21 +5076,160 @@ def _load_checkpoint(path: str | Path) -> dict[str, Any]:
         return torch.load(path, map_location="cpu")
 
 
+def _model_state_sha256(state: dict[str, torch.Tensor]) -> str:
+    """Return a deterministic digest that binds checkpoint metadata to tensor bytes."""
+    digest = hashlib.sha256()
+    for name in sorted(state):
+        tensor = state[name]
+        if not torch.is_tensor(tensor):
+            raise TypeError(f"Model state entry {name!r} is not a tensor")
+        value = tensor.detach().cpu().contiguous()
+        digest.update(name.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(str(value.dtype).encode("ascii"))
+        digest.update(b"\0")
+        digest.update(str(tuple(value.shape)).encode("ascii"))
+        digest.update(b"\0")
+        digest.update(value.reshape(-1).view(torch.uint8).numpy().tobytes())
+    return digest.hexdigest()
+
+
+def _validate_model_state_digest(
+    state: dict[str, torch.Tensor],
+    checkpoint: dict[str, Any],
+    checkpoint_path: str | Path,
+) -> str:
+    """Require every paper-core checkpoint to bind metadata to exact tensor bytes."""
+    expected = checkpoint.get("model_state_sha256")
+    if not isinstance(expected, str) or re.fullmatch(r"[0-9a-f]{64}", expected) is None:
+        raise ValueError(f"Checkpoint {checkpoint_path} is missing a valid model_state_sha256")
+    computed = _model_state_sha256(state)
+    if computed != expected:
+        raise ValueError(
+            f"Checkpoint {checkpoint_path} model_state_sha256 does not match tensor bytes"
+        )
+    return computed
+
+
+def _validate_loaded_conversion_state(
+    model: ASGCNReconstructor,
+    metadata: dict[str, Any],
+    checkpoint_path: str | Path,
+) -> None:
+    """Cross-check user-editable checkpoint metadata against persistent layer flags."""
+    for name, tensor in model.state_dict().items():
+        if (tensor.is_floating_point() or tensor.is_complex()) and not bool(
+            torch.isfinite(tensor).all()
+        ):
+            raise ValueError(f"Checkpoint {checkpoint_path} contains non-finite state: {name}")
+    bn_flags = [bool(layer.bn_bypassed.item()) for layer in model.encoder.layers]
+    normalized_flags = [bool(layer.snn_normalized.item()) for layer in model.encoder.layers]
+    if len(set(bn_flags)) > 1 or len(set(normalized_flags)) > 1:
+        raise ValueError(f"Checkpoint {checkpoint_path} contains partially converted graph layers")
+    state_bn_folded = all(bn_flags)
+    state_normalized = all(normalized_flags)
+    metadata_bn_folded = bool(metadata.get("batch_norm_folded"))
+    metadata_normalized = bool(metadata.get("parameter_normalized"))
+    if metadata_bn_folded != state_bn_folded:
+        raise ValueError(
+            f"Checkpoint {checkpoint_path} batch_norm_folded metadata disagrees "
+            "with layer bn_bypassed state"
+        )
+    if metadata_normalized != state_normalized:
+        raise ValueError(
+            f"Checkpoint {checkpoint_path} parameter_normalized metadata disagrees "
+            "with layer snn_normalized state"
+        )
+    checkpoint_type = metadata.get("checkpoint_type")
+    if checkpoint_type == "snn_inference" and not (state_bn_folded and state_normalized):
+        raise ValueError(
+            f"Checkpoint {checkpoint_path} is labeled snn_inference but its graph "
+            "layers are not fully BN-folded and Eq. (6)-normalized"
+        )
+    if checkpoint_type == "snn_inference":
+        sample_counts = [int(value) for value in model.encoder.calibration_samples_seen.tolist()]
+        if not sample_counts or min(sample_counts) < 1:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} has graph layers without valid calibration"
+            )
+        for index, layer in enumerate(model.encoder.layers):
+            if not bool((layer.activation_max > 0).all()):
+                raise ValueError(
+                    f"Checkpoint {checkpoint_path} layer {index} has non-positive lambda"
+                )
+            if not bool((layer.threshold > 0).all()):
+                raise ValueError(
+                    f"Checkpoint {checkpoint_path} layer {index} has non-positive threshold"
+                )
+            if not torch.equal(layer.threshold, torch.ones_like(layer.threshold)):
+                raise ValueError(
+                    f"Checkpoint {checkpoint_path} layer {index} threshold is not the "
+                    "unit threshold produced by Eq. (6) conversion"
+                )
+        summary = metadata.get("snn_calibration_summary")
+        if not isinstance(summary, dict):
+            raise ValueError(f"Checkpoint {checkpoint_path} is missing calibration summary")
+        if summary.get("valid_samples_per_layer") != sample_counts:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} calibration metadata disagrees with layer state"
+            )
+        minimum = min(sample_counts)
+        if int(summary.get("minimum_valid_samples", 0) or 0) != minimum:
+            raise ValueError(f"Checkpoint {checkpoint_path} calibration minimum is inconsistent")
+        if int(metadata.get("snn_calibration_valid_samples", 0) or 0) != minimum:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} valid calibration count is inconsistent"
+            )
+        selected = int(metadata.get("snn_calibration_samples", 0) or 0)
+        if selected < minimum:
+            raise ValueError(
+                f"Checkpoint {checkpoint_path} selected calibration count is inconsistent"
+            )
+    if checkpoint_type in {"ann_inference", "training"} and (state_bn_folded or state_normalized):
+        raise ValueError(
+            f"Checkpoint {checkpoint_path} is labeled {checkpoint_type} but contains "
+            "converted SNN graph-layer state"
+        )
+
+
 def load_model_checkpoint(
     checkpoint_path: str | Path,
     device: torch.device,
     fallback_model_config: dict[str, Any],
 ) -> tuple[ASGCNReconstructor, dict[str, Any]]:
     checkpoint = _load_checkpoint(checkpoint_path)
-    model_config = checkpoint.get("model_config", fallback_model_config)
+    if not isinstance(checkpoint, dict):
+        raise TypeError(f"Checkpoint {checkpoint_path} must contain a dictionary")
+    model_config = checkpoint.get("model_config")
+    if not isinstance(model_config, dict):
+        raise TypeError(
+            f"Checkpoint {checkpoint_path} has no embedded model_config. Legacy/raw "
+            "state dictionaries are incompatible with the paper-core architecture."
+        )
+    architecture_version = model_config.get("architecture_version")
+    if architecture_version != PAPER_CORE_VERSION:
+        raise ValueError(
+            f"Checkpoint {checkpoint_path} has architecture_version="
+            f"{architecture_version!r}; paper-core version {PAPER_CORE_VERSION} is "
+            "required. Legacy edge-MLP checkpoints cannot be loaded as ASGCN."
+        )
+    if model_config != fallback_model_config:
+        raise ValueError(
+            f"Checkpoint {checkpoint_path} model_config differs from config.model. "
+            "Use the exact training architecture; inference-only SNN dynamics must "
+            "be selected with the explicit --snn-dynamics override."
+        )
+    if "model" not in checkpoint or not isinstance(checkpoint["model"], dict):
+        raise TypeError(
+            f"Checkpoint {checkpoint_path} has no model state dictionary; raw state "
+            "dictionaries are incompatible with the paper-core checkpoint protocol."
+        )
+    state = checkpoint.pop("model")
+    _validate_model_state_digest(state, checkpoint, checkpoint_path)
+    metadata = checkpoint
     model = build_model(model_config).to(device)
-    if "model" in checkpoint:
-        state = checkpoint.pop("model")
-        metadata = checkpoint
-    else:
-        state = checkpoint
-        metadata = {}
     model.load_state_dict(state, strict=True)
+    _validate_loaded_conversion_state(model, metadata, checkpoint_path)
     del state
     return model, metadata
 
@@ -3681,9 +5258,7 @@ def _dataset_group_key(dataset, index: int) -> str:
     return str(metadata.get("scene") or metadata.get("source") or "unknown")
 
 
-def _balanced_sample_indices(
-    dataset, limit: int | None, seed: int = 2026
-) -> list[int]:
+def _balanced_sample_indices(dataset, limit: int | None, seed: int = 2026) -> list[int]:
     """Select near-equal, time-spread samples from every file/scene.
 
     Round-robin allocation prevents long files from consuming the complete
@@ -3831,9 +5406,7 @@ def _prefix_context_schedule(
         first_position = group_indices.index(selected[0])
         last_position = group_indices.index(selected[-1])
         start_position = (
-            0
-            if max_context_frames is None
-            else max(0, first_position - int(max_context_frames))
+            0 if max_context_frames is None else max(0, first_position - int(max_context_frames))
         )
         for index in group_indices[start_position : last_position + 1]:
             position = len(schedule)
@@ -3853,6 +5426,7 @@ def _dataset_sample_identity(dataset, index: int) -> dict[str, Any]:
         return identity
     record = records[index]
     for key in (
+        "source_file",
         "sequence_index",
         "frame_id",
         "image_key",
@@ -3960,9 +5534,7 @@ def _load_data_hash_cache(path: Path, rehash: bool) -> dict[str, dict[str, Any]]
 
 def _sampling_summary(dataset, indices: list[int]) -> dict[str, Any]:
     counts = Counter(_dataset_group_key(dataset, index) for index in indices)
-    available_counts = Counter(
-        _dataset_group_key(dataset, index) for index in range(len(dataset))
-    )
+    available_counts = Counter(_dataset_group_key(dataset, index) for index in range(len(dataset)))
     return {
         "selected_samples": len(indices),
         "selected_groups": len(counts),
@@ -3994,6 +5566,8 @@ def _sample_sequence_info(
     sample: dict[str, Any],
 ) -> tuple[str, int | None, tuple[int, int]]:
     metadata = sample.get("metadata", {})
+    if not isinstance(metadata, dict):
+        metadata = {}
     scene = str(metadata.get("scene", "unknown"))
     raw_index = metadata.get("sequence_index")
     try:
@@ -4049,12 +5623,18 @@ def _validate_resume_best_pair(
     resume_checkpoint: dict[str, Any], best_checkpoint: dict[str, Any]
 ) -> None:
     """Ensure last.pt and best.pt belong to the same exact training run."""
-    if best_checkpoint.get("validation_protocol") != resume_checkpoint.get(
-        "validation_protocol"
-    ):
+    if best_checkpoint.get("validation_protocol") != resume_checkpoint.get("validation_protocol"):
         raise ValueError("Historical best.pt has a different validation protocol")
     if best_checkpoint.get("model_config") != resume_checkpoint.get("model_config"):
         raise ValueError("Historical best.pt has a different model configuration")
+    if best_checkpoint.get("training_protocol") != resume_checkpoint.get("training_protocol"):
+        raise ValueError("Historical best.pt has a different training protocol")
+    for name, checkpoint in (
+        ("resume checkpoint", resume_checkpoint),
+        ("historical best.pt", best_checkpoint),
+    ):
+        if checkpoint.get("paper_core_version") != PAPER_CORE_VERSION:
+            raise ValueError(f"{name} does not declare paper_core_version={PAPER_CORE_VERSION}")
     if best_checkpoint.get("best_metric") != "macro_ssim":
         raise ValueError("Historical best.pt does not use macro_ssim model selection")
     resume_best = _resume_best_macro_ssim(resume_checkpoint)
@@ -4065,6 +5645,12 @@ def _validate_resume_best_pair(
         raise ValueError("Historical best.pt validation score is internally inconsistent")
     if int(best_checkpoint.get("epoch", -1)) > int(resume_checkpoint.get("epoch", -1)):
         raise ValueError("Historical best.pt is newer than the resume checkpoint")
+    best_digest = best_checkpoint.get("model_state_sha256")
+    resume_digest = resume_checkpoint.get("best_model_state_sha256")
+    if not isinstance(best_digest, str) or re.fullmatch(r"[0-9a-f]{64}", best_digest) is None:
+        raise ValueError("Historical best.pt is missing a valid model state digest")
+    if best_digest != resume_digest:
+        raise ValueError("Historical best.pt model digest does not match the resume checkpoint")
 
 
 def _validate_snn_request(
@@ -4073,6 +5659,21 @@ def _validate_snn_request(
     checkpoint: dict[str, Any] | None = None,
     checkpoint_path: str | Path | None = None,
 ) -> None:
+    if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
+        raise ValueError("simulation_steps must be an integer")
+    simulation_steps = int(simulation_steps)
+    if inference_mode == "ann":
+        if checkpoint is not None and (
+            checkpoint.get("checkpoint_type") == "snn_inference"
+            or bool(checkpoint.get("parameter_normalized"))
+        ):
+            location = f" {checkpoint_path}" if checkpoint_path is not None else ""
+            raise ValueError(
+                f"ANN inference requires an ANN checkpoint;{location} contains "
+                "Eq. (6)-normalized SNN weights. Use best.pt for ANN inference or "
+                "select inference_mode='snn'."
+            )
+        return
     if inference_mode != "snn":
         return
     if int(simulation_steps) < 1:
@@ -4080,12 +5681,55 @@ def _validate_snn_request(
     if checkpoint is None:
         return
     calibration_samples = int(checkpoint.get("snn_calibration_samples", 0) or 0)
-    if not bool(checkpoint.get("batch_norm_folded")) or calibration_samples < 1:
+    valid_calibration_samples = int(checkpoint.get("snn_calibration_valid_samples", 0) or 0)
+    requirements_met = (
+        checkpoint.get("checkpoint_type") == "snn_inference"
+        and bool(checkpoint.get("batch_norm_folded"))
+        and calibration_samples >= 1
+        and valid_calibration_samples >= 1
+        and checkpoint.get("paper_core_version") == PAPER_CORE_VERSION
+        and bool(checkpoint.get("parameter_normalized"))
+    )
+    if not requirements_met:
         location = f" {checkpoint_path}" if checkpoint_path is not None else ""
         raise ValueError(
             f"SNN inference requires a calibrated checkpoint;{location} is missing "
-            "batch_norm_folded=true or snn_calibration_samples>=1. Run calibrate first."
+            "checkpoint_type=snn_inference, batch_norm_folded=true, "
+            "snn_calibration_samples>=1, "
+            "snn_calibration_valid_samples>=1, "
+            f"paper_core_version={PAPER_CORE_VERSION}, or parameter_normalized=true. "
+            "Run calibrate first."
         )
+
+
+def _set_inference_snn_dynamics(
+    model: ASGCNReconstructor,
+    inference_mode: str,
+    override: str | None,
+) -> None:
+    if override is None:
+        return
+    if inference_mode != "snn":
+        raise ValueError("snn_dynamics override is only valid for SNN inference")
+    if override not in {"literal_eq15", "standard_if"}:
+        raise ValueError("snn_dynamics must be 'literal_eq15' or 'standard_if'")
+    model.snn_dynamics = override
+
+
+def _inference_run_label(
+    inference_mode: str,
+    simulation_steps: int,
+    snn_dynamics: str,
+) -> str:
+    return "ann" if inference_mode == "ann" else f"snn_{snn_dynamics}_T{int(simulation_steps)}"
+
+
+def _prediction_artifact_stem(sample_id: Any, index: int) -> str:
+    """Create a bounded, collision-resistant filename valid on Linux and Windows."""
+    raw = str(sample_id)
+    slug = re.sub(r"[^A-Za-z0-9._-]+", "_", raw).strip("._-")[:64] or "sample"
+    digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:12]
+    return f"{int(index):08d}_{slug}_{digest}"
 
 
 def _reset_cuda_peak_memory(device: torch.device) -> None:
@@ -4173,14 +5817,257 @@ def _capture_rng_state() -> dict[str, Any]:
     return state
 
 
-def _restore_rng_state(state: dict[str, Any] | None) -> None:
-    if not state:
-        return
-    random.setstate(state["python"])
-    np.random.set_state(state["numpy"])
-    torch.set_rng_state(state["torch"].cpu())
-    if torch.cuda.is_available() and "cuda" in state:
-        torch.cuda.set_rng_state_all([value.cpu() for value in state["cuda"]])
+def _restore_rng_state(state: Any) -> None:
+    if not isinstance(state, dict):
+        raise TypeError("Exact resume requires a dictionary rng_state")
+    missing = sorted({"python", "numpy", "torch"} - set(state))
+    if missing:
+        raise ValueError("Exact resume rng_state is missing: " + ", ".join(missing))
+    if not torch.is_tensor(state["torch"]):
+        raise ValueError("Exact resume rng_state['torch'] must be a tensor")
+    if torch.cuda.is_available():
+        cuda_state = state.get("cuda")
+        if not isinstance(cuda_state, list) or len(cuda_state) != torch.cuda.device_count():
+            raise ValueError(
+                "Exact CUDA resume requires one rng_state['cuda'] tensor per visible device"
+            )
+        if any(not torch.is_tensor(value) for value in cuda_state):
+            raise ValueError("Exact resume CUDA RNG entries must be tensors")
+    try:
+        random.setstate(state["python"])
+        np.random.set_state(state["numpy"])
+        torch.set_rng_state(state["torch"].cpu())
+        if torch.cuda.is_available():
+            torch.cuda.set_rng_state_all([value.cpu() for value in state["cuda"]])
+    except (KeyError, TypeError, ValueError, RuntimeError) as error:
+        raise ValueError("Exact resume contains an invalid RNG state schema") from error
+
+
+def _optimizer_mode(train_config: dict[str, Any]) -> str:
+    mode = str(train_config.get("optimizer", "adamw")).strip().lower()
+    if mode not in {"adamw", "adam_gc"}:
+        raise ValueError("train.optimizer must be 'adamw' or 'adam_gc'")
+    return mode
+
+
+def _scheduler_spec(train_config: dict[str, Any]) -> dict[str, Any] | None:
+    raw_milestones = train_config.get("lr_milestones")
+    if raw_milestones is None or raw_milestones == []:
+        return None
+    if not isinstance(raw_milestones, (list, tuple)):
+        raise TypeError("train.lr_milestones must be a list of positive epochs")
+    milestones = sorted(int(value) for value in raw_milestones)
+    if not milestones or any(value < 1 for value in milestones):
+        raise ValueError("train.lr_milestones must contain positive epochs")
+    gamma = float(train_config.get("lr_gamma", 0.1))
+    if not math.isfinite(gamma) or gamma <= 0:
+        raise ValueError("train.lr_gamma must be finite and greater than zero")
+    return {
+        "name": "MultiStepLR",
+        "milestones": milestones,
+        "gamma": gamma,
+        "step_unit": "epoch",
+        "step_timing": "after_epoch",
+    }
+
+
+def _build_optimizer(model: torch.nn.Module, train_config: dict[str, Any]) -> torch.optim.Optimizer:
+    mode = _optimizer_mode(train_config)
+    optimizer_class = torch.optim.AdamW if mode == "adamw" else torch.optim.Adam
+    return optimizer_class(
+        model.parameters(),
+        lr=float(train_config.get("learning_rate", 2e-4)),
+        weight_decay=float(train_config.get("weight_decay", 1e-6)),
+    )
+
+
+def _build_scheduler(
+    optimizer: torch.optim.Optimizer, train_config: dict[str, Any]
+) -> torch.optim.lr_scheduler.MultiStepLR | None:
+    spec = _scheduler_spec(train_config)
+    if spec is None:
+        return None
+    return torch.optim.lr_scheduler.MultiStepLR(
+        optimizer,
+        milestones=spec["milestones"],
+        gamma=spec["gamma"],
+    )
+
+
+def _centralize_gradients(model: torch.nn.Module) -> None:
+    """Apply paper-style gradient centralization to matrix/kernel gradients."""
+    spline_parameters: set[int] = set()
+    for module in model.modules():
+        if not isinstance(module, PaperSplineConv):
+            continue
+        for parameter in (module.weight, module.root):
+            if parameter is None:
+                continue
+            spline_parameters.add(id(parameter))
+            gradient = parameter.grad
+            if gradient is None or gradient.ndim <= 1:
+                continue
+            dimensions = tuple(range(gradient.ndim - 1))
+            gradient.subtract_(gradient.mean(dim=dimensions, keepdim=True))
+
+    for parameter in model.parameters():
+        if id(parameter) in spline_parameters:
+            continue
+        gradient = parameter.grad
+        if gradient is None or gradient.ndim <= 1:
+            continue
+        dimensions = tuple(range(1, gradient.ndim))
+        gradient.subtract_(gradient.mean(dim=dimensions, keepdim=True))
+
+
+def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str, Any]:
+    """Return every configured choice that can change the optimization trajectory.
+
+    ``epochs``, logging cadence, the resume path, and output paths are deliberately
+    absent: changing those does not alter an already completed optimizer step. The
+    normalized values below make omitted defaults compare equal to explicit defaults.
+    """
+    train_config = config["train"]
+    requested_amp = bool(train_config.get("amp", True))
+    effective_amp = requested_amp and device.type == "cuda"
+    configured_weights = train_config.get("loss_weights") or {}
+    loss_weights = {
+        "charbonnier": float(configured_weights.get("charbonnier", 1.0)),
+        "ssim": float(configured_weights.get("ssim", 0.2)),
+        "gradient": float(configured_weights.get("gradient", 0.1)),
+        "temporal": float(configured_weights.get("temporal", 0.0)),
+    }
+    max_train_samples = train_config.get("max_train_samples")
+    grad_clip = float(train_config.get("grad_clip", 1.0))
+    if not math.isfinite(grad_clip) or grad_clip <= 0:
+        raise ValueError("train.grad_clip must be finite and greater than zero")
+    num_workers = int(train_config.get("num_workers", 0))
+    prefetch_factor = train_config.get("prefetch_factor")
+    persistent_workers = train_config.get("persistent_workers")
+    effective_persistent_workers = (
+        None
+        if num_workers == 0
+        else True
+        if persistent_workers is None
+        else bool(persistent_workers)
+    )
+    effective_prefetch_factor = (
+        None if num_workers == 0 else 2 if prefetch_factor is None else int(prefetch_factor)
+    )
+    optimizer_mode = _optimizer_mode(train_config)
+    optimizer_name = "AdamW" if optimizer_mode == "adamw" else "Adam"
+    return {
+        "version": 1,
+        "seed": int(config.get("seed", 2026)),
+        "optimizer": {
+            "mode": optimizer_mode,
+            "name": optimizer_name,
+            "learning_rate": float(train_config.get("learning_rate", 2e-4)),
+            "weight_decay": float(train_config.get("weight_decay", 1e-6)),
+            "betas": [0.9, 0.999],
+            "epsilon": 1e-8,
+            "amsgrad": False,
+            "maximize": False,
+            "foreach": None,
+            "capturable": False,
+            "differentiable": False,
+            "fused": None,
+            "gradient_centralization": optimizer_mode == "adam_gc",
+            "gradient_centralization_dimensions": "all_except_output",
+        },
+        "scheduler": _scheduler_spec(train_config),
+        "loss_weights": loss_weights,
+        "gradient_clipping": {
+            "max_norm": grad_clip,
+            "norm_type": 2.0,
+        },
+        "data_order": {
+            "batch_size": int(train_config.get("batch_size", 1)),
+            "max_train_samples": (None if max_train_samples is None else int(max_train_samples)),
+            "shuffle": False,
+            "num_workers": num_workers,
+            "persistent_workers": effective_persistent_workers,
+            "prefetch_factor": effective_prefetch_factor,
+        },
+        "mixed_precision": {
+            "requested": requested_amp,
+            "effective": effective_amp,
+            "autocast_dtype": "float16" if effective_amp else None,
+            "gradient_scaler": effective_amp,
+        },
+        "validate_every": max(1, int(train_config.get("validate_every", 1))),
+        "recurrent_state_detached_each_sample": True,
+        "runtime": {
+            "device_type": device.type,
+            "torch": str(torch.__version__),
+            "cuda_runtime": torch.version.cuda if device.type == "cuda" else None,
+            "cudnn": (torch.backends.cudnn.version() if device.type == "cuda" else None),
+        },
+    }
+
+
+def _validate_training_protocol(checkpoint: dict[str, Any], expected: dict[str, Any]) -> None:
+    actual = checkpoint.get("training_protocol")
+    if actual is None:
+        raise ValueError(
+            "Resume checkpoint is missing training_protocol and cannot provide an "
+            "exact training resume. Start a new run with the current checkpoint schema."
+        )
+    if not isinstance(actual, dict):
+        raise TypeError("Resume checkpoint training_protocol must be a dictionary")
+    if actual != expected:
+        keys = sorted(
+            key for key in set(actual) | set(expected) if actual.get(key) != expected.get(key)
+        )
+        changed = ", ".join(keys) if keys else "unknown fields"
+        raise ValueError("Resume training protocol differs from the checkpoint in: " + changed)
+
+
+def _ensure_finite_loss(
+    loss: torch.Tensor,
+    loss_parts: dict[str, float],
+    *,
+    epoch: int,
+    step: int,
+    sample_id: Any,
+) -> None:
+    context = f"epoch={epoch}, step={step}, sample={sample_id}"
+    invalid_parts = sorted(
+        name for name, value in loss_parts.items() if not math.isfinite(float(value))
+    )
+    invalid_values = [] if bool(torch.isfinite(loss.detach()).all().item()) else ["total loss"]
+    invalid_values.extend(f"{name} component" for name in invalid_parts)
+    if invalid_values:
+        raise FloatingPointError(f"Non-finite {', '.join(invalid_values)} at {context}")
+
+
+def _clip_and_validate_gradients(
+    model: torch.nn.Module,
+    max_norm: float,
+    *,
+    epoch: int,
+    step: int,
+    sample_id: Any,
+) -> float:
+    """Clip gradients with one device synchronization for non-finite detection."""
+    if not math.isfinite(max_norm) or max_norm <= 0:
+        raise ValueError("train.grad_clip must be finite and greater than zero")
+    try:
+        total_norm = torch.nn.utils.clip_grad_norm_(
+            model.parameters(), max_norm, norm_type=2.0, error_if_nonfinite=True
+        )
+    except RuntimeError as error:
+        raise FloatingPointError(
+            "Non-finite gradients after clipping validation at "
+            f"epoch={epoch}, step={step}, sample={sample_id}"
+        ) from error
+    finite_norm = float(total_norm.detach().cpu())
+    if not math.isfinite(finite_norm):
+        raise FloatingPointError(
+            "Non-finite gradient norm after clipping at "
+            f"epoch={epoch}, step={step}, sample={sample_id}"
+        )
+    return finite_norm
 
 
 def _validation_dataset(config: dict[str, Any]):
@@ -4199,18 +6086,27 @@ def _validation_protocol(
     data.pop("val_root", None)
     manifest_path = data.pop("split_manifest", None)
     manifest = load_eventhdr_split_manifest(manifest_path) if manifest_path else None
-    manifest_identity = (
-        {
+    if manifest is None:
+        manifest_identity = None
+    else:
+        manifest_identity = {
             "status": str(manifest.get("status", "missing")).strip().lower(),
+            "split_schema": manifest["split_schema"],
             "train_files": manifest["train_files"],
             "val_files": manifest["val_files"],
+            "file_to_scene": manifest["file_to_scene"],
         }
-        if manifest is not None
-        else None
-    )
+        if manifest["split_schema"] == "physical_scenes_v1":
+            manifest_identity.update(
+                {
+                    "scene_groups": manifest["scene_groups"],
+                    "train_scenes": manifest["train_scenes"],
+                    "val_scenes": manifest["val_scenes"],
+                }
+            )
     print("Verifying cached hashes or hashing train/validation files for exact resume...")
     return {
-        "version": 3,
+        "version": 4,
         "seed": int(config.get("seed", 2026)),
         "recurrent": bool(config["model"].get("recurrent", True)),
         "dataset_transform": data,
@@ -4284,9 +6180,7 @@ def validate(
     return accumulator.summary()
 
 
-def train(
-    config: dict[str, Any], resume_from: str | Path | None = None
-) -> Path:
+def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path:
     seed = int(config.get("seed", 2026))
     set_seed(seed)
     device = resolve_device(config.get("device", "auto"))
@@ -4349,9 +6243,7 @@ def train(
             max_context_frames=validation_context_frames,
         )
         context_policy = (
-            "full_group_prefix"
-            if validation_context_frames is None
-            else "bounded_predecessor"
+            "full_group_prefix" if validation_context_frames is None else "bounded_predecessor"
         )
     else:
         val_schedule = val_indices
@@ -4386,17 +6278,14 @@ def train(
 
     resume_checkpoint: dict[str, Any] | None = None
     if resume_path is not None:
-        model, resume_checkpoint = load_model_checkpoint(
-            resume_path, device, config["model"]
-        )
+        model, resume_checkpoint = load_model_checkpoint(resume_path, device, config["model"])
     else:
         model = build_model(config["model"]).to(device)
-    optimizer = torch.optim.AdamW(
-        model.parameters(),
-        lr=float(train_config.get("learning_rate", 2e-4)),
-        weight_decay=float(train_config.get("weight_decay", 1e-6)),
-    )
+    optimizer_mode = _optimizer_mode(train_config)
+    optimizer = _build_optimizer(model, train_config)
+    scheduler = _build_scheduler(optimizer, train_config)
     amp_enabled = bool(train_config.get("amp", True)) and device.type == "cuda"
+    training_protocol = _training_protocol(config, device)
     scaler = _make_grad_scaler(amp_enabled)
     criterion = ReconstructionLoss(train_config.get("loss_weights"))
     temporal_weight = float(train_config.get("loss_weights", {}).get("temporal", 0.0))
@@ -4411,6 +6300,7 @@ def train(
                 "Resume validation protocol differs from the checkpoint. Keep the seed, "
                 "dataset transforms, split manifest, validation sampling, and SSIM protocol fixed."
             )
+        _validate_training_protocol(resume_checkpoint, training_protocol)
         historical_score = _resume_best_macro_ssim(resume_checkpoint)
         historical_path = run_dir / "best.pt"
         if math.isfinite(historical_score):
@@ -4418,9 +6308,16 @@ def train(
                 raise ValueError(
                     f"Exact resume requires the historical best checkpoint: {historical_path}"
                 )
-            historical_best = _load_checkpoint(historical_path)
-            historical_best.pop("model", None)
+            historical_model, historical_best = load_model_checkpoint(
+                historical_path,
+                torch.device("cpu"),
+                config["model"],
+            )
+            computed_best_digest = _model_state_sha256(historical_model.state_dict())
+            if historical_best.get("model_state_sha256") != computed_best_digest:
+                raise ValueError("Historical best.pt tensor bytes do not match its digest")
             _validate_resume_best_pair(resume_checkpoint, historical_best)
+            del historical_model
             del historical_best
         elif historical_path.exists():
             raise ValueError(
@@ -4430,6 +6327,7 @@ def train(
     save_json(run_dir / "config.json", config)
 
     best_ssim = float("-inf")
+    best_model_state_sha256: str | None = None
     history: list[dict[str, Any]] = []
     start_epoch = 1
     if resume_checkpoint is not None:
@@ -4440,17 +6338,43 @@ def train(
             )
         optimizer.load_state_dict(resume_checkpoint.pop("optimizer"))
         _optimizer_to(optimizer, device)
-        if "scaler" in resume_checkpoint:
-            scaler.load_state_dict(resume_checkpoint.pop("scaler"))
+        if "scheduler" not in resume_checkpoint:
+            raise ValueError(
+                f"Checkpoint {resume_path} has no scheduler state/schema and cannot "
+                "provide an exact training resume"
+            )
+        scheduler_state = resume_checkpoint.pop("scheduler")
+        if scheduler is None:
+            if scheduler_state is not None:
+                raise ValueError("Resume checkpoint unexpectedly contains scheduler state")
+        elif not isinstance(scheduler_state, dict):
+            raise ValueError("Resume checkpoint is missing MultiStepLR scheduler state")
+        else:
+            scheduler.load_state_dict(scheduler_state)
+        if "scaler" not in resume_checkpoint:
+            raise ValueError(
+                f"Checkpoint {resume_path} has no GradScaler state and cannot provide "
+                "an exact training resume"
+            )
+        scaler_state = resume_checkpoint.pop("scaler")
+        if not isinstance(scaler_state, dict):
+            raise ValueError("Resume checkpoint GradScaler state must be a dictionary")
+        scaler.load_state_dict(scaler_state)
         start_epoch = int(resume_checkpoint.get("epoch", 0)) + 1
         best_ssim = _resume_best_macro_ssim(resume_checkpoint)
+        best_model_state_sha256 = resume_checkpoint.get("best_model_state_sha256")
         history = list(resume_checkpoint.get("history", []))
-        _restore_rng_state(resume_checkpoint.pop("rng_state", None))
+        if "rng_state" not in resume_checkpoint:
+            raise ValueError(
+                f"Checkpoint {resume_path} has no RNG state and cannot provide an exact resume"
+            )
+        _restore_rng_state(resume_checkpoint.pop("rng_state"))
 
     epochs = int(train_config.get("epochs", 40))
     validate_every = max(1, int(train_config.get("validate_every", 1)))
     max_train_samples = train_config.get("max_train_samples")
     for epoch in range(start_epoch, epochs + 1):
+        epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
         model.train()
         _reset_cuda_peak_memory(device)
         current_scene = None
@@ -4498,9 +6422,24 @@ def train(
                     loss = loss + temporal_weight * temporal
                     loss_parts["temporal"] = float(temporal.detach().cpu())
                     loss_parts["total"] = float(loss.detach().cpu())
+            _ensure_finite_loss(
+                loss,
+                loss_parts,
+                epoch=epoch,
+                step=step,
+                sample_id=sample.get("sample_id", "unknown"),
+            )
             scaler.scale(loss).backward()
             scaler.unscale_(optimizer)
-            torch.nn.utils.clip_grad_norm_(model.parameters(), float(train_config.get("grad_clip", 1.0)))
+            if optimizer_mode == "adam_gc":
+                _centralize_gradients(model)
+            _clip_and_validate_gradients(
+                model,
+                float(train_config.get("grad_clip", 1.0)),
+                epoch=epoch,
+                step=step,
+                sample_id=sample.get("sample_id", "unknown"),
+            )
             scaler.step(optimizer)
             scaler.update()
 
@@ -4526,19 +6465,39 @@ def train(
             if should_validate
             else {}
         )
+        train_mean_loss = running_loss / max(seen, 1)
+        if not math.isfinite(train_mean_loss):
+            raise FloatingPointError(
+                f"Non-finite mean training loss at epoch={epoch}: {train_mean_loss}"
+            )
+        validation_ssim = _macro_ssim(val_metrics)
+        if should_validate and not math.isfinite(validation_ssim):
+            raise FloatingPointError(
+                f"Non-finite validation macro SSIM at epoch={epoch}: {validation_ssim}"
+            )
+        if scheduler is not None:
+            scheduler.step()
         record = {
             "epoch": epoch,
-            "train_loss": running_loss / max(seen, 1),
+            "train_loss": train_mean_loss,
             "val": val_metrics,
             "val_sampling": val_sampling_counts,
+            "learning_rate": (
+                epoch_learning_rates[0] if len(epoch_learning_rates) == 1 else epoch_learning_rates
+            ),
             "gpu_memory": _cuda_peak_memory(device),
         }
         history.append(record)
         save_json(run_dir / "history.json", history)
+        model_state = model.state_dict()
+        model_state_sha256 = _model_state_sha256(model_state)
         checkpoint = {
+            "checkpoint_type": "training",
             "epoch": epoch,
-            "model": model.state_dict(),
+            "model": model_state,
+            "model_state_sha256": model_state_sha256,
             "optimizer": optimizer.state_dict(),
+            "scheduler": scheduler.state_dict() if scheduler is not None else None,
             "scaler": scaler.state_dict(),
             "model_config": (
                 resume_checkpoint.get("model_config", config["model"])
@@ -4549,15 +6508,19 @@ def train(
             "val": val_metrics,
             "val_sampling": val_sampling_counts,
             "best_ssim": best_ssim,
+            "best_model_state_sha256": best_model_state_sha256,
             "best_metric": "macro_ssim",
+            "paper_core_version": PAPER_CORE_VERSION,
             "validation_protocol": validation_protocol,
+            "training_protocol": training_protocol,
             "history": history,
             "rng_state": _capture_rng_state(),
         }
-        validation_ssim = _macro_ssim(val_metrics)
         if validation_ssim > best_ssim:
             best_ssim = validation_ssim
+            best_model_state_sha256 = model_state_sha256
             checkpoint["best_ssim"] = best_ssim
+            checkpoint["best_model_state_sha256"] = best_model_state_sha256
             best_checkpoint = {
                 "checkpoint_type": "ann_inference",
                 "epoch": checkpoint["epoch"],
@@ -4567,7 +6530,10 @@ def train(
                 "val_sampling": checkpoint["val_sampling"],
                 "best_ssim": checkpoint["best_ssim"],
                 "best_metric": checkpoint["best_metric"],
+                "model_state_sha256": best_model_state_sha256,
+                "paper_core_version": checkpoint["paper_core_version"],
                 "validation_protocol": checkpoint["validation_protocol"],
+                "training_protocol": checkpoint["training_protocol"],
             }
             atomic_torch_save(best_checkpoint, run_dir / "best.pt")
         atomic_torch_save(checkpoint, run_dir / "last.pt")
@@ -4597,23 +6563,26 @@ def evaluate(
     checkpoint_path: str | Path,
     inference_mode: str = "ann",
     simulation_steps: int = 16,
+    snn_dynamics: str | None = None,
 ) -> dict[str, Any]:
     _validate_snn_request(inference_mode, simulation_steps)
     set_seed(int(config.get("seed", 2026)))
     device = resolve_device(config.get("device", "auto"))
     dataset = build_dataset(config["dataset"], split="eval")
     eval_config = config.get("eval", {})
+    eval_batch_size = int(eval_config.get("batch_size", 1))
+    if eval_batch_size != 1:
+        raise ValueError("Stateful evaluation requires eval.batch_size=1")
     loader = _data_loader(
         dataset,
-        1,
+        eval_batch_size,
         int(eval_config.get("num_workers", 0)),
         device,
         **_loader_kwargs(eval_config),
     )
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
-    _validate_snn_request(
-        inference_mode, simulation_steps, checkpoint, checkpoint_path
-    )
+    _validate_snn_request(inference_mode, simulation_steps, checkpoint, checkpoint_path)
+    _set_inference_snn_dynamics(model, inference_mode, snn_dynamics)
     model.eval()
     lpips_model = _maybe_lpips(bool(eval_config.get("lpips", False)), device)
     _reset_cuda_peak_memory(device)
@@ -4627,10 +6596,28 @@ def evaluate(
     recurrent_state = None
     previous_prediction = None
     previous_target = None
-    output_dir = Path(eval_config.get("output_dir", "runs/evaluation"))
+    output_base = Path(eval_config.get("output_dir", "runs/evaluation"))
+    run_label = _inference_run_label(
+        inference_mode,
+        simulation_steps,
+        model.snn_dynamics,
+    )
+    output_dir = output_base / run_label
+    protected_outputs = (
+        output_dir / "metrics.json",
+        output_dir / "frames.csv",
+        output_dir / "predictions",
+    )
+    if any(path.exists() for path in protected_outputs):
+        raise FileExistsError(
+            f"Evaluation output already exists for {run_label}: {output_dir}. "
+            "Move/remove that run or choose a new eval.output_dir; results are never "
+            "silently overwritten."
+        )
     save_limit = int(eval_config.get("save_predictions", 0))
     max_samples = eval_config.get("max_samples")
     saved = 0
+    prediction_stems: set[str] = set()
     for index, batch in enumerate(tqdm(loader, desc=f"evaluate-{inference_mode}")):
         if max_samples is not None and index >= int(max_samples):
             break
@@ -4692,14 +6679,28 @@ def evaluate(
             "latency_ms": latency_ms,
             "rtf": rtf,
             "temporal_l1": temporal_l1,
+            "raw_events": int(sample["metadata"].get("raw_event_count", sample["events"].shape[0])),
+            "cropped_events": int(
+                sample["metadata"].get("cropped_event_count", sample["events"].shape[0])
+            ),
+            "retained_events": int(sample["events"].shape[0]),
             "events": int(sample["events"].shape[0]),
+            "dataset_sampling_factor": diagnostics["dataset_sampling_factor"],
+            "model_sampling_factor": diagnostics["event_sampling_factor"],
+            "effective_sampling_factor": diagnostics["effective_sampling_factor"],
             "nodes": diagnostics["nodes"],
             "edges": diagnostics["edges"],
+            "isolated_nodes": int(diagnostics["isolated_nodes"]),
+            "isolate_ratio": float(diagnostics["isolate_ratio"]),
+            "max_degree": int(diagnostics["max_degree"]),
         }
         frame_rows.append(row)
         latencies.append(latency_ms)
         if saved < save_limit:
-            safe_name = sample["sample_id"].replace("/", "_")
+            safe_name = _prediction_artifact_stem(sample["sample_id"], index)
+            if safe_name in prediction_stems:
+                raise RuntimeError(f"Duplicate prediction artifact stem: {safe_name}")
+            prediction_stems.add(safe_name)
             save_image(output_dir / "predictions" / f"{safe_name}_pred.png", prediction)
             save_image(output_dir / "predictions" / f"{safe_name}_gt.png", target)
             saved += 1
@@ -4714,10 +6715,22 @@ def evaluate(
     latency["rtf_p95"] = percentile(realtime_factors, 0.95) if realtime_factors else None
     result = {
         "dataset": config["dataset"]["type"],
+        "dataset_coverage": _dataset_coverage_summary(dataset, config["dataset"]),
         "checkpoint": str(checkpoint_path),
         "checkpoint_epoch": checkpoint.get("epoch"),
+        "output_dir": str(output_dir),
         "inference_mode": inference_mode,
         "simulation_steps": simulation_steps if inference_mode == "snn" else None,
+        "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
+        "graph_topology": {
+            "isolate_ratio": (
+                sum(row["isolated_nodes"] for row in frame_rows)
+                / sum(row["nodes"] for row in frame_rows)
+                if sum(row["nodes"] for row in frame_rows) > 0
+                else None
+            ),
+            "max_degree": max((row["max_degree"] for row in frame_rows), default=0),
+        },
         "quality": quality,
         "latency": latency,
         "gpu_memory": _cuda_peak_memory(device),
@@ -4743,6 +6756,52 @@ def _latency_summary(latencies: list[float]) -> dict[str, float | int | None]:
     }
 
 
+def _sample_event_counts(sample: dict[str, Any]) -> tuple[int, int]:
+    """Return raw/source and retained counts, tolerating custom dataset metadata."""
+    retained = int(sample["events"].shape[0])
+    metadata = sample.get("metadata", {})
+    if not isinstance(metadata, dict):
+        return retained, retained
+    value = metadata.get("raw_event_count")
+    try:
+        raw = int(value)
+    except (TypeError, ValueError, OverflowError):
+        raw = retained
+    if isinstance(value, bool) or raw < retained:
+        raw = retained
+    return raw, retained
+
+
+def _dataset_coverage_summary(dataset, data_config: dict[str, Any]) -> dict[str, Any]:
+    dataset_type = data_config["type"]
+    if dataset_type == "eventhdr":
+        root = Path(dataset.root)
+        files = sorted(path.relative_to(root).as_posix() for path in dataset.files)
+        mapping = getattr(dataset, "file_to_scene", {})
+        grouping = (
+            "physical_scene"
+            if any(mapping.get(file_key) != file_key for file_key in files)
+            else "source_h5_file"
+        )
+    elif dataset_type == "eventaid_r_zip":
+        files = sorted(path.name for path in dataset.zip_paths)
+        grouping = "eventaid_scene_zip"
+    else:
+        files = []
+        grouping = "unknown"
+    expected = data_config.get("expected_file_count")
+    return {
+        "file_count": len(files),
+        "expected_file_count": int(expected) if expected is not None else None,
+        "complete": expected is None or len(files) == int(expected),
+        "files": files,
+        "quality_grouping": grouping,
+        "target_offset": (
+            int(data_config.get("target_offset", 1)) if dataset_type == "eventaid_r_zip" else None
+        ),
+    }
+
+
 @torch.no_grad()
 def benchmark(
     config: dict[str, Any],
@@ -4751,6 +6810,7 @@ def benchmark(
     steps: int = 100,
     inference_mode: str = "ann",
     simulation_steps: int = 16,
+    snn_dynamics: str | None = None,
 ) -> dict[str, Any]:
     if warmup < 0:
         raise ValueError("warmup must be non-negative")
@@ -4760,17 +6820,20 @@ def benchmark(
     device = resolve_device(config.get("device", "auto"))
     dataset = build_dataset(config["dataset"], split="eval")
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
-    _validate_snn_request(
-        inference_mode, simulation_steps, checkpoint, checkpoint_path
-    )
+    _validate_snn_request(inference_mode, simulation_steps, checkpoint, checkpoint_path)
+    _set_inference_snn_dynamics(model, inference_mode, snn_dynamics)
     model.eval()
     cuda_start = torch.cuda.Event(enable_timing=True) if device.type == "cuda" else None
     cuda_end = torch.cuda.Event(enable_timing=True) if device.type == "cuda" else None
     latencies: list[float] = []
-    event_counts: list[int] = []
+    raw_event_counts: list[int] = []
+    retained_event_counts: list[int] = []
     node_counts: list[int] = []
     edge_counts: list[int] = []
-    firing_rates: list[float] = []
+    isolated_node_counts: list[int] = []
+    max_degrees: list[int] = []
+    layer_spike_totals: list[float] = []
+    layer_neuron_step_totals: list[int] = []
     realtime_factors: list[float] = []
     recurrent_state = None
     current_scene = None
@@ -4779,17 +6842,11 @@ def benchmark(
     measured_state_resets = 0
     seed = int(config.get("seed", 2026))
     recurrent = model.decoder.recurrent is not None
-    warmup_indices = _representative_schedule(
-        dataset, warmup, seed, contiguous=False
-    )
-    measured_indices = _representative_schedule(
-        dataset, steps, seed + 1, contiguous=recurrent
-    )
+    warmup_indices = _representative_schedule(dataset, warmup, seed, contiguous=False)
+    measured_indices = _representative_schedule(dataset, steps, seed + 1, contiguous=recurrent)
     measured_schedule: list[tuple[bool, int]] = []
     context_frames = 0
-    benchmark_context_frames = config.get("eval", {}).get(
-        "recurrent_context_frames", 32
-    )
+    benchmark_context_frames = config.get("eval", {}).get("recurrent_context_frames", 32)
     if benchmark_context_frames is not None:
         benchmark_context_frames = int(benchmark_context_frames)
         if benchmark_context_frames < 0:
@@ -4864,24 +6921,69 @@ def benchmark(
         if measured:
             assert elapsed_ms is not None
             latencies.append(elapsed_ms)
-            event_counts.append(int(sample["events"].shape[0]))
-            node_counts.append(diagnostics["nodes"])
-            edge_counts.append(diagnostics["edges"])
-            firing_rates.extend(
-                float(value.detach().cpu())
-                if torch.is_tensor(value)
-                else float(value)
-                for value in diagnostics["firing_rates"]
-            )
-            dt_us = sample["metadata"].get("dt_us")
+            raw_event_count, retained_event_count = _sample_event_counts(sample)
+            raw_event_counts.append(raw_event_count)
+            retained_event_counts.append(retained_event_count)
+            node_counts.append(int(diagnostics["nodes"]))
+            edge_counts.append(int(diagnostics["edges"]))
+            isolated_node_counts.append(int(diagnostics["isolated_nodes"]))
+            max_degrees.append(int(diagnostics["max_degree"]))
+            spike_counts = diagnostics["spike_counts"]
+            neuron_steps = diagnostics["firing_rate_denominators"]
+            if spike_counts:
+                if not layer_spike_totals:
+                    layer_spike_totals = [0.0] * len(spike_counts)
+                    layer_neuron_step_totals = [0] * len(neuron_steps)
+                if len(spike_counts) != len(layer_spike_totals):
+                    raise RuntimeError("SNN firing-stat layer count changed during benchmark")
+                for layer_index, (spikes, denominator) in enumerate(
+                    zip(spike_counts, neuron_steps, strict=True)
+                ):
+                    layer_spike_totals[layer_index] += (
+                        float(spikes.detach().cpu()) if torch.is_tensor(spikes) else float(spikes)
+                    )
+                    layer_neuron_step_totals[layer_index] += int(denominator)
+            metadata = sample.get("metadata", {})
+            dt_us = metadata.get("dt_us") if isinstance(metadata, dict) else None
             if dt_us:
                 realtime_factors.append(elapsed_ms / (float(dt_us) / 1000.0))
+    elapsed_seconds = sum(latencies) / 1000.0
+    raw_events_per_second = sum(raw_event_counts) / elapsed_seconds
+    retained_events_per_second = sum(retained_event_counts) / elapsed_seconds
+    graph_nodes_per_second = sum(node_counts) / elapsed_seconds
+    total_raw_events = sum(raw_event_counts)
+    total_neuron_steps = sum(layer_neuron_step_totals)
+    layer_firing_rates = [
+        spikes / neuron_steps if neuron_steps > 0 else None
+        for spikes, neuron_steps in zip(
+            layer_spike_totals,
+            layer_neuron_step_totals,
+            strict=True,
+        )
+    ]
     result: dict[str, Any] = {
         **_latency_summary(latencies),
-        "events_per_second": sum(event_counts) / (sum(latencies) / 1000.0),
+        "raw_events_per_second": raw_events_per_second,
+        "retained_events_per_second": retained_events_per_second,
+        "graph_nodes_per_second": graph_nodes_per_second,
+        # Deprecated compatibility alias; new consumers should use the retained rate.
+        "events_per_second": retained_events_per_second,
+        "mean_raw_events": statistics.fmean(raw_event_counts),
+        "mean_retained_events": statistics.fmean(retained_event_counts),
+        "retention_ratio": (
+            sum(retained_event_counts) / total_raw_events if total_raw_events > 0 else None
+        ),
         "mean_nodes": statistics.fmean(node_counts),
         "mean_edges": statistics.fmean(edge_counts),
-        "mean_firing_rate": statistics.fmean(firing_rates) if firing_rates else None,
+        "mean_isolated_nodes": statistics.fmean(isolated_node_counts),
+        "isolate_ratio": (
+            sum(isolated_node_counts) / sum(node_counts) if sum(node_counts) > 0 else None
+        ),
+        "max_degree": max(max_degrees, default=0),
+        "layer_firing_rates": layer_firing_rates or None,
+        "mean_firing_rate": (
+            sum(layer_spike_totals) / total_neuron_steps if total_neuron_steps > 0 else None
+        ),
         "deadline_miss_ratio": (
             sum(value > 1.0 for value in realtime_factors) / len(realtime_factors)
             if realtime_factors
@@ -4890,6 +6992,7 @@ def benchmark(
         "rtf_p95": percentile(realtime_factors, 0.95) if realtime_factors else None,
         "inference_mode": inference_mode,
         "simulation_steps": simulation_steps if inference_mode == "snn" else None,
+        "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
         "device": str(device),
         "gpu_name": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
         "peak_gpu_memory_mb": (
@@ -4901,6 +7004,7 @@ def benchmark(
         "gpu_memory": _cuda_peak_memory(device),
         "timer": "cuda_event" if device.type == "cuda" else "perf_counter",
         "io_excluded": True,
+        "dataset_coverage": _dataset_coverage_summary(dataset, config["dataset"]),
         "sampling": _sampling_summary(dataset, measured_indices),
         "warmup_frames": len(warmup_indices),
         "recurrent_context_policy": (
@@ -4910,13 +7014,25 @@ def benchmark(
             if recurrent
             else None
         ),
-        "max_recurrent_context_frames_per_group": benchmark_context_frames
-        if recurrent
-        else 0,
+        "max_recurrent_context_frames_per_group": benchmark_context_frames if recurrent else 0,
         "recurrent_context_frames": context_frames,
         "state_resets": measured_state_resets,
         "state_reset_ratio": measured_state_resets / len(measured_indices),
     }
+    benchmark_base = Path(config.get("eval", {}).get("output_dir", "runs/evaluation"))
+    benchmark_dir = benchmark_base / _inference_run_label(
+        inference_mode,
+        simulation_steps,
+        model.snn_dynamics,
+    )
+    benchmark_path = benchmark_dir / "benchmark.json"
+    if benchmark_path.exists():
+        raise FileExistsError(
+            f"Benchmark output already exists: {benchmark_path}. Move/remove the prior "
+            "artifact or choose a new eval.output_dir."
+        )
+    result["output_path"] = str(benchmark_path)
+    save_json(benchmark_path, result)
     return result
 
 
@@ -4939,7 +7055,7 @@ def calibrate(
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
     model.eval()
     model.fold_batch_norm()
-    model.encoder.reset_thresholds()
+    model.reset_activation_maxima()
     calibration_indices = _balanced_sample_indices(
         dataset,
         min(int(samples), len(dataset)),
@@ -4949,15 +7065,23 @@ def calibrate(
     for index in tqdm(calibration_indices, desc="calibrate-SNN"):
         sample = move_sample(dataset[index], device)
         model.calibrate_sample(sample, momentum=-1.0)
+    calibration_summary = model.calibration_summary()
+    model.apply_parameter_normalization()
+    model_state = model.state_dict()
     inference_checkpoint = {
         "checkpoint_type": "snn_inference",
-        "model": model.state_dict(),
+        "model": model_state,
+        "model_state_sha256": _model_state_sha256(model_state),
         "model_config": checkpoint.get("model_config", config["model"]),
         "epoch": checkpoint.get("epoch"),
         "source_checkpoint": str(checkpoint_path),
         "batch_norm_folded": True,
         "snn_calibrated": True,
+        "paper_core_version": PAPER_CORE_VERSION,
+        "parameter_normalized": True,
         "snn_calibration_samples": len(calibration_indices),
+        "snn_calibration_valid_samples": calibration_summary["minimum_valid_samples"],
+        "snn_calibration_summary": calibration_summary,
         "snn_calibration_sampling": calibration_sampling,
     }
     output_path = Path(output_path)
@@ -4967,14 +7091,17 @@ def calibrate(
 
 # src/asgcn_recon/graph.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 import torch
 from torch import nn
 from torch.nn import functional as F
+
+PAPER_CORE_VERSION = 2
 
 
 @dataclass
@@ -4986,7 +7113,7 @@ class EventGraph:
 
 
 def _safe_batch_norm(norm: nn.BatchNorm1d, values: torch.Tensor) -> torch.Tensor:
-    """Use running statistics when a graph has fewer than two real events."""
+    """Use running statistics when a graph has fewer than two events."""
     if norm.training and values.shape[0] < 2:
         return F.batch_norm(
             values,
@@ -5001,104 +7128,250 @@ def _safe_batch_norm(norm: nn.BatchNorm1d, values: torch.Tensor) -> torch.Tensor
     return norm(values)
 
 
+def uniformly_sample_events(events: torch.Tensor, factor: int = 1) -> torch.Tensor:
+    """Apply the paper's deterministic event sampling factor R."""
+    if isinstance(factor, bool) or int(factor) != factor:
+        raise ValueError("event_sampling_factor must be an integer")
+    factor = int(factor)
+    if factor < 1:
+        raise ValueError("event_sampling_factor must be at least 1")
+    return events[::factor]
+
+
 def prepare_event_nodes(
     events: torch.Tensor, sensor_size: tuple[int, int]
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    """Normalize raw [x,y,t,p] while retaining event order."""
-    height, width = sensor_size
+    """Normalize Eq. (9)-(10) event nodes while retaining temporal order.
+
+    The paper does not specify coordinate normalization. This implementation records
+    the explicit assumption x,y,t in [0,1] and polarity in {-1,+1}. Graph distances
+    use x,y,t by default; polarity remains a node feature.
+    """
+    if events.ndim != 2 or events.shape[1] != 4:
+        raise ValueError("Events must have shape [N,4] with x,y,t,p columns")
+    height, width = (int(value) for value in sensor_size)
+    if height < 1 or width < 1:
+        raise ValueError("sensor_size must contain positive height and width")
     if events.numel() == 0:
         return (
             torch.empty((0, 4), device=events.device, dtype=torch.float32),
-            torch.empty((0, 3), device=events.device, dtype=torch.float32),
+            torch.empty((0, 4), device=events.device, dtype=torch.float32),
         )
     events = events.float()
+    if not bool(torch.isfinite(events).all()):
+        raise ValueError("Event coordinates, timestamps, and polarities must be finite")
+    if bool((events[1:, 2] < events[:-1, 2]).any()):
+        raise ValueError("Event timestamps must be monotonically non-decreasing")
     x = events[:, 0] / max(width - 1, 1)
     y = events[:, 1] / max(height - 1, 1)
     t = events[:, 2]
     t = (t - t[0]) / (t[-1] - t[0]).abs().clamp_min(1e-6)
-    p = torch.where(events[:, 3] >= 0, 1.0, -1.0)
-    positions = torch.stack((x, y, t), dim=-1)
-    node_features = torch.stack((x * 2 - 1, y * 2 - 1, t * 2 - 1, p), dim=-1)
+    polarity = torch.where(events[:, 3] > 0, 1.0, -1.0)
+    polarity_position = (polarity + 1.0) * 0.5
+    positions = torch.stack((x, y, t, polarity_position), dim=-1)
+    node_features = torch.stack((x, y, t, polarity), dim=-1)
     return node_features, positions
 
 
-def build_causal_graph(
+def build_radius_graph(
     positions: torch.Tensor,
-    candidates: int = 32,
-    spatial_radius: float = 0.12,
-    temporal_radius: float = 0.30,
+    radius: float,
+    *,
+    position_dims: int = 3,
+    chunk_size: int = 512,
+    max_edges: int | None = None,
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    """Connect each event only to recent events, enabling streaming inference.
+    """Build the paper's simple undirected distance graph without self edges.
 
-    Restricting candidates avoids the quadratic radius-graph materialization that is
-    unsuitable for the target low-latency system. Candidate offsets are materialized
-    in one bounded tensor operation to avoid launching one CUDA kernel chain per offset.
+    Every ordered edge direction is materialized so source-to-target aggregation is
+    equivalent to an undirected graph. Pairwise distances are evaluated in chunks to
+    bound temporary memory without changing the radius-graph result. The scalar edge
+    pseudo-coordinate is distance / D in [0,1], as required by a B-spline kernel.
     """
-    n = positions.shape[0]
-    device = positions.device
-    max_offset = min(max(0, int(candidates)), max(0, n - 1))
-    offsets = torch.arange(1, max_offset + 1, device=device).unsqueeze(1)
-    source_grid = torch.arange(n, device=device).unsqueeze(0).expand(max_offset, n)
-    destination_grid = source_grid + offsets
-    candidate_mask = destination_grid < n
-    source = source_grid[candidate_mask]
-    destination = destination_grid[candidate_mask]
-    delta = positions[destination] - positions[source]
-    spatial = torch.linalg.vector_norm(delta[:, :2], dim=-1)
-    valid = (spatial <= spatial_radius) & (delta[:, 2] <= temporal_radius)
-    source = source[valid]
-    destination = destination[valid]
-    kept_delta = delta[valid]
-    candidate_attr = torch.cat(
-        (kept_delta, torch.linalg.vector_norm(kept_delta, dim=-1, keepdim=True)),
-        dim=-1,
-    )
+    radius = float(radius)
+    if not math.isfinite(radius) or radius <= 0:
+        raise ValueError("graph_radius must be positive")
+    position_dims = int(position_dims)
+    if position_dims < 1 or position_dims > positions.shape[1]:
+        raise ValueError("graph_position_dims must select available position columns")
+    chunk_size = int(chunk_size)
+    if chunk_size < 1:
+        raise ValueError("graph_chunk_size must be at least 1")
+    if max_edges is not None:
+        if isinstance(max_edges, bool) or int(max_edges) != max_edges:
+            raise ValueError("max_graph_edges must be an integer or null")
+        max_edges = int(max_edges)
+        if max_edges < 1:
+            raise ValueError("max_graph_edges must be at least 1 or null")
 
-    # Self edges guarantee a defined degree for sparse non-empty crops.
-    self_nodes = torch.arange(n, device=device)
-    edge_index = torch.stack(
-        (torch.cat((source, self_nodes)), torch.cat((destination, self_nodes))), dim=0
-    )
-    edge_attr = torch.cat(
-        (candidate_attr, torch.zeros((n, 4), device=device, dtype=positions.dtype)), dim=0
-    )
+    count = int(positions.shape[0])
+    device = positions.device
+    if count == 0:
+        return (
+            torch.empty((2, 0), device=device, dtype=torch.long),
+            torch.empty((0, 1), device=device, dtype=positions.dtype),
+        )
+
+    coordinates = positions[:, :position_dims]
+    if not bool(torch.isfinite(coordinates).all()):
+        raise ValueError("Graph coordinates must be finite")
+    sources: list[torch.Tensor] = []
+    destination_chunks: list[torch.Tensor] = []
+    distances_kept: list[torch.Tensor] = []
+    retained_edge_count = 0
+    for start in range(0, count, chunk_size):
+        stop = min(start + chunk_size, count)
+        distances = torch.cdist(coordinates[start:stop], coordinates)
+        within_radius = distances < radius
+        local_rows = torch.arange(stop - start, device=device)
+        within_radius[local_rows, local_rows + start] = False
+        chunk_edge_count = int(within_radius.sum().item()) if max_edges is not None else None
+        if (
+            max_edges is not None
+            and chunk_edge_count is not None
+            and retained_edge_count + chunk_edge_count > max_edges
+        ):
+            raise RuntimeError(
+                "Radius graph exceeded max_graph_edges="
+                f"{max_edges:,} while processing {count:,} nodes. Reduce "
+                "graph_radius/max_events or raise the explicit memory guard after "
+                "measuring accelerator memory."
+            )
+        local_sources, local_destinations = torch.nonzero(
+            within_radius,
+            as_tuple=True,
+        )
+        if local_sources.numel() == 0:
+            continue
+        sources_global = local_sources + start
+        retained_edge_count += int(local_sources.numel())
+        sources.append(sources_global)
+        distances_kept.append(distances[local_sources, local_destinations])
+        destination_chunks.append(local_destinations)
+
+    if not sources:
+        return (
+            torch.empty((2, 0), device=device, dtype=torch.long),
+            torch.empty((0, 1), device=device, dtype=positions.dtype),
+        )
+    source = torch.cat(sources)
+    destination = torch.cat(destination_chunks)
+    distance = torch.cat(distances_kept)
+    edge_index = torch.stack((source, destination), dim=0)
+    edge_attr = (distance / radius).clamp(0.0, 1.0).unsqueeze(-1)
     return edge_index, edge_attr
 
 
 def build_event_graph(
     events: torch.Tensor,
     sensor_size: tuple[int, int],
-    candidates: int,
-    spatial_radius: float,
-    temporal_radius: float,
+    *,
+    event_sampling_factor: int,
+    graph_radius: float,
+    graph_position_dims: int,
+    graph_chunk_size: int,
+    max_graph_edges: int | None = None,
 ) -> EventGraph:
-    node_features, positions = prepare_event_nodes(events, sensor_size)
-    edge_index, edge_attr = build_causal_graph(
+    sampled = uniformly_sample_events(events, event_sampling_factor)
+    node_features, positions = prepare_event_nodes(sampled, sensor_size)
+    edge_index, edge_attr = build_radius_graph(
         positions,
-        candidates=candidates,
-        spatial_radius=spatial_radius,
-        temporal_radius=temporal_radius,
+        graph_radius,
+        position_dims=graph_position_dims,
+        chunk_size=graph_chunk_size,
+        max_edges=max_graph_edges,
     )
     return EventGraph(node_features, positions, edge_index, edge_attr)
 
 
-class SplineMessageLayer(nn.Module):
-    """Distance-conditioned graph aggregation inspired by ASGCN's B-spline kernel."""
+def linear_open_bspline_basis(
+    pseudo: torch.Tensor, kernel_size: int
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Return indices and weights for an open degree-1 B-spline basis.
 
-    def __init__(self, channels: int, edge_dim: int = 4) -> None:
+    For each scalar pseudo-coordinate this yields the two non-zero basis terms.
+    The weights form a partition of unity, including exact endpoints.
+    """
+    kernel_size = int(kernel_size)
+    if kernel_size < 2:
+        raise ValueError("spline_kernel_size must be at least 2")
+    if pseudo.ndim != 2 or pseudo.shape[1] != 1:
+        raise ValueError("ASGCN edge pseudo-coordinates must have shape [E,1]")
+    if not torch.isfinite(pseudo).all():
+        raise ValueError("ASGCN edge pseudo-coordinates must be finite")
+    if bool(((pseudo < 0) | (pseudo > 1)).any()):
+        raise ValueError("ASGCN edge pseudo-coordinates must lie in [0,1]")
+
+    scaled = pseudo[:, 0] * float(kernel_size - 1)
+    cell = torch.floor(scaled)
+    left = cell.to(torch.long).remainder(kernel_size)
+    right = (left + 1).remainder(kernel_size)
+    right_weight = scaled - cell
+    left_weight = 1.0 - right_weight
+    indices = torch.stack((left, right), dim=-1)
+    weights = torch.stack((left_weight, right_weight), dim=-1)
+    return indices, weights
+
+
+class PaperSplineConv(nn.Module):
+    """Eq. (11) weighted open B-spline convolution followed by BN.
+
+    ASGCN names a PyG weighted B-spline tensor-product kernel but omits its
+    hyperparameters. The reconstruction adaptation therefore exposes them in every
+    config. Degree 1 is implemented directly in PyTorch and matches the public
+    SplineCNN operator definition for scalar pseudo-coordinates.
+    """
+
+    def __init__(
+        self,
+        in_channels: int,
+        out_channels: int,
+        *,
+        kernel_size: int = 5,
+        degree: int = 1,
+        root_weight: bool = True,
+        bias: bool = True,
+    ) -> None:
         super().__init__()
-        self.message = nn.Linear(channels, channels, bias=False)
-        self.self_projection = nn.Linear(channels, channels)
-        self.edge_kernel = nn.Sequential(
-            nn.Linear(edge_dim, channels),
-            nn.SiLU(),
-            nn.Linear(channels, channels),
-            nn.Sigmoid(),
+        if int(degree) != 1:
+            raise ValueError("Only the configured open degree-1 B-spline is supported")
+        self.in_channels = int(in_channels)
+        self.out_channels = int(out_channels)
+        self.kernel_size = int(kernel_size)
+        self.degree = int(degree)
+        if self.kernel_size < 2:
+            raise ValueError("spline_kernel_size must be at least 2")
+        self.weight = nn.Parameter(
+            torch.empty(self.kernel_size, self.in_channels, self.out_channels)
         )
-        self.norm = nn.BatchNorm1d(channels)
+        self.root = (
+            nn.Parameter(torch.empty(self.in_channels, self.out_channels)) if root_weight else None
+        )
+        self.bias = nn.Parameter(torch.empty(self.out_channels)) if bias else None
+        self.norm = nn.BatchNorm1d(self.out_channels)
         self.register_buffer("bn_bypassed", torch.tensor(False), persistent=True)
+        self.register_buffer("snn_normalized", torch.tensor(False), persistent=True)
+        self.register_buffer("activation_max", torch.ones(self.out_channels), persistent=True)
+        self.register_buffer("threshold", torch.ones(self.out_channels), persistent=True)
         self._bn_is_folded = False
-        self.register_buffer("threshold", torch.ones(channels), persistent=True)
+        self._snn_is_normalized = False
+        self.reset_parameters()
+
+    def reset_parameters(self) -> None:
+        weight_bound = 1.0 / math.sqrt(self.kernel_size * self.in_channels)
+        nn.init.uniform_(self.weight, -weight_bound, weight_bound)
+        if self.root is not None:
+            root_bound = 1.0 / math.sqrt(self.in_channels)
+            nn.init.uniform_(self.root, -root_bound, root_bound)
+        if self.bias is not None:
+            nn.init.zeros_(self.bias)
+        self.norm.reset_parameters()
+        self.bn_bypassed.fill_(False)
+        self.snn_normalized.fill_(False)
+        self.activation_max.fill_(1.0)
+        self.threshold.fill_(1.0)
+        self._bn_is_folded = False
+        self._snn_is_normalized = False
 
     def _load_from_state_dict(
         self,
@@ -5120,157 +7393,321 @@ class SplineMessageLayer(nn.Module):
             error_msgs,
         )
         self._bn_is_folded = bool(self.bn_bypassed.item())
+        self._snn_is_normalized = bool(self.snn_normalized.item())
+
+    def spline_aggregate(
+        self,
+        x: torch.Tensor,
+        edge_index: torch.Tensor,
+        edge_attr: torch.Tensor,
+        basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+    ) -> torch.Tensor:
+        source, destination = edge_index
+        output = torch.zeros((x.shape[0], self.out_channels), device=x.device, dtype=x.dtype)
+        if source.numel() > 0:
+            indices, basis = (
+                basis_cache
+                if basis_cache is not None
+                else linear_open_bspline_basis(edge_attr, self.kernel_size)
+            )
+            for kernel_index in range(self.kernel_size):
+                coefficient = torch.where(
+                    indices[:, 0] == kernel_index,
+                    basis[:, 0],
+                    torch.zeros_like(basis[:, 0]),
+                )
+                coefficient = coefficient + torch.where(
+                    indices[:, 1] == kernel_index,
+                    basis[:, 1],
+                    torch.zeros_like(basis[:, 1]),
+                )
+                # Project each node once per control point instead of materializing
+                # an [E,Cin,Cout] kernel or repeating an edge-wise matrix product.
+                projected = x @ self.weight[kernel_index]
+                messages = projected[source] * coefficient[:, None].to(projected.dtype)
+                messages = messages.to(output.dtype)
+                output.index_add_(0, destination, messages)
+            degree = torch.zeros((x.shape[0], 1), device=x.device, dtype=x.dtype)
+            degree.index_add_(
+                0,
+                destination,
+                torch.ones((destination.numel(), 1), device=x.device, dtype=x.dtype),
+            )
+            output = output / degree.clamp_min(1.0)
+        return output
+
+    def affine(
+        self,
+        x: torch.Tensor,
+        edge_index: torch.Tensor,
+        edge_attr: torch.Tensor,
+        basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+    ) -> torch.Tensor:
+        output = self.spline_aggregate(x, edge_index, edge_attr, basis_cache)
+        if self.root is not None:
+            output = output + x @ self.root
+        if self.bias is not None:
+            output = output + self.bias
+        return output
 
     def preactivation(
-        self, x: torch.Tensor, edge_index: torch.Tensor, edge_attr: torch.Tensor
+        self,
+        x: torch.Tensor,
+        edge_index: torch.Tensor,
+        edge_attr: torch.Tensor,
+        basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
     ) -> torch.Tensor:
-        src, dst = edge_index
-        gates = self.edge_kernel(edge_attr)
-        messages = self.message(x[src]) * gates
-        aggregate = torch.zeros_like(x)
-        aggregate.index_add_(0, dst, messages)
-        degree = torch.zeros((x.shape[0], 1), device=x.device, dtype=x.dtype)
-        degree.index_add_(0, dst, torch.ones((dst.numel(), 1), device=x.device, dtype=x.dtype))
-        aggregate = aggregate / degree.clamp_min(1.0)
-        output = self.self_projection(x) + aggregate
+        output = self.affine(x, edge_index, edge_attr, basis_cache)
         return output if self._bn_is_folded else _safe_batch_norm(self.norm, output)
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        edge_index: torch.Tensor,
+        edge_attr: torch.Tensor,
+        basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        preactivation = self.preactivation(x, edge_index, edge_attr, basis_cache)
+        return torch.relu(preactivation), preactivation
 
     @torch.no_grad()
     def fold_batch_norm(self) -> None:
+        """Fold Eq. (13) into every output term of Eq. (11), yielding Eq. (14)."""
         if self._bn_is_folded:
             return
         if self.training:
             raise RuntimeError("Call eval() before folding BatchNorm")
-        variance = self.norm.running_var
-        mean = self.norm.running_mean
-        gamma = self.norm.weight
-        beta = self.norm.bias
-        scale = gamma / torch.sqrt(variance + self.norm.eps)
-        self.message.weight.mul_(scale[:, None])
-        self.self_projection.weight.mul_(scale[:, None])
-        self.self_projection.bias.copy_((self.self_projection.bias - mean) * scale + beta)
+        scale = self.norm.weight / torch.sqrt(self.norm.running_var + self.norm.eps)
+        self.weight.mul_(scale.view(1, 1, -1))
+        if self.root is not None:
+            self.root.mul_(scale.view(1, -1))
+        if self.bias is None:
+            raise RuntimeError("BN folding requires an affine convolution bias")
+        self.bias.copy_((self.bias - self.norm.running_mean) * scale + self.norm.bias)
         self.bn_bypassed.fill_(True)
         self._bn_is_folded = True
 
-    def forward(
-        self, x: torch.Tensor, edge_index: torch.Tensor, edge_attr: torch.Tensor
-    ) -> tuple[torch.Tensor, torch.Tensor]:
-        z = self.preactivation(x, edge_index, edge_attr)
-        return torch.relu(z), z
-
-    def rate_convert(
-        self, z: torch.Tensor, simulation_steps: int
-    ) -> tuple[torch.Tensor, torch.Tensor]:
-        if z.numel() == 0:
-            return z, torch.zeros((), device=z.device, dtype=z.dtype)
-        threshold = self.threshold.to(dtype=z.dtype, device=z.device).clamp_min(1e-6)
-        normalized = torch.clamp(torch.relu(z) / threshold, 0.0, 1.0)
-        spike_count = torch.floor(normalized * simulation_steps + 1e-6)
-        rate_output = spike_count * threshold / float(simulation_steps)
-        # Keep diagnostics on-device so a timed CUDA forward has no hidden host sync.
-        firing_rate = (spike_count / float(simulation_steps)).mean().detach()
-        return rate_output, firing_rate
+    @torch.no_grad()
+    def apply_parameter_normalization(
+        self, input_scale: torch.Tensor, output_scale: torch.Tensor
+    ) -> None:
+        """Apply Eq. (6): W_l <- W_l lambda_(l-1)/lambda_l, b_l <- b_l/lambda_l."""
+        if not self._bn_is_folded:
+            raise RuntimeError("Fold BatchNorm before ANN-to-SNN parameter normalization")
+        if self._snn_is_normalized:
+            raise RuntimeError("ANN-to-SNN parameter normalization was already applied")
+        input_scale = input_scale.to(device=self.weight.device, dtype=self.weight.dtype)
+        output_scale = output_scale.to(device=self.weight.device, dtype=self.weight.dtype)
+        if input_scale.shape != (self.in_channels,):
+            raise ValueError("Input activation scale does not match spline input channels")
+        if output_scale.shape != (self.out_channels,):
+            raise ValueError("Output activation scale does not match spline output channels")
+        input_scale = input_scale.clamp_min(1e-6)
+        output_scale = output_scale.clamp_min(1e-6)
+        self.weight.mul_(input_scale.view(1, -1, 1))
+        self.weight.div_(output_scale.view(1, 1, -1))
+        if self.root is not None:
+            self.root.mul_(input_scale.view(-1, 1))
+            self.root.div_(output_scale.view(1, -1))
+        if self.bias is not None:
+            self.bias.div_(output_scale)
+        self.activation_max.copy_(output_scale)
+        self.threshold.fill_(1.0)
+        self.snn_normalized.fill_(True)
+        self._snn_is_normalized = True
 
 
 class ASGCNEncoder(nn.Module):
-    def __init__(self, hidden_dim: int = 64, graph_layers: int = 3) -> None:
+    """Equation-faithful ASGCN graph core adapted to a reconstruction decoder."""
+
+    def __init__(
+        self,
+        hidden_dim: int = 64,
+        graph_layers: int = 6,
+        *,
+        spline_kernel_size: int = 5,
+        spline_degree: int = 1,
+        spline_root_weight: bool = True,
+    ) -> None:
         super().__init__()
+        hidden_dim = int(hidden_dim)
+        graph_layers = int(graph_layers)
+        if graph_layers < 1:
+            raise ValueError("graph_layers must be at least 1 for ASGCN")
         self.hidden_dim = hidden_dim
-        self.input_linear = nn.Linear(4, hidden_dim)
-        self.input_norm = nn.BatchNorm1d(hidden_dim)
-        self.register_buffer("input_bn_bypassed", torch.tensor(False), persistent=True)
-        self._input_bn_is_folded = False
+        channels = [4] + [hidden_dim] * graph_layers
         self.layers = nn.ModuleList(
-            [SplineMessageLayer(hidden_dim) for _ in range(int(graph_layers))]
+            [
+                PaperSplineConv(
+                    channels[index],
+                    channels[index + 1],
+                    kernel_size=spline_kernel_size,
+                    degree=spline_degree,
+                    root_weight=spline_root_weight,
+                    bias=True,
+                )
+                for index in range(graph_layers)
+            ]
+        )
+        self.register_buffer(
+            "calibration_samples_seen",
+            torch.zeros(graph_layers, dtype=torch.long),
+            persistent=True,
         )
 
-    def _load_from_state_dict(
-        self,
-        state_dict,
-        prefix,
-        local_metadata,
-        strict,
-        missing_keys,
-        unexpected_keys,
-        error_msgs,
-    ) -> None:
-        super()._load_from_state_dict(
-            state_dict,
-            prefix,
-            local_metadata,
-            strict,
-            missing_keys,
-            unexpected_keys,
-            error_msgs,
+    def _basis_cache(self, graph: EventGraph) -> tuple[torch.Tensor, torch.Tensor] | None:
+        """Compute the fixed edge basis once for all layers and IF timesteps."""
+        if graph.edge_attr.shape[0] == 0:
+            return None
+        return linear_open_bspline_basis(
+            graph.edge_attr,
+            self.layers[0].kernel_size,
         )
-        self._input_bn_is_folded = bool(self.input_bn_bypassed.item())
 
     def forward_ann(
         self, graph: EventGraph, return_activations: bool = False
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
-        h = self.input_linear(graph.node_features)
-        if not self._input_bn_is_folded:
-            h = _safe_batch_norm(self.input_norm, h)
-        h = torch.relu(h)
+        hidden = graph.node_features
         activations: list[torch.Tensor] = []
+        basis_cache = self._basis_cache(graph)
         for layer in self.layers:
-            h, z = layer(h, graph.edge_index, graph.edge_attr)
+            hidden, preactivation = layer(
+                hidden,
+                graph.edge_index,
+                graph.edge_attr,
+                basis_cache,
+            )
             if return_activations:
-                activations.append(torch.relu(z))
-        return h, activations
+                activations.append(torch.relu(preactivation))
+        return hidden, activations
 
     def forward_snn(
-        self, graph: EventGraph, simulation_steps: int = 16
+        self,
+        graph: EventGraph,
+        simulation_steps: int = 16,
+        dynamics: str = "literal_eq15",
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
-        h = self.input_linear(graph.node_features)
-        if not self._input_bn_is_folded:
-            h = _safe_batch_norm(self.input_norm, h)
-        h = torch.relu(h)
-        firing_rates: list[torch.Tensor] = []
-        for layer in self.layers:
-            z = layer.preactivation(h, graph.edge_index, graph.edge_attr)
-            h, firing_rate = layer.rate_convert(z, simulation_steps)
-            firing_rates.append(firing_rate)
-        return h, firing_rates
+        """Run explicit IF timesteps using literal Eq. (15) or a standard-IF control."""
+        if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
+            raise ValueError("simulation_steps must be an integer")
+        simulation_steps = int(simulation_steps)
+        if simulation_steps < 1:
+            raise ValueError("simulation_steps must be at least 1")
+        if dynamics not in {"literal_eq15", "standard_if"}:
+            raise ValueError("snn_dynamics must be 'literal_eq15' or 'standard_if'")
+        if any(not layer._snn_is_normalized for layer in self.layers):
+            raise RuntimeError("SNN inference requires Eq. (6) parameter normalization")
+        node_count = int(graph.node_features.shape[0])
+        if node_count == 0:
+            empty = graph.node_features.new_empty((0, self.hidden_dim))
+            zeros = [graph.node_features.new_zeros(()) for _ in self.layers]
+            return empty, zeros
+
+        membranes = [
+            layer.threshold.to(graph.node_features).expand(node_count, -1).clone() * 0.5
+            for layer in self.layers
+        ]
+        previous_spikes = [
+            graph.node_features.new_zeros((node_count, layer.out_channels)) for layer in self.layers
+        ]
+        spike_sums = [torch.zeros_like(spikes) for spikes in previous_spikes]
+        active_counts = [graph.node_features.new_zeros(()) for _ in self.layers]
+        basis_cache = self._basis_cache(graph)
+
+        for _ in range(simulation_steps):
+            hidden = graph.node_features
+            for index, layer in enumerate(self.layers):
+                current = layer.affine(
+                    hidden,
+                    graph.edge_index,
+                    graph.edge_attr,
+                    basis_cache,
+                )
+                integrated = membranes[index] + current
+                if dynamics == "literal_eq15":
+                    # This is the paper's written +h_i^l(t-1) recurrence. It is
+                    # intentionally separate from the standard rate-conversion IF
+                    # control because the paper does not resolve their mismatch.
+                    integrated = integrated + previous_spikes[index]
+                threshold = layer.threshold.to(integrated).expand_as(integrated)
+                spikes = torch.where(
+                    integrated >= threshold, threshold, torch.zeros_like(integrated)
+                )
+                membranes[index] = integrated - spikes
+                previous_spikes[index] = spikes
+                spike_sums[index] = spike_sums[index] + spikes
+                active_counts[index] = active_counts[index] + (spikes != 0).sum()
+                hidden = spikes
+
+        firing_rates = [
+            active.to(graph.node_features.dtype) / float(simulation_steps * max(1, spikes.numel()))
+            for active, spikes in zip(active_counts, spike_sums, strict=True)
+        ]
+        return spike_sums[-1] / float(simulation_steps), firing_rates
 
     @torch.no_grad()
-    def update_thresholds(self, activations: list[torch.Tensor], momentum: float = -1.0) -> None:
+    def update_activation_maxima(self, activations: list[torch.Tensor]) -> None:
         if len(activations) != len(self.layers):
             raise ValueError("Activation count does not match graph layer count")
-        for layer, activation in zip(self.layers, activations, strict=True):
+        for index, (layer, activation) in enumerate(zip(self.layers, activations, strict=True)):
             if activation.numel() == 0:
                 continue
-            maxima = activation.amax(dim=0).clamp_min(1e-6)
-            if momentum < 0:
-                layer.threshold.copy_(torch.maximum(layer.threshold, maxima))
-            else:
-                layer.threshold.mul_(momentum).add_(maxima * (1.0 - momentum))
+            if activation.ndim != 2 or activation.shape[1] != layer.out_channels:
+                raise ValueError("Calibration activation shape does not match graph layer")
+            if not bool(torch.isfinite(activation).all()):
+                raise FloatingPointError("Non-finite activation encountered during calibration")
+            maxima = activation.amax(dim=0)
+            layer.activation_max.copy_(torch.maximum(layer.activation_max, maxima))
+            self.calibration_samples_seen[index].add_(1)
 
     @torch.no_grad()
-    def reset_thresholds(self) -> None:
+    def reset_activation_maxima(self) -> None:
         for layer in self.layers:
-            layer.threshold.fill_(1e-6)
+            layer.activation_max.zero_()
+        self.calibration_samples_seen.zero_()
 
     @torch.no_grad()
     def fold_batch_norm(self) -> None:
         self.eval()
-        if not self._input_bn_is_folded:
-            variance = self.input_norm.running_var
-            mean = self.input_norm.running_mean
-            gamma = self.input_norm.weight
-            beta = self.input_norm.bias
-            scale = gamma / torch.sqrt(variance + self.input_norm.eps)
-            self.input_linear.weight.mul_(scale[:, None])
-            self.input_linear.bias.copy_((self.input_linear.bias - mean) * scale + beta)
-            self.input_bn_bypassed.fill_(True)
-            self._input_bn_is_folded = True
         for layer in self.layers:
             layer.fold_batch_norm()
+
+    @torch.no_grad()
+    def apply_parameter_normalization(self) -> None:
+        missing = torch.nonzero(self.calibration_samples_seen == 0).flatten().tolist()
+        if missing:
+            raise RuntimeError(
+                "Cannot apply Eq. (6): no non-empty calibration activation for layer(s) "
+                + ", ".join(str(index) for index in missing)
+            )
+        previous_scale = self.layers[0].weight.new_ones(self.layers[0].in_channels)
+        for layer in self.layers:
+            measured = layer.activation_max.detach().clone()
+            # A ReLU channel that stayed identically zero has no usable lambda.
+            # Keep it at unit scale instead of dividing its parameters by epsilon.
+            output_scale = torch.where(measured > 0, measured, torch.ones_like(measured))
+            layer.apply_parameter_normalization(previous_scale, output_scale)
+            previous_scale = output_scale
+
+    def calibration_summary(self) -> dict[str, list[int] | int]:
+        dead_channels = [int((layer.activation_max <= 0).sum().item()) for layer in self.layers]
+        valid_samples = [int(value) for value in self.calibration_samples_seen.tolist()]
+        return {
+            "valid_samples_per_layer": valid_samples,
+            "minimum_valid_samples": min(valid_samples, default=0),
+            "dead_channels_per_layer": dead_channels,
+        }
+
+    def output_activation_scale(self, reference: torch.Tensor) -> torch.Tensor:
+        """Return lambda_L used to express spikes in the analog decoder's units."""
+        if not self.layers[-1]._snn_is_normalized:
+            raise RuntimeError("Output activation scale is available after Eq. (6) conversion")
+        return self.layers[-1].activation_max.to(reference)
 ~~~~~~
 
 # src/asgcn_recon/losses.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 from typing import Any
@@ -5309,14 +7746,16 @@ class ReconstructionLoss(nn.Module):
             "gradient": gradient_loss(prediction, target),
         }
         total = sum(self.weights[name] * value for name, value in terms.items())
-        values: dict[str, Any] = {name: float(value.detach().cpu()) for name, value in terms.items()}
+        values: dict[str, Any] = {
+            name: float(value.detach().cpu()) for name, value in terms.items()
+        }
         values["total"] = float(total.detach().cpu())
         return total, values
 ~~~~~~
 
 # src/asgcn_recon/metrics.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import math
@@ -5460,12 +7899,7 @@ class MetricAccumulator:
         if not self.frames:
             return {"frames": 0, "micro": {}, "macro": {}, "per_scene": {}}
         names = sorted(
-            {
-                key
-                for frame in self.frames
-                for key in frame
-                if key not in {"scene", "sample_id"}
-            }
+            {key for frame in self.frames for key in frame if key not in {"scene", "sample_id"}}
         )
         grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
         for frame in self.frames:
@@ -5506,16 +7940,17 @@ def percentile(values: list[float], q: float) -> float:
 
 # src/asgcn_recon/model.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
+import math
 from typing import Any
 
 import torch
 from torch import nn
 from torch.nn import functional as F
 
-from .graph import ASGCNEncoder, EventGraph, build_event_graph
+from .graph import PAPER_CORE_VERSION, ASGCNEncoder, EventGraph, build_event_graph
 
 
 class ResidualBlock(nn.Module):
@@ -5613,9 +8048,7 @@ def rasterize_features(
     counts.index_add_(
         0,
         linear,
-        torch.ones(
-            (linear.numel(), 1), device=features.device, dtype=features.dtype
-        ),
+        torch.ones((linear.numel(), 1), device=features.device, dtype=features.dtype),
     )
     raster = raster / counts.clamp_min(1.0)
     return raster.transpose(0, 1).reshape(1, features.shape[-1], grid_h, grid_w)
@@ -5624,31 +8057,94 @@ def rasterize_features(
 class ASGCNReconstructor(nn.Module):
     def __init__(
         self,
+        architecture_version: int = PAPER_CORE_VERSION,
+        graph_operator: str = "spline",
+        spline_backend: str = "torch",
+        spline_pseudo: str = "distance_over_radius",
+        spline_is_open: bool = True,
         hidden_dim: int = 64,
-        graph_layers: int = 3,
-        causal_candidates: int = 32,
-        spatial_radius: float = 0.12,
-        temporal_radius: float = 0.30,
+        graph_layers: int = 6,
+        event_sampling_factor: int = 1,
+        graph_radius: float = 0.08,
+        graph_position_dims: int = 3,
+        graph_chunk_size: int = 512,
+        max_graph_edges: int | None = 2_000_000,
+        spline_kernel_size: int = 5,
+        spline_degree: int = 1,
+        spline_root_weight: bool = True,
+        snn_dynamics: str = "literal_eq15",
         raster_downsample: int = 4,
         decoder_channels: int = 48,
         output_channels: int = 1,
         recurrent: bool = True,
     ) -> None:
         super().__init__()
-        self.encoder = ASGCNEncoder(hidden_dim, graph_layers)
+        if int(architecture_version) != PAPER_CORE_VERSION:
+            raise ValueError(
+                f"architecture_version must be {PAPER_CORE_VERSION}; legacy edge-MLP "
+                "checkpoints are intentionally incompatible"
+            )
+        if graph_operator != "spline":
+            raise ValueError("graph_operator must be 'spline' for the ASGCN paper core")
+        if spline_backend != "torch":
+            raise ValueError("Only the portable pure-PyTorch spline backend is supported")
+        if spline_pseudo != "distance_over_radius":
+            raise ValueError(
+                "spline_pseudo must be 'distance_over_radius'; this explicit "
+                "reparameterization maps the paper's scalar distance to the "
+                "SplineConv [0,1] domain"
+            )
+        if not bool(spline_is_open):
+            raise ValueError("Only open B-spline bases are supported")
+        if (
+            isinstance(event_sampling_factor, bool)
+            or int(event_sampling_factor) != event_sampling_factor
+        ):
+            raise ValueError("event_sampling_factor must be an integer")
+        if int(event_sampling_factor) < 1:
+            raise ValueError("event_sampling_factor must be at least 1")
+        if not math.isfinite(float(graph_radius)) or float(graph_radius) <= 0:
+            raise ValueError("graph_radius must be positive and finite")
+        if int(graph_position_dims) not in {1, 2, 3, 4}:
+            raise ValueError("graph_position_dims must be one of 1, 2, 3, or 4")
+        if int(graph_chunk_size) < 1:
+            raise ValueError("graph_chunk_size must be at least 1")
+        if max_graph_edges is not None and (
+            isinstance(max_graph_edges, bool)
+            or int(max_graph_edges) != max_graph_edges
+            or int(max_graph_edges) < 1
+        ):
+            raise ValueError("max_graph_edges must be a positive integer or null")
+        if snn_dynamics not in {"literal_eq15", "standard_if"}:
+            raise ValueError("snn_dynamics must be 'literal_eq15' or 'standard_if'")
+        if int(raster_downsample) < 1:
+            raise ValueError("raster_downsample must be at least 1")
+        self.architecture_version = PAPER_CORE_VERSION
+        self.encoder = ASGCNEncoder(
+            hidden_dim,
+            graph_layers,
+            spline_kernel_size=spline_kernel_size,
+            spline_degree=spline_degree,
+            spline_root_weight=spline_root_weight,
+        )
         self.decoder = RasterDecoder(hidden_dim, decoder_channels, output_channels, recurrent)
-        self.causal_candidates = int(causal_candidates)
-        self.spatial_radius = float(spatial_radius)
-        self.temporal_radius = float(temporal_radius)
+        self.event_sampling_factor = int(event_sampling_factor)
+        self.graph_radius = float(graph_radius)
+        self.graph_position_dims = int(graph_position_dims)
+        self.graph_chunk_size = int(graph_chunk_size)
+        self.max_graph_edges = int(max_graph_edges) if max_graph_edges is not None else None
+        self.snn_dynamics = snn_dynamics
         self.raster_downsample = int(raster_downsample)
 
     def _graph(self, sample: dict[str, Any]) -> EventGraph:
         return build_event_graph(
             sample["events"],
             sample["sensor_size"],
-            self.causal_candidates,
-            self.spatial_radius,
-            self.temporal_radius,
+            event_sampling_factor=self.event_sampling_factor,
+            graph_radius=self.graph_radius,
+            graph_position_dims=self.graph_position_dims,
+            graph_chunk_size=self.graph_chunk_size,
+            max_graph_edges=self.max_graph_edges,
         )
 
     def forward_sample(
@@ -5659,23 +8155,67 @@ class ASGCNReconstructor(nn.Module):
         return_activations: bool = False,
         recurrent_state: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, dict[str, Any]]:
+        if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
+            raise ValueError("simulation_steps must be an integer")
+        simulation_steps = int(simulation_steps)
         graph = self._graph(sample)
         if inference_mode == "ann":
             features, activations = self.encoder.forward_ann(graph, return_activations)
             firing_rates: list[torch.Tensor] = []
         elif inference_mode == "snn":
-            features, firing_rates = self.encoder.forward_snn(graph, simulation_steps)
+            features, firing_rates = self.encoder.forward_snn(
+                graph,
+                simulation_steps,
+                dynamics=self.snn_dynamics,
+            )
+            # Express normalized spike amplitudes in the analog decoder's trained
+            # lambda_L units. For literal Eq. (15), this is dimensional rescaling,
+            # not a claim of proven finite-T ANN-rate equivalence.
+            features = features * self.encoder.output_activation_scale(features)
             activations = []
         else:
             raise ValueError(f"Unknown inference_mode: {inference_mode}")
-        raster = rasterize_features(
-            features, graph, sample["sensor_size"], self.raster_downsample
-        )
+        raster = rasterize_features(features, graph, sample["sensor_size"], self.raster_downsample)
         prediction, next_state = self.decoder(raster, sample["sensor_size"], recurrent_state)
+        dataset_sampling_factor = int(sample.get("metadata", {}).get("dataset_sampling_factor", 1))
+        node_count = int(graph.node_features.shape[0])
+        edge_count = int(graph.edge_index.shape[1])
+        if node_count:
+            degree = torch.bincount(graph.edge_index[1], minlength=node_count)
+            isolated_nodes = (degree == 0).sum()
+            max_degree = degree.max()
+        else:
+            isolated_nodes = graph.node_features.new_zeros((), dtype=torch.long)
+            max_degree = graph.node_features.new_zeros((), dtype=torch.long)
+        firing_rate_denominators = (
+            [simulation_steps * node_count * layer.out_channels for layer in self.encoder.layers]
+            if inference_mode == "snn"
+            else []
+        )
         diagnostics = {
-            "nodes": int(graph.node_features.shape[0]),
-            "edges": int(graph.edge_index.shape[1]),
+            "paper_core_version": self.architecture_version,
+            "nodes": node_count,
+            "edges": edge_count,
+            "isolated_nodes": isolated_nodes,
+            "isolate_ratio": isolated_nodes.to(graph.node_features.dtype)
+            / float(max(1, node_count)),
+            "max_degree": max_degree,
+            "edge_feature": "normalized_scalar_distance",
+            "event_sampling_factor": self.event_sampling_factor,
+            "dataset_sampling_factor": dataset_sampling_factor,
+            "effective_sampling_factor": (dataset_sampling_factor * self.event_sampling_factor),
+            "snn_dynamics": self.snn_dynamics if inference_mode == "snn" else None,
+            "decoder_input_lambda_applied": inference_mode == "snn",
             "firing_rates": firing_rates,
+            "firing_rate_denominators": firing_rate_denominators,
+            "spike_counts": [
+                rate * denominator
+                for rate, denominator in zip(
+                    firing_rates,
+                    firing_rate_denominators,
+                    strict=True,
+                )
+            ],
             "activations": activations,
             "recurrent_state": next_state,
         }
@@ -5701,17 +8241,33 @@ class ASGCNReconstructor(nn.Module):
 
     @torch.no_grad()
     def calibrate_sample(self, sample: dict[str, Any], momentum: float = -1.0) -> None:
-        _, diagnostics = self.forward_sample(sample, return_activations=True)
-        self.encoder.update_thresholds(diagnostics["activations"], momentum=momentum)
+        if momentum != -1.0:
+            raise ValueError(
+                "ASGCN paper-core calibration uses exact feature-wise maxima; momentum must be -1"
+            )
+        graph = self._graph(sample)
+        _, activations = self.encoder.forward_ann(graph, return_activations=True)
+        self.encoder.update_activation_maxima(activations)
 
     @torch.no_grad()
     def fold_batch_norm(self) -> None:
         self.encoder.fold_batch_norm()
+
+    @torch.no_grad()
+    def reset_activation_maxima(self) -> None:
+        self.encoder.reset_activation_maxima()
+
+    @torch.no_grad()
+    def apply_parameter_normalization(self) -> None:
+        self.encoder.apply_parameter_normalization()
+
+    def calibration_summary(self) -> dict[str, list[int] | int]:
+        return self.encoder.calibration_summary()
 ~~~~~~
 
 # src/asgcn_recon/utils.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import copy
@@ -5753,9 +8309,7 @@ def resolve_path(path: str | Path, base_dir: str | Path) -> Path:
     return expanded.resolve()
 
 
-def resolve_experiment_paths(
-    config: dict[str, Any], config_path: str | Path
-) -> dict[str, Any]:
+def resolve_experiment_paths(config: dict[str, Any], config_path: str | Path) -> dict[str, Any]:
     """Return a copy with filesystem paths anchored to the checkout root."""
     resolved = copy.deepcopy(config)
     base_dir = experiment_base_dir(config_path)
@@ -5763,6 +8317,7 @@ def resolve_experiment_paths(
         ("dataset", "root"),
         ("dataset", "val_root"),
         ("dataset", "split_manifest"),
+        ("dataset", "file_manifest"),
         ("train", "resume"),
         ("output", "run_dir"),
         ("eval", "output_dir"),
@@ -5838,13 +8393,13 @@ def atomic_torch_save(value: Any, path: str | Path) -> None:
 
 # tests/__init__.py
 
-~~~~~~text
+~~~~~~python
 """Test-only package; never installed with asgcn_recon."""
 ~~~~~~
 
 # tests/fixtures.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import io
@@ -5920,11 +8475,486 @@ def make_eventaid(root: Path, frames: int = 4) -> Path:
     return path
 ~~~~~~
 
-# tests/test_data_validation.py
+# tests/test_asgcn_paper_core.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
+from unittest.mock import patch
+
+import pytest
+import torch
+
+from asgcn_recon.graph import (
+    ASGCNEncoder,
+    EventGraph,
+    PaperSplineConv,
+    build_event_graph,
+    build_radius_graph,
+    linear_open_bspline_basis,
+    prepare_event_nodes,
+    uniformly_sample_events,
+)
+from asgcn_recon.model import ASGCNReconstructor
+
+
+def _single_node_graph() -> EventGraph:
+    return EventGraph(
+        node_features=torch.zeros((1, 4)),
+        positions=torch.zeros((1, 4)),
+        edge_index=torch.empty((2, 0), dtype=torch.long),
+        edge_attr=torch.empty((0, 1)),
+    )
+
+
+def _normalized_single_layer_encoder() -> ASGCNEncoder:
+    encoder = ASGCNEncoder(
+        hidden_dim=1,
+        graph_layers=1,
+        spline_kernel_size=2,
+        spline_root_weight=True,
+    ).eval()
+    encoder.fold_batch_norm()
+    encoder.layers[0].activation_max.fill_(1.0)
+    encoder.calibration_samples_seen.fill_(1)
+    encoder.apply_parameter_normalization()
+    return encoder
+
+
+def test_uniform_event_sampling_and_polarity_encoding() -> None:
+    events = torch.tensor(
+        [[index, 0, index, index % 2] for index in range(10)], dtype=torch.float32
+    )
+    sampled = uniformly_sample_events(events, factor=3)
+    torch.testing.assert_close(sampled, events[[0, 3, 6, 9]])
+    with pytest.raises(ValueError, match="at least 1"):
+        uniformly_sample_events(events, factor=0)
+
+    node_features, positions = prepare_event_nodes(events[:2], sensor_size=(2, 10))
+    torch.testing.assert_close(node_features[:, 3], torch.tensor([-1.0, 1.0]))
+    torch.testing.assert_close(positions[:, 3], torch.tensor([0.0, 1.0]))
+
+    graph = build_event_graph(
+        events,
+        (2, 10),
+        event_sampling_factor=3,
+        graph_radius=2.0,
+        graph_position_dims=3,
+        graph_chunk_size=2,
+    )
+    assert graph.node_features.shape == (4, 4)
+    torch.testing.assert_close(graph.node_features[:, 0], sampled[:, 0] / 9.0)
+
+
+def test_radius_graph_is_exactly_undirected_without_self_edges() -> None:
+    positions = torch.tensor(
+        [
+            [0.0, 0.0, 0.0, 0.0],
+            [0.3, 0.0, 0.0, 1.0],
+            [0.9, 0.0, 0.0, 0.0],
+        ]
+    )
+    edge_index, edge_attr = build_radius_graph(
+        positions,
+        radius=0.5,
+        position_dims=3,
+        chunk_size=2,
+    )
+
+    torch.testing.assert_close(edge_index, torch.tensor([[0, 1], [1, 0]]))
+    torch.testing.assert_close(edge_attr, torch.tensor([[0.6], [0.6]]))
+    assert edge_attr.shape == (2, 1)
+    assert torch.all(edge_index[0] != edge_index[1])
+    assert torch.all((0.0 <= edge_attr) & (edge_attr <= 1.0))
+
+    boundary_edges, _ = build_radius_graph(
+        torch.tensor([[0.0, 0.0, 0.0], [0.5, 0.0, 0.0]]),
+        radius=0.5,
+        position_dims=3,
+        chunk_size=1,
+    )
+    assert boundary_edges.shape == (2, 0), "The paper uses distance < D, not <= D"
+
+    with pytest.raises(RuntimeError, match="max_graph_edges=5"):
+        build_radius_graph(
+            torch.zeros((4, 3)),
+            radius=1.0,
+            position_dims=3,
+            chunk_size=2,
+            max_edges=5,
+        )
+
+
+def test_linear_open_bspline_endpoints_and_partition_of_unity() -> None:
+    pseudo = torch.tensor([[0.0], [0.125], [0.5], [0.875], [1.0]])
+    indices, weights = linear_open_bspline_basis(pseudo, kernel_size=5)
+
+    torch.testing.assert_close(indices[0], torch.tensor([0, 1]))
+    torch.testing.assert_close(weights[0], torch.tensor([1.0, 0.0]))
+    torch.testing.assert_close(indices[-1], torch.tensor([4, 0]))
+    torch.testing.assert_close(weights[-1], torch.tensor([1.0, 0.0]))
+    torch.testing.assert_close(weights.sum(dim=1), torch.ones(5))
+    assert torch.all(weights >= 0)
+    with pytest.raises(ValueError, match=r"\[0,1\]"):
+        linear_open_bspline_basis(torch.tensor([[1.01]]), kernel_size=5)
+
+
+def test_linear_bspline_exact_endpoint_matches_official_pyg_pseudo_gradient() -> None:
+    """The official degree-1 backend wraps the inactive right basis at u=1."""
+    layer = PaperSplineConv(
+        1,
+        1,
+        kernel_size=2,
+        root_weight=False,
+        bias=False,
+    )
+    with torch.no_grad():
+        layer.weight.copy_(torch.tensor([[[3.0]], [[5.0]]]))
+    features = torch.tensor([[8.0]])
+    edge_index = torch.tensor([[0], [0]])
+    edge_attr = torch.tensor([[1.0]], requires_grad=True)
+
+    output = layer.spline_aggregate(features, edge_index, edge_attr)
+    output.sum().backward()
+
+    torch.testing.assert_close(output, torch.tensor([[40.0]]))
+    # At u=1 PyG uses bases [K-1, 0], so d/du = x * (W_0 - W_1).
+    torch.testing.assert_close(edge_attr.grad, torch.tensor([[-16.0]]))
+
+
+def test_spline_parameter_initialization_matches_official_pyg_bounds() -> None:
+    layer = PaperSplineConv(4, 7, kernel_size=5, root_weight=True, bias=True)
+    spline_bound = 1.0 / (5 * 4) ** 0.5
+    root_bound = 1.0 / 4**0.5
+
+    assert torch.all(layer.weight.abs() <= spline_bound)
+    assert layer.root is not None
+    assert torch.all(layer.root.abs() <= root_bound)
+    torch.testing.assert_close(layer.bias, torch.zeros(7))
+
+
+def test_spline_mean_aggregation_matches_hand_calculation_and_gradients() -> None:
+    layer = PaperSplineConv(
+        1,
+        1,
+        kernel_size=2,
+        root_weight=False,
+        bias=False,
+    )
+    with torch.no_grad():
+        layer.weight.copy_(torch.tensor([[[3.0]], [[5.0]]]))
+    features = torch.tensor([[2.0], [4.0], [8.0]], requires_grad=True)
+    edge_index = torch.tensor([[0, 2, 1], [1, 1, 2]])
+    edge_attr = torch.tensor([[0.0], [1.0], [0.25]])
+
+    output = layer.spline_aggregate(features, edge_index, edge_attr)
+    torch.testing.assert_close(output, torch.tensor([[0.0], [23.0], [14.0]]))
+    output.sum().backward()
+
+    torch.testing.assert_close(features.grad, torch.tensor([[1.5], [3.5], [2.5]]))
+    torch.testing.assert_close(layer.weight.grad, torch.tensor([[[4.0]], [[5.0]]]))
+
+
+def test_batch_norm_folding_preserves_preactivation() -> None:
+    generator = torch.Generator().manual_seed(33)
+    layer = PaperSplineConv(2, 3, kernel_size=3, root_weight=True, bias=True).eval()
+    with torch.no_grad():
+        layer.norm.running_mean.copy_(torch.tensor([0.3, -0.2, 0.7]))
+        layer.norm.running_var.copy_(torch.tensor([0.5, 2.0, 4.0]))
+        layer.norm.weight.copy_(torch.tensor([1.2, -0.7, 0.4]))
+        layer.norm.bias.copy_(torch.tensor([-0.1, 0.5, 0.2]))
+    features = torch.rand((4, 2), generator=generator)
+    edge_index = torch.tensor([[0, 1, 2, 3], [1, 2, 3, 0]])
+    edge_attr = torch.tensor([[0.0], [0.25], [0.75], [1.0]])
+
+    before = layer.preactivation(features, edge_index, edge_attr)
+    layer.fold_batch_norm()
+    after = layer.preactivation(features, edge_index, edge_attr)
+
+    torch.testing.assert_close(after, before, atol=1e-6, rtol=1e-5)
+    assert layer.bn_bypassed.item() is True
+    assert layer._bn_is_folded is True
+
+
+def test_equation_6_scales_kernel_root_and_bias_per_feature() -> None:
+    layer = PaperSplineConv(2, 2, kernel_size=2, root_weight=True, bias=True).eval()
+    with pytest.raises(RuntimeError, match="Fold BatchNorm"):
+        layer.apply_parameter_normalization(torch.ones(2), torch.ones(2))
+
+    layer.fold_batch_norm()
+    folded_weight = layer.weight.detach().clone()
+    folded_root = layer.root.detach().clone()
+    folded_bias = layer.bias.detach().clone()
+    input_scale = torch.tensor([2.0, 4.0])
+    output_scale = torch.tensor([5.0, 10.0])
+    layer.apply_parameter_normalization(input_scale, output_scale)
+
+    torch.testing.assert_close(
+        layer.weight,
+        folded_weight * input_scale.view(1, -1, 1) / output_scale.view(1, 1, -1),
+    )
+    torch.testing.assert_close(
+        layer.root,
+        folded_root * input_scale.view(-1, 1) / output_scale.view(1, -1),
+    )
+    torch.testing.assert_close(layer.bias, folded_bias / output_scale)
+    torch.testing.assert_close(layer.activation_max, output_scale)
+    torch.testing.assert_close(layer.threshold, torch.ones(2))
+    assert layer.snn_normalized.item() is True
+
+
+def test_equation_6_requires_nonempty_calibration_and_uses_unit_for_dead_channels() -> None:
+    empty_encoder = ASGCNEncoder(hidden_dim=2, graph_layers=1, spline_kernel_size=2).eval()
+    empty_encoder.fold_batch_norm()
+    empty_encoder.reset_activation_maxima()
+    _, activations = empty_encoder.forward_ann(
+        EventGraph(
+            node_features=torch.empty((0, 4)),
+            positions=torch.empty((0, 4)),
+            edge_index=torch.empty((2, 0), dtype=torch.long),
+            edge_attr=torch.empty((0, 1)),
+        ),
+        return_activations=True,
+    )
+    empty_encoder.update_activation_maxima(activations)
+    assert empty_encoder.calibration_summary()["minimum_valid_samples"] == 0
+    with pytest.raises(RuntimeError, match="no non-empty calibration"):
+        empty_encoder.apply_parameter_normalization()
+
+    encoder = ASGCNEncoder(hidden_dim=2, graph_layers=1, spline_kernel_size=2).eval()
+    encoder.fold_batch_norm()
+    encoder.reset_activation_maxima()
+    encoder.layers[0].activation_max.copy_(torch.tensor([2.0, 0.0]))
+    encoder.calibration_samples_seen.fill_(1)
+    encoder.apply_parameter_normalization()
+    torch.testing.assert_close(
+        encoder.layers[0].activation_max,
+        torch.tensor([2.0, 1.0]),
+    )
+
+
+def test_explicit_if_uses_half_threshold_initialization_and_threshold_spikes() -> None:
+    encoder = _normalized_single_layer_encoder()
+    encoder.layers[0].threshold.fill_(2.0)
+    current = torch.ones((1, 1))
+
+    with patch.object(encoder.layers[0], "affine", return_value=current) as affine:
+        output, firing_rates = encoder.forward_snn(_single_node_graph(), simulation_steps=1)
+
+    # v(0)=theta/2=1 and I(1)=1 reaches theta exactly; the emitted spike is theta=2.
+    torch.testing.assert_close(output, torch.tensor([[2.0]]))
+    torch.testing.assert_close(firing_rates[0], torch.tensor(1.0))
+    assert affine.call_count == 1
+
+
+def test_explicit_if_loop_keeps_soft_reset_residual() -> None:
+    encoder = _normalized_single_layer_encoder()
+    currents = [torch.tensor([[0.8]]), torch.tensor([[-0.2]])]
+
+    with patch.object(encoder.layers[0], "affine", side_effect=currents) as affine:
+        output, firing_rates = encoder.forward_snn(_single_node_graph(), simulation_steps=2)
+
+    # t1: 0.5+0.8 -> spike, residual 0.3. t2: 0.3-0.2+previous spike -> spike.
+    # A hard reset to zero would not fire at t2.
+    torch.testing.assert_close(output, torch.tensor([[1.0]]))
+    torch.testing.assert_close(firing_rates[0], torch.tensor(1.0))
+    assert affine.call_count == 2
+
+
+def test_snn_reuses_one_spline_basis_across_all_timesteps() -> None:
+    encoder = _normalized_single_layer_encoder()
+    graph = EventGraph(
+        node_features=torch.zeros((2, 4)),
+        positions=torch.zeros((2, 4)),
+        edge_index=torch.tensor([[0, 1], [1, 0]]),
+        edge_attr=torch.tensor([[0.25], [0.25]]),
+    )
+
+    with patch(
+        "asgcn_recon.graph.linear_open_bspline_basis",
+        wraps=linear_open_bspline_basis,
+    ) as basis:
+        encoder.forward_snn(graph, simulation_steps=16)
+
+    assert basis.call_count == 1
+
+
+def test_literal_equation_15_and_standard_if_are_explicitly_distinct() -> None:
+    encoder = _normalized_single_layer_encoder()
+    current = torch.tensor([[0.1]])
+
+    with patch.object(encoder.layers[0], "affine", return_value=current):
+        literal_output, literal_rates = encoder.forward_snn(
+            _single_node_graph(),
+            simulation_steps=100,
+            dynamics="literal_eq15",
+        )
+    with patch.object(encoder.layers[0], "affine", return_value=current):
+        standard_output, standard_rates = encoder.forward_snn(
+            _single_node_graph(),
+            simulation_steps=100,
+            dynamics="standard_if",
+        )
+
+    # The written +h(t-1) recurrence self-reinjects every prior spike. This
+    # regression test prevents it from being silently presented as standard IF.
+    torch.testing.assert_close(literal_output, torch.tensor([[0.96]]))
+    torch.testing.assert_close(literal_rates[0], torch.tensor(0.96))
+    torch.testing.assert_close(standard_output, torch.tensor([[0.1]]))
+    torch.testing.assert_close(standard_rates[0], torch.tensor(0.1))
+
+    with pytest.raises(ValueError, match="snn_dynamics"):
+        encoder.forward_snn(_single_node_graph(), dynamics="ambiguous")
+
+
+def test_snn_rejects_unnormalized_encoder_and_invalid_steps() -> None:
+    encoder = ASGCNEncoder(hidden_dim=1, graph_layers=1, spline_kernel_size=2)
+    graph = _single_node_graph()
+    with pytest.raises(RuntimeError, match=r"Eq\. \(6\)"):
+        encoder.forward_snn(graph, simulation_steps=2)
+    with pytest.raises(ValueError, match="simulation_steps"):
+        encoder.forward_snn(graph, simulation_steps=0)
+    with pytest.raises(ValueError, match="integer"):
+        encoder.forward_snn(graph, simulation_steps=1.9)
+    with pytest.raises(ValueError, match="integer"):
+        encoder.forward_snn(graph, simulation_steps=True)
+
+
+def test_real_equation_6_standard_if_lambda_boundary_matches_ann_activation() -> None:
+    encoder = ASGCNEncoder(
+        hidden_dim=1,
+        graph_layers=1,
+        spline_kernel_size=2,
+        spline_root_weight=True,
+    ).eval()
+    graph = EventGraph(
+        node_features=torch.tensor([[0.5, 0.0, 0.0, 0.0]]),
+        positions=torch.zeros((1, 4)),
+        edge_index=torch.empty((2, 0), dtype=torch.long),
+        edge_attr=torch.empty((0, 1)),
+    )
+    with torch.no_grad():
+        encoder.layers[0].weight.zero_()
+        encoder.layers[0].root.zero_()
+        encoder.layers[0].root[0, 0] = 1.0
+        encoder.layers[0].bias.zero_()
+        encoder.fold_batch_norm()
+        encoder.reset_activation_maxima()
+        ann_output, activations = encoder.forward_ann(graph, return_activations=True)
+        encoder.update_activation_maxima(activations)
+        encoder.apply_parameter_normalization()
+        normalized_spikes, _ = encoder.forward_snn(
+            graph,
+            simulation_steps=8,
+            dynamics="standard_if",
+        )
+        decoder_units = normalized_spikes * encoder.output_activation_scale(normalized_spikes)
+
+    torch.testing.assert_close(ann_output, torch.tensor([[0.5]]))
+    torch.testing.assert_close(decoder_units, ann_output)
+
+
+def test_empty_and_single_node_graphs_are_finite_and_differentiable() -> None:
+    empty = build_event_graph(
+        torch.empty((0, 4)),
+        (8, 8),
+        event_sampling_factor=1,
+        graph_radius=0.08,
+        graph_position_dims=3,
+        graph_chunk_size=4,
+    )
+    assert empty.node_features.shape == (0, 4)
+    assert empty.edge_index.shape == (2, 0)
+    assert empty.edge_attr.shape == (0, 1)
+
+    single = build_event_graph(
+        torch.tensor([[3.0, 4.0, 0.0, 1.0]]),
+        (8, 8),
+        event_sampling_factor=1,
+        graph_radius=0.08,
+        graph_position_dims=3,
+        graph_chunk_size=4,
+    )
+    assert single.node_features.shape == (1, 4)
+    assert single.edge_index.shape == (2, 0)
+
+    encoder = ASGCNEncoder(hidden_dim=2, graph_layers=1, spline_kernel_size=2)
+    empty_output, _ = encoder.forward_ann(empty)
+    single_output, _ = encoder.forward_ann(single)
+    assert empty_output.shape == (0, 2)
+    assert torch.isfinite(single_output).all()
+    single_output.sum().backward()
+    assert encoder.layers[0].root.grad is not None
+    assert torch.isfinite(encoder.layers[0].root.grad).all()
+
+    snn_encoder = _normalized_single_layer_encoder()
+    empty_snn, firing_rates = snn_encoder.forward_snn(empty, simulation_steps=3)
+    assert empty_snn.shape == (0, 1)
+    torch.testing.assert_close(firing_rates[0], torch.tensor(0.0))
+
+
+def test_legacy_edge_mlp_architecture_is_rejected() -> None:
+    with pytest.raises(ValueError, match="legacy edge-MLP"):
+        ASGCNReconstructor(architecture_version=1)
+
+    with pytest.raises(ValueError, match="distance_over_radius"):
+        ASGCNReconstructor(spline_pseudo="distance")
+
+
+def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
+    model = ASGCNReconstructor(
+        hidden_dim=2,
+        graph_layers=1,
+        spline_kernel_size=2,
+        decoder_channels=4,
+        recurrent=False,
+    ).eval()
+    sample = {
+        "events": torch.tensor([[1.0, 1.0, 0.0, 1.0]]),
+        "target": torch.zeros((1, 4, 4)),
+        "sensor_size": (4, 4),
+        "sample_id": "known-scale",
+        "metadata": {"dataset_sampling_factor": 1},
+    }
+    captured: dict[str, torch.Tensor] = {}
+
+    def capture_raster(features, graph, sensor_size, downsample):
+        del graph, sensor_size, downsample
+        captured["features"] = features.detach().clone()
+        return torch.zeros((1, 2, 1, 1))
+
+    with (
+        patch.object(
+            model.encoder,
+            "forward_snn",
+            return_value=(torch.ones((1, 2)), [torch.tensor(0.0)]),
+        ),
+        patch.object(
+            model.encoder,
+            "output_activation_scale",
+            return_value=torch.tensor([2.0, 3.0]),
+        ),
+        patch("asgcn_recon.model.rasterize_features", side_effect=capture_raster),
+        patch.object(
+            model.decoder,
+            "forward",
+            return_value=(torch.zeros((1, 1, 4, 4)), None),
+        ),
+    ):
+        _, diagnostics = model.forward_sample(sample, inference_mode="snn")
+
+    torch.testing.assert_close(captured["features"], torch.tensor([[2.0, 3.0]]))
+    assert diagnostics["decoder_input_lambda_applied"] is True
+    assert diagnostics["isolated_nodes"].item() == 1
+    assert diagnostics["max_degree"].item() == 0
+~~~~~~
+
+# tests/test_data_validation.py
+
+~~~~~~python
+from __future__ import annotations
+
+import json
 import zipfile
 from collections.abc import Callable
 from pathlib import Path
@@ -5933,7 +8963,12 @@ import h5py
 import numpy as np
 import pytest
 
-from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
+from asgcn_recon.data import (
+    EventAidRZipDataset,
+    EventHDRDataset,
+    build_dataset,
+    load_eventhdr_split_manifest,
+)
 from tests.fixtures import make_eventaid, make_eventhdr
 
 
@@ -6009,6 +9044,300 @@ def test_eventhdr_distinguishes_h5_and_hdf5_stems(tmp_path: Path) -> None:
     dataset = EventHDRDataset(tmp_path / "hdr")
     scenes = {dataset[0]["metadata"]["scene"], dataset[4]["metadata"]["scene"]}
     assert scenes == {"same.h5", "same.hdf5"}
+
+
+def _write_manifest(path: Path, payload: dict) -> Path:
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    return path
+
+
+def test_final_eventhdr_manifest_normalizes_physical_scene_groups(tmp_path: Path) -> None:
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "FINAL",
+            "scene_groups": {
+                "night-drive-a": ["chunk_02.h5", "nested\\chunk_01.hdf5"],
+                "night-drive-b": ["validation.h5"],
+            },
+            "train_scenes": ["night-drive-a"],
+            "val_scenes": ["night-drive-b"],
+        },
+    )
+
+    manifest = load_eventhdr_split_manifest(manifest_path)
+
+    assert manifest["status"] == "final"
+    assert manifest["split_schema"] == "physical_scenes_v1"
+    assert manifest["train_files"] == ["chunk_02.h5", "nested/chunk_01.hdf5"]
+    assert manifest["val_files"] == ["validation.h5"]
+    assert manifest["file_to_scene"] == {
+        "chunk_02.h5": "night-drive-a",
+        "nested/chunk_01.hdf5": "night-drive-a",
+        "validation.h5": "night-drive-b",
+    }
+
+
+def test_final_eventhdr_manifest_rejects_legacy_file_lists(tmp_path: Path) -> None:
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "train_files": ["train.h5"],
+            "val_files": ["val.h5"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="requires scene_groups"):
+        load_eventhdr_split_manifest(manifest_path)
+
+
+@pytest.mark.parametrize(
+    ("update", "message"),
+    [
+        ({"val_scenes": ["scene-a"]}, "leaks physical scenes"),
+        (
+            {
+                "scene_groups": {
+                    "scene-a": ["shared.h5"],
+                    "scene-b": ["shared.h5"],
+                }
+            },
+            "multiple physical scenes",
+        ),
+        ({"val_scenes": ["undefined"]}, "undefined physical scenes"),
+        ({"scene_groups": {"scene-a": [], "scene-b": ["b.h5"]}}, "non-empty list"),
+        (
+            {
+                "scene_groups": {
+                    "scene-a": ["a.h5"],
+                    "scene-b": ["b.h5"],
+                    "scene-c": ["c.h5"],
+                }
+            },
+            "leaves physical scenes unassigned",
+        ),
+    ],
+)
+def test_physical_scene_manifest_rejects_leakage_and_invalid_ownership(
+    tmp_path: Path, update: dict, message: str
+) -> None:
+    payload = {
+        "status": "final",
+        "scene_groups": {"scene-a": ["a.h5"], "scene-b": ["b.h5"]},
+        "train_scenes": ["scene-a"],
+        "val_scenes": ["scene-b"],
+    }
+    payload.update(update)
+    manifest_path = _write_manifest(tmp_path / "split.json", payload)
+
+    with pytest.raises(ValueError, match=message):
+        load_eventhdr_split_manifest(manifest_path)
+
+
+def test_physical_scene_manifest_rejects_incomplete_schema(tmp_path: Path) -> None:
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "provisional",
+            "scene_groups": {"scene-a": ["a.h5"]},
+            "train_files": ["a.h5"],
+            "val_files": ["b.h5"],
+        },
+    )
+
+    with pytest.raises(ValueError, match=r"incomplete.*train_scenes, val_scenes"):
+        load_eventhdr_split_manifest(manifest_path)
+
+
+def test_factory_assigns_physical_scene_and_retains_source_file(tmp_path: Path) -> None:
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root / "chunk-one")
+    make_eventhdr(data_root / "chunk-two")
+    make_eventhdr(data_root / "held-out")
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "scene_groups": {
+                "physical-night-drive": [
+                    "chunk-two/test.h5",
+                    "chunk-one/test.h5",
+                ],
+                "physical-day-drive": ["held-out/test.h5"],
+            },
+            "train_scenes": ["physical-night-drive"],
+            "val_scenes": ["physical-day-drive"],
+        },
+    )
+    config = {
+        "type": "eventhdr",
+        "root": str(data_root),
+        "split_manifest": str(manifest_path),
+        "max_events": 8,
+    }
+
+    train_dataset = build_dataset(config, split="train")
+    first = train_dataset[0]
+    second_file = train_dataset[4]
+
+    assert train_dataset.samples[0]["scene"] == "physical-night-drive"
+    assert first["metadata"]["scene"] == "physical-night-drive"
+    assert first["metadata"]["source_file"] == "chunk-two/test.h5"
+    assert second_file["metadata"]["source_file"] == "chunk-one/test.h5"
+    assert first["sample_id"] != second_file["sample_id"]
+
+    val_sample = build_dataset(config, split="val")[0]
+    assert val_sample["metadata"]["scene"] == "physical-day-drive"
+    assert val_sample["metadata"]["source_file"] == "held-out/test.h5"
+
+
+def test_final_manifest_must_cover_every_h5_under_root(tmp_path: Path) -> None:
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root / "train").rename(data_root / "train" / "a.h5")
+    make_eventhdr(data_root / "val").rename(data_root / "val" / "b.h5")
+    make_eventhdr(data_root / "extra").rename(data_root / "extra" / "c.h5")
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "scene_groups": {
+                "scene-a": ["train/a.h5"],
+                "scene-b": ["val/b.h5"],
+            },
+            "train_scenes": ["scene-a"],
+            "val_scenes": ["scene-b"],
+        },
+    )
+
+    with pytest.raises(ValueError, match="must cover every H5.*extra/c.h5"):
+        build_dataset(
+            {
+                "type": "eventhdr",
+                "root": str(data_root),
+                "split_manifest": str(manifest_path),
+            },
+            split="train",
+        )
+
+
+def test_final_manifest_checks_separate_roots_without_collapsing_same_names(
+    tmp_path: Path,
+) -> None:
+    train_root = tmp_path / "train"
+    val_root = tmp_path / "val"
+    make_eventhdr(train_root).rename(train_root / "a.h5")
+    make_eventhdr(val_root).rename(val_root / "b.h5")
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "scene_groups": {
+                "training-scene": ["a.h5"],
+                "validation-scene": ["b.h5"],
+            },
+            "train_scenes": ["training-scene"],
+            "val_scenes": ["validation-scene"],
+        },
+    )
+    config = {
+        "type": "eventhdr",
+        "root": str(train_root),
+        "val_root": str(val_root),
+        "split_manifest": str(manifest_path),
+    }
+
+    build_dataset(config, split="train").close()
+    build_dataset(config, split="val").close()
+
+    make_eventhdr(tmp_path / "extra").rename(val_root / "a.h5")
+    with pytest.raises(ValueError, match=r"dataset\.val_root.*undeclared: a\.h5"):
+        build_dataset(config, split="val")
+
+
+def test_final_manifest_excludes_nested_validation_root_from_training_coverage(
+    tmp_path: Path,
+) -> None:
+    train_root = tmp_path / "dataset"
+    val_root = train_root / "validation"
+    make_eventhdr(train_root).rename(train_root / "train.h5")
+    make_eventhdr(val_root).rename(val_root / "val.h5")
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "final",
+            "scene_groups": {
+                "training-scene": ["train.h5"],
+                "validation-scene": ["val.h5"],
+            },
+            "train_scenes": ["training-scene"],
+            "val_scenes": ["validation-scene"],
+        },
+    )
+    config = {
+        "type": "eventhdr",
+        "root": str(train_root),
+        "val_root": str(val_root),
+        "split_manifest": str(manifest_path),
+    }
+
+    train_dataset = build_dataset(config, split="train")
+    val_dataset = build_dataset(config, split="val")
+    assert [path.name for path in train_dataset.files] == ["train.h5"]
+    assert [path.name for path in val_dataset.files] == ["val.h5"]
+    train_dataset.close()
+    val_dataset.close()
+
+
+def test_eventaid_fixed_manifest_rejects_partial_external_eval(tmp_path: Path) -> None:
+    data_root = tmp_path / "aid"
+    make_eventaid(data_root)
+    manifest_path = _write_manifest(
+        tmp_path / "aid.json",
+        {
+            "files": [
+                {"scene": "R-bear"},
+                {"scene": "R-ball"},
+            ]
+        },
+    )
+
+    with pytest.raises(ValueError, match="coverage does not match"):
+        build_dataset(
+            {
+                "type": "eventaid_r_zip",
+                "root": str(data_root),
+                "file_manifest": str(manifest_path),
+            },
+            split="eval",
+        )
+
+
+def test_provisional_legacy_manifest_keeps_file_identity_as_scene(tmp_path: Path) -> None:
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root)
+    manifest_path = _write_manifest(
+        tmp_path / "split.json",
+        {
+            "status": "provisional",
+            "train_files": ["test.h5"],
+            "val_files": ["unused.h5"],
+        },
+    )
+
+    manifest = load_eventhdr_split_manifest(manifest_path)
+    dataset = build_dataset(
+        {
+            "type": "eventhdr",
+            "root": str(data_root),
+            "split_manifest": str(manifest_path),
+        },
+        split="train",
+    )
+
+    assert manifest["split_schema"] == "legacy_files_v1"
+    assert dataset[0]["metadata"]["scene"] == "test.h5"
+    assert dataset[0]["metadata"]["source_file"] == "test.h5"
 
 
 @pytest.mark.parametrize(
@@ -6177,13 +9506,13 @@ def test_eventaid_requires_timestamp_for_every_pair(tmp_path: Path) -> None:
 
 # tests/test_e2e.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import torch
 
 from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
-from asgcn_recon.engine import benchmark, evaluate
+from asgcn_recon.engine import _model_state_sha256, benchmark, evaluate
 from asgcn_recon.losses import ReconstructionLoss
 from asgcn_recon.model import ASGCNReconstructor
 from asgcn_recon.utils import atomic_torch_save
@@ -6203,11 +9532,20 @@ def test_train_eval_benchmark_contract(tmp_path):
     assert len(aid) == 3
 
     model_config = {
+        "architecture_version": 2,
+        "graph_operator": "spline",
+        "spline_backend": "torch",
+        "spline_pseudo": "distance_over_radius",
+        "spline_is_open": True,
         "hidden_dim": 8,
         "graph_layers": 2,
-        "causal_candidates": 4,
-        "spatial_radius": 1.0,
-        "temporal_radius": 1.0,
+        "event_sampling_factor": 1,
+        "graph_radius": 2.0,
+        "graph_position_dims": 3,
+        "graph_chunk_size": 16,
+        "spline_kernel_size": 3,
+        "spline_degree": 1,
+        "spline_root_weight": True,
         "raster_downsample": 4,
         "decoder_channels": 4,
         "output_channels": 1,
@@ -6222,8 +9560,16 @@ def test_train_eval_benchmark_contract(tmp_path):
     assert diagnostics["nodes"] == 32
 
     checkpoint = tmp_path / "model.pt"
+    model_state = model.state_dict()
     atomic_torch_save(
-        {"epoch": 0, "model": model.state_dict(), "model_config": model_config}, checkpoint
+        {
+            "checkpoint_type": "ann_inference",
+            "epoch": 0,
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "model_config": model_config,
+        },
+        checkpoint,
     )
     output_dir = tmp_path / "eval"
     config = {
@@ -6251,82 +9597,424 @@ def test_train_eval_benchmark_contract(tmp_path):
 
     assert result["quality"]["frames"] == 2
     assert timing["frames"] == 2
+    assert timing["mean_raw_events"] == 80
+    assert timing["mean_retained_events"] == 27
+    assert timing["retention_ratio"] == 27 / 80
+    assert timing["raw_events_per_second"] > timing["retained_events_per_second"]
+    assert timing["graph_nodes_per_second"] == timing["retained_events_per_second"]
+    assert timing["events_per_second"] == timing["retained_events_per_second"]
     assert timing["recurrent_context_frames"] == 1
     assert timing["state_resets"] == 0
     assert timing["state_reset_ratio"] == 0.0
-    assert (output_dir / "metrics.json").is_file()
-    assert (output_dir / "frames.csv").is_file()
-    assert len(list((output_dir / "predictions").glob("*_pred.png"))) == 1
+    ann_output = output_dir / "ann"
+    assert (ann_output / "metrics.json").is_file()
+    assert (ann_output / "frames.csv").is_file()
+    assert (ann_output / "benchmark.json").is_file()
+    assert len(list((ann_output / "predictions").glob("*_pred.png"))) == 1
 
     hdr.close()
     aid.close()
 ~~~~~~
 
+# tests/test_engine_integrity.py
+
+~~~~~~python
+from __future__ import annotations
+
+import copy
+import sys
+
+import pytest
+import torch
+
+from asgcn_recon.engine import (
+    _centralize_gradients,
+    _clip_and_validate_gradients,
+    _ensure_finite_loss,
+    _model_state_sha256,
+    _prediction_artifact_stem,
+    _training_protocol,
+    _validate_snn_request,
+    _validate_training_protocol,
+    load_model_checkpoint,
+)
+from asgcn_recon.model import ASGCNReconstructor
+from asgcn_recon.utils import atomic_torch_save
+from scripts import check_env
+
+
+def _config() -> dict:
+    return {
+        "seed": 23,
+        "train": {
+            "epochs": 10,
+            "batch_size": 1,
+            "num_workers": 0,
+            "amp": True,
+            "learning_rate": 1e-3,
+            "weight_decay": 5e-3,
+            "grad_clip": 2.0,
+            "max_train_samples": 20,
+            "validate_every": 2,
+            "log_every": 10,
+            "loss_weights": {
+                "charbonnier": 1.0,
+                "ssim": 0.25,
+                "gradient": 0.05,
+                "temporal": 0.1,
+            },
+        },
+    }
+
+
+def test_training_protocol_captures_trajectory_but_allows_run_control_changes() -> None:
+    config = _config()
+    protocol = _training_protocol(config, torch.device("cpu"))
+    assert protocol["optimizer"]["name"] == "AdamW"
+    assert protocol["optimizer"]["learning_rate"] == pytest.approx(1e-3)
+    assert protocol["mixed_precision"] == {
+        "requested": True,
+        "effective": False,
+        "autocast_dtype": None,
+        "gradient_scaler": False,
+    }
+
+    allowed = copy.deepcopy(config)
+    allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})
+    assert _training_protocol(allowed, torch.device("cpu")) == protocol
+
+    changed = copy.deepcopy(config)
+    changed["train"]["learning_rate"] = 2e-3
+    with pytest.raises(ValueError, match=r"training protocol differs.*optimizer"):
+        _validate_training_protocol(
+            {"training_protocol": protocol},
+            _training_protocol(changed, torch.device("cpu")),
+        )
+
+
+def test_paper_optimizer_mode_records_gc_and_milestone_schedule() -> None:
+    config = _config()
+    config["train"].update({"optimizer": "adam_gc", "lr_milestones": [8, 4], "lr_gamma": 0.2})
+    protocol = _training_protocol(config, torch.device("cpu"))
+    assert protocol["optimizer"]["name"] == "Adam"
+    assert protocol["optimizer"]["gradient_centralization"] is True
+    assert protocol["scheduler"] == {
+        "name": "MultiStepLR",
+        "milestones": [4, 8],
+        "gamma": 0.2,
+        "step_unit": "epoch",
+        "step_timing": "after_epoch",
+    }
+
+    model = torch.nn.Linear(3, 2)
+    model.weight.grad = torch.tensor([[1.0, 2.0, 3.0], [3.0, 6.0, 9.0]])
+    model.bias.grad = torch.tensor([1.0, 2.0])
+    original_bias = model.bias.grad.clone()
+    _centralize_gradients(model)
+    assert torch.allclose(model.weight.grad.mean(dim=1), torch.zeros(2))
+    assert torch.equal(model.bias.grad, original_bias)
+
+
+def test_exact_resume_rejects_checkpoint_without_training_protocol() -> None:
+    with pytest.raises(ValueError, match="missing training_protocol"):
+        _validate_training_protocol({}, _training_protocol(_config(), torch.device("cpu")))
+
+
+def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
+    with pytest.raises(FloatingPointError, match="total loss"):
+        _ensure_finite_loss(
+            torch.tensor(float("nan")),
+            {"charbonnier": 1.0, "total": float("nan")},
+            epoch=1,
+            step=2,
+            sample_id="sample-a",
+        )
+    with pytest.raises(FloatingPointError, match="charbonnier"):
+        _ensure_finite_loss(
+            torch.tensor(1.0),
+            {"charbonnier": float("inf"), "total": 1.0},
+            epoch=1,
+            step=2,
+            sample_id="sample-a",
+        )
+
+    model = torch.nn.Linear(2, 1)
+    for parameter in model.parameters():
+        parameter.grad = torch.full_like(parameter, float("inf"))
+    with pytest.raises(FloatingPointError, match="gradients after clipping"):
+        _clip_and_validate_gradients(model, 1.0, epoch=1, step=2, sample_id="sample-a")
+
+
+def test_snn_requires_paper_core_parameter_normalization() -> None:
+    checkpoint = {
+        "checkpoint_type": "snn_inference",
+        "batch_norm_folded": True,
+        "snn_calibration_samples": 1,
+        "paper_core_version": 2,
+    }
+    with pytest.raises(ValueError, match="parameter_normalized"):
+        _validate_snn_request("snn", 4, checkpoint)
+    checkpoint["parameter_normalized"] = True
+    checkpoint["snn_calibration_valid_samples"] = 1
+    _validate_snn_request("snn", 4, checkpoint)
+
+
+def test_checkpoint_loader_rejects_unversioned_legacy_model(tmp_path) -> None:
+    checkpoint = tmp_path / "legacy.pt"
+    torch.save({"model": {}, "model_config": {}}, checkpoint)
+    with pytest.raises(ValueError, match="architecture_version"):
+        load_model_checkpoint(checkpoint, torch.device("cpu"), {})
+
+    model_config = {
+        "architecture_version": 2,
+        "hidden_dim": 2,
+        "graph_layers": 1,
+        "spline_kernel_size": 2,
+        "decoder_channels": 4,
+        "recurrent": False,
+    }
+    model = ASGCNReconstructor(**model_config)
+    mismatch = tmp_path / "mismatch.pt"
+    torch.save(
+        {"model": model.state_dict(), "model_config": model_config},
+        mismatch,
+    )
+    changed = dict(model_config, recurrent=True)
+    with pytest.raises(ValueError, match="model_config differs"):
+        load_model_checkpoint(mismatch, torch.device("cpu"), changed)
+
+
+def test_checkpoint_loader_cross_checks_conversion_metadata_and_layer_state(tmp_path) -> None:
+    model_config = {
+        "architecture_version": 2,
+        "hidden_dim": 2,
+        "graph_layers": 1,
+        "spline_kernel_size": 2,
+        "decoder_channels": 4,
+        "recurrent": False,
+    }
+    model = ASGCNReconstructor(**model_config)
+    model_state = model.state_dict()
+    path = tmp_path / "tampered.pt"
+    atomic_torch_save(
+        {
+            "checkpoint_type": "snn_inference",
+            "model_config": model_config,
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "batch_norm_folded": True,
+            "parameter_normalized": True,
+        },
+        path,
+    )
+    with pytest.raises(ValueError, match="batch_norm_folded metadata disagrees"):
+        load_model_checkpoint(path, torch.device("cpu"), model_config)
+
+
+def test_checkpoint_loader_rejects_finite_model_tensor_tampering(tmp_path) -> None:
+    model_config = {
+        "architecture_version": 2,
+        "hidden_dim": 2,
+        "graph_layers": 1,
+        "spline_kernel_size": 2,
+        "decoder_channels": 4,
+        "recurrent": False,
+    }
+    model_state = ASGCNReconstructor(**model_config).state_dict()
+    checkpoint = {
+        "checkpoint_type": "ann_inference",
+        "model_config": model_config,
+        "model": model_state,
+        "model_state_sha256": _model_state_sha256(model_state),
+    }
+    valid_path = tmp_path / "valid.pt"
+    atomic_torch_save(checkpoint, valid_path)
+    load_model_checkpoint(valid_path, torch.device("cpu"), model_config)
+
+    tensor_name = next(name for name, value in model_state.items() if value.is_floating_point())
+    model_state[tensor_name] = model_state[tensor_name].clone()
+    model_state[tensor_name].view(-1)[0] += 0.25
+    tampered_path = tmp_path / "finite-tampered.pt"
+    atomic_torch_save(checkpoint, tampered_path)
+    with pytest.raises(ValueError, match="does not match tensor bytes"):
+        load_model_checkpoint(tampered_path, torch.device("cpu"), model_config)
+
+
+def test_prediction_artifact_stems_are_cross_platform_safe_and_collision_resistant() -> None:
+    first = _prediction_artifact_stem("a/b_c:CON?*", 3)
+    second = _prediction_artifact_stem(r"a_b/c:CON?*\\tail", 3)
+    repeated_at_other_index = _prediction_artifact_stem("a/b_c:CON?*", 4)
+
+    assert first != second
+    assert first != repeated_at_other_index
+    assert first.startswith("00000003_")
+    assert len(first) <= 86
+    assert all(
+        character.isascii() and (character.isalnum() or character in "._-") for character in first
+    )
+
+
+@pytest.mark.parametrize(
+    ("flag", "required_key", "absent_keys"),
+    [
+        (
+            "--require-eventhdr-smoke",
+            "smoke manifest files",
+            ("at least 51", "eventhdr_eval_h5", "eventaid_r_zip"),
+        ),
+        (
+            "--require-eventhdr-train",
+            "eventhdr_train_h5",
+            ("eventhdr_eval_h5", "eventaid_r_zip"),
+        ),
+        (
+            "--require-eventhdr-eval",
+            "eventhdr_eval_h5",
+            ("eventhdr_train_h5", "eventaid_r_zip"),
+        ),
+        (
+            "--require-eventaid-all",
+            "eventaid_r_zip",
+            ("eventhdr_train_h5", "eventhdr_eval_h5"),
+        ),
+    ],
+)
+def test_check_env_dataset_requirements_are_independent(
+    tmp_path, monkeypatch, flag: str, required_key: str, absent_keys: tuple[str, ...]
+) -> None:
+    data_root = tmp_path / "data"
+    data_root.mkdir()
+    runs_root = tmp_path / "runs"
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "check_env.py",
+            "--data-root",
+            str(data_root),
+            "--runs-root",
+            str(runs_root),
+            flag,
+        ],
+    )
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+    message = str(error.value)
+    assert required_key in message
+    assert all(key not in message for key in absent_keys)
+
+
+def test_check_env_full_data_preserves_all_requirements(tmp_path, monkeypatch) -> None:
+    data_root = tmp_path / "data"
+    data_root.mkdir()
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "check_env.py",
+            "--data-root",
+            str(data_root),
+            "--runs-root",
+            str(tmp_path / "runs"),
+            "--require-full-data",
+        ],
+    )
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+    message = str(error.value)
+    assert "eventhdr_train_h5" in message
+    assert "eventhdr_eval_h5" in message
+    assert "eventaid_r_zip" in message
+
+
+def test_check_env_smoke_accepts_only_the_four_manifest_h5_files(tmp_path, monkeypatch) -> None:
+    data_root = tmp_path / "data"
+    train_root = data_root / "EventHDR" / "train"
+    train_root.mkdir(parents=True)
+    for name in ("1.h5", "2.h5", "48.h5", "49.h5"):
+        (train_root / name).touch()
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "check_env.py",
+            "--data-root",
+            str(data_root),
+            "--runs-root",
+            str(tmp_path / "runs"),
+            "--require-eventhdr-smoke",
+        ],
+    )
+    check_env.main()
+~~~~~~
+
 # tests/test_graph_vectorized.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import torch
 
-from asgcn_recon.graph import build_causal_graph
+from asgcn_recon.graph import build_radius_graph
 
 
-def _reference_graph(
+def _reference_radius_graph(
     positions: torch.Tensor,
-    candidates: int,
-    spatial_radius: float,
-    temporal_radius: float,
+    radius: float,
+    position_dims: int,
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    sources: list[torch.Tensor] = []
-    destinations: list[torch.Tensor] = []
-    attributes: list[torch.Tensor] = []
-    count = positions.shape[0]
-    for offset in range(1, min(candidates, max(count - 1, 0)) + 1):
-        source = torch.arange(count - offset)
-        destination = source + offset
-        delta = positions[destination] - positions[source]
-        valid = (
-            torch.linalg.vector_norm(delta[:, :2], dim=-1) <= spatial_radius
-        ) & (delta[:, 2] <= temporal_radius)
-        delta = delta[valid]
-        sources.append(source[valid])
-        destinations.append(destination[valid])
-        attributes.append(
-            torch.cat((delta, torch.linalg.vector_norm(delta, dim=-1, keepdim=True)), dim=1)
-        )
-    self_nodes = torch.arange(count)
-    sources.append(self_nodes)
-    destinations.append(self_nodes)
-    attributes.append(torch.zeros((count, 4)))
+    sources: list[int] = []
+    destinations: list[int] = []
+    attributes: list[float] = []
+    for source in range(positions.shape[0]):
+        for destination in range(positions.shape[0]):
+            if source == destination:
+                continue
+            distance = torch.linalg.vector_norm(
+                positions[source, :position_dims] - positions[destination, :position_dims]
+            ).item()
+            if distance < radius:
+                sources.append(source)
+                destinations.append(destination)
+                attributes.append(distance / radius)
     return (
-        torch.stack((torch.cat(sources), torch.cat(destinations))),
-        torch.cat(attributes),
+        torch.tensor((sources, destinations), dtype=torch.long),
+        torch.tensor(attributes, dtype=positions.dtype).unsqueeze(-1),
     )
 
 
-def test_vectorized_causal_graph_matches_offset_loop() -> None:
+def test_chunked_radius_graph_matches_pairwise_reference() -> None:
     generator = torch.Generator().manual_seed(2026)
-    positions = torch.rand((23, 3), generator=generator)
-    positions[:, 2] = positions[:, 2].sort().values
+    positions = torch.rand((23, 4), generator=generator)
+    radius = 0.45
+    expected = _reference_radius_graph(positions, radius, position_dims=3)
 
-    actual = build_causal_graph(positions, 7, 0.45, 0.35)
-    expected = _reference_graph(positions, 7, 0.45, 0.35)
+    for chunk_size in (1, 2, 7, 23, 64):
+        actual = build_radius_graph(
+            positions,
+            radius,
+            position_dims=3,
+            chunk_size=chunk_size,
+        )
+        torch.testing.assert_close(actual[0], expected[0])
+        torch.testing.assert_close(actual[1], expected[1], atol=1e-6, rtol=1e-6)
 
-    torch.testing.assert_close(actual[0], expected[0])
-    torch.testing.assert_close(actual[1], expected[1])
 
-
-def test_vectorized_causal_graph_handles_empty_input() -> None:
-    edge_index, edge_attr = build_causal_graph(torch.empty((0, 3)), candidates=32)
+def test_radius_graph_handles_empty_input() -> None:
+    edge_index, edge_attr = build_radius_graph(
+        torch.empty((0, 4)),
+        radius=0.08,
+        position_dims=3,
+        chunk_size=8,
+    )
 
     assert edge_index.shape == (2, 0)
-    assert edge_attr.shape == (0, 4)
+    assert edge_attr.shape == (0, 1)
 ~~~~~~
 
 # tests/test_inspect_all.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import json
@@ -6374,8 +10062,12 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
         json.dumps(
             {
                 "status": "final",
-                "train_files": ["train.h5"],
-                "val_files": ["val.h5"],
+                "scene_groups": {
+                    "train-scene": ["train.h5"],
+                    "validation-scene": ["val.h5"],
+                },
+                "train_scenes": ["train-scene"],
+                "val_scenes": ["validation-scene"],
             }
         ),
         encoding="utf-8",
@@ -6392,17 +10084,13 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
 
     result = inspect_dataset(config, samples=1)
 
-    assert result["splits"]["train"]["preview"][0]["metadata"]["source"].endswith(
-        "train.h5"
-    )
-    assert result["splits"]["val"]["preview"][0]["metadata"]["source"].endswith(
-        "val.h5"
-    )
+    assert result["splits"]["train"]["preview"][0]["metadata"]["source"].endswith("train.h5")
+    assert result["splits"]["val"]["preview"][0]["metadata"]["source"].endswith("val.h5")
 ~~~~~~
 
 # tests/test_metrics_ssim.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import pytest
@@ -6508,7 +10196,7 @@ def test_ssim_disables_outer_autocast_for_stable_local_statistics() -> None:
 
 # tests/test_p0_engine.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import json
@@ -6522,20 +10210,25 @@ from asgcn_recon.data import EventHDRDataset, load_eventhdr_split_manifest
 from asgcn_recon.engine import (
     _balanced_contiguous_indices,
     _balanced_sample_indices,
+    _centralize_gradients,
     _continues_sequence,
     _dataset_content_fingerprint,
     _enforce_training_split_status,
     _macro_ssim,
+    _model_state_sha256,
     _prefix_context_schedule,
     _representative_schedule,
     _resume_best_macro_ssim,
+    _sample_event_counts,
     _sampling_summary,
     _validate_resume_best_pair,
     _validate_snn_request,
     benchmark,
     calibrate,
     evaluate,
+    load_model_checkpoint,
 )
+from asgcn_recon.graph import PaperSplineConv
 from asgcn_recon.model import ASGCNReconstructor
 from asgcn_recon.utils import atomic_torch_save
 from tests.fixtures import make_eventhdr
@@ -6555,11 +10248,20 @@ class _GroupedIndexDataset:
 
 def _model_config() -> dict:
     return {
+        "architecture_version": 2,
+        "graph_operator": "spline",
+        "spline_backend": "torch",
+        "spline_pseudo": "distance_over_radius",
+        "spline_is_open": True,
         "hidden_dim": 4,
         "graph_layers": 1,
-        "causal_candidates": 2,
-        "spatial_radius": 1.0,
-        "temporal_radius": 1.0,
+        "event_sampling_factor": 1,
+        "graph_radius": 1.0,
+        "graph_position_dims": 3,
+        "graph_chunk_size": 16,
+        "spline_kernel_size": 3,
+        "spline_degree": 1,
+        "spline_root_weight": True,
         "raster_downsample": 4,
         "decoder_channels": 4,
         "output_channels": 1,
@@ -6612,9 +10314,7 @@ def test_representative_schedule_has_exact_length_and_balances_groups() -> None:
 
 def test_contiguous_sampler_balances_groups_without_state_gaps() -> None:
     dataset = _GroupedIndexDataset()
-    indices = _balanced_contiguous_indices(
-        dataset, limit=6, seed=3, require_all_groups=True
-    )
+    indices = _balanced_contiguous_indices(dataset, limit=6, seed=3, require_all_groups=True)
     grouped = {
         scene: [index for index in indices if dataset.samples[index]["scene"] == scene]
         for scene in ("long", "medium", "short")
@@ -6627,9 +10327,7 @@ def test_contiguous_sampler_balances_groups_without_state_gaps() -> None:
     assert all(values[1] == values[0] + 1 for values in grouped.values())
 
     with pytest.raises(ValueError, match="every validation group"):
-        _balanced_contiguous_indices(
-            dataset, limit=2, seed=3, require_all_groups=True
-        )
+        _balanced_contiguous_indices(dataset, limit=2, seed=3, require_all_groups=True)
 
 
 def test_prefix_context_replays_unscored_predecessors() -> None:
@@ -6637,9 +10335,7 @@ def test_prefix_context_replays_unscored_predecessors() -> None:
     schedule, score_positions = _prefix_context_schedule(dataset, [6, 7, 12])
     assert schedule == [0, 1, 2, 3, 4, 5, 6, 7, 12]
     assert score_positions == {6, 7, 8}
-    bounded, bounded_scores = _prefix_context_schedule(
-        dataset, [6, 7], max_context_frames=2
-    )
+    bounded, bounded_scores = _prefix_context_schedule(dataset, [6, 7], max_context_frames=2)
     assert bounded == [4, 5, 6, 7]
     assert bounded_scores == {2, 3}
     with pytest.raises(ValueError, match="non-negative"):
@@ -6682,18 +10378,36 @@ def test_resume_rejects_legacy_micro_best_score() -> None:
     ) == pytest.approx(0.7)
 
 
+def test_checkpoint_loader_rejects_legacy_graph_architecture(tmp_path) -> None:
+    legacy = tmp_path / "legacy.pt"
+    atomic_torch_save(
+        {
+            "model": {},
+            "model_config": {"hidden_dim": 4, "graph_layers": 1},
+        },
+        legacy,
+    )
+    with pytest.raises(ValueError, match="architecture_version"):
+        load_model_checkpoint(legacy, torch.device("cpu"), _model_config())
+
+
 def test_resume_rejects_unrelated_historical_best_checkpoint() -> None:
+    model_digest = "a" * 64
     resume = {
         "epoch": 2,
-        "model_config": {"hidden_dim": 4},
+        "model_config": _model_config(),
         "validation_protocol": {"version": 2},
+        "training_protocol": {"version": 1},
+        "paper_core_version": 2,
         "best_metric": "macro_ssim",
         "best_ssim": 0.7,
+        "best_model_state_sha256": model_digest,
         "val": {},
     }
     best = {
         **resume,
         "epoch": 1,
+        "model_state_sha256": model_digest,
         "val": {"macro": {"ssim": 0.7}},
     }
     _validate_resume_best_pair(resume, best)
@@ -6723,6 +10437,19 @@ def test_training_rejects_nonfinal_split_without_explicit_override(tmp_path) -> 
     split["status"] = "final"
     manifest.write_text(json.dumps(split), encoding="utf-8")
     config["train"]["allow_provisional_split"] = False
+    with pytest.raises(ValueError, match="requires scene_groups"):
+        _enforce_training_split_status(config)
+
+    split = {
+        "status": "final",
+        "scene_groups": {
+            "train-scene": ["train.h5"],
+            "validation-scene": ["val.h5"],
+        },
+        "train_scenes": ["train-scene"],
+        "val_scenes": ["validation-scene"],
+    }
+    manifest.write_text(json.dumps(split), encoding="utf-8")
     _enforce_training_split_status(config)
 
 
@@ -6731,7 +10458,7 @@ def test_split_manifest_rejects_exact_train_val_overlap(tmp_path) -> None:
     manifest.write_text(
         json.dumps(
             {
-                "status": "final",
+                "status": "provisional",
                 "train_files": ["shared.h5"],
                 "val_files": ["shared.h5"],
             }
@@ -6750,17 +10477,84 @@ def test_sequence_continuity_requires_adjacent_index_and_matching_shape() -> Non
     assert not _continues_sequence("other", 8, (32, 48), "scene", 7, (32, 48))
 
 
+def test_event_count_fallback_uses_retained_tensor_for_custom_datasets() -> None:
+    sample = {"events": torch.zeros((7, 4))}
+    assert _sample_event_counts(sample) == (7, 7)
+    sample["metadata"] = None
+    assert _sample_event_counts(sample) == (7, 7)
+    sample["metadata"] = {"raw_event_count": "12"}
+    assert _sample_event_counts(sample) == (12, 7)
+    sample["metadata"] = {"raw_event_count": 3}
+    assert _sample_event_counts(sample) == (7, 7)
+
+
+def test_gradient_centralization_respects_spline_output_axis() -> None:
+    class MixedWeights(torch.nn.Module):
+        def __init__(self) -> None:
+            super().__init__()
+            self.spline = PaperSplineConv(2, 3, kernel_size=2)
+            self.linear = torch.nn.Linear(4, 3, bias=False)
+
+    model = MixedWeights()
+    model.spline.weight.grad = torch.arange(
+        model.spline.weight.numel(), dtype=torch.float32
+    ).reshape_as(model.spline.weight)
+    model.spline.root.grad = torch.arange(
+        model.spline.root.numel(), dtype=torch.float32
+    ).reshape_as(model.spline.root)
+    model.linear.weight.grad = torch.arange(
+        model.linear.weight.numel(), dtype=torch.float32
+    ).reshape_as(model.linear.weight)
+
+    _centralize_gradients(model)
+
+    torch.testing.assert_close(
+        model.spline.weight.grad.mean(dim=(0, 1)),
+        torch.zeros(model.spline.out_channels),
+    )
+    torch.testing.assert_close(
+        model.spline.root.grad.mean(dim=0),
+        torch.zeros(model.spline.out_channels),
+    )
+    torch.testing.assert_close(
+        model.linear.weight.grad.mean(dim=1),
+        torch.zeros(model.linear.out_features),
+    )
+
+
 def test_snn_request_requires_steps_and_calibration_metadata() -> None:
     with pytest.raises(ValueError, match="simulation_steps"):
         _validate_snn_request("snn", 0)
+    with pytest.raises(ValueError, match="integer"):
+        _validate_snn_request("snn", 1.5)
     with pytest.raises(ValueError, match="calibrated checkpoint"):
         _validate_snn_request("snn", 4, {"model": {}}, "ann.pt")
     _validate_snn_request(
         "snn",
         4,
-        {"batch_norm_folded": True, "snn_calibration_samples": 1},
+        {
+            "checkpoint_type": "snn_inference",
+            "batch_norm_folded": True,
+            "snn_calibration_samples": 1,
+            "snn_calibration_valid_samples": 1,
+            "paper_core_version": 2,
+            "parameter_normalized": True,
+        },
         "snn.pt",
     )
+
+
+def test_ann_request_rejects_parameter_normalized_snn_checkpoint() -> None:
+    _validate_snn_request("ann", 16, {"checkpoint_type": "ann_inference"}, "ann.pt")
+    with pytest.raises(ValueError, match="ANN checkpoint"):
+        _validate_snn_request(
+            "ann",
+            16,
+            {"checkpoint_type": "snn_inference"},
+            "snn.pt",
+        )
+    with pytest.raises(ValueError, match=r"Eq\. \(6\)-normalized"):
+        _validate_snn_request("ann", 16, {"parameter_normalized": True}, "snn.pt")
 
 
 def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path) -> None:
@@ -6773,11 +10567,15 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
     model_config = _model_config()
     source = tmp_path / "training.pt"
     model = ASGCNReconstructor(**model_config)
+    model_state = model.state_dict()
     atomic_torch_save(
         {
+            "checkpoint_type": "training",
             "epoch": 7,
-            "model": model.state_dict(),
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
             "model_config": model_config,
+            "paper_core_version": 2,
             "optimizer": {"large": "training-only"},
             "scaler": {"training-only": True},
             "history": [1, 2, 3],
@@ -6791,8 +10589,14 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
 
     checkpoint = torch.load(output, map_location="cpu", weights_only=False)
     assert checkpoint["checkpoint_type"] == "snn_inference"
+    assert checkpoint["model_state_sha256"] == _model_state_sha256(checkpoint["model"])
     assert checkpoint["batch_norm_folded"] is True
+    assert checkpoint["paper_core_version"] == 2
+    assert checkpoint["parameter_normalized"] is True
     assert checkpoint["snn_calibration_samples"] == 2
+    assert checkpoint["snn_calibration_valid_samples"] == 2
+    assert checkpoint["snn_calibration_summary"]["minimum_valid_samples"] == 2
+    assert checkpoint["snn_calibration_summary"]["valid_samples_per_layer"] == [2]
     assert checkpoint["snn_calibration_sampling"]["selected_groups"] == 2
     assert set(checkpoint["snn_calibration_sampling"]["per_group"].values()) == {1}
     for training_key in ("optimizer", "scaler", "history", "rng_state", "config", "val"):
@@ -6807,6 +10611,54 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(tmp_path)
         "peak_allocated_mib": None,
         "peak_reserved_mib": None,
     }
+    assert result["snn_dynamics"] == "literal_eq15"
+    assert 0.0 <= result["graph_topology"]["isolate_ratio"] <= 1.0
+    timing = benchmark(
+        config,
+        output,
+        warmup=0,
+        steps=2,
+        inference_mode="snn",
+        simulation_steps=2,
+    )
+    assert timing["snn_dynamics"] == "literal_eq15"
+    assert len(timing["layer_firing_rates"]) == 1
+    assert timing["mean_firing_rate"] == pytest.approx(timing["layer_firing_rates"][0])
+    standard_timing = benchmark(
+        config,
+        output,
+        warmup=0,
+        steps=1,
+        inference_mode="snn",
+        simulation_steps=2,
+        snn_dynamics="standard_if",
+    )
+    assert standard_timing["snn_dynamics"] == "standard_if"
+
+    tampered = torch.load(output, map_location="cpu", weights_only=False)
+    tampered["model"]["encoder.layers.0.activation_max"][0] = float("nan")
+    tampered["model_state_sha256"] = _model_state_sha256(tampered["model"])
+    nonfinite_path = tmp_path / "snn_nonfinite.pt"
+    torch.save(tampered, nonfinite_path)
+    with pytest.raises(ValueError, match="non-finite state"):
+        evaluate(config, nonfinite_path, inference_mode="snn", simulation_steps=2)
+
+    inconsistent = torch.load(output, map_location="cpu", weights_only=False)
+    inconsistent["snn_calibration_summary"]["valid_samples_per_layer"] = [999]
+    inconsistent_path = tmp_path / "snn_inconsistent.pt"
+    torch.save(inconsistent, inconsistent_path)
+    with pytest.raises(ValueError, match="calibration metadata disagrees"):
+        evaluate(config, inconsistent_path, inference_mode="snn", simulation_steps=2)
+
+    wrong_threshold = torch.load(output, map_location="cpu", weights_only=False)
+    wrong_threshold["model"]["encoder.layers.0.threshold"][0] = 0.5
+    wrong_threshold["model_state_sha256"] = _model_state_sha256(wrong_threshold["model"])
+    wrong_threshold_path = tmp_path / "snn_wrong_threshold.pt"
+    torch.save(wrong_threshold, wrong_threshold_path)
+    with pytest.raises(ValueError, match="unit threshold"):
+        evaluate(config, wrong_threshold_path, inference_mode="snn", simulation_steps=2)
+    with pytest.raises(ValueError, match="ANN checkpoint"):
+        evaluate(config, output, inference_mode="ann")
 
 
 def test_public_snn_paths_reject_invalid_requests(tmp_path) -> None:
@@ -6819,11 +10671,15 @@ def test_public_snn_paths_reject_invalid_requests(tmp_path) -> None:
     make_eventhdr(root)
     model_config = _model_config()
     uncalibrated = tmp_path / "ann.pt"
+    uncalibrated_state = ASGCNReconstructor(**model_config).state_dict()
     atomic_torch_save(
         {
+            "checkpoint_type": "ann_inference",
             "epoch": 1,
-            "model": ASGCNReconstructor(**model_config).state_dict(),
+            "model": uncalibrated_state,
+            "model_state_sha256": _model_state_sha256(uncalibrated_state),
             "model_config": model_config,
+            "paper_core_version": 2,
         },
         uncalibrated,
     )
@@ -6856,19 +10712,21 @@ def test_balanced_sampler_uses_eventhdr_files(tmp_path) -> None:
 
 # tests/test_pipeline.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import json
 
+import numpy as np
 import pytest
 import torch
 
 from asgcn_recon.cli import inspect_dataset
 from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
+from asgcn_recon.data.common import stratified_subsample, uniform_cap_factor
 from asgcn_recon.data.factory import build_dataset
-from asgcn_recon.engine import _data_loader, benchmark, train
-from asgcn_recon.graph import build_causal_graph, prepare_event_nodes
+from asgcn_recon.engine import _data_loader, _model_state_sha256, benchmark, train
+from asgcn_recon.graph import build_radius_graph, prepare_event_nodes
 from asgcn_recon.losses import ReconstructionLoss
 from asgcn_recon.model import ASGCNReconstructor
 from asgcn_recon.utils import (
@@ -6876,6 +10734,34 @@ from asgcn_recon.utils import (
     resolve_experiment_paths,
 )
 from tests.fixtures import make_eventaid, make_eventhdr
+
+
+def _paper_model_config(
+    hidden_dim: int = 4,
+    graph_layers: int = 1,
+    *,
+    recurrent: bool = True,
+) -> dict:
+    return {
+        "architecture_version": 2,
+        "graph_operator": "spline",
+        "spline_backend": "torch",
+        "spline_pseudo": "distance_over_radius",
+        "spline_is_open": True,
+        "hidden_dim": hidden_dim,
+        "graph_layers": graph_layers,
+        "event_sampling_factor": 1,
+        "graph_radius": 2.0,
+        "graph_position_dims": 3,
+        "graph_chunk_size": 16,
+        "spline_kernel_size": 3,
+        "spline_degree": 1,
+        "spline_root_weight": True,
+        "raster_downsample": 4,
+        "decoder_channels": 4,
+        "output_channels": 1,
+        "recurrent": recurrent,
+    }
 
 
 def test_eventhdr_loader(tmp_path):
@@ -6886,6 +10772,10 @@ def test_eventhdr_loader(tmp_path):
     assert sample["target"].shape == (1, 32, 48)
     assert sample["events"][:, 2].min() >= 0
     assert sample["events"][:, 2].max() <= 1
+    assert sample["metadata"]["raw_event_count"] == 96
+    assert sample["metadata"]["cropped_event_count"] == 96
+    assert sample["metadata"]["retained_event_count"] == 32
+    assert sample["metadata"]["dataset_sampling_factor"] == 3
     assert dataset[1]["metadata"]["dt_us"] == 2_000
 
 
@@ -6895,6 +10785,10 @@ def test_eventhdr_stride_aggregates_intervals(tmp_path):
     assert len(dataset) == 2
     assert dataset.samples[1]["end_idx"] - dataset.samples[1]["start_idx"] == 192
     assert dataset[1]["metadata"]["dt_us"] == 4_000
+    assert dataset[1]["metadata"]["raw_event_count"] == 192
+    assert dataset[1]["metadata"]["cropped_event_count"] == 192
+    assert dataset[1]["metadata"]["retained_event_count"] == 192
+    assert dataset[1]["metadata"]["dataset_sampling_factor"] == 1
 
 
 def test_eventaid_next_frame_alignment(tmp_path):
@@ -6904,15 +10798,78 @@ def test_eventaid_next_frame_alignment(tmp_path):
     assert dataset.samples[0]["frame_id"] == 1
     assert dataset.samples[0]["target_name"].endswith("000002_img.png")
     assert dataset[0]["metadata"]["dt_us"] == 10_000
+    assert dataset[0]["metadata"]["raw_event_count"] == 80
+    assert dataset[0]["metadata"]["cropped_event_count"] == 80
+    assert dataset[0]["metadata"]["retained_event_count"] == 27
+    assert dataset[0]["metadata"]["dataset_sampling_factor"] == 3
 
 
-def test_causal_graph_has_no_future_sources():
+def test_max_events_uses_exact_integer_stride_sampling() -> None:
+    events = np.arange(13 * 4, dtype=np.float32).reshape(13, 4)
+    assert uniform_cap_factor(len(events), max_events=5) == 3
+    retained = stratified_subsample(events, max_events=5)
+    np.testing.assert_array_equal(retained, events[[0, 3, 6, 9, 12]])
+    assert uniform_cap_factor(len(events), max_events=None) == 1
+    np.testing.assert_array_equal(stratified_subsample(events, None), events)
+
+
+@pytest.mark.parametrize("dataset_name", ["eventhdr", "eventaid"])
+def test_random_crop_is_deterministic_and_sequence_aligned(tmp_path, dataset_name):
+    root = tmp_path / dataset_name
+    if dataset_name == "eventhdr":
+        make_eventhdr(root)
+        dataset_class = EventHDRDataset
+    else:
+        make_eventaid(root)
+        dataset_class = EventAidRZipDataset
+
+    arguments = {
+        "max_events": None,
+        "crop_size": [8, 8],
+        "random_crop": True,
+        "seed": 41,
+    }
+    first = dataset_class(root, **arguments)
+    first_samples = [first[index] for index in range(len(first))]
+    first_crops = [
+        (sample["metadata"]["crop"]["top"], sample["metadata"]["crop"]["left"])
+        for sample in first_samples
+    ]
+    assert all(
+        sample["metadata"]["raw_event_count"]
+        >= sample["metadata"]["cropped_event_count"]
+        == sample["metadata"]["retained_event_count"]
+        and sample["metadata"]["dataset_sampling_factor"] == 1
+        for sample in first_samples
+    )
+    assert any(
+        sample["metadata"]["cropped_event_count"] < sample["metadata"]["raw_event_count"]
+        for sample in first_samples
+    )
+    repeated_crop = first[0]["metadata"]["crop"]
+    first.close()
+
+    reopened = dataset_class(root, **arguments)
+    reopened_crops = [
+        (sample["metadata"]["crop"]["top"], sample["metadata"]["crop"]["left"])
+        for sample in (reopened[index] for index in range(len(reopened)))
+    ]
+    assert reopened[0]["metadata"]["crop"] == repeated_crop
+    reopened.close()
+
+    assert reopened_crops == first_crops
+    assert len(set(first_crops)) == 1
+
+
+def test_event_graph_is_undirected_instead_of_causal():
     events = torch.tensor([[i, i, i, i % 2] for i in range(12)], dtype=torch.float32)
     _, positions = prepare_event_nodes(events, (16, 16))
-    edge_index, _ = build_causal_graph(
-        positions, candidates=4, spatial_radius=1.0, temporal_radius=1.0
-    )
-    assert torch.all(edge_index[0] <= edge_index[1])
+    edge_index, edge_attr = build_radius_graph(positions, radius=2.0, position_dims=3, chunk_size=4)
+    pairs = set(map(tuple, edge_index.transpose(0, 1).tolist()))
+    assert len(pairs) == len(events) * (len(events) - 1)
+    assert all(source != destination for source, destination in pairs)
+    assert all((destination, source) in pairs for source, destination in pairs)
+    assert edge_attr.shape == (len(pairs), 1)
 
 
 def test_empty_event_interval_uses_zero_node_graph():
@@ -6923,15 +10880,7 @@ def test_empty_event_interval_uses_zero_node_graph():
         "sample_id": "empty/0",
         "metadata": {},
     }
-    model = ASGCNReconstructor(
-        hidden_dim=4,
-        graph_layers=1,
-        causal_candidates=2,
-        spatial_radius=1.0,
-        temporal_radius=1.0,
-        raster_downsample=4,
-        decoder_channels=4,
-    )
+    model = ASGCNReconstructor(**_paper_model_config())
     prediction, diagnostics = model.forward_sample(sample)
     prediction.mean().backward()
     assert torch.isfinite(prediction).all()
@@ -6942,54 +10891,30 @@ def test_empty_event_interval_uses_zero_node_graph():
 def test_model_forward_backward(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
-    model = ASGCNReconstructor(
-        hidden_dim=8,
-        graph_layers=2,
-        causal_candidates=4,
-        spatial_radius=1.0,
-        temporal_radius=1.0,
-        raster_downsample=4,
-        decoder_channels=4,
-    )
+    model = ASGCNReconstructor(**_paper_model_config(hidden_dim=8, graph_layers=2))
     prediction, diagnostics = model.forward_sample(sample)
     loss, _ = ReconstructionLoss()(prediction, sample["target"].unsqueeze(0))
     loss.backward()
     assert prediction.shape == (1, 1, 32, 48)
-    assert diagnostics["edges"] >= diagnostics["nodes"]
+    assert diagnostics["edges"] == diagnostics["nodes"] * (diagnostics["nodes"] - 1)
     assert any(parameter.grad is not None for parameter in model.parameters())
 
 
-def test_bn_folding_and_snn_rate_path(tmp_path):
+def test_bn_folding_and_explicit_snn_path(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
-    model = ASGCNReconstructor(
-        hidden_dim=8,
-        graph_layers=2,
-        causal_candidates=4,
-        spatial_radius=1.0,
-        temporal_radius=1.0,
-        raster_downsample=4,
-        decoder_channels=4,
-        recurrent=False,
-    ).eval()
+    model_config = _paper_model_config(hidden_dim=8, graph_layers=2, recurrent=False)
+    model = ASGCNReconstructor(**model_config).eval()
     with torch.no_grad():
         ann_before, _ = model.forward_sample(sample)
         model.fold_batch_norm()
         ann_after, _ = model.forward_sample(sample)
-        restored = ASGCNReconstructor(
-            hidden_dim=8,
-            graph_layers=2,
-            causal_candidates=4,
-            spatial_radius=1.0,
-            temporal_radius=1.0,
-            raster_downsample=4,
-            decoder_channels=4,
-            recurrent=False,
-        ).eval()
+        restored = ASGCNReconstructor(**model_config).eval()
         restored.load_state_dict(model.state_dict())
         ann_restored, _ = restored.forward_sample(sample)
-        model.encoder.reset_thresholds()
+        model.reset_activation_maxima()
         model.calibrate_sample(sample)
+        model.apply_parameter_normalization()
         snn_output, diagnostics = model.forward_sample(
             sample, inference_mode="snn", simulation_steps=8
         )
@@ -7002,15 +10927,7 @@ def test_bn_folding_and_snn_rate_path(tmp_path):
 def test_cpu_autocast_keeps_raster_dtypes_compatible(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=16)[0]
-    model = ASGCNReconstructor(
-        hidden_dim=4,
-        graph_layers=1,
-        causal_candidates=2,
-        spatial_radius=1.0,
-        temporal_radius=1.0,
-        raster_downsample=4,
-        decoder_channels=4,
-    )
+    model = ASGCNReconstructor(**_paper_model_config())
     with torch.autocast("cpu", dtype=torch.bfloat16):
         prediction, _ = model.forward_sample(sample)
     assert prediction.dtype == torch.bfloat16
@@ -7151,17 +11068,7 @@ def _tiny_training_config(tmp_path, data_root):
             "crop_size": [16, 16],
             "tone_map": "log",
         },
-        "model": {
-            "hidden_dim": 4,
-            "graph_layers": 1,
-            "causal_candidates": 2,
-            "spatial_radius": 1.0,
-            "temporal_radius": 1.0,
-            "raster_downsample": 4,
-            "decoder_channels": 4,
-            "output_channels": 1,
-            "recurrent": True,
-        },
+        "model": _paper_model_config(),
         "train": {
             "epochs": 1,
             "batch_size": 1,
@@ -7182,14 +11089,25 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     train(config)
     first = torch.load(tmp_path / "run/last.pt", map_location="cpu", weights_only=False)
     assert first["epoch"] == 1
-    assert "optimizer" in first and "scaler" in first and "rng_state" in first
+    assert all(key in first for key in ("optimizer", "scheduler", "scaler", "rng_state"))
     assert (tmp_path / "run/.data_hash_cache.json").is_file()
     protocol_text = json.dumps(first["validation_protocol"])
     assert str(data_root) not in protocol_text
     assert "mtime_ns" not in protocol_text
     best = torch.load(tmp_path / "run/best.pt", map_location="cpu", weights_only=False)
     assert best["checkpoint_type"] == "ann_inference"
-    for training_key in ("optimizer", "scaler", "history", "rng_state", "config"):
+    assert first["checkpoint_type"] == "training"
+    assert first["model_state_sha256"] == _model_state_sha256(first["model"])
+    assert len(first["best_model_state_sha256"]) == 64
+    assert best["model_state_sha256"] == first["best_model_state_sha256"]
+    for training_key in (
+        "optimizer",
+        "scheduler",
+        "scaler",
+        "history",
+        "rng_state",
+        "config",
+    ):
         assert training_key not in best
 
     config["train"]["epochs"] = 2
@@ -7215,6 +11133,50 @@ def test_training_rejects_resume_into_a_different_run_directory(tmp_path):
     config["output"]["run_dir"] = str(tmp_path / "other-run")
     with pytest.raises(ValueError, match="inside the configured run_dir"):
         train(config, resume_from=source)
+
+
+def test_exact_resume_rejects_missing_state_and_tampered_historical_best(tmp_path):
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root)
+
+    for missing_key in ("scaler", "rng_state"):
+        run_root = tmp_path / missing_key
+        config = _tiny_training_config(run_root, data_root)
+        train(config)
+        last_path = run_root / "run/last.pt"
+        checkpoint = torch.load(last_path, map_location="cpu", weights_only=False)
+        checkpoint.pop(missing_key)
+        torch.save(checkpoint, last_path)
+        config["train"]["epochs"] = 2
+        expected_message = "GradScaler state" if missing_key == "scaler" else "RNG state"
+        with pytest.raises(ValueError, match=expected_message):
+            train(config, resume_from=last_path)
+
+    digest_root = tmp_path / "digest"
+    config = _tiny_training_config(digest_root, data_root)
+    train(config)
+    best_path = digest_root / "run/best.pt"
+    best = torch.load(best_path, map_location="cpu", weights_only=False)
+    tensor_name = next(name for name, value in best["model"].items() if value.is_floating_point())
+    best["model"][tensor_name] = best["model"][tensor_name].clone()
+    best["model"][tensor_name].view(-1)[0] += 1
+    torch.save(best, best_path)
+    config["train"]["epochs"] = 2
+    with pytest.raises(ValueError, match="does not match tensor bytes"):
+        train(config, resume_from=digest_root / "run/last.pt")
+
+    last_digest_root = tmp_path / "last-digest"
+    config = _tiny_training_config(last_digest_root, data_root)
+    train(config)
+    last_path = last_digest_root / "run/last.pt"
+    last = torch.load(last_path, map_location="cpu", weights_only=False)
+    tensor_name = next(name for name, value in last["model"].items() if value.is_floating_point())
+    last["model"][tensor_name] = last["model"][tensor_name].clone()
+    last["model"][tensor_name].view(-1)[0] += 1
+    torch.save(last, last_path)
+    config["train"]["epochs"] = 2
+    with pytest.raises(ValueError, match="does not match tensor bytes"):
+        train(config, resume_from=last_path)
 
 
 def test_training_can_resume_before_first_validation_checkpoint(tmp_path):
@@ -7268,7 +11230,7 @@ def test_hdf5_and_zip_loaders_are_multiprocess_safe(tmp_path):
 
 # tests/test_temporal_metric.py
 
-~~~~~~text
+~~~~~~python
 from __future__ import annotations
 
 import pytest
@@ -7283,9 +11245,7 @@ def test_temporal_consistency_error_compares_frame_changes() -> None:
     previous_target = torch.zeros((1, 1, 2, 2))
     target = torch.full((1, 1, 2, 2), 0.25)
 
-    result = temporal_consistency_error(
-        prediction, previous_prediction, target, previous_target
-    )
+    result = temporal_consistency_error(prediction, previous_prediction, target, previous_target)
 
     assert float(result) == pytest.approx(0.25)
 

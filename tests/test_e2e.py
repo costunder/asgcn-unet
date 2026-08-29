@@ -3,7 +3,7 @@ from __future__ import annotations
 import torch
 
 from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
-from asgcn_recon.engine import benchmark, evaluate
+from asgcn_recon.engine import _model_state_sha256, benchmark, evaluate
 from asgcn_recon.losses import ReconstructionLoss
 from asgcn_recon.model import ASGCNReconstructor
 from asgcn_recon.utils import atomic_torch_save
@@ -23,11 +23,20 @@ def test_train_eval_benchmark_contract(tmp_path):
     assert len(aid) == 3
 
     model_config = {
+        "architecture_version": 2,
+        "graph_operator": "spline",
+        "spline_backend": "torch",
+        "spline_pseudo": "distance_over_radius",
+        "spline_is_open": True,
         "hidden_dim": 8,
         "graph_layers": 2,
-        "causal_candidates": 4,
-        "spatial_radius": 1.0,
-        "temporal_radius": 1.0,
+        "event_sampling_factor": 1,
+        "graph_radius": 2.0,
+        "graph_position_dims": 3,
+        "graph_chunk_size": 16,
+        "spline_kernel_size": 3,
+        "spline_degree": 1,
+        "spline_root_weight": True,
         "raster_downsample": 4,
         "decoder_channels": 4,
         "output_channels": 1,
@@ -42,8 +51,16 @@ def test_train_eval_benchmark_contract(tmp_path):
     assert diagnostics["nodes"] == 32
 
     checkpoint = tmp_path / "model.pt"
+    model_state = model.state_dict()
     atomic_torch_save(
-        {"epoch": 0, "model": model.state_dict(), "model_config": model_config}, checkpoint
+        {
+            "checkpoint_type": "ann_inference",
+            "epoch": 0,
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "model_config": model_config,
+        },
+        checkpoint,
     )
     output_dir = tmp_path / "eval"
     config = {
@@ -71,12 +88,20 @@ def test_train_eval_benchmark_contract(tmp_path):
 
     assert result["quality"]["frames"] == 2
     assert timing["frames"] == 2
+    assert timing["mean_raw_events"] == 80
+    assert timing["mean_retained_events"] == 27
+    assert timing["retention_ratio"] == 27 / 80
+    assert timing["raw_events_per_second"] > timing["retained_events_per_second"]
+    assert timing["graph_nodes_per_second"] == timing["retained_events_per_second"]
+    assert timing["events_per_second"] == timing["retained_events_per_second"]
     assert timing["recurrent_context_frames"] == 1
     assert timing["state_resets"] == 0
     assert timing["state_reset_ratio"] == 0.0
-    assert (output_dir / "metrics.json").is_file()
-    assert (output_dir / "frames.csv").is_file()
-    assert len(list((output_dir / "predictions").glob("*_pred.png"))) == 1
+    ann_output = output_dir / "ann"
+    assert (ann_output / "metrics.json").is_file()
+    assert (ann_output / "frames.csv").is_file()
+    assert (ann_output / "benchmark.json").is_file()
+    assert len(list((ann_output / "predictions").glob("*_pred.png"))) == 1
 
     hdr.close()
     aid.close()

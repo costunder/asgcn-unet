@@ -1,6 +1,6 @@
 {
   "status": "provisional",
-  "note": "Replace both lists with physical-scene-disjoint groups and set status to final before full training.",
+  "note": "Provisional legacy file lists only. For final training replace them with scene_groups, train_scenes, and val_scenes, then set status to final; changing status alone is rejected.",
   "train_files": [
     "1.h5", "2.h5", "3.h5", "4.h5", "5.h5", "6.h5", "7.h5", "8.h5", "9.h5",
     "10.h5", "11.h5", "12.h5", "13.h5", "14.h5", "15.h5", "16.h5", "17.h5",

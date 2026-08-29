@@ -11,9 +11,7 @@ from .engine import benchmark, calibrate, evaluate, train
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
 
 
-def _inspect_one_split(
-    dataset: Any, samples: int, validate_all: bool = False
-) -> dict[str, Any]:
+def _inspect_one_split(dataset: Any, samples: int, validate_all: bool = False) -> dict[str, Any]:
     details = []
     preview_count = min(samples, len(dataset))
     count = len(dataset) if validate_all else preview_count
@@ -100,6 +98,12 @@ def build_parser() -> argparse.ArgumentParser:
     eval_cmd.add_argument("--checkpoint", required=True)
     eval_cmd.add_argument("--inference-mode", choices=["ann", "snn"], default="ann")
     eval_cmd.add_argument("--simulation-steps", type=int, default=16)
+    eval_cmd.add_argument(
+        "--snn-dynamics",
+        choices=["literal_eq15", "standard_if"],
+        default=None,
+        help="inference-only override; the checkpoint architecture remains unchanged",
+    )
 
     bench_cmd = subparsers.add_parser("benchmark", help="benchmark compute-only latency")
     bench_cmd.add_argument("--config", required=True)
@@ -108,6 +112,11 @@ def build_parser() -> argparse.ArgumentParser:
     bench_cmd.add_argument("--steps", type=int, default=100)
     bench_cmd.add_argument("--inference-mode", choices=["ann", "snn"], default="ann")
     bench_cmd.add_argument("--simulation-steps", type=int, default=16)
+    bench_cmd.add_argument(
+        "--snn-dynamics",
+        choices=["literal_eq15", "standard_if"],
+        default=None,
+    )
 
     calibrate_cmd = subparsers.add_parser("calibrate", help="calibrate ANN-to-SNN thresholds")
     calibrate_cmd.add_argument("--config", required=True)
@@ -133,6 +142,7 @@ def main(argv: list[str] | None = None) -> None:
             resolve_path(args.checkpoint, base_dir),
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
+            snn_dynamics=args.snn_dynamics,
         )
     elif args.command == "benchmark":
         result = benchmark(
@@ -142,6 +152,7 @@ def main(argv: list[str] | None = None) -> None:
             steps=args.steps,
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
+            snn_dynamics=args.snn_dynamics,
         )
     elif args.command == "calibrate":
         result = {

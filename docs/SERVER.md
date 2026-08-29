@@ -24,6 +24,7 @@ python3.12 --version
 python3.12 -c "import venv, ensurepip; print('venv/ensurepip: OK')"
 curl --version | head -n 1
 tmux -V
+ldd --version | head -n 1
 
 cp .env.example .env
 read -r -p "Official PyTorch wheel index URL: " TORCH_INDEX_URL
@@ -50,6 +51,7 @@ wheel build는 `nvidia-smi`의 driver와 [PyTorch 공식 설치 선택기](https
 - `py312.txt` 사용 시 venv Python 정확히 3.12
 - command-line environment가 `.env`보다 우선
 - 기존 venv의 실제 Python 재검사
+- Linux locked torch 2.13.0 profile에서 glibc 2.28 이상
 - 선택한 constraints를 torch와 editable install 양쪽에 적용
 - 마지막 `pip check`
 
@@ -60,9 +62,10 @@ extra를 설치한다.
 python -m pip install -e '.[eval]'
 ```
 
-구형 HPC OS는 최신 PyTorch wheel의 glibc 요구사항을 충족하지 않을 수 있다. wheel이 없다고 나오면
-무리하게 source build를 시작하기 전에 `ldd --version`을 확인하고, 학교 container/module 또는
-호환 가능한 별도 환경을 사용한다.
+`scripts/setup.sh`은 Linux glibc 2.28 미만에서 locked torch 2.13.0 조합을 venv 생성·network
+download 전에 fail-fast하고, `scripts/check_env.py --lock constraints/py312.txt`도 같은 조건을
+검사한다. 해당 구형 HPC OS에서는 무리하게 source build를 시작하지 말고 학교의 최신
+container/module 또는 검증된 별도 환경을 사용한다.
 
 ## 데이터와 저장 공간
 
@@ -86,6 +89,14 @@ ln -s /shared/datasets/EventAid-R data/EventAid-R
 `rmdir`은 폴더가 비어 있지 않으면 실패하므로 기존 데이터를 지우지 않는다. data와 runs가 서로
 다른 filesystem일 수 있어 환경 진단은 두 위치의 남은 공간을 각각 표시한다.
 
+전체 EventAid-R를 받기 전 `R-bear` 하나로 ZIP loader만 확인할 때는 final 14-file guard가 있는
+`aid_ann.json` 대신 비보고용 `aid_smoke.json`을 쓴다.
+
+```bash
+bash scripts/get_aid.sh R-bear
+asgcn-recon inspect --config configs/aid_smoke.json --samples 2 --validate-all
+```
+
 ```bash
 python scripts/check_env.py --require-full-data
 asgcn-recon inspect --config configs/hdr_train.json --samples 2 --validate-all
@@ -94,13 +105,15 @@ asgcn-recon inspect --config configs/aid_ann.json --samples 2 --validate-all
 ```
 
 `--validate-all`은 모든 selected frame/event block을 decode하므로 50GB 전체에서는 오래 걸린다.
+`hdr_ann/hdr_snn`은 EventHDR eval H5 정확히 19개를, `aid_ann/aid_snn`은 manifest와 일치하는
+EventAid-R ZIP 정확히 14개를 강제한다.
 
 ## GPU allocation 검사와 smoke
 
 로그인 노드가 GPU를 숨겨도 정상일 수 있다. 실제 compute allocation 안에서 다음을 실행한다.
 
 ```bash
-python scripts/check_env.py --require-cuda --require-full-data \
+python scripts/check_env.py --require-cuda --require-eventhdr-smoke \
   --lock constraints/py312.txt
 mkdir -p logs
 bash scripts/train.sh configs/hdr_smoke.json 2>&1 | tee logs/smoke.log
@@ -108,11 +121,32 @@ bash scripts/train.sh configs/hdr_smoke.json 2>&1 | tee logs/smoke.log
 
 smoke는 실제 EventHDR에서 최대 32 train sample과 32 scored validation sample, 1 epoch를 사용한다.
 validation에는 group당 최대 8개의 unscored recurrent context frame이 추가될 수 있다. 임시 split을
-허용한 비보고용 검사다. `runs/smoke/history.json`에서 CUDA peak allocated/reserved memory를 확인한다.
+허용한 비보고용 검사다. `manifests/eventhdr_smoke.json`이 지정한 `1.h5`, `2.h5`, `48.h5`,
+`49.h5`만 dataset content hash 대상으로 읽으며, EventHDR eval과 EventAid-R는 smoke에 필요하지 않다.
+`runs/smoke/history.json`에서 CUDA peak allocated/reserved memory를 확인한다.
 
 ## 직접 GPU 서버
 
 물리 scene split manifest가 `final`인 경우에만 본학습이 열린다.
+최종 manifest는 `scene_groups`에 동일 물리 장면의 H5 목록을 묶고, 겹치지 않는 scene ID를
+`train_scenes`와 `val_scenes`에 배정해야 한다. 예를 들면 다음 schema다.
+
+```json
+{
+  "status": "final",
+  "scene_groups": {
+    "night-drive": ["1.h5", "2.h5"],
+    "day-drive": ["48.h5", "49.h5"]
+  },
+  "train_scenes": ["night-drive"],
+  "val_scenes": ["day-drive"]
+}
+```
+
+예시는 실제 scene mapping이 아니다. legacy `train_files`/`val_files`를 유지한 채 `status`만 바꾸면
+거부된다. legacy file-list schema는 `manifests/eventhdr_smoke.json`의 provisional smoke에서만 쓴다.
+final manifest는 `data/EventHDR/train` 아래 모든 H5를 정확히 한 scene에 포함하고 모든 scene을
+train/validation 중 하나에 배정해야 한다. root의 누락·미선언 H5도 본학습 전에 거부한다.
 
 ```bash
 tmux new-session -s asgcn -c "$PWD" \
@@ -171,8 +205,11 @@ SNN 외부평가 예시:
 ```bash
 qsub -v PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
 CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
-SIMULATION_STEPS=16 server/eval.pbs
+SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 server/eval.pbs
 ```
+
+`SNN_DYNAMICS=standard_if`로 바꾸면 같은 calibrated checkpoint의 비공식 standard-IF 대조군을
+실행한다. 결과는 dynamics와 timestep이 포함된 별도 하위 폴더에 저장된다.
 
 `#PBS -V`는 login shell의 불필요한 credential/module까지 전달할 수 있어 사용하지 않는다. 필요한
 값만 `-v`로 전달한다.
@@ -188,11 +225,20 @@ sbatch server/train.sbatch
 
 sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_ann.json,\
 CHECKPOINT_PATH=runs/eventhdr_asgcn/best.pt server/eval.sbatch
+
+sbatch --export=ALL,PROJECT_ROOT="$PWD",CONFIG_PATH=configs/aid_snn.json,\
+CHECKPOINT_PATH=runs/eventhdr_asgcn/best_snn.pt,INFERENCE_MODE=snn,\
+SIMULATION_STEPS=16,SNN_DYNAMICS=standard_if server/eval.sbatch
 ```
 
 기본 요청은 GPU 1개, CPU 8개, RAM 32GB다. partition, account, GPU type, walltime과 module은
 클러스터 정책에 맞춰 수정한다. 본학습 40 epoch는 현재 serial frame 처리 때문에 기본 2일을 넘을
 수 있으므로 smoke에서 측정한 step time으로 walltime을 먼저 계산한다.
+
+평가 artifact는 `<eval.output_dir>/ann/` 또는
+`<eval.output_dir>/snn_<dynamics>_T<steps>/` 아래에 저장된다. `metrics.json`, `frames.csv`,
+`predictions/`는 evaluate가, `benchmark.json`은 benchmark가 쓴다. 같은 mode/dynamics/T 결과가
+있으면 덮어쓰지 않고 실패하므로 기존 결과를 옮기거나 새 output directory를 사용한다.
 
 ## Docker
 
@@ -214,11 +260,18 @@ docker compose run --rm experiment \
 
 - `CUDA available: false`: GPU allocation 안인지, CPU torch wheel인지, driver와 wheel index가
   맞는지 확인한다.
-- `No matching distribution`: Python minor, glibc, torch version과 CUDA index 조합을 확인한다.
+- `glibc 2.28 or newer` 또는 `No matching distribution`: locked torch 2.13.0 profile에는 Linux
+  glibc 2.28 이상이 필요하다. 학교의 최신 container/module과 CUDA index 조합을 확인한다.
 - `Dependency profile requires Python 3.12`: 기존 `.venv`를 삭제해야 한다면 그 폴더가 정확히 이
   저장소의 venv인지 확인한 뒤 재생성한다.
-- `status='provisional'`: 본학습 차단이 정상이다. scene mapping을 확정하거나 smoke config를 쓴다.
+- `status='provisional'` 또는 `requires scene_groups`: 본학습 차단이 정상이다. 최종 manifest에
+  `scene_groups`, `train_scenes`, `val_scenes`를 모두 작성하거나 smoke config를 쓴다. status만
+  `final`로 바꾸는 것은 허용되지 않는다.
 - `missing manifest files`: EventHDR 1–51 배치와 symlink 위치를 확인한다.
 - SNN calibrated checkpoint 오류: ANN `best.pt`를 먼저 `calibrate`해 `best_snn.pt`를 만든다.
-- OOM: 기본값에서 먼저 측정하고 `max_events`, `causal_candidates`, `decoder_channels` 순으로 낮춘다.
+- OOM: 기본값에서 먼저 측정하고 `max_events`, `graph_radius`, `decoder_channels` 순으로 낮춘다.
+  `graph_radius`를 바꾸면 graph 구조도 달라지므로 해당 run의 config를 함께 보존한다.
+- `max_graph_edges` 오류: 기본 2,000,000 directed-edge 메모리 guard가 밀집 graph를 탐지한 것이다.
+  edge를 임의로 버리지 말고 `graph_radius`/`max_events`를 낮춰 재측정한다. guard 상향은 peak reserved
+  memory를 확인한 별도 config에서만 수행한다.
 - SSH 종료: interactive shell이 아니라 tmux 또는 scheduler job을 사용한다.

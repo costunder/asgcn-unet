@@ -21,6 +21,7 @@ from .common import (
     normalize_polarity,
     pil_to_array,
     stratified_subsample,
+    uniform_cap_factor,
 )
 
 _EVENT_RE = re.compile(r"(?:^|/)event/(\d+)\.txt$", re.IGNORECASE)
@@ -124,13 +125,13 @@ class EventAidRZipDataset(Dataset):
                         f"Invalid EventAid-R scene {path}: event and GT files are required"
                     )
                 if event_ids != list(range(event_ids[0], event_ids[-1] + 1)):
-                    raise ValueError(f"Invalid EventAid-R scene {path}: event IDs are not contiguous")
+                    raise ValueError(
+                        f"Invalid EventAid-R scene {path}: event IDs are not contiguous"
+                    )
                 if target_ids != list(range(target_ids[0], target_ids[-1] + 1)):
                     raise ValueError(f"Invalid EventAid-R scene {path}: GT IDs are not contiguous")
                 paired_ids = [
-                    event_id
-                    for event_id in event_ids
-                    if event_id + self.target_offset in targets
+                    event_id for event_id in event_ids if event_id + self.target_offset in targets
                 ]
                 boundary = abs(self.target_offset)
                 if self.target_offset >= 0:
@@ -140,9 +141,7 @@ class EventAidRZipDataset(Dataset):
                     allowed_event_gaps = set(event_ids[:boundary])
                     allowed_target_gaps = set(target_ids[-boundary:])
                 unpaired_events = set(event_ids) - set(paired_ids)
-                paired_targets = {
-                    event_id + self.target_offset for event_id in paired_ids
-                }
+                paired_targets = {event_id + self.target_offset for event_id in paired_ids}
                 unpaired_targets = set(target_ids) - paired_targets
                 if (
                     not paired_ids
@@ -194,9 +193,7 @@ class EventAidRZipDataset(Dataset):
         if not raw.strip():
             return np.empty((0, 4), dtype=np.float32)
         try:
-            rows = np.loadtxt(
-                io.BytesIO(raw), dtype=np.float64, comments=None, ndmin=2
-            )
+            rows = np.loadtxt(io.BytesIO(raw), dtype=np.float64, comments=None, ndmin=2)
         except (UnicodeDecodeError, ValueError) as error:
             raise ValueError(
                 f"Invalid EventAid-R event block {source}: every token must be numeric"
@@ -248,12 +245,18 @@ class EventAidRZipDataset(Dataset):
                 f"{item['scene']} shape.txt={item['shape']} but target={(height, width)}"
             )
         _validate_event_coordinates(events, height=height, width=width, source=source)
-        scene_seed = zlib.crc32(item["scene"].encode("utf-8"))
-        rng = np.random.default_rng(self.seed + scene_seed)
+        raw_event_count = len(events)
+        # Keep the sensor ROI aligned for recurrent/temporal evaluation.
+        crop_identity = f"{item['scene']}\0{item['path'].name}"
+        crop_seed = (self.seed + zlib.crc32(crop_identity.encode("utf-8"))) % (2**32)
+        rng = np.random.default_rng(crop_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
+        cropped_event_count = len(events)
+        dataset_sampling_factor = uniform_cap_factor(cropped_event_count, self.max_events)
         events = stratified_subsample(events, self.max_events)
+        retained_event_count = len(events)
         sample_id = f"{item['scene']}/{item['frame_id']:06d}"
         return make_sample(
             events,
@@ -270,6 +273,16 @@ class EventAidRZipDataset(Dataset):
                 "dt_us": (item["t1_us"] - item["t0_us"])
                 if item["t0_us"] is not None and item["t1_us"] is not None
                 else None,
+                "raw_event_count": raw_event_count,
+                "cropped_event_count": cropped_event_count,
+                "retained_event_count": retained_event_count,
+                "dataset_sampling_factor": dataset_sampling_factor,
+                "crop": {
+                    "left": crop.left,
+                    "top": crop.top,
+                    "width": crop.width,
+                    "height": crop.height,
+                },
             },
         )
 

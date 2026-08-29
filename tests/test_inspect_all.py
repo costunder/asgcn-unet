@@ -45,8 +45,12 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
         json.dumps(
             {
                 "status": "final",
-                "train_files": ["train.h5"],
-                "val_files": ["val.h5"],
+                "scene_groups": {
+                    "train-scene": ["train.h5"],
+                    "validation-scene": ["val.h5"],
+                },
+                "train_scenes": ["train-scene"],
+                "val_scenes": ["validation-scene"],
             }
         ),
         encoding="utf-8",
@@ -63,9 +67,5 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
 
     result = inspect_dataset(config, samples=1)
 
-    assert result["splits"]["train"]["preview"][0]["metadata"]["source"].endswith(
-        "train.h5"
-    )
-    assert result["splits"]["val"]["preview"][0]["metadata"]["source"].endswith(
-        "val.h5"
-    )
+    assert result["splits"]["train"]["preview"][0]["metadata"]["source"].endswith("train.h5")
+    assert result["splits"]["val"]["preview"][0]["metadata"]["source"].endswith("val.h5")

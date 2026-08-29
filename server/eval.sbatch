@@ -42,6 +42,7 @@ export CONFIG_PATH="${CONFIG_PATH:-configs/hdr_ann.json}"
 export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
+export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 export RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 export BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 export BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
@@ -54,6 +55,9 @@ echo "Host: $(hostname)"
 echo "Job: ${SLURM_JOB_ID:-local}"
 echo "Config: ${CONFIG_PATH}"
 echo "Checkpoint: ${CHECKPOINT_PATH}"
+if [[ -n "${SNN_DYNAMICS}" ]]; then
+  echo "SNN dynamics: ${SNN_DYNAMICS}"
+fi
 nvidia-smi || true
 
 srun bash "${PROJECT_ROOT}/scripts/eval.sh" \

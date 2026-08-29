@@ -16,6 +16,7 @@ from .common import (
     make_sample,
     normalize_polarity,
     stratified_subsample,
+    uniform_cap_factor,
 )
 
 _EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
@@ -104,6 +105,7 @@ class EventHDRDataset(Dataset):
         random_crop: bool = False,
         seed: int = 2026,
         allowed_files: list[str] | None = None,
+        file_to_scene: dict[str, str] | None = None,
     ) -> None:
         self.root = Path(root).expanduser()
         self.target_channels = int(target_channels)
@@ -122,14 +124,14 @@ class EventHDRDataset(Dataset):
                 f"No EventHDR .h5/.hdf5 files found under {self.root}. "
                 "Place the official files in this directory or update dataset.root."
             )
+        self.file_keys = {path: path.relative_to(self.root).as_posix() for path in discovered}
+        key_to_path = {key: path for path, key in self.file_keys.items()}
         self.files = discovered
-        self.file_keys = {
-            path: path.relative_to(self.root).as_posix() for path in discovered
-        }
         if allowed_files is not None:
-            allowed = {str(value).replace("\\", "/") for value in allowed_files}
-            present = set(self.file_keys.values())
-            missing = sorted(allowed - present)
+            allowed = [str(value).replace("\\", "/") for value in allowed_files]
+            if len(allowed) != len(set(allowed)):
+                raise ValueError("EventHDR allowed_files contains duplicate paths")
+            missing = sorted(set(allowed) - set(key_to_path))
             if missing:
                 preview = ", ".join(missing[:8])
                 suffix = " ..." if len(missing) > 8 else ""
@@ -137,7 +139,37 @@ class EventHDRDataset(Dataset):
                     f"EventHDR split requires {len(allowed)} files but {len(missing)} are "
                     f"missing under {self.root}: {preview}{suffix}"
                 )
-            self.files = [path for path in self.files if self.file_keys[path] in allowed]
+            self.files = [key_to_path[key] for key in allowed]
+        selected_keys = [self.file_keys[path] for path in self.files]
+        if file_to_scene is None:
+            self.file_to_scene = {key: key for key in selected_keys}
+        else:
+            if not isinstance(file_to_scene, dict):
+                raise TypeError("EventHDR file_to_scene must be a dictionary")
+            normalized_mapping: dict[str, str] = {}
+            for raw_key, scene_id in file_to_scene.items():
+                if not isinstance(raw_key, str) or not raw_key.strip():
+                    raise ValueError("EventHDR file_to_scene contains an invalid file key")
+                key = raw_key.replace("\\", "/")
+                if key in normalized_mapping:
+                    raise ValueError(
+                        f"EventHDR file_to_scene contains duplicate normalized key: {key}"
+                    )
+                if (
+                    not isinstance(scene_id, str)
+                    or not scene_id.strip()
+                    or scene_id != scene_id.strip()
+                ):
+                    raise ValueError(f"EventHDR file_to_scene has an invalid scene ID for {key}")
+                normalized_mapping[key] = scene_id
+            missing_scenes = sorted(set(selected_keys) - set(normalized_mapping))
+            if missing_scenes:
+                raise ValueError(
+                    "EventHDR file_to_scene is missing selected files: "
+                    + ", ".join(missing_scenes[:8])
+                    + (" ..." if len(missing_scenes) > 8 else "")
+                )
+            self.file_to_scene = {key: normalized_mapping[key] for key in selected_keys}
         self.samples = self._build_index()
         if not self.samples:
             raise RuntimeError(f"No valid EventHDR frames found under {self.root}")
@@ -145,7 +177,8 @@ class EventHDRDataset(Dataset):
     def _build_index(self) -> list[dict[str, Any]]:
         samples: list[dict[str, Any]] = []
         for path in self.files:
-            scene = self.file_keys[path]
+            source_file = self.file_keys[path]
+            scene = self.file_to_scene[source_file]
             with h5py.File(path, "r") as h5:
                 events_group = h5.get("events")
                 images_group = h5.get("images")
@@ -208,6 +241,7 @@ class EventHDRDataset(Dataset):
                             {
                                 "path": path,
                                 "scene": scene,
+                                "source_file": source_file,
                                 "image_key": key,
                                 "start_idx": selected_start_idx,
                                 "end_idx": end_idx,
@@ -268,13 +302,25 @@ class EventHDRDataset(Dataset):
             time_span = max(float(events[-1, 2] - events[0, 2]), 1e-9)
             events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
         events = events.astype(np.float32, copy=False)
-        scene_seed = zlib.crc32(item["scene"].encode("utf-8"))
-        rng = np.random.default_rng(self.seed + scene_seed)
+        raw_event_count = len(events)
+        # Recurrent pixels and temporal losses must refer to the same sensor ROI
+        # throughout one source sequence. The crop is deterministic per file, not
+        # per frame; epoch-varying sequence crops are intentionally not implemented.
+        crop_identity = f"{item['scene']}\0{item['source_file']}"
+        crop_seed = (self.seed + zlib.crc32(crop_identity.encode("utf-8"))) % (2**32)
+        rng = np.random.default_rng(crop_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
+        cropped_event_count = len(events)
+        dataset_sampling_factor = uniform_cap_factor(cropped_event_count, self.max_events)
         events = stratified_subsample(events, self.max_events)
-        sample_id = f"{item['scene']}/{item['image_key']}"
+        retained_event_count = len(events)
+        sample_id = (
+            f"{item['scene']}/{item['image_key']}"
+            if item["scene"] == item["source_file"]
+            else f"{item['scene']}/{item['source_file']}/{item['image_key']}"
+        )
         t0 = item["t0"]
         t1 = item["timestamp"]
         return make_sample(
@@ -289,8 +335,19 @@ class EventHDRDataset(Dataset):
                 "t1": t1,
                 "dt_us": round((t1 - t0) * 1_000_000) if t0 is not None else None,
                 "source": str(item["path"]),
+                "source_file": item["source_file"],
                 "scene": item["scene"],
                 "sequence_index": item["sequence_index"],
+                "raw_event_count": raw_event_count,
+                "cropped_event_count": cropped_event_count,
+                "retained_event_count": retained_event_count,
+                "dataset_sampling_factor": dataset_sampling_factor,
+                "crop": {
+                    "left": crop.left,
+                    "top": crop.top,
+                    "width": crop.width,
+                    "height": crop.height,
+                },
             },
         )
 

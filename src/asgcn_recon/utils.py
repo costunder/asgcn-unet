@@ -39,9 +39,7 @@ def resolve_path(path: str | Path, base_dir: str | Path) -> Path:
     return expanded.resolve()
 
 
-def resolve_experiment_paths(
-    config: dict[str, Any], config_path: str | Path
-) -> dict[str, Any]:
+def resolve_experiment_paths(config: dict[str, Any], config_path: str | Path) -> dict[str, Any]:
     """Return a copy with filesystem paths anchored to the checkout root."""
     resolved = copy.deepcopy(config)
     base_dir = experiment_base_dir(config_path)
@@ -49,6 +47,7 @@ def resolve_experiment_paths(
         ("dataset", "root"),
         ("dataset", "val_root"),
         ("dataset", "split_manifest"),
+        ("dataset", "file_manifest"),
         ("train", "resume"),
         ("output", "run_dir"),
         ("eval", "output_dir"),

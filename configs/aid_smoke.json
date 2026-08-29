@@ -1,14 +1,14 @@
 {
+  "purpose": "non-reportable partial EventAid-R loader smoke",
   "seed": 2026,
   "device": "auto",
   "dataset": {
-    "type": "eventhdr",
-    "root": "data/EventHDR/eval",
-    "expected_file_count": 19,
+    "type": "eventaid_r_zip",
+    "root": "data/EventAid-R",
     "target_channels": 1,
     "max_events": 8192,
     "crop_size": null,
-    "frame_stride": 1,
+    "target_offset": 1,
     "tone_map": "log",
     "tone_map_mu": 5000.0
   },
@@ -36,12 +36,10 @@
   },
   "eval": {
     "batch_size": 1,
-    "num_workers": 2,
-    "persistent_workers": true,
-    "prefetch_factor": 2,
-    "recurrent_context_frames": 32,
-    "max_samples": null,
-    "save_predictions": 20,
-    "output_dir": "runs/eventhdr_official_eval_snn"
+    "num_workers": 0,
+    "recurrent_context_frames": 8,
+    "max_samples": 8,
+    "save_predictions": 4,
+    "output_dir": "runs/eventaid_r_smoke"
   }
 }

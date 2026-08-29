@@ -85,6 +85,33 @@ if sys.version_info < (3, 10):
 print(f"Using Python {sys.version.split()[0]}")
 PY
 
+"${PYTHON_BIN}" - "${TORCH_VERSION}" "${CONSTRAINTS_FILE}" <<'PY'
+import platform
+import re
+import sys
+from pathlib import Path
+
+requested_torch = sys.argv[1]
+constraint_path = Path(sys.argv[2]) if sys.argv[2] else None
+if not requested_torch and constraint_path is not None:
+    for raw_line in constraint_path.read_text(encoding="utf-8").splitlines():
+        match = re.fullmatch(r"\s*torch==([^\s#]+)\s*", raw_line)
+        if match:
+            requested_torch = match.group(1).split("+", maxsplit=1)[0]
+            break
+
+if platform.system() == "Linux" and requested_torch == "2.13.0":
+    libc_name, libc_version = platform.libc_ver()
+    numbers = tuple(int(value) for value in re.findall(r"\d+", libc_version))
+    if libc_name.lower() != "glibc" or numbers < (2, 28):
+        found = f"{libc_name or 'unknown'} {libc_version or 'unknown'}"
+        raise SystemExit(
+            "The locked torch 2.13.0 wheel profile requires Linux glibc>=2.28; "
+            f"found {found}. Use a newer cluster container/module."
+        )
+    print(f"glibc preflight: {libc_version} (minimum 2.28)")
+PY
+
 if [[ ! -x "${VENV_DIR}/bin/python" ]]; then
   echo "Creating virtual environment: ${VENV_DIR}"
   "${PYTHON_BIN}" -m venv "${VENV_DIR}"
@@ -161,4 +188,5 @@ echo
 echo "Installation complete."
 echo "Python: ${VENV_PYTHON}"
 echo "Next: ./scripts/get_aid.sh R-bear"
+echo "Then: ${VENV_PYTHON} -m asgcn_recon.cli inspect --config configs/aid_smoke.json --samples 2"
 echo "Then place EventHDR H5 files under data/EventHDR/train and data/EventHDR/eval."

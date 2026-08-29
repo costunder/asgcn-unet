@@ -12,9 +12,7 @@ def test_temporal_consistency_error_compares_frame_changes() -> None:
     previous_target = torch.zeros((1, 1, 2, 2))
     target = torch.full((1, 1, 2, 2), 0.25)
 
-    result = temporal_consistency_error(
-        prediction, previous_prediction, target, previous_target
-    )
+    result = temporal_consistency_error(prediction, previous_prediction, target, previous_target)
 
     assert float(result) == pytest.approx(0.25)
 

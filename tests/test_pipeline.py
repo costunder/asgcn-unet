@@ -2,14 +2,16 @@ from __future__ import annotations
 
 import json
 
+import numpy as np
 import pytest
 import torch
 
 from asgcn_recon.cli import inspect_dataset
 from asgcn_recon.data import EventAidRZipDataset, EventHDRDataset
+from asgcn_recon.data.common import stratified_subsample, uniform_cap_factor
 from asgcn_recon.data.factory import build_dataset
-from asgcn_recon.engine import _data_loader, benchmark, train
-from asgcn_recon.graph import build_causal_graph, prepare_event_nodes
+from asgcn_recon.engine import _data_loader, _model_state_sha256, benchmark, train
+from asgcn_recon.graph import build_radius_graph, prepare_event_nodes
 from asgcn_recon.losses import ReconstructionLoss
 from asgcn_recon.model import ASGCNReconstructor
 from asgcn_recon.utils import (
@@ -17,6 +19,34 @@ from asgcn_recon.utils import (
     resolve_experiment_paths,
 )
 from tests.fixtures import make_eventaid, make_eventhdr
+
+
+def _paper_model_config(
+    hidden_dim: int = 4,
+    graph_layers: int = 1,
+    *,
+    recurrent: bool = True,
+) -> dict:
+    return {
+        "architecture_version": 2,
+        "graph_operator": "spline",
+        "spline_backend": "torch",
+        "spline_pseudo": "distance_over_radius",
+        "spline_is_open": True,
+        "hidden_dim": hidden_dim,
+        "graph_layers": graph_layers,
+        "event_sampling_factor": 1,
+        "graph_radius": 2.0,
+        "graph_position_dims": 3,
+        "graph_chunk_size": 16,
+        "spline_kernel_size": 3,
+        "spline_degree": 1,
+        "spline_root_weight": True,
+        "raster_downsample": 4,
+        "decoder_channels": 4,
+        "output_channels": 1,
+        "recurrent": recurrent,
+    }
 
 
 def test_eventhdr_loader(tmp_path):
@@ -27,6 +57,10 @@ def test_eventhdr_loader(tmp_path):
     assert sample["target"].shape == (1, 32, 48)
     assert sample["events"][:, 2].min() >= 0
     assert sample["events"][:, 2].max() <= 1
+    assert sample["metadata"]["raw_event_count"] == 96
+    assert sample["metadata"]["cropped_event_count"] == 96
+    assert sample["metadata"]["retained_event_count"] == 32
+    assert sample["metadata"]["dataset_sampling_factor"] == 3
     assert dataset[1]["metadata"]["dt_us"] == 2_000
 
 
@@ -36,6 +70,10 @@ def test_eventhdr_stride_aggregates_intervals(tmp_path):
     assert len(dataset) == 2
     assert dataset.samples[1]["end_idx"] - dataset.samples[1]["start_idx"] == 192
     assert dataset[1]["metadata"]["dt_us"] == 4_000
+    assert dataset[1]["metadata"]["raw_event_count"] == 192
+    assert dataset[1]["metadata"]["cropped_event_count"] == 192
+    assert dataset[1]["metadata"]["retained_event_count"] == 192
+    assert dataset[1]["metadata"]["dataset_sampling_factor"] == 1
 
 
 def test_eventaid_next_frame_alignment(tmp_path):
@@ -45,15 +83,78 @@ def test_eventaid_next_frame_alignment(tmp_path):
     assert dataset.samples[0]["frame_id"] == 1
     assert dataset.samples[0]["target_name"].endswith("000002_img.png")
     assert dataset[0]["metadata"]["dt_us"] == 10_000
+    assert dataset[0]["metadata"]["raw_event_count"] == 80
+    assert dataset[0]["metadata"]["cropped_event_count"] == 80
+    assert dataset[0]["metadata"]["retained_event_count"] == 27
+    assert dataset[0]["metadata"]["dataset_sampling_factor"] == 3
 
 
-def test_causal_graph_has_no_future_sources():
+def test_max_events_uses_exact_integer_stride_sampling() -> None:
+    events = np.arange(13 * 4, dtype=np.float32).reshape(13, 4)
+    assert uniform_cap_factor(len(events), max_events=5) == 3
+    retained = stratified_subsample(events, max_events=5)
+    np.testing.assert_array_equal(retained, events[[0, 3, 6, 9, 12]])
+    assert uniform_cap_factor(len(events), max_events=None) == 1
+    np.testing.assert_array_equal(stratified_subsample(events, None), events)
+
+
+@pytest.mark.parametrize("dataset_name", ["eventhdr", "eventaid"])
+def test_random_crop_is_deterministic_and_sequence_aligned(tmp_path, dataset_name):
+    root = tmp_path / dataset_name
+    if dataset_name == "eventhdr":
+        make_eventhdr(root)
+        dataset_class = EventHDRDataset
+    else:
+        make_eventaid(root)
+        dataset_class = EventAidRZipDataset
+
+    arguments = {
+        "max_events": None,
+        "crop_size": [8, 8],
+        "random_crop": True,
+        "seed": 41,
+    }
+    first = dataset_class(root, **arguments)
+    first_samples = [first[index] for index in range(len(first))]
+    first_crops = [
+        (sample["metadata"]["crop"]["top"], sample["metadata"]["crop"]["left"])
+        for sample in first_samples
+    ]
+    assert all(
+        sample["metadata"]["raw_event_count"]
+        >= sample["metadata"]["cropped_event_count"]
+        == sample["metadata"]["retained_event_count"]
+        and sample["metadata"]["dataset_sampling_factor"] == 1
+        for sample in first_samples
+    )
+    assert any(
+        sample["metadata"]["cropped_event_count"] < sample["metadata"]["raw_event_count"]
+        for sample in first_samples
+    )
+    repeated_crop = first[0]["metadata"]["crop"]
+    first.close()
+
+    reopened = dataset_class(root, **arguments)
+    reopened_crops = [
+        (sample["metadata"]["crop"]["top"], sample["metadata"]["crop"]["left"])
+        for sample in (reopened[index] for index in range(len(reopened)))
+    ]
+    assert reopened[0]["metadata"]["crop"] == repeated_crop
+    reopened.close()
+
+    assert reopened_crops == first_crops
+    assert len(set(first_crops)) == 1
+
+
+def test_event_graph_is_undirected_instead_of_causal():
     events = torch.tensor([[i, i, i, i % 2] for i in range(12)], dtype=torch.float32)
     _, positions = prepare_event_nodes(events, (16, 16))
-    edge_index, _ = build_causal_graph(
-        positions, candidates=4, spatial_radius=1.0, temporal_radius=1.0
-    )
-    assert torch.all(edge_index[0] <= edge_index[1])
+    edge_index, edge_attr = build_radius_graph(positions, radius=2.0, position_dims=3, chunk_size=4)
+    pairs = set(map(tuple, edge_index.transpose(0, 1).tolist()))
+    assert len(pairs) == len(events) * (len(events) - 1)
+    assert all(source != destination for source, destination in pairs)
+    assert all((destination, source) in pairs for source, destination in pairs)
+    assert edge_attr.shape == (len(pairs), 1)
 
 
 def test_empty_event_interval_uses_zero_node_graph():
@@ -64,15 +165,7 @@ def test_empty_event_interval_uses_zero_node_graph():
         "sample_id": "empty/0",
         "metadata": {},
     }
-    model = ASGCNReconstructor(
-        hidden_dim=4,
-        graph_layers=1,
-        causal_candidates=2,
-        spatial_radius=1.0,
-        temporal_radius=1.0,
-        raster_downsample=4,
-        decoder_channels=4,
-    )
+    model = ASGCNReconstructor(**_paper_model_config())
     prediction, diagnostics = model.forward_sample(sample)
     prediction.mean().backward()
     assert torch.isfinite(prediction).all()
@@ -83,54 +176,30 @@ def test_empty_event_interval_uses_zero_node_graph():
 def test_model_forward_backward(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
-    model = ASGCNReconstructor(
-        hidden_dim=8,
-        graph_layers=2,
-        causal_candidates=4,
-        spatial_radius=1.0,
-        temporal_radius=1.0,
-        raster_downsample=4,
-        decoder_channels=4,
-    )
+    model = ASGCNReconstructor(**_paper_model_config(hidden_dim=8, graph_layers=2))
     prediction, diagnostics = model.forward_sample(sample)
     loss, _ = ReconstructionLoss()(prediction, sample["target"].unsqueeze(0))
     loss.backward()
     assert prediction.shape == (1, 1, 32, 48)
-    assert diagnostics["edges"] >= diagnostics["nodes"]
+    assert diagnostics["edges"] == diagnostics["nodes"] * (diagnostics["nodes"] - 1)
     assert any(parameter.grad is not None for parameter in model.parameters())
 
 
-def test_bn_folding_and_snn_rate_path(tmp_path):
+def test_bn_folding_and_explicit_snn_path(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=32)[0]
-    model = ASGCNReconstructor(
-        hidden_dim=8,
-        graph_layers=2,
-        causal_candidates=4,
-        spatial_radius=1.0,
-        temporal_radius=1.0,
-        raster_downsample=4,
-        decoder_channels=4,
-        recurrent=False,
-    ).eval()
+    model_config = _paper_model_config(hidden_dim=8, graph_layers=2, recurrent=False)
+    model = ASGCNReconstructor(**model_config).eval()
     with torch.no_grad():
         ann_before, _ = model.forward_sample(sample)
         model.fold_batch_norm()
         ann_after, _ = model.forward_sample(sample)
-        restored = ASGCNReconstructor(
-            hidden_dim=8,
-            graph_layers=2,
-            causal_candidates=4,
-            spatial_radius=1.0,
-            temporal_radius=1.0,
-            raster_downsample=4,
-            decoder_channels=4,
-            recurrent=False,
-        ).eval()
+        restored = ASGCNReconstructor(**model_config).eval()
         restored.load_state_dict(model.state_dict())
         ann_restored, _ = restored.forward_sample(sample)
-        model.encoder.reset_thresholds()
+        model.reset_activation_maxima()
         model.calibrate_sample(sample)
+        model.apply_parameter_normalization()
         snn_output, diagnostics = model.forward_sample(
             sample, inference_mode="snn", simulation_steps=8
         )
@@ -143,15 +212,7 @@ def test_bn_folding_and_snn_rate_path(tmp_path):
 def test_cpu_autocast_keeps_raster_dtypes_compatible(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     sample = EventHDRDataset(tmp_path / "hdr", max_events=16)[0]
-    model = ASGCNReconstructor(
-        hidden_dim=4,
-        graph_layers=1,
-        causal_candidates=2,
-        spatial_radius=1.0,
-        temporal_radius=1.0,
-        raster_downsample=4,
-        decoder_channels=4,
-    )
+    model = ASGCNReconstructor(**_paper_model_config())
     with torch.autocast("cpu", dtype=torch.bfloat16):
         prediction, _ = model.forward_sample(sample)
     assert prediction.dtype == torch.bfloat16
@@ -292,17 +353,7 @@ def _tiny_training_config(tmp_path, data_root):
             "crop_size": [16, 16],
             "tone_map": "log",
         },
-        "model": {
-            "hidden_dim": 4,
-            "graph_layers": 1,
-            "causal_candidates": 2,
-            "spatial_radius": 1.0,
-            "temporal_radius": 1.0,
-            "raster_downsample": 4,
-            "decoder_channels": 4,
-            "output_channels": 1,
-            "recurrent": True,
-        },
+        "model": _paper_model_config(),
         "train": {
             "epochs": 1,
             "batch_size": 1,
@@ -323,14 +374,25 @@ def test_training_checkpoint_can_resume_optimizer_and_epoch(tmp_path):
     train(config)
     first = torch.load(tmp_path / "run/last.pt", map_location="cpu", weights_only=False)
     assert first["epoch"] == 1
-    assert "optimizer" in first and "scaler" in first and "rng_state" in first
+    assert all(key in first for key in ("optimizer", "scheduler", "scaler", "rng_state"))
     assert (tmp_path / "run/.data_hash_cache.json").is_file()
     protocol_text = json.dumps(first["validation_protocol"])
     assert str(data_root) not in protocol_text
     assert "mtime_ns" not in protocol_text
     best = torch.load(tmp_path / "run/best.pt", map_location="cpu", weights_only=False)
     assert best["checkpoint_type"] == "ann_inference"
-    for training_key in ("optimizer", "scaler", "history", "rng_state", "config"):
+    assert first["checkpoint_type"] == "training"
+    assert first["model_state_sha256"] == _model_state_sha256(first["model"])
+    assert len(first["best_model_state_sha256"]) == 64
+    assert best["model_state_sha256"] == first["best_model_state_sha256"]
+    for training_key in (
+        "optimizer",
+        "scheduler",
+        "scaler",
+        "history",
+        "rng_state",
+        "config",
+    ):
         assert training_key not in best
 
     config["train"]["epochs"] = 2
@@ -356,6 +418,50 @@ def test_training_rejects_resume_into_a_different_run_directory(tmp_path):
     config["output"]["run_dir"] = str(tmp_path / "other-run")
     with pytest.raises(ValueError, match="inside the configured run_dir"):
         train(config, resume_from=source)
+
+
+def test_exact_resume_rejects_missing_state_and_tampered_historical_best(tmp_path):
+    data_root = tmp_path / "hdr"
+    make_eventhdr(data_root)
+
+    for missing_key in ("scaler", "rng_state"):
+        run_root = tmp_path / missing_key
+        config = _tiny_training_config(run_root, data_root)
+        train(config)
+        last_path = run_root / "run/last.pt"
+        checkpoint = torch.load(last_path, map_location="cpu", weights_only=False)
+        checkpoint.pop(missing_key)
+        torch.save(checkpoint, last_path)
+        config["train"]["epochs"] = 2
+        expected_message = "GradScaler state" if missing_key == "scaler" else "RNG state"
+        with pytest.raises(ValueError, match=expected_message):
+            train(config, resume_from=last_path)
+
+    digest_root = tmp_path / "digest"
+    config = _tiny_training_config(digest_root, data_root)
+    train(config)
+    best_path = digest_root / "run/best.pt"
+    best = torch.load(best_path, map_location="cpu", weights_only=False)
+    tensor_name = next(name for name, value in best["model"].items() if value.is_floating_point())
+    best["model"][tensor_name] = best["model"][tensor_name].clone()
+    best["model"][tensor_name].view(-1)[0] += 1
+    torch.save(best, best_path)
+    config["train"]["epochs"] = 2
+    with pytest.raises(ValueError, match="does not match tensor bytes"):
+        train(config, resume_from=digest_root / "run/last.pt")
+
+    last_digest_root = tmp_path / "last-digest"
+    config = _tiny_training_config(last_digest_root, data_root)
+    train(config)
+    last_path = last_digest_root / "run/last.pt"
+    last = torch.load(last_path, map_location="cpu", weights_only=False)
+    tensor_name = next(name for name, value in last["model"].items() if value.is_floating_point())
+    last["model"][tensor_name] = last["model"][tensor_name].clone()
+    last["model"][tensor_name].view(-1)[0] += 1
+    torch.save(last, last_path)
+    config["train"]["epochs"] = 2
+    with pytest.raises(ValueError, match="does not match tensor bytes"):
+        train(config, resume_from=last_path)
 
 
 def test_training_can_resume_before_first_validation_checkpoint(tmp_path):

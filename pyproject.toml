@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "asgcn-reconstruction"
-version = "0.1.0"
-description = "ASGCN-style event-to-frame reconstruction for EventHDR and EventAid-R"
+version = "0.2.0"
+description = "ASGCN paper-core event-to-frame reconstruction for EventHDR and EventAid-R"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

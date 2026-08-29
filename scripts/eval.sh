@@ -7,6 +7,7 @@ CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr_ann.json}}"
 CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/eventhdr_asgcn/best.pt}}"
 INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
+SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
@@ -34,6 +35,16 @@ if [[ "${INFERENCE_MODE}" != "ann" && "${INFERENCE_MODE}" != "snn" ]]; then
   echo "ERROR: INFERENCE_MODE must be ann or snn" >&2
   exit 2
 fi
+if [[ -n "${SNN_DYNAMICS}" ]]; then
+  if [[ "${INFERENCE_MODE}" != "snn" ]]; then
+    echo "ERROR: SNN_DYNAMICS is only valid when INFERENCE_MODE=snn" >&2
+    exit 2
+  fi
+  if [[ "${SNN_DYNAMICS}" != "literal_eq15" && "${SNN_DYNAMICS}" != "standard_if" ]]; then
+    echo "ERROR: SNN_DYNAMICS must be literal_eq15 or standard_if" >&2
+    exit 2
+  fi
+fi
 
 "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
 import sys
@@ -51,6 +62,11 @@ PY
 export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
 
+DYNAMICS_ARGS=()
+if [[ -n "${SNN_DYNAMICS}" ]]; then
+  DYNAMICS_ARGS=(--snn-dynamics "${SNN_DYNAMICS}")
+fi
+
 if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   "${PYTHON_BIN}" -m asgcn_recon.cli inspect \
     --config "${CONFIG_PATH}" --samples "${INSPECT_SAMPLES}"
@@ -61,7 +77,8 @@ echo "Evaluating ${CHECKPOINT_PATH} on ${CONFIG_PATH} (${INFERENCE_MODE})"
   --config "${CONFIG_PATH}" \
   --checkpoint "${CHECKPOINT_PATH}" \
   --inference-mode "${INFERENCE_MODE}" \
-  --simulation-steps "${SIMULATION_STEPS}"
+  --simulation-steps "${SIMULATION_STEPS}" \
+  "${DYNAMICS_ARGS[@]}"
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"
@@ -71,5 +88,6 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     --warmup "${BENCHMARK_WARMUP}" \
     --steps "${BENCHMARK_STEPS}" \
     --inference-mode "${INFERENCE_MODE}" \
-    --simulation-steps "${SIMULATION_STEPS}"
+    --simulation-steps "${SIMULATION_STEPS}" \
+    "${DYNAMICS_ARGS[@]}"
 fi

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Any
 
@@ -23,12 +24,19 @@ def normalize_polarity(p: np.ndarray) -> np.ndarray:
     return np.where(p >= 0, 1.0, -1.0).astype(np.float32, copy=False)
 
 
+def uniform_cap_factor(event_count: int, max_events: int | None) -> int:
+    """Return the integer stride needed to keep at most ``max_events`` events."""
+    if max_events is None or max_events <= 0 or event_count <= max_events:
+        return 1
+    return math.ceil(event_count / max_events)
+
+
 def stratified_subsample(events: np.ndarray, max_events: int | None) -> np.ndarray:
-    """Keep temporal coverage while bounding graph memory."""
-    if max_events is None or max_events <= 0 or len(events) <= max_events:
+    """Uniformly stride-sample events to bound graph memory without linspace jitter."""
+    factor = uniform_cap_factor(len(events), max_events)
+    if factor == 1:
         return events.astype(np.float32, copy=False)
-    indices = np.linspace(0, len(events) - 1, max_events, dtype=np.int64)
-    return events[indices].astype(np.float32, copy=False)
+    return events[::factor].astype(np.float32, copy=False)
 
 
 def choose_crop(
@@ -90,9 +98,7 @@ def image_array_to_tensor(
 
     if target_channels == 1 and image.shape[-1] != 1:
         rgb = image[..., :3]
-        image = (
-            0.2126 * rgb[..., 0] + 0.7152 * rgb[..., 1] + 0.0722 * rgb[..., 2]
-        )[..., None]
+        image = (0.2126 * rgb[..., 0] + 0.7152 * rgb[..., 1] + 0.0722 * rgb[..., 2])[..., None]
     elif target_channels == 3 and image.shape[-1] == 1:
         image = np.repeat(image, 3, axis=-1)
     elif image.shape[-1] > target_channels:

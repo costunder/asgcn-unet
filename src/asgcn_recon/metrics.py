@@ -141,12 +141,7 @@ class MetricAccumulator:
         if not self.frames:
             return {"frames": 0, "micro": {}, "macro": {}, "per_scene": {}}
         names = sorted(
-            {
-                key
-                for frame in self.frames
-                for key in frame
-                if key not in {"scene", "sample_id"}
-            }
+            {key for frame in self.frames for key in frame if key not in {"scene", "sample_id"}}
         )
         grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
         for frame in self.frames:

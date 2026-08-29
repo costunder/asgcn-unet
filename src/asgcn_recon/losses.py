@@ -36,6 +36,8 @@ class ReconstructionLoss(nn.Module):
             "gradient": gradient_loss(prediction, target),
         }
         total = sum(self.weights[name] * value for name, value in terms.items())
-        values: dict[str, Any] = {name: float(value.detach().cpu()) for name, value in terms.items()}
+        values: dict[str, Any] = {
+            name: float(value.detach().cpu()) for name, value in terms.items()
+        }
         values["total"] = float(total.detach().cpu())
         return total, values

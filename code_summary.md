@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T14:50:13Z",
+    "generated_utc": "2026-08-30T16:28:27Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "d529884702b127f4eb8e1c7e8ee0ea0cb75e254f",
-    "source_tree_at_generation": "c5fb5089eacddbad109b3fe124437db129c1bd8e",
+    "source_commit_at_generation": "1e3b5cff49d66e5187a34c9229e79e26499e8e0b",
+    "source_tree_at_generation": "03c2f180ea6c63ae6b3f2cdab3844a873ac6d50f",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 26141,
+        "bytes": 26187,
         "path": "README.md",
-        "sha256": "e946ec267f60fbc933e2eab2aec0c84193c9d53bdb95a56178d9ef630c7f0575"
+        "sha256": "064996508d9ccc63eedda8b2cd71652aca8eb2de196546bd70af42d915de7007"
       },
       {
         "bytes": 1339,
@@ -91,14 +91,14 @@
         "sha256": "0e5ebc3492f732e96dd5d196ccdf7ced28835de6b315a2bf41ed75ec68c24f17"
       },
       {
-        "bytes": 30581,
+        "bytes": 32655,
         "path": "docs/SERVER.md",
-        "sha256": "ea961037ccb4c6c19b2918a5c4abdc047b9a4d8f5f21ef5036176367493f8255"
+        "sha256": "c224e7c1a4047fd9779197a1051cc74760cad1551b912387ab133dbb5507461c"
       },
       {
-        "bytes": 63282,
+        "bytes": 66828,
         "path": "hand_off.md",
-        "sha256": "fc94d5edf302178a2ae0245c4f2c7a8c333c101506d9c72a3d2b77ad1150458f"
+        "sha256": "4ef7a5d6027fe26c5bed317079edcf775ce74d825eff6f7bf73e23e2cf131e8b"
       },
       {
         "bytes": 2753,
@@ -256,9 +256,9 @@
         "sha256": "5ef139427badf8664679002b8f5a90e728465002435998349f78735ef292104d"
       },
       {
-        "bytes": 191376,
+        "bytes": 191591,
         "path": "src/asgcn_unet/engine.py",
-        "sha256": "36bae0d71ce4b8bc99de6391a068c36d71a1ff8a12c58ada11c4c7b2583d2019"
+        "sha256": "f24972329942b63591302a82a89fd520211c98d736aedfaddb79771b296d293d"
       },
       {
         "bytes": 36977,
@@ -281,9 +281,9 @@
         "sha256": "fcd5bd70bfb4a5b04fc985ee3289980213a83717c41a191bd937b39eb0d96d45"
       },
       {
-        "bytes": 29493,
+        "bytes": 29740,
         "path": "src/asgcn_unet/preflight.py",
-        "sha256": "8e773a8b6a51dc726cdef6e96709412109d39bdabb8ad06fea45d6cb3f0cd5d3"
+        "sha256": "4727ffd76c4d77d11e7fadf2d56b1476302f1058d4facb1e13219b7f7edc6f16"
       },
       {
         "bytes": 3720,
@@ -391,6 +391,11 @@
         "sha256": "d4f8e6da6d6ea92f9d70723b34d61016b4230c66d067bfe242329834005c84ae"
       },
       {
+        "bytes": 13174,
+        "path": "tests/test_mig_profile.py",
+        "sha256": "64032077b02d42e679a9eb085407a5bd1dd31e7b214aa3a82f531afe18a8589b"
+      },
+      {
         "bytes": 45514,
         "path": "tests/test_p0_engine.py",
         "sha256": "d00916678082cf669352ab679400721ce01f1a39cb8ad22fdc6a238f7e6ae174"
@@ -441,9 +446,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 85,
+    "included_file_count": 86,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "e047cd246d0055342ab394853c95975efa7ecef21b975adcab367227809f3340"
+    "snapshot_sha256": "5352f9b90e73e3c51e3544242da52734a71bbd7f25694c2961d16fc936895af6"
   }
 }
 -->
@@ -800,6 +805,7 @@ ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된�
 실행한다(`tmux` 설치 필요). 분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다.
 SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 중단 후에는 처음부터 `all`을 반복하지 말고 [재개 절차](#중단-후-재개와-결과-보호)를 따른다.
+전체 데이터 검사 뒤 MIG `profile failed: Invalid device id`로 멈췄다면 [profile부터 재개](docs/SERVER.md#mig에서-전체-데이터-검사-후-profile만-실패한-경우)한다.
 
 서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`만 실행한다.
 clone·환경 생성·설치를 매번 반복하지 않는다.
@@ -1088,9 +1094,8 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
   CI는 snapshot 일치와 source provenance를 확인한다. 개인정보 검사는 현재 tracked text와 Git history를
   대상으로 하며, 실제 식별자는 저장소 밖 로컬 검사에만 사용한다.
   상세 검증 기록과 유지관리 절차는 [인계서](hand_off.md#14-테스트-상태와-검증-범위)에 있다.
-- `check_env.py`는 CUDA 초기화 후 실제 runtime 장치 수로 GPU 이름/VRAM을 조회한다. MIG의
-  초기화 전후 장치 수 차이로 인한 `Invalid device id`를 CPU 모의 회귀검사로 검증했으며, 실제
-  초기화 실패나 CUDA 불가는 우회하지 않는다. [서버 오류 안내](docs/SERVER.md#7-산출물-확인과-운영상-오류)
+- 환경 검사와 profile은 CUDA를 먼저 초기화한 뒤 cuDNN·장치 정보를 읽고, checkpoint RNG도 초기화 후
+  장치를 열거한다. 실제 초기화 실패나 CUDA 불가는 우회하지 않는다.
 - 코드의 unit/integration test와 Linux 의존성 검사는 구성되어 있지만, EventHDR+EventAid-R 전체
   실데이터를 사용한 `runs/profile.json`, CUDA 40-epoch 학습·전체 행렬 실행, A6000/A100 peak
   memory·runtime·latency artifact는 이 로컬 검증에서 생성하지 않았다. 따라서 README는 실행 절차
@@ -2969,14 +2974,44 @@ Actions 필수 job 성공도 확인하되 로컬 실제-marker 검사와 혼동�
 python scripts/build_code_summary.py --check --require-clean-provenance
 ```
 
+### MIG에서 전체 데이터 검사 후 profile만 실패한 경우
+
+`check`가 끝난 뒤 새 `profile` 프로세스에서 `profile failed: Invalid device id`가 발생한 경우다.
+PyTorch 2.13의 cuDNN version 조회는 내부에서 장치 수를 얻고 각 장치의 capability를 읽는다.
+CUDA 초기화 전 MIG의 NVML 장치 수로 반복 범위가 정해지면, 첫 capability 조회에서 초기화된 실제
+runtime 장치 수와 달라 존재하지 않는 index를 조회할 수 있다. [PyTorch 2.13 공식 구현](https://github.com/pytorch/pytorch/blob/v2.13.0/torch/backends/cudnn/__init__.py#L83-L90)
+
+수정된 profile은 `torch.cuda.init()`을 cuDNN version·장치 정보 조회보다 먼저 호출한다.
+앞서 성공한 `check_env.py`는 별도 프로세스이므로 그 초기화 상태가 profile로 전달되지 않는다.
+checkpoint RNG 저장·복원도 모든 CUDA 장치를 열거하기 전에 초기화한다. Conda 의존성, 모델,
+데이터, GPU 할당과 `CUDA_VISIBLE_DEVICES`는 변경하지 않는다.
+
+전체 decode가 완료됐고 이 오류가 topology scan 전에 발생해 profile/train 산출물이 없는 경우,
+기존 저장소와 활성화된 Conda 환경에서 다음 단계만 실행한다. 데이터 재다운로드·재설치와
+`all`의 전체 decode 반복은 필요 없다.
+
+```bash
+git pull --ff-only &&
+bash scripts/run.sh profile &&
+bash scripts/run.sh train &&
+bash scripts/run.sh calibrate &&
+bash scripts/run.sh eval
+```
+
+이는 완료된 데이터 검사를 되풀이하지 않는 재개 절차이며 CUDA profile을 생략하는 우회가 아니다.
+기존 `runs/profile.json`이 있으면 자동으로 덮어쓰지 않는다. 파일 내용을 확인해 별도 보존 위치로
+옮긴 뒤 다시 측정하며 삭제하지 않는다. 이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train
+명령을 그대로 쓰지 말고 [epoch-boundary resume](#4-중단-후-epoch-boundary-resume)를 따른다.
+
 자주 중단되는 조건은 다음과 같다.
 
 - 이전 `check_env.py`의 GPU 이름 조회에서 `AssertionError: Invalid device id`: MIG에서는 CUDA
   초기화 전 NVML 장치 수와 초기화 후 CUDA runtime이 열거하는 장치 수가 다를 수 있다. 검사는 이제
   `torch.cuda.init()` 뒤 장치 수를 읽고 실제 사용 가능한 장치만 조회한다. 저장소에서
   `git pull --ff-only`로 갱신한다. pull이 충돌하면 기존 변경을 보존하고 먼저 확인한다.
-  이 오류로 사전검사에서만 중단됐고 profile/train 산출물이 없는 경우에는 `bash scripts/run.sh all`을
-  다시 실행한다. 현재 Conda 환경과 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
+  전체 decode를 시작하기 전 이 오류로 중단됐고 profile/train 산출물이 없는 경우에는
+  `bash scripts/run.sh all`을 다시 실행한다. 전체 decode 이후 profile 실패는 바로 위 재개 절차를
+  따른다. 현재 Conda 환경과 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
   덮어쓰거나 CUDA 검사를 끄지 않는다. 이 수정의 로컬 회귀검사는 CPU 모의 장치 기반이며 실제 MIG
   학습 완료를 의미하지 않는다.
 - `CUDA device probe failed`: 실제 CUDA 초기화·장치 조회 실패로 중단한 것이다. GPU 할당과
@@ -3016,7 +3051,7 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 # ASGCN-U-Net 프로젝트 인계서
 
 이 문서는 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
-이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-30의 현재
+이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-31의 현재
 구현과 일치하도록 다시 대조했다.
 
 ## 0. 검증 기록과 배포 판정 기준
@@ -3424,6 +3459,12 @@ script가 노출하는 stage는 `check`, `profile`, `train`, `calibrate`, `eval`
 `train.json` inspect가 manifest의 train 51개와 eval 19개 split을 모두 검사하므로 같은 EventHDR eval을
 `hdr.json`으로 다시 decode하는 중복 검사는 두지 않는다. 오래 걸려도 파일을 조용히 제외하지 않는다.
 
+전체 decode가 완료된 뒤 MIG의 `profile failed: Invalid device id`로 중단됐다면 `all`부터 되풀이하지
+않고 코드를 갱신한 후 `profile` → `train` → `calibrate` → `eval`을 순서대로 실행한다.
+이는 topology scan 전 runtime 정보 조회에서 실패해 학습 산출물이 없는 경우의 절차다.
+이미 만들어진 report/checkpoint는 삭제하거나 자동 덮어쓰지 않는다.
+구체적인 조건과 명령은 [서버 재개 안내](docs/SERVER.md#mig에서-전체-데이터-검사-후-profile만-실패한-경우)에 있다.
+
 `eval` stage matrix는 다음 18개 run이며 각 run마다 `evaluate`와 `benchmark`를 둘 다 실행한다.
 
 | dataset | mode | dynamics | T | checkpoint |
@@ -3638,6 +3679,11 @@ CUDA가 사용 가능할 때는 먼저 `torch.cuda.init()`으로 초기화한 �
 `OSError`, `DeferredCudaCallError`도 실패로 종료한다. 공개 오류에는 예외 종류만 출력하고 원문
 traceback에 담긴 host 경로는 노출하지 않는다. 원문 예외는 `--include-private-host-provenance`를
 명시한 비공개 진단에서만 출력한다. scheduler의 장치 visibility나 GPU 할당은 변경하지 않는다.
+profile의 `_runtime_provenance`도 cuDNN version·GPU 속성을 읽기 전에 CUDA를 초기화한다.
+PyTorch 2.13의 cuDNN 초기화 자체가 장치 수를 먼저 읽고 capability를 순회하므로, 단지 profile의
+명시적 장치 조회 순서만 바꾸어서는 부족하다. `check_env`와 profile은 별도 프로세스여서 앞 단계의
+초기화 상태를 재사용할 수도 없다. engine의 CUDA RNG capture/restore 역시 모든 장치의 상태를
+열거하기 전에 초기화한다. 이 수정은 의존성 lock, 모델·데이터 protocol 또는 GPU visibility를 바꾸지 않는다.
 `--validate-all`은 모든 target/event block을 실제 decode하므로 전체 데이터에서는 오래 걸린다.
 
 ## 12. scheduler
@@ -3832,6 +3878,27 @@ JPEG/parts/state 분리 수정 후 Windows CPU 통합 pytest는 **660 passed, 27
 Ruff도 통과했다. skip 27개는 위와 같은 플랫폼·권한 조건이며 이번 실행에서도 native
 access-violation 진단은 발생하지 않았다.
 
+2026-08-31 사용자가 제공한 서버 로그에서는 EventHDR 전체 inspect 요약이 **106,707 samples**로
+끝났고, EventAid-R은 **51,512/51,512 samples**, `validation_complete=true`로 전체 decode를 완료했다.
+EventAid-R 검사 시간은 56분 9초였다. 이후 profile의 환경 검사는 고정 Conda runtime과 A100 MIG
+할당을 확인했지만, 새 profile 프로세스의 runtime 정보 조회에서 `Invalid device id`로 중단됐다.
+이 로그는 서버 데이터 읽기 검증의 증거이며 topology scan·CUDA 학습 step·40-epoch 학습이나 최종
+평가 완료의 증거는 아니다. 로컬에서 전체 데이터를 독립적으로 재검증한 결과와도 구분한다.
+
+같은 서버 로그의 EventAid-R timestamp 진단은 총 **4,427,295,458 events** 중 **244,912,587 events**가
+현재 pairing interval 밖에 있음을 기록했다(`outside_interval_fraction=0.055318780804983265`, 약
+**5.531878%**). `strict_interval_validation=false`이므로 전체 decode 통과만으로 event/GT 시간 정렬의
+의미적 타당성이 확정되지는 않는다. EventHDR 학습 진행과 별개로 EventAid-R 복원 품질을 해석할 때는
+공식 timestamp 기준·구간 의미와 장면별 정렬을 검토해야 한다. 이 수치를 없애기 위한 offset 자동
+튜닝, event 삭제나 검증 결과의 사후 재라벨링은 하지 않는다. 이번 MIG 수정도 timestamp 정책을 바꾸지 않는다.
+
+MIG profile 수정 후 로컬 Windows CPU 통합 pytest는 **684 passed, 27 skipped**로 종료했다.
+새 24개 회귀검사는 초기화 전 physical count 8개와 초기화 후 runtime count 1개/3개의 차이,
+cuDNN/RNG 열거 순서, CPU 선택, 초기화 실패 전파 및 전체 runtime GPU의 RNG 보존을 검증한다.
+설치된 PyTorch cuDNN 초기화 함수 자체도 모의 8→1 장치에 적용해 수정 전 `Invalid device id`,
+명시적 초기화 후 성공을 확인했다. 이는 실제 서버 MIG의 topology scan이나 학습 완료를 뜻하지
+않는다. skip 27개는 위와 같은 플랫폼·권한 조건이며 Ruff도 통과했다.
+
 주요 회귀 범위는 다음과 같다.
 
 - strict undirected radius graph와 cell implementation의 pairwise reference parity
@@ -3869,10 +3936,12 @@ GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 
 ## 15. 현재 한계와 교차검증 체크리스트
 
-2026-08-30 로컬 검증에서는 전체 데이터 CUDA 본실험과 A6000/A100 profile/benchmark를 실행하지 않았다.
+2026-08-31까지 로컬 검증에서는 전체 데이터 CUDA 본실험과 A6000/A100 profile/benchmark를 실행하지 않았다.
+같은 날짜의 사용자 제공 서버 로그는 전체 decode 완료와 그 이후 profile 중단까지 확인한다.
 다음 항목은 실제 server에서 `scripts/run.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
 
-- EventHDR/EventAid-R 전체 decode 성공과 총 frame 수
+- EventHDR/EventAid-R 전체 decode 로그와 총 frame 수를 해당 실험 기록에 보존
+- EventAid-R event/GT timestamp 기준과 pairing interval 밖 event의 의미
 - A100/A6000 각각의 full topology scan, 최고 밀도 sample CUDA step과 `runs/profile.json`
 - 40-epoch loss/history, 마지막 epoch internal eval과 checkpoint digest
 - all-sample calibration의 layer별 valid count/dead channel
@@ -12718,6 +12787,8 @@ def _capture_rng_state() -> dict[str, Any]:
         "torch": torch.get_rng_state(),
     }
     if torch.cuda.is_available():
+        # get_rng_state_all() enumerates devices before its first lazy state read.
+        torch.cuda.init()
         state["cuda"] = torch.cuda.get_rng_state_all()
     return state
 
@@ -12731,6 +12802,8 @@ def _restore_rng_state(state: Any) -> None:
     if not torch.is_tensor(state["torch"]):
         raise ValueError("Exact resume rng_state['torch'] must be a tensor")
     if torch.cuda.is_available():
+        # Resume validates the initialized MIG-visible count, not NVML's count.
+        torch.cuda.init()
         cuda_state = state.get("cuda")
         if not isinstance(cuda_state, list) or len(cuda_state) != torch.cuda.device_count():
             raise ValueError(
@@ -16631,6 +16704,11 @@ def _canonical_sha256(value: Any) -> str:
 
 def _runtime_provenance(device: torch.device) -> dict[str, Any]:
     cuda_available = bool(torch.cuda.is_available())
+    selected_cuda = cuda_available and device.type == "cuda"
+    if selected_cuda:
+        # cuDNN version() itself enumerates device capabilities in PyTorch 2.13.
+        # Initialize first so MIG uses the runtime count, not a pre-init NVML count.
+        torch.cuda.init()
     runtime: dict[str, Any] = {
         "python": platform.python_version(),
         "platform": platform.system(),
@@ -16638,10 +16716,10 @@ def _runtime_provenance(device: torch.device) -> dict[str, Any]:
         "requested_device": str(device),
         "cuda_available": cuda_available,
         "cuda_runtime": torch.version.cuda,
-        "cudnn": torch.backends.cudnn.version() if cuda_available else None,
+        "cudnn": torch.backends.cudnn.version() if selected_cuda else None,
         "gpu": None,
     }
-    if cuda_available and device.type == "cuda":
+    if selected_cuda:
         index = device.index if device.index is not None else torch.cuda.current_device()
         properties = torch.cuda.get_device_properties(index)
         runtime["gpu"] = {
@@ -23387,6 +23465,382 @@ def test_frame_metrics_caps_exact_match_psnr_at_documented_finite_value() -> Non
 
     assert result["psnr"] == pytest.approx(120.0)
     assert result["rmse"] == 0.0
+~~~~~~~~
+
+# tests/test_mig_profile.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import random
+from types import SimpleNamespace
+from typing import Any
+
+import numpy as np
+import pytest
+import torch
+
+from asgcn_unet import engine, preflight
+
+
+class FakeCuda:
+    """CPU-only model of NVML physical devices versus initialized MIG devices."""
+
+    def __init__(
+        self,
+        *,
+        available: bool = True,
+        physical_count: int = 8,
+        runtime_count: int = 1,
+        current_index: int = 0,
+        init_failure: Exception | None = None,
+    ) -> None:
+        self.available = available
+        self.physical_count = physical_count
+        self.runtime_count = runtime_count
+        self.current_index = current_index
+        self.init_failure = init_failure
+        self.initialized = False
+        self.calls: list[str] = []
+        self.rng_states = [
+            torch.tensor([index, 41], dtype=torch.uint8) for index in range(runtime_count)
+        ]
+        self.restored_states: list[torch.Tensor] | None = None
+
+    def is_available(self) -> bool:
+        self.calls.append("is_available")
+        return self.available
+
+    def init(self) -> None:
+        self.calls.append("init")
+        if self.init_failure is not None:
+            raise self.init_failure
+        self.initialized = True
+
+    def _lazy_init(self) -> None:
+        if not self.initialized:
+            self.init()
+
+    def device_count(self) -> int:
+        self.calls.append("device_count")
+        return self.runtime_count if self.initialized else self.physical_count
+
+    def current_device(self) -> int:
+        self.calls.append("current_device")
+        self._lazy_init()
+        return self.current_index
+
+    def get_device_properties(self, index: int) -> SimpleNamespace:
+        self.calls.append(f"properties:{index}")
+        self._lazy_init()
+        assert 0 <= index < self.runtime_count, "Invalid device id"
+        return SimpleNamespace(
+            name=f"Runtime MIG {index}",
+            major=8,
+            minor=0,
+            total_memory=(index + 1) * 10 * 1024**3,
+            multi_processor_count=(index + 1) * 14,
+        )
+
+    def get_device_capability(self, index: int) -> tuple[int, int]:
+        self.calls.append(f"capability:{index}")
+        properties = self.get_device_properties(index)
+        return properties.major, properties.minor
+
+    def get_rng_state(self, index: int) -> torch.Tensor:
+        self.calls.append(f"get_rng_state:{index}")
+        self._lazy_init()
+        assert 0 <= index < self.runtime_count, "Invalid device id"
+        return self.rng_states[index].clone()
+
+    def get_rng_state_all(self) -> list[torch.Tensor]:
+        self.calls.append("get_rng_state_all")
+        # Match PyTorch's range(device_count()) before get_rng_state lazy init.
+        return [self.get_rng_state(index) for index in range(self.device_count())]
+
+    def set_rng_state_all(self, states: list[torch.Tensor]) -> None:
+        self.calls.append("set_rng_state_all")
+        assert self.initialized
+        assert len(states) == self.runtime_count
+        self.restored_states = [state.clone() for state in states]
+
+
+class FakeCudnn:
+    def __init__(self, cuda: FakeCuda) -> None:
+        self.cuda = cuda
+
+    def version(self) -> int:
+        self.cuda.calls.append("cudnn.version")
+        # PyTorch 2.13 checks visible device capabilities inside cuDNN init.
+        # Capturing the pre-init NVML count here reproduces the MIG failure.
+        for index in range(self.cuda.device_count()):
+            self.cuda.get_device_capability(index)
+        return 91002
+
+
+def _install_preflight_cuda(monkeypatch: pytest.MonkeyPatch, cuda: FakeCuda) -> None:
+    monkeypatch.setattr(
+        preflight,
+        "torch",
+        SimpleNamespace(
+            cuda=cuda,
+            __version__="2.13.0+cu126",
+            version=SimpleNamespace(cuda="12.6"),
+            backends=SimpleNamespace(cudnn=FakeCudnn(cuda)),
+        ),
+    )
+
+
+def _install_engine_cuda(monkeypatch: pytest.MonkeyPatch, cuda: FakeCuda) -> None:
+    monkeypatch.setattr(
+        engine,
+        "torch",
+        SimpleNamespace(
+            cuda=cuda,
+            get_rng_state=torch.get_rng_state,
+            set_rng_state=torch.set_rng_state,
+            is_tensor=torch.is_tensor,
+        ),
+    )
+
+
+def _cpu_rng_state() -> dict[str, Any]:
+    return {
+        "python": random.getstate(),
+        "numpy": np.random.get_state(),
+        "torch": torch.get_rng_state(),
+    }
+
+
+def _assert_cpu_rng_equal(actual: dict[str, Any], expected: dict[str, Any]) -> None:
+    assert actual["python"] == expected["python"]
+    assert actual["numpy"][0] == expected["numpy"][0]
+    np.testing.assert_array_equal(actual["numpy"][1], expected["numpy"][1])
+    assert actual["numpy"][2:] == expected["numpy"][2:]
+    assert torch.equal(actual["torch"], expected["torch"])
+
+
+@pytest.fixture(autouse=True)
+def preserve_cpu_rng_streams():
+    state = _cpu_rng_state()
+    yield
+    random.setstate(state["python"])
+    np.random.set_state(state["numpy"])
+    torch.set_rng_state(state["torch"])
+
+
+def test_fake_cudnn_reproduces_preinitialization_mig_failure() -> None:
+    cuda = FakeCuda(physical_count=8, runtime_count=1)
+    with pytest.raises(AssertionError, match="Invalid device id"):
+        FakeCudnn(cuda).version()
+    assert cuda.calls.index("device_count") < cuda.calls.index("init")
+    assert "capability:1" in cuda.calls
+
+
+@pytest.mark.parametrize(
+    ("requested", "runtime_count", "current_index", "expected_index"),
+    [("cuda:0", 1, 0, 0), ("cuda:2", 3, 0, 2), ("cuda", 3, 2, 2)],
+)
+def test_profile_initializes_runtime_before_cudnn_device_enumeration(
+    monkeypatch: pytest.MonkeyPatch,
+    requested: str,
+    runtime_count: int,
+    current_index: int,
+    expected_index: int,
+) -> None:
+    cuda = FakeCuda(runtime_count=runtime_count, current_index=current_index)
+    _install_preflight_cuda(monkeypatch, cuda)
+    before = _cpu_rng_state()
+
+    runtime = preflight._runtime_provenance(torch.device(requested))
+
+    assert cuda.calls.index("init") < cuda.calls.index("cudnn.version")
+    assert cuda.calls.index("init") < cuda.calls.index("device_count")
+    assert [call for call in cuda.calls if call.startswith("capability:")] == [
+        f"capability:{index}" for index in range(runtime_count)
+    ]
+    assert runtime["requested_device"] == requested
+    assert runtime["cuda_available"] is True
+    assert runtime["cuda_runtime"] == "12.6"
+    assert runtime["cudnn"] == 91002
+    assert runtime["gpu"] == {
+        "index": expected_index,
+        "name": f"Runtime MIG {expected_index}",
+        "compute_capability": [8, 0],
+        "total_memory_mib": (expected_index + 1) * 10 * 1024,
+        "multiprocessors": (expected_index + 1) * 14,
+    }
+    assert ("current_device" in cuda.calls) == (requested == "cuda")
+    _assert_cpu_rng_equal(_cpu_rng_state(), before)
+
+
+@pytest.mark.parametrize(
+    ("requested", "available"), [("cpu", True), ("cpu", False), ("cuda", False)]
+)
+def test_profile_without_selected_available_cuda_does_not_initialize_cudnn(
+    monkeypatch: pytest.MonkeyPatch,
+    requested: str,
+    available: bool,
+) -> None:
+    cuda = FakeCuda(available=available, init_failure=RuntimeError("Must not initialize CUDA"))
+    _install_preflight_cuda(monkeypatch, cuda)
+
+    runtime = preflight._runtime_provenance(torch.device(requested))
+
+    assert runtime["cuda_available"] is available
+    assert runtime["cudnn"] is None
+    assert runtime["gpu"] is None
+    assert cuda.calls == ["is_available"]
+
+
+def test_profile_does_not_hide_selected_invalid_cuda_index(monkeypatch: pytest.MonkeyPatch) -> None:
+    cuda = FakeCuda(runtime_count=1)
+    _install_preflight_cuda(monkeypatch, cuda)
+    with pytest.raises(AssertionError, match="Invalid device id"):
+        preflight._runtime_provenance(torch.device("cuda:1"))
+    assert "properties:1" in cuda.calls
+
+
+def test_profile_propagates_cuda_initialization_failure(monkeypatch: pytest.MonkeyPatch) -> None:
+    failure = RuntimeError("CUDA driver initialization failed")
+    cuda = FakeCuda(init_failure=failure)
+    _install_preflight_cuda(monkeypatch, cuda)
+    with pytest.raises(RuntimeError) as caught:
+        preflight._runtime_provenance(torch.device("cuda:0"))
+    assert caught.value is failure
+    assert "cudnn.version" not in cuda.calls
+
+
+def test_fake_rng_capture_reproduces_preinitialization_mig_failure() -> None:
+    cuda = FakeCuda(physical_count=8, runtime_count=1)
+    with pytest.raises(AssertionError, match="Invalid device id"):
+        cuda.get_rng_state_all()
+    assert cuda.calls.index("device_count") < cuda.calls.index("init")
+
+
+@pytest.mark.parametrize("runtime_count", [1, 3])
+def test_rng_capture_preserves_every_runtime_device_after_initialization(
+    monkeypatch: pytest.MonkeyPatch, runtime_count: int
+) -> None:
+    cuda = FakeCuda(runtime_count=runtime_count)
+    _install_engine_cuda(monkeypatch, cuda)
+    before = _cpu_rng_state()
+
+    state = engine._capture_rng_state()
+
+    assert cuda.calls.index("init") < cuda.calls.index("get_rng_state_all")
+    assert cuda.calls.index("init") < cuda.calls.index("device_count")
+    assert len(state["cuda"]) == runtime_count
+    for actual, expected in zip(state["cuda"], cuda.rng_states, strict=True):
+        assert torch.equal(actual, expected)
+    _assert_cpu_rng_equal(state, before)
+    _assert_cpu_rng_equal(_cpu_rng_state(), before)
+
+
+@pytest.mark.parametrize("runtime_count", [1, 3])
+def test_rng_restore_validates_runtime_count_and_restores_every_visible_device(
+    monkeypatch: pytest.MonkeyPatch, runtime_count: int
+) -> None:
+    cuda = FakeCuda(runtime_count=runtime_count)
+    _install_engine_cuda(monkeypatch, cuda)
+    state = _cpu_rng_state()
+    state["cuda"] = [value.clone() for value in cuda.rng_states]
+    expected_next = (random.random(), np.random.random(), torch.rand(3))
+
+    engine._restore_rng_state(state)
+
+    assert cuda.calls.index("init") < cuda.calls.index("device_count")
+    assert cuda.restored_states is not None
+    assert len(cuda.restored_states) == runtime_count
+    for actual, expected in zip(cuda.restored_states, state["cuda"], strict=True):
+        assert torch.equal(actual, expected)
+    assert random.random() == expected_next[0]
+    assert np.random.random() == expected_next[1]
+    assert torch.equal(torch.rand(3), expected_next[2])
+
+
+@pytest.mark.parametrize("operation", ["capture", "restore"])
+def test_rng_operations_propagate_cuda_initialization_failure(
+    monkeypatch: pytest.MonkeyPatch, operation: str
+) -> None:
+    failure = RuntimeError("CUDA driver initialization failed")
+    cuda = FakeCuda(init_failure=failure)
+    _install_engine_cuda(monkeypatch, cuda)
+    before = _cpu_rng_state()
+    state = {**before, "cuda": cuda.rng_states}
+
+    with pytest.raises(RuntimeError) as caught:
+        if operation == "capture":
+            engine._capture_rng_state()
+        else:
+            engine._restore_rng_state(state)
+
+    assert caught.value is failure
+    assert "device_count" not in cuda.calls
+    assert cuda.restored_states is None
+    _assert_cpu_rng_equal(_cpu_rng_state(), before)
+
+
+def test_cpu_rng_capture_restore_does_not_initialize_unavailable_cuda(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    cuda = FakeCuda(available=False, init_failure=RuntimeError("Must not initialize CUDA"))
+    _install_engine_cuda(monkeypatch, cuda)
+    state = engine._capture_rng_state()
+    assert "cuda" not in state
+    expected = (random.random(), np.random.random(), torch.rand(3))
+
+    engine._restore_rng_state(state)
+
+    assert set(cuda.calls) == {"is_available"}
+    assert random.random() == expected[0]
+    assert np.random.random() == expected[1]
+    assert torch.equal(torch.rand(3), expected[2])
+
+
+@pytest.mark.parametrize(
+    "cuda_states", [None, [], [torch.zeros(2, dtype=torch.uint8)] * 8, ["invalid"]]
+)
+def test_rng_restore_rejects_bad_cuda_state_without_changing_cpu_streams(
+    monkeypatch: pytest.MonkeyPatch, cuda_states: Any
+) -> None:
+    cuda = FakeCuda(runtime_count=1)
+    _install_engine_cuda(monkeypatch, cuda)
+    state = _cpu_rng_state()
+    state["cuda"] = cuda_states
+    before = _cpu_rng_state()
+
+    with pytest.raises(ValueError, match="CUDA"):
+        engine._restore_rng_state(state)
+
+    assert "init" in cuda.calls
+    if isinstance(cuda_states, list):
+        assert cuda.calls.index("init") < cuda.calls.index("device_count")
+    assert cuda.restored_states is None
+    _assert_cpu_rng_equal(_cpu_rng_state(), before)
+
+
+@pytest.mark.parametrize(
+    ("state", "exception", "message"),
+    [
+        (None, TypeError, "dictionary"),
+        ({}, ValueError, "missing"),
+        ({"python": None, "numpy": None, "torch": "invalid"}, ValueError, "must be a tensor"),
+    ],
+)
+def test_rng_restore_retains_base_schema_validation(
+    monkeypatch: pytest.MonkeyPatch,
+    state: Any,
+    exception: type[Exception],
+    message: str,
+) -> None:
+    cuda = FakeCuda()
+    _install_engine_cuda(monkeypatch, cuda)
+    before = _cpu_rng_state()
+    with pytest.raises(exception, match=message):
+        engine._restore_rng_state(state)
+    assert not cuda.calls
+    _assert_cpu_rng_equal(_cpu_rng_state(), before)
 ~~~~~~~~
 
 # tests/test_p0_engine.py

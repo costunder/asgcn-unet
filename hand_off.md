@@ -20,12 +20,14 @@ hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했
   history 검사는 로컬/CI 모두 shallow clone 거부
 - Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
 - shebang entrypoint의 Git 실행 권한을 Windows에서도 검사해 Linux checkout 권한 누락 방지
-- 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda·`.venv` 경로로 통합됐는지 문서 검토
+- 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda 단일 환경 경로로 통합됐는지 문서 검토
 - GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
 
-2026-08-30 Windows CPU 검증은 **412 passed, 5 skipped**다. skip 5건은 OS symlink privilege가 없을 때의
-shared-storage link 및 downloader symlink 보호 test이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
-실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
+Conda 전환 후 2026-08-30 Windows CPU pytest는 **571 passed, 27 skipped**로 종료했다.
+skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이다. 성공 종료 중에도 Windows native
+access-violation 진단이 출력되어 무경고 검증으로 간주하지 않는다. shell entrypoint 16개는 MSYS Bash에서
+각각 구문 검사했다. 해당 SHA의 Linux Conda 실제 설치·고정 profile·전체 pytest와 별도 cross-platform
+CI 결과로 배포 판정을 확인하며, 이 기록은 실제 CUDA 본실험 완료를 뜻하지 않는다. 원격 배포는 sanitized history와
 과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
 gate 기록과 GitHub Actions 필수 gate 통과를 함께 확인해야 한다. 실제 marker는 GitHub secret·변수·
 workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로 로컬 실제-marker 검사를 대신하거나,
@@ -540,12 +542,21 @@ bitwise 동일성을 과장하지 않는다.
 실제 연산은 MobaXterm으로 접속한 Linux server에서 수행한다. 설치는
 [README 빠른 시작(MobaXterm)](README.md#빠른-시작-mobaxterm)을 단일 진입점으로 사용한다.
 Conda와 Git이 있는 본인 전용 OS 계정에서 Public 저장소를 인증 없이 HTTPS로 clone하고, 최초 한 번
-`asgcn` 환경과 `.venv`를 설치한다. GitHub CLI·토큰·SSH 키 설정은 필요 없다. 기존 환경이나 프로젝트
-폴더가 있으면 생성·clone을 반복하거나 삭제하지 않는다.
+`asgcn` Conda 환경에 설치한다. clone은 코드를 둘 현재 폴더에서 실행하며 홈으로 이동할 필요는 없다.
+GitHub CLI·토큰·SSH 키 설정은 필요 없다. 기존 환경이나 프로젝트 폴더가 있으면 생성·clone을
+반복하거나 삭제하지 않는다.
 
-Conda는 Git·Python 3.12를 제공하며 프로젝트 runtime은 계속 `.venv`다. 기존 run/scheduler
-wrapper의 `.venv` 경로를 변경하지 않고, 그 Python을 제공하는 Conda 환경도 유지한다. 전체 Ruff/pytest와
-history/provenance release gate는 유지관리용이며, 설치할 때마다 실험 사용자가 반복할 절차가 아니다.
+Git은 서버에 이미 설치된 것을 사용한다. `conda create -n asgcn --override-channels -c conda-forge
+python=3.12.14 pip`로 생성한 non-base 환경을 활성화하고 `bash scripts/setup.sh`로 직접 설치한다.
+다운로드·run·개별 train/calibrate/eval·scheduler는 같은 Conda Python을 사용한다. `.env` 복사는
+필요 없으며 설치기는 기존 `.env`도 읽거나 변경하지 않는다. 재접속 시에는 기존 저장소로 이동해
+`conda activate asgcn`만 한다. 전체 Ruff/pytest와 history/provenance release gate는 유지관리용이며,
+설치할 때마다 실험 사용자가 반복할 절차가 아니다.
+
+기존 서버 전환은 [환경 전환 안내](docs/SERVER.md#기존-venv-설치에서-전환)를 따른다. 실행 중인
+job을 종료하고 결과를 보존한 뒤 같은 Conda 환경에서 pull·설치한다. 기존 데이터는 다시 받지 않으며,
+이전 환경은 새 Conda runtime과 GPU/data 검증을 통과하기 전에는 정리하지 않는다. source/runtime이
+바뀌면 기존 run의 exact resume이 거부될 수 있으므로 checkpoint를 강제로 이어 붙이지 않는다.
 
 Public 전환은 코드·Git history·Actions history/logs를 공개하며, Private 복귀로 이미 생긴 공개 fork나
 외부 사본을 회수할 수는 없다. 실험 종료 후 사용자가 `Settings` → `General` → `Danger Zone` →
@@ -559,32 +570,39 @@ commit SHA에 대한 로컬 실제-marker release gate 기록과 같은 SHA의 G
 대조한다. CI는 실제 marker를 받지 않는다. 둘 중 하나라도 확인되지 않으면 해당 checkout을 본실험에
 사용하지 않는다. 최신 CI badge나 문서의 상태 설명만으로 대신하지 않는다.
 
-프로젝트는 Python 3.10 이상을 지원한다. 재현용 lock은 Python 3.12.13에서 검증됐고 core/dev package와
-torch public version을 `constraints/py312.txt`에 고정한다. 현재 lock의 핵심은 torch 2.13.0,
-numpy 2.5.2, h5py 3.16.0, Pillow 12.3.0, pytest 9.1.1, Ruff 0.16.5다. Linux torch 2.13.0 lock
-profile은 glibc 2.28 이상을 요구한다. 기본 설치는 README의 locked wheel 경로를 따른다. 별도
-`TORCH_INDEX_URL`이 필요하면 서버 driver와 호환되고 같은 torch 2.13.0을 제공하는 공식 index를
-선택한다. GPU allocation에서 CUDA 검증이 실패하면 본실험을 진행하지 않는다.
+프로젝트 core는 Python 3.10 이상을 지원하지만 기본 Linux 서버 실행 profile은
+`constraints/server.json`의 Python **3.12.14**, PyTorch **2.13.0+cu126**, CUDA runtime **12.6**으로
+고정한다. `constraints/server.txt`는 pip·setuptools·wheel, CUDA library·Triton을 포함한 전이
+의존성의 정확한 버전과 배포 파일 SHA-256을 고정한다. setup은 `--require-hashes --only-binary=:all:`로
+설치하며 최신 bootstrap package를 임의로 올리지 않는다. `constraints/py312.txt`의 core/dev 버전도
+함께 관리하며 핵심은 numpy 2.5.2, h5py 3.16.0, Pillow 12.3.0, pytest 9.1.1, Ruff 0.16.5다.
+Linux wheel은 glibc 2.28 이상을 요구하며 setup은
+공식 CUDA 12.6 index의 고정 build를 설치한다. `.env`나 `TORCH_VERSION`·`TORCH_INDEX_URL` 변경으로
+다른 CUDA build를 섞지 않는다. 이 profile은 Conda 자체의 모든 package·OS·driver·GPU까지 동결하거나
+hardware 간 bitwise 동일성을 보장하는 lock이 아니다.
+이는 확인된 Python·PyTorch·CUDA baseline에 맞춰 새로 만든 고정 profile이며 이전 서버의 전체
+package inventory를 복제한 것은 아니다. 유지관리자는 `constraints/server.in`에서 lock을 재생성해
+profile과 일치하는지 검증한다. lock 생성 도구 `uv`는 서버 설치의 필수 프로그램이 아니다.
+설치는 GPU가 없는 login node에서도 할 수 있지만 실제 GPU allocation에서 CUDA 검증이 실패하면
+본실험을 진행하지 않는다. `nvidia-smi`와 `df -h .`는 필요할 때 사용하는 선택 진단이다.
 
 core runtime dependency는 torch, NumPy, h5py, Pillow와 tqdm이다. development extra는 pytest와
-Ruff다. LPIPS만 필요할 때 optional eval extra를 설치한다.
-
-```bash
-python -m pip install -e '.[eval]'
-```
+Ruff다. optional eval extra의 LPIPS는 고정 서버 profile에 포함하지 않는다. 추가 package를 설치하는
+확장 실험은 dependency 변경을 따로 기록하고 runtime을 다시 검증하며 기본 profile의 결과와 혼동하지 않는다.
 
 데이터 배치 뒤 전체 readiness를 검사한다.
 
 ```bash
+conda activate asgcn
 python scripts/check_env.py --require-cuda --require-full-data \
-  --lock constraints/py312.txt
+  --lock constraints/py312.txt --runtime-profile constraints/server.json
 
 asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
 asgcn-unet inspect --config configs/hdr.json --samples 2 --validate-all
 asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 ```
 
-`check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, lock mismatch, glibc, data와 runs의 남은
+`check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, server profile·lock mismatch, glibc, data와 runs의 남은
 공간, runs 쓰기 가능 여부, EventHDR exact 51/19 이름과 EventAid-R exact 14 ZIP을 출력·검사한다.
 CUDA가 사용 가능할 때는 먼저 `torch.cuda.init()`으로 초기화한 뒤 runtime 장치 수와 각 장치의
 이름/VRAM을 조회한다. MIG에서 초기화 전 NVML count로 반복 범위를 만들면 실제 runtime 장치보다
@@ -614,15 +632,20 @@ checkout에서 실행하지 않는다. `CUDA_MODULE`은 opt-in이다.
 SLURM dependency 예시:
 
 ```bash
-profile_id=$(sbatch --parsable server/profile.sbatch)
-train_id=$(sbatch --parsable --dependency=afterok:${profile_id} server/train.sbatch)
-cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
+conda activate asgcn
+profile_id=$(sbatch --parsable \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/profile.sbatch)
+train_id=$(sbatch --parsable --dependency=afterok:${profile_id} \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/train.sbatch)
+cal_id=$(sbatch --parsable --dependency=afterok:${train_id} \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/calibrate.sbatch)
 sbatch --dependency=afterok:${cal_id} \
-  --export=CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
   server/eval.sbatch
 ```
 
-SLURM에는 login 환경 전체가 아니라 job에 필요한 변수만 전달한다. scheduler log는 기본적으로 host/job
+SLURM에는 login 환경 전체가 아니라 job에 필요한 변수만 전달한다. 각 job은 전달한 `CONDA_PREFIX`의
+Python을 사용하며, 명시적 `PYTHON_BIN`도 같은 Conda 환경을 가리켜야 한다. scheduler log는 기본적으로 host/job
 식별자를 생략하고 config/checkpoint basename만 기록한다. 정확한 값은 공개하지 않을 로컬 진단에서만
 `INCLUDE_PRIVATE_HOST_PROVENANCE=1`로 opt-in한다. Slurm의 `slurm-...-<job-id>.out/.err`와 PBS의
 `<job-name>.o<job-id>` 같은 raw scheduler log는 파일명 자체에 job ID가 있으므로 그대로 공개하지 않는다.
@@ -640,17 +663,20 @@ scan 실패 log와 `INCLUDE_PRIVATE_HOST_PROVENANCE=1` opt-in log는 rename/copy
 PBS/Torque dependency 예시:
 
 ```bash
-profile_id=$(qsub server/profile.pbs)
-train_id=$(qsub -W depend=afterok:${profile_id} server/train.pbs)
-cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
+conda activate asgcn
+profile_id=$(qsub -v CONDA_PREFIX="$CONDA_PREFIX" server/profile.pbs)
+train_id=$(qsub -W depend=afterok:${profile_id} \
+  -v CONDA_PREFIX="$CONDA_PREFIX" server/train.pbs)
+cal_id=$(qsub -W depend=afterok:${train_id} \
+  -v CONDA_PREFIX="$CONDA_PREFIX" server/calibrate.pbs)
 qsub -W depend=afterok:${cal_id} \
-  -v CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  -v CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
   server/eval.pbs
 ```
 
 전체 18-run matrix를 scheduler로 돌리려면 dataset/dynamics/T별 eval job을 각각 제출해야 한다.
 단일 allocation에서 순차 실행할 때만 `scripts/run.sh`를 직접 사용한다. 이 저장소는 검증되지 않은
-Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native virtualenv와 scheduler wrapper만
+Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native Conda 환경과 scheduler wrapper만
 지원한다.
 
 ## 13. 파일별 책임
@@ -674,6 +700,8 @@ Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native vi
 | `configs/aid.json` | EventAid-R 14-scene ANN/SNN 공용 설정 |
 | `manifests/eventhdr_split.json` | official separate roots와 H5 sequence-file semantics |
 | `manifests/eventaid_r.json` | 14 ZIP 이름, URL, 표시 용량 |
+| `constraints/server.json`, `constraints/server.txt`, `constraints/server.in` | 고정 Linux 서버 runtime profile, 전이 의존성 hash lock과 유지관리용 입력 |
+| `constraints/py312.txt` | core/dev package 버전 교차검사 |
 | `scripts/setup.sh`, `scripts/check_env.py` | server 설치와 환경/data inventory |
 | `scripts/get_hdr.py`, `scripts/get_hdr.sh` | EventHDR 서버 직접 다운로드 CLI와 선택적 archive/source/shared import/check |
 | `scripts/hdr_http.py` | 익명 OneDrive HTTP 조회, 재개·재시도·링크 갱신과 크기/SHA-256/HDF5 검증 |
@@ -704,9 +732,13 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-2026-08-30 Windows CPU 통합 결과는 **412 passed, 5 skipped**이며, skip 5건은 symlink privilege가
-없는 환경의 shared-storage link 및 downloader symlink 보호 test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
-아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
+Conda 전환 후 2026-08-30 Windows CPU 통합 pytest 결과는 **571 passed, 27 skipped**다.
+skip 22건은 Linux 전용 설치 shell test, 5건은 symlink 권한 관련 검사다. Windows native access-violation
+진단이 출력된 후에도 pytest는 exit 0으로 종료했으나, 원인이 확인되지 않아 무경고 검증으로 인정하지 않는다.
+이 결과는 기존 pytest 임시 디렉터리 권한 충돌을 피하도록 저장소 밖 새 임시 디렉터리를 지정해 얻었다.
+16개 shell entrypoint의 MSYS Bash 구문 검사도 수행했다. 실제 Linux Conda 설치와 동일 고정 profile의
+pytest, 별도 Ubuntu/Windows Python matrix는 해당 배포 SHA의 CI에서 확인한다.
+아래 명령은 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
 
 history scanner는 `git rev-list --objects --all`의 LF 출력으로 통일했다. 구 Git이 `-z`를 받아도 최신
 NUL object protocol을 출력하지 않는 차이를 회피하며, LF fixture·SHA-1/SHA-256·공백/탭/CR/비ASCII
@@ -771,9 +803,13 @@ python scripts/build_code_summary.py --check --require-clean-provenance
   CUDA 불가·0-device·초기화/조회 오류와 공개/private opt-in 예외 출력의 31개 CPU 회귀검사
 - EventHDR 서버 HTTP 다운로드의 정확한 metadata, SHA-256·HDF5 검사, Range 이어받기,
   오류 재시도, 익명 token 갱신·공유 재접근, URL·symlink·로그 보호 회귀검사
+- Conda interpreter 선택, nested venv·외부 pip destination 거부, 설치 전 OS/Python/glibc 검증,
+  해시 lock 설치 순서, 정확한 CUDA build·전이 package profile, scheduler·standalone 실행 경로
 
-GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
-syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
+GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Linux Conda Python 3.12.14
+설치·고정 dependency profile·전체 pytest·Ruff/shell syntax/privacy/snapshot job을 정의한다.
+Conda job은 GPU가 없는 runner에서 공식 cu126 wheel 설치를 검증하며 CUDA 학습은 실행하지 않는다.
+외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
 고정한다. unit test는 공식 대용량 데이터나 GPU 없이 fixture로 실행되므로 test 통과는 전체 데이터
 GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 

@@ -10,8 +10,8 @@
 #SBATCH --error=slurm-%x-%j.err
 
 # Dependency example:
-#   profile_id=$(sbatch --parsable server/profile.sbatch)
-#   sbatch --dependency=afterok:${profile_id} server/train.sbatch
+#   profile_id=$(sbatch --parsable --export=CONDA_PREFIX="${CONDA_PREFIX}" server/profile.sbatch)
+#   sbatch --dependency=afterok:${profile_id} --export=CONDA_PREFIX="${CONDA_PREFIX}" server/train.sbatch
 
 set -Eeuo pipefail
 
@@ -27,7 +27,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
-  echo "Submit from the repository root or export PROJECT_ROOT explicitly." >&2
+  echo "Submit from the repository root or pass PROJECT_ROOT explicitly; also pass CONDA_PREFIX or PYTHON_BIN." >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -42,7 +42,9 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
 fi
 
 export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA=1
 export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
 export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
@@ -70,5 +72,7 @@ else
   echo "Config: ${TRAIN_CONFIG##*/}"
   echo "Profile output: ${PROFILE_OUTPUT##*/}"
 fi
-nvidia-smi || true
-srun bash "${PROJECT_ROOT}/scripts/run.sh" profile
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
+runtime_command srun bash "${PROJECT_ROOT}/scripts/run.sh" profile

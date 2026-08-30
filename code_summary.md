@@ -4,12 +4,12 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T08:21:48Z",
+    "generated_utc": "2026-08-30T08:22:08Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "f182476348db922a151b806c60d385340320eeb8",
-    "source_tree_at_generation": "3084a2fd01845200057c047f3b1e8d8fa7dcc23b",
+    "source_commit_at_generation": null,
+    "source_tree_at_generation": null,
     "timestamp_source": "source_commit_time",
-    "tracked_tree_dirty_at_generation": false
+    "tracked_tree_dirty_at_generation": true
   },
   "snapshot": {
     "canonicalization": "UTF-8 text with LF newlines",
@@ -21,19 +21,14 @@
         "sha256": "bdf605af17b69fe16fc72214ce40679edc278901fbc05d75ad67f1f989ba9dcd"
       },
       {
-        "bytes": 464,
-        "path": ".env.example",
-        "sha256": "9059448414b46c7eaffee1f72c9797396c1f418eaaa92fd06eb960d061c6584f"
-      },
-      {
-        "bytes": 315,
+        "bytes": 307,
         "path": ".gitattributes",
-        "sha256": "fc3f3ff8c4e4301eb4da6750eb8ffdf1d890311e0fa756a96e87d691400ce1c9"
+        "sha256": "792d129f271f81da2cce95b841589108993df675d2af94de216d128e6c57f104"
       },
       {
-        "bytes": 3383,
+        "bytes": 3011,
         "path": ".github/workflows/ci.yml",
-        "sha256": "a0838ea7844b6335a412a1fc01029658fc405b28dbb24f1865901f32f7711ee3"
+        "sha256": "88a3eebdc75a8d637912f906bafe8ce5fde53b4519a4917f80473a7764b9e902"
       },
       {
         "bytes": 360,
@@ -46,9 +41,9 @@
         "sha256": "84a999d703d3cddb94c4909ce8f14815ec9b7f624b33600bade93e5fc6dfa1c2"
       },
       {
-        "bytes": 29213,
+        "bytes": 29849,
         "path": "README.md",
-        "sha256": "377dceb104a4b384524f3fbe681451bfd76d8208e0176f2c7d8997ffd3a94752"
+        "sha256": "8408d8c63e5b6c6277ba04d181df60d5450cef5b83760cb086657d31f5dfa80f"
       },
       {
         "bytes": 1339,
@@ -71,6 +66,21 @@
         "sha256": "e238c7a9673c896370cea24b9cdb41469e435fd6e9633164e698ae12a60bc08c"
       },
       {
+        "bytes": 223,
+        "path": "constraints/server.in",
+        "sha256": "3bb5fff6ea00265bcf891a1830f1171e0843259c92d703812e7535c0b3573303"
+      },
+      {
+        "bytes": 1425,
+        "path": "constraints/server.json",
+        "sha256": "903ea5cc301fa0762cbd8d77e52ee8dba0d6c46d9e162a77597f0b697467c8c7"
+      },
+      {
+        "bytes": 39963,
+        "path": "constraints/server.txt",
+        "sha256": "8fc2e10b2ecbb0b4b0f8cdbc350c418dec80e4a434c8df54674aa4f663dd0172"
+      },
+      {
         "bytes": 12857,
         "path": "docs/ASGCN.md",
         "sha256": "c678c5c0a1ddaa26ad7985ed5efdddcfd9f00cc2edf915585681d4d62444048f"
@@ -81,14 +91,14 @@
         "sha256": "5253e4043315ae27b4f0a5ae66c0260a79961b58d7ad09ecfec032759595d1bd"
       },
       {
-        "bytes": 28074,
+        "bytes": 30982,
         "path": "docs/SERVER.md",
-        "sha256": "87fbd10347c8aa9ef93fe36d4ba14721c20777cae3d947fdf146501ab87dc9c9"
+        "sha256": "aec68ccd20866ac42e8ab31fd00aecb84ea5107ed176259298b5ecde3bd5c01d"
       },
       {
-        "bytes": 56022,
+        "bytes": 59952,
         "path": "hand_off.md",
-        "sha256": "0bcfd552e42fcabad02a9565b197038434c3896b0abd47acc01affdc08175b5e"
+        "sha256": "64edc657faa8469dcc121afb5a0126e996f98eb3e36cba00e6c9c8ee98f2b66d"
       },
       {
         "bytes": 2753,
@@ -111,24 +121,24 @@
         "sha256": "a81f609be764659f9a72f5e9a3c38f6f9be6f71bcb0bfe2591ab98131ad1bc8d"
       },
       {
-        "bytes": 4630,
+        "bytes": 4573,
         "path": "scripts/calibrate.sh",
-        "sha256": "854eca838807595edb76c769efc0e65cb7e01c5b2f41f0fc2cba14657adf9937"
+        "sha256": "0e347ac5d69c19aa4a0d00de19b5b8c3bb8c697076f6d47c8e5a479f4807dcae"
       },
       {
-        "bytes": 15719,
+        "bytes": 21422,
         "path": "scripts/check_env.py",
-        "sha256": "1eb1304cfe474a74a58b39d8fae3e28cf34a01e086bdaa51c5418b15a23ce121"
+        "sha256": "7bdf8d95346ef0a2991c7f55fc5068100c83bb331c185950a01ba06432f69729"
       },
       {
-        "bytes": 4082,
+        "bytes": 4033,
         "path": "scripts/eval.sh",
-        "sha256": "12109e93338025b30b73114a7d5497f41d6e54999560d339dbf1802dd7c0dc12"
+        "sha256": "744cc4dbdceac5c779fb8f7acdaddfcb770f77ed31c5a10f55ed0f197a249f39"
       },
       {
-        "bytes": 3650,
+        "bytes": 3783,
         "path": "scripts/get_aid.sh",
-        "sha256": "0e05cd4565fcf81bc83a529b74a6a43dc1ab013a635231adfa13eb6ec88243c6"
+        "sha256": "29e416288c48c623bb031f9a3394faeeabcdaabbefec2e0e61ceef724b6950fd"
       },
       {
         "bytes": 17826,
@@ -136,9 +146,9 @@
         "sha256": "b1043a7fd2d3d8026a57c4a0f27512b3911cd021535284ad698cdfb27aeed67f"
       },
       {
-        "bytes": 399,
+        "bytes": 1167,
         "path": "scripts/get_hdr.sh",
-        "sha256": "38aeb6e94ff5f717b850a59c2507ac719319e1361acfbfac9a4b59f3388b23d9"
+        "sha256": "5e38b2df58016286a14f3cd2a869f94ca2494964219c7970ec24a87468efd2a1"
       },
       {
         "bytes": 20459,
@@ -146,9 +156,14 @@
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
-        "bytes": 11460,
+        "bytes": 11502,
         "path": "scripts/run.sh",
-        "sha256": "13c7363c26c75e786d2641ffca84d9e3c86b33faeb2058c9899fcbe71f374f61"
+        "sha256": "066bee7dd226eadf5fb2c08624bdeccaa9c6f873e12bd2a9e63817c5b861c993"
+      },
+      {
+        "bytes": 3163,
+        "path": "scripts/runtime.sh",
+        "sha256": "d1adb306ecf1ccd653aa0ba8177f45c3c8e7562983b75c06b846312aceadc653"
       },
       {
         "bytes": 21790,
@@ -156,54 +171,54 @@
         "sha256": "505f78a421d0d2e97dd4756c1eeacfb0cd183c11b4e1bdb8259f27b7b5e09e92"
       },
       {
-        "bytes": 6676,
+        "bytes": 4946,
         "path": "scripts/setup.sh",
-        "sha256": "a50e1d7f372ade366a0d55bb0e7a31f1afc3db290f9083b38408904a3b49ab14"
+        "sha256": "4131ee560f26e698c3a5b25a8da70b09b185b1ccd067a6c7a37331bb518e1ed0"
       },
       {
-        "bytes": 3680,
+        "bytes": 3630,
         "path": "scripts/train.sh",
-        "sha256": "a4a2e1fdc2a6bb3dcc7419ca883727f95f2cb0674c6a395d061c5b40e60b164c"
+        "sha256": "1a52a6b5cbaf4cf941f44610b4be1b58cf3d457b92290639188ad0e987fd1344"
       },
       {
-        "bytes": 2955,
+        "bytes": 3202,
         "path": "server/calibrate.pbs",
-        "sha256": "50618edd87c9d7e5d5261617189f9df19bc3bdc285615e73c1137f80fdfc782d"
+        "sha256": "4fbf02b12e161d4eb75d114897201badd365c857bb830100d4ca5cf709780ad8"
       },
       {
-        "bytes": 3329,
+        "bytes": 3594,
         "path": "server/calibrate.sbatch",
-        "sha256": "28a97766c3afb4cb9865879e79de8e1ad9999d6f195ce8f03f29f079e9e052a0"
+        "sha256": "93d0b9d068257daa4a235c02428065896d50efd0f2381f05e72ca513fefa8cc1"
       },
       {
-        "bytes": 2608,
+        "bytes": 2722,
         "path": "server/eval.pbs",
-        "sha256": "3c045f83225411e1933d9cbda3d295d5419f9012c140695fc98e76f963229cfc"
+        "sha256": "1be08df7c9a88d99ee7fadf85683a585cf68bdf03dc9b8ecbc4917bd454497fe"
       },
       {
-        "bytes": 2914,
+        "bytes": 3028,
         "path": "server/eval.sbatch",
-        "sha256": "fa579366a41c8c28ec367348586a23554e000d09ddd4a9f2ca417046aa12cbe3"
+        "sha256": "6798e66208a95ccfff005dd12db407a898d91a102ca187959ed1c8abc2616647"
       },
       {
-        "bytes": 2230,
+        "bytes": 2425,
         "path": "server/profile.pbs",
-        "sha256": "4b20bd7bdb6e27152e6b936cfeb58a5cbd17d3da864fb3336938a843872c3c24"
+        "sha256": "43c386320b111ca3ba66c5fb053a79036d3b83d21268bea22c552ded062476b2"
       },
       {
-        "bytes": 2547,
+        "bytes": 2754,
         "path": "server/profile.sbatch",
-        "sha256": "3cc80fd2e5c21abd68bcb390e648e3fe0cc315290f8d206212c534d4c9059e11"
+        "sha256": "53c2c8d78b44fae435575715014bb1077c1694d84f533e33d965effa5e35a416"
       },
       {
-        "bytes": 2402,
+        "bytes": 2516,
         "path": "server/train.pbs",
-        "sha256": "495a44969690ef924d016b7924b25d4a8d6b0e577bc05aed879b63839ed1dae3"
+        "sha256": "76b24118e72dd1f2f0389360dc5ca704e9cc502bf96f8f623e9a048b95c45c3b"
       },
       {
-        "bytes": 2814,
+        "bytes": 2959,
         "path": "server/train.sbatch",
-        "sha256": "e96fe73777be78ebe5542e6f18e0d6bc3ea6c64c24e32af85f8fe2d7a4151790"
+        "sha256": "032d8d498de24959435a907395822f18e979956f43bc53d997792691db580929"
       },
       {
         "bytes": 49,
@@ -296,6 +311,16 @@
         "sha256": "ad2754e5d252bdbdceb318db797e5ca937d9588e18d1970caf01211d79676a96"
       },
       {
+        "bytes": 7846,
+        "path": "tests/test_conda_runtime.py",
+        "sha256": "935fa96b2b46dbd4a2179d21007cc887eea0d336149670e820b09e4a92ee440c"
+      },
+      {
+        "bytes": 13772,
+        "path": "tests/test_conda_setup.py",
+        "sha256": "4b2a0fddd7b10a80a00ba801d9c77b93e90add1feaf5b2cd07cce6ebd7b4b8e7"
+      },
+      {
         "bytes": 8153,
         "path": "tests/test_cuda_env.py",
         "sha256": "bbb6224810e127a29130a955dd438108bf6d1b18823fac425937c4b691056cdf"
@@ -371,9 +396,19 @@
         "sha256": "762f8400d30522de18833de6c331636d4a238e45c7a29f0fa0abb685c3a6acd5"
       },
       {
-        "bytes": 11942,
+        "bytes": 16048,
+        "path": "tests/test_runtime_profile.py",
+        "sha256": "deb430542cb8e8448d63b831b7dd798af56e55364938d4f3420866a6aa4cf524"
+      },
+      {
+        "bytes": 2714,
+        "path": "tests/test_server_lock.py",
+        "sha256": "2f876783b6a8235885a165a66045d46bfcc0ff1dfdf48d934853bac2202e4c49"
+      },
+      {
+        "bytes": 12257,
         "path": "tests/test_server_orchestration.py",
-        "sha256": "7f830c797554996c499ff71e1692b458a129c076520d5d35091048d18711df77"
+        "sha256": "a09cb1d3fd9ef3ca3b1a26b001c6be31839cab5f2677253c0de6a38f908e1ef0"
       },
       {
         "bytes": 1176,
@@ -386,9 +421,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 74,
+    "included_file_count": 81,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "cac15a4923f0d77f3d614ba27aa60b7b63eef80666a9c8aa7b291fdac0474f2c"
+    "snapshot_sha256": "870eb4ffd55d0fc8ee3668fb4e4a1bff785913e5698e6f802c81d2a707c66e4b"
   }
 }
 -->
@@ -415,25 +450,6 @@ indent_style = space
 indent_size = 2
 ~~~~~~~~
 
-# .env.example
-
-~~~~~~~~text
-# Optional PyTorch wheel index selected for the server driver.
-# Obtain the current value from https://pytorch.org/get-started/locally/
-TORCH_INDEX_URL=
-
-# Server-side installer overrides. The checked-in lock profile uses Python 3.12.
-PYTHON_BIN=python3.12
-VENV_DIR=.venv
-PROJECT_EXTRAS=dev
-REQUIRE_CUDA=0
-
-# Exact profile validated by local tests and the locked Linux CI job.
-TORCH_VERSION=2.13.0
-CONSTRAINTS_FILE=constraints/py312.txt
-EXPECTED_PYTHON_MINOR=3.12
-~~~~~~~~
-
 # .gitattributes
 
 ~~~~~~~~text
@@ -446,9 +462,9 @@ EXPECTED_PYTHON_MINOR=3.12
 *.yaml text eol=lf
 *.json text eol=lf
 *.txt text eol=lf
+*.in text eol=lf
 *.md text eol=lf
 .editorconfig text eol=lf
-.env.example text eol=lf
 .gitattributes text eol=lf
 .gitignore text eol=lf
 *.hwp binary
@@ -476,7 +492,10 @@ jobs:
   lint:
     name: Ruff
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
@@ -484,29 +503,18 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      - name: Set up Conda Python 3.12.14
+        uses: conda-incubator/setup-miniconda@fc2d68f6413eb2d87b895e92f8584b5b94a10167 # v3
         with:
-          python-version: "3.12"
-          cache: pip
-          cache-dependency-path: |
-            pyproject.toml
-            constraints/py312.txt
-
-      - name: Install editable development package
-        run: |
-          python -m pip install -c constraints/py312.txt --upgrade pip setuptools wheel
-          python -m pip install -c constraints/py312.txt -e ".[dev]"
-          python scripts/check_env.py --lock constraints/py312.txt
+          activate-environment: asgcn
+          miniforge-version: "26.5.3-0"
+          python-version: "3.12.14"
+          channels: conda-forge
+          channel-priority: strict
+          auto-activate-base: false
 
       - name: Exercise the Linux server setup entrypoint
         env:
-          ENV_FILE: /dev/null
-          PYTHON_BIN: python
-          VENV_DIR: ${{ env.pythonLocation }}
-          TORCH_VERSION: 2.13.0
-          CONSTRAINTS_FILE: constraints/py312.txt
-          PROJECT_EXTRAS: dev
           REQUIRE_CUDA: 0
         run: bash scripts/setup.sh
 
@@ -698,14 +706,13 @@ event-to-frame 연구 코드다. MobaXterm으로 Linux GPU 서버에 SSH 접속�
 아래는 저장소가 **Public인 동안 인증 없이** 코드를 받는 절차다. GitHub CLI(`gh`)·GitHub 로그인·SSH
 키·token은 필요 없다. MobaXterm으로 Linux 서버에 접속한 뒤 실행한다. Git과 Conda가 설치된 서버
 기준이며, 명령이 오류로 끝나면 다음 단계로 넘어가지 않는다.
-GPU를 scheduler로 할당받는 서버라면 2번의 CUDA 검사와 4번 실행은 GPU allocation 안에서 한다.
+GPU를 scheduler로 할당받는 서버라면 4번 실행은 GPU allocation 안에서 한다.
 
 ### 1. Public 코드 받기
 
-홈에서 아래 명령을 실행하면 `~/asgcn-unet/` 폴더가 생기고 그 안으로 이동한다.
+코드를 둘 현재 폴더에서 실행하면 `asgcn-unet/` 폴더가 생기고 그 안으로 이동한다.
 
 ```bash
-cd ~
 git clone https://github.com/costunder/asgcn-unet.git &&
 cd asgcn-unet
 ```
@@ -715,28 +722,22 @@ cd asgcn-unet
 
 ### 2. 환경 설치
 
-`asgcn` Conda 환경이 이미 있으면 첫 줄은 생략하고 활성화만 한다. 기존 환경 삭제를 묻는다면 취소한다.
-새 환경 설치 확인에는 `y`를 입력한다.
+Python 3.12.14인 `asgcn` Conda 환경이 이미 있으면 첫 줄은 생략한다. 기존 환경 삭제를 묻는다면
+취소한다. 새 환경 설치 확인에는 `y`를 입력한다.
 
 ```bash
-conda create -n asgcn --override-channels -c conda-forge python=3.12 git
+conda create -n asgcn --override-channels -c conda-forge python=3.12.14 pip
 conda activate asgcn
+bash scripts/setup.sh
 ```
 
-```bash
-nvidia-smi
-df -h .
-test -e .env || cp .env.example .env
-bash scripts/setup.sh &&
-source .venv/bin/activate &&
-python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-```
-
-Python 3.12·PyTorch 2.13.0 고정 환경을 프로젝트의 `.venv`에 설치한다. Conda는 Python·Git 제공용이고
-실제 학습은 `.venv`를 쓴다. 기존 `.env`는 보존하므로 이전 설정이 있으면 먼저 확인한다.
-Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서버 드라이버가 맞지 않거나 CUDA
-검사가 실패하면 학습하지 말고 [서버 환경 안내](docs/SERVER.md#1-public-저장소-clone과-설치)를
-확인한다. 설치가 됐다는 것만으로 GPU 학습이 검증된 것은 아니다.
+활성화한 Conda 환경 하나에 설치하고 다운로드·학습·평가도 같은 환경을 쓴다. `base`에는 설치하지 않는다.
+`constraints/server.json`이 Python **3.12.14**, PyTorch **2.13.0+cu126**, CUDA runtime **12.6**을
+고정한다. `constraints/server.txt`가 pip·설치 도구를 포함한 전이 의존성의 버전과 배포 파일 SHA-256을
+고정하며, `constraints/py312.txt`의 core/dev 버전도 함께 검사한다. `.env`는 필요 없으며 설치기는
+기존 `.env`도 읽지 않는다. 이전 설치에서 전환한다면 [서버 환경 안내](docs/SERVER.md#1-public-저장소-clone과-설치)를 따른다.
+Linux glibc 2.28 이상과 `curl`이 필요하다. 설치 성공만으로 GPU 학습이 검증된 것은 아니며,
+4번 실행의 CUDA·전체 데이터·profile 검사가 실패하면 학습을 진행하지 않는다.
 
 ### 3. 두 데이터셋 준비
 
@@ -746,7 +747,8 @@ Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서�
 ```bash
 bash scripts/get_aid.sh --all &&
 bash scripts/get_hdr.sh --download &&
-python scripts/check_env.py --require-full-data --lock constraints/py312.txt
+python scripts/check_env.py --require-full-data --lock constraints/py312.txt \
+  --runtime-profile constraints/server.json
 ```
 
 중단되면 같은 다운로드 명령을 다시 실행한다. EventHDR은 Python 표준 라이브러리 HTTP로
@@ -767,7 +769,7 @@ split별 다운로드와 이미 가진 ZIP/H5/shared storage의 선택적 가져
 GPU가 할당된 터미널에서 실행한다. 기본 설정은 **40 epoch 전체 학습**이며 smoke test가 아니다.
 
 ```bash
-source .venv/bin/activate
+conda activate asgcn
 mkdir -p logs
 set -o pipefail
 bash scripts/run.sh all 2>&1 | tee logs/run.log
@@ -782,8 +784,8 @@ ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된�
 SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 중단 후에는 처음부터 `all`을 반복하지 말고 [재개 절차](#중단-후-재개와-결과-보호)를 따른다.
 
-서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`, `source .venv/bin/activate`만
-실행한다. clone·환경 생성을 매번 반복하지 않는다.
+서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`만 실행한다.
+clone·환경 생성·설치를 매번 반복하지 않는다.
 
 ### 5. 실행 후 Private으로 되돌리기
 
@@ -1020,11 +1022,13 @@ latency나 에너지로 해석하면 안 된다.
 같이 건다.
 
 ```bash
-profile_id=$(sbatch --parsable --export=PROJECT_ROOT="$PWD" server/profile.sbatch)
+conda activate asgcn
+profile_id=$(sbatch --parsable \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/profile.sbatch)
 train_id=$(sbatch --parsable --dependency=afterok:${profile_id} \
-  --export=PROJECT_ROOT="$PWD" server/train.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/train.sbatch)
 cal_id=$(sbatch --parsable --dependency=afterok:${train_id} \
-  --export=PROJECT_ROOT="$PWD" server/calibrate.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/calibrate.sbatch)
 ```
 
 ANN 두 평가와 SNN 전체 행렬을 dependency로 제출한다.
@@ -1032,7 +1036,7 @@ ANN 두 평가와 SNN 전체 행렬을 dependency로 제출한다.
 ```bash
 for config in configs/hdr.json configs/aid.json; do
   sbatch --dependency=afterok:${train_id} \
-    --export=PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
+    --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
     server/eval.sbatch
 done
 
@@ -1040,7 +1044,7 @@ for config in configs/hdr.json configs/aid.json; do
   for dynamics in literal_eq15 standard_if; do
     for timestep in 4 8 16 32; do
       sbatch --dependency=afterok:${cal_id} \
-        --export=PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
+        --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
         server/eval.sbatch
     done
   done
@@ -1050,6 +1054,8 @@ done
 SLURM `--export`에는 각 job이 실제로 쓰는 변수만 명시한다. login shell 전체를 전달하면 token, proxy,
 credential 같은 무관한 환경변수도 compute node와 job 환경에 복제될 수 있으므로 `ALL`은 사용하지 않는다.
 학습 resume job에는 `RESUME_CHECKPOINT="$PWD/runs/train/last.pt"`를 `--export`에 추가한다.
+각 job은 전달받은 `CONDA_PREFIX`의 Python을 사용한다. 같은 환경의 Python을 `PYTHON_BIN`으로
+명시할 수도 있다. PBS/Torque에도 `-v CONDA_PREFIX="$CONDA_PREFIX"`를 전달한다.
 PBS/Torque용 동등 wrapper는 `server/profile.pbs`, `server/train.pbs`, `server/calibrate.pbs`,
 `server/eval.pbs`이며
 `qsub -W depend=afterok:<job-id>`로 같은 의존성을 건다. `#SBATCH`/`#PBS`의 GPU, memory, walltime,
@@ -1095,11 +1101,12 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
 - `check_env.py`는 CUDA 초기화 후 실제 runtime 장치 수로 GPU 이름/VRAM을 조회한다. MIG의
   초기화 전후 장치 수 차이로 인한 `Invalid device id`를 CPU 모의 회귀검사로 검증했으며, 실제
   초기화 실패나 CUDA 불가는 우회하지 않는다. [서버 오류 안내](docs/SERVER.md#7-산출물-확인과-운영상-오류)
-- 2026-08-30 Windows CPU 검증은 **412 passed, 5 skipped**다. skip 5건은 OS의 symlink 생성 권한이
-  없는 경우의 shared-storage link 및 downloader symlink 보호 test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
-  실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
-  원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와
-  GitHub Actions 결과로 별도 확인한다.
+- Conda 전환 후 2026-08-30 Windows CPU pytest 결과는 **571 passed, 27 skipped**였다.
+  skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이다. 다만 프로세스가 성공 종료해도
+  Windows native access-violation 진단이 출력되어 이 로컬 실행을 무경고 검증으로 간주하지 않는다.
+  shell entrypoint 16개는 MSYS Bash에서 각각 구문 검사했다. 배포 판정은 해당 SHA의 Linux Conda
+  실제 설치·고정 profile 검증·전체 회귀검사와 별도 Ubuntu/Windows matrix의 CI 결과로 확인한다.
+  전체 명령은 `hand_off.md`에 기록하며, 로컬 결과만으로 원격 배포 성공을 주장하지 않는다.
 - 코드의 unit/integration test와 Linux 의존성 검사는 구성되어 있지만, EventHDR+EventAid-R 전체
   실데이터를 사용한 `runs/profile.json`, CUDA 40-epoch 학습·전체 행렬 실행, A6000/A100 peak
   memory·runtime·latency artifact는 이 로컬 검증에서 생성하지 않았다. 따라서 README는 실행 절차
@@ -1335,6 +1342,583 @@ sympy==1.14.0
 torch==2.13.0
 tqdm==4.70.0
 typing_extensions==4.16.0
+~~~~~~~~
+
+# constraints/server.in
+
+~~~~~~~~text
+# Linux x86_64 / CPython 3.12.14 / official PyTorch CUDA 12.6 wheel.
+# Lock updates must keep server.json package pins synchronized and pass CI.
+-r py312.txt
+pip==26.2.1
+setuptools==84.0.0
+wheel==0.48.0
+torch==2.13.0+cu126
+~~~~~~~~
+
+# constraints/server.json
+
+~~~~~~~~json
+{
+  "format_version": 1,
+  "python": "3.12.14",
+  "torch": "2.13.0+cu126",
+  "cuda": "12.6",
+  "platform": "Linux",
+  "machine": "x86_64",
+  "environment": "conda",
+  "packages": {
+    "cuda-bindings": "12.9.7",
+    "cuda-pathfinder": "1.8.0",
+    "cuda-toolkit": "12.6.3",
+    "filelock": "3.32.4",
+    "fsspec": "2026.7.0",
+    "h5py": "3.16.0",
+    "iniconfig": "2.3.0",
+    "jinja2": "3.1.6",
+    "markupsafe": "3.0.3",
+    "mpmath": "1.3.0",
+    "networkx": "3.6.1",
+    "numpy": "2.5.2",
+    "nvidia-cublas-cu12": "12.6.4.1",
+    "nvidia-cuda-cupti-cu12": "12.6.80",
+    "nvidia-cuda-nvrtc-cu12": "12.6.85",
+    "nvidia-cuda-runtime-cu12": "12.6.77",
+    "nvidia-cudnn-cu12": "9.10.2.21",
+    "nvidia-cufft-cu12": "11.3.0.4",
+    "nvidia-cufile-cu12": "1.11.1.6",
+    "nvidia-curand-cu12": "10.3.7.77",
+    "nvidia-cusolver-cu12": "11.7.1.2",
+    "nvidia-cusparse-cu12": "12.5.4.2",
+    "nvidia-cusparselt-cu12": "0.7.1",
+    "nvidia-nccl-cu12": "2.29.3",
+    "nvidia-nvjitlink-cu12": "12.6.85",
+    "nvidia-nvshmem-cu12": "3.4.5",
+    "nvidia-nvtx-cu12": "12.6.77",
+    "packaging": "26.3",
+    "pillow": "12.3.0",
+    "pip": "26.2.1",
+    "pluggy": "1.6.0",
+    "pygments": "2.21.0",
+    "pytest": "9.1.1",
+    "ruff": "0.16.5",
+    "setuptools": "84.0.0",
+    "sympy": "1.14.0",
+    "torch": "2.13.0+cu126",
+    "tqdm": "4.70.0",
+    "triton": "3.7.1",
+    "typing-extensions": "4.16.0",
+    "wheel": "0.48.0"
+  }
+}
+~~~~~~~~
+
+# constraints/server.txt
+
+~~~~~~~~text
+# Generated by uv 0.12.7 for Linux x86_64, CPython 3.12.14, CUDA 12.6.
+# Install through scripts/setup.sh; hashes are required, source builds prohibited.
+--index-url https://pypi.org/simple
+--extra-index-url https://download.pytorch.org/whl/cu126
+
+cuda-bindings==12.9.7 \
+    --hash=sha256:00a833d399b31071fab4cf3de2929840ae462dc4848116eeff033d09219e7116 \
+    --hash=sha256:0666d3c082ef8f4b2d670950589373550e9f3bf564d635dd883f24a0b40402ff \
+    --hash=sha256:11aeafa2b33995f890086b3fb0f062075176d956e9b6a6fe1a699dddc413f6ad \
+    --hash=sha256:16043ef5b15ab88fe9954c5c2061b1d8007591b27f2c916331056de0ebc6187e \
+    --hash=sha256:1e2a4f2ec5b67408c04bb4fbed45d214b66de1f00ee2e972865cacb8708d4e1e \
+    --hash=sha256:266379e4942051f544a8e7ea1a30ead8d7e8199b6b30fcdc8917cae2bf614e61 \
+    --hash=sha256:2dbcd4801954eb3508f4dc2fa0d0c8eb93eb3f45326fd61be2731418c371e7a0 \
+    --hash=sha256:3747ea132642416786a8e31bf229032df3a7856911ae5426a7be53d032df183d \
+    --hash=sha256:3c089aaf4f5f570ec50244c68f5a2b00a2c9a8e01e04219fd2e36e340be0d88b \
+    --hash=sha256:3c47ec1a7a441d91aab32339951df7a1be53451121a12c094bba51467717a35a \
+    --hash=sha256:4c7ef48c5e13ae90f3b2ecfb72f8e99ac43c8f4c43e67e1325b8aae331453687 \
+    --hash=sha256:59cf4a37b0d662ba15037c9ceebe1a306ebf2c01a8235a09be13cd07094fdb74 \
+    --hash=sha256:5bd89dcb78475a6d8a4620ea94b74edf0cbbeacee6d1622d8f94452c1e8d3f15 \
+    --hash=sha256:62e245bfa4830d473b038d0d7e5ab9cc1b377a09d2bc9afceaf5c5bab96ab1c6 \
+    --hash=sha256:64f7ade7a7a3b69001489753acc21706d9dbda32db8deb68a767a0a0aab30b68 \
+    --hash=sha256:775960ac9e530717f3b48e165cc6f68684fa9a4141764fd923e4c1a9820acc73 \
+    --hash=sha256:a318075ef3277ca2fdd7df5d4bf671388696b4f2b65e2c4483f1853517692e3b \
+    --hash=sha256:c392ffa5010ef4073bfd9dfff4d1ae56032094ed52d3d732014f8e41a73e6b59 \
+    --hash=sha256:c6496a88d84b1209d6651b0370c19c26319e157c22f6d018bf9a358cd8049041 \
+    --hash=sha256:ece8dfbc22e6de96a26940ab9887eb3cfe1fc1bc3966169391cdb866bb82bb64 \
+    --hash=sha256:f95debd2c54c5f087462668511bcb2b1295baa389cd6de9e768212f3cab2bbe2
+cuda-pathfinder==1.8.0 \
+    --hash=sha256:c44e574dc997fae2814721d1ae97d0fd6db76db82decbe9b753bf75de53f515e
+cuda-toolkit==12.6.3 \
+    --hash=sha256:79d8605baeb6c2f695761e0efb54bc62dbc3c9e32eb0742df7669c07befaa8f7
+filelock==3.32.4 \
+    --hash=sha256:22e58ca3b1ae3b98993b762d7338367ae64fe50252bf78d59da3bfebcdf1cedd \
+    --hash=sha256:2bde2e4cf732e0153406d8a7bc80620ecf5e621fe0d25e41143c4e3b4733ff30
+fsspec==2026.7.0 \
+    --hash=sha256:b57ddbafedfaef7018c1ecab32aa200a9d7ca26b77965f64e48b70061249d279 \
+    --hash=sha256:c803c40f4cf860b49dea58ee3e1c33cb9c790520e233537e1340049f89b82a88
+h5py==3.16.0 \
+    --hash=sha256:099f2525c9dcf28de366970a5fb34879aab20491589fa89ce2863a84218bb524 \
+    --hash=sha256:0f456f556e4e2cebeebd9d66adf8dc321770a42593494a0b6f0af54a7567b242 \
+    --hash=sha256:15922e485844f77c0b9d275396d435db3baa58292a9c2176a386e072e0cf2491 \
+    --hash=sha256:1677ad48b703f44efc9ea0c3ab284527f81bc4f318386aaaebc5fede6bbae56f \
+    --hash=sha256:171038f23bccddfc23f344cadabdfc9917ff554db6a0d417180d2747fe4c75a7 \
+    --hash=sha256:17d1f1630f92ad74494a9a7392ab25982ce2b469fc62da6074c0ce48366a2999 \
+    --hash=sha256:1897a771a7f40d05c262fc8f37376ec37873218544b70216872876c627640f63 \
+    --hash=sha256:18f2bbcd545e6991412253b98727374c356d67caa920e68dc79eab36bf5fedad \
+    --hash=sha256:2b2c02b0a160faed5fb33f1ba8a264a37ee240b22e049ecc827345d0d9043074 \
+    --hash=sha256:314b6054fe0b1051c2b0cb2df5cbdab15622fb05e80f202e3b6a5eee0d6fe365 \
+    --hash=sha256:346df559a0f7dcb31cf8e44805319e2ab24b8957c45e7708ce503b2ec79ba725 \
+    --hash=sha256:370a845f432c2c9619db8eed334d1e610c6015796122b0e57aa46312c22617d9 \
+    --hash=sha256:39c2838fb1e8d97bcf1755e60ad1f3dd76a7b2a475928dc321672752678b96db \
+    --hash=sha256:3e6cb3387c756de6a9492d601553dffea3fe11b5f22b443aac708c69f3f55e16 \
+    --hash=sha256:3fae9197390c325e62e0a1aa977f2f62d994aa87aab182abbea85479b791197c \
+    --hash=sha256:42108e93326c50c2810025aade9eac9d6827524cdccc7d4b75a546e5ab308edb \
+    --hash=sha256:42b012933a83e1a558c673176676a10ce2fd3759976a0fedee1e672d1e04fc9d \
+    --hash=sha256:43259303989ac8adacc9986695b31e35dba6fd1e297ff9c6a04b7da5542139cc \
+    --hash=sha256:4c6ab014ab704b4feaa719ae783b86522ed0bf1f82184704ed3c9e4e3228796e \
+    --hash=sha256:656f00e4d903199a1d58df06b711cf3ca632b874b4207b7dbec86185b5c8c7d4 \
+    --hash=sha256:698dd69291272642ffda44a0ecd6cd3bda5faf9621452d255f57ce91487b9794 \
+    --hash=sha256:719439d14b83f74eeb080e9650a6c7aa6d0d9ea0ca7f804347b05fac6fbf18af \
+    --hash=sha256:7c4dd4cf5f0a4e36083f73172f6cfc25a5710789269547f132a20975bfe2434c \
+    --hash=sha256:7e420b539fb6023a259a1b14d4c9f6df8cf50d7268f48e161169987a57b737ff \
+    --hash=sha256:8389e13a1fd745ad2856873e8187fd10268b2d9677877bb667b41aebd771d8b7 \
+    --hash=sha256:85b9c49dd58dc44cf70af944784e2c2038b6f799665d0dcbbc812a26e0faa859 \
+    --hash=sha256:86385ea895508220b8a7e45efa428aeafaa586bd737c7af9ee04661d8d84a10d \
+    --hash=sha256:8975273c2c5921c25700193b408e28d6bdd0111c37468b2d4e25dcec4cd1d84d \
+    --hash=sha256:8c1eff849cdd53cbc73c214c30ebdb6f1bb8b64790b4b4fc36acdb5e43570210 \
+    --hash=sha256:9300ad32dea9dfc5171f94d5f6948e159ed93e4701280b0f508773b3f582f402 \
+    --hash=sha256:96b422019a1c8975c2d5dadcf61d4ba6f01c31f92bbde6e4649607885fe502d6 \
+    --hash=sha256:9c9d307c0ef862d1cd5714f72ecfafe0a5d7529c44845afa8de9f46e5ba8bd65 \
+    --hash=sha256:a0dbaad796840ccaa67a4c144a0d0c8080073c34c76d5a6941d6818678ef2738 \
+    --hash=sha256:a6fbc5367d4046801f9b7db9191b31895f22f1c6df1f9987d667854cac493538 \
+    --hash=sha256:bdef06507725b455fccba9c16529121a5e1fbf56aa375f7d9713d9e8ff42454d \
+    --hash=sha256:c3f0a0e136f2e95dd0b67146abb6668af4f1a69c81ef8651a2d316e8e01de447 \
+    --hash=sha256:c5313566f4643121a78503a473f0fb1e6dcc541d5115c44f05e037609c565c4d \
+    --hash=sha256:df02dd29bd247f98674634dfe41f89fd7c16ba3d7de8695ec958f58404a4e618 \
+    --hash=sha256:dfc21898ff025f1e8e67e194965a95a8d4754f452f83454538f98f8a3fcb207e \
+    --hash=sha256:e06f864bedb2c8e7c1358e6c73af48519e317457c444d6f3d332bb4e8fa6d7d9 \
+    --hash=sha256:e2c04d129f180019e216ee5f9c40b78a418634091c8782e1f723a6ca3658b965 \
+    --hash=sha256:e4360f15875a532bc7b98196c7592ed4fc92672a57c0a621355961cafb17a6dd \
+    --hash=sha256:ec86d4fffd87a0f4cb3d5796ceb5a50123a2a6d99b43e616e5504e66a953eca3 \
+    --hash=sha256:fa48993a0b799737ba7fd21e2350fa0a60701e58180fae9f2de834bc39a147ab \
+    --hash=sha256:faca8fb4e4319c09d83337adc80b2ca7d5c5a343c2d6f1b6388f32cfecca13c1 \
+    --hash=sha256:fb1720028d99040792bb2fb31facb8da44a6f29df7697e0b84f0d79aff2e9bd3 \
+    --hash=sha256:ff24039e2573297787c3063df64b60aab0591980ac898329a08b0320e0cf2527 \
+    --hash=sha256:ffbab2fedd6581f6aa31cf1639ca2cb86e02779de525667892ebf4cc9fd26434
+iniconfig==2.3.0 \
+    --hash=sha256:c76315c77db068650d49c5b56314774a7804df16fee4402c1f19d6d15d8c4730 \
+    --hash=sha256:f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12
+jinja2==3.1.6 \
+    --hash=sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d \
+    --hash=sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67
+markupsafe==3.0.3 \
+    --hash=sha256:0303439a41979d9e74d18ff5e2dd8c43ed6c6001fd40e5bf2e43f7bd9bbc523f \
+    --hash=sha256:068f375c472b3e7acbe2d5318dea141359e6900156b5b2ba06a30b169086b91a \
+    --hash=sha256:0bf2a864d67e76e5c9a34dc26ec616a66b9888e25e7b9460e1c76d3293bd9dbf \
+    --hash=sha256:0db14f5dafddbb6d9208827849fad01f1a2609380add406671a26386cdf15a19 \
+    --hash=sha256:0eb9ff8191e8498cca014656ae6b8d61f39da5f95b488805da4bb029cccbfbaf \
+    --hash=sha256:0f4b68347f8c5eab4a13419215bdfd7f8c9b19f2b25520968adfad23eb0ce60c \
+    --hash=sha256:1085e7fbddd3be5f89cc898938f42c0b3c711fdcb37d75221de2666af647c175 \
+    --hash=sha256:116bb52f642a37c115f517494ea5feb03889e04df47eeff5b130b1808ce7c219 \
+    --hash=sha256:12c63dfb4a98206f045aa9563db46507995f7ef6d83b2f68eda65c307c6829eb \
+    --hash=sha256:133a43e73a802c5562be9bbcd03d090aa5a1fe899db609c29e8c8d815c5f6de6 \
+    --hash=sha256:1353ef0c1b138e1907ae78e2f6c63ff67501122006b0f9abad68fda5f4ffc6ab \
+    --hash=sha256:15d939a21d546304880945ca1ecb8a039db6b4dc49b2c5a400387cdae6a62e26 \
+    --hash=sha256:177b5253b2834fe3678cb4a5f0059808258584c559193998be2601324fdeafb1 \
+    --hash=sha256:1872df69a4de6aead3491198eaf13810b565bdbeec3ae2dc8780f14458ec73ce \
+    --hash=sha256:1b4b79e8ebf6b55351f0d91fe80f893b4743f104bff22e90697db1590e47a218 \
+    --hash=sha256:1b52b4fb9df4eb9ae465f8d0c228a00624de2334f216f178a995ccdcf82c4634 \
+    --hash=sha256:1ba88449deb3de88bd40044603fafffb7bc2b055d626a330323a9ed736661695 \
+    --hash=sha256:1cc7ea17a6824959616c525620e387f6dd30fec8cb44f649e31712db02123dad \
+    --hash=sha256:218551f6df4868a8d527e3062d0fb968682fe92054e89978594c28e642c43a73 \
+    --hash=sha256:26a5784ded40c9e318cfc2bdb30fe164bdb8665ded9cd64d500a34fb42067b1c \
+    --hash=sha256:2713baf880df847f2bece4230d4d094280f4e67b1e813eec43b4c0e144a34ffe \
+    --hash=sha256:2a15a08b17dd94c53a1da0438822d70ebcd13f8c3a95abe3a9ef9f11a94830aa \
+    --hash=sha256:2f981d352f04553a7171b8e44369f2af4055f888dfb147d55e42d29e29e74559 \
+    --hash=sha256:32001d6a8fc98c8cb5c947787c5d08b0a50663d139f1305bac5885d98d9b40fa \
+    --hash=sha256:3524b778fe5cfb3452a09d31e7b5adefeea8c5be1d43c4f810ba09f2ceb29d37 \
+    --hash=sha256:3537e01efc9d4dccdf77221fb1cb3b8e1a38d5428920e0657ce299b20324d758 \
+    --hash=sha256:35add3b638a5d900e807944a078b51922212fb3dedb01633a8defc4b01a3c85f \
+    --hash=sha256:38664109c14ffc9e7437e86b4dceb442b0096dfe3541d7864d9cbe1da4cf36c8 \
+    --hash=sha256:3a7e8ae81ae39e62a41ec302f972ba6ae23a5c5396c8e60113e9066ef893da0d \
+    --hash=sha256:3b562dd9e9ea93f13d53989d23a7e775fdfd1066c33494ff43f5418bc8c58a5c \
+    --hash=sha256:457a69a9577064c05a97c41f4e65148652db078a3a509039e64d3467b9e7ef97 \
+    --hash=sha256:4bd4cd07944443f5a265608cc6aab442e4f74dff8088b0dfc8238647b8f6ae9a \
+    --hash=sha256:4e885a3d1efa2eadc93c894a21770e4bc67899e3543680313b09f139e149ab19 \
+    --hash=sha256:4faffd047e07c38848ce017e8725090413cd80cbc23d86e55c587bf979e579c9 \
+    --hash=sha256:509fa21c6deb7a7a273d629cf5ec029bc209d1a51178615ddf718f5918992ab9 \
+    --hash=sha256:5678211cb9333a6468fb8d8be0305520aa073f50d17f089b5b4b477ea6e67fdc \
+    --hash=sha256:591ae9f2a647529ca990bc681daebdd52c8791ff06c2bfa05b65163e28102ef2 \
+    --hash=sha256:5a7d5dc5140555cf21a6fefbdbf8723f06fcd2f63ef108f2854de715e4422cb4 \
+    --hash=sha256:69c0b73548bc525c8cb9a251cddf1931d1db4d2258e9599c28c07ef3580ef354 \
+    --hash=sha256:6b5420a1d9450023228968e7e6a9ce57f65d148ab56d2313fcd589eee96a7a50 \
+    --hash=sha256:722695808f4b6457b320fdc131280796bdceb04ab50fe1795cd540799ebe1698 \
+    --hash=sha256:729586769a26dbceff69f7a7dbbf59ab6572b99d94576a5592625d5b411576b9 \
+    --hash=sha256:77f0643abe7495da77fb436f50f8dab76dbc6e5fd25d39589a0f1fe6548bfa2b \
+    --hash=sha256:795e7751525cae078558e679d646ae45574b47ed6e7771863fcc079a6171a0fc \
+    --hash=sha256:7be7b61bb172e1ed687f1754f8e7484f1c8019780f6f6b0786e76bb01c2ae115 \
+    --hash=sha256:7c3fb7d25180895632e5d3148dbdc29ea38ccb7fd210aa27acbd1201a1902c6e \
+    --hash=sha256:7e68f88e5b8799aa49c85cd116c932a1ac15caaa3f5db09087854d218359e485 \
+    --hash=sha256:83891d0e9fb81a825d9a6d61e3f07550ca70a076484292a70fde82c4b807286f \
+    --hash=sha256:8485f406a96febb5140bfeca44a73e3ce5116b2501ac54fe953e488fb1d03b12 \
+    --hash=sha256:8709b08f4a89aa7586de0aadc8da56180242ee0ada3999749b183aa23df95025 \
+    --hash=sha256:8f71bc33915be5186016f675cd83a1e08523649b0e33efdb898db577ef5bb009 \
+    --hash=sha256:915c04ba3851909ce68ccc2b8e2cd691618c4dc4c4232fb7982bca3f41fd8c3d \
+    --hash=sha256:949b8d66bc381ee8b007cd945914c721d9aba8e27f71959d750a46f7c282b20b \
+    --hash=sha256:94c6f0bb423f739146aec64595853541634bde58b2135f27f61c1ffd1cd4d16a \
+    --hash=sha256:9a1abfdc021a164803f4d485104931fb8f8c1efd55bc6b748d2f5774e78b62c5 \
+    --hash=sha256:9b79b7a16f7fedff2495d684f2b59b0457c3b493778c9eed31111be64d58279f \
+    --hash=sha256:a320721ab5a1aba0a233739394eb907f8c8da5c98c9181d1161e77a0c8e36f2d \
+    --hash=sha256:a4afe79fb3de0b7097d81da19090f4df4f8d3a2b3adaa8764138aac2e44f3af1 \
+    --hash=sha256:ad2cf8aa28b8c020ab2fc8287b0f823d0a7d8630784c31e9ee5edea20f406287 \
+    --hash=sha256:b8512a91625c9b3da6f127803b166b629725e68af71f8184ae7e7d54686a56d6 \
+    --hash=sha256:bc51efed119bc9cfdf792cdeaa4d67e8f6fcccab66ed4bfdd6bde3e59bfcbb2f \
+    --hash=sha256:bdc919ead48f234740ad807933cdf545180bfbe9342c2bb451556db2ed958581 \
+    --hash=sha256:bdd37121970bfd8be76c5fb069c7751683bdf373db1ed6c010162b2a130248ed \
+    --hash=sha256:be8813b57049a7dc738189df53d69395eba14fb99345e0a5994914a3864c8a4b \
+    --hash=sha256:c0c0b3ade1c0b13b936d7970b1d37a57acde9199dc2aecc4c336773e1d86049c \
+    --hash=sha256:c47a551199eb8eb2121d4f0f15ae0f923d31350ab9280078d1e5f12b249e0026 \
+    --hash=sha256:c4ffb7ebf07cfe8931028e3e4c85f0357459a3f9f9490886198848f4fa002ec8 \
+    --hash=sha256:ccfcd093f13f0f0b7fdd0f198b90053bf7b2f02a3927a30e63f3ccc9df56b676 \
+    --hash=sha256:d2ee202e79d8ed691ceebae8e0486bd9a2cd4794cec4824e1c99b6f5009502f6 \
+    --hash=sha256:d53197da72cc091b024dd97249dfc7794d6a56530370992a5e1a08983ad9230e \
+    --hash=sha256:d6dd0be5b5b189d31db7cda48b91d7e0a9795f31430b7f271219ab30f1d3ac9d \
+    --hash=sha256:d88b440e37a16e651bda4c7c2b930eb586fd15ca7406cb39e211fcff3bf3017d \
+    --hash=sha256:de8a88e63464af587c950061a5e6a67d3632e36df62b986892331d4620a35c01 \
+    --hash=sha256:df2449253ef108a379b8b5d6b43f4b1a8e81a061d6537becd5582fba5f9196d7 \
+    --hash=sha256:e1c1493fb6e50ab01d20a22826e57520f1284df32f2d8601fdd90b6304601419 \
+    --hash=sha256:e1cf1972137e83c5d4c136c43ced9ac51d0e124706ee1c8aa8532c1287fa8795 \
+    --hash=sha256:e2103a929dfa2fcaf9bb4e7c091983a49c9ac3b19c9061b6d5427dd7d14d81a1 \
+    --hash=sha256:e56b7d45a839a697b5eb268c82a71bd8c7f6c94d6fd50c3d577fa39a9f1409f5 \
+    --hash=sha256:e8afc3f2ccfa24215f8cb28dcf43f0113ac3c37c2f0f0806d8c70e4228c5cf4d \
+    --hash=sha256:e8fc20152abba6b83724d7ff268c249fa196d8259ff481f3b1476383f8f24e42 \
+    --hash=sha256:eaa9599de571d72e2daf60164784109f19978b327a3910d3e9de8c97b5b70cfe \
+    --hash=sha256:ec15a59cf5af7be74194f7ab02d0f59a62bdcf1a537677ce67a2537c9b87fcda \
+    --hash=sha256:f190daf01f13c72eac4efd5c430a8de82489d9cff23c364c3ea822545032993e \
+    --hash=sha256:f34c41761022dd093b4b6896d4810782ffbabe30f2d443ff5f083e0cbbb8c737 \
+    --hash=sha256:f3e98bb3798ead92273dc0e5fd0f31ade220f59a266ffd8a4f6065e0a3ce0523 \
+    --hash=sha256:f42d0984e947b8adf7dd6dde396e720934d12c506ce84eea8476409563607591 \
+    --hash=sha256:f71a396b3bf33ecaa1626c255855702aca4d3d9fea5e051b41ac59a9c1c41edc \
+    --hash=sha256:f9e130248f4462aaa8e2552d547f36ddadbeaa573879158d721bbd33dfe4743a \
+    --hash=sha256:fed51ac40f757d41b7c48425901843666a6677e3e8eb0abcff09e4ba6e664f50
+mpmath==1.3.0 \
+    --hash=sha256:7a28eb2a9774d00c7bc92411c19a89209d5da7c4c9a9e227be8330a23a25b91f \
+    --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
+networkx==3.6.1 \
+    --hash=sha256:26b7c357accc0c8cde558ad486283728b65b6a95d85ee1cd66bafab4c8168509 \
+    --hash=sha256:d47fbf302e7d9cbbb9e2555a0d267983d2aa476bac30e90dfbe5669bd57f3762
+numpy==2.5.2 \
+    --hash=sha256:0090ccdd57ec2703e9b49d0bf554767370581c1dd0a6b2bb2b2d9def317d042a \
+    --hash=sha256:078f9b027b478c9379b9677babbf0f8b8f1ecfada27636d7b9a93990c638739f \
+    --hash=sha256:07d4e89f3a9ab0a9ba24264ccdb642b3dd951b2281e8883a5481a4aa79cc31a7 \
+    --hash=sha256:0a4035ae1129ff8777f08bfbd44f1e5d8e9c049ce0c2dd78fc0d92c13e7251c0 \
+    --hash=sha256:0aadf13b60048d501e05fa699efaf7734e2494f3498a4c2a5521d822640324f3 \
+    --hash=sha256:14e373cfc6387177e8409dac3c7159be8eb05cd77096cd7c950268b86f62831c \
+    --hash=sha256:1ab3d4a901f844ea836c3e80bf463c6a27d7f3c14e8e292fcf28d348b25b9bce \
+    --hash=sha256:24b9dc2e3d84aa58523798805194e23e736f3f6ce2d1a5b92583ae734e6dbda8 \
+    --hash=sha256:27650bb0e7140fa3d37b9923b4803645e0b125d190f326eecfd3f4dad8e8ade1 \
+    --hash=sha256:28ac63476ec7651484215ee7fa15a1f78b57c14621f01e392afe17b9a1390ce4 \
+    --hash=sha256:29b86ff8a6cc556b47ec6b64b194815cc80e6bf5eedcc6cddfd65318cb0b4eee \
+    --hash=sha256:29d81e97f668489cba8ebfd796b9bdd453525d35dd9e162e2daec94bf3fc7740 \
+    --hash=sha256:2cc779226e476d1e1f08c74068c419e60f41a9e0e069c92f6671d31d5c985e98 \
+    --hash=sha256:2ffa7bacab3e2ee1b19ed31766bb60bb380b68c23f051e199c5cc598afd68710 \
+    --hash=sha256:318b9a4c845dbea06708a29c84ee429cc3065048db34cdb799047643492050ee \
+    --hash=sha256:34c319e2963be042673fb46570501b2f06c41924e17e3563d58646b4380dfb68 \
+    --hash=sha256:3a2f061cebd9e3d23bdcfaaded5e2293a4c6a5b60fa42df85d410a725ce621bf \
+    --hash=sha256:3cdec01fa790a186d430433fdd4d4ffb70eed6f0eeb4bf05c8dbe2dce0a9bcb8 \
+    --hash=sha256:3e4c367352d3747784248a227fbec218e193b56f7e6692e3b64fc805478ecfdf \
+    --hash=sha256:40f4d451aed46a8046a1aae41c4e55fb3612273df9c502480135e1501576a34b \
+    --hash=sha256:44ef9675d908e65f9953063837c3277730f3f4437615a4cdab67b366cabaf884 \
+    --hash=sha256:4bbd96c833ecc8cc069ce518078fc8c60cb9cbfb0fea5b7a803ad65035596d03 \
+    --hash=sha256:4ec954036759bcee3aa484f8603bd9c14f3e776293b85578b8734c2d72777c69 \
+    --hash=sha256:4f9744f9fbdcea0bc552e8f19e1f141f811a3f9bc2be2cc6e86d982cab23e3f4 \
+    --hash=sha256:50a68f4bacd8a2b33d8da3d2269d0d78500f86ea582e4786dc10f5ef2c2c6842 \
+    --hash=sha256:50e500dc868e9313530ce12ba470fe50ff3afe3d62993ed6eff652dacd555b65 \
+    --hash=sha256:52c808f96484f5571a5cc863775ce50247c17dfb3b0361f8ed6b4b0456f80080 \
+    --hash=sha256:5f8e00be2ec6f45f4e8a41a527f68d44a7d96fee92a650e4d8b1326f77f61e6e \
+    --hash=sha256:60e902ac295855348a5ca2ea4c89108989a9f5fddfad3dfc0a8f36b10358567e \
+    --hash=sha256:65f188481f1669e26f62b701e8205d19e460fa4a9b52a1414ba382330e4a3414 \
+    --hash=sha256:6950c4b7dd562453090548ba7f5da7e59f57f85663f15d5dcc60e249192f7e59 \
+    --hash=sha256:6a9bb119fb8dd21ba30b3f0e555b7e2b081bd9883af21ec9c1c633d161cda3a8 \
+    --hash=sha256:6b588cc8f902d6bff201c19fd00c43ab8545671e3554d014e12e14139e5e8617 \
+    --hash=sha256:6df895598c0edcb41030126c89e0f353b07d93238116143b7405e937359736c4 \
+    --hash=sha256:6e8172ddfcf5cf74b811d372b570b83c60bd2de87a6fbfbebdadb4a9bd9c6cbb \
+    --hash=sha256:7354826bc6f8f69402e9b7fe28d15fcd34feebd74f856f111585c5b0c9fb0251 \
+    --hash=sha256:7587f53dfbd5edc0f7b87c6217b4c6d2d1f2ef9c3da70bc1315e7db5f8d7ec9d \
+    --hash=sha256:77843ca236b777e67f8d6b3660ea116e499612703a0ecd7093f316201eb9d8e2 \
+    --hash=sha256:7999d4ddb0c4025018373fd787510d46e04c769467af22869707b3c1cfd459ab \
+    --hash=sha256:85aaccb24182c25df891ad0ec333585967e115269d5f1b17f2c9ae005bc96657 \
+    --hash=sha256:8e4cb9a754c8a0c62eaa88273a5fba3391f4a610d1dee893c0755da31c083f15 \
+    --hash=sha256:8ee9c4eeb8454b3660a8b53493563c3e121c2fc94fbd72b848ef814ed7b676a9 \
+    --hash=sha256:9a0731745a72a184490a582fb4af2533512bd071ace67785b5fdffc0ae58dce8 \
+    --hash=sha256:9e9413326d726c2545bfa65d2c0876871e8d8386e77f992c1d426e180bbd4323 \
+    --hash=sha256:a610dc7e3c52edd39c2bc2375ff9c3fd59cb3ad00e4472d36f83bc1457145788 \
+    --hash=sha256:a839318485284a6fb31be4f8f2c91c8f2cb22f4543c4a8903f12b0671ffe07cc \
+    --hash=sha256:afb3f0632d6b2e3ba04dbce8d1e48d321b369138b73830b5ca371a0e8d479d56 \
+    --hash=sha256:b879fb674276e331513fb136b78dbc6bd3c848309e0d841cfd63be3896c4cfc1 \
+    --hash=sha256:b9727f472d2f3888053b8a75ab0cb94745a9de224bb5846dbadc0092101bc71d \
+    --hash=sha256:ba0a474801b8dc67b66bf465548abc90e82b44d2611b5770f33008dcabffe8ec \
+    --hash=sha256:bd68ece1553d2023c09a4226d9e41c586ad2d20594d1a456186c33513d2cb3f2 \
+    --hash=sha256:c081cbe16ba1ab53078e5ff29013621e33c509eedab055775d956427712c236e \
+    --hash=sha256:c1f017dc0875c9209d219f97feceb7d54c2661bb243deb4114478e1295808af7 \
+    --hash=sha256:cebc2d6dbb605a7703d59751dea4bd6b0ab127a5a4338a6f432df1936fef8b26 \
+    --hash=sha256:cf7de32f486e4ac9e2d93b810f9e9ac72a728dd46a32a0bb403222f27f653514 \
+    --hash=sha256:d482d171c406ae88c5b19cad3b6a1c4c5209f886ab74bc44c2c865c23f52d860 \
+    --hash=sha256:d6a48072864e3324e194a8fbb3c657bcc5b5c869dbc64c9537b1d5c862572c0a \
+    --hash=sha256:d787cf769c3baeb5f6235e778edb52c08dfa923789b5958f28e6450f96107cb1 \
+    --hash=sha256:dc649493697006bc90614a5f0bbc8cb3cb1866715c474e473694968d7e6b99ab \
+    --hash=sha256:ddf47472af2e4280d79bac82304f5e80150211f1b9e614b760061d5fdfbb6eba \
+    --hash=sha256:e5651f3f87add730ee6608d915009e19c911fba0cb000c7e3ea994b7d768eb12 \
+    --hash=sha256:e79aba74ffaf5f78a050d777c184cddf8fdffabab38acf5f3ef1fecbc17895d6 \
+    --hash=sha256:eaa088384c46f519dacb93b7ec483a6d6b19a4a2085ae4f25ab9b1c43d387d1e \
+    --hash=sha256:eaca7ff36f0f52e2111ec71f169d8fd3e889e7ddc0d2592e0d703fd8d3ce8fac \
+    --hash=sha256:f06571a052127dc1b4e8b83029b4d1b20daa2b64a31cdd181fc6bc774e9000eb \
+    --hash=sha256:fd0d703772bba096843785bd38371e31bb4a0c1151497ad5739d182114a73f7f
+nvidia-cublas-cu12==12.6.4.1 \
+    --hash=sha256:08ed2686e9875d01b58e3cb379c6896df8e76c75e0d4a7f7dace3d7b6d9ef8eb \
+    --hash=sha256:235f728d6e2a409eddf1df58d5b0921cf80cfa9e72b9f2775ccb7b4a87984668 \
+    --hash=sha256:9e4fa264f4d8a4eb0cdbd34beadc029f453b3bafae02401e999cf3d5a5af75f8
+nvidia-cuda-cupti-cu12==12.6.80 \
+    --hash=sha256:166ee35a3ff1587f2490364f90eeeb8da06cd867bd5b701bf7f9a02b78bc63fc \
+    --hash=sha256:358b4a1d35370353d52e12f0a7d1769fc01ff74a191689d3870b2123156184c4 \
+    --hash=sha256:6768bad6cab4f19e8292125e5f1ac8aa7d1718704012a0e3272a6f61c4bce132 \
+    --hash=sha256:a3eff6cdfcc6a4c35db968a06fcadb061cbc7d6dde548609a941ff8701b98b73 \
+    --hash=sha256:bbe6ae76e83ce5251b56e8c8e61a964f757175682bbad058b170b136266ab00a
+nvidia-cuda-nvrtc-cu12==12.6.85 \
+    --hash=sha256:3f3134f50963882373063901657554f230bedf6039d30b09f6be55c64c993a37 \
+    --hash=sha256:800927308ccc5dd6246d3f61f7fcef2ed7ec4e59e199090d360d3293f78bd5a2 \
+    --hash=sha256:a419e2c95e75b88b602f8bb66f82a6c5651e8475a509841c958486b1b71510bf
+nvidia-cuda-runtime-cu12==12.6.77 \
+    --hash=sha256:6116fad3e049e04791c0256a9778c16237837c08b27ed8c8401e2e45de8d60cd \
+    --hash=sha256:86c58044c824bf3c173c49a2dbc7a6c8b53cb4e4dca50068be0bf64e9dab3f7f \
+    --hash=sha256:a84d15d5e1da416dd4774cb42edf5e954a3e60cc945698dc1d5be02321c44dc8 \
+    --hash=sha256:ba3b56a4f896141e25e19ab287cd71e52a6a0f4b29d0d31609f60e3b4d5219b7 \
+    --hash=sha256:d461264ecb429c84c8879a7153499ddc7b19b5f8d84c204307491989a365588e
+nvidia-cudnn-cu12==9.10.2.21 \
+    --hash=sha256:949452be657fa16687d0930933f032835951ef0892b37d2d53824d1a84dc97a8 \
+    --hash=sha256:c6288de7d63e6cf62988f0923f96dc339cea362decb1bf5b3141883392a7d65e \
+    --hash=sha256:c9132cc3f8958447b4910a1720036d9eff5928cc3179b0a51fb6d167c6cc87d8
+nvidia-cufft-cu12==11.3.0.4 \
+    --hash=sha256:6048ebddfb90d09d2707efb1fd78d4e3a77cb3ae4dc60e19aab6be0ece2ae464 \
+    --hash=sha256:768160ac89f6f7b459bee747e8d175dbf53619cfe74b2a5636264163138013ca \
+    --hash=sha256:8510990de9f96c803a051822618d42bf6cb8f069ff3f48d93a8486efdacb48fb \
+    --hash=sha256:ccba62eb9cef5559abd5e0d54ceed2d9934030f51163df018532142a8ec533e5 \
+    --hash=sha256:d16079550df460376455cba121db6564089176d9bac9e4f360493ca4741b22a6
+nvidia-cufile-cu12==1.11.1.6 \
+    --hash=sha256:8f57a0051dcf2543f6dc2b98a98cb2719c37d3cee1baba8965d57f3bbc90d4db \
+    --hash=sha256:cc23469d1c7e52ce6c1d55253273d32c565dd22068647f3aa59b3c6b005bf159
+nvidia-curand-cu12==10.3.7.77 \
+    --hash=sha256:6d6d935ffba0f3d439b7cd968192ff068fafd9018dbf1b85b37261b13cfc9905 \
+    --hash=sha256:6e82df077060ea28e37f48a3ec442a8f47690c7499bff392a5938614b56c98d8 \
+    --hash=sha256:7b2ed8e95595c3591d984ea3603dd66fe6ce6812b886d59049988a712ed06b6e \
+    --hash=sha256:99f1a32f1ac2bd134897fc7a203f779303261268a65762a623bf30cc9fe79117 \
+    --hash=sha256:a42cd1344297f70b9e39a1e4f467a4e1c10f1da54ff7a85c12197f6c652c8bdf
+nvidia-cusolver-cu12==11.7.1.2 \
+    --hash=sha256:0ce237ef60acde1efc457335a2ddadfd7610b892d94efee7b776c64bb1cac9e0 \
+    --hash=sha256:6813f9d8073f555444a8705f3ab0296d3e1cb37a16d694c5fc8b862a0d8706d7 \
+    --hash=sha256:6cf28f17f64107a0c4d7802be5ff5537b2130bfc112f25d5a30df227058ca0e6 \
+    --hash=sha256:dbbe4fc38ec1289c7e5230e16248365e375c3673c9c8bac5796e2e20db07f56e \
+    --hash=sha256:e9e49843a7707e42022babb9bcfa33c29857a93b88020c4e4434656a655b698c
+nvidia-cusparse-cu12==12.5.4.2 \
+    --hash=sha256:23749a6571191a215cb74d1cdbff4a86e7b19f1200c071b3fcf844a5bea23a2f \
+    --hash=sha256:4acb8c08855a26d737398cba8fb6f8f5045d93f82612b4cfd84645a2332ccf20 \
+    --hash=sha256:7556d9eca156e18184b94947ade0fba5bb47d69cec46bf8660fd2c71a4b48b73 \
+    --hash=sha256:7aa32fa5470cf754f72d1116c7cbc300b4e638d3ae5304cfa4a638a5b87161b1 \
+    --hash=sha256:d25b62fb18751758fe3c93a4a08eff08effedfe4edf1c6bb5afd0890fe88f887
+nvidia-cusparselt-cu12==0.7.1 \
+    --hash=sha256:8878dce784d0fac90131b6817b607e803c36e629ba34dc5b433471382196b6a5 \
+    --hash=sha256:f1bb701d6b930d5a7cea44c19ceb973311500847f81b634d802b7b539dc55623 \
+    --hash=sha256:f67fbb5831940ec829c9117b7f33807db9f9678dc2a617fbe781cac17b4e1075
+nvidia-nccl-cu12==2.29.3 \
+    --hash=sha256:35ad42e7d5d722a83c36a3a478e281c20a5646383deaf1b9ed1a9ab7d61bed53 \
+    --hash=sha256:6351b79dc7d2cc3d654ea1523616b9eeded71fe9c8da66b71eef9a5d1b2adad4
+nvidia-nvjitlink-cu12==12.6.85 \
+    --hash=sha256:cf4eaa7d4b6b543ffd69d6abfb11efdeb2db48270d94dfd3a452c24150829e41 \
+    --hash=sha256:e61120e52ed675747825cdd16febc6a0730537451d867ee58bee3853b1b13d1c \
+    --hash=sha256:eedc36df9e88b682efe4309aa16b5b4e78c2407eac59e8c10a6a47535164369a
+nvidia-nvshmem-cu12==3.4.5 \
+    --hash=sha256:042f2500f24c021db8a06c5eec2539027d57460e1c1a762055a6554f72c369bd \
+    --hash=sha256:0b48363fc6964dede448029434c6abed6c5e37f823cb43c3bcde7ecfc0457e15
+nvidia-nvtx-cu12==12.6.77 \
+    --hash=sha256:2fb11a4af04a5e6c84073e6404d26588a34afd35379f0855a99797897efa75c0 \
+    --hash=sha256:6574241a3ec5fdc9334353ab8c479fe75841dbe8f4532a8fc97ce63503330ba1 \
+    --hash=sha256:adcaabb9d436c9761fca2b13959a2d237c5f9fd406c8e4b723c695409ff88059 \
+    --hash=sha256:b90bed3df379fa79afbd21be8e04a0314336b8ae16768b58f2d34cb1d04cd7d2 \
+    --hash=sha256:f44f8d86bb7d5629988d61c8d3ae61dddb2015dee142740536bc7481b022fe4b
+packaging==26.3 \
+    --hash=sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79 \
+    --hash=sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c
+pillow==12.3.0 \
+    --hash=sha256:00808c5e14ef63ac5161091d242999076604ff74b883423a11e5d7bbb38bf756 \
+    --hash=sha256:04f01d28a6aaff387bf842a13be313df23ba0597a44f1a976c9feb3c6ff4711a \
+    --hash=sha256:06ff022112bc9cbf83b60f8e028d94ad87b60621706487e65f673de61610ab59 \
+    --hash=sha256:0740a512dc522224c77d9aa5a8d70d8b7d73fb91f2c21125d8d025d3b8990e45 \
+    --hash=sha256:0847a763afefb695bc912d7c131e7e0632d4edc1d8698f58ddabec8e46b8b6d3 \
+    --hash=sha256:0dd2064cbc55aaec028ef5fbb60fa47bb6c3e7918e07ff17935284b227a9d2df \
+    --hash=sha256:0feb2e9d6ad6c9e3c06effe9d00f3f1e618a6643273576b016f591e9315a7139 \
+    --hash=sha256:10e41f0fbf1eec8cfd234b8fe17a4caac7c9d0db4c204d3c173a8f9f6ef3232b \
+    --hash=sha256:1182d52bc2d5e5d7d0949503aa7e36d12f42205dc287e4883f407b1988820d39 \
+    --hash=sha256:164b31cd1a0490ab6efae01aa5df49da7061be0af1b30e035b6e9a1bfe34ee6e \
+    --hash=sha256:1657923d2d45afb66526e5b933e5b3052e6bdea196c90d3abb2424e18c77dae8 \
+    --hash=sha256:186941b6aef820ad110fb01fb06eb925374dc3a21b17e37ec9a53b250c6fe2d1 \
+    --hash=sha256:1cca606cd25738df4ed873d5ad46bbdb3d83b5cbca291f6b4ff13a4df6b0bbe8 \
+    --hash=sha256:21900ce7ba264168cd50defae43cd75d25c833ad4ad6e73ffc5596d12e25ac89 \
+    --hash=sha256:236ff70b9312fb68943c703aa842ca6a758abfa45ac187a5e7c1452e96ef72b5 \
+    --hash=sha256:23aceaa007d6172b02c277f0cd359c79492bbb14f7072b4ede9fbcaf20648130 \
+    --hash=sha256:23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd \
+    --hash=sha256:24870b09b224f7ae3c39ed07d10e819d06f8720bc551847b1d623832b5b0e28d \
+    --hash=sha256:251bf95b67017e27b13d82f5b326234ca62d70f9cf4c2b9032de2358a3b12c7b \
+    --hash=sha256:25b9b82bb22e6e2b3cd07b39c68b7b862001226cb3dff7130d1cb914121b39ed \
+    --hash=sha256:28ce87c5ab450a9dd970b52e5aca5fe63ed432d18a2eaddd1979a00a1ba24ace \
+    --hash=sha256:300557495eb45ebb8aec96c2da9c4be642fbf7cd937278b4013ba894ea8eb0eb \
+    --hash=sha256:30f2aa603c41533cc25c05acd0da21636e84a315768feb631c937177db558931 \
+    --hash=sha256:331b624368d4f1d069149002f25f44bc61c8919ce8ddb3c45bdad8f6e2d89510 \
+    --hash=sha256:37d6d0a00072fd2948eb22bce7e1475f34569d90c87c59f7a2ec59541b77f7a6 \
+    --hash=sha256:37dc8f7bbb66efe481bb60defacef820c950c24713fb44962ed6aa2a50966de1 \
+    --hash=sha256:3b8182a766685eaa002637e28b4ec8d6b18819a0c71f579bf0dbaa5830297cce \
+    --hash=sha256:3edce1d53195db527e0191f84b71d02022de0540bf43a16ed734ed7537b07385 \
+    --hash=sha256:446c34dcc4324b084a53b705127dc15717b22c5e140ae0a3c38349d4efec071e \
+    --hash=sha256:4998562bf62a445225f22e07c896bb04b35b1b1f2eb6d760584c9c51d7a5f78c \
+    --hash=sha256:4b0a7fe987b14c31ebda6083f74f22b561fd3739bc0ac51e019622e3d72668c7 \
+    --hash=sha256:4e8c2a84d977f50b9daed6eeaf3baef67d00d5d74d932288f02cb94518ee3ace \
+    --hash=sha256:4f883547d4b7f0495ebe7056b0cc2aea76094e7a4abc8e933540f3271df27d9c \
+    --hash=sha256:514435a37670e3e5e08f3945b68718b6ed329bb84367777e16f9f4dfe1e61a0f \
+    --hash=sha256:53aa02d20d10c3d814d536aa4e5ac9b84ca0ff5a88377963b085ad6822f93e64 \
+    --hash=sha256:5594fc43d548a7ed94949d139aa1341b270f1863f11cfd37f5a6c8b778a6b67f \
+    --hash=sha256:571b9fcb07b97ef3a492028fb3d2dc0993ca23a06138b0315286566d29ef718a \
+    --hash=sha256:57b3d78c95ba9059768b10e28b813002261d3f3dfc55cc48b0c988f625175827 \
+    --hash=sha256:5afb51d599ea772b8365ae807ae557f18bccfe46ab261fd1c2a9ed700fc6eb17 \
+    --hash=sha256:6b02afb9b97f65fbca5f31db6a2a3ba21aa93030225f150fa3f249717e938fb4 \
+    --hash=sha256:6c0016e7b354317c4e9e525b937ac8596c38d2d232b419529b9cd7a1cd46e39a \
+    --hash=sha256:71d6097b330eea8fd15097780c8e89cb1a8ce7838669f48c5bacd6f663dd4701 \
+    --hash=sha256:756c768d0c9c2955feb7a56c37ea24aea2e369f8d36a88da270b6a9f19e62b5e \
+    --hash=sha256:78cb2c6865a35ab8ff8b75fd122f6033b92a62c82801110e48ddd6c936a45d91 \
+    --hash=sha256:7a743ff716f746fc19a9557f60dab1600d4613255f8a7aeb3cdde4db7eb15a66 \
+    --hash=sha256:85f998ea1848bc6757289e739cfbdda3a04adfd58b02fc018ce54d754a5ce468 \
+    --hash=sha256:8728f216dcdb6e6d555cf971cb34076139ad74b31fc2c14da4fafc741c5f6217 \
+    --hash=sha256:877c3f311ff35410f690861c4409e7ccbf0cd2f878e50628a28e5a0bb689e658 \
+    --hash=sha256:8cd2f7bdda092d99c9fc2fb7391354f306d01443d22785d0cbfafa2e2c8bb418 \
+    --hash=sha256:8e95e1385e4998ae9694eeaa4730ba5457ff61185b3a55e2e7bea0880aef452a \
+    --hash=sha256:962864dc93511324d51ddbb5b9f8731bf71675b93ca612a07441896f4688fb8c \
+    --hash=sha256:9cf95fe4d0f84c82d282745d9bb08ad9f926efa00be4697e767b814ce40d4330 \
+    --hash=sha256:9e881fca225083806662a5c43d627d215f258ff43c890f831966c7d7ba9c7402 \
+    --hash=sha256:a2b55dd6b2a4c4b7d87ffa56bdb33fdc5fdb9a462173861a7bc097f17d91cb09 \
+    --hash=sha256:a45650e8ce7fafffd731db8550230db6b0d306d181a90b67d3e6bca2f1990930 \
+    --hash=sha256:a876864214e136f0eb367788dbd7df045f4806801518e2cfe9e13229cfe06d8f \
+    --hash=sha256:ae26d61dfa7a47befdc7572b521024e8745f3d809bd95ca9505a7bba9ef849ec \
+    --hash=sha256:af8d94b0db561cf68b88a267c5c44b49e134f525d0dc2cb7ed413a66bc23559a \
+    --hash=sha256:b343699e8308bdc51978310e1c959c584e7869cc8c40780058c87da7781a1e94 \
+    --hash=sha256:b3c777e849237620b022f7f297dd67705f9f5cf1685f09f02e46f93e92725468 \
+    --hash=sha256:b629de27fda84b42cde7edef0d85f13b958b47f6e9bbcbba9b673c562a89bd8b \
+    --hash=sha256:ba09209fbe443b4acccebe845d8a138b89a8f4fbaeedd44953490b5315d5e965 \
+    --hash=sha256:ba54cfebe86920a559a7c4d6b9050791c20513650a1952ebe3368c7dc70306f8 \
+    --hash=sha256:bcb46e2f9feff8d06323983bd83ed00c201fdcab3d74973e7072a889b3979fcd \
+    --hash=sha256:bcc33feacfaefce60c12fd500a277533bdc02b10a19f7f6d348763d8140bbba7 \
+    --hash=sha256:bf16ba1b4d0b6b7c8e534936632270cf70eb00dbe09005bc345b2677b726855c \
+    --hash=sha256:cf1845d02ad822a369a49f2bb9345b1614744267682e7a03527dc3bf6eea1777 \
+    --hash=sha256:d69141514cc30b774ceea5e3ed3a6635c8d8a96edf664689b890f4089111fb35 \
+    --hash=sha256:d9c7f76c0673154f044e9d78c8655fb4213f6ca31a836df48b40fe5d187717b9 \
+    --hash=sha256:dbce0b29841537a2fa4a214c2bbf14de3587c9680caa9b4e217568472490b28f \
+    --hash=sha256:dc624f6bc473dacdf7ef7eb8678d0d08edf15cd94fad6ae5c7d6cc67a4e4902f \
+    --hash=sha256:e158cb00350dc278f3b91551101aa7d12415a66ebf2c91d8d5ac14e56ddd3ad0 \
+    --hash=sha256:e491916b378fba47242221bb9ead245211b70d504f495d105d17b14a24b4907c \
+    --hash=sha256:e795b7eb908249c4e43c7c99fac7c2c75dab0c43566e37db472a355f63693d71 \
+    --hash=sha256:e7e480451b9fa137494bccd3a7d69adbe8ac65a87d97be61e11f1b1050a5bac3 \
+    --hash=sha256:e91206ee562682b51b98ef4b26a6ef48fd84e15fd4c4bc5ec768eb641d206838 \
+    --hash=sha256:e9871b1ffbfa9656b60aeee92ed5136a5742696006fa322b29ea3d8da0ecc9cf \
+    --hash=sha256:e9aeb04d6aef139de265b29683e119b638208f88cf73cdd1658aa07221165321 \
+    --hash=sha256:ebaea975e03d3141d9d3a507df75c9b3ec90fa9d2ffd07567b3a978d9d790b26 \
+    --hash=sha256:f0606c8bf2cdefea14a43530f7657cbbb7ecf1c4222512492ef4a4434a9501ec \
+    --hash=sha256:f13c32a3abd6079a66d9526e18dad9b6d280384d49d7c54040cd57b6424041d9 \
+    --hash=sha256:f7401aebd7f581d7f83a439d87d474999317ee099218e5ad25d125290990ba65 \
+    --hash=sha256:fa4ecea169a355be7a3ade2c783e2ed12f0e40d2c5621cda8b3297faf7fbb9f5 \
+    --hash=sha256:fbd139c8447d25dd750ab79ee274cc5e1fe80fc56340ab10b18a195e1b6eca3e \
+    --hash=sha256:fdafc9cce40277e0f7a0feabce0ee50dd2fa1800f3b38015e51296b5e814048d \
+    --hash=sha256:fe3cca2e4e8a592be0f269a1ca4835c25199d9f3ce815c8491048f785b0a0198 \
+    --hash=sha256:ffd0c5368496f41b0944be820fcb7a838aa6e623d250b01acf2643939c3f99d7
+pip==26.2.1 \
+    --hash=sha256:71138adf1f4ca900cdb7d289c21b7494329f2332b6d85f0e1c42108c0384ed3e \
+    --hash=sha256:f6ad667e89a1fe78046c8f13232b247200f5258d7828f3f7883d660878e0813f
+pluggy==1.6.0 \
+    --hash=sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3 \
+    --hash=sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746
+pygments==2.21.0 \
+    --hash=sha256:2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9 \
+    --hash=sha256:610ca751c9bc2492b38eb9a38a7fbc93edbbb2d7182edaf34e66ae493dee5c8c
+pytest==9.1.1 \
+    --hash=sha256:1088fbde8f2b49d95a549a195707afa7a76a3ce9bcadc26b6d71f0ffda5fe313 \
+    --hash=sha256:37a86b45efb9a47a61a36449063e8e18d0cab3161329fc099eb21783169c4f0c
+ruff==0.16.5 \
+    --hash=sha256:0eeab41fbea2c42f98dfb9822cdccda9d24ba38d49f6dc945b5c236d48f0ef29 \
+    --hash=sha256:12e5f673e774c35fbb62f288809c7653b73445f8ecec6b6063fd6ea3521aa14b \
+    --hash=sha256:1b88500f9ffbcab3dedb0082c9f9492e91ec3d618aac1236a3e0189938f7040b \
+    --hash=sha256:2298f2780ed1be0c5cb1361e32ab7b1467f3cce7dabe101d2210a314f2fe42e9 \
+    --hash=sha256:258f29035a2dd021e7861e631b227a5b3f14e50c1184c9a6a122c5f4576154d7 \
+    --hash=sha256:288b0a5f080492fe5635db849f9e2e84aa3cce7b7f0e955997d416c507c76a26 \
+    --hash=sha256:7b719b0a1f4d59710d283ab2965f621684a108a9e41da622e3b23f0326cd0025 \
+    --hash=sha256:95cc70cdc7aa80c338de356279d2adbeb2de0f520b9ecd8aba75b94e95e02f91 \
+    --hash=sha256:a64abe90968719b851bb7cedffaa8753fbdbdadab483089682db623f3edc587e \
+    --hash=sha256:b5eb3a8c3d0ade9cea42b591fd530368e8798380e30e0a308b85a5cf718f09ea \
+    --hash=sha256:b9a4f0432966834019c74d1b7e5c51224305d7713f3d7faf3e7451f1a3be3cde \
+    --hash=sha256:c5ae9a7b9a8875131f40f8fe967cc86abf899779efd663cb7ce3d572d01da7eb \
+    --hash=sha256:d185c8398ded1bfd91c0c2cb258346307571eccc473a8490af8c3977399c384a \
+    --hash=sha256:ddc6385fb2137f616357ca03d6c74f4be987f80fed4008566b754f6032b8546f \
+    --hash=sha256:eda58a5802de40e7ed5b32b64e0b32539338cc6fcd2c78f61e3ad6a0d79f51c3 \
+    --hash=sha256:ef0f69e191a13a3c9816f63163c88790cb12cd157bbbb384e9c44745702ab105 \
+    --hash=sha256:f0768e9df4300713fff30733c87575f68b6f1d8de41184e505b7fdd9c0c95eaf \
+    --hash=sha256:fb8e3a3c4c6a784150a7ced53b015f4b253fc2bf97a610886419ead64b4756ef
+setuptools==84.0.0 \
+    --hash=sha256:51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670 \
+    --hash=sha256:f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73
+sympy==1.14.0 \
+    --hash=sha256:d3d3fe8df1e5a0b42f0e7bdf50541697dbe7d23746e894990c030e2b05e72517 \
+    --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
+torch==2.13.0+cu126 \
+    --hash=sha256:0c303b4bdf6257020b09551e0968cb25ce4781dd786f3ce329ad7def3d9564ff \
+    --hash=sha256:0f4e49e334e24b552f694f6315e0676fb3f816fb0f727871b9c6d1f73784cc25 \
+    --hash=sha256:1318821b09feb4e4e55c16c09c2d5c7cbdc6589480f37a4bcff4187ed9b62344 \
+    --hash=sha256:136a8383b152dadc73d8944af9a796a76ff2038d59de666660d419a381b68078 \
+    --hash=sha256:24b2f3b177b3a715c30ab893a72db08dde2c55d070339d661347873b18adaa03 \
+    --hash=sha256:349ce4cc6d6f6027ce9274fb26bc696572398ec3700e09d8b110dc39ad6a1052 \
+    --hash=sha256:380081ea098bf2b9e727aa85205d94790d884d17c62df3bb00a4f6a1047010a2 \
+    --hash=sha256:4198c8d7478ab47ad2569309387d88b21fb553a1cf8ab06260fbd5a6ab9b9712 \
+    --hash=sha256:4e890303ca93958ab2cdca8352922ea04397ebd1aadeb34e8a2d350c17fad760 \
+    --hash=sha256:50a984ba2624232f8a8f8db294124167df238f4ca7167da4d4708b19d2c7b9da \
+    --hash=sha256:8095729db14e7fd5178a39676fdd679208eff4041407ea34e3d898336c90f5c5 \
+    --hash=sha256:83d4559903f2d04e9900ce0f3ca58b8659f9e74607dc27ba50aa8658c9a854fb \
+    --hash=sha256:8695f3c6b7966d44560275b90c5c28e5091ba33ddbb1ab33b2173782ca1e9145 \
+    --hash=sha256:a1b8a5bfe240d8dfdf2d4f0b70530552e1935050ccd57d4503f91829e3773370 \
+    --hash=sha256:ad14bf40b2fe04d88302e058bdd2349f7aa55baa21194fc839a186d332fc02bf \
+    --hash=sha256:affd3b49a4e48aef895ffd9e196181bd505422d7c37b4a6f9afa76899d2acd3d \
+    --hash=sha256:b2618235bacb29eea37357ce660aab5296d9729eacfd4629d50327382da11f7f \
+    --hash=sha256:cb91b2f91d053bb91e413459a13ec8b036ff348d03e411e9c29988cc6edb7b32 \
+    --hash=sha256:cbdcf95acc35f2b31958b98765294fc277306406eea49af14d436fe8723a9190 \
+    --hash=sha256:ce9a4d6b778af6be1f4a700b64a3c57bb01e98aeee69243c8731099fb6e4df29 \
+    --hash=sha256:cf9aeb6f087bd3299e4833066bf2921178a52c5ce683346902a9b2963b6ad391 \
+    --hash=sha256:f50c0df3604e118003b5e598855be74a5725593b402fa855cc645f1ee18ffa9f
+tqdm==4.70.0 \
+    --hash=sha256:55b0b0dbd97462d06ebee91e4dac24ed4d4702be82b24f07e6c1d27e08cea220 \
+    --hash=sha256:7f585706bfddbdebf89daac705b2dfcc16890130727d3197ca62c732b4310953
+triton==3.7.1 \
+    --hash=sha256:018d1a55f4fc01673cffe86d5bc35de7f111f87d579609a9af2e5ad1827826a6 \
+    --hash=sha256:1f046a8d2615e389b1b8e8a4d100a03f3cb1df4bc1a107a6b678b186443bb2c9 \
+    --hash=sha256:225910e79149807de74a0ca63160aa285956a8d64a2951d558997c57e2584ae1 \
+    --hash=sha256:34894d51aff1abf7b017fbd0c5e9fe7211305c3599157fca251e3f42bc8f00cf \
+    --hash=sha256:3d62b1df358f49fcc229d5b77e7a346d66a93e93c19f6872936eadba9aac5f01 \
+    --hash=sha256:410d3786b2dcf1ef792046670787dc742ba8f800cf2c6dddf56e0656f2260db6 \
+    --hash=sha256:498302da4866b62d7184825bb3ced2348fe57b5caeaef882db23fc3f746e5cc1 \
+    --hash=sha256:59688b9b924f887316dcd0fae9e8cbe697ee1d1f6ab386723982cc9ecdebee01 \
+    --hash=sha256:6aadad4b7b001f2bc025667af14b0b32fb803c69534381abbae24971891c1859 \
+    --hash=sha256:757802f248035abef085ffe28e9f36416f303c769aace1d346a9909eb2e90fd0 \
+    --hash=sha256:7f02d894c176e9b80323c4679049cb12219890027550194550548a04c70b5c2e \
+    --hash=sha256:996b460a85a134bbf810f87dea9ad42fc434d9ae1cbb948313ae83dd27f432f3 \
+    --hash=sha256:9e291fca77d74a2c1ce0d3a5eded017a2dd4c688c8986c36e2b0a5f33d956b4f \
+    --hash=sha256:c56cb810349d3699020b5b7695429b9b997574dab1b9f46b2b63fa23d7954894 \
+    --hash=sha256:e04b4252ddbcbc6d4f518bb3eb3d586b2e77d40ed32801d9a75116d8d6c1169b \
+    --hash=sha256:f091fe850657971c7191f7aa5bc9037669ad045da9d37eabc751926adbb456de
+typing-extensions==4.16.0 \
+    --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8 \
+    --hash=sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5
+wheel==0.48.0 \
+    --hash=sha256:3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab \
+    --hash=sha256:94800765601e9171bf5d58d066e640662842bcedcbab982b2c90787a2c987322
 ~~~~~~~~
 
 # docs/ASGCN.md
@@ -1891,31 +2475,59 @@ MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node
 GitHub 로그인·토큰·SSH 키 설정 없이 HTTPS로 clone한다. 이 문서에서는 설치 명령을 중복하지 않는다.
 
 - Conda `asgcn` 환경 생성은 최초 한 번만 한다. 재접속 시에는 다시 생성하지 않고
-  `conda activate asgcn` 뒤 프로젝트의 `.venv`를 활성화한다.
-- README의 HTTPS clone → Conda 환경 → `.venv` 설치 → 전체 데이터 → 본실험 순서를 따른다.
+  `conda activate asgcn`만 실행한다.
+- 코드를 둘 현재 폴더에서 README의 HTTPS clone → Conda 환경 → 설치 → 전체 데이터 → 본실험 순서를 따른다.
   기존 환경이나 `asgcn-unet` 폴더가 있으면 삭제하거나 생성·clone을 반복하지 않는다.
 
-Conda는 Git·Python 3.12를 제공하고, 프로젝트 실행 환경은 계속 `.venv`다. `scripts/run.sh`와
-scheduler wrapper의 `.venv` 사용은 바꾸지 않는다. `.venv`가 사용하는 Conda 환경도 유지한다.
-README의 기본 설치는 별도 index 지정 없이 PyPI의 locked `torch==2.13.0`을 사용한다.
-`constraints/py312.txt`의 Linux torch profile은 glibc 2.28 이상을 요구하며 setup은 Python·기존 venv·
-constraints·torch wheel과 `pip check`를 검사한다.
-login node에서 GPU가 보이지 않을 수 있으므로 CUDA 검증은 실제 GPU allocation에서 수행한다.
-site CUDA module이 필요한 경우 scheduler의 `CUDA_MODULE=cuda/<version>`을 지정한다.
+설치·다운로드·학습·보정·평가는 활성화한 non-base Conda 환경 하나를 사용한다. Git은 서버에 이미
+설치되어 있어야 한다. 설치기는 `CONDA_PREFIX`의 Python에 직접 설치하며 별도 환경을 만들지 않는다.
+`constraints/server.json`은 Python **3.12.14**, PyTorch **2.13.0+cu126**, CUDA runtime **12.6**을
+지정한다. `constraints/server.txt`는 pip·setuptools·wheel 및 CUDA library·Triton을 포함한 전이
+의존성의 버전과 배포 파일 SHA-256을 고정한다. 설치기는 `--require-hashes --only-binary=:all:`로
+이 lock을 설치하며 최신 bootstrap package를 임의로 받지 않는다. `constraints/py312.txt`의 core/dev
+버전도 함께 검사한다. 기본 PyTorch wheel은
+[공식 CUDA 12.6 index](https://download.pytorch.org/whl/cu126/torch/)에서 받는다.
+서버 profile의 Linux wheel은 glibc 2.28 이상을 요구한다. 설치기는 활성화한 Conda·Python·wheel과
+package 호환성을 검사한다. `.env`는 만들 필요가 없고 기존 파일도 설치기가 읽거나 변경하지 않는다.
+예전 `.env`의 Python·torch·index 설정으로 새 고정 profile을 바꾸지 않는다.
 
-driver와 기본 wheel이 맞지 않을 때만 [PyTorch 공식 설치 안내](https://pytorch.org/get-started/locally/)와
-공식 wheel 목록에서 **같은 torch 2.13.0**의 호환 CUDA build를 선택한다. 아래는 서버 관리자가 CUDA
-13.0 driver 호환을 확인한 경우의 예시이며, 해당 [공식 index](https://download.pytorch.org/whl/cu130/torch/)는
-Python 3.12용 `2.13.0+cu130` wheel을 제공한다. build tag를 명시해 기존 다른 build와 구분한다.
+GPU가 안 보이는 login node에서도 설치할 수 있다. 실제 CUDA 검증은 GPU allocation 안에서 수행한다.
+설치와 동시에 GPU 검증도 요구하려면 `REQUIRE_CUDA=1 bash scripts/setup.sh`를 사용한다.
+진단이 필요할 때만 `nvidia-smi`, `df -h .`로 driver와 공간을 확인한다. site CUDA module이 필요한
+경우 scheduler의 `CUDA_MODULE=cuda/<version>`을 지정한다. driver 호환성은 wheel과 별도로 필요하며,
+설치 성공이나 `nvidia-smi` 출력만으로 GPU 학습 성공을 보장하지 않는다.
+
+고정 profile이 실제 GPU에서 동작하지 않으면 중단하고 관리자에게 GPU 할당·driver/container를 확인한다.
+`TORCH_VERSION`·`TORCH_INDEX_URL`을 임의로 바꾸거나 CUDA 검사를 끄지 않는다. 동일 package profile은
+software 버전을 맞추는 기준이지 서로 다른 GPU·driver에서 bitwise 동일한 결과를 보장하지 않는다.
+이는 확인된 Python·PyTorch·CUDA 기준에 맞춰 새로 고정한 profile이며 이전 서버 package 전체의
+export는 아니다. Conda의 system library, OS, driver와 GPU는 이 pip hash lock의 대상이 아니다.
+
+### 기존 `.venv` 설치에서 전환
+
+실행 중인 학습·보정·평가를 먼저 정상 종료하고 checkpoint와 결과를 보존한다. package를 바꾸는 동안
+기존 job을 계속 실행하지 않는다. 이미 Python 3.12.14인 `asgcn` 환경이 있다면 새 환경 생성은 필요 없다.
+다른 Python 버전의 기존 환경을 자동 삭제하거나 덮어쓰지 말고 먼저 별도 전환 계획을 확인한다.
+기존 저장소 root에서 실행한다.
 
 ```bash
-REQUIRE_CUDA=1 TORCH_VERSION=2.13.0+cu130 \
-  TORCH_INDEX_URL=https://download.pytorch.org/whl/cu130 bash scripts/setup.sh &&
-.venv/bin/python scripts/check_env.py --require-cuda --lock constraints/py312.txt
+if [[ -n "${VIRTUAL_ENV:-}" ]]; then deactivate; fi
+conda activate asgcn
+git pull --ff-only &&
+bash scripts/setup.sh
 ```
 
-호환 build를 찾지 못하거나 GPU allocation에서도 CUDA 검증이 실패하면 중단하고 관리자에게 driver/
-container를 확인한다. lock을 임의로 낮추거나 CPU 실행으로 검사를 우회하지 않는다.
+`deactivate`는 기존 virtualenv가 활성화되어 있을 때만 실행한다. pull이 충돌하면 기존 변경을
+보존하고 확인한다. 저장소가 Private이면 pull에는 인증이 필요하다. 이미 받은 `data/`는 그대로 사용하며
+환경 전환 때문에 데이터를 다시 다운로드하지 않는다. 기존 `.env`와 `.venv`도 자동 삭제하지 않는다.
+새 Conda 환경에서 아래 GPU 검증과 기존 데이터 검사를 통과한 뒤에만, 이전 환경을 더 이상 쓰는 job이
+없는지 확인하고 필요하면 기존 `.venv` 폴더만 수동 정리한다. source/runtime이 바뀐 기존 checkpoint는
+exact resume 검증에서 거부될 수 있으므로 결과를 덮어쓰거나 강제로 이어 붙이지 않는다.
+
+```bash
+python scripts/check_env.py --require-cuda --lock constraints/py312.txt \
+  --runtime-profile constraints/server.json
+```
 
 아래 release gate와 전체 Ruff/pytest 회귀검사는 **유지관리자 배포 절차**다. 확인된 배포를 설치하는
 실험 사용자가 이를 전부 다시 실행해야 한다는 뜻은 아니다. 데이터·GPU readiness 검사는 뒤 절차를 따른다.
@@ -2030,9 +2642,10 @@ loader가 archive member를 직접 읽으므로 압축을 풀지 않는다. shar
 GPU allocation 안에서 다음 검사를 한 번 통과시킨다.
 
 ```bash
-source .venv/bin/activate
+conda activate asgcn
 python scripts/check_env.py \
-  --require-cuda --require-full-data --lock constraints/py312.txt
+  --require-cuda --require-full-data --lock constraints/py312.txt \
+  --runtime-profile constraints/server.json
 
 asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
 asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
@@ -2057,22 +2670,21 @@ DRY_RUN=1 bash scripts/run.sh all
 GPU shell 또는 allocation 안에서 전체 protocol을 시작한다.
 
 ```bash
-source .venv/bin/activate
+conda activate asgcn
 mkdir -p logs
+set -o pipefail
 bash scripts/run.sh all 2>&1 | tee logs/run.log
 ```
 
-SSH 연결 종료에 대비하려면 tmux를 사용한다.
+SSH 연결 종료에 대비하려면 먼저 tmux 세션을 열고, 그 안에서 위의 Conda 활성화와 실행 블록을 실행한다.
 
 ```bash
-mkdir -p logs
-tmux new-session -s asgcn -c "$PWD" \
-  "bash -lc 'source .venv/bin/activate && bash scripts/run.sh all 2>&1 | tee logs/run.log'"
+tmux new-session -s asgcn -c "$PWD"
 ```
 
 `run.sh all`은 다음을 순서대로 수행한다.
 
-1. `check_env.py --require-full-data --lock constraints/py312.txt`와 기본 CUDA 검사
+1. `check_env.py --require-full-data --lock constraints/py312.txt --runtime-profile constraints/server.json`과 기본 CUDA 검사
 2. EventHDR train/eval과 EventAid-R 전체 `inspect --validate-all`
 3. EventHDR train 전체 graph topology scan과 edge 수 상위 표본 CUDA forward/backward profile
 4. profile을 현재 config/data/source/runtime에 재검증한 뒤 ANN 40-epoch 학습 또는 resume
@@ -2146,31 +2758,33 @@ profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어
 header의 partition/account/GPU type/walltime은 cluster 정책에 맞춰 수정한다. 기본 요청은 GPU 1개,
 CPU 8개, RAM 32 GB이며 profile/calibration 12시간, train 48시간, evaluation 8시간이다. 저장소 root에서
 제출하면 `SLURM_SUBMIT_DIR`을 project root로 사용한다. 다른 위치에서 제출할 때는
-`--export=PROJECT_ROOT=/absolute/path/to/repo`를 추가한다. `--export`에는 아래처럼 job별 필수 변수만
+아래 `PROJECT_ROOT` 값을 해당 checkout으로 바꾼다. 활성화한 Conda의 `CONDA_PREFIX`는 모든 job에
+전달하며, 같은 Conda Python을 `PYTHON_BIN`으로 명시할 수도 있다. `--export`에는 job별 필수 변수만
 나열하며 login shell의 token, proxy, credential까지 전달할 수 있는 `ALL`은 사용하지 않는다.
 
 앞 절의 full-data/decode 검사를 완료한 뒤 다음 dependency chain을 제출한다.
 
 ```bash
+conda activate asgcn
 unset SNN_DYNAMICS
 
 profile_id=$(sbatch --parsable \
-  --export=PROJECT_ROOT="$PWD" \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" \
   server/profile.sbatch)
 
 train_id=$(sbatch --parsable \
   --dependency="afterok:${profile_id}" \
-  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0 \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0 \
   server/train.sbatch)
 
 cal_id=$(sbatch --parsable \
   --dependency="afterok:${train_id}" \
-  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
   server/calibrate.sbatch)
 
 for cfg in configs/hdr.json configs/aid.json; do
   sbatch --dependency="afterok:${cal_id}" \
-    --export="PROJECT_ROOT=$PWD,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann" \
+    --export="PROJECT_ROOT=$PWD,CONDA_PREFIX=$CONDA_PREFIX,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann" \
     server/eval.sbatch
 done
 
@@ -2178,7 +2792,7 @@ for cfg in configs/hdr.json configs/aid.json; do
   for dynamics in literal_eq15 standard_if; do
     for steps in 4 8 16 32; do
       sbatch --dependency="afterok:${cal_id}" \
-        --export="PROJECT_ROOT=$PWD,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
+        --export="PROJECT_ROOT=$PWD,CONDA_PREFIX=$CONDA_PREFIX,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
         server/eval.sbatch
     done
   done
@@ -2191,7 +2805,7 @@ done
 
 ```bash
 train_id=$(sbatch --parsable \
-  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
   server/train.sbatch)
 ```
 
@@ -2204,26 +2818,27 @@ hostname, scheduler job ID, project/config/checkpoint 경로는 비공개 로컬
 
 `select`, `ngpus`, queue/project resource 이름은 site마다 다르므로 `server/*.pbs` header를 제출 전에
 확인한다. 저장소 root에서 제출하면 `PBS_O_WORKDIR`을 project root로 사용한다. 외부에서 제출할 때는
-`-v PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
+`-v`의 `PROJECT_ROOT` 값을 해당 checkout으로 지정한다. 모든 job에 같은 Conda 환경을 전달한다.
 
 ```bash
+conda activate asgcn
 unset SNN_DYNAMICS
 
-profile_id=$(qsub server/profile.pbs)
+profile_id=$(qsub -v CONDA_PREFIX="$CONDA_PREFIX" server/profile.pbs)
 
 train_id=$(qsub \
   -W depend="afterok:${profile_id}" \
-  -v VALIDATE_DATASET=0 \
+  -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0 \
   server/train.pbs)
 
 cal_id=$(qsub \
   -W depend="afterok:${train_id}" \
-  -v VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
   server/calibrate.pbs)
 
 for cfg in configs/hdr.json configs/aid.json; do
   qsub -W depend="afterok:${cal_id}" \
-    -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
+    -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
     server/eval.pbs
 done
 
@@ -2231,7 +2846,7 @@ for cfg in configs/hdr.json configs/aid.json; do
   for dynamics in literal_eq15 standard_if; do
     for steps in 4 8 16 32; do
       qsub -W depend="afterok:${cal_id}" \
-        -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
+        -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
         server/eval.pbs
     done
   done
@@ -2242,13 +2857,13 @@ PBS에서 resume chain을 시작할 때는 다음처럼 `RESUME_CHECKPOINT`를 �
 
 ```bash
 train_id=$(qsub \
-  -v VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
   server/train.pbs)
 ```
 
 PBS는 login environment 전체를 전달하는 `#PBS -V`를 사용하지 않는다. site CUDA module이 필요하면
-`CUDA_MODULE`을 넘긴다. 별도 venv나 checkout을 쓸 때는 `PYTHON_BIN`, `PROJECT_ROOT`를 `-v`로
-명시한다.
+`CUDA_MODULE`을 넘긴다. `PYTHON_BIN`을 명시한다면 같은 Conda 환경의 Python을 지정한다.
+다른 checkout을 쓸 때는 `PROJECT_ROOT`도 `-v`로 명시한다.
 
 ### scheduler log 공개 절차
 
@@ -2333,7 +2948,7 @@ python scripts/build_code_summary.py --check --require-clean-provenance
   `torch.cuda.init()` 뒤 장치 수를 읽고 실제 사용 가능한 장치만 조회한다. 저장소에서
   `git pull --ff-only`로 갱신한다. pull이 충돌하면 기존 변경을 보존하고 먼저 확인한다.
   이 오류로 사전검사에서만 중단됐고 profile/train 산출물이 없는 경우에는 `bash scripts/run.sh all`을
-  다시 실행한다. 기존 `.venv`와 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
+  다시 실행한다. 현재 Conda 환경과 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
   덮어쓰거나 CUDA 검사를 끄지 않는다. 이 수정의 로컬 회귀검사는 CPU 모의 장치 기반이며 실제 MIG
   학습 완료를 의미하지 않는다.
 - `CUDA device probe failed`: 실제 CUDA 초기화·장치 조회 실패로 중단한 것이다. GPU 할당과
@@ -2394,12 +3009,14 @@ hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했
   history 검사는 로컬/CI 모두 shallow clone 거부
 - Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
 - shebang entrypoint의 Git 실행 권한을 Windows에서도 검사해 Linux checkout 권한 누락 방지
-- 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda·`.venv` 경로로 통합됐는지 문서 검토
+- 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda 단일 환경 경로로 통합됐는지 문서 검토
 - GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
 
-2026-08-30 Windows CPU 검증은 **412 passed, 5 skipped**다. skip 5건은 OS symlink privilege가 없을 때의
-shared-storage link 및 downloader symlink 보호 test이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
-실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
+Conda 전환 후 2026-08-30 Windows CPU pytest는 **571 passed, 27 skipped**로 종료했다.
+skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이다. 성공 종료 중에도 Windows native
+access-violation 진단이 출력되어 무경고 검증으로 간주하지 않는다. shell entrypoint 16개는 MSYS Bash에서
+각각 구문 검사했다. 해당 SHA의 Linux Conda 실제 설치·고정 profile·전체 pytest와 별도 cross-platform
+CI 결과로 배포 판정을 확인하며, 이 기록은 실제 CUDA 본실험 완료를 뜻하지 않는다. 원격 배포는 sanitized history와
 과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
 gate 기록과 GitHub Actions 필수 gate 통과를 함께 확인해야 한다. 실제 marker는 GitHub secret·변수·
 workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로 로컬 실제-marker 검사를 대신하거나,
@@ -2914,12 +3531,21 @@ bitwise 동일성을 과장하지 않는다.
 실제 연산은 MobaXterm으로 접속한 Linux server에서 수행한다. 설치는
 [README 빠른 시작(MobaXterm)](README.md#빠른-시작-mobaxterm)을 단일 진입점으로 사용한다.
 Conda와 Git이 있는 본인 전용 OS 계정에서 Public 저장소를 인증 없이 HTTPS로 clone하고, 최초 한 번
-`asgcn` 환경과 `.venv`를 설치한다. GitHub CLI·토큰·SSH 키 설정은 필요 없다. 기존 환경이나 프로젝트
-폴더가 있으면 생성·clone을 반복하거나 삭제하지 않는다.
+`asgcn` Conda 환경에 설치한다. clone은 코드를 둘 현재 폴더에서 실행하며 홈으로 이동할 필요는 없다.
+GitHub CLI·토큰·SSH 키 설정은 필요 없다. 기존 환경이나 프로젝트 폴더가 있으면 생성·clone을
+반복하거나 삭제하지 않는다.
 
-Conda는 Git·Python 3.12를 제공하며 프로젝트 runtime은 계속 `.venv`다. 기존 run/scheduler
-wrapper의 `.venv` 경로를 변경하지 않고, 그 Python을 제공하는 Conda 환경도 유지한다. 전체 Ruff/pytest와
-history/provenance release gate는 유지관리용이며, 설치할 때마다 실험 사용자가 반복할 절차가 아니다.
+Git은 서버에 이미 설치된 것을 사용한다. `conda create -n asgcn --override-channels -c conda-forge
+python=3.12.14 pip`로 생성한 non-base 환경을 활성화하고 `bash scripts/setup.sh`로 직접 설치한다.
+다운로드·run·개별 train/calibrate/eval·scheduler는 같은 Conda Python을 사용한다. `.env` 복사는
+필요 없으며 설치기는 기존 `.env`도 읽거나 변경하지 않는다. 재접속 시에는 기존 저장소로 이동해
+`conda activate asgcn`만 한다. 전체 Ruff/pytest와 history/provenance release gate는 유지관리용이며,
+설치할 때마다 실험 사용자가 반복할 절차가 아니다.
+
+기존 서버 전환은 [환경 전환 안내](docs/SERVER.md#기존-venv-설치에서-전환)를 따른다. 실행 중인
+job을 종료하고 결과를 보존한 뒤 같은 Conda 환경에서 pull·설치한다. 기존 데이터는 다시 받지 않으며,
+이전 환경은 새 Conda runtime과 GPU/data 검증을 통과하기 전에는 정리하지 않는다. source/runtime이
+바뀌면 기존 run의 exact resume이 거부될 수 있으므로 checkpoint를 강제로 이어 붙이지 않는다.
 
 Public 전환은 코드·Git history·Actions history/logs를 공개하며, Private 복귀로 이미 생긴 공개 fork나
 외부 사본을 회수할 수는 없다. 실험 종료 후 사용자가 `Settings` → `General` → `Danger Zone` →
@@ -2933,32 +3559,39 @@ commit SHA에 대한 로컬 실제-marker release gate 기록과 같은 SHA의 G
 대조한다. CI는 실제 marker를 받지 않는다. 둘 중 하나라도 확인되지 않으면 해당 checkout을 본실험에
 사용하지 않는다. 최신 CI badge나 문서의 상태 설명만으로 대신하지 않는다.
 
-프로젝트는 Python 3.10 이상을 지원한다. 재현용 lock은 Python 3.12.13에서 검증됐고 core/dev package와
-torch public version을 `constraints/py312.txt`에 고정한다. 현재 lock의 핵심은 torch 2.13.0,
-numpy 2.5.2, h5py 3.16.0, Pillow 12.3.0, pytest 9.1.1, Ruff 0.16.5다. Linux torch 2.13.0 lock
-profile은 glibc 2.28 이상을 요구한다. 기본 설치는 README의 locked wheel 경로를 따른다. 별도
-`TORCH_INDEX_URL`이 필요하면 서버 driver와 호환되고 같은 torch 2.13.0을 제공하는 공식 index를
-선택한다. GPU allocation에서 CUDA 검증이 실패하면 본실험을 진행하지 않는다.
+프로젝트 core는 Python 3.10 이상을 지원하지만 기본 Linux 서버 실행 profile은
+`constraints/server.json`의 Python **3.12.14**, PyTorch **2.13.0+cu126**, CUDA runtime **12.6**으로
+고정한다. `constraints/server.txt`는 pip·setuptools·wheel, CUDA library·Triton을 포함한 전이
+의존성의 정확한 버전과 배포 파일 SHA-256을 고정한다. setup은 `--require-hashes --only-binary=:all:`로
+설치하며 최신 bootstrap package를 임의로 올리지 않는다. `constraints/py312.txt`의 core/dev 버전도
+함께 관리하며 핵심은 numpy 2.5.2, h5py 3.16.0, Pillow 12.3.0, pytest 9.1.1, Ruff 0.16.5다.
+Linux wheel은 glibc 2.28 이상을 요구하며 setup은
+공식 CUDA 12.6 index의 고정 build를 설치한다. `.env`나 `TORCH_VERSION`·`TORCH_INDEX_URL` 변경으로
+다른 CUDA build를 섞지 않는다. 이 profile은 Conda 자체의 모든 package·OS·driver·GPU까지 동결하거나
+hardware 간 bitwise 동일성을 보장하는 lock이 아니다.
+이는 확인된 Python·PyTorch·CUDA baseline에 맞춰 새로 만든 고정 profile이며 이전 서버의 전체
+package inventory를 복제한 것은 아니다. 유지관리자는 `constraints/server.in`에서 lock을 재생성해
+profile과 일치하는지 검증한다. lock 생성 도구 `uv`는 서버 설치의 필수 프로그램이 아니다.
+설치는 GPU가 없는 login node에서도 할 수 있지만 실제 GPU allocation에서 CUDA 검증이 실패하면
+본실험을 진행하지 않는다. `nvidia-smi`와 `df -h .`는 필요할 때 사용하는 선택 진단이다.
 
 core runtime dependency는 torch, NumPy, h5py, Pillow와 tqdm이다. development extra는 pytest와
-Ruff다. LPIPS만 필요할 때 optional eval extra를 설치한다.
-
-```bash
-python -m pip install -e '.[eval]'
-```
+Ruff다. optional eval extra의 LPIPS는 고정 서버 profile에 포함하지 않는다. 추가 package를 설치하는
+확장 실험은 dependency 변경을 따로 기록하고 runtime을 다시 검증하며 기본 profile의 결과와 혼동하지 않는다.
 
 데이터 배치 뒤 전체 readiness를 검사한다.
 
 ```bash
+conda activate asgcn
 python scripts/check_env.py --require-cuda --require-full-data \
-  --lock constraints/py312.txt
+  --lock constraints/py312.txt --runtime-profile constraints/server.json
 
 asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
 asgcn-unet inspect --config configs/hdr.json --samples 2 --validate-all
 asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 ```
 
-`check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, lock mismatch, glibc, data와 runs의 남은
+`check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, server profile·lock mismatch, glibc, data와 runs의 남은
 공간, runs 쓰기 가능 여부, EventHDR exact 51/19 이름과 EventAid-R exact 14 ZIP을 출력·검사한다.
 CUDA가 사용 가능할 때는 먼저 `torch.cuda.init()`으로 초기화한 뒤 runtime 장치 수와 각 장치의
 이름/VRAM을 조회한다. MIG에서 초기화 전 NVML count로 반복 범위를 만들면 실제 runtime 장치보다
@@ -2988,15 +3621,20 @@ checkout에서 실행하지 않는다. `CUDA_MODULE`은 opt-in이다.
 SLURM dependency 예시:
 
 ```bash
-profile_id=$(sbatch --parsable server/profile.sbatch)
-train_id=$(sbatch --parsable --dependency=afterok:${profile_id} server/train.sbatch)
-cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
+conda activate asgcn
+profile_id=$(sbatch --parsable \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/profile.sbatch)
+train_id=$(sbatch --parsable --dependency=afterok:${profile_id} \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/train.sbatch)
+cal_id=$(sbatch --parsable --dependency=afterok:${train_id} \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/calibrate.sbatch)
 sbatch --dependency=afterok:${cal_id} \
-  --export=CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
   server/eval.sbatch
 ```
 
-SLURM에는 login 환경 전체가 아니라 job에 필요한 변수만 전달한다. scheduler log는 기본적으로 host/job
+SLURM에는 login 환경 전체가 아니라 job에 필요한 변수만 전달한다. 각 job은 전달한 `CONDA_PREFIX`의
+Python을 사용하며, 명시적 `PYTHON_BIN`도 같은 Conda 환경을 가리켜야 한다. scheduler log는 기본적으로 host/job
 식별자를 생략하고 config/checkpoint basename만 기록한다. 정확한 값은 공개하지 않을 로컬 진단에서만
 `INCLUDE_PRIVATE_HOST_PROVENANCE=1`로 opt-in한다. Slurm의 `slurm-...-<job-id>.out/.err`와 PBS의
 `<job-name>.o<job-id>` 같은 raw scheduler log는 파일명 자체에 job ID가 있으므로 그대로 공개하지 않는다.
@@ -3014,17 +3652,20 @@ scan 실패 log와 `INCLUDE_PRIVATE_HOST_PROVENANCE=1` opt-in log는 rename/copy
 PBS/Torque dependency 예시:
 
 ```bash
-profile_id=$(qsub server/profile.pbs)
-train_id=$(qsub -W depend=afterok:${profile_id} server/train.pbs)
-cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
+conda activate asgcn
+profile_id=$(qsub -v CONDA_PREFIX="$CONDA_PREFIX" server/profile.pbs)
+train_id=$(qsub -W depend=afterok:${profile_id} \
+  -v CONDA_PREFIX="$CONDA_PREFIX" server/train.pbs)
+cal_id=$(qsub -W depend=afterok:${train_id} \
+  -v CONDA_PREFIX="$CONDA_PREFIX" server/calibrate.pbs)
 qsub -W depend=afterok:${cal_id} \
-  -v CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
+  -v CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH=configs/hdr.json,CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SIMULATION_STEPS=16,SNN_DYNAMICS=literal_eq15 \
   server/eval.pbs
 ```
 
 전체 18-run matrix를 scheduler로 돌리려면 dataset/dynamics/T별 eval job을 각각 제출해야 한다.
 단일 allocation에서 순차 실행할 때만 `scripts/run.sh`를 직접 사용한다. 이 저장소는 검증되지 않은
-Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native virtualenv와 scheduler wrapper만
+Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native Conda 환경과 scheduler wrapper만
 지원한다.
 
 ## 13. 파일별 책임
@@ -3048,6 +3689,8 @@ Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native vi
 | `configs/aid.json` | EventAid-R 14-scene ANN/SNN 공용 설정 |
 | `manifests/eventhdr_split.json` | official separate roots와 H5 sequence-file semantics |
 | `manifests/eventaid_r.json` | 14 ZIP 이름, URL, 표시 용량 |
+| `constraints/server.json`, `constraints/server.txt`, `constraints/server.in` | 고정 Linux 서버 runtime profile, 전이 의존성 hash lock과 유지관리용 입력 |
+| `constraints/py312.txt` | core/dev package 버전 교차검사 |
 | `scripts/setup.sh`, `scripts/check_env.py` | server 설치와 환경/data inventory |
 | `scripts/get_hdr.py`, `scripts/get_hdr.sh` | EventHDR 서버 직접 다운로드 CLI와 선택적 archive/source/shared import/check |
 | `scripts/hdr_http.py` | 익명 OneDrive HTTP 조회, 재개·재시도·링크 갱신과 크기/SHA-256/HDF5 검증 |
@@ -3078,9 +3721,13 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-2026-08-30 Windows CPU 통합 결과는 **412 passed, 5 skipped**이며, skip 5건은 symlink privilege가
-없는 환경의 shared-storage link 및 downloader symlink 보호 test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
-아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
+Conda 전환 후 2026-08-30 Windows CPU 통합 pytest 결과는 **571 passed, 27 skipped**다.
+skip 22건은 Linux 전용 설치 shell test, 5건은 symlink 권한 관련 검사다. Windows native access-violation
+진단이 출력된 후에도 pytest는 exit 0으로 종료했으나, 원인이 확인되지 않아 무경고 검증으로 인정하지 않는다.
+이 결과는 기존 pytest 임시 디렉터리 권한 충돌을 피하도록 저장소 밖 새 임시 디렉터리를 지정해 얻었다.
+16개 shell entrypoint의 MSYS Bash 구문 검사도 수행했다. 실제 Linux Conda 설치와 동일 고정 profile의
+pytest, 별도 Ubuntu/Windows Python matrix는 해당 배포 SHA의 CI에서 확인한다.
+아래 명령은 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
 
 history scanner는 `git rev-list --objects --all`의 LF 출력으로 통일했다. 구 Git이 `-z`를 받아도 최신
 NUL object protocol을 출력하지 않는 차이를 회피하며, LF fixture·SHA-1/SHA-256·공백/탭/CR/비ASCII
@@ -3145,9 +3792,13 @@ python scripts/build_code_summary.py --check --require-clean-provenance
   CUDA 불가·0-device·초기화/조회 오류와 공개/private opt-in 예외 출력의 31개 CPU 회귀검사
 - EventHDR 서버 HTTP 다운로드의 정확한 metadata, SHA-256·HDF5 검사, Range 이어받기,
   오류 재시도, 익명 token 갱신·공유 재접근, URL·symlink·로그 보호 회귀검사
+- Conda interpreter 선택, nested venv·외부 pip destination 거부, 설치 전 OS/Python/glibc 검증,
+  해시 lock 설치 순서, 정확한 CUDA build·전이 package profile, scheduler·standalone 실행 경로
 
-GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
-syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
+GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Linux Conda Python 3.12.14
+설치·고정 dependency profile·전체 pytest·Ruff/shell syntax/privacy/snapshot job을 정의한다.
+Conda job은 GPU가 없는 runner에서 공식 cu126 wheel 설치를 검증하며 CUDA 학습은 실행하지 않는다.
+외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
 고정한다. unit test는 공식 대용량 데이터나 GPU 없이 fixture로 실행되므로 test 통과는 전체 데이터
 GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 
@@ -3709,7 +4360,7 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     "  INSPECT_VALIDATE_ALL=0|1   Default: 0" \
     "  INSPECT_SAMPLES=N          Default: 1" \
     "  REQUIRE_CUDA=0|1           Default: 1" \
-    "  PYTHON_BIN=PATH            Default: <repo>/.venv/bin/python"
+    "  PYTHON_BIN=PATH            Default: CONDA_PREFIX/bin/python"
   exit 0
 fi
 
@@ -3718,7 +4369,6 @@ CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/train/best.pt}}"
 OUTPUT_PATH="${3:-${OUTPUT_PATH:-runs/train/best_snn.pt}}"
 CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -3740,16 +4390,14 @@ if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
   echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
   exit 2
 fi
-if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
-  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: calibration config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
 fi
-if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
+if [[ "${DRY_RUN}" != "1" && ! -f "${CHECKPOINT_PATH}" ]]; then
   echo "ERROR: ANN checkpoint not found: $(path_log_label "${CHECKPOINT_PATH}")" >&2
   exit 1
 fi
@@ -3761,7 +4409,7 @@ for flag_name in REQUIRE_CUDA VALIDATE_DATASET INSPECT_VALIDATE_ALL OVERWRITE_CA
   fi
 done
 
-"${PYTHON_BIN}" - "${CHECKPOINT_PATH}" "${OUTPUT_PATH}" <<'PY'
+runtime_command "${PYTHON_BIN}" - "${CHECKPOINT_PATH}" "${OUTPUT_PATH}" <<'PY'
 from pathlib import Path
 import sys
 
@@ -3783,7 +4431,8 @@ if [[ -e "${OUTPUT_PATH}" || -L "${OUTPUT_PATH}" ]]; then
   fi
 fi
 
-"${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
+check_runtime_profile
+runtime_command "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
 import sys
 import torch
 
@@ -3807,7 +4456,7 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 if [[ "${CALIBRATION_SAMPLES}" != "all" && ! "${CALIBRATION_SAMPLES}" =~ ^[1-9][0-9]*$ ]]; then
@@ -3825,7 +4474,7 @@ CALIBRATE_ARGS=(
 if [[ "${OVERWRITE_CALIBRATION}" == "1" ]]; then
   CALIBRATE_ARGS+=(--overwrite)
 fi
-exec "${PYTHON_BIN}" -m asgcn_unet.cli calibrate "${CALIBRATE_ARGS[@]}"
+runtime_exec "${PYTHON_BIN}" -m asgcn_unet.cli calibrate "${CALIBRATE_ARGS[@]}"
 ~~~~~~~~
 
 # scripts/check_env.py
@@ -3940,11 +4589,93 @@ def _check_lock(path: Path) -> dict[str, dict[str, str | None]]:
             actual = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
             actual = None
-        actual_public = actual.split("+", maxsplit=1)[0] if actual else None
-        expected_public = expected.split("+", maxsplit=1)[0]
-        if actual_public != expected_public:
+        comparable_actual = (
+            actual if "+" in expected else actual.split("+", maxsplit=1)[0] if actual else None
+        )
+        if comparable_actual != expected:
             mismatches[name] = {"expected": expected, "actual": actual}
     return mismatches
+
+
+def _runtime_profile(path: Path) -> dict[str, object]:
+    profile = json.loads(path.read_text(encoding="utf-8"))
+    fields = {"format_version", "python", "torch", "cuda", "platform", "machine", "environment"}
+    if (
+        not isinstance(profile, dict)
+        or not fields.issubset(profile)
+        or set(profile) - fields - {"packages"}
+    ):
+        raise ValueError("Runtime profile must contain exactly the format_version=1 fields")
+    if type(profile["format_version"]) is not int or profile["format_version"] != 1:
+        raise ValueError("Unsupported runtime profile format_version")
+    patterns = {
+        "python": r"\d+\.\d+\.\d+",
+        "torch": r"\d+\.\d+\.\d+\+[A-Za-z0-9][A-Za-z0-9._-]*",
+        "cuda": r"\d+\.\d+",
+    }
+    for field, pattern in patterns.items():
+        if not isinstance(profile[field], str) or re.fullmatch(pattern, profile[field]) is None:
+            raise ValueError(f"Runtime profile requires an exact {field} version")
+    for field, required in (("platform", "Linux"), ("machine", "x86_64"), ("environment", "conda")):
+        if profile[field] != required:
+            raise ValueError(f"Unsupported runtime profile {field}")
+    if "packages" in profile:
+        packages = profile["packages"]
+        if not isinstance(packages, dict):
+            raise ValueError("Runtime profile packages must be an exact-version object")
+        normalized = {}
+        version_pattern = (
+            r"\d+(?:\.\d+)*(?:(?:a|b|rc)\d+)?(?:\.post\d+)?(?:\.dev\d+)?"
+            r"(?:\+[A-Za-z0-9][A-Za-z0-9._-]*)?"
+        )
+        for name, version in packages.items():
+            if (
+                not isinstance(name, str)
+                or re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?", name) is None
+                or not isinstance(version, str)
+                or re.fullmatch(version_pattern, version) is None
+            ):
+                raise ValueError("Runtime profile packages contain an invalid exact dependency pin")
+            canonical = re.sub(r"[-_.]+", "-", name).lower()
+            if canonical in normalized:
+                raise ValueError("Runtime profile packages contain duplicate distribution names")
+            normalized[canonical] = version
+        profile["packages"] = normalized
+    return profile
+
+
+def _check_runtime_profile(
+    profile: dict[str, object],
+) -> tuple[dict[str, dict[str, str | None]], str]:
+    if sys.prefix != sys.base_prefix:
+        environment = "venv"
+    elif (Path(sys.prefix) / "conda-meta").is_dir():
+        environment = "conda"
+    else:
+        environment = "non-conda"
+    actual = {
+        "python": platform.python_version(),
+        "torch": str(torch.__version__),
+        "cuda": torch.version.cuda,
+        "platform": platform.system(),
+        "machine": platform.machine(),
+        "environment": environment,
+    }
+    mismatches = {
+        field: {"expected": str(profile[field]), "actual": value}
+        for field, value in actual.items()
+        if profile[field] != value
+    }
+    packages = profile.get("packages", {})
+    if isinstance(packages, dict):
+        for name, expected in packages.items():
+            try:
+                installed = importlib.metadata.version(name)
+            except importlib.metadata.PackageNotFoundError:
+                installed = None
+            if installed != expected:
+                mismatches[f"packages.{name}"] = {"expected": expected, "actual": installed}
+    return mismatches, environment
 
 
 def _version_tuple(value: str) -> tuple[int, ...]:
@@ -3980,6 +4711,12 @@ def main() -> None:
     parser.add_argument("--require-full-data", action="store_true")
     parser.add_argument("--lock", type=Path, default=None)
     parser.add_argument(
+        "--runtime-profile",
+        type=Path,
+        default=None,
+        help="verify the exact Python, PyTorch/CUDA and Conda server runtime profile",
+    )
+    parser.add_argument(
         "--include-private-host-provenance",
         action="store_true",
         help=(
@@ -3993,6 +4730,7 @@ def main() -> None:
     data_root = (args.data_root or project_root / "data").resolve()
     runs_root = (args.runs_root or project_root / "runs").resolve()
     lock_path = args.lock.resolve() if args.lock else None
+    runtime_profile_path = args.runtime_profile.resolve() if args.runtime_profile else None
     path_replacements = [
         (data_root, "$DATA_ROOT"),
         (runs_root, "$RUNS_ROOT"),
@@ -4000,6 +4738,8 @@ def main() -> None:
     ]
     if lock_path is not None:
         path_replacements.append((lock_path, "$LOCK_FILE"))
+    if runtime_profile_path is not None:
+        path_replacements.append((runtime_profile_path, "$RUNTIME_PROFILE"))
     try:
         runs_root.mkdir(parents=True, exist_ok=True)
     except OSError as error:
@@ -4009,6 +4749,29 @@ def main() -> None:
             args.include_private_host_provenance,
         )
         raise SystemExit(f"Cannot create $RUNS_ROOT: {message}") from None
+
+    runtime_mismatches = None
+    runtime_environment = None
+    runtime_profile_label = None
+    if runtime_profile_path is not None:
+        runtime_profile_label = (
+            "$PROJECT_ROOT/constraints/server.json"
+            if runtime_profile_path == project_root / "constraints" / "server.json"
+            else "$RUNTIME_PROFILE"
+        )
+    if runtime_profile_path is not None:
+        try:
+            runtime_mismatches, runtime_environment = _check_runtime_profile(
+                _runtime_profile(runtime_profile_path)
+            )
+        except (OSError, TypeError, ValueError) as error:
+            detail = type(error).__name__
+            if args.include_private_host_provenance:
+                detail = f"{detail}: {error}"
+            raise SystemExit(
+                f"Runtime profile check failed for {runtime_profile_label} ({detail}). "
+                "A valid format_version=1 exact Conda server profile is required."
+            ) from None
 
     try:
         cuda_available, devices, gpu_memory_gib = _cuda_inventory()
@@ -4080,6 +4843,10 @@ def main() -> None:
         "constraint_versions_match": (not lock_mismatches if lock_mismatches is not None else None),
         "constraint_python_match": lock_python_match,
         "lock_mismatches": lock_mismatches,
+        "runtime_profile": runtime_profile_label,
+        "runtime_profile_match": not runtime_mismatches if runtime_mismatches is not None else None,
+        "runtime_profile_mismatches": runtime_mismatches,
+        "runtime_environment": runtime_environment,
     }
     if args.include_private_host_provenance:
         report["private_host_provenance"] = {
@@ -4088,6 +4855,8 @@ def main() -> None:
             "data_root": str(data_root),
             "runs_root": str(runs_root),
             "lock_file": str(lock_path) if lock_path else None,
+            "runtime_profile": str(runtime_profile_path) if runtime_profile_path else None,
+            "interpreter_prefix": sys.prefix,
             "publication_warning": "private local diagnostics; do not publish",
         }
     print(json.dumps(report, indent=2, ensure_ascii=False))
@@ -4103,6 +4872,12 @@ def main() -> None:
         problems.append(f"Installed packages differ from dependency lock: {report['lock_file']}")
     if lock_python_match is False:
         problems.append(f"Python version does not match dependency profile: {report['lock_file']}")
+    if runtime_mismatches:
+        details = ", ".join(
+            f"{field}: expected {values['expected']}, found {values['actual']}"
+            for field, values in runtime_mismatches.items()
+        )
+        problems.append(f"Runtime does not match {runtime_profile_label} ({details})")
     locked_torch = (
         _locked_versions(lock_path).get("torch") if lock_path and lock_path.is_file() else None
     )
@@ -4205,6 +4980,8 @@ def main() -> None:
             message = message.replace("$RUNS_ROOT", str(runs_root))
             if lock_path is not None:
                 message = message.replace("$LOCK_FILE", str(lock_path))
+            if runtime_profile_path is not None:
+                message = message.replace("$RUNTIME_PROFILE", str(runtime_profile_path))
         else:
             message = _redact_host_paths(message, path_replacements)
         raise SystemExit(message)
@@ -4230,7 +5007,6 @@ SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -4252,17 +5028,15 @@ if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
   echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
   exit 2
 fi
-if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
-  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: evaluation config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
 fi
-if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
+if [[ "${DRY_RUN}" != "1" && ! -f "${CHECKPOINT_PATH}" ]]; then
   echo "ERROR: checkpoint not found: $(path_log_label "${CHECKPOINT_PATH}")" >&2
   exit 1
 fi
@@ -4289,7 +5063,8 @@ if [[ -n "${SNN_DYNAMICS}" ]]; then
   fi
 fi
 
-"${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
+check_runtime_profile
+runtime_command "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
 import sys
 import torch
 
@@ -4318,11 +5093,11 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${CONFIG_PATH}") (${INFERENCE_MODE})"
-"${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
+runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
   --config "${CONFIG_PATH}" \
   --checkpoint "${CHECKPOINT_PATH}" \
   --inference-mode "${INFERENCE_MODE}" \
@@ -4331,7 +5106,7 @@ echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${C
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"
-  "${PYTHON_BIN}" -m asgcn_unet.cli benchmark \
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli benchmark \
     --config "${CONFIG_PATH}" \
     --checkpoint "${CHECKPOINT_PATH}" \
     --warmup "${BENCHMARK_WARMUP}" \
@@ -4351,7 +5126,6 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 MANIFEST="${PROJECT_ROOT}/manifests/eventaid_r.json"
-PYTHON_BIN="${PYTHON_BIN:-python3}"
 DESTINATION="${EVENTAID_ROOT:-${PROJECT_ROOT}/data/EventAid-R}"
 
 usage() {
@@ -4419,12 +5193,17 @@ if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then
   DOWNLOAD_ALL=1
 fi
 
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
+if [[ "${DRY_RUN}" == "1" ]]; then
+  echo "EventAid-R dry run: no files transferred."
+  runtime_command bash "${SCRIPT_DIR}/get_aid.sh" --destination "${DESTINATION}" "${SCENES[@]}"
+  exit 0
+fi
+
 if ! command -v curl >/dev/null 2>&1; then
   echo "ERROR: curl is required" >&2
-  exit 1
-fi
-if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-  echo "ERROR: Python executable not found: ${PYTHON_BIN}" >&2
   exit 1
 fi
 if [[ ! -f "${MANIFEST}" ]]; then
@@ -4978,15 +5757,31 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-PYTHON_BIN="${PYTHON_BIN:-python3}"
-
-if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-  echo "ERROR: Python executable not found: ${PYTHON_BIN}" >&2
-  exit 1
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  printf '%s\n' \
+    "Usage: bash scripts/get_hdr.sh MODE [options]" \
+    "" \
+    "Modes (choose one):" \
+    "  --download       Download the official public EventHDR share directly" \
+    "  --source DIR     Import an extracted train/eval source" \
+    "  --archive ZIP    Import an existing ZIP archive" \
+    "  --check          Check files already in the destination" \
+    "" \
+    "Options:" \
+    "  --destination DIR  Default: data/EventHDR" \
+    "  --split train|eval  Select one split (default: both)" \
+    "  --link              Symlink an extracted --source instead of copying" \
+    "" \
+    "Execution requires CONDA_PREFIX or PYTHON_BIN selecting a Conda environment." \
+    "The HTTP download needs no CUDA, browser, or user login."
+  exit 0
 fi
 
 cd -- "${PROJECT_ROOT}"
-exec "${PYTHON_BIN}" "${SCRIPT_DIR}/get_hdr.py" "$@"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
+runtime_exec "${PYTHON_BIN}" "${SCRIPT_DIR}/get_hdr.py" "$@"
 ~~~~~~~~
 
 # scripts/hdr_http.py
@@ -5478,7 +6273,9 @@ Important environment:
   RESUME_CHECKPOINT=PATH
   TRAIN_CONFIG / HDR_CONFIG / AID_CONFIG
   ANN_CHECKPOINT / SNN_CHECKPOINT
-  PYTHON_BIN=PATH                         Default: <repo>/.venv/bin/python
+  PYTHON_BIN=PATH                         Default: CONDA_PREFIX/bin/python
+  CONDA_PREFIX=PATH                      Selected Conda environment (no nested venv)
+  RUNTIME_PROFILE=PATH                   Default: constraints/server.json
   REQUIRE_CUDA=0|1                       Default: 1
   CALIBRATION_SAMPLES=all|N              Default: all; partial N cannot be reporting
   SIMULATION_STEPS_LIST='4 8 16 32'
@@ -5516,7 +6313,6 @@ if [[ "$#" -gt 1 ]]; then
   exit 2
 fi
 
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
 TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
@@ -5575,11 +6371,9 @@ if [[ "${STAGE}" == "all" && "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   exit 2
 fi
 
-if [[ "${DRY_RUN}" != "1" && ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
-  echo "Run bash scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 for required_path in \
   "${CONSTRAINTS_FILE}" \
   "${TRAIN_CONFIG}" \
@@ -5696,6 +6490,7 @@ run_check() {
     "${PYTHON_BIN}" scripts/check_env.py
     --require-full-data
     --lock "${CONSTRAINTS_FILE}"
+    --runtime-profile "${RUNTIME_PROFILE}"
   )
   if [[ "${REQUIRE_CUDA}" == "1" ]]; then
     check_args+=(--require-cuda)
@@ -5722,6 +6517,7 @@ run_check() {
 
 run_profile() {
   echo "[profile] Complete EventHDR topology scan and densest-sample CUDA training probe"
+  check_runtime_profile
   run_cmd "${PYTHON_BIN}" -m asgcn_unet.cli profile \
     --config "${TRAIN_CONFIG}" \
     --output "${PROFILE_OUTPUT}" \
@@ -5814,6 +6610,121 @@ echo "Stage '${STAGE}' completed."
 echo "Training preflight: $(path_log_label "${PROFILE_OUTPUT}")"
 echo "ANN checkpoint: $(path_log_label "${ANN_CHECKPOINT}")"
 echo "SNN checkpoint: $(path_log_label "${SNN_CHECKPOINT}")"
+~~~~~~~~
+
+# scripts/runtime.sh
+
+~~~~~~~~bash
+#!/usr/bin/env bash
+# Shared Conda-only interpreter selection for interactive and scheduler wrappers.
+
+select_conda_python() {
+  DRY_RUN="${DRY_RUN:-0}"
+  if [[ "${DRY_RUN}" != "0" && "${DRY_RUN}" != "1" ]]; then
+    echo "ERROR: DRY_RUN must be 0 or 1" >&2
+    return 2
+  fi
+  if [[ -z "${PYTHON_BIN:-}" ]]; then
+    if [[ -n "${CONDA_PREFIX:-}" ]]; then
+      PYTHON_BIN="${CONDA_PREFIX}/bin/python"
+    elif [[ "${DRY_RUN}" == "1" ]]; then
+      PYTHON_BIN=python
+    else
+      echo "ERROR: select a Conda environment with CONDA_PREFIX or PYTHON_BIN." >&2
+      return 1
+    fi
+  fi
+  # Keep user/foreign site packages out of the selected, version-checked runtime.
+  export PYTHONNOUSERSITE=1
+  unset PYTHONPATH PYTHONHOME
+  export DRY_RUN PYTHON_BIN
+  export RUNTIME_PROFILE="${RUNTIME_PROFILE:-constraints/server.json}"
+  export CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
+  if [[ "${DRY_RUN}" == "1" ]]; then
+    return 0
+  fi
+  local executable
+  executable="$(command -v -- "${PYTHON_BIN}")" || {
+    echo "ERROR: selected Conda Python is not executable." >&2
+    return 1
+  }
+  if [[ ! -x "${executable}" ]]; then
+    echo "ERROR: selected Conda Python is not executable." >&2
+    return 1
+  fi
+  PYTHON_BIN="${executable}"
+  local selected_prefix
+  if ! selected_prefix="$("${PYTHON_BIN}" -I - "${CONDA_PREFIX:-}" "${PYTHON_BIN}" <<'PY'
+from pathlib import Path
+import sys
+
+try:
+    prefix = Path(sys.prefix).resolve()
+    base = Path(sys.base_prefix).resolve()
+    executable = Path(sys.executable).resolve()
+    selected = Path(sys.argv[2]).resolve()
+    expected = Path(sys.argv[1]).resolve() if sys.argv[1] else prefix
+    valid = (
+        prefix == base == expected
+        and (prefix / "conda-meta").is_dir()
+        and executable == selected
+        and executable.is_relative_to(prefix)
+    )
+except (OSError, RuntimeError, ValueError):
+    valid = False
+if not valid:
+    raise SystemExit("ERROR: selected Python must belong directly to the selected Conda environment, not a venv.")
+print(prefix)
+PY
+)"; then
+    return 1
+  fi
+  CONDA_PREFIX="${selected_prefix}"
+  export CONDA_PREFIX PYTHON_BIN
+}
+
+runtime_command() {
+  if [[ "${DRY_RUN:-0}" != "1" ]]; then
+    "$@"
+    return
+  fi
+  printf ' +'
+  local argument display
+  for argument in "$@"; do
+    display="${argument}"
+    if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}" != "1" ]]; then
+      display="${display//${PROJECT_ROOT}/\$PROJECT_ROOT}"
+      if [[ "${display}" == /* || "${display}" == [A-Za-z]:/* ]]; then
+        display="\$EXTERNAL/${display##*/}"
+      fi
+    fi
+    printf ' %q' "${display}"
+  done
+  printf '\n'
+}
+
+runtime_exec() {
+  if [[ "${DRY_RUN:-0}" == "1" ]]; then
+    runtime_command "$@"
+  else
+    exec "$@"
+  fi
+}
+
+check_runtime_profile() {
+  local arguments=(
+    "${PYTHON_BIN}" "${PROJECT_ROOT}/scripts/check_env.py"
+    --runtime-profile "${RUNTIME_PROFILE}"
+    --lock "${CONSTRAINTS_FILE}"
+  )
+  if [[ "${REQUIRE_CUDA:-1}" == "1" ]]; then
+    arguments+=(--require-cuda)
+  fi
+  if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}" == "1" ]]; then
+    arguments+=(--include-private-host-provenance)
+  fi
+  runtime_command "${arguments[@]}"
+}
 ~~~~~~~~
 
 # scripts/scan_private_text.py
@@ -6425,195 +7336,128 @@ if __name__ == "__main__":
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# Clone 후 한 번 실행하는 Linux 서버 설치 스크립트.
-# https://pytorch.org/get-started/locally/ 에서 서버 드라이버에 맞는 wheel을 고른 뒤:
-#   TORCH_INDEX_URL=<official-wheel-index> ./scripts/setup.sh
-# 재현용으로 버전을 고정할 때:
-#   TORCH_VERSION=<version> TORCH_INDEX_URL=<official-wheel-index> \
-#     CONSTRAINTS_FILE=constraints/py312.txt PROJECT_EXTRAS=dev ./scripts/setup.sh
-
+# Install only into the already-selected, non-base Conda server environment.
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+REQUIRE_CUDA="${REQUIRE_CUDA-0}"
 
-ENV_FILE="${ENV_FILE:-${PROJECT_ROOT}/.env}"
-if [[ -f "${ENV_FILE}" ]]; then
-  OVERRIDE_NAMES=(
-    PYTHON_BIN VENV_DIR TORCH_VERSION TORCH_INDEX_URL PROJECT_EXTRAS
-    REQUIRE_CUDA CONSTRAINTS_FILE EXPECTED_PYTHON_MINOR PIP_EXTRA_ARGS
-  )
-  declare -A CALLER_OVERRIDES=()
-  for variable in "${OVERRIDE_NAMES[@]}"; do
-    if [[ -v "${variable}" ]]; then
-      CALLER_OVERRIDES["${variable}"]="${!variable}"
-    fi
-  done
-  echo "Loading installer settings: ${ENV_FILE}"
-  set -a
-  # shellcheck disable=SC1090
-  source "${ENV_FILE}"
-  set +a
-  for variable in "${!CALLER_OVERRIDES[@]}"; do
-    printf -v "${variable}" '%s' "${CALLER_OVERRIDES[${variable}]}"
-    export "${variable}"
-  done
+if [[ "$#" -ne 0 ]]; then
+  echo "ERROR: setup.sh accepts no positional arguments." >&2
+  exit 1
 fi
-
-PYTHON_BIN="${PYTHON_BIN:-python3}"
-VENV_DIR="${VENV_DIR:-${PROJECT_ROOT}/.venv}"
-TORCH_VERSION="${TORCH_VERSION:-}"
-TORCH_INDEX_URL="${TORCH_INDEX_URL:-}"
-PROJECT_EXTRAS="${PROJECT_EXTRAS:-}"
-REQUIRE_CUDA="${REQUIRE_CUDA:-0}"
-CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-}"
-EXPECTED_PYTHON_MINOR="${EXPECTED_PYTHON_MINOR:-}"
-
-if [[ "${VENV_DIR}" != /* ]]; then
-  VENV_DIR="${PROJECT_ROOT}/${VENV_DIR}"
+if [[ "${REQUIRE_CUDA}" != "0" && "${REQUIRE_CUDA}" != "1" ]]; then
+  echo "ERROR: REQUIRE_CUDA must be 0 or 1." >&2
+  exit 1
 fi
-
-CONSTRAINT_ARGS=()
-if [[ -n "${CONSTRAINTS_FILE}" ]]; then
-  if [[ "${CONSTRAINTS_FILE}" != /* ]]; then
-    CONSTRAINTS_FILE="${PROJECT_ROOT}/${CONSTRAINTS_FILE}"
-  fi
-  if [[ ! -f "${CONSTRAINTS_FILE}" ]]; then
-    echo "ERROR: constraints file not found: ${CONSTRAINTS_FILE}" >&2
-    exit 1
-  fi
-  CONSTRAINT_ARGS=(-c "${CONSTRAINTS_FILE}")
-  echo "Using dependency constraints: ${CONSTRAINTS_FILE}"
-  if [[ -z "${EXPECTED_PYTHON_MINOR}" ]] \
-    && [[ "$(basename -- "${CONSTRAINTS_FILE}")" =~ ^py([0-9])([0-9]+)\.txt$ ]]; then
-    EXPECTED_PYTHON_MINOR="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"
-  fi
+if [[ -z "${CONDA_PREFIX:-}" || "${CONDA_PREFIX}" != /* \
+   || ! -d "${CONDA_PREFIX}/conda-meta" || ! -x "${CONDA_PREFIX}/bin/python" ]]; then
+  echo "ERROR: select an existing non-base Conda environment with its own Python first." >&2
+  exit 1
 fi
-
-# PIP_EXTRA_ARGS is intentionally optional. It is split on spaces, so paths with
-# spaces should instead be configured through pip.conf. Parse it before the first
-# network operation so private mirrors/proxies apply to bootstrap packages too.
-PIP_ARGS=()
-if [[ -n "${PIP_EXTRA_ARGS:-}" ]]; then
-  read -r -a PIP_ARGS <<<"${PIP_EXTRA_ARGS}"
+if [[ "${CONDA_DEFAULT_ENV:-}" == "base" ]]; then
+  echo "ERROR: installation into the base Conda environment is not allowed." >&2
+  exit 1
 fi
-
-if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-  echo "ERROR: Python executable not found: ${PYTHON_BIN}" >&2
+if [[ -v PIP_TARGET || -v PIP_PREFIX || -v PIP_ROOT || -v PIP_PYTHON \
+   || ( -v PIP_USER && "${PIP_USER}" != "0" ) ]]; then
+  echo "ERROR: pip destination overrides are not allowed for the locked Conda installation." >&2
   exit 1
 fi
 
-"${PYTHON_BIN}" - <<'PY'
-import sys
+CONDA_PYTHON="${CONDA_PREFIX}/bin/python"
+export PYTHONNOUSERSITE=1
+unset PYTHONPATH PYTHONHOME
+export PIP_CONFIG_FILE=/dev/null
+export PIP_USER=0
+export PIP_REQUIRE_VIRTUALENV=0
+echo "Legacy .env and installer version/interpreter overrides are ignored."
+echo "Custom pip configuration is disabled; HTTP_PROXY and HTTPS_PROXY remain supported."
 
-if sys.version_info < (3, 10):
-    raise SystemExit(f"Python 3.10+ is required; found {sys.version.split()[0]}")
-print(f"Using Python {sys.version.split()[0]}")
-PY
-
-"${PYTHON_BIN}" - "${TORCH_VERSION}" "${CONSTRAINTS_FILE}" <<'PY'
+# This preflight uses only the standard library and runs before any pip/network work.
+"${CONDA_PYTHON}" - "${PROJECT_ROOT}/constraints/server.json" \
+  "${PROJECT_ROOT}/constraints/server.txt" <<'PY'
+import json
+import os
 import platform
 import re
 import sys
 from pathlib import Path
 
-requested_torch = sys.argv[1]
-constraint_path = Path(sys.argv[2]) if sys.argv[2] else None
-if not requested_torch and constraint_path is not None:
-    for raw_line in constraint_path.read_text(encoding="utf-8").splitlines():
-        match = re.fullmatch(r"\s*torch==([^\s#]+)\s*", raw_line)
-        if match:
-            requested_torch = match.group(1).split("+", maxsplit=1)[0]
-            break
 
-if platform.system() == "Linux" and requested_torch == "2.13.0":
+def fail(message):
+    raise SystemExit("ERROR: " + message)
+
+
+try:
+    prefix = Path(os.environ["CONDA_PREFIX"]).resolve()
+    if sys.prefix != sys.base_prefix or Path(sys.prefix).resolve() != prefix:
+        fail("the selected interpreter must belong directly to the selected Conda environment")
+    if not (prefix / "conda-meta").is_dir():
+        fail("the selected interpreter is not a Conda environment")
+    conda_executable = os.environ.get("CONDA_EXE")
+    if os.environ.get("CONDA_DEFAULT_ENV") == "base" or (
+        conda_executable
+        and prefix == Path(conda_executable).resolve().parent.parent
+    ):
+        fail("installation into the base Conda environment is not allowed")
+    profile = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+    required = {
+        "format_version": 1,
+        "python": "3.12.14",
+        "torch": "2.13.0+cu126",
+        "cuda": "12.6",
+        "platform": "Linux",
+        "machine": "x86_64",
+        "environment": "conda",
+    }
+    if (
+        not isinstance(profile, dict)
+        or type(profile.get("format_version")) is not int
+        or any(profile.get(key) != value for key, value in required.items())
+        or set(profile) - set(required) - {"packages"}
+    ):
+        fail("constraints/server.json does not describe the exact supported Conda server runtime")
+    if "packages" in profile and not isinstance(profile["packages"], dict):
+        fail("the server profile packages field must be an exact-version object")
+    if not Path(sys.argv[2]).is_file():
+        fail("the hashed server dependency lock is missing")
+    actual = {
+        "python": platform.python_version(),
+        "platform": platform.system(),
+        "machine": platform.machine(),
+    }
+    for key, value in actual.items():
+        if value != required[key]:
+            fail(f"server {key} must be {required[key]}; found {value}")
     libc_name, libc_version = platform.libc_ver()
     numbers = tuple(int(value) for value in re.findall(r"\d+", libc_version))
     if libc_name.lower() != "glibc" or numbers < (2, 28):
-        found = f"{libc_name or 'unknown'} {libc_version or 'unknown'}"
-        raise SystemExit(
-            "The locked torch 2.13.0 wheel profile requires Linux glibc>=2.28; "
-            f"found {found}. Use a newer cluster container/module."
-        )
-    print(f"glibc preflight: {libc_version} (minimum 2.28)")
-PY
-
-if [[ ! -x "${VENV_DIR}/bin/python" ]]; then
-  echo "Creating virtual environment: ${VENV_DIR}"
-  "${PYTHON_BIN}" -m venv "${VENV_DIR}"
-fi
-
-VENV_PYTHON="${VENV_DIR}/bin/python"
-"${VENV_PYTHON}" - "${EXPECTED_PYTHON_MINOR}" <<'PY'
-import sys
-
-expected = sys.argv[1]
-actual = f"{sys.version_info.major}.{sys.version_info.minor}"
-if sys.version_info < (3, 10):
-    raise SystemExit(f"Virtual environment requires Python 3.10+; found {actual}")
-if expected and actual != expected:
+        fail("the locked server wheels require Linux glibc>=2.28")
+except (OSError, ValueError, KeyError) as error:
     raise SystemExit(
-        f"Dependency profile requires Python {expected}, but the virtual environment "
-        f"uses Python {actual}. Remove VENV_DIR and recreate it with the matching PYTHON_BIN."
-    )
-print(f"Virtual environment Python: {actual}")
-PY
-"${VENV_PYTHON}" -m pip install \
-  "${PIP_ARGS[@]}" "${CONSTRAINT_ARGS[@]}" --upgrade pip setuptools wheel
+        "ERROR: Conda server preflight could not read valid local runtime metadata "
+        f"({type(error).__name__}); no installation was started"
+    ) from None
 
-TORCH_SPEC="torch"
-if [[ -n "${TORCH_VERSION}" ]]; then
-  TORCH_SPEC="torch==${TORCH_VERSION}"
-fi
-
-# Installing torch first preserves an explicitly chosen CUDA wheel when the
-# editable project (which declares torch>=2.3) is installed below.
-if [[ -n "${TORCH_INDEX_URL}" ]]; then
-  "${VENV_PYTHON}" -m pip install "${PIP_ARGS[@]}" "${CONSTRAINT_ARGS[@]}" \
-    --index-url "${TORCH_INDEX_URL}" "${TORCH_SPEC}"
-else
-  "${VENV_PYTHON}" -m pip install \
-    "${PIP_ARGS[@]}" "${CONSTRAINT_ARGS[@]}" "${TORCH_SPEC}"
-fi
-
-INSTALL_TARGET="${PROJECT_ROOT}"
-if [[ -n "${PROJECT_EXTRAS}" ]]; then
-  INSTALL_TARGET="${PROJECT_ROOT}[${PROJECT_EXTRAS}]"
-fi
-"${VENV_PYTHON}" -m pip install \
-  "${PIP_ARGS[@]}" "${CONSTRAINT_ARGS[@]}" -e "${INSTALL_TARGET}"
-"${VENV_PYTHON}" -m pip check
-
-mkdir -p \
-  "${PROJECT_ROOT}/data/EventHDR/train" \
-  "${PROJECT_ROOT}/data/EventHDR/eval" \
-  "${PROJECT_ROOT}/data/EventAid-R" \
-  "${PROJECT_ROOT}/runs"
-
-"${VENV_PYTHON}" - "${REQUIRE_CUDA}" <<'PY'
-import sys
-import torch
-
-required = sys.argv[1] == "1"
-print(f"Python: {sys.version.split()[0]}")
-print(f"PyTorch: {torch.__version__}")
-print(f"PyTorch CUDA runtime: {torch.version.cuda}")
-print(f"CUDA available now: {torch.cuda.is_available()}")
-if torch.cuda.is_available():
-    print(f"GPU: {torch.cuda.get_device_name(0)}")
-elif required:
-    raise SystemExit(
-        "CUDA is required but unavailable. Run this check inside a GPU allocation, "
-        "and verify TORCH_INDEX_URL and the NVIDIA driver."
-    )
-else:
-    print("NOTE: no GPU is visible in this shell; login nodes commonly hide GPUs.")
+print("Conda server preflight passed: Python 3.12.14, Linux x86_64, glibc>=2.28.")
 PY
 
-echo
-echo "Installation complete."
-echo "Python: ${VENV_PYTHON}"
-echo "Next: ./scripts/get_aid.sh --all"
-echo "Then: ./scripts/get_hdr.sh --download"
-echo "Finally: ./scripts/run.sh"
+cd -- "${PROJECT_ROOT}"
+"${CONDA_PYTHON}" -m pip install --no-user --require-hashes --only-binary=:all: \
+  -r "${PROJECT_ROOT}/constraints/server.txt"
+"${CONDA_PYTHON}" -m pip install --no-user --no-deps --no-build-isolation -e "${PROJECT_ROOT}[dev]"
+"${CONDA_PYTHON}" -m pip check
+
+CHECK_ARGS=(--lock constraints/py312.txt --runtime-profile constraints/server.json)
+if [[ "${REQUIRE_CUDA}" == "1" ]]; then
+  CHECK_ARGS+=(--require-cuda)
+fi
+"${CONDA_PYTHON}" scripts/check_env.py "${CHECK_ARGS[@]}"
+
+echo "Conda installation and exact runtime verification complete."
+echo "Next: bash scripts/get_aid.sh --all"
+echo "Then: bash scripts/get_hdr.sh --download"
+echo "Finally, inside a GPU allocation: bash scripts/run.sh all"
 ~~~~~~~~
 
 # scripts/train.sh
@@ -6625,7 +7469,6 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 CONFIG_PATH="${1:-${CONFIG_PATH:-configs/train.json}}"
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -6650,11 +7493,9 @@ if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
   echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
   exit 2
 fi
-if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
-  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: training config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
@@ -6672,7 +7513,7 @@ if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" != "0" \
   echo "ERROR: ALLOW_UNVERIFIED_PREFLIGHT must be 0 or 1" >&2
   exit 2
 fi
-if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" && ! -f "${PREFLIGHT_REPORT}" ]]; then
+if [[ "${DRY_RUN}" != "1" && "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" && ! -f "${PREFLIGHT_REPORT}" ]]; then
   echo "ERROR: passed CUDA preflight report not found: $(path_log_label "${PREFLIGHT_REPORT}")" >&2
   echo "Run bash scripts/run.sh profile first." >&2
   exit 1
@@ -6681,7 +7522,8 @@ if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   echo "WARNING: bypassing CUDA preflight for a non-reporting run." >&2
 fi
 
-"${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
+check_runtime_profile
+runtime_command "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
 import sys
 import torch
 
@@ -6705,7 +7547,7 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 echo "Starting EventHDR training with $(path_log_label "${CONFIG_PATH}")"
@@ -6717,14 +7559,14 @@ if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   TRAIN_ARGS+=(--allow-unverified-preflight)
 fi
 if [[ -n "${RESUME_CHECKPOINT}" ]]; then
-  if [[ ! -f "${RESUME_CHECKPOINT}" ]]; then
+  if [[ "${DRY_RUN}" != "1" && ! -f "${RESUME_CHECKPOINT}" ]]; then
     echo "ERROR: resume checkpoint not found: $(path_log_label "${RESUME_CHECKPOINT}")" >&2
     exit 1
   fi
   echo "Resuming from checkpoint: $(path_log_label "${RESUME_CHECKPOINT}")"
   TRAIN_ARGS+=(--resume "${RESUME_CHECKPOINT}")
 fi
-exec "${PYTHON_BIN}" -m asgcn_unet.cli train "${TRAIN_ARGS[@]}"
+runtime_exec "${PYTHON_BIN}" -m asgcn_unet.cli train "${TRAIN_ARGS[@]}"
 ~~~~~~~~
 
 # server/calibrate.pbs
@@ -6737,10 +7579,10 @@ exec "${PYTHON_BIN}" -m asgcn_unet.cli train "${TRAIN_ARGS[@]}"
 #PBS -j oe
 
 # Dependency example:
-#   profile_id=$(qsub server/profile.pbs)
-#   train_id=$(qsub -W depend=afterok:${profile_id} server/train.pbs)
-#   cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
-#   qsub -W depend=afterok:${cal_id} -v CONFIG_PATH=configs/hdr.json,\
+#   profile_id=$(qsub -v CONDA_PREFIX="${CONDA_PREFIX}" server/profile.pbs)
+#   train_id=$(qsub -v CONDA_PREFIX="${CONDA_PREFIX}" -W depend=afterok:${profile_id} server/train.pbs)
+#   cal_id=$(qsub -v CONDA_PREFIX="${CONDA_PREFIX}" -W depend=afterok:${train_id} server/calibrate.pbs)
+#   qsub -W depend=afterok:${cal_id} -v CONDA_PREFIX="${CONDA_PREFIX}",CONFIG_PATH=configs/hdr.json,\
 # CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn server/eval.pbs
 
 set -Eeuo pipefail
@@ -6758,7 +7600,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run qsub from the repository root or use:" >&2
-  echo "  qsub -v PROJECT_ROOT=/absolute/path/to/repo server/calibrate.pbs" >&2
+  echo "  qsub -v PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/calibrate.pbs" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -6781,7 +7623,9 @@ export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
 export PYTHONUNBUFFERED=1
@@ -6805,9 +7649,11 @@ else
   echo "SNN checkpoint: ${OUTPUT_PATH##*/}"
 fi
 echo "Calibration samples: ${CALIBRATION_SAMPLES}"
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+runtime_command bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"
 ~~~~~~~~
 
@@ -6826,10 +7672,10 @@ bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
 #SBATCH --error=slurm-%x-%j.err
 
 # Dependency example:
-#   profile_id=$(sbatch --parsable server/profile.sbatch)
-#   train_id=$(sbatch --parsable --dependency=afterok:${profile_id} server/train.sbatch)
-#   cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
-#   sbatch --dependency=afterok:${cal_id} --export=CONFIG_PATH=configs/hdr.json,\
+#   profile_id=$(sbatch --parsable --export=CONDA_PREFIX="${CONDA_PREFIX}" server/profile.sbatch)
+#   train_id=$(sbatch --parsable --dependency=afterok:${profile_id} --export=CONDA_PREFIX="${CONDA_PREFIX}" server/train.sbatch)
+#   cal_id=$(sbatch --parsable --dependency=afterok:${train_id} --export=CONDA_PREFIX="${CONDA_PREFIX}" server/calibrate.sbatch)
+#   sbatch --dependency=afterok:${cal_id} --export=CONDA_PREFIX="${CONDA_PREFIX}",CONFIG_PATH=configs/hdr.json,\
 # CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn server/eval.sbatch
 
 set -Eeuo pipefail
@@ -6847,7 +7693,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/calibrate.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/calibrate.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -6870,7 +7716,9 @@ export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
@@ -6897,9 +7745,11 @@ else
   echo "SNN checkpoint: ${OUTPUT_PATH##*/}"
 fi
 echo "Calibration samples: ${CALIBRATION_SAMPLES}"
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-srun bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+runtime_command srun bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"
 ~~~~~~~~
 
@@ -6927,7 +7777,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/eval.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run qsub from the repository root or use:" >&2
-  echo "  qsub -v PROJECT_ROOT=/absolute/path/to/repo server/eval.pbs" >&2
+  echo "  qsub -v PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/eval.pbs" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -6949,7 +7799,9 @@ export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 export RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 export BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 export BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -6977,9 +7829,11 @@ fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   echo "SNN dynamics: ${SNN_DYNAMICS}"
 fi
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-bash "${PROJECT_ROOT}/scripts/eval.sh" \
+runtime_command bash "${PROJECT_ROOT}/scripts/eval.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}"
 ~~~~~~~~
 
@@ -7012,7 +7866,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/eval.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/eval.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/eval.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -7034,7 +7888,9 @@ export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 export RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 export BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 export BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -7065,9 +7921,11 @@ fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   echo "SNN dynamics: ${SNN_DYNAMICS}"
 fi
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
+runtime_command srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}"
 ~~~~~~~~
 
@@ -7081,8 +7939,8 @@ srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
 #PBS -j oe
 
 # Dependency example:
-#   profile_id=$(qsub server/profile.pbs)
-#   qsub -W depend=afterok:${profile_id} server/train.pbs
+#   profile_id=$(qsub -v CONDA_PREFIX="${CONDA_PREFIX}" server/profile.pbs)
+#   qsub -v CONDA_PREFIX="${CONDA_PREFIX}" -W depend=afterok:${profile_id} server/train.pbs
 
 set -Eeuo pipefail
 
@@ -7098,7 +7956,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
-  echo "Submit from the repository root or export PROJECT_ROOT explicitly." >&2
+  echo "Submit from the repository root or pass PROJECT_ROOT explicitly; also pass CONDA_PREFIX or PYTHON_BIN." >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -7113,7 +7971,9 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
 fi
 
 export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA=1
 export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
 export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
@@ -7138,8 +7998,10 @@ else
   echo "Config: ${TRAIN_CONFIG##*/}"
   echo "Profile output: ${PROFILE_OUTPUT##*/}"
 fi
-nvidia-smi || true
-bash "${PROJECT_ROOT}/scripts/run.sh" profile
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
+runtime_command bash "${PROJECT_ROOT}/scripts/run.sh" profile
 ~~~~~~~~
 
 # server/profile.sbatch
@@ -7157,8 +8019,8 @@ bash "${PROJECT_ROOT}/scripts/run.sh" profile
 #SBATCH --error=slurm-%x-%j.err
 
 # Dependency example:
-#   profile_id=$(sbatch --parsable server/profile.sbatch)
-#   sbatch --dependency=afterok:${profile_id} server/train.sbatch
+#   profile_id=$(sbatch --parsable --export=CONDA_PREFIX="${CONDA_PREFIX}" server/profile.sbatch)
+#   sbatch --dependency=afterok:${profile_id} --export=CONDA_PREFIX="${CONDA_PREFIX}" server/train.sbatch
 
 set -Eeuo pipefail
 
@@ -7174,7 +8036,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
-  echo "Submit from the repository root or export PROJECT_ROOT explicitly." >&2
+  echo "Submit from the repository root or pass PROJECT_ROOT explicitly; also pass CONDA_PREFIX or PYTHON_BIN." >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -7189,7 +8051,9 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
 fi
 
 export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA=1
 export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
 export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
@@ -7217,8 +8081,10 @@ else
   echo "Config: ${TRAIN_CONFIG##*/}"
   echo "Profile output: ${PROFILE_OUTPUT##*/}"
 fi
-nvidia-smi || true
-srun bash "${PROJECT_ROOT}/scripts/run.sh" profile
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
+runtime_command srun bash "${PROJECT_ROOT}/scripts/run.sh" profile
 ~~~~~~~~
 
 # server/train.pbs
@@ -7245,7 +8111,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run qsub from the repository root or use:" >&2
-  echo "  qsub -v PROJECT_ROOT=/absolute/path/to/repo server/train.pbs" >&2
+  echo "  qsub -v PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/train.pbs" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -7260,7 +8126,9 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
 fi
 
 export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -7291,9 +8159,11 @@ else
     echo "Resume: ${RESUME_CHECKPOINT##*/}"
   fi
 fi
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
+runtime_command bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
 ~~~~~~~~
 
 # server/train.sbatch
@@ -7325,14 +8195,14 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/train.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/train.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
 cd "${PROJECT_ROOT}"
 
 # Cluster-specific modules remain opt-in:
-#   sbatch --export=CUDA_MODULE=cuda/12.4 server/train.sbatch
+#   sbatch --export=CONDA_PREFIX="${CONDA_PREFIX}",CUDA_MODULE=cuda/12.6 server/train.sbatch
 if [[ -n "${CUDA_MODULE:-}" ]]; then
   if ! command -v module >/dev/null 2>&1; then
     echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
@@ -7342,7 +8212,9 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
 fi
 
 export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -7376,9 +8248,11 @@ else
     echo "Resume: ${RESUME_CHECKPOINT##*/}"
   fi
 fi
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
+runtime_command srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
 ~~~~~~~~
 
 # src/asgcn_unet/__init__.py
@@ -17135,6 +18009,570 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
     assert diagnostics["max_degree"].item() == 0
 ~~~~~~~~
 
+# tests/test_conda_runtime.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+RUNTIME = (ROOT / "scripts/runtime.sh").read_text(encoding="utf-8")
+VALIDATOR = RUNTIME.split("<<'PY'\n", 1)[1].split("\nPY\n", 1)[0]
+REPORTING = ["run", "train", "eval", "calibrate"]
+SCHEDULERS = [
+    f"server/{stage}.{extension}"
+    for extension in ("sbatch", "pbs")
+    for stage in ("profile", "train", "calibrate", "eval")
+]
+ENTRYPOINTS = [f"scripts/{name}.sh" for name in REPORTING + ["get_hdr", "get_aid"]]
+
+
+def _bash() -> str:
+    candidate = shutil.which("bash")
+    if candidate:
+        return candidate
+    git = shutil.which("git")
+    if git:
+        git_root = Path(git).resolve().parent.parent
+        for relative in ("bin/bash.exe", "usr/bin/bash.exe", "usr/bin/sh.exe"):
+            candidate_path = git_root / relative
+            if candidate_path.is_file():
+                return str(candidate_path)
+    pytest.skip("Bash is unavailable")
+
+
+def _shell(*arguments: str, **overrides: str) -> subprocess.CompletedProcess[str]:
+    bash = _bash()
+    env = os.environ.copy()
+    for name in (
+        "CONDA_PREFIX", "PYTHON_BIN", "VIRTUAL_ENV", "BASH_ENV", "ENV",
+        "SLURM_SUBMIT_DIR", "SLURM_JOB_ID", "PBS_O_WORKDIR", "PBS_JOBID",
+        "CUDA_MODULE", "PROJECT_ROOT", "RESUME_CHECKPOINT",
+        "ALLOW_UNVERIFIED_PREFLIGHT", "ALLOW_NONREPORTING_EVAL",
+    ):
+        env.pop(name, None)
+    env.update(
+        DRY_RUN="1",
+        INCLUDE_PRIVATE_HOST_PROVENANCE="0",
+        REQUIRE_CUDA="1",
+        PATH=str(Path(bash).parent) + os.pathsep + env.get("PATH", ""),
+    )
+    env.update(overrides)
+    return subprocess.run(
+        [bash, "--noprofile", "--norc", *arguments],
+        cwd=ROOT,
+        env=env,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        capture_output=True,
+        timeout=30,
+        check=False,
+    )
+
+
+@pytest.mark.parametrize("relative", ENTRYPOINTS + SCHEDULERS)
+def test_every_entrypoint_uses_the_shared_conda_selector(relative: str) -> None:
+    source = (ROOT / relative).read_text(encoding="utf-8")
+    assert '.venv' not in source
+    assert 'source "${PROJECT_ROOT}/scripts/runtime.sh"' in source
+    assert "select_conda_python" in source
+
+
+@pytest.mark.parametrize("relative", ENTRYPOINTS + SCHEDULERS + ["scripts/runtime.sh"])
+def test_conda_entrypoint_shell_syntax(relative: str) -> None:
+    result = _shell("-n", relative)
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.parametrize("explicit_prefix", [False, True])
+def test_validator_accepts_only_the_actual_conda_prefix(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str], explicit_prefix: bool,
+) -> None:
+    prefix = tmp_path / "conda"
+    (prefix / "conda-meta").mkdir(parents=True)
+    executable = prefix / "bin/python"
+    with monkeypatch.context() as context:
+        context.setattr(sys, "prefix", str(prefix))
+        context.setattr(sys, "base_prefix", str(prefix))
+        context.setattr(sys, "executable", str(executable))
+        context.setattr(sys, "argv", ["-", str(prefix) if explicit_prefix else "", str(executable)])
+        # Execute only the fixed validator extracted from this repository.
+        exec(compile(VALIDATOR, "<conda-runtime-validator>", "exec"), {})  # noqa: S102
+    assert capsys.readouterr().out.strip() == str(prefix.resolve())
+
+
+@pytest.mark.parametrize("mismatch", ["no_conda", "venv", "prefix", "outside", "executable"])
+def test_validator_rejects_non_conda_or_mixed_runtimes_without_private_paths(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, mismatch: str,
+) -> None:
+    prefix = tmp_path / "selected"
+    prefix.mkdir()
+    if mismatch != "no_conda":
+        (prefix / "conda-meta").mkdir()
+    executable = prefix / "bin/python"
+    actual = tmp_path / "outside/python" if mismatch == "outside" else executable
+    selected = prefix / "bin/other-python" if mismatch == "executable" else actual
+    expected = tmp_path / "other-env" if mismatch == "prefix" else prefix
+    base = tmp_path / "base-env" if mismatch == "venv" else prefix
+    with monkeypatch.context() as context:
+        context.setattr(sys, "prefix", str(prefix))
+        context.setattr(sys, "base_prefix", str(base))
+        context.setattr(sys, "executable", str(actual))
+        context.setattr(sys, "argv", ["-", str(expected), str(selected)])
+        with pytest.raises(SystemExit, match="selected Conda environment") as error:
+            # Execute only the fixed validator extracted from this repository.
+            exec(compile(VALIDATOR, "<conda-runtime-validator>", "exec"), {})  # noqa: S102
+    assert str(tmp_path) not in str(error.value)
+
+
+@pytest.mark.parametrize("relative", ENTRYPOINTS + SCHEDULERS)
+def test_real_execution_requires_explicit_conda_selection(relative: str) -> None:
+    result = _shell(relative, DRY_RUN="0")
+    assert result.returncode != 0
+    assert "select a Conda environment" in result.stderr
+
+
+@pytest.mark.parametrize("stage", REPORTING)
+def test_reporting_dry_run_needs_no_python_gpu_or_checkpoint(stage: str, tmp_path: Path) -> None:
+    arguments = [f"scripts/{stage}.sh"]
+    if stage == "run":
+        arguments.append("all")
+    result = _shell(*arguments, OUTPUT_PATH=(tmp_path / "output.pt").as_posix())
+    assert result.returncode == 0, result.stderr
+    assert "--runtime-profile constraints/server.json" in result.stdout
+    assert "--lock constraints/py312.txt" in result.stdout
+    assert "--require-cuda" in result.stdout
+    assert str(tmp_path) not in result.stdout
+
+
+@pytest.mark.parametrize("relative", SCHEDULERS)
+def test_scheduler_dry_run_needs_no_scheduler_or_conda(relative: str) -> None:
+    result = _shell(relative)
+    assert result.returncode == 0, result.stderr
+    assert "scripts/" in result.stdout
+    assert "command not found" not in result.stderr
+
+
+@pytest.mark.parametrize("script", ["get_hdr", "get_aid"])
+def test_download_help_and_dry_run_do_not_need_conda_or_cuda(script: str, tmp_path: Path) -> None:
+    help_result = _shell(f"scripts/{script}.sh", "--help", DRY_RUN="0")
+    assert help_result.returncode == 0, help_result.stderr
+    assert "Usage:" in help_result.stdout
+    arguments = [f"scripts/{script}.sh", "--download"] if script == "get_hdr" else [f"scripts/{script}.sh"]
+    result = _shell(*arguments, EVENTAID_ROOT=(tmp_path / "missing-data").as_posix())
+    assert result.returncode == 0, result.stderr
+    assert "--require-cuda" not in result.stdout
+    assert "--runtime-profile" not in result.stdout
+    assert not (tmp_path / "missing-data").exists()
+
+
+def test_selector_honors_override_and_disables_foreign_python_paths() -> None:
+    result = _shell(
+        "-c",
+        'source scripts/runtime.sh; select_conda_python; '
+        'printf "%s|%s|%s|%s" "$PYTHON_BIN" "$PYTHONNOUSERSITE" "${PYTHONPATH-unset}" "${PYTHONHOME-unset}"',
+        PYTHON_BIN="/example/conda/bin/python", CONDA_PREFIX="/example/other",
+        PYTHONPATH="/example/foreign", PYTHONHOME="/example/foreign",
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stdout == "/example/conda/bin/python|1|unset|unset"
+
+
+def test_dry_run_redacts_external_interpreter_path() -> None:
+    result = _shell("scripts/train.sh", PYTHON_BIN="/example/private-conda/bin/python")
+    assert result.returncode == 0, result.stderr
+    assert "/example/private-conda" not in result.stdout + result.stderr
+    assert "EXTERNAL/python" in result.stdout
+
+
+def test_download_wrappers_do_not_add_a_cuda_or_package_profile_gate() -> None:
+    for name in ("get_hdr", "get_aid"):
+        source = (ROOT / f"scripts/{name}.sh").read_text(encoding="utf-8")
+        assert "check_runtime_profile" not in source
+        assert "import torch" not in source
+~~~~~~~~
+
+# tests/test_conda_setup.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+import os
+import platform
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from typing import Any
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+PROFILE = {
+    "format_version": 1,
+    "python": "3.12.14",
+    "torch": "2.13.0+cu126",
+    "cuda": "12.6",
+    "platform": "Linux",
+    "machine": "x86_64",
+    "environment": "conda",
+}
+
+
+def _script() -> str:
+    return (ROOT / "scripts" / "setup.sh").read_text(encoding="utf-8")
+
+
+def _preflight() -> str:
+    return _script().split("<<'PY'\n", maxsplit=1)[1].split("\nPY\n", maxsplit=1)[0]
+
+
+def _prepare_preflight(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple[Path, Path]:
+    prefix = tmp_path / "private-selected-conda"
+    (prefix / "conda-meta").mkdir(parents=True)
+    profile = tmp_path / "server.json"
+    profile.write_text(json.dumps(PROFILE), encoding="utf-8")
+    lock = tmp_path / "server.txt"
+    lock.write_text("# synthetic hashed lock for preflight only\n", encoding="utf-8")
+    monkeypatch.setenv("CONDA_PREFIX", str(prefix))
+    monkeypatch.setenv("CONDA_DEFAULT_ENV", "test-server")
+    monkeypatch.delenv("CONDA_EXE", raising=False)
+    monkeypatch.setattr(sys, "prefix", str(prefix))
+    monkeypatch.setattr(sys, "base_prefix", str(prefix))
+    monkeypatch.setattr(sys, "argv", ["-", str(profile), str(lock)])
+    monkeypatch.setattr(platform, "python_version", lambda: "3.12.14")
+    monkeypatch.setattr(platform, "system", lambda: "Linux")
+    monkeypatch.setattr(platform, "machine", lambda: "x86_64")
+    monkeypatch.setattr(platform, "libc_ver", lambda: ("glibc", "2.28"))
+    return prefix, profile
+
+
+def _run_preflight() -> None:
+    # Execute the trusted, repository-owned preflight without invoking pip.
+    exec(compile(_preflight(), "<setup-preflight>", "exec"), {})  # noqa: S102
+
+
+def test_conda_preflight_accepts_exact_server_before_any_pip_work(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _prepare_preflight(tmp_path, monkeypatch)
+
+    _run_preflight()
+
+    output = capsys.readouterr().out
+    assert "Conda server preflight passed" in output
+    assert str(tmp_path) not in output
+    assert "import torch" not in _preflight()
+    assert _script().index("<<'PY'") < _script().index("-m pip install")
+
+
+@pytest.mark.parametrize(
+    "attribute,value",
+    [
+        ("python_version", "3.12.13"),
+        ("python_version", "3.13.14"),
+        ("system", "Windows"),
+        ("machine", "AMD64"),
+        ("machine", "aarch64"),
+        ("libc_ver", ("glibc", "2.27")),
+        ("libc_ver", ("musl", "1.2.5")),
+        ("libc_ver", ("", "")),
+    ],
+)
+def test_conda_preflight_rejects_unsupported_host_runtime(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    attribute: str,
+    value: Any,
+) -> None:
+    _prepare_preflight(tmp_path, monkeypatch)
+    monkeypatch.setattr(platform, attribute, lambda: value)
+
+    with pytest.raises(SystemExit) as error:
+        _run_preflight()
+
+    assert str(error.value).startswith("ERROR:")
+    assert str(tmp_path) not in str(error.value)
+
+
+@pytest.mark.parametrize("problem", ["venv", "wrong-prefix", "no-conda-meta", "base-name", "base-path"])
+def test_conda_preflight_refuses_wrong_or_base_environment(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, problem: str
+) -> None:
+    prefix, _ = _prepare_preflight(tmp_path, monkeypatch)
+    if problem == "venv":
+        monkeypatch.setattr(sys, "base_prefix", str(tmp_path / "other-base"))
+    elif problem == "wrong-prefix":
+        monkeypatch.setattr(sys, "prefix", str(tmp_path / "other-prefix"))
+        monkeypatch.setattr(sys, "base_prefix", str(tmp_path / "other-prefix"))
+    elif problem == "no-conda-meta":
+        (prefix / "conda-meta").rmdir()
+    elif problem == "base-name":
+        monkeypatch.setenv("CONDA_DEFAULT_ENV", "base")
+    else:
+        monkeypatch.setenv("CONDA_EXE", str(prefix / "bin" / "conda"))
+
+    with pytest.raises(SystemExit) as error:
+        _run_preflight()
+
+    assert str(tmp_path) not in str(error.value)
+
+
+@pytest.mark.parametrize(
+    "profile",
+    [
+        [],
+        {**PROFILE, "format_version": True},
+        {**PROFILE, "python": "3.12.13"},
+        {**PROFILE, "torch": "2.13.0+cpu"},
+        {**PROFILE, "cuda": "13.0"},
+        {**PROFILE, "environment": "venv"},
+        {**PROFILE, "packages": "private-secret"},
+        {**PROFILE, "private-secret": "unexpected"},
+    ],
+)
+def test_conda_preflight_rejects_changed_or_malformed_server_profile(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, profile: Any
+) -> None:
+    _, path = _prepare_preflight(tmp_path, monkeypatch)
+    path.write_text(json.dumps(profile), encoding="utf-8")
+
+    with pytest.raises(SystemExit) as error:
+        _run_preflight()
+
+    assert "private-secret" not in str(error.value)
+    assert str(tmp_path) not in str(error.value)
+
+
+@pytest.mark.parametrize("problem", ["missing-profile", "invalid-json", "missing-lock"])
+def test_conda_preflight_metadata_errors_are_public_safe(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, problem: str
+) -> None:
+    _, profile = _prepare_preflight(tmp_path, monkeypatch)
+    if problem == "missing-profile":
+        profile.unlink()
+    elif problem == "invalid-json":
+        profile.write_text("{private-secret", encoding="utf-8")
+    else:
+        Path(sys.argv[2]).unlink()
+
+    with pytest.raises(SystemExit) as error:
+        _run_preflight()
+
+    assert str(tmp_path) not in str(error.value)
+    assert "private-secret" not in str(error.value)
+
+
+def test_installer_has_no_environment_creation_activation_or_unlocked_bootstrap() -> None:
+    source = _script()
+    for forbidden in ("-m venv", "conda create", "conda activate", "source ", "--upgrade", "rm -"):
+        assert forbidden not in source
+    assert 'CONDA_PYTHON="${CONDA_PREFIX}/bin/python"' in source
+    assert "PIP_CONFIG_FILE=/dev/null" in source
+    assert "PIP_REQUIRE_VIRTUALENV=0" in source
+    assert "PYTHONNOUSERSITE=1" in source
+    assert "unset PYTHONPATH PYTHONHOME" in source
+    assert "--no-user --require-hashes --only-binary=:all:" in source
+    assert '--no-user --no-deps --no-build-isolation -e "${PROJECT_ROOT}[dev]"' in source
+    assert "--lock constraints/py312.txt --runtime-profile constraints/server.json" in source
+    assert "PIP_EXTRA_ARGS" not in source
+    assert "TORCH_INDEX_URL" not in source
+    assert "PYTHON_BIN" not in source
+
+
+LINUX_SHELL = pytest.mark.skipif(
+    os.name == "nt" or shutil.which("bash") is None,
+    reason="executable installer workflow requires Linux Bash",
+)
+
+
+def _shell_fixture(tmp_path: Path) -> tuple[Path, Path, dict[str, str]]:
+    project = tmp_path / "project"
+    scripts = project / "scripts"
+    scripts.mkdir(parents=True)
+    setup = scripts / "setup.sh"
+    setup.write_text(_script(), encoding="utf-8")
+    prefix = tmp_path / "selected-conda"
+    (prefix / "bin").mkdir(parents=True)
+    (prefix / "conda-meta").mkdir()
+    fake_python = prefix / "bin" / "python"
+    fake_python.write_text(
+        f"#!{sys.executable}\n"
+        "import json, os, sys\n"
+        "args = sys.argv[1:]\n"
+        "stage = ('preflight' if args[0] == '-' else 'runtime' if args[0].endswith('check_env.py') "
+        "else 'pipcheck' if args == ['-m', 'pip', 'check'] "
+        "else 'locked' if '--require-hashes' in args else 'editable')\n"
+        "with open(os.environ['MOCK_LOG'], 'a', encoding='utf-8') as log:\n"
+        "    log.write(json.dumps({'args': args, 'stage': stage, 'config': os.getenv('PIP_CONFIG_FILE'), "
+        "'user': os.getenv('PIP_USER'), 'proxy': os.getenv('HTTPS_PROXY'), "
+        "'require_venv': os.getenv('PIP_REQUIRE_VIRTUALENV'), "
+        "'no_user_site': os.getenv('PYTHONNOUSERSITE'), 'python_path': os.getenv('PYTHONPATH'), "
+        "'python_home': os.getenv('PYTHONHOME')}) + '\\n')\n"
+        "if stage == 'preflight':\n"
+        "    sys.stdin.read()\n"
+        "if os.getenv('MOCK_FAIL_STAGE') == stage:\n"
+        "    raise SystemExit(9)\n",
+        encoding="utf-8",
+    )
+    fake_python.chmod(0o755)
+    env = os.environ.copy()
+    for name in tuple(env):
+        if name.startswith("CONDA_") or name in {
+            "PIP_TARGET", "PIP_PREFIX", "PIP_ROOT", "PIP_PYTHON", "PIP_USER", "REQUIRE_CUDA",
+            "MOCK_FAIL_STAGE"
+        }:
+            del env[name]
+    env.update(
+        {
+            "CONDA_PREFIX": str(prefix),
+            "CONDA_DEFAULT_ENV": "test-server",
+            "MOCK_LOG": str(tmp_path / "calls.jsonl"),
+            "HTTPS_PROXY": "http://proxy.example:8080",
+        }
+    )
+    return project, setup, env
+
+
+def _shell_run(setup: Path, env: dict[str, str]) -> tuple[subprocess.CompletedProcess[str], list[dict]]:
+    result = subprocess.run(
+        ["bash", str(setup)], env=env, capture_output=True, text=True, timeout=30, check=False
+    )
+    log = Path(env["MOCK_LOG"])
+    calls = [json.loads(line) for line in log.read_text().splitlines()] if log.exists() else []
+    return result, calls
+
+
+@LINUX_SHELL
+@pytest.mark.parametrize("require_cuda", [None, "0", "1"])
+def test_installer_uses_only_selected_conda_and_locked_commands(
+    tmp_path: Path, require_cuda: str | None
+) -> None:
+    project, setup, env = _shell_fixture(tmp_path)
+    marker = tmp_path / "dotenv-was-executed"
+    (project / ".env").write_text(f"touch '{marker}'\nREQUIRE_CUDA=invalid\n", encoding="utf-8")
+    env.update(
+        {
+            "PYTHON_BIN": "must-not-run",
+            "VENV_DIR": str(tmp_path / "must-not-create"),
+            "TORCH_VERSION": "invalid",
+            "TORCH_INDEX_URL": "https://must-not-use.example",
+            "PIP_EXTRA_ARGS": "--no-deps --target /must-not-use",
+            "PIP_CONFIG_FILE": str(tmp_path / "ignored-pip.conf"),
+            "PIP_USER": "0",
+            "PIP_REQUIRE_VIRTUALENV": "1",
+            "PYTHONPATH": str(tmp_path / "foreign-packages"),
+            "PYTHONHOME": str(tmp_path / "foreign-python"),
+        }
+    )
+    if require_cuda is not None:
+        env["REQUIRE_CUDA"] = require_cuda
+
+    result, calls = _shell_run(setup, env)
+
+    assert result.returncode == 0, result.stderr
+    assert [call["stage"] for call in calls] == ["preflight", "locked", "editable", "pipcheck", "runtime"]
+    assert calls[1]["args"] == [
+        "-m", "pip", "install", "--no-user", "--require-hashes", "--only-binary=:all:",
+        "-r", str(project / "constraints" / "server.txt"),
+    ]
+    assert calls[2]["args"] == [
+        "-m", "pip", "install", "--no-user", "--no-deps", "--no-build-isolation", "-e", f"{project}[dev]"
+    ]
+    assert calls[4]["args"] == [
+        "scripts/check_env.py", "--lock", "constraints/py312.txt", "--runtime-profile",
+        "constraints/server.json", *(["--require-cuda"] if require_cuda == "1" else []),
+    ]
+    assert all(call["config"] == "/dev/null" and call["user"] == "0" for call in calls)
+    assert all(call["proxy"] == env["HTTPS_PROXY"] for call in calls)
+    assert all(call["no_user_site"] == "1" for call in calls)
+    assert all(call["require_venv"] == "0" for call in calls)
+    assert all(call["python_path"] is None and call["python_home"] is None for call in calls)
+    assert not marker.exists()
+    assert not (tmp_path / "must-not-create").exists()
+    assert not (project / ".venv").exists()
+    assert "Conda installation and exact runtime verification complete" in result.stdout
+
+
+@LINUX_SHELL
+@pytest.mark.parametrize("value", ["", "2", "true", "no"])
+def test_installer_rejects_invalid_cuda_switch_before_interpreter(tmp_path: Path, value: str) -> None:
+    _, setup, env = _shell_fixture(tmp_path)
+    env["REQUIRE_CUDA"] = value
+
+    result, calls = _shell_run(setup, env)
+
+    assert result.returncode != 0
+    assert "REQUIRE_CUDA must be 0 or 1" in result.stderr
+    assert calls == []
+
+
+@LINUX_SHELL
+@pytest.mark.parametrize("name", ["PIP_TARGET", "PIP_PREFIX", "PIP_ROOT", "PIP_PYTHON", "PIP_USER"])
+def test_installer_rejects_pip_destination_environment_overrides(tmp_path: Path, name: str) -> None:
+    _, setup, env = _shell_fixture(tmp_path)
+    env[name] = "1" if name == "PIP_USER" else str(tmp_path / "other-prefix")
+
+    result, calls = _shell_run(setup, env)
+
+    assert result.returncode != 0
+    assert calls == []
+    assert str(tmp_path) not in result.stderr
+
+
+@LINUX_SHELL
+@pytest.mark.parametrize("stage", ["preflight", "locked", "editable", "pipcheck", "runtime"])
+def test_installer_stops_immediately_when_any_stage_fails(tmp_path: Path, stage: str) -> None:
+    _, setup, env = _shell_fixture(tmp_path)
+    env["MOCK_FAIL_STAGE"] = stage
+
+    result, calls = _shell_run(setup, env)
+
+    stages = ["preflight", "locked", "editable", "pipcheck", "runtime"]
+    assert result.returncode != 0
+    assert [call["stage"] for call in calls] == stages[:stages.index(stage) + 1]
+    assert "verification complete" not in result.stdout
+
+
+@LINUX_SHELL
+@pytest.mark.parametrize(
+    "problem", ["missing-prefix", "relative-prefix", "missing-metadata", "missing-python", "base"]
+)
+def test_installer_rejects_invalid_conda_selection_before_any_interpreter(
+    tmp_path: Path, problem: str
+) -> None:
+    _, setup, env = _shell_fixture(tmp_path)
+    prefix = Path(env["CONDA_PREFIX"])
+    if problem == "missing-prefix":
+        del env["CONDA_PREFIX"]
+    elif problem == "relative-prefix":
+        env["CONDA_PREFIX"] = "relative-prefix"
+    elif problem == "missing-metadata":
+        (prefix / "conda-meta").rmdir()
+    elif problem == "missing-python":
+        (prefix / "bin" / "python").unlink()
+    else:
+        env["CONDA_DEFAULT_ENV"] = "base"
+
+    result, calls = _shell_run(setup, env)
+
+    assert result.returncode != 0
+    assert calls == []
+    assert str(tmp_path) not in result.stderr
+~~~~~~~~
+
 # tests/test_cuda_env.py
 
 ~~~~~~~~python
@@ -23611,6 +25049,552 @@ def test_ci_pins_actions_and_runs_repository_hygiene_gates() -> None:
     assert "run: bash -n scripts/*.sh" not in workflow
 ~~~~~~~~
 
+# tests/test_runtime_profile.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+from types import SimpleNamespace
+from typing import Any
+
+import pytest
+
+from scripts import check_env
+
+PROFILE = {
+    "format_version": 1,
+    "python": "3.12.14",
+    "torch": "2.13.0+cu126",
+    "cuda": "12.6",
+    "platform": "Linux",
+    "machine": "x86_64",
+    "environment": "conda",
+}
+
+
+def _matching_runtime(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
+    prefix = tmp_path / "private-conda-prefix"
+    (prefix / "conda-meta").mkdir(parents=True)
+    monkeypatch.setattr(sys, "prefix", str(prefix))
+    monkeypatch.setattr(sys, "base_prefix", str(prefix))
+    monkeypatch.setattr(check_env.platform, "python_version", lambda: PROFILE["python"])
+    monkeypatch.setattr(check_env.platform, "system", lambda: "Linux")
+    monkeypatch.setattr(check_env.platform, "machine", lambda: "x86_64")
+    monkeypatch.setattr(check_env.platform, "platform", lambda: "Linux-test-runtime")
+    monkeypatch.setattr(check_env.platform, "libc_ver", lambda: ("glibc", "2.28"))
+    monkeypatch.setattr(
+        check_env,
+        "torch",
+        SimpleNamespace(__version__=PROFILE["torch"], version=SimpleNamespace(cuda="12.6")),
+    )
+    monkeypatch.setattr(check_env, "_cuda_inventory", lambda: (False, [], []))
+    return prefix
+
+
+def _profile_file(tmp_path: Path, value: Any = None) -> Path:
+    path = tmp_path / "private-runtime-profile.json"
+    path.write_text(json.dumps(PROFILE if value is None else value), encoding="utf-8")
+    return path
+
+
+def _arguments(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    profile_path: Path | None,
+    *extra: str,
+) -> None:
+    data_root = tmp_path / "data"
+    data_root.mkdir(exist_ok=True)
+    arguments = [
+        "check_env.py",
+        "--data-root",
+        str(data_root),
+        "--runs-root",
+        str(tmp_path / "runs"),
+        *extra,
+    ]
+    if profile_path is not None:
+        arguments.extend(["--runtime-profile", str(profile_path)])
+    monkeypatch.setattr(sys, "argv", arguments)
+
+
+def test_exact_conda_runtime_matches_public_profile(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    _arguments(monkeypatch, tmp_path, _profile_file(tmp_path))
+
+    check_env.main()
+
+    output = capsys.readouterr().out
+    report = json.loads(output)
+    assert report["runtime_profile"] == "$RUNTIME_PROFILE"
+    assert report["runtime_profile_match"] is True
+    assert report["runtime_profile_mismatches"] == {}
+    assert report["runtime_environment"] == "conda"
+    assert str(tmp_path) not in output
+    assert "private-conda-prefix" not in output
+
+
+@pytest.mark.parametrize(
+    "field,actual",
+    [
+        ("python", "3.12.13"),
+        ("python", "3.13.14"),
+        ("torch", "2.13.0"),
+        ("torch", "2.13.0+cpu"),
+        ("torch", "2.13.0+cu130"),
+        ("cuda", "13.0"),
+        ("cuda", None),
+        ("platform", "Windows"),
+        ("machine", "AMD64"),
+        ("machine", "aarch64"),
+    ],
+)
+def test_runtime_profile_rejects_each_exact_mismatch(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    field: str,
+    actual: str | None,
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    if field == "torch":
+        monkeypatch.setattr(check_env.torch, "__version__", actual)
+    elif field == "cuda":
+        monkeypatch.setattr(check_env.torch.version, "cuda", actual)
+    else:
+        attribute = {"python": "python_version", "platform": "system", "machine": "machine"}[field]
+        monkeypatch.setattr(check_env.platform, attribute, lambda: actual)
+    _arguments(monkeypatch, tmp_path, _profile_file(tmp_path))
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    output = capsys.readouterr().out
+    report = json.loads(output)
+    assert report["runtime_profile_match"] is False
+    assert report["runtime_profile_mismatches"] == {
+        field: {"expected": PROFILE[field], "actual": actual}
+    }
+    assert f"{field}: expected {PROFILE[field]}, found {actual}" in str(error.value)
+    assert str(tmp_path) not in output + str(error.value)
+
+
+@pytest.mark.parametrize("environment", ["venv", "non-conda"])
+def test_runtime_profile_requires_real_conda_interpreter_not_environment_variables(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    environment: str,
+) -> None:
+    prefix = _matching_runtime(monkeypatch, tmp_path)
+    monkeypatch.setenv("CONDA_PREFIX", str(prefix))
+    monkeypatch.setenv("CONDA_DEFAULT_ENV", "server")
+    if environment == "venv":
+        monkeypatch.setattr(sys, "base_prefix", str(tmp_path / "private-base-prefix"))
+    else:
+        (prefix / "conda-meta").rmdir()
+    _arguments(monkeypatch, tmp_path, _profile_file(tmp_path))
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    output = capsys.readouterr().out
+    report = json.loads(output)
+    assert report["runtime_environment"] == environment
+    assert report["runtime_profile_mismatches"] == {
+        "environment": {"expected": "conda", "actual": environment}
+    }
+    assert str(tmp_path) not in output + str(error.value)
+
+
+def test_runtime_profile_accepts_conda_without_activation_variables(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    monkeypatch.delenv("CONDA_PREFIX", raising=False)
+    monkeypatch.delenv("CONDA_DEFAULT_ENV", raising=False)
+
+    assert check_env._check_runtime_profile(PROFILE) == ({}, "conda")
+
+
+def test_conda_meta_must_be_a_directory(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    prefix = _matching_runtime(monkeypatch, tmp_path)
+    (prefix / "conda-meta").rmdir()
+    (prefix / "conda-meta").write_text("not a directory", encoding="utf-8")
+
+    mismatches, environment = check_env._check_runtime_profile(PROFILE)
+
+    assert environment == "non-conda"
+    assert mismatches["environment"] == {"expected": "conda", "actual": "non-conda"}
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        [],
+        {},
+        {**PROFILE, "format_version": True},
+        {**PROFILE, "format_version": 2},
+        {**PROFILE, "python": "3.12"},
+        {**PROFILE, "python": None},
+        {**PROFILE, "torch": "2.13.0"},
+        {**PROFILE, "torch": "2.13.0+*"},
+        {**PROFILE, "cuda": 12.6},
+        {**PROFILE, "platform": "Windows"},
+        {**PROFILE, "machine": "AMD64"},
+        {**PROFILE, "environment": "venv"},
+        {**PROFILE, "unexpected": "private-secret"},
+    ],
+)
+def test_runtime_profile_rejects_malformed_schema_without_private_values(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    value: Any,
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    _arguments(monkeypatch, tmp_path, _profile_file(tmp_path, value))
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    output = capsys.readouterr()
+    assert "Runtime profile check failed" in str(error.value)
+    assert error.value.__suppress_context__ is True
+    assert output.out == ""
+    assert str(tmp_path) not in str(error.value) + output.err
+    assert "private-secret" not in str(error.value) + output.err
+
+
+@pytest.mark.parametrize("kind", ["missing", "directory", "invalid-json", "invalid-unicode"])
+def test_runtime_profile_file_failures_are_fatal_and_public_safe(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    kind: str,
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    path = tmp_path / "private-profile.json"
+    if kind == "directory":
+        path.mkdir()
+    elif kind == "invalid-json":
+        path.write_text("{private-secret", encoding="utf-8")
+    elif kind == "invalid-unicode":
+        path.write_bytes(b"\xffprivate-secret")
+    _arguments(monkeypatch, tmp_path, path)
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    output = capsys.readouterr()
+    assert "Runtime profile check failed" in str(error.value)
+    assert "$RUNTIME_PROFILE" in str(error.value)
+    assert error.value.__suppress_context__ is True
+    assert str(tmp_path) not in str(error.value) + output.out + output.err
+    assert "private-secret" not in str(error.value) + output.out + output.err
+
+
+def test_runtime_profile_paths_only_appear_with_private_opt_in(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    prefix = _matching_runtime(monkeypatch, tmp_path)
+    path = _profile_file(tmp_path)
+    _arguments(monkeypatch, tmp_path, path, "--include-private-host-provenance")
+
+    check_env.main()
+
+    report = json.loads(capsys.readouterr().out)
+    private = report["private_host_provenance"]
+    assert private["runtime_profile"] == str(path.resolve())
+    assert private["interpreter_prefix"] == str(prefix)
+
+
+@pytest.mark.parametrize(
+    "relative,label",
+    [
+        ("constraints/server.json", "$PROJECT_ROOT/constraints/server.json"),
+        ("runs/private-runtime-profile.json", "$RUNTIME_PROFILE"),
+    ],
+)
+def test_runtime_profile_hides_custom_paths_even_inside_project(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    relative: str,
+    label: str,
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    project = tmp_path / "project"
+    (project / "scripts").mkdir(parents=True)
+    monkeypatch.setattr(check_env, "__file__", str(project / "scripts" / "check_env.py"))
+    profile = project / relative
+    profile.parent.mkdir(parents=True, exist_ok=True)
+    profile.write_text(json.dumps(PROFILE), encoding="utf-8")
+    _arguments(monkeypatch, tmp_path, profile)
+
+    check_env.main()
+
+    output = capsys.readouterr().out
+    assert json.loads(output)["runtime_profile"] == label
+    assert "private-runtime-profile" not in output
+    assert str(tmp_path) not in output
+
+
+def test_runtime_profile_is_optional_for_existing_cross_platform_checks(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    monkeypatch.setattr(sys, "base_prefix", str(tmp_path / "base"))
+    monkeypatch.setattr(check_env.platform, "system", lambda: "Windows")
+    monkeypatch.setattr(check_env.torch, "__version__", "2.13.0+cpu")
+    _arguments(monkeypatch, tmp_path, None)
+
+    check_env.main()
+
+    report = json.loads(capsys.readouterr().out)
+    assert report["runtime_profile"] is None
+    assert report["runtime_profile_match"] is None
+    assert report["runtime_profile_mismatches"] is None
+
+
+@pytest.mark.parametrize(
+    "expected,actual,matched",
+    [
+        ("2.13.0", "2.13.0", True),
+        ("2.13.0", "2.13.0+cpu", True),
+        ("2.13.0", "2.13.0+cu126", True),
+        ("2.13.0", "2.14.0+cu126", False),
+        ("2.13.0+cu126", "2.13.0+cu126", True),
+        ("2.13.0+cu126", "2.13.0", False),
+        ("2.13.0+cu126", "2.13.0+cpu", False),
+        ("2.13.0+cu126", "2.13.0+cu130", False),
+    ],
+)
+def test_dependency_lock_preserves_explicit_local_build_suffixes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    expected: str,
+    actual: str,
+    matched: bool,
+) -> None:
+    path = tmp_path / "versions.txt"
+    path.write_text(f"torch=={expected}\n", encoding="utf-8")
+    monkeypatch.setattr(check_env.importlib.metadata, "version", lambda _name: actual)
+
+    mismatches = check_env._check_lock(path)
+
+    assert mismatches == ({} if matched else {"torch": {"expected": expected, "actual": actual}})
+
+
+def test_dependency_lock_missing_exact_build_fails(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    path = tmp_path / "versions.txt"
+    path.write_text("torch==2.13.0+cu126\n", encoding="utf-8")
+
+    def missing_package(_name: str) -> str:
+        raise check_env.importlib.metadata.PackageNotFoundError("torch")
+
+    monkeypatch.setattr(check_env.importlib.metadata, "version", missing_package)
+
+    assert check_env._check_lock(path) == {"torch": {"expected": "2.13.0+cu126", "actual": None}}
+
+
+def test_runtime_profile_verifies_full_exact_package_closure(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    packages = {"torch": "2.13.0+cu126", "nvidia-cuda-runtime-cu12": "12.6.77", "numpy": "2.5.2"}
+    path = _profile_file(tmp_path, {**PROFILE, "packages": packages})
+    calls: list[str] = []
+
+    def installed_version(name: str) -> str:
+        calls.append(name)
+        return packages[name]
+
+    monkeypatch.setattr(check_env.importlib.metadata, "version", installed_version)
+    _arguments(monkeypatch, tmp_path, path)
+
+    check_env.main()
+
+    report = json.loads(capsys.readouterr().out)
+    assert report["runtime_profile_match"] is True
+    assert report["runtime_profile_mismatches"] == {}
+    assert set(calls) == set(packages)
+
+
+@pytest.mark.parametrize("actual", [None, "2.13.0", "2.13.0+cpu", "2.13.0+cu130"])
+def test_runtime_profile_package_build_mismatch_is_precise_and_fatal(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    actual: str | None,
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    path = _profile_file(tmp_path, {**PROFILE, "packages": {"torch": "2.13.0+cu126"}})
+
+    def installed_version(_name: str) -> str:
+        if actual is None:
+            raise check_env.importlib.metadata.PackageNotFoundError("torch")
+        return actual
+
+    monkeypatch.setattr(check_env.importlib.metadata, "version", installed_version)
+    _arguments(monkeypatch, tmp_path, path)
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    output = capsys.readouterr().out
+    report = json.loads(output)
+    assert report["runtime_profile_match"] is False
+    assert report["runtime_profile_mismatches"] == {
+        "packages.torch": {"expected": "2.13.0+cu126", "actual": actual}
+    }
+    assert f"packages.torch: expected 2.13.0+cu126, found {actual}" in str(error.value)
+    assert str(tmp_path) not in output + str(error.value)
+
+
+def test_runtime_profile_normalizes_distribution_names_without_relaxing_versions(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    path = _profile_file(
+        tmp_path,
+        {**PROFILE, "packages": {"Typing_Extensions": "4.16.0", "Example.Package": "1.2.3+local"}},
+    )
+    expected = {"typing-extensions": "4.16.0", "example-package": "1.2.3+local"}
+    monkeypatch.setattr(check_env.importlib.metadata, "version", expected.__getitem__)
+
+    profile = check_env._runtime_profile(path)
+
+    assert profile["packages"] == expected
+    assert check_env._check_runtime_profile(profile) == ({}, "conda")
+
+
+@pytest.mark.parametrize(
+    "packages",
+    [
+        None,
+        [],
+        "private-secret",
+        {"torch": None},
+        {"torch": 2.13},
+        {"torch": ""},
+        {"torch": ">=2.13.0"},
+        {"torch": "2.13.*"},
+        {"torch": "2..13.0"},
+        {"torch": "https://private.example/torch.whl"},
+        {"../private-package": "1.0.0"},
+        {"": "1.0.0"},
+        {"typing_extensions": "4.16.0", "Typing-Extensions": "4.16.0"},
+    ],
+)
+def test_runtime_profile_rejects_malformed_or_ambiguous_package_pins(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    packages: Any,
+) -> None:
+    _matching_runtime(monkeypatch, tmp_path)
+    path = _profile_file(tmp_path, {**PROFILE, "packages": packages})
+    _arguments(monkeypatch, tmp_path, path)
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    output = capsys.readouterr()
+    assert "Runtime profile check failed" in str(error.value)
+    assert output.out == ""
+    assert "private" not in str(error.value).lower()
+    assert str(tmp_path) not in str(error.value) + output.err
+~~~~~~~~
+
+# tests/test_server_lock.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _server_lock() -> tuple[dict[str, str], dict[str, set[str]]]:
+    text = (ROOT / "constraints/server.txt").read_text(encoding="utf-8")
+    assert "--index-url https://pypi.org/simple" in text
+    assert "--extra-index-url https://download.pytorch.org/whl/cu126" in text
+    pins: dict[str, str] = {}
+    hashes: dict[str, set[str]] = {}
+    for line in text.replace("\\\n", " ").splitlines():
+        line = line.strip()
+        if not line or line.startswith(("#", "--index-url ", "--extra-index-url ")):
+            continue
+        match = re.fullmatch(
+            r"([A-Za-z0-9_.-]+)==([^\s]+)((?:\s+--hash=sha256:[a-f0-9]{64})+)", line
+        )
+        assert match is not None, "Every server dependency needs an exact version and hashes"
+        name = re.sub(r"[-_.]+", "-", match[1]).lower()
+        assert name not in pins
+        pins[name] = match[2]
+        hashes[name] = set(re.findall(r"--hash=sha256:([a-f0-9]{64})", match[3]))
+    return pins, hashes
+
+
+def test_server_hash_lock_and_runtime_profile_have_identical_package_versions() -> None:
+    pins, hashes = _server_lock()
+    profile = json.loads((ROOT / "constraints/server.json").read_text(encoding="utf-8"))
+    assert pins == profile["packages"]
+    assert pins["torch"] == profile["torch"] == "2.13.0+cu126"
+    assert profile["python"] == "3.12.14"
+    assert profile["cuda"] == "12.6"
+    assert profile["platform"] == "Linux"
+    assert profile["machine"] == "x86_64"
+    assert profile["environment"] == "conda"
+    assert {
+        "pip",
+        "setuptools",
+        "wheel",
+        "triton",
+        "cuda-toolkit",
+        "cuda-bindings",
+        "nvidia-cudnn-cu12",
+        "nvidia-cuda-runtime-cu12",
+        "nvidia-cublas-cu12",
+    }.issubset(pins)
+    # Official index hash for this profile's CPython 3.12 Linux x86_64 CUDA wheel.
+    assert "8695f3c6b7966d44560275b90c5c28e5091ba33ddbb1ab33b2173782ca1e9145" in hashes["torch"]
+
+
+def test_server_lock_preserves_core_profile_and_bootstrap_input_pins() -> None:
+    pins, _ = _server_lock()
+    core = (ROOT / "constraints/py312.txt").read_text(encoding="utf-8")
+    for line in core.splitlines():
+        if not line or line.startswith("#"):
+            continue
+        name, version = line.split("==")
+        canonical = re.sub(r"[-_.]+", "-", name).lower()
+        assert pins[canonical].split("+", 1)[0] == version
+    source = (ROOT / "constraints/server.in").read_text(encoding="utf-8")
+    assert "-r py312.txt" in source
+    for name in ("pip", "setuptools", "wheel", "torch"):
+        assert f"{name}=={pins[name]}" in source
+~~~~~~~~
+
 # tests/test_server_orchestration.py
 
 ~~~~~~~~python
@@ -23798,6 +25782,7 @@ def test_scheduler_docs_do_not_export_the_complete_login_environment() -> None:
 
     readme = _text("README.md")
     assert '--export=PROJECT_ROOT="$PWD"' in readme
+    assert 'CONDA_PREFIX="$CONDA_PREFIX"' in readme
     assert "INCLUDE_PRIVATE_HOST_PROVENANCE=1" in readme
 
 
@@ -23834,12 +25819,12 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
     quickstart = readme.split(quickstart_heading, maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
 
     clone_command = (
-        "cd ~\n"
         "git clone https://github.com/costunder/asgcn-unet.git &&\n"
         "cd asgcn-unet"
     )
-    conda_command = "conda create -n asgcn --override-channels -c conda-forge python=3.12 git"
+    conda_command = "conda create -n asgcn --override-channels -c conda-forge python=3.12.14 pip"
     assert clone_command in quickstart
+    assert "cd ~" not in quickstart
     assert conda_command in quickstart
     assert quickstart.index(clone_command) < quickstart.index(conda_command)
     assert "conda activate asgcn" in quickstart
@@ -23858,8 +25843,13 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
         assert absolute_home_path not in quickstart
     assert "ASGCN_DIR" not in quickstart
     assert "bash scripts/setup.sh" in quickstart
-    assert "source .venv/bin/activate" in quickstart
-    assert "python scripts/check_env.py --require-cuda --lock constraints/py312.txt" in quickstart
+    assert "conda activate asgcn\nbash scripts/setup.sh" in quickstart
+    assert ".venv" not in quickstart
+    assert ".env.example" not in quickstart
+    assert "nvidia-smi" not in quickstart
+    assert "df -h ." not in quickstart
+    assert "constraints/server.json" in quickstart
+    assert "2.13.0+cu126" in quickstart
     assert "bash scripts/get_aid.sh --all" in quickstart
     assert "bash scripts/get_hdr.sh --download" in quickstart
     assert "bash scripts/get_hdr.sh --archive" not in quickstart
@@ -23867,6 +25857,7 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
     assert "data/EventHDR/{train,eval}" in quickstart
     assert "SHA-256" in quickstart
     assert "python scripts/check_env.py --require-full-data --lock constraints/py312.txt" in quickstart
+    assert "--runtime-profile constraints/server.json" in quickstart
     assert "bash scripts/run.sh all" in quickstart
 
     private_restoration = quickstart.split("### 5.", maxsplit=1)[1]

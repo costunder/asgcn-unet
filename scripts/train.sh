@@ -4,7 +4,6 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 CONFIG_PATH="${1:-${CONFIG_PATH:-configs/train.json}}"
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -29,11 +28,9 @@ if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
   echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
   exit 2
 fi
-if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
-  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: training config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
@@ -51,7 +48,7 @@ if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" != "0" \
   echo "ERROR: ALLOW_UNVERIFIED_PREFLIGHT must be 0 or 1" >&2
   exit 2
 fi
-if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" && ! -f "${PREFLIGHT_REPORT}" ]]; then
+if [[ "${DRY_RUN}" != "1" && "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" && ! -f "${PREFLIGHT_REPORT}" ]]; then
   echo "ERROR: passed CUDA preflight report not found: $(path_log_label "${PREFLIGHT_REPORT}")" >&2
   echo "Run bash scripts/run.sh profile first." >&2
   exit 1
@@ -60,7 +57,8 @@ if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   echo "WARNING: bypassing CUDA preflight for a non-reporting run." >&2
 fi
 
-"${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
+check_runtime_profile
+runtime_command "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
 import sys
 import torch
 
@@ -84,7 +82,7 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 echo "Starting EventHDR training with $(path_log_label "${CONFIG_PATH}")"
@@ -96,11 +94,11 @@ if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   TRAIN_ARGS+=(--allow-unverified-preflight)
 fi
 if [[ -n "${RESUME_CHECKPOINT}" ]]; then
-  if [[ ! -f "${RESUME_CHECKPOINT}" ]]; then
+  if [[ "${DRY_RUN}" != "1" && ! -f "${RESUME_CHECKPOINT}" ]]; then
     echo "ERROR: resume checkpoint not found: $(path_log_label "${RESUME_CHECKPOINT}")" >&2
     exit 1
   fi
   echo "Resuming from checkpoint: $(path_log_label "${RESUME_CHECKPOINT}")"
   TRAIN_ARGS+=(--resume "${RESUME_CHECKPOINT}")
 fi
-exec "${PYTHON_BIN}" -m asgcn_unet.cli train "${TRAIN_ARGS[@]}"
+runtime_exec "${PYTHON_BIN}" -m asgcn_unet.cli train "${TRAIN_ARGS[@]}"

@@ -4,7 +4,6 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 MANIFEST="${PROJECT_ROOT}/manifests/eventaid_r.json"
-PYTHON_BIN="${PYTHON_BIN:-python3}"
 DESTINATION="${EVENTAID_ROOT:-${PROJECT_ROOT}/data/EventAid-R}"
 
 usage() {
@@ -72,12 +71,17 @@ if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then
   DOWNLOAD_ALL=1
 fi
 
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
+if [[ "${DRY_RUN}" == "1" ]]; then
+  echo "EventAid-R dry run: no files transferred."
+  runtime_command bash "${SCRIPT_DIR}/get_aid.sh" --destination "${DESTINATION}" "${SCENES[@]}"
+  exit 0
+fi
+
 if ! command -v curl >/dev/null 2>&1; then
   echo "ERROR: curl is required" >&2
-  exit 1
-fi
-if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-  echo "ERROR: Python executable not found: ${PYTHON_BIN}" >&2
   exit 1
 fi
 if [[ ! -f "${MANIFEST}" ]]; then

@@ -15,7 +15,7 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     "  INSPECT_VALIDATE_ALL=0|1   Default: 0" \
     "  INSPECT_SAMPLES=N          Default: 1" \
     "  REQUIRE_CUDA=0|1           Default: 1" \
-    "  PYTHON_BIN=PATH            Default: <repo>/.venv/bin/python"
+    "  PYTHON_BIN=PATH            Default: CONDA_PREFIX/bin/python"
   exit 0
 fi
 
@@ -24,7 +24,6 @@ CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/train/best.pt}}"
 OUTPUT_PATH="${3:-${OUTPUT_PATH:-runs/train/best_snn.pt}}"
 CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -46,16 +45,14 @@ if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
   echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
   exit 2
 fi
-if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
-  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: calibration config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
 fi
-if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
+if [[ "${DRY_RUN}" != "1" && ! -f "${CHECKPOINT_PATH}" ]]; then
   echo "ERROR: ANN checkpoint not found: $(path_log_label "${CHECKPOINT_PATH}")" >&2
   exit 1
 fi
@@ -67,7 +64,7 @@ for flag_name in REQUIRE_CUDA VALIDATE_DATASET INSPECT_VALIDATE_ALL OVERWRITE_CA
   fi
 done
 
-"${PYTHON_BIN}" - "${CHECKPOINT_PATH}" "${OUTPUT_PATH}" <<'PY'
+runtime_command "${PYTHON_BIN}" - "${CHECKPOINT_PATH}" "${OUTPUT_PATH}" <<'PY'
 from pathlib import Path
 import sys
 
@@ -89,7 +86,8 @@ if [[ -e "${OUTPUT_PATH}" || -L "${OUTPUT_PATH}" ]]; then
   fi
 fi
 
-"${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
+check_runtime_profile
+runtime_command "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
 import sys
 import torch
 
@@ -113,7 +111,7 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 if [[ "${CALIBRATION_SAMPLES}" != "all" && ! "${CALIBRATION_SAMPLES}" =~ ^[1-9][0-9]*$ ]]; then
@@ -131,4 +129,4 @@ CALIBRATE_ARGS=(
 if [[ "${OVERWRITE_CALIBRATION}" == "1" ]]; then
   CALIBRATE_ARGS+=(--overwrite)
 fi
-exec "${PYTHON_BIN}" -m asgcn_unet.cli calibrate "${CALIBRATE_ARGS[@]}"
+runtime_exec "${PYTHON_BIN}" -m asgcn_unet.cli calibrate "${CALIBRATE_ARGS[@]}"

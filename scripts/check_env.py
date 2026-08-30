@@ -107,11 +107,93 @@ def _check_lock(path: Path) -> dict[str, dict[str, str | None]]:
             actual = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
             actual = None
-        actual_public = actual.split("+", maxsplit=1)[0] if actual else None
-        expected_public = expected.split("+", maxsplit=1)[0]
-        if actual_public != expected_public:
+        comparable_actual = (
+            actual if "+" in expected else actual.split("+", maxsplit=1)[0] if actual else None
+        )
+        if comparable_actual != expected:
             mismatches[name] = {"expected": expected, "actual": actual}
     return mismatches
+
+
+def _runtime_profile(path: Path) -> dict[str, object]:
+    profile = json.loads(path.read_text(encoding="utf-8"))
+    fields = {"format_version", "python", "torch", "cuda", "platform", "machine", "environment"}
+    if (
+        not isinstance(profile, dict)
+        or not fields.issubset(profile)
+        or set(profile) - fields - {"packages"}
+    ):
+        raise ValueError("Runtime profile must contain exactly the format_version=1 fields")
+    if type(profile["format_version"]) is not int or profile["format_version"] != 1:
+        raise ValueError("Unsupported runtime profile format_version")
+    patterns = {
+        "python": r"\d+\.\d+\.\d+",
+        "torch": r"\d+\.\d+\.\d+\+[A-Za-z0-9][A-Za-z0-9._-]*",
+        "cuda": r"\d+\.\d+",
+    }
+    for field, pattern in patterns.items():
+        if not isinstance(profile[field], str) or re.fullmatch(pattern, profile[field]) is None:
+            raise ValueError(f"Runtime profile requires an exact {field} version")
+    for field, required in (("platform", "Linux"), ("machine", "x86_64"), ("environment", "conda")):
+        if profile[field] != required:
+            raise ValueError(f"Unsupported runtime profile {field}")
+    if "packages" in profile:
+        packages = profile["packages"]
+        if not isinstance(packages, dict):
+            raise ValueError("Runtime profile packages must be an exact-version object")
+        normalized = {}
+        version_pattern = (
+            r"\d+(?:\.\d+)*(?:(?:a|b|rc)\d+)?(?:\.post\d+)?(?:\.dev\d+)?"
+            r"(?:\+[A-Za-z0-9][A-Za-z0-9._-]*)?"
+        )
+        for name, version in packages.items():
+            if (
+                not isinstance(name, str)
+                or re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?", name) is None
+                or not isinstance(version, str)
+                or re.fullmatch(version_pattern, version) is None
+            ):
+                raise ValueError("Runtime profile packages contain an invalid exact dependency pin")
+            canonical = re.sub(r"[-_.]+", "-", name).lower()
+            if canonical in normalized:
+                raise ValueError("Runtime profile packages contain duplicate distribution names")
+            normalized[canonical] = version
+        profile["packages"] = normalized
+    return profile
+
+
+def _check_runtime_profile(
+    profile: dict[str, object],
+) -> tuple[dict[str, dict[str, str | None]], str]:
+    if sys.prefix != sys.base_prefix:
+        environment = "venv"
+    elif (Path(sys.prefix) / "conda-meta").is_dir():
+        environment = "conda"
+    else:
+        environment = "non-conda"
+    actual = {
+        "python": platform.python_version(),
+        "torch": str(torch.__version__),
+        "cuda": torch.version.cuda,
+        "platform": platform.system(),
+        "machine": platform.machine(),
+        "environment": environment,
+    }
+    mismatches = {
+        field: {"expected": str(profile[field]), "actual": value}
+        for field, value in actual.items()
+        if profile[field] != value
+    }
+    packages = profile.get("packages", {})
+    if isinstance(packages, dict):
+        for name, expected in packages.items():
+            try:
+                installed = importlib.metadata.version(name)
+            except importlib.metadata.PackageNotFoundError:
+                installed = None
+            if installed != expected:
+                mismatches[f"packages.{name}"] = {"expected": expected, "actual": installed}
+    return mismatches, environment
 
 
 def _version_tuple(value: str) -> tuple[int, ...]:
@@ -147,6 +229,12 @@ def main() -> None:
     parser.add_argument("--require-full-data", action="store_true")
     parser.add_argument("--lock", type=Path, default=None)
     parser.add_argument(
+        "--runtime-profile",
+        type=Path,
+        default=None,
+        help="verify the exact Python, PyTorch/CUDA and Conda server runtime profile",
+    )
+    parser.add_argument(
         "--include-private-host-provenance",
         action="store_true",
         help=(
@@ -160,6 +248,7 @@ def main() -> None:
     data_root = (args.data_root or project_root / "data").resolve()
     runs_root = (args.runs_root or project_root / "runs").resolve()
     lock_path = args.lock.resolve() if args.lock else None
+    runtime_profile_path = args.runtime_profile.resolve() if args.runtime_profile else None
     path_replacements = [
         (data_root, "$DATA_ROOT"),
         (runs_root, "$RUNS_ROOT"),
@@ -167,6 +256,8 @@ def main() -> None:
     ]
     if lock_path is not None:
         path_replacements.append((lock_path, "$LOCK_FILE"))
+    if runtime_profile_path is not None:
+        path_replacements.append((runtime_profile_path, "$RUNTIME_PROFILE"))
     try:
         runs_root.mkdir(parents=True, exist_ok=True)
     except OSError as error:
@@ -176,6 +267,29 @@ def main() -> None:
             args.include_private_host_provenance,
         )
         raise SystemExit(f"Cannot create $RUNS_ROOT: {message}") from None
+
+    runtime_mismatches = None
+    runtime_environment = None
+    runtime_profile_label = None
+    if runtime_profile_path is not None:
+        runtime_profile_label = (
+            "$PROJECT_ROOT/constraints/server.json"
+            if runtime_profile_path == project_root / "constraints" / "server.json"
+            else "$RUNTIME_PROFILE"
+        )
+    if runtime_profile_path is not None:
+        try:
+            runtime_mismatches, runtime_environment = _check_runtime_profile(
+                _runtime_profile(runtime_profile_path)
+            )
+        except (OSError, TypeError, ValueError) as error:
+            detail = type(error).__name__
+            if args.include_private_host_provenance:
+                detail = f"{detail}: {error}"
+            raise SystemExit(
+                f"Runtime profile check failed for {runtime_profile_label} ({detail}). "
+                "A valid format_version=1 exact Conda server profile is required."
+            ) from None
 
     try:
         cuda_available, devices, gpu_memory_gib = _cuda_inventory()
@@ -247,6 +361,10 @@ def main() -> None:
         "constraint_versions_match": (not lock_mismatches if lock_mismatches is not None else None),
         "constraint_python_match": lock_python_match,
         "lock_mismatches": lock_mismatches,
+        "runtime_profile": runtime_profile_label,
+        "runtime_profile_match": not runtime_mismatches if runtime_mismatches is not None else None,
+        "runtime_profile_mismatches": runtime_mismatches,
+        "runtime_environment": runtime_environment,
     }
     if args.include_private_host_provenance:
         report["private_host_provenance"] = {
@@ -255,6 +373,8 @@ def main() -> None:
             "data_root": str(data_root),
             "runs_root": str(runs_root),
             "lock_file": str(lock_path) if lock_path else None,
+            "runtime_profile": str(runtime_profile_path) if runtime_profile_path else None,
+            "interpreter_prefix": sys.prefix,
             "publication_warning": "private local diagnostics; do not publish",
         }
     print(json.dumps(report, indent=2, ensure_ascii=False))
@@ -270,6 +390,12 @@ def main() -> None:
         problems.append(f"Installed packages differ from dependency lock: {report['lock_file']}")
     if lock_python_match is False:
         problems.append(f"Python version does not match dependency profile: {report['lock_file']}")
+    if runtime_mismatches:
+        details = ", ".join(
+            f"{field}: expected {values['expected']}, found {values['actual']}"
+            for field, values in runtime_mismatches.items()
+        )
+        problems.append(f"Runtime does not match {runtime_profile_label} ({details})")
     locked_torch = (
         _locked_versions(lock_path).get("torch") if lock_path and lock_path.is_file() else None
     )
@@ -372,6 +498,8 @@ def main() -> None:
             message = message.replace("$RUNS_ROOT", str(runs_root))
             if lock_path is not None:
                 message = message.replace("$LOCK_FILE", str(lock_path))
+            if runtime_profile_path is not None:
+                message = message.replace("$RUNTIME_PROFILE", str(runtime_profile_path))
         else:
             message = _redact_host_paths(message, path_replacements)
         raise SystemExit(message)

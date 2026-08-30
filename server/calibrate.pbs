@@ -5,10 +5,10 @@
 #PBS -j oe
 
 # Dependency example:
-#   profile_id=$(qsub server/profile.pbs)
-#   train_id=$(qsub -W depend=afterok:${profile_id} server/train.pbs)
-#   cal_id=$(qsub -W depend=afterok:${train_id} server/calibrate.pbs)
-#   qsub -W depend=afterok:${cal_id} -v CONFIG_PATH=configs/hdr.json,\
+#   profile_id=$(qsub -v CONDA_PREFIX="${CONDA_PREFIX}" server/profile.pbs)
+#   train_id=$(qsub -v CONDA_PREFIX="${CONDA_PREFIX}" -W depend=afterok:${profile_id} server/train.pbs)
+#   cal_id=$(qsub -v CONDA_PREFIX="${CONDA_PREFIX}" -W depend=afterok:${train_id} server/calibrate.pbs)
+#   qsub -W depend=afterok:${cal_id} -v CONDA_PREFIX="${CONDA_PREFIX}",CONFIG_PATH=configs/hdr.json,\
 # CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn server/eval.pbs
 
 set -Eeuo pipefail
@@ -26,7 +26,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run qsub from the repository root or use:" >&2
-  echo "  qsub -v PROJECT_ROOT=/absolute/path/to/repo server/calibrate.pbs" >&2
+  echo "  qsub -v PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/calibrate.pbs" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -49,7 +49,9 @@ export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
 export PYTHONUNBUFFERED=1
@@ -73,7 +75,9 @@ else
   echo "SNN checkpoint: ${OUTPUT_PATH##*/}"
 fi
 echo "Calibration samples: ${CALIBRATION_SAMPLES}"
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+runtime_command bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"

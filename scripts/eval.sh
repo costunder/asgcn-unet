@@ -11,7 +11,6 @@ SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -33,17 +32,15 @@ if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
   echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
   exit 2
 fi
-if [[ ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
-  echo "Run ./scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: evaluation config not found: $(path_log_label "${CONFIG_PATH}")" >&2
   exit 1
 fi
-if [[ ! -f "${CHECKPOINT_PATH}" ]]; then
+if [[ "${DRY_RUN}" != "1" && ! -f "${CHECKPOINT_PATH}" ]]; then
   echo "ERROR: checkpoint not found: $(path_log_label "${CHECKPOINT_PATH}")" >&2
   exit 1
 fi
@@ -70,7 +67,8 @@ if [[ -n "${SNN_DYNAMICS}" ]]; then
   fi
 fi
 
-"${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
+check_runtime_profile
+runtime_command "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
 import sys
 import torch
 
@@ -99,11 +97,11 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   if [[ "${INSPECT_VALIDATE_ALL}" == "1" ]]; then
     INSPECT_ARGS+=(--validate-all)
   fi
-  "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
 echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${CONFIG_PATH}") (${INFERENCE_MODE})"
-"${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
+runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
   --config "${CONFIG_PATH}" \
   --checkpoint "${CHECKPOINT_PATH}" \
   --inference-mode "${INFERENCE_MODE}" \
@@ -112,7 +110,7 @@ echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${C
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"
-  "${PYTHON_BIN}" -m asgcn_unet.cli benchmark \
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli benchmark \
     --config "${CONFIG_PATH}" \
     --checkpoint "${CHECKPOINT_PATH}" \
     --warmup "${BENCHMARK_WARMUP}" \

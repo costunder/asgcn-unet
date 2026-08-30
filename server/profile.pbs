@@ -5,8 +5,8 @@
 #PBS -j oe
 
 # Dependency example:
-#   profile_id=$(qsub server/profile.pbs)
-#   qsub -W depend=afterok:${profile_id} server/train.pbs
+#   profile_id=$(qsub -v CONDA_PREFIX="${CONDA_PREFIX}" server/profile.pbs)
+#   qsub -v CONDA_PREFIX="${CONDA_PREFIX}" -W depend=afterok:${profile_id} server/train.pbs
 
 set -Eeuo pipefail
 
@@ -22,7 +22,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
-  echo "Submit from the repository root or export PROJECT_ROOT explicitly." >&2
+  echo "Submit from the repository root or pass PROJECT_ROOT explicitly; also pass CONDA_PREFIX or PYTHON_BIN." >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -37,7 +37,9 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
 fi
 
 export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA=1
 export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
 export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
@@ -62,5 +64,7 @@ else
   echo "Config: ${TRAIN_CONFIG##*/}"
   echo "Profile output: ${PROFILE_OUTPUT##*/}"
 fi
-nvidia-smi || true
-bash "${PROJECT_ROOT}/scripts/run.sh" profile
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
+runtime_command bash "${PROJECT_ROOT}/scripts/run.sh" profile

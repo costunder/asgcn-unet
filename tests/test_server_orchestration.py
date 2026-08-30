@@ -182,6 +182,7 @@ def test_scheduler_docs_do_not_export_the_complete_login_environment() -> None:
 
     readme = _text("README.md")
     assert '--export=PROJECT_ROOT="$PWD"' in readme
+    assert 'CONDA_PREFIX="$CONDA_PREFIX"' in readme
     assert "INCLUDE_PRIVATE_HOST_PROVENANCE=1" in readme
 
 
@@ -218,12 +219,12 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
     quickstart = readme.split(quickstart_heading, maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
 
     clone_command = (
-        "cd ~\n"
         "git clone https://github.com/costunder/asgcn-unet.git &&\n"
         "cd asgcn-unet"
     )
-    conda_command = "conda create -n asgcn --override-channels -c conda-forge python=3.12 git"
+    conda_command = "conda create -n asgcn --override-channels -c conda-forge python=3.12.14 pip"
     assert clone_command in quickstart
+    assert "cd ~" not in quickstart
     assert conda_command in quickstart
     assert quickstart.index(clone_command) < quickstart.index(conda_command)
     assert "conda activate asgcn" in quickstart
@@ -242,8 +243,13 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
         assert absolute_home_path not in quickstart
     assert "ASGCN_DIR" not in quickstart
     assert "bash scripts/setup.sh" in quickstart
-    assert "source .venv/bin/activate" in quickstart
-    assert "python scripts/check_env.py --require-cuda --lock constraints/py312.txt" in quickstart
+    assert "conda activate asgcn\nbash scripts/setup.sh" in quickstart
+    assert ".venv" not in quickstart
+    assert ".env.example" not in quickstart
+    assert "nvidia-smi" not in quickstart
+    assert "df -h ." not in quickstart
+    assert "constraints/server.json" in quickstart
+    assert "2.13.0+cu126" in quickstart
     assert "bash scripts/get_aid.sh --all" in quickstart
     assert "bash scripts/get_hdr.sh --download" in quickstart
     assert "bash scripts/get_hdr.sh --archive" not in quickstart
@@ -251,6 +257,7 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
     assert "data/EventHDR/{train,eval}" in quickstart
     assert "SHA-256" in quickstart
     assert "python scripts/check_env.py --require-full-data --lock constraints/py312.txt" in quickstart
+    assert "--runtime-profile constraints/server.json" in quickstart
     assert "bash scripts/run.sh all" in quickstart
 
     private_restoration = quickstart.split("### 5.", maxsplit=1)[1]

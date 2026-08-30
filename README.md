@@ -11,14 +11,13 @@ event-to-frame 연구 코드다. MobaXterm으로 Linux GPU 서버에 SSH 접속�
 아래는 저장소가 **Public인 동안 인증 없이** 코드를 받는 절차다. GitHub CLI(`gh`)·GitHub 로그인·SSH
 키·token은 필요 없다. MobaXterm으로 Linux 서버에 접속한 뒤 실행한다. Git과 Conda가 설치된 서버
 기준이며, 명령이 오류로 끝나면 다음 단계로 넘어가지 않는다.
-GPU를 scheduler로 할당받는 서버라면 2번의 CUDA 검사와 4번 실행은 GPU allocation 안에서 한다.
+GPU를 scheduler로 할당받는 서버라면 4번 실행은 GPU allocation 안에서 한다.
 
 ### 1. Public 코드 받기
 
-홈에서 아래 명령을 실행하면 `~/asgcn-unet/` 폴더가 생기고 그 안으로 이동한다.
+코드를 둘 현재 폴더에서 실행하면 `asgcn-unet/` 폴더가 생기고 그 안으로 이동한다.
 
 ```bash
-cd ~
 git clone https://github.com/costunder/asgcn-unet.git &&
 cd asgcn-unet
 ```
@@ -28,28 +27,22 @@ cd asgcn-unet
 
 ### 2. 환경 설치
 
-`asgcn` Conda 환경이 이미 있으면 첫 줄은 생략하고 활성화만 한다. 기존 환경 삭제를 묻는다면 취소한다.
-새 환경 설치 확인에는 `y`를 입력한다.
+Python 3.12.14인 `asgcn` Conda 환경이 이미 있으면 첫 줄은 생략한다. 기존 환경 삭제를 묻는다면
+취소한다. 새 환경 설치 확인에는 `y`를 입력한다.
 
 ```bash
-conda create -n asgcn --override-channels -c conda-forge python=3.12 git
+conda create -n asgcn --override-channels -c conda-forge python=3.12.14 pip
 conda activate asgcn
+bash scripts/setup.sh
 ```
 
-```bash
-nvidia-smi
-df -h .
-test -e .env || cp .env.example .env
-bash scripts/setup.sh &&
-source .venv/bin/activate &&
-python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-```
-
-Python 3.12·PyTorch 2.13.0 고정 환경을 프로젝트의 `.venv`에 설치한다. Conda는 Python·Git 제공용이고
-실제 학습은 `.venv`를 쓴다. 기존 `.env`는 보존하므로 이전 설정이 있으면 먼저 확인한다.
-Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서버 드라이버가 맞지 않거나 CUDA
-검사가 실패하면 학습하지 말고 [서버 환경 안내](docs/SERVER.md#1-public-저장소-clone과-설치)를
-확인한다. 설치가 됐다는 것만으로 GPU 학습이 검증된 것은 아니다.
+활성화한 Conda 환경 하나에 설치하고 다운로드·학습·평가도 같은 환경을 쓴다. `base`에는 설치하지 않는다.
+`constraints/server.json`이 Python **3.12.14**, PyTorch **2.13.0+cu126**, CUDA runtime **12.6**을
+고정한다. `constraints/server.txt`가 pip·설치 도구를 포함한 전이 의존성의 버전과 배포 파일 SHA-256을
+고정하며, `constraints/py312.txt`의 core/dev 버전도 함께 검사한다. `.env`는 필요 없으며 설치기는
+기존 `.env`도 읽지 않는다. 이전 설치에서 전환한다면 [서버 환경 안내](docs/SERVER.md#1-public-저장소-clone과-설치)를 따른다.
+Linux glibc 2.28 이상과 `curl`이 필요하다. 설치 성공만으로 GPU 학습이 검증된 것은 아니며,
+4번 실행의 CUDA·전체 데이터·profile 검사가 실패하면 학습을 진행하지 않는다.
 
 ### 3. 두 데이터셋 준비
 
@@ -59,7 +52,8 @@ Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서�
 ```bash
 bash scripts/get_aid.sh --all &&
 bash scripts/get_hdr.sh --download &&
-python scripts/check_env.py --require-full-data --lock constraints/py312.txt
+python scripts/check_env.py --require-full-data --lock constraints/py312.txt \
+  --runtime-profile constraints/server.json
 ```
 
 중단되면 같은 다운로드 명령을 다시 실행한다. EventHDR은 Python 표준 라이브러리 HTTP로
@@ -80,7 +74,7 @@ split별 다운로드와 이미 가진 ZIP/H5/shared storage의 선택적 가져
 GPU가 할당된 터미널에서 실행한다. 기본 설정은 **40 epoch 전체 학습**이며 smoke test가 아니다.
 
 ```bash
-source .venv/bin/activate
+conda activate asgcn
 mkdir -p logs
 set -o pipefail
 bash scripts/run.sh all 2>&1 | tee logs/run.log
@@ -95,8 +89,8 @@ ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된�
 SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 중단 후에는 처음부터 `all`을 반복하지 말고 [재개 절차](#중단-후-재개와-결과-보호)를 따른다.
 
-서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`, `source .venv/bin/activate`만
-실행한다. clone·환경 생성을 매번 반복하지 않는다.
+서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`만 실행한다.
+clone·환경 생성·설치를 매번 반복하지 않는다.
 
 ### 5. 실행 후 Private으로 되돌리기
 
@@ -333,11 +327,13 @@ latency나 에너지로 해석하면 안 된다.
 같이 건다.
 
 ```bash
-profile_id=$(sbatch --parsable --export=PROJECT_ROOT="$PWD" server/profile.sbatch)
+conda activate asgcn
+profile_id=$(sbatch --parsable \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/profile.sbatch)
 train_id=$(sbatch --parsable --dependency=afterok:${profile_id} \
-  --export=PROJECT_ROOT="$PWD" server/train.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/train.sbatch)
 cal_id=$(sbatch --parsable --dependency=afterok:${train_id} \
-  --export=PROJECT_ROOT="$PWD" server/calibrate.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/calibrate.sbatch)
 ```
 
 ANN 두 평가와 SNN 전체 행렬을 dependency로 제출한다.
@@ -345,7 +341,7 @@ ANN 두 평가와 SNN 전체 행렬을 dependency로 제출한다.
 ```bash
 for config in configs/hdr.json configs/aid.json; do
   sbatch --dependency=afterok:${train_id} \
-    --export=PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
+    --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
     server/eval.sbatch
 done
 
@@ -353,7 +349,7 @@ for config in configs/hdr.json configs/aid.json; do
   for dynamics in literal_eq15 standard_if; do
     for timestep in 4 8 16 32; do
       sbatch --dependency=afterok:${cal_id} \
-        --export=PROJECT_ROOT="$PWD",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
+        --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
         server/eval.sbatch
     done
   done
@@ -363,6 +359,8 @@ done
 SLURM `--export`에는 각 job이 실제로 쓰는 변수만 명시한다. login shell 전체를 전달하면 token, proxy,
 credential 같은 무관한 환경변수도 compute node와 job 환경에 복제될 수 있으므로 `ALL`은 사용하지 않는다.
 학습 resume job에는 `RESUME_CHECKPOINT="$PWD/runs/train/last.pt"`를 `--export`에 추가한다.
+각 job은 전달받은 `CONDA_PREFIX`의 Python을 사용한다. 같은 환경의 Python을 `PYTHON_BIN`으로
+명시할 수도 있다. PBS/Torque에도 `-v CONDA_PREFIX="$CONDA_PREFIX"`를 전달한다.
 PBS/Torque용 동등 wrapper는 `server/profile.pbs`, `server/train.pbs`, `server/calibrate.pbs`,
 `server/eval.pbs`이며
 `qsub -W depend=afterok:<job-id>`로 같은 의존성을 건다. `#SBATCH`/`#PBS`의 GPU, memory, walltime,
@@ -408,11 +406,12 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
 - `check_env.py`는 CUDA 초기화 후 실제 runtime 장치 수로 GPU 이름/VRAM을 조회한다. MIG의
   초기화 전후 장치 수 차이로 인한 `Invalid device id`를 CPU 모의 회귀검사로 검증했으며, 실제
   초기화 실패나 CUDA 불가는 우회하지 않는다. [서버 오류 안내](docs/SERVER.md#7-산출물-확인과-운영상-오류)
-- 2026-08-30 Windows CPU 검증은 **412 passed, 5 skipped**다. skip 5건은 OS의 symlink 생성 권한이
-  없는 경우의 shared-storage link 및 downloader symlink 보호 test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
-  실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
-  원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와
-  GitHub Actions 결과로 별도 확인한다.
+- Conda 전환 후 2026-08-30 Windows CPU pytest 결과는 **571 passed, 27 skipped**였다.
+  skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이다. 다만 프로세스가 성공 종료해도
+  Windows native access-violation 진단이 출력되어 이 로컬 실행을 무경고 검증으로 간주하지 않는다.
+  shell entrypoint 16개는 MSYS Bash에서 각각 구문 검사했다. 배포 판정은 해당 SHA의 Linux Conda
+  실제 설치·고정 profile 검증·전체 회귀검사와 별도 Ubuntu/Windows matrix의 CI 결과로 확인한다.
+  전체 명령은 `hand_off.md`에 기록하며, 로컬 결과만으로 원격 배포 성공을 주장하지 않는다.
 - 코드의 unit/integration test와 Linux 의존성 검사는 구성되어 있지만, EventHDR+EventAid-R 전체
   실데이터를 사용한 `runs/profile.json`, CUDA 40-epoch 학습·전체 행렬 실행, A6000/A100 peak
   memory·runtime·latency artifact는 이 로컬 검증에서 생성하지 않았다. 따라서 README는 실행 절차

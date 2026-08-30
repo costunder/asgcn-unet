@@ -20,7 +20,9 @@ Important environment:
   RESUME_CHECKPOINT=PATH
   TRAIN_CONFIG / HDR_CONFIG / AID_CONFIG
   ANN_CHECKPOINT / SNN_CHECKPOINT
-  PYTHON_BIN=PATH                         Default: <repo>/.venv/bin/python
+  PYTHON_BIN=PATH                         Default: CONDA_PREFIX/bin/python
+  CONDA_PREFIX=PATH                      Selected Conda environment (no nested venv)
+  RUNTIME_PROFILE=PATH                   Default: constraints/server.json
   REQUIRE_CUDA=0|1                       Default: 1
   CALIBRATION_SAMPLES=all|N              Default: all; partial N cannot be reporting
   SIMULATION_STEPS_LIST='4 8 16 32'
@@ -58,7 +60,6 @@ if [[ "$#" -gt 1 ]]; then
   exit 2
 fi
 
-PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
 TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
@@ -117,11 +118,9 @@ if [[ "${STAGE}" == "all" && "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   exit 2
 fi
 
-if [[ "${DRY_RUN}" != "1" && ! -x "${PYTHON_BIN}" ]]; then
-  echo "ERROR: Python not found or not executable: $(path_log_label "${PYTHON_BIN}")" >&2
-  echo "Run bash scripts/setup.sh first, or set PYTHON_BIN." >&2
-  exit 1
-fi
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 for required_path in \
   "${CONSTRAINTS_FILE}" \
   "${TRAIN_CONFIG}" \
@@ -238,6 +237,7 @@ run_check() {
     "${PYTHON_BIN}" scripts/check_env.py
     --require-full-data
     --lock "${CONSTRAINTS_FILE}"
+    --runtime-profile "${RUNTIME_PROFILE}"
   )
   if [[ "${REQUIRE_CUDA}" == "1" ]]; then
     check_args+=(--require-cuda)
@@ -264,6 +264,7 @@ run_check() {
 
 run_profile() {
   echo "[profile] Complete EventHDR topology scan and densest-sample CUDA training probe"
+  check_runtime_profile
   run_cmd "${PYTHON_BIN}" -m asgcn_unet.cli profile \
     --config "${TRAIN_CONFIG}" \
     --output "${PROFILE_OUTPUT}" \

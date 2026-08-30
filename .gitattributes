@@ -7,9 +7,9 @@
 *.yaml text eol=lf
 *.json text eol=lf
 *.txt text eol=lf
+*.in text eol=lf
 *.md text eol=lf
 .editorconfig text eol=lf
-.env.example text eol=lf
 .gitattributes text eol=lf
 .gitignore text eol=lf
 *.hwp binary

@@ -1,192 +1,125 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# Clone 후 한 번 실행하는 Linux 서버 설치 스크립트.
-# https://pytorch.org/get-started/locally/ 에서 서버 드라이버에 맞는 wheel을 고른 뒤:
-#   TORCH_INDEX_URL=<official-wheel-index> ./scripts/setup.sh
-# 재현용으로 버전을 고정할 때:
-#   TORCH_VERSION=<version> TORCH_INDEX_URL=<official-wheel-index> \
-#     CONSTRAINTS_FILE=constraints/py312.txt PROJECT_EXTRAS=dev ./scripts/setup.sh
-
+# Install only into the already-selected, non-base Conda server environment.
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+REQUIRE_CUDA="${REQUIRE_CUDA-0}"
 
-ENV_FILE="${ENV_FILE:-${PROJECT_ROOT}/.env}"
-if [[ -f "${ENV_FILE}" ]]; then
-  OVERRIDE_NAMES=(
-    PYTHON_BIN VENV_DIR TORCH_VERSION TORCH_INDEX_URL PROJECT_EXTRAS
-    REQUIRE_CUDA CONSTRAINTS_FILE EXPECTED_PYTHON_MINOR PIP_EXTRA_ARGS
-  )
-  declare -A CALLER_OVERRIDES=()
-  for variable in "${OVERRIDE_NAMES[@]}"; do
-    if [[ -v "${variable}" ]]; then
-      CALLER_OVERRIDES["${variable}"]="${!variable}"
-    fi
-  done
-  echo "Loading installer settings: ${ENV_FILE}"
-  set -a
-  # shellcheck disable=SC1090
-  source "${ENV_FILE}"
-  set +a
-  for variable in "${!CALLER_OVERRIDES[@]}"; do
-    printf -v "${variable}" '%s' "${CALLER_OVERRIDES[${variable}]}"
-    export "${variable}"
-  done
+if [[ "$#" -ne 0 ]]; then
+  echo "ERROR: setup.sh accepts no positional arguments." >&2
+  exit 1
 fi
-
-PYTHON_BIN="${PYTHON_BIN:-python3}"
-VENV_DIR="${VENV_DIR:-${PROJECT_ROOT}/.venv}"
-TORCH_VERSION="${TORCH_VERSION:-}"
-TORCH_INDEX_URL="${TORCH_INDEX_URL:-}"
-PROJECT_EXTRAS="${PROJECT_EXTRAS:-}"
-REQUIRE_CUDA="${REQUIRE_CUDA:-0}"
-CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-}"
-EXPECTED_PYTHON_MINOR="${EXPECTED_PYTHON_MINOR:-}"
-
-if [[ "${VENV_DIR}" != /* ]]; then
-  VENV_DIR="${PROJECT_ROOT}/${VENV_DIR}"
+if [[ "${REQUIRE_CUDA}" != "0" && "${REQUIRE_CUDA}" != "1" ]]; then
+  echo "ERROR: REQUIRE_CUDA must be 0 or 1." >&2
+  exit 1
 fi
-
-CONSTRAINT_ARGS=()
-if [[ -n "${CONSTRAINTS_FILE}" ]]; then
-  if [[ "${CONSTRAINTS_FILE}" != /* ]]; then
-    CONSTRAINTS_FILE="${PROJECT_ROOT}/${CONSTRAINTS_FILE}"
-  fi
-  if [[ ! -f "${CONSTRAINTS_FILE}" ]]; then
-    echo "ERROR: constraints file not found: ${CONSTRAINTS_FILE}" >&2
-    exit 1
-  fi
-  CONSTRAINT_ARGS=(-c "${CONSTRAINTS_FILE}")
-  echo "Using dependency constraints: ${CONSTRAINTS_FILE}"
-  if [[ -z "${EXPECTED_PYTHON_MINOR}" ]] \
-    && [[ "$(basename -- "${CONSTRAINTS_FILE}")" =~ ^py([0-9])([0-9]+)\.txt$ ]]; then
-    EXPECTED_PYTHON_MINOR="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"
-  fi
+if [[ -z "${CONDA_PREFIX:-}" || "${CONDA_PREFIX}" != /* \
+   || ! -d "${CONDA_PREFIX}/conda-meta" || ! -x "${CONDA_PREFIX}/bin/python" ]]; then
+  echo "ERROR: select an existing non-base Conda environment with its own Python first." >&2
+  exit 1
 fi
-
-# PIP_EXTRA_ARGS is intentionally optional. It is split on spaces, so paths with
-# spaces should instead be configured through pip.conf. Parse it before the first
-# network operation so private mirrors/proxies apply to bootstrap packages too.
-PIP_ARGS=()
-if [[ -n "${PIP_EXTRA_ARGS:-}" ]]; then
-  read -r -a PIP_ARGS <<<"${PIP_EXTRA_ARGS}"
+if [[ "${CONDA_DEFAULT_ENV:-}" == "base" ]]; then
+  echo "ERROR: installation into the base Conda environment is not allowed." >&2
+  exit 1
 fi
-
-if ! command -v "${PYTHON_BIN}" >/dev/null 2>&1; then
-  echo "ERROR: Python executable not found: ${PYTHON_BIN}" >&2
+if [[ -v PIP_TARGET || -v PIP_PREFIX || -v PIP_ROOT || -v PIP_PYTHON \
+   || ( -v PIP_USER && "${PIP_USER}" != "0" ) ]]; then
+  echo "ERROR: pip destination overrides are not allowed for the locked Conda installation." >&2
   exit 1
 fi
 
-"${PYTHON_BIN}" - <<'PY'
-import sys
+CONDA_PYTHON="${CONDA_PREFIX}/bin/python"
+export PYTHONNOUSERSITE=1
+unset PYTHONPATH PYTHONHOME
+export PIP_CONFIG_FILE=/dev/null
+export PIP_USER=0
+export PIP_REQUIRE_VIRTUALENV=0
+echo "Legacy .env and installer version/interpreter overrides are ignored."
+echo "Custom pip configuration is disabled; HTTP_PROXY and HTTPS_PROXY remain supported."
 
-if sys.version_info < (3, 10):
-    raise SystemExit(f"Python 3.10+ is required; found {sys.version.split()[0]}")
-print(f"Using Python {sys.version.split()[0]}")
-PY
-
-"${PYTHON_BIN}" - "${TORCH_VERSION}" "${CONSTRAINTS_FILE}" <<'PY'
+# This preflight uses only the standard library and runs before any pip/network work.
+"${CONDA_PYTHON}" - "${PROJECT_ROOT}/constraints/server.json" \
+  "${PROJECT_ROOT}/constraints/server.txt" <<'PY'
+import json
+import os
 import platform
 import re
 import sys
 from pathlib import Path
 
-requested_torch = sys.argv[1]
-constraint_path = Path(sys.argv[2]) if sys.argv[2] else None
-if not requested_torch and constraint_path is not None:
-    for raw_line in constraint_path.read_text(encoding="utf-8").splitlines():
-        match = re.fullmatch(r"\s*torch==([^\s#]+)\s*", raw_line)
-        if match:
-            requested_torch = match.group(1).split("+", maxsplit=1)[0]
-            break
 
-if platform.system() == "Linux" and requested_torch == "2.13.0":
+def fail(message):
+    raise SystemExit("ERROR: " + message)
+
+
+try:
+    prefix = Path(os.environ["CONDA_PREFIX"]).resolve()
+    if sys.prefix != sys.base_prefix or Path(sys.prefix).resolve() != prefix:
+        fail("the selected interpreter must belong directly to the selected Conda environment")
+    if not (prefix / "conda-meta").is_dir():
+        fail("the selected interpreter is not a Conda environment")
+    conda_executable = os.environ.get("CONDA_EXE")
+    if os.environ.get("CONDA_DEFAULT_ENV") == "base" or (
+        conda_executable
+        and prefix == Path(conda_executable).resolve().parent.parent
+    ):
+        fail("installation into the base Conda environment is not allowed")
+    profile = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+    required = {
+        "format_version": 1,
+        "python": "3.12.14",
+        "torch": "2.13.0+cu126",
+        "cuda": "12.6",
+        "platform": "Linux",
+        "machine": "x86_64",
+        "environment": "conda",
+    }
+    if (
+        not isinstance(profile, dict)
+        or type(profile.get("format_version")) is not int
+        or any(profile.get(key) != value for key, value in required.items())
+        or set(profile) - set(required) - {"packages"}
+    ):
+        fail("constraints/server.json does not describe the exact supported Conda server runtime")
+    if "packages" in profile and not isinstance(profile["packages"], dict):
+        fail("the server profile packages field must be an exact-version object")
+    if not Path(sys.argv[2]).is_file():
+        fail("the hashed server dependency lock is missing")
+    actual = {
+        "python": platform.python_version(),
+        "platform": platform.system(),
+        "machine": platform.machine(),
+    }
+    for key, value in actual.items():
+        if value != required[key]:
+            fail(f"server {key} must be {required[key]}; found {value}")
     libc_name, libc_version = platform.libc_ver()
     numbers = tuple(int(value) for value in re.findall(r"\d+", libc_version))
     if libc_name.lower() != "glibc" or numbers < (2, 28):
-        found = f"{libc_name or 'unknown'} {libc_version or 'unknown'}"
-        raise SystemExit(
-            "The locked torch 2.13.0 wheel profile requires Linux glibc>=2.28; "
-            f"found {found}. Use a newer cluster container/module."
-        )
-    print(f"glibc preflight: {libc_version} (minimum 2.28)")
-PY
-
-if [[ ! -x "${VENV_DIR}/bin/python" ]]; then
-  echo "Creating virtual environment: ${VENV_DIR}"
-  "${PYTHON_BIN}" -m venv "${VENV_DIR}"
-fi
-
-VENV_PYTHON="${VENV_DIR}/bin/python"
-"${VENV_PYTHON}" - "${EXPECTED_PYTHON_MINOR}" <<'PY'
-import sys
-
-expected = sys.argv[1]
-actual = f"{sys.version_info.major}.{sys.version_info.minor}"
-if sys.version_info < (3, 10):
-    raise SystemExit(f"Virtual environment requires Python 3.10+; found {actual}")
-if expected and actual != expected:
+        fail("the locked server wheels require Linux glibc>=2.28")
+except (OSError, ValueError, KeyError) as error:
     raise SystemExit(
-        f"Dependency profile requires Python {expected}, but the virtual environment "
-        f"uses Python {actual}. Remove VENV_DIR and recreate it with the matching PYTHON_BIN."
-    )
-print(f"Virtual environment Python: {actual}")
-PY
-"${VENV_PYTHON}" -m pip install \
-  "${PIP_ARGS[@]}" "${CONSTRAINT_ARGS[@]}" --upgrade pip setuptools wheel
+        "ERROR: Conda server preflight could not read valid local runtime metadata "
+        f"({type(error).__name__}); no installation was started"
+    ) from None
 
-TORCH_SPEC="torch"
-if [[ -n "${TORCH_VERSION}" ]]; then
-  TORCH_SPEC="torch==${TORCH_VERSION}"
-fi
-
-# Installing torch first preserves an explicitly chosen CUDA wheel when the
-# editable project (which declares torch>=2.3) is installed below.
-if [[ -n "${TORCH_INDEX_URL}" ]]; then
-  "${VENV_PYTHON}" -m pip install "${PIP_ARGS[@]}" "${CONSTRAINT_ARGS[@]}" \
-    --index-url "${TORCH_INDEX_URL}" "${TORCH_SPEC}"
-else
-  "${VENV_PYTHON}" -m pip install \
-    "${PIP_ARGS[@]}" "${CONSTRAINT_ARGS[@]}" "${TORCH_SPEC}"
-fi
-
-INSTALL_TARGET="${PROJECT_ROOT}"
-if [[ -n "${PROJECT_EXTRAS}" ]]; then
-  INSTALL_TARGET="${PROJECT_ROOT}[${PROJECT_EXTRAS}]"
-fi
-"${VENV_PYTHON}" -m pip install \
-  "${PIP_ARGS[@]}" "${CONSTRAINT_ARGS[@]}" -e "${INSTALL_TARGET}"
-"${VENV_PYTHON}" -m pip check
-
-mkdir -p \
-  "${PROJECT_ROOT}/data/EventHDR/train" \
-  "${PROJECT_ROOT}/data/EventHDR/eval" \
-  "${PROJECT_ROOT}/data/EventAid-R" \
-  "${PROJECT_ROOT}/runs"
-
-"${VENV_PYTHON}" - "${REQUIRE_CUDA}" <<'PY'
-import sys
-import torch
-
-required = sys.argv[1] == "1"
-print(f"Python: {sys.version.split()[0]}")
-print(f"PyTorch: {torch.__version__}")
-print(f"PyTorch CUDA runtime: {torch.version.cuda}")
-print(f"CUDA available now: {torch.cuda.is_available()}")
-if torch.cuda.is_available():
-    print(f"GPU: {torch.cuda.get_device_name(0)}")
-elif required:
-    raise SystemExit(
-        "CUDA is required but unavailable. Run this check inside a GPU allocation, "
-        "and verify TORCH_INDEX_URL and the NVIDIA driver."
-    )
-else:
-    print("NOTE: no GPU is visible in this shell; login nodes commonly hide GPUs.")
+print("Conda server preflight passed: Python 3.12.14, Linux x86_64, glibc>=2.28.")
 PY
 
-echo
-echo "Installation complete."
-echo "Python: ${VENV_PYTHON}"
-echo "Next: ./scripts/get_aid.sh --all"
-echo "Then: ./scripts/get_hdr.sh --download"
-echo "Finally: ./scripts/run.sh"
+cd -- "${PROJECT_ROOT}"
+"${CONDA_PYTHON}" -m pip install --no-user --require-hashes --only-binary=:all: \
+  -r "${PROJECT_ROOT}/constraints/server.txt"
+"${CONDA_PYTHON}" -m pip install --no-user --no-deps --no-build-isolation -e "${PROJECT_ROOT}[dev]"
+"${CONDA_PYTHON}" -m pip check
+
+CHECK_ARGS=(--lock constraints/py312.txt --runtime-profile constraints/server.json)
+if [[ "${REQUIRE_CUDA}" == "1" ]]; then
+  CHECK_ARGS+=(--require-cuda)
+fi
+"${CONDA_PYTHON}" scripts/check_env.py "${CHECK_ARGS[@]}"
+
+echo "Conda installation and exact runtime verification complete."
+echo "Next: bash scripts/get_aid.sh --all"
+echo "Then: bash scripts/get_hdr.sh --download"
+echo "Finally, inside a GPU allocation: bash scripts/run.sh all"

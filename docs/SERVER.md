@@ -11,31 +11,59 @@ MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node
 GitHub 로그인·토큰·SSH 키 설정 없이 HTTPS로 clone한다. 이 문서에서는 설치 명령을 중복하지 않는다.
 
 - Conda `asgcn` 환경 생성은 최초 한 번만 한다. 재접속 시에는 다시 생성하지 않고
-  `conda activate asgcn` 뒤 프로젝트의 `.venv`를 활성화한다.
-- README의 HTTPS clone → Conda 환경 → `.venv` 설치 → 전체 데이터 → 본실험 순서를 따른다.
+  `conda activate asgcn`만 실행한다.
+- 코드를 둘 현재 폴더에서 README의 HTTPS clone → Conda 환경 → 설치 → 전체 데이터 → 본실험 순서를 따른다.
   기존 환경이나 `asgcn-unet` 폴더가 있으면 삭제하거나 생성·clone을 반복하지 않는다.
 
-Conda는 Git·Python 3.12를 제공하고, 프로젝트 실행 환경은 계속 `.venv`다. `scripts/run.sh`와
-scheduler wrapper의 `.venv` 사용은 바꾸지 않는다. `.venv`가 사용하는 Conda 환경도 유지한다.
-README의 기본 설치는 별도 index 지정 없이 PyPI의 locked `torch==2.13.0`을 사용한다.
-`constraints/py312.txt`의 Linux torch profile은 glibc 2.28 이상을 요구하며 setup은 Python·기존 venv·
-constraints·torch wheel과 `pip check`를 검사한다.
-login node에서 GPU가 보이지 않을 수 있으므로 CUDA 검증은 실제 GPU allocation에서 수행한다.
-site CUDA module이 필요한 경우 scheduler의 `CUDA_MODULE=cuda/<version>`을 지정한다.
+설치·다운로드·학습·보정·평가는 활성화한 non-base Conda 환경 하나를 사용한다. Git은 서버에 이미
+설치되어 있어야 한다. 설치기는 `CONDA_PREFIX`의 Python에 직접 설치하며 별도 환경을 만들지 않는다.
+`constraints/server.json`은 Python **3.12.14**, PyTorch **2.13.0+cu126**, CUDA runtime **12.6**을
+지정한다. `constraints/server.txt`는 pip·setuptools·wheel 및 CUDA library·Triton을 포함한 전이
+의존성의 버전과 배포 파일 SHA-256을 고정한다. 설치기는 `--require-hashes --only-binary=:all:`로
+이 lock을 설치하며 최신 bootstrap package를 임의로 받지 않는다. `constraints/py312.txt`의 core/dev
+버전도 함께 검사한다. 기본 PyTorch wheel은
+[공식 CUDA 12.6 index](https://download.pytorch.org/whl/cu126/torch/)에서 받는다.
+서버 profile의 Linux wheel은 glibc 2.28 이상을 요구한다. 설치기는 활성화한 Conda·Python·wheel과
+package 호환성을 검사한다. `.env`는 만들 필요가 없고 기존 파일도 설치기가 읽거나 변경하지 않는다.
+예전 `.env`의 Python·torch·index 설정으로 새 고정 profile을 바꾸지 않는다.
 
-driver와 기본 wheel이 맞지 않을 때만 [PyTorch 공식 설치 안내](https://pytorch.org/get-started/locally/)와
-공식 wheel 목록에서 **같은 torch 2.13.0**의 호환 CUDA build를 선택한다. 아래는 서버 관리자가 CUDA
-13.0 driver 호환을 확인한 경우의 예시이며, 해당 [공식 index](https://download.pytorch.org/whl/cu130/torch/)는
-Python 3.12용 `2.13.0+cu130` wheel을 제공한다. build tag를 명시해 기존 다른 build와 구분한다.
+GPU가 안 보이는 login node에서도 설치할 수 있다. 실제 CUDA 검증은 GPU allocation 안에서 수행한다.
+설치와 동시에 GPU 검증도 요구하려면 `REQUIRE_CUDA=1 bash scripts/setup.sh`를 사용한다.
+진단이 필요할 때만 `nvidia-smi`, `df -h .`로 driver와 공간을 확인한다. site CUDA module이 필요한
+경우 scheduler의 `CUDA_MODULE=cuda/<version>`을 지정한다. driver 호환성은 wheel과 별도로 필요하며,
+설치 성공이나 `nvidia-smi` 출력만으로 GPU 학습 성공을 보장하지 않는다.
+
+고정 profile이 실제 GPU에서 동작하지 않으면 중단하고 관리자에게 GPU 할당·driver/container를 확인한다.
+`TORCH_VERSION`·`TORCH_INDEX_URL`을 임의로 바꾸거나 CUDA 검사를 끄지 않는다. 동일 package profile은
+software 버전을 맞추는 기준이지 서로 다른 GPU·driver에서 bitwise 동일한 결과를 보장하지 않는다.
+이는 확인된 Python·PyTorch·CUDA 기준에 맞춰 새로 고정한 profile이며 이전 서버 package 전체의
+export는 아니다. Conda의 system library, OS, driver와 GPU는 이 pip hash lock의 대상이 아니다.
+
+### 기존 `.venv` 설치에서 전환
+
+실행 중인 학습·보정·평가를 먼저 정상 종료하고 checkpoint와 결과를 보존한다. package를 바꾸는 동안
+기존 job을 계속 실행하지 않는다. 이미 Python 3.12.14인 `asgcn` 환경이 있다면 새 환경 생성은 필요 없다.
+다른 Python 버전의 기존 환경을 자동 삭제하거나 덮어쓰지 말고 먼저 별도 전환 계획을 확인한다.
+기존 저장소 root에서 실행한다.
 
 ```bash
-REQUIRE_CUDA=1 TORCH_VERSION=2.13.0+cu130 \
-  TORCH_INDEX_URL=https://download.pytorch.org/whl/cu130 bash scripts/setup.sh &&
-.venv/bin/python scripts/check_env.py --require-cuda --lock constraints/py312.txt
+if [[ -n "${VIRTUAL_ENV:-}" ]]; then deactivate; fi
+conda activate asgcn
+git pull --ff-only &&
+bash scripts/setup.sh
 ```
 
-호환 build를 찾지 못하거나 GPU allocation에서도 CUDA 검증이 실패하면 중단하고 관리자에게 driver/
-container를 확인한다. lock을 임의로 낮추거나 CPU 실행으로 검사를 우회하지 않는다.
+`deactivate`는 기존 virtualenv가 활성화되어 있을 때만 실행한다. pull이 충돌하면 기존 변경을
+보존하고 확인한다. 저장소가 Private이면 pull에는 인증이 필요하다. 이미 받은 `data/`는 그대로 사용하며
+환경 전환 때문에 데이터를 다시 다운로드하지 않는다. 기존 `.env`와 `.venv`도 자동 삭제하지 않는다.
+새 Conda 환경에서 아래 GPU 검증과 기존 데이터 검사를 통과한 뒤에만, 이전 환경을 더 이상 쓰는 job이
+없는지 확인하고 필요하면 기존 `.venv` 폴더만 수동 정리한다. source/runtime이 바뀐 기존 checkpoint는
+exact resume 검증에서 거부될 수 있으므로 결과를 덮어쓰거나 강제로 이어 붙이지 않는다.
+
+```bash
+python scripts/check_env.py --require-cuda --lock constraints/py312.txt \
+  --runtime-profile constraints/server.json
+```
 
 아래 release gate와 전체 Ruff/pytest 회귀검사는 **유지관리자 배포 절차**다. 확인된 배포를 설치하는
 실험 사용자가 이를 전부 다시 실행해야 한다는 뜻은 아니다. 데이터·GPU readiness 검사는 뒤 절차를 따른다.
@@ -150,9 +178,10 @@ loader가 archive member를 직접 읽으므로 압축을 풀지 않는다. shar
 GPU allocation 안에서 다음 검사를 한 번 통과시킨다.
 
 ```bash
-source .venv/bin/activate
+conda activate asgcn
 python scripts/check_env.py \
-  --require-cuda --require-full-data --lock constraints/py312.txt
+  --require-cuda --require-full-data --lock constraints/py312.txt \
+  --runtime-profile constraints/server.json
 
 asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
 asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
@@ -177,22 +206,21 @@ DRY_RUN=1 bash scripts/run.sh all
 GPU shell 또는 allocation 안에서 전체 protocol을 시작한다.
 
 ```bash
-source .venv/bin/activate
+conda activate asgcn
 mkdir -p logs
+set -o pipefail
 bash scripts/run.sh all 2>&1 | tee logs/run.log
 ```
 
-SSH 연결 종료에 대비하려면 tmux를 사용한다.
+SSH 연결 종료에 대비하려면 먼저 tmux 세션을 열고, 그 안에서 위의 Conda 활성화와 실행 블록을 실행한다.
 
 ```bash
-mkdir -p logs
-tmux new-session -s asgcn -c "$PWD" \
-  "bash -lc 'source .venv/bin/activate && bash scripts/run.sh all 2>&1 | tee logs/run.log'"
+tmux new-session -s asgcn -c "$PWD"
 ```
 
 `run.sh all`은 다음을 순서대로 수행한다.
 
-1. `check_env.py --require-full-data --lock constraints/py312.txt`와 기본 CUDA 검사
+1. `check_env.py --require-full-data --lock constraints/py312.txt --runtime-profile constraints/server.json`과 기본 CUDA 검사
 2. EventHDR train/eval과 EventAid-R 전체 `inspect --validate-all`
 3. EventHDR train 전체 graph topology scan과 edge 수 상위 표본 CUDA forward/backward profile
 4. profile을 현재 config/data/source/runtime에 재검증한 뒤 ANN 40-epoch 학습 또는 resume
@@ -266,31 +294,33 @@ profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어
 header의 partition/account/GPU type/walltime은 cluster 정책에 맞춰 수정한다. 기본 요청은 GPU 1개,
 CPU 8개, RAM 32 GB이며 profile/calibration 12시간, train 48시간, evaluation 8시간이다. 저장소 root에서
 제출하면 `SLURM_SUBMIT_DIR`을 project root로 사용한다. 다른 위치에서 제출할 때는
-`--export=PROJECT_ROOT=/absolute/path/to/repo`를 추가한다. `--export`에는 아래처럼 job별 필수 변수만
+아래 `PROJECT_ROOT` 값을 해당 checkout으로 바꾼다. 활성화한 Conda의 `CONDA_PREFIX`는 모든 job에
+전달하며, 같은 Conda Python을 `PYTHON_BIN`으로 명시할 수도 있다. `--export`에는 job별 필수 변수만
 나열하며 login shell의 token, proxy, credential까지 전달할 수 있는 `ALL`은 사용하지 않는다.
 
 앞 절의 full-data/decode 검사를 완료한 뒤 다음 dependency chain을 제출한다.
 
 ```bash
+conda activate asgcn
 unset SNN_DYNAMICS
 
 profile_id=$(sbatch --parsable \
-  --export=PROJECT_ROOT="$PWD" \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" \
   server/profile.sbatch)
 
 train_id=$(sbatch --parsable \
   --dependency="afterok:${profile_id}" \
-  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0 \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0 \
   server/train.sbatch)
 
 cal_id=$(sbatch --parsable \
   --dependency="afterok:${train_id}" \
-  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
   server/calibrate.sbatch)
 
 for cfg in configs/hdr.json configs/aid.json; do
   sbatch --dependency="afterok:${cal_id}" \
-    --export="PROJECT_ROOT=$PWD,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann" \
+    --export="PROJECT_ROOT=$PWD,CONDA_PREFIX=$CONDA_PREFIX,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann" \
     server/eval.sbatch
 done
 
@@ -298,7 +328,7 @@ for cfg in configs/hdr.json configs/aid.json; do
   for dynamics in literal_eq15 standard_if; do
     for steps in 4 8 16 32; do
       sbatch --dependency="afterok:${cal_id}" \
-        --export="PROJECT_ROOT=$PWD,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
+        --export="PROJECT_ROOT=$PWD,CONDA_PREFIX=$CONDA_PREFIX,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
         server/eval.sbatch
     done
   done
@@ -311,7 +341,7 @@ done
 
 ```bash
 train_id=$(sbatch --parsable \
-  --export=PROJECT_ROOT="$PWD",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
   server/train.sbatch)
 ```
 
@@ -324,26 +354,27 @@ hostname, scheduler job ID, project/config/checkpoint 경로는 비공개 로컬
 
 `select`, `ngpus`, queue/project resource 이름은 site마다 다르므로 `server/*.pbs` header를 제출 전에
 확인한다. 저장소 root에서 제출하면 `PBS_O_WORKDIR`을 project root로 사용한다. 외부에서 제출할 때는
-`-v PROJECT_ROOT=/absolute/path/to/repo`를 추가한다.
+`-v`의 `PROJECT_ROOT` 값을 해당 checkout으로 지정한다. 모든 job에 같은 Conda 환경을 전달한다.
 
 ```bash
+conda activate asgcn
 unset SNN_DYNAMICS
 
-profile_id=$(qsub server/profile.pbs)
+profile_id=$(qsub -v CONDA_PREFIX="$CONDA_PREFIX" server/profile.pbs)
 
 train_id=$(qsub \
   -W depend="afterok:${profile_id}" \
-  -v VALIDATE_DATASET=0 \
+  -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0 \
   server/train.pbs)
 
 cal_id=$(qsub \
   -W depend="afterok:${train_id}" \
-  -v VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
+  -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
   server/calibrate.pbs)
 
 for cfg in configs/hdr.json configs/aid.json; do
   qsub -W depend="afterok:${cal_id}" \
-    -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
+    -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
     server/eval.pbs
 done
 
@@ -351,7 +382,7 @@ for cfg in configs/hdr.json configs/aid.json; do
   for dynamics in literal_eq15 standard_if; do
     for steps in 4 8 16 32; do
       qsub -W depend="afterok:${cal_id}" \
-        -v VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
+        -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
         server/eval.pbs
     done
   done
@@ -362,13 +393,13 @@ PBS에서 resume chain을 시작할 때는 다음처럼 `RESUME_CHECKPOINT`를 �
 
 ```bash
 train_id=$(qsub \
-  -v VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
   server/train.pbs)
 ```
 
 PBS는 login environment 전체를 전달하는 `#PBS -V`를 사용하지 않는다. site CUDA module이 필요하면
-`CUDA_MODULE`을 넘긴다. 별도 venv나 checkout을 쓸 때는 `PYTHON_BIN`, `PROJECT_ROOT`를 `-v`로
-명시한다.
+`CUDA_MODULE`을 넘긴다. `PYTHON_BIN`을 명시한다면 같은 Conda 환경의 Python을 지정한다.
+다른 checkout을 쓸 때는 `PROJECT_ROOT`도 `-v`로 명시한다.
 
 ### scheduler log 공개 절차
 
@@ -453,7 +484,7 @@ python scripts/build_code_summary.py --check --require-clean-provenance
   `torch.cuda.init()` 뒤 장치 수를 읽고 실제 사용 가능한 장치만 조회한다. 저장소에서
   `git pull --ff-only`로 갱신한다. pull이 충돌하면 기존 변경을 보존하고 먼저 확인한다.
   이 오류로 사전검사에서만 중단됐고 profile/train 산출물이 없는 경우에는 `bash scripts/run.sh all`을
-  다시 실행한다. 기존 `.venv`와 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
+  다시 실행한다. 현재 Conda 환경과 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
   덮어쓰거나 CUDA 검사를 끄지 않는다. 이 수정의 로컬 회귀검사는 CPU 모의 장치 기반이며 실제 MIG
   학습 완료를 의미하지 않는다.
 - `CUDA device probe failed`: 실제 CUDA 초기화·장치 조회 실패로 중단한 것이다. GPU 할당과

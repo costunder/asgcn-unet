@@ -24,14 +24,14 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/train.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/train.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
 cd "${PROJECT_ROOT}"
 
 # Cluster-specific modules remain opt-in:
-#   sbatch --export=CUDA_MODULE=cuda/12.4 server/train.sbatch
+#   sbatch --export=CONDA_PREFIX="${CONDA_PREFIX}",CUDA_MODULE=cuda/12.6 server/train.sbatch
 if [[ -n "${CUDA_MODULE:-}" ]]; then
   if ! command -v module >/dev/null 2>&1; then
     echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
@@ -41,7 +41,9 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
 fi
 
 export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -75,6 +77,8 @@ else
     echo "Resume: ${RESUME_CHECKPOINT##*/}"
   fi
 fi
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
+runtime_command srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"

@@ -10,10 +10,10 @@
 #SBATCH --error=slurm-%x-%j.err
 
 # Dependency example:
-#   profile_id=$(sbatch --parsable server/profile.sbatch)
-#   train_id=$(sbatch --parsable --dependency=afterok:${profile_id} server/train.sbatch)
-#   cal_id=$(sbatch --parsable --dependency=afterok:${train_id} server/calibrate.sbatch)
-#   sbatch --dependency=afterok:${cal_id} --export=CONFIG_PATH=configs/hdr.json,\
+#   profile_id=$(sbatch --parsable --export=CONDA_PREFIX="${CONDA_PREFIX}" server/profile.sbatch)
+#   train_id=$(sbatch --parsable --dependency=afterok:${profile_id} --export=CONDA_PREFIX="${CONDA_PREFIX}" server/train.sbatch)
+#   cal_id=$(sbatch --parsable --dependency=afterok:${train_id} --export=CONDA_PREFIX="${CONDA_PREFIX}" server/calibrate.sbatch)
+#   sbatch --dependency=afterok:${cal_id} --export=CONDA_PREFIX="${CONDA_PREFIX}",CONFIG_PATH=configs/hdr.json,\
 # CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn server/eval.sbatch
 
 set -Eeuo pipefail
@@ -31,7 +31,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/calibrate.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/calibrate.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/calibrate.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -54,7 +54,9 @@ export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
 export PYTHONUNBUFFERED=1
@@ -81,7 +83,9 @@ else
   echo "SNN checkpoint: ${OUTPUT_PATH##*/}"
 fi
 echo "Calibration samples: ${CALIBRATION_SAMPLES}"
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-srun bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
+runtime_command srun bash "${PROJECT_ROOT}/scripts/calibrate.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}" "${OUTPUT_PATH}"

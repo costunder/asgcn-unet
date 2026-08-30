@@ -24,7 +24,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/scripts/eval.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
-  echo "  sbatch --export=PROJECT_ROOT=/absolute/path/to/repo server/eval.sbatch" >&2
+  echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/eval.sbatch" >&2
   exit 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
@@ -46,7 +46,9 @@ export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 export RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 export BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 export BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
-export PYTHON_BIN="${PYTHON_BIN:-${PROJECT_ROOT}/.venv/bin/python}"
+# shellcheck source=scripts/runtime.sh
+source "${PROJECT_ROOT}/scripts/runtime.sh"
+select_conda_python
 export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -77,7 +79,9 @@ fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   echo "SNN dynamics: ${SNN_DYNAMICS}"
 fi
-nvidia-smi || true
+if [[ "${DRY_RUN}" != "1" ]]; then
+  nvidia-smi || true
+fi
 
-srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
+runtime_command srun bash "${PROJECT_ROOT}/scripts/eval.sh" \
   "${CONFIG_PATH}" "${CHECKPOINT_PATH}"

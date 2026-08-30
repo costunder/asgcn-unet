@@ -8,48 +8,33 @@ event-to-frame 연구 코드다. MobaXterm으로 Linux GPU 서버에 SSH 접속�
 
 ## 빠른 시작 (MobaXterm)
 
-MobaXterm으로 **본인 Linux 서버 계정**에 접속한 뒤 아래 순서로 실행한다. Conda가 설치된 서버
-기준이다. 명령이 오류로 끝나면 다음 단계로 넘어가지 않는다. GPU를 scheduler로 할당받는 서버라면
-3번의 CUDA 검사와 5번 실행은 GPU allocation 안에서 한다.
+아래는 저장소가 **Public인 동안 인증 없이** 코드를 받는 절차다. GitHub CLI(`gh`)·GitHub 로그인·SSH
+키·token은 필요 없다. MobaXterm으로 Linux 서버에 접속한 뒤 실행한다. Git과 Conda가 설치된 서버
+기준이며, 명령이 오류로 끝나면 다음 단계로 넘어가지 않는다.
+GPU를 scheduler로 할당받는 서버라면 2번의 CUDA 검사와 4번 실행은 GPU allocation 안에서 한다.
 
-### 1. GitHub 로그인 — 처음 한 번
+### 1. Public 코드 받기
 
-Private 저장소를 내려받기 위한 로그인이다. SSH 키 생성·등록은 필요 없다.
-`asgcn` Conda 환경이 이미 있으면 첫 줄은 생략하고 활성화만 한다. 기존 환경 삭제를 묻는다면 취소한다.
-
-```bash
-conda create -n asgcn --override-channels -c conda-forge python=3.12 gh git
-conda activate asgcn
-gh auth login --hostname github.com --git-protocol https --web
-```
-
-설치 확인에는 `y`, Git 인증 질문에는 `Yes`를 선택한다. 일회용 코드가 나오면 안내에 따라 Enter를
-누르고, **PC 브라우저**에서 [github.com/login/device](https://github.com/login/device)를 열어 그 코드를
-입력·승인한다. 서버에서 브라우저를 열지 못한다는 메시지가 나와도 PC에서 진행하면 된다.
-**서버 터미널에 로그인 성공이 표시되고 프롬프트로 돌아온 뒤** 2번으로 간다.
-
-이미 해당 GitHub 계정으로 인증했다면 `gh auth status`로 확인하고 로그인은 생략할 수 있다.
-이 로그인은 저장소 전용 읽기 키보다 권한 범위가 넓다. 같은 OS 계정을 다른 사람이 사용하는 경우에는
-진행하지 않는다. credential store가 없으면 인증이 평문 파일에 저장될 수 있다. 저장 위치 확인과
-로그아웃은 [서버 안내](docs/SERVER.md#1-private-repository-로그인과-설치)를 참고한다.
-([GitHub CLI 공식 로그인 문서](https://cli.github.com/manual/gh_auth_login))
-
-### 2. 코드 받기
-
-프로젝트를 둘 위치에서 실행한다. 현재 위치 아래 `asgcn-unet/` 폴더가 생긴다.
+홈에서 아래 명령을 실행하면 `~/asgcn-unet/` 폴더가 생기고 그 안으로 이동한다.
 
 ```bash
-gh auth setup-git --hostname github.com &&
+cd ~
 git clone https://github.com/costunder/asgcn-unet.git &&
 cd asgcn-unet
 ```
 
-`gh auth setup-git`은 HTTPS Git 인증에 방금 로그인한 GitHub CLI를 사용하도록 설정한다.
-([공식 설명](https://cli.github.com/manual/gh_auth_setup-git))
-같은 이름의 폴더가 이미 있으면 삭제하거나 덮어쓰지 말고, 기존 clone을 확인하거나 다른 위치에서
-진행한다. 이후 명령은 모두 저장소 root에서 실행한다.
+같은 이름의 폴더가 이미 있으면 삭제하거나 덮어쓰지 말고 기존 clone을 확인한다. 이후 명령은 모두
+저장소 root에서 실행한다. URL은 위 코드 그대로 사용하며 Markdown 링크의 `[]()`를 붙이지 않는다.
 
-### 3. 환경 설치
+### 2. 환경 설치
+
+`asgcn` Conda 환경이 이미 있으면 첫 줄은 생략하고 활성화만 한다. 기존 환경 삭제를 묻는다면 취소한다.
+새 환경 설치 확인에는 `y`를 입력한다.
+
+```bash
+conda create -n asgcn --override-channels -c conda-forge python=3.12 git
+conda activate asgcn
+```
 
 ```bash
 nvidia-smi
@@ -60,13 +45,13 @@ source .venv/bin/activate &&
 python scripts/check_env.py --require-cuda --lock constraints/py312.txt
 ```
 
-Python 3.12·PyTorch 2.13.0 고정 환경을 프로젝트의 `.venv`에 설치한다. Conda는 Python과 GitHub CLI
-제공용이고 실제 학습은 `.venv`를 쓴다. 기존 `.env`는 보존하므로 이전 설정이 있으면 먼저 확인한다.
+Python 3.12·PyTorch 2.13.0 고정 환경을 프로젝트의 `.venv`에 설치한다. Conda는 Python·Git 제공용이고
+실제 학습은 `.venv`를 쓴다. 기존 `.env`는 보존하므로 이전 설정이 있으면 먼저 확인한다.
 Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서버 드라이버가 맞지 않거나 CUDA
-검사가 실패하면 학습하지 말고 [서버 환경 안내](docs/SERVER.md#1-private-repository-로그인과-설치)를
+검사가 실패하면 학습하지 말고 [서버 환경 안내](docs/SERVER.md#1-public-저장소-clone과-설치)를
 확인한다. 설치가 됐다는 것만으로 GPU 학습이 검증된 것은 아니다.
 
-### 4. 두 데이터셋 준비
+### 3. 두 데이터셋 준비
 
 EventAid-R 전체 14개 ZIP은 자동 다운로드한다. 중단되면 같은 명령으로 이어받는다.
 
@@ -89,7 +74,7 @@ EventHDR의 브라우저 다운로드·업로드는 수동 단계다. 이미 받
 [다른 가져오기 방법](docs/SERVER.md#2-전체-데이터-배치)을 사용한다.
 최종 데이터는 약 50.4GB지만 ZIP 원본·가상환경·학습 결과 공간은 별도로 필요하다.
 
-### 5. 전체 학습·보정·평가
+### 4. 전체 학습·보정·평가
 
 GPU가 할당된 터미널에서 실행한다. 기본 설정은 **40 epoch 전체 학습**이며 smoke test가 아니다.
 
@@ -110,7 +95,22 @@ SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 중단 후에는 처음부터 `all`을 반복하지 말고 [재개 절차](#중단-후-재개와-결과-보호)를 따른다.
 
 서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`, `source .venv/bin/activate`만
-실행한다. 로그인·clone·환경 생성을 매번 반복하지 않는다.
+실행한다. clone·환경 생성을 매번 반복하지 않는다.
+
+### 5. 실행 후 Private으로 되돌리기
+
+실험을 마치면 PC 브라우저에서 [저장소 Settings](https://github.com/costunder/asgcn-unet/settings)를 열고
+**General → Danger Zone → Change repository visibility → Change visibility**에서 Private을 선택한다.
+안내에 따라 확인한 뒤 **Make this repository private**으로 직접 전환한다.
+실험 완료를 감시하거나 자동으로 Private으로 바꾸는 기능은 없다.
+
+Private으로 바꿔도 이미 서버에 받은 코드·데이터·실행 결과는 그대로 남는다. 이후 새 clone이나
+`git pull`에는 인증이 필요하다. 노출 시간을 줄이려면 실험 완료를 기다리지 않고 **clone 직후**에
+Private으로 돌려도 기존 서버 코드는 실행할 수 있다.
+
+Public인 동안 코드·커밋 이력·Actions 로그를 누구나 볼 수 있다. 다른 사람이 받은 복사본은 회수할 수
+없고, 공개 fork도 Private 전환으로 비공개가 되지 않는다.
+[GitHub 공식 공개 범위 변경 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
 
 ## 실험 범위
 

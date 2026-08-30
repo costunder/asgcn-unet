@@ -4,12 +4,12 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T03:30:03Z",
+    "generated_utc": "2026-08-30T03:30:23Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "bc14322b41002471fd6995f2c8c71dda16d1504a",
-    "source_tree_at_generation": "ada9af44361ccb45946337ccfcae0267176cb4ef",
+    "source_commit_at_generation": null,
+    "source_tree_at_generation": null,
     "timestamp_source": "source_commit_time",
-    "tracked_tree_dirty_at_generation": false
+    "tracked_tree_dirty_at_generation": true
   },
   "snapshot": {
     "canonicalization": "UTF-8 text with LF newlines",
@@ -46,9 +46,9 @@
         "sha256": "84a999d703d3cddb94c4909ce8f14815ec9b7f624b33600bade93e5fc6dfa1c2"
       },
       {
-        "bytes": 28371,
+        "bytes": 28304,
         "path": "README.md",
-        "sha256": "d87c651f2c59760843f819cf8b5630b95c2c769ff978ec9fa894215e61b68a90"
+        "sha256": "02ea64c772bf6e407579ccc46f01328609d04d11da1274449ecd9422c965d274"
       },
       {
         "bytes": 1339,
@@ -81,14 +81,14 @@
         "sha256": "5253e4043315ae27b4f0a5ae66c0260a79961b58d7ad09ecfec032759595d1bd"
       },
       {
-        "bytes": 24932,
+        "bytes": 24961,
         "path": "docs/SERVER.md",
-        "sha256": "15e683dd60d59163d38d53db2a282a169b4a2a7e76f0d5f755c6dd483f7425b5"
+        "sha256": "70be37e55804b754846d8105fdabf15569dee316e210cb910afd7231957c2acb"
       },
       {
-        "bytes": 52819,
+        "bytes": 52921,
         "path": "hand_off.md",
-        "sha256": "3f1d52d02b89f3b0e4b0d9603869433cfa4d7e25e286c90012a82c3f75cf7eb1"
+        "sha256": "3dc6ae40678fa41af03588be3c8ed3537b9ade12abb326a71becc4a9e9cdc1c0"
       },
       {
         "bytes": 2753,
@@ -356,9 +356,9 @@
         "sha256": "762f8400d30522de18833de6c331636d4a238e45c7a29f0fa0abb685c3a6acd5"
       },
       {
-        "bytes": 10701,
+        "bytes": 11813,
         "path": "tests/test_server_orchestration.py",
-        "sha256": "79e874bd5634b077da67f44ae59f8e5b2b90f11d032a88ae7a33324d9de3fd3a"
+        "sha256": "262e0f9c363e436a1ceb0a164a290ce1ea495748ba37f760dd75893239906549"
       },
       {
         "bytes": 1176,
@@ -373,7 +373,7 @@
     ],
     "included_file_count": 71,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "460ec5400dc296be0e24dc114f09093159264c396a3746eecb53846b2fd8cbbf"
+    "snapshot_sha256": "4f7658bce8fb20325d30cde8754cb29130953a5b3f2ae1f60485ab4a52242819"
   }
 }
 -->
@@ -680,48 +680,33 @@ event-to-frame 연구 코드다. MobaXterm으로 Linux GPU 서버에 SSH 접속�
 
 ## 빠른 시작 (MobaXterm)
 
-MobaXterm으로 **본인 Linux 서버 계정**에 접속한 뒤 아래 순서로 실행한다. Conda가 설치된 서버
-기준이다. 명령이 오류로 끝나면 다음 단계로 넘어가지 않는다. GPU를 scheduler로 할당받는 서버라면
-3번의 CUDA 검사와 5번 실행은 GPU allocation 안에서 한다.
+아래는 저장소가 **Public인 동안 인증 없이** 코드를 받는 절차다. GitHub CLI(`gh`)·GitHub 로그인·SSH
+키·token은 필요 없다. MobaXterm으로 Linux 서버에 접속한 뒤 실행한다. Git과 Conda가 설치된 서버
+기준이며, 명령이 오류로 끝나면 다음 단계로 넘어가지 않는다.
+GPU를 scheduler로 할당받는 서버라면 2번의 CUDA 검사와 4번 실행은 GPU allocation 안에서 한다.
 
-### 1. GitHub 로그인 — 처음 한 번
+### 1. Public 코드 받기
 
-Private 저장소를 내려받기 위한 로그인이다. SSH 키 생성·등록은 필요 없다.
-`asgcn` Conda 환경이 이미 있으면 첫 줄은 생략하고 활성화만 한다. 기존 환경 삭제를 묻는다면 취소한다.
-
-```bash
-conda create -n asgcn --override-channels -c conda-forge python=3.12 gh git
-conda activate asgcn
-gh auth login --hostname github.com --git-protocol https --web
-```
-
-설치 확인에는 `y`, Git 인증 질문에는 `Yes`를 선택한다. 일회용 코드가 나오면 안내에 따라 Enter를
-누르고, **PC 브라우저**에서 [github.com/login/device](https://github.com/login/device)를 열어 그 코드를
-입력·승인한다. 서버에서 브라우저를 열지 못한다는 메시지가 나와도 PC에서 진행하면 된다.
-**서버 터미널에 로그인 성공이 표시되고 프롬프트로 돌아온 뒤** 2번으로 간다.
-
-이미 해당 GitHub 계정으로 인증했다면 `gh auth status`로 확인하고 로그인은 생략할 수 있다.
-이 로그인은 저장소 전용 읽기 키보다 권한 범위가 넓다. 같은 OS 계정을 다른 사람이 사용하는 경우에는
-진행하지 않는다. credential store가 없으면 인증이 평문 파일에 저장될 수 있다. 저장 위치 확인과
-로그아웃은 [서버 안내](docs/SERVER.md#1-private-repository-로그인과-설치)를 참고한다.
-([GitHub CLI 공식 로그인 문서](https://cli.github.com/manual/gh_auth_login))
-
-### 2. 코드 받기
-
-프로젝트를 둘 위치에서 실행한다. 현재 위치 아래 `asgcn-unet/` 폴더가 생긴다.
+홈에서 아래 명령을 실행하면 `~/asgcn-unet/` 폴더가 생기고 그 안으로 이동한다.
 
 ```bash
-gh auth setup-git --hostname github.com &&
+cd ~
 git clone https://github.com/costunder/asgcn-unet.git &&
 cd asgcn-unet
 ```
 
-`gh auth setup-git`은 HTTPS Git 인증에 방금 로그인한 GitHub CLI를 사용하도록 설정한다.
-([공식 설명](https://cli.github.com/manual/gh_auth_setup-git))
-같은 이름의 폴더가 이미 있으면 삭제하거나 덮어쓰지 말고, 기존 clone을 확인하거나 다른 위치에서
-진행한다. 이후 명령은 모두 저장소 root에서 실행한다.
+같은 이름의 폴더가 이미 있으면 삭제하거나 덮어쓰지 말고 기존 clone을 확인한다. 이후 명령은 모두
+저장소 root에서 실행한다. URL은 위 코드 그대로 사용하며 Markdown 링크의 `[]()`를 붙이지 않는다.
 
-### 3. 환경 설치
+### 2. 환경 설치
+
+`asgcn` Conda 환경이 이미 있으면 첫 줄은 생략하고 활성화만 한다. 기존 환경 삭제를 묻는다면 취소한다.
+새 환경 설치 확인에는 `y`를 입력한다.
+
+```bash
+conda create -n asgcn --override-channels -c conda-forge python=3.12 git
+conda activate asgcn
+```
 
 ```bash
 nvidia-smi
@@ -732,13 +717,13 @@ source .venv/bin/activate &&
 python scripts/check_env.py --require-cuda --lock constraints/py312.txt
 ```
 
-Python 3.12·PyTorch 2.13.0 고정 환경을 프로젝트의 `.venv`에 설치한다. Conda는 Python과 GitHub CLI
-제공용이고 실제 학습은 `.venv`를 쓴다. 기존 `.env`는 보존하므로 이전 설정이 있으면 먼저 확인한다.
+Python 3.12·PyTorch 2.13.0 고정 환경을 프로젝트의 `.venv`에 설치한다. Conda는 Python·Git 제공용이고
+실제 학습은 `.venv`를 쓴다. 기존 `.env`는 보존하므로 이전 설정이 있으면 먼저 확인한다.
 Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서버 드라이버가 맞지 않거나 CUDA
-검사가 실패하면 학습하지 말고 [서버 환경 안내](docs/SERVER.md#1-private-repository-로그인과-설치)를
+검사가 실패하면 학습하지 말고 [서버 환경 안내](docs/SERVER.md#1-public-저장소-clone과-설치)를
 확인한다. 설치가 됐다는 것만으로 GPU 학습이 검증된 것은 아니다.
 
-### 4. 두 데이터셋 준비
+### 3. 두 데이터셋 준비
 
 EventAid-R 전체 14개 ZIP은 자동 다운로드한다. 중단되면 같은 명령으로 이어받는다.
 
@@ -761,7 +746,7 @@ EventHDR의 브라우저 다운로드·업로드는 수동 단계다. 이미 받
 [다른 가져오기 방법](docs/SERVER.md#2-전체-데이터-배치)을 사용한다.
 최종 데이터는 약 50.4GB지만 ZIP 원본·가상환경·학습 결과 공간은 별도로 필요하다.
 
-### 5. 전체 학습·보정·평가
+### 4. 전체 학습·보정·평가
 
 GPU가 할당된 터미널에서 실행한다. 기본 설정은 **40 epoch 전체 학습**이며 smoke test가 아니다.
 
@@ -782,7 +767,22 @@ SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 중단 후에는 처음부터 `all`을 반복하지 말고 [재개 절차](#중단-후-재개와-결과-보호)를 따른다.
 
 서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`, `source .venv/bin/activate`만
-실행한다. 로그인·clone·환경 생성을 매번 반복하지 않는다.
+실행한다. clone·환경 생성을 매번 반복하지 않는다.
+
+### 5. 실행 후 Private으로 되돌리기
+
+실험을 마치면 PC 브라우저에서 [저장소 Settings](https://github.com/costunder/asgcn-unet/settings)를 열고
+**General → Danger Zone → Change repository visibility → Change visibility**에서 Private을 선택한다.
+안내에 따라 확인한 뒤 **Make this repository private**으로 직접 전환한다.
+실험 완료를 감시하거나 자동으로 Private으로 바꾸는 기능은 없다.
+
+Private으로 바꿔도 이미 서버에 받은 코드·데이터·실행 결과는 그대로 남는다. 이후 새 clone이나
+`git pull`에는 인증이 필요하다. 노출 시간을 줄이려면 실험 완료를 기다리지 않고 **clone 직후**에
+Private으로 돌려도 기존 서버 코드는 실행할 수 있다.
+
+Public인 동안 코드·커밋 이력·Actions 로그를 누구나 볼 수 있다. 다른 사람이 받은 복사본은 회수할 수
+없고, 공개 fork도 Private 전환으로 비공개가 되지 않는다.
+[GitHub 공식 공개 범위 변경 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
 
 ## 실험 범위
 
@@ -1865,29 +1865,18 @@ MobaXterm은 Windows PC에서 Linux 서버에 접속하는 SSH terminal/SFTP cli
 MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node에서 실행한다. 아래 명령은
 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 본실험 경로만 설명한다.
 
-## 1. private repository 로그인과 설치
+## 1. Public 저장소 clone과 설치
 
 처음 설치는 [README의 빠른 시작(MobaXterm)](../README.md#빠른-시작-mobaxterm)을 순서대로 따른다.
-이 절차는 Conda가 설치된 **본인 전용 서버 OS 계정**을 전제로 한다. 서버 SSH 로그인과 GitHub 인증은
-별개이며, GitHub에는 HTTPS 웹 로그인으로 인증한다. 이 문서에서는 설치 명령을 중복하지 않는다.
+이 절차는 Conda와 Git이 있는 **본인 전용 서버 OS 계정**을 전제로 한다. Public 저장소를
+GitHub 로그인·토큰·SSH 키 설정 없이 HTTPS로 clone한다. 이 문서에서는 설치 명령을 중복하지 않는다.
 
 - Conda `asgcn` 환경 생성은 최초 한 번만 한다. 재접속 시에는 다시 생성하지 않고
   `conda activate asgcn` 뒤 프로젝트의 `.venv`를 활성화한다.
-- `gh auth login`이 표시한 일회용 코드를 PC 브라우저의 [GitHub 기기 인증](https://github.com/login/device)에
-  입력해 승인하고, 서버 명령이 성공 종료할 때까지 기다린다. Enter 안내가 나오면 서버에서 Enter를 누른다.
-  서버 브라우저가 열리지 않아도 PC에서 승인할 수 있다.
-- 인증 성공 후 README의 Git 인증 설정·HTTPS clone·`.venv` 설치 순서를 진행한다. 기존 환경이나
-  `asgcn-unet` 폴더가 있으면 삭제하거나 환경 생성 명령을 반복하지 않는다.
+- README의 HTTPS clone → Conda 환경 → `.venv` 설치 → 전체 데이터 → 본실험 순서를 따른다.
+  기존 환경이나 `asgcn-unet` 폴더가 있으면 삭제하거나 생성·clone을 반복하지 않는다.
 
-웹 인증의 권한은 repository 한 개 전용 read-only 키보다 넓으므로 **공유 OS 계정에서는 사용하지
-않는다**. OS credential store가 없거나 동작하지 않으면 `gh`가 token을 평문 파일에 저장할 수 있다.
-저장 위치는 `gh auth status`로 확인하며 token이나 인증 파일을 공유하지 않는다.
-[GitHub CLI 인증 설명](https://cli.github.com/manual/gh_auth_login)
-더 이상 서버에서 GitHub 접근이 필요 없으면 `gh auth logout --hostname github.com`으로 서버에 저장된
-인증을 지울 수 있다. 이 명령은 token 자체를 revoke하지는 않는다.
-[로그아웃 설명](https://cli.github.com/manual/gh_auth_logout)
-
-Conda는 `gh`·Git·Python 3.12를 제공하고, 프로젝트 실행 환경은 계속 `.venv`다. `scripts/run.sh`와
+Conda는 Git·Python 3.12를 제공하고, 프로젝트 실행 환경은 계속 `.venv`다. `scripts/run.sh`와
 scheduler wrapper의 `.venv` 사용은 바꾸지 않는다. `.venv`가 사용하는 Conda 환경도 유지한다.
 README의 기본 설치는 별도 index 지정 없이 PyPI의 locked `torch==2.13.0`을 사용한다.
 `constraints/py312.txt`의 Linux torch profile은 glibc 2.28 이상을 요구하며 setup은 Python·기존 venv·
@@ -1912,10 +1901,14 @@ container를 확인한다. lock을 임의로 낮추거나 CPU 실행으로 검�
 아래 release gate와 전체 Ruff/pytest 회귀검사는 **유지관리자 배포 절차**다. 확인된 배포를 설치하는
 실험 사용자가 이를 전부 다시 실행해야 한다는 뜻은 아니다. 데이터·GPU readiness 검사는 뒤 절차를 따른다.
 
-> 저장소는 private로 유지한다. 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
+> 사용자 요청 절차는 Public 상태에서 설치하고 실험 후 사용자가 직접 Private로 되돌리는 것이다.
+> 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
 > 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
 > **GitHub Actions 필수 gate** 통과를 확인한다. CI는 실제 marker를 받지 않아 로컬 검사를 대신하지 않는다.
 > 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
+
+Public 전환 시 코드·Git history·Actions history/logs가 공개된다. Private로 복귀해도 이미 생긴
+공개 fork나 외부 사본은 회수되지 않는다. [GitHub 공개 범위 변경 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)를 확인한다.
 
 ## 2. 전체 데이터 배치
 
@@ -2308,6 +2301,13 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - `max_graph_edges=2,000,000` 또는 OOM: edge를 조용히 잘라 진행하지 않는다. 별도 config에서
   `max_events`, `graph_radius`, model width를 변경하고 peak memory를 다시 측정해 다른 실험으로 기록한다.
 - SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.
+
+## 8. 실험 종료 후 Private 복귀(수동)
+
+사용자가 GitHub 저장소의 `Settings` → `General` → `Danger Zone` → `Change repository visibility` →
+`Change visibility`에서 Private를 선택하고 안내를 확인한 뒤 `Make this repository private`로 확정한다.
+자동 복귀는 하지 않는다. 서버에 이미 clone한 파일과 실행 중인 실험은 유지되지만, 이후 `git pull`이나
+새 clone에는 GitHub 인증이 필요하다. [공식 절차](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
 ~~~~~~~~
 
 # hand_off.md
@@ -2322,8 +2322,9 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 ## 0. 검증 기록과 배포 판정 기준
 
 이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
-저장소는 private로 유지한다. 서버 계정명, hostname, 사용자별 Unix/Windows absolute home path를
-문서에서 제거했고, clone 위치는 사용자가 고른 현재 directory 아래 `asgcn-unet`으로 표현한다.
+사용자 요청 절차는 저장소를 Public으로 전환해 인증 없이 설치하고, 서버 실험 후 사용자가 직접
+Private로 되돌리는 것이다. 실제 원격 visibility와 배포 성공은 별도로 확인한다. 서버 계정명,
+hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했고 clone 폴더는 `asgcn-unet`으로 표현한다.
 저장소 내부에는 과거의 구체 식별자를 회귀 fixture로도 보존하지 않는다. 대신
 `scripts/scan_private_text.py`와 `tests/test_repo_hygiene.py`가 다음을 검증한다.
 
@@ -2334,8 +2335,8 @@ python scripts/build_code_summary.py --check --require-clean-provenance
   history 검사는 로컬/CI 모두 shallow clone 거부
 - Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
 - shebang entrypoint의 Git 실행 권한을 Windows에서도 검사해 Linux checkout 권한 누락 방지
-- 설치 명령이 README 빠른 시작의 Conda·GitHub CLI HTTPS 웹 로그인으로 통합됐는지 문서 검토
-- 본인 전용 OS 계정 전제와 인증 권한·저장 token 주의가 명확한지 문서 검토
+- 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda·`.venv` 경로로 통합됐는지 문서 검토
+- GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
 
 2026-08-30 Windows CPU 검증은 **267 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
 shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
@@ -2351,8 +2352,8 @@ workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로
 1. 전체 tracked text와 `code_summary.md`뿐 아니라 모든 local ref의 history를 저장소 밖 로컬
    실제-marker denylist로 검사하고, marker를 GitHub에 전송하지 않았는가?
 2. Conda가 있는 본인 전용 OS 계정을 전제로 README 빠른 시작만 따라가도록 안내하는가?
-3. 서버가 출력한 일회용 코드를 PC의 GitHub 기기 인증 페이지에서 승인하도록 안내하는가?
-4. 로그인 성공 뒤에만 HTTPS clone을 진행하고 token을 URL이나 명령행에 넣지 않는가?
+3. Public HTTPS clone에 GitHub 로그인·토큰·SSH 키 설정을 요구하지 않는가?
+4. 공개 노출 범위와 실험 후 수동 Private 복귀, 복귀 후 pull 인증 필요를 안내하는가?
 5. 기존 Conda 환경과 clone 폴더를 자동 삭제하거나 덮어쓰지 않는가?
 6. 이 보안·배포 수정이 model/data/experiment protocol을 의도치 않게 바꾸지 않았는가?
 7. 실제 GPU의 full-topology/densest-step profile이 checkpoint의 verified preflight gate로 이어지는가?
@@ -2374,7 +2375,7 @@ workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로
 - 완전한 spiking network
 - FPGA/ASIC latency·전력·에너지 실측 또는 반도체 통합 구현 완료
 
-대상 private repository의 주소는 다음과 같다.
+대상 repository의 Public HTTPS clone 주소는 다음과 같다.
 
 ```text
 https://github.com/costunder/asgcn-unet.git
@@ -2830,21 +2831,19 @@ bitwise 동일성을 과장하지 않는다.
 
 실제 연산은 MobaXterm으로 접속한 Linux server에서 수행한다. 설치는
 [README 빠른 시작(MobaXterm)](README.md#빠른-시작-mobaxterm)을 단일 진입점으로 사용한다.
-Conda가 있는 본인 전용 OS 계정에서 최초 한 번 `asgcn` 환경을 만들고, GitHub CLI HTTPS 웹 로그인에
-표시된 코드를 PC의 [GitHub 기기 인증](https://github.com/login/device)에서 승인한다. 서버 로그인
-명령이 성공 종료한 뒤 README의 Git 인증 설정·clone·`.venv` 설치 순서를 이어간다. 기존 환경이나
-프로젝트 폴더가 있으면 생성·clone을 반복하거나 삭제하지 않는다.
+Conda와 Git이 있는 본인 전용 OS 계정에서 Public 저장소를 인증 없이 HTTPS로 clone하고, 최초 한 번
+`asgcn` 환경과 `.venv`를 설치한다. GitHub CLI·토큰·SSH 키 설정은 필요 없다. 기존 환경이나 프로젝트
+폴더가 있으면 생성·clone을 반복하거나 삭제하지 않는다.
 
-이 인증은 repository 하나 전용 read-only 키보다 권한이 넓으므로 공유 OS 계정에서는 사용하지 않는다.
-OS credential store가 없거나 실패하면 token이 평문 파일에 저장될 수 있고, `gh auth status`로
-저장 위치를 확인할 수 있다. token·인증 파일은 공유하지 않는다.
-[GitHub CLI 인증 설명](https://cli.github.com/manual/gh_auth_login)
-`gh auth logout --hostname github.com`은 서버에 저장된 인증을 정리하지만 token 자체를 revoke하지는
-않는다. [로그아웃 설명](https://cli.github.com/manual/gh_auth_logout)
-
-Conda는 GitHub CLI·Git·Python 3.12를 제공하며 프로젝트 runtime은 계속 `.venv`다. 기존 run/scheduler
+Conda는 Git·Python 3.12를 제공하며 프로젝트 runtime은 계속 `.venv`다. 기존 run/scheduler
 wrapper의 `.venv` 경로를 변경하지 않고, 그 Python을 제공하는 Conda 환경도 유지한다. 전체 Ruff/pytest와
 history/provenance release gate는 유지관리용이며, 설치할 때마다 실험 사용자가 반복할 절차가 아니다.
+
+Public 전환은 코드·Git history·Actions history/logs를 공개하며, Private 복귀로 이미 생긴 공개 fork나
+외부 사본을 회수할 수는 없다. 실험 종료 후 사용자가 `Settings` → `General` → `Danger Zone` →
+`Change repository visibility` → `Change visibility`에서 Private를 선택하고 안내를 확인한 뒤
+`Make this repository private`로 확정한다. 자동 복귀는 하지 않는다. 서버 clone과 실행 중인 실험은
+유지되지만 이후 pull·새 clone에는 인증이 필요하다. [GitHub 공식 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
 
 유지관리자는 다음 배포 조건을 확인한다.
 본실험 전에는 sanitized history와 과거 CI run/artifact 정리 기록을 확인하고, 원격 `main`의 배포
@@ -3051,7 +3050,7 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - float target 계약, EventAid ZIP logical duplicate, config/loss/batch/sample-limit fail-fast
 - 전체 tracked text의 generic/external-marker privacy scan과 deterministic code snapshot
 - 구·신 Git의 공통 LF history 열거와 모든 shell entrypoint의 개별 구문 검사
-- 공개 output의 absolute path/hostname redaction과 portable private-repository clone 절차
+- 공개 output의 absolute path/hostname redaction과 Public HTTPS clone 절차
 
 GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
 syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
@@ -22086,36 +22085,58 @@ def test_eventaid_downloader_defaults_to_the_complete_release() -> None:
     assert 'if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then\n  DOWNLOAD_ALL=1' in script
 
 
-def test_readme_starts_with_portable_https_quickstart_for_the_full_experiment() -> None:
+def test_readme_starts_with_public_https_quickstart_and_manual_private_restoration() -> None:
     readme = _text("README.md")
     quickstart_heading = "## 빠른 시작 (MobaXterm)\n"
     assert readme.index(quickstart_heading) < readme.index("## 구현 범위와 모델 구조")
     quickstart = readme.split(quickstart_heading, maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
 
-    assert "conda create -n asgcn --override-channels -c conda-forge python=3.12 gh git" in quickstart
-    assert "conda activate asgcn" in quickstart
-    assert "gh auth login --hostname github.com --git-protocol https --web" in quickstart
-    assert "https://github.com/login/device" in quickstart
-    assert (
-        "gh auth setup-git --hostname github.com &&\n"
+    clone_command = (
+        "cd ~\n"
         "git clone https://github.com/costunder/asgcn-unet.git &&\n"
         "cd asgcn-unet"
-    ) in quickstart
+    )
+    conda_command = "conda create -n asgcn --override-channels -c conda-forge python=3.12 git"
+    assert clone_command in quickstart
+    assert conda_command in quickstart
+    assert quickstart.index(clone_command) < quickstart.index(conda_command)
+    assert "conda activate asgcn" in quickstart
+    public_clone = quickstart.split("### 1.", maxsplit=1)[1].split("\n### ", maxsplit=1)[0]
+    assert "Public" in public_clone
     for line in quickstart.splitlines():
         if line.startswith("conda create "):
+            assert "gh" not in line.split()
             assert " -y " not in f" {line} "
             assert "--yes" not in line
 
     assert "prepare_asgcn_deploy_key" not in readme
-    assert "git@github.com" not in quickstart
+    for private_auth_command in ("gh auth", "ssh-keygen", "git@"):
+        assert private_auth_command not in quickstart
+    for absolute_home_path in ("/home/", "/Users/", "C:\\Users\\"):
+        assert absolute_home_path not in quickstart
     assert "ASGCN_DIR" not in quickstart
     assert "bash scripts/setup.sh" in quickstart
     assert "source .venv/bin/activate" in quickstart
+    assert "python scripts/check_env.py --require-cuda --lock constraints/py312.txt" in quickstart
     assert "bash scripts/get_aid.sh --all" in quickstart
     assert "bash scripts/get_hdr.sh --archive" in quickstart
     assert "--split train" in quickstart
     assert "--split eval" in quickstart
+    assert "python scripts/check_env.py --require-full-data --lock constraints/py312.txt" in quickstart
     assert "bash scripts/run.sh all" in quickstart
+
+    private_restoration = quickstart.split("### 5.", maxsplit=1)[1]
+    for visibility_label in (
+        "Private",
+        "Settings",
+        "Danger Zone",
+        "Change repository visibility",
+        "Make this repository private",
+    ):
+        assert visibility_label in private_restoration
+    assert "수동" in private_restoration or "직접" in private_restoration
+    assert "실험 완료를 감시하거나 자동으로 Private으로 바꾸는 기능은 없다." in private_restoration
+    assert "docs/SERVER.md#1-public-저장소-clone과-설치" in quickstart
 ~~~~~~~~
 
 # tests/test_temporal_metric.py

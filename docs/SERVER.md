@@ -4,29 +4,18 @@ MobaXterm은 Windows PC에서 Linux 서버에 접속하는 SSH terminal/SFTP cli
 MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node에서 실행한다. 아래 명령은
 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 본실험 경로만 설명한다.
 
-## 1. private repository 로그인과 설치
+## 1. Public 저장소 clone과 설치
 
 처음 설치는 [README의 빠른 시작(MobaXterm)](../README.md#빠른-시작-mobaxterm)을 순서대로 따른다.
-이 절차는 Conda가 설치된 **본인 전용 서버 OS 계정**을 전제로 한다. 서버 SSH 로그인과 GitHub 인증은
-별개이며, GitHub에는 HTTPS 웹 로그인으로 인증한다. 이 문서에서는 설치 명령을 중복하지 않는다.
+이 절차는 Conda와 Git이 있는 **본인 전용 서버 OS 계정**을 전제로 한다. Public 저장소를
+GitHub 로그인·토큰·SSH 키 설정 없이 HTTPS로 clone한다. 이 문서에서는 설치 명령을 중복하지 않는다.
 
 - Conda `asgcn` 환경 생성은 최초 한 번만 한다. 재접속 시에는 다시 생성하지 않고
   `conda activate asgcn` 뒤 프로젝트의 `.venv`를 활성화한다.
-- `gh auth login`이 표시한 일회용 코드를 PC 브라우저의 [GitHub 기기 인증](https://github.com/login/device)에
-  입력해 승인하고, 서버 명령이 성공 종료할 때까지 기다린다. Enter 안내가 나오면 서버에서 Enter를 누른다.
-  서버 브라우저가 열리지 않아도 PC에서 승인할 수 있다.
-- 인증 성공 후 README의 Git 인증 설정·HTTPS clone·`.venv` 설치 순서를 진행한다. 기존 환경이나
-  `asgcn-unet` 폴더가 있으면 삭제하거나 환경 생성 명령을 반복하지 않는다.
+- README의 HTTPS clone → Conda 환경 → `.venv` 설치 → 전체 데이터 → 본실험 순서를 따른다.
+  기존 환경이나 `asgcn-unet` 폴더가 있으면 삭제하거나 생성·clone을 반복하지 않는다.
 
-웹 인증의 권한은 repository 한 개 전용 read-only 키보다 넓으므로 **공유 OS 계정에서는 사용하지
-않는다**. OS credential store가 없거나 동작하지 않으면 `gh`가 token을 평문 파일에 저장할 수 있다.
-저장 위치는 `gh auth status`로 확인하며 token이나 인증 파일을 공유하지 않는다.
-[GitHub CLI 인증 설명](https://cli.github.com/manual/gh_auth_login)
-더 이상 서버에서 GitHub 접근이 필요 없으면 `gh auth logout --hostname github.com`으로 서버에 저장된
-인증을 지울 수 있다. 이 명령은 token 자체를 revoke하지는 않는다.
-[로그아웃 설명](https://cli.github.com/manual/gh_auth_logout)
-
-Conda는 `gh`·Git·Python 3.12를 제공하고, 프로젝트 실행 환경은 계속 `.venv`다. `scripts/run.sh`와
+Conda는 Git·Python 3.12를 제공하고, 프로젝트 실행 환경은 계속 `.venv`다. `scripts/run.sh`와
 scheduler wrapper의 `.venv` 사용은 바꾸지 않는다. `.venv`가 사용하는 Conda 환경도 유지한다.
 README의 기본 설치는 별도 index 지정 없이 PyPI의 locked `torch==2.13.0`을 사용한다.
 `constraints/py312.txt`의 Linux torch profile은 glibc 2.28 이상을 요구하며 setup은 Python·기존 venv·
@@ -51,10 +40,14 @@ container를 확인한다. lock을 임의로 낮추거나 CPU 실행으로 검�
 아래 release gate와 전체 Ruff/pytest 회귀검사는 **유지관리자 배포 절차**다. 확인된 배포를 설치하는
 실험 사용자가 이를 전부 다시 실행해야 한다는 뜻은 아니다. 데이터·GPU readiness 검사는 뒤 절차를 따른다.
 
-> 저장소는 private로 유지한다. 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
+> 사용자 요청 절차는 Public 상태에서 설치하고 실험 후 사용자가 직접 Private로 되돌리는 것이다.
+> 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
 > 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
 > **GitHub Actions 필수 gate** 통과를 확인한다. CI는 실제 marker를 받지 않아 로컬 검사를 대신하지 않는다.
 > 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
+
+Public 전환 시 코드·Git history·Actions history/logs가 공개된다. Private로 복귀해도 이미 생긴
+공개 fork나 외부 사본은 회수되지 않는다. [GitHub 공개 범위 변경 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)를 확인한다.
 
 ## 2. 전체 데이터 배치
 
@@ -447,3 +440,10 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - `max_graph_edges=2,000,000` 또는 OOM: edge를 조용히 잘라 진행하지 않는다. 별도 config에서
   `max_events`, `graph_radius`, model width를 변경하고 peak memory를 다시 측정해 다른 실험으로 기록한다.
 - SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.
+
+## 8. 실험 종료 후 Private 복귀(수동)
+
+사용자가 GitHub 저장소의 `Settings` → `General` → `Danger Zone` → `Change repository visibility` →
+`Change visibility`에서 Private를 선택하고 안내를 확인한 뒤 `Make this repository private`로 확정한다.
+자동 복귀는 하지 않는다. 서버에 이미 clone한 파일과 실행 중인 실험은 유지되지만, 이후 `git pull`이나
+새 clone에는 GitHub 인증이 필요하다. [공식 절차](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)

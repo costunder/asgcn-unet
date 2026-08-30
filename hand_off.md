@@ -7,8 +7,9 @@
 ## 0. 검증 기록과 배포 판정 기준
 
 이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
-저장소는 private로 유지한다. 서버 계정명, hostname, 사용자별 Unix/Windows absolute home path를
-문서에서 제거했고, clone 위치는 사용자가 고른 현재 directory 아래 `asgcn-unet`으로 표현한다.
+사용자 요청 절차는 저장소를 Public으로 전환해 인증 없이 설치하고, 서버 실험 후 사용자가 직접
+Private로 되돌리는 것이다. 실제 원격 visibility와 배포 성공은 별도로 확인한다. 서버 계정명,
+hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했고 clone 폴더는 `asgcn-unet`으로 표현한다.
 저장소 내부에는 과거의 구체 식별자를 회귀 fixture로도 보존하지 않는다. 대신
 `scripts/scan_private_text.py`와 `tests/test_repo_hygiene.py`가 다음을 검증한다.
 
@@ -19,8 +20,8 @@
   history 검사는 로컬/CI 모두 shallow clone 거부
 - Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
 - shebang entrypoint의 Git 실행 권한을 Windows에서도 검사해 Linux checkout 권한 누락 방지
-- 설치 명령이 README 빠른 시작의 Conda·GitHub CLI HTTPS 웹 로그인으로 통합됐는지 문서 검토
-- 본인 전용 OS 계정 전제와 인증 권한·저장 token 주의가 명확한지 문서 검토
+- 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda·`.venv` 경로로 통합됐는지 문서 검토
+- GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
 
 2026-08-30 Windows CPU 검증은 **267 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
 shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
@@ -36,8 +37,8 @@ workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로
 1. 전체 tracked text와 `code_summary.md`뿐 아니라 모든 local ref의 history를 저장소 밖 로컬
    실제-marker denylist로 검사하고, marker를 GitHub에 전송하지 않았는가?
 2. Conda가 있는 본인 전용 OS 계정을 전제로 README 빠른 시작만 따라가도록 안내하는가?
-3. 서버가 출력한 일회용 코드를 PC의 GitHub 기기 인증 페이지에서 승인하도록 안내하는가?
-4. 로그인 성공 뒤에만 HTTPS clone을 진행하고 token을 URL이나 명령행에 넣지 않는가?
+3. Public HTTPS clone에 GitHub 로그인·토큰·SSH 키 설정을 요구하지 않는가?
+4. 공개 노출 범위와 실험 후 수동 Private 복귀, 복귀 후 pull 인증 필요를 안내하는가?
 5. 기존 Conda 환경과 clone 폴더를 자동 삭제하거나 덮어쓰지 않는가?
 6. 이 보안·배포 수정이 model/data/experiment protocol을 의도치 않게 바꾸지 않았는가?
 7. 실제 GPU의 full-topology/densest-step profile이 checkpoint의 verified preflight gate로 이어지는가?
@@ -59,7 +60,7 @@ workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로
 - 완전한 spiking network
 - FPGA/ASIC latency·전력·에너지 실측 또는 반도체 통합 구현 완료
 
-대상 private repository의 주소는 다음과 같다.
+대상 repository의 Public HTTPS clone 주소는 다음과 같다.
 
 ```text
 https://github.com/costunder/asgcn-unet.git
@@ -515,21 +516,19 @@ bitwise 동일성을 과장하지 않는다.
 
 실제 연산은 MobaXterm으로 접속한 Linux server에서 수행한다. 설치는
 [README 빠른 시작(MobaXterm)](README.md#빠른-시작-mobaxterm)을 단일 진입점으로 사용한다.
-Conda가 있는 본인 전용 OS 계정에서 최초 한 번 `asgcn` 환경을 만들고, GitHub CLI HTTPS 웹 로그인에
-표시된 코드를 PC의 [GitHub 기기 인증](https://github.com/login/device)에서 승인한다. 서버 로그인
-명령이 성공 종료한 뒤 README의 Git 인증 설정·clone·`.venv` 설치 순서를 이어간다. 기존 환경이나
-프로젝트 폴더가 있으면 생성·clone을 반복하거나 삭제하지 않는다.
+Conda와 Git이 있는 본인 전용 OS 계정에서 Public 저장소를 인증 없이 HTTPS로 clone하고, 최초 한 번
+`asgcn` 환경과 `.venv`를 설치한다. GitHub CLI·토큰·SSH 키 설정은 필요 없다. 기존 환경이나 프로젝트
+폴더가 있으면 생성·clone을 반복하거나 삭제하지 않는다.
 
-이 인증은 repository 하나 전용 read-only 키보다 권한이 넓으므로 공유 OS 계정에서는 사용하지 않는다.
-OS credential store가 없거나 실패하면 token이 평문 파일에 저장될 수 있고, `gh auth status`로
-저장 위치를 확인할 수 있다. token·인증 파일은 공유하지 않는다.
-[GitHub CLI 인증 설명](https://cli.github.com/manual/gh_auth_login)
-`gh auth logout --hostname github.com`은 서버에 저장된 인증을 정리하지만 token 자체를 revoke하지는
-않는다. [로그아웃 설명](https://cli.github.com/manual/gh_auth_logout)
-
-Conda는 GitHub CLI·Git·Python 3.12를 제공하며 프로젝트 runtime은 계속 `.venv`다. 기존 run/scheduler
+Conda는 Git·Python 3.12를 제공하며 프로젝트 runtime은 계속 `.venv`다. 기존 run/scheduler
 wrapper의 `.venv` 경로를 변경하지 않고, 그 Python을 제공하는 Conda 환경도 유지한다. 전체 Ruff/pytest와
 history/provenance release gate는 유지관리용이며, 설치할 때마다 실험 사용자가 반복할 절차가 아니다.
+
+Public 전환은 코드·Git history·Actions history/logs를 공개하며, Private 복귀로 이미 생긴 공개 fork나
+외부 사본을 회수할 수는 없다. 실험 종료 후 사용자가 `Settings` → `General` → `Danger Zone` →
+`Change repository visibility` → `Change visibility`에서 Private를 선택하고 안내를 확인한 뒤
+`Make this repository private`로 확정한다. 자동 복귀는 하지 않는다. 서버 clone과 실행 중인 실험은
+유지되지만 이후 pull·새 clone에는 인증이 필요하다. [GitHub 공식 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
 
 유지관리자는 다음 배포 조건을 확인한다.
 본실험 전에는 sanitized history와 과거 CI run/artifact 정리 기록을 확인하고, 원격 `main`의 배포
@@ -736,7 +735,7 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - float target 계약, EventAid ZIP logical duplicate, config/loss/batch/sample-limit fail-fast
 - 전체 tracked text의 generic/external-marker privacy scan과 deterministic code snapshot
 - 구·신 Git의 공통 LF history 열거와 모든 shell entrypoint의 개별 구문 검사
-- 공개 output의 absolute path/hostname redaction과 portable private-repository clone 절차
+- 공개 output의 absolute path/hostname redaction과 Public HTTPS clone 절차
 
 GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
 syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로

@@ -211,33 +211,55 @@ def test_eventaid_downloader_defaults_to_the_complete_release() -> None:
     assert 'if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then\n  DOWNLOAD_ALL=1' in script
 
 
-def test_readme_starts_with_portable_https_quickstart_for_the_full_experiment() -> None:
+def test_readme_starts_with_public_https_quickstart_and_manual_private_restoration() -> None:
     readme = _text("README.md")
     quickstart_heading = "## 빠른 시작 (MobaXterm)\n"
     assert readme.index(quickstart_heading) < readme.index("## 구현 범위와 모델 구조")
     quickstart = readme.split(quickstart_heading, maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
 
-    assert "conda create -n asgcn --override-channels -c conda-forge python=3.12 gh git" in quickstart
-    assert "conda activate asgcn" in quickstart
-    assert "gh auth login --hostname github.com --git-protocol https --web" in quickstart
-    assert "https://github.com/login/device" in quickstart
-    assert (
-        "gh auth setup-git --hostname github.com &&\n"
+    clone_command = (
+        "cd ~\n"
         "git clone https://github.com/costunder/asgcn-unet.git &&\n"
         "cd asgcn-unet"
-    ) in quickstart
+    )
+    conda_command = "conda create -n asgcn --override-channels -c conda-forge python=3.12 git"
+    assert clone_command in quickstart
+    assert conda_command in quickstart
+    assert quickstart.index(clone_command) < quickstart.index(conda_command)
+    assert "conda activate asgcn" in quickstart
+    public_clone = quickstart.split("### 1.", maxsplit=1)[1].split("\n### ", maxsplit=1)[0]
+    assert "Public" in public_clone
     for line in quickstart.splitlines():
         if line.startswith("conda create "):
+            assert "gh" not in line.split()
             assert " -y " not in f" {line} "
             assert "--yes" not in line
 
     assert "prepare_asgcn_deploy_key" not in readme
-    assert "git@github.com" not in quickstart
+    for private_auth_command in ("gh auth", "ssh-keygen", "git@"):
+        assert private_auth_command not in quickstart
+    for absolute_home_path in ("/home/", "/Users/", "C:\\Users\\"):
+        assert absolute_home_path not in quickstart
     assert "ASGCN_DIR" not in quickstart
     assert "bash scripts/setup.sh" in quickstart
     assert "source .venv/bin/activate" in quickstart
+    assert "python scripts/check_env.py --require-cuda --lock constraints/py312.txt" in quickstart
     assert "bash scripts/get_aid.sh --all" in quickstart
     assert "bash scripts/get_hdr.sh --archive" in quickstart
     assert "--split train" in quickstart
     assert "--split eval" in quickstart
+    assert "python scripts/check_env.py --require-full-data --lock constraints/py312.txt" in quickstart
     assert "bash scripts/run.sh all" in quickstart
+
+    private_restoration = quickstart.split("### 5.", maxsplit=1)[1]
+    for visibility_label in (
+        "Private",
+        "Settings",
+        "Danger Zone",
+        "Change repository visibility",
+        "Make this repository private",
+    ):
+        assert visibility_label in private_restoration
+    assert "수동" in private_restoration or "직접" in private_restoration
+    assert "실험 완료를 감시하거나 자동으로 Private으로 바꾸는 기능은 없다." in private_restoration
+    assert "docs/SERVER.md#1-public-저장소-clone과-설치" in quickstart

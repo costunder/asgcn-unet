@@ -50,6 +50,11 @@ def _canonical_sha256(value: Any) -> str:
 
 def _runtime_provenance(device: torch.device) -> dict[str, Any]:
     cuda_available = bool(torch.cuda.is_available())
+    selected_cuda = cuda_available and device.type == "cuda"
+    if selected_cuda:
+        # cuDNN version() itself enumerates device capabilities in PyTorch 2.13.
+        # Initialize first so MIG uses the runtime count, not a pre-init NVML count.
+        torch.cuda.init()
     runtime: dict[str, Any] = {
         "python": platform.python_version(),
         "platform": platform.system(),
@@ -57,10 +62,10 @@ def _runtime_provenance(device: torch.device) -> dict[str, Any]:
         "requested_device": str(device),
         "cuda_available": cuda_available,
         "cuda_runtime": torch.version.cuda,
-        "cudnn": torch.backends.cudnn.version() if cuda_available else None,
+        "cudnn": torch.backends.cudnn.version() if selected_cuda else None,
         "gpu": None,
     }
-    if cuda_available and device.type == "cuda":
+    if selected_cuda:
         index = device.index if device.index is not None else torch.cuda.current_device()
         properties = torch.cuda.get_device_properties(index)
         runtime["gpu"] = {

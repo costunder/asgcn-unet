@@ -84,6 +84,7 @@ ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된�
 실행한다(`tmux` 설치 필요). 분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다.
 SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 중단 후에는 처음부터 `all`을 반복하지 말고 [재개 절차](#중단-후-재개와-결과-보호)를 따른다.
+전체 데이터 검사 뒤 MIG `profile failed: Invalid device id`로 멈췄다면 [profile부터 재개](docs/SERVER.md#mig에서-전체-데이터-검사-후-profile만-실패한-경우)한다.
 
 서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`만 실행한다.
 clone·환경 생성·설치를 매번 반복하지 않는다.
@@ -372,9 +373,8 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
   CI는 snapshot 일치와 source provenance를 확인한다. 개인정보 검사는 현재 tracked text와 Git history를
   대상으로 하며, 실제 식별자는 저장소 밖 로컬 검사에만 사용한다.
   상세 검증 기록과 유지관리 절차는 [인계서](hand_off.md#14-테스트-상태와-검증-범위)에 있다.
-- `check_env.py`는 CUDA 초기화 후 실제 runtime 장치 수로 GPU 이름/VRAM을 조회한다. MIG의
-  초기화 전후 장치 수 차이로 인한 `Invalid device id`를 CPU 모의 회귀검사로 검증했으며, 실제
-  초기화 실패나 CUDA 불가는 우회하지 않는다. [서버 오류 안내](docs/SERVER.md#7-산출물-확인과-운영상-오류)
+- 환경 검사와 profile은 CUDA를 먼저 초기화한 뒤 cuDNN·장치 정보를 읽고, checkpoint RNG도 초기화 후
+  장치를 열거한다. 실제 초기화 실패나 CUDA 불가는 우회하지 않는다.
 - 코드의 unit/integration test와 Linux 의존성 검사는 구성되어 있지만, EventHDR+EventAid-R 전체
   실데이터를 사용한 `runs/profile.json`, CUDA 40-epoch 학습·전체 행렬 실행, A6000/A100 peak
   memory·runtime·latency artifact는 이 로컬 검증에서 생성하지 않았다. 따라서 README는 실행 절차

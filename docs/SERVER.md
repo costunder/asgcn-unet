@@ -482,14 +482,44 @@ Actions 필수 job 성공도 확인하되 로컬 실제-marker 검사와 혼동�
 python scripts/build_code_summary.py --check --require-clean-provenance
 ```
 
+### MIG에서 전체 데이터 검사 후 profile만 실패한 경우
+
+`check`가 끝난 뒤 새 `profile` 프로세스에서 `profile failed: Invalid device id`가 발생한 경우다.
+PyTorch 2.13의 cuDNN version 조회는 내부에서 장치 수를 얻고 각 장치의 capability를 읽는다.
+CUDA 초기화 전 MIG의 NVML 장치 수로 반복 범위가 정해지면, 첫 capability 조회에서 초기화된 실제
+runtime 장치 수와 달라 존재하지 않는 index를 조회할 수 있다. [PyTorch 2.13 공식 구현](https://github.com/pytorch/pytorch/blob/v2.13.0/torch/backends/cudnn/__init__.py#L83-L90)
+
+수정된 profile은 `torch.cuda.init()`을 cuDNN version·장치 정보 조회보다 먼저 호출한다.
+앞서 성공한 `check_env.py`는 별도 프로세스이므로 그 초기화 상태가 profile로 전달되지 않는다.
+checkpoint RNG 저장·복원도 모든 CUDA 장치를 열거하기 전에 초기화한다. Conda 의존성, 모델,
+데이터, GPU 할당과 `CUDA_VISIBLE_DEVICES`는 변경하지 않는다.
+
+전체 decode가 완료됐고 이 오류가 topology scan 전에 발생해 profile/train 산출물이 없는 경우,
+기존 저장소와 활성화된 Conda 환경에서 다음 단계만 실행한다. 데이터 재다운로드·재설치와
+`all`의 전체 decode 반복은 필요 없다.
+
+```bash
+git pull --ff-only &&
+bash scripts/run.sh profile &&
+bash scripts/run.sh train &&
+bash scripts/run.sh calibrate &&
+bash scripts/run.sh eval
+```
+
+이는 완료된 데이터 검사를 되풀이하지 않는 재개 절차이며 CUDA profile을 생략하는 우회가 아니다.
+기존 `runs/profile.json`이 있으면 자동으로 덮어쓰지 않는다. 파일 내용을 확인해 별도 보존 위치로
+옮긴 뒤 다시 측정하며 삭제하지 않는다. 이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train
+명령을 그대로 쓰지 말고 [epoch-boundary resume](#4-중단-후-epoch-boundary-resume)를 따른다.
+
 자주 중단되는 조건은 다음과 같다.
 
 - 이전 `check_env.py`의 GPU 이름 조회에서 `AssertionError: Invalid device id`: MIG에서는 CUDA
   초기화 전 NVML 장치 수와 초기화 후 CUDA runtime이 열거하는 장치 수가 다를 수 있다. 검사는 이제
   `torch.cuda.init()` 뒤 장치 수를 읽고 실제 사용 가능한 장치만 조회한다. 저장소에서
   `git pull --ff-only`로 갱신한다. pull이 충돌하면 기존 변경을 보존하고 먼저 확인한다.
-  이 오류로 사전검사에서만 중단됐고 profile/train 산출물이 없는 경우에는 `bash scripts/run.sh all`을
-  다시 실행한다. 현재 Conda 환경과 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
+  전체 decode를 시작하기 전 이 오류로 중단됐고 profile/train 산출물이 없는 경우에는
+  `bash scripts/run.sh all`을 다시 실행한다. 전체 decode 이후 profile 실패는 바로 위 재개 절차를
+  따른다. 현재 Conda 환경과 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
   덮어쓰거나 CUDA 검사를 끄지 않는다. 이 수정의 로컬 회귀검사는 CPU 모의 장치 기반이며 실제 MIG
   학습 완료를 의미하지 않는다.
 - `CUDA device probe failed`: 실제 CUDA 초기화·장치 조회 실패로 중단한 것이다. GPU 할당과

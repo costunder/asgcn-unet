@@ -1,7 +1,7 @@
 # ASGCN-U-Net 프로젝트 인계서
 
 이 문서는 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
-이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-30의 현재
+이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-31의 현재
 구현과 일치하도록 다시 대조했다.
 
 ## 0. 검증 기록과 배포 판정 기준
@@ -409,6 +409,12 @@ script가 노출하는 stage는 `check`, `profile`, `train`, `calibrate`, `eval`
 `train.json` inspect가 manifest의 train 51개와 eval 19개 split을 모두 검사하므로 같은 EventHDR eval을
 `hdr.json`으로 다시 decode하는 중복 검사는 두지 않는다. 오래 걸려도 파일을 조용히 제외하지 않는다.
 
+전체 decode가 완료된 뒤 MIG의 `profile failed: Invalid device id`로 중단됐다면 `all`부터 되풀이하지
+않고 코드를 갱신한 후 `profile` → `train` → `calibrate` → `eval`을 순서대로 실행한다.
+이는 topology scan 전 runtime 정보 조회에서 실패해 학습 산출물이 없는 경우의 절차다.
+이미 만들어진 report/checkpoint는 삭제하거나 자동 덮어쓰지 않는다.
+구체적인 조건과 명령은 [서버 재개 안내](docs/SERVER.md#mig에서-전체-데이터-검사-후-profile만-실패한-경우)에 있다.
+
 `eval` stage matrix는 다음 18개 run이며 각 run마다 `evaluate`와 `benchmark`를 둘 다 실행한다.
 
 | dataset | mode | dynamics | T | checkpoint |
@@ -623,6 +629,11 @@ CUDA가 사용 가능할 때는 먼저 `torch.cuda.init()`으로 초기화한 �
 `OSError`, `DeferredCudaCallError`도 실패로 종료한다. 공개 오류에는 예외 종류만 출력하고 원문
 traceback에 담긴 host 경로는 노출하지 않는다. 원문 예외는 `--include-private-host-provenance`를
 명시한 비공개 진단에서만 출력한다. scheduler의 장치 visibility나 GPU 할당은 변경하지 않는다.
+profile의 `_runtime_provenance`도 cuDNN version·GPU 속성을 읽기 전에 CUDA를 초기화한다.
+PyTorch 2.13의 cuDNN 초기화 자체가 장치 수를 먼저 읽고 capability를 순회하므로, 단지 profile의
+명시적 장치 조회 순서만 바꾸어서는 부족하다. `check_env`와 profile은 별도 프로세스여서 앞 단계의
+초기화 상태를 재사용할 수도 없다. engine의 CUDA RNG capture/restore 역시 모든 장치의 상태를
+열거하기 전에 초기화한다. 이 수정은 의존성 lock, 모델·데이터 protocol 또는 GPU visibility를 바꾸지 않는다.
 `--validate-all`은 모든 target/event block을 실제 decode하므로 전체 데이터에서는 오래 걸린다.
 
 ## 12. scheduler
@@ -817,6 +828,27 @@ JPEG/parts/state 분리 수정 후 Windows CPU 통합 pytest는 **660 passed, 27
 Ruff도 통과했다. skip 27개는 위와 같은 플랫폼·권한 조건이며 이번 실행에서도 native
 access-violation 진단은 발생하지 않았다.
 
+2026-08-31 사용자가 제공한 서버 로그에서는 EventHDR 전체 inspect 요약이 **106,707 samples**로
+끝났고, EventAid-R은 **51,512/51,512 samples**, `validation_complete=true`로 전체 decode를 완료했다.
+EventAid-R 검사 시간은 56분 9초였다. 이후 profile의 환경 검사는 고정 Conda runtime과 A100 MIG
+할당을 확인했지만, 새 profile 프로세스의 runtime 정보 조회에서 `Invalid device id`로 중단됐다.
+이 로그는 서버 데이터 읽기 검증의 증거이며 topology scan·CUDA 학습 step·40-epoch 학습이나 최종
+평가 완료의 증거는 아니다. 로컬에서 전체 데이터를 독립적으로 재검증한 결과와도 구분한다.
+
+같은 서버 로그의 EventAid-R timestamp 진단은 총 **4,427,295,458 events** 중 **244,912,587 events**가
+현재 pairing interval 밖에 있음을 기록했다(`outside_interval_fraction=0.055318780804983265`, 약
+**5.531878%**). `strict_interval_validation=false`이므로 전체 decode 통과만으로 event/GT 시간 정렬의
+의미적 타당성이 확정되지는 않는다. EventHDR 학습 진행과 별개로 EventAid-R 복원 품질을 해석할 때는
+공식 timestamp 기준·구간 의미와 장면별 정렬을 검토해야 한다. 이 수치를 없애기 위한 offset 자동
+튜닝, event 삭제나 검증 결과의 사후 재라벨링은 하지 않는다. 이번 MIG 수정도 timestamp 정책을 바꾸지 않는다.
+
+MIG profile 수정 후 로컬 Windows CPU 통합 pytest는 **684 passed, 27 skipped**로 종료했다.
+새 24개 회귀검사는 초기화 전 physical count 8개와 초기화 후 runtime count 1개/3개의 차이,
+cuDNN/RNG 열거 순서, CPU 선택, 초기화 실패 전파 및 전체 runtime GPU의 RNG 보존을 검증한다.
+설치된 PyTorch cuDNN 초기화 함수 자체도 모의 8→1 장치에 적용해 수정 전 `Invalid device id`,
+명시적 초기화 후 성공을 확인했다. 이는 실제 서버 MIG의 topology scan이나 학습 완료를 뜻하지
+않는다. skip 27개는 위와 같은 플랫폼·권한 조건이며 Ruff도 통과했다.
+
 주요 회귀 범위는 다음과 같다.
 
 - strict undirected radius graph와 cell implementation의 pairwise reference parity
@@ -854,10 +886,12 @@ GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 
 ## 15. 현재 한계와 교차검증 체크리스트
 
-2026-08-30 로컬 검증에서는 전체 데이터 CUDA 본실험과 A6000/A100 profile/benchmark를 실행하지 않았다.
+2026-08-31까지 로컬 검증에서는 전체 데이터 CUDA 본실험과 A6000/A100 profile/benchmark를 실행하지 않았다.
+같은 날짜의 사용자 제공 서버 로그는 전체 decode 완료와 그 이후 profile 중단까지 확인한다.
 다음 항목은 실제 server에서 `scripts/run.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
 
-- EventHDR/EventAid-R 전체 decode 성공과 총 frame 수
+- EventHDR/EventAid-R 전체 decode 로그와 총 frame 수를 해당 실험 기록에 보존
+- EventAid-R event/GT timestamp 기준과 pairing interval 밖 event의 의미
 - A100/A6000 각각의 full topology scan, 최고 밀도 sample CUDA step과 `runs/profile.json`
 - 40-epoch loss/history, 마지막 epoch internal eval과 checkpoint digest
 - all-sample calibration의 layer별 valid count/dead channel

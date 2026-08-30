@@ -2280,6 +2280,8 @@ def _capture_rng_state() -> dict[str, Any]:
         "torch": torch.get_rng_state(),
     }
     if torch.cuda.is_available():
+        # get_rng_state_all() enumerates devices before its first lazy state read.
+        torch.cuda.init()
         state["cuda"] = torch.cuda.get_rng_state_all()
     return state
 
@@ -2293,6 +2295,8 @@ def _restore_rng_state(state: Any) -> None:
     if not torch.is_tensor(state["torch"]):
         raise ValueError("Exact resume rng_state['torch'] must be a tensor")
     if torch.cuda.is_available():
+        # Resume validates the initialized MIG-visible count, not NVML's count.
+        torch.cuda.init()
         cuda_state = state.get("cuda")
         if not isinstance(cuda_state, list) or len(cuda_state) != torch.cuda.device_count():
             raise ValueError(

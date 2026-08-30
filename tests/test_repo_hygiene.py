@@ -17,14 +17,20 @@ SCANNER = ROOT / "scripts" / "scan_private_text.py"
 SUMMARY_BUILDER = ROOT / "scripts" / "build_code_summary.py"
 
 
-def _run(command: list[str], cwd: Path, *, environment: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+def _run(
+    command: list[str],
+    cwd: Path,
+    *,
+    environment: dict[str, str] | None = None,
+    text_output: bool = True,
+) -> subprocess.CompletedProcess[str] | subprocess.CompletedProcess[bytes]:
     return subprocess.run(
         command,
         cwd=cwd,
         check=False,
         capture_output=True,
-        text=True,
-        encoding="utf-8",
+        text=text_output,
+        encoding="utf-8" if text_output else None,
         env=environment,
     )
 
@@ -434,6 +440,34 @@ def test_code_summary_clean_provenance_allows_only_a_followup_summary_commit(
     )
     assert stale_provenance.returncode != 0
     assert "source changed after" in stale_provenance.stderr
+
+
+def test_tracked_shebang_entrypoints_have_executable_git_index_mode() -> None:
+    result = _run(["git", "ls-files", "--stage", "-z"], ROOT, text_output=False)
+    assert result.returncode == 0, result.stderr
+    shebang_paths = []
+    nonexecutable = []
+    for record in result.stdout.split(b"\x00"):
+        if not record:
+            continue
+        metadata, path_bytes = record.split(b"\t", maxsplit=1)
+        mode, _object_id, stage = metadata.split()
+        assert stage == b"0", "tracked entrypoints require an unconflicted index"
+        if mode not in {b"100644", b"100755"}:
+            continue
+        relative = os.fsdecode(path_bytes)
+        text = scan_private_text.decode_text_bytes((ROOT / relative).read_bytes())
+        if text is None or not text.startswith("#!"):
+            continue
+        shebang_paths.append(relative)
+        if mode != b"100755":
+            nonexecutable.append(relative)
+
+    assert shebang_paths, "expected tracked shebang entrypoints"
+    assert not nonexecutable, (
+        "shebang entrypoints must have Git index mode 100755 on every platform: "
+        + ", ".join(nonexecutable)
+    )
 
 
 def test_ci_pins_actions_and_runs_repository_hygiene_gates() -> None:

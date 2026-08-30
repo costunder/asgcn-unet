@@ -4,12 +4,12 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T01:59:29Z",
+    "generated_utc": "2026-08-30T02:00:11Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "ad55ca2719fa79d18308e0a5f613903d6e1a9dd2",
-    "source_tree_at_generation": "35ea5bbe76891fb47ab0d4efb1c84d5e2e084e9d",
+    "source_commit_at_generation": null,
+    "source_tree_at_generation": null,
     "timestamp_source": "source_commit_time",
-    "tracked_tree_dirty_at_generation": false
+    "tracked_tree_dirty_at_generation": true
   },
   "snapshot": {
     "canonicalization": "UTF-8 text with LF newlines",
@@ -48,7 +48,7 @@
       {
         "bytes": 33060,
         "path": "README.md",
-        "sha256": "ea15edf6da6103d49e87cb93e380dbb3e9d0a13a9b43180dd4137f25a27ebde1"
+        "sha256": "f3183b59f4bee67c29392dc98281fed1a490c29c71379cf71143810de3bde69d"
       },
       {
         "bytes": 1339,
@@ -86,9 +86,9 @@
         "sha256": "309b27d0cbf988368ff0137defac56e33ac0aef5a873c41bd2aa62783cd6ce39"
       },
       {
-        "bytes": 55080,
+        "bytes": 55188,
         "path": "hand_off.md",
-        "sha256": "e3057fd9bfef4457c85bd0da4c0e3bebcf0687d36741bf6217a52685fdc8a283"
+        "sha256": "f8e99f82ee0dcef5ec1c971878c520b11da735feb8fe0b1689383f64887286e4"
       },
       {
         "bytes": 2753,
@@ -351,9 +351,9 @@
         "sha256": "b70b26b4f4231fdc1bcaf605550a41c526aefc771b64d80169421bfbeed09d63"
       },
       {
-        "bytes": 17908,
+        "bytes": 19173,
         "path": "tests/test_repo_hygiene.py",
-        "sha256": "55a0f9644dbd803f25f7f29e5534acc1efeade7cf13e335bb987c9d04fa5d566"
+        "sha256": "762f8400d30522de18833de6c331636d4a238e45c7a29f0fa0abb685c3a6acd5"
       },
       {
         "bytes": 9390,
@@ -373,7 +373,7 @@
     ],
     "included_file_count": 71,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "4c95d26d8655a4902bdccd4eb8de63f76b9d1b2cb3bf1dcda6e763ea1b023d8a"
+    "snapshot_sha256": "c98c4f8e6a143fbe633fcc5f059ee4bdb6a135f586a55c3c39e16e40f15d6a87"
   }
 }
 -->
@@ -1220,7 +1220,7 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
   이외의 tracked source가 바뀌지 않았는지 확인한다. 생성 뒤 문서 수정이나 history rewrite가 필요하면
   source commit 확정부터 다시 수행한다. 배포 결과는 본문을 고쳐 적기보다 최종 SHA의 Actions와 별도
   배포 기록으로 확인한다.
-- 2026-08-30 Windows CPU 검증은 **266 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
+- 2026-08-30 Windows CPU 검증은 **267 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
   없는 경우의 shared-storage link test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
   실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
   원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와
@@ -2564,10 +2564,11 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - 실제 marker를 받지 않는 CI의 generic current-tree/history 검사와 clean provenance gate;
   history 검사는 로컬/CI 모두 shallow clone 거부
 - Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
+- shebang entrypoint의 Git 실행 권한을 Windows에서도 검사해 Linux checkout 권한 누락 방지
 - README가 repository 전용 read-only Deploy key와 portable project directory를 사용하는지 검사
 - 기본 파일명이 아닌 Deploy key를 shell-safe `IdentityFile` option과 `IdentitiesOnly=yes`로 명시하는지 문서 검토
 
-2026-08-30 Windows CPU 검증은 **266 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
+2026-08-30 Windows CPU 검증은 **267 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
 shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
 실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
 과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
@@ -3309,7 +3310,7 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-2026-08-30 Windows CPU 통합 결과는 **266 passed, 1 skipped**이며, skip 1건은 symlink privilege가
+2026-08-30 Windows CPU 통합 결과는 **267 passed, 1 skipped**이며, skip 1건은 symlink privilege가
 없는 환경의 shared-storage link test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
 아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
 
@@ -21708,14 +21709,20 @@ SCANNER = ROOT / "scripts" / "scan_private_text.py"
 SUMMARY_BUILDER = ROOT / "scripts" / "build_code_summary.py"
 
 
-def _run(command: list[str], cwd: Path, *, environment: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+def _run(
+    command: list[str],
+    cwd: Path,
+    *,
+    environment: dict[str, str] | None = None,
+    text_output: bool = True,
+) -> subprocess.CompletedProcess[str] | subprocess.CompletedProcess[bytes]:
     return subprocess.run(
         command,
         cwd=cwd,
         check=False,
         capture_output=True,
-        text=True,
-        encoding="utf-8",
+        text=text_output,
+        encoding="utf-8" if text_output else None,
         env=environment,
     )
 
@@ -22125,6 +22132,34 @@ def test_code_summary_clean_provenance_allows_only_a_followup_summary_commit(
     )
     assert stale_provenance.returncode != 0
     assert "source changed after" in stale_provenance.stderr
+
+
+def test_tracked_shebang_entrypoints_have_executable_git_index_mode() -> None:
+    result = _run(["git", "ls-files", "--stage", "-z"], ROOT, text_output=False)
+    assert result.returncode == 0, result.stderr
+    shebang_paths = []
+    nonexecutable = []
+    for record in result.stdout.split(b"\x00"):
+        if not record:
+            continue
+        metadata, path_bytes = record.split(b"\t", maxsplit=1)
+        mode, _object_id, stage = metadata.split()
+        assert stage == b"0", "tracked entrypoints require an unconflicted index"
+        if mode not in {b"100644", b"100755"}:
+            continue
+        relative = os.fsdecode(path_bytes)
+        text = scan_private_text.decode_text_bytes((ROOT / relative).read_bytes())
+        if text is None or not text.startswith("#!"):
+            continue
+        shebang_paths.append(relative)
+        if mode != b"100755":
+            nonexecutable.append(relative)
+
+    assert shebang_paths, "expected tracked shebang entrypoints"
+    assert not nonexecutable, (
+        "shebang entrypoints must have Git index mode 100755 on every platform: "
+        + ", ".join(nonexecutable)
+    )
 
 
 def test_ci_pins_actions_and_runs_repository_hygiene_gates() -> None:

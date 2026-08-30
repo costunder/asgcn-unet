@@ -4,12 +4,12 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T03:50:26Z",
+    "generated_utc": "2026-08-30T03:50:45Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "5424890cdac418971366303fe2dae07ed417a46a",
-    "source_tree_at_generation": "730d5b1b3d71c946deec87d0ae96b114d0ec4f78",
+    "source_commit_at_generation": null,
+    "source_tree_at_generation": null,
     "timestamp_source": "source_commit_time",
-    "tracked_tree_dirty_at_generation": false
+    "tracked_tree_dirty_at_generation": true
   },
   "snapshot": {
     "canonicalization": "UTF-8 text with LF newlines",
@@ -46,9 +46,9 @@
         "sha256": "84a999d703d3cddb94c4909ce8f14815ec9b7f624b33600bade93e5fc6dfa1c2"
       },
       {
-        "bytes": 28304,
+        "bytes": 28672,
         "path": "README.md",
-        "sha256": "02ea64c772bf6e407579ccc46f01328609d04d11da1274449ecd9422c965d274"
+        "sha256": "f739a5b3f2b1fcbc37fb8e6566c25e1f0c746fec038f10591a2a7f88076ce481"
       },
       {
         "bytes": 1339,
@@ -81,14 +81,14 @@
         "sha256": "5253e4043315ae27b4f0a5ae66c0260a79961b58d7ad09ecfec032759595d1bd"
       },
       {
-        "bytes": 24961,
+        "bytes": 26171,
         "path": "docs/SERVER.md",
-        "sha256": "70be37e55804b754846d8105fdabf15569dee316e210cb910afd7231957c2acb"
+        "sha256": "3725f0f13319ec899ab4c9562997b9bbc284df3cd64ff5be60d397f936eaa375"
       },
       {
-        "bytes": 52921,
+        "bytes": 53981,
         "path": "hand_off.md",
-        "sha256": "3dc6ae40678fa41af03588be3c8ed3537b9ade12abb326a71becc4a9e9cdc1c0"
+        "sha256": "888e380100dd53a57a2355066805771e1967038cca664013278e5cf9e7d084c0"
       },
       {
         "bytes": 2753,
@@ -116,9 +116,9 @@
         "sha256": "854eca838807595edb76c769efc0e65cb7e01c5b2f41f0fc2cba14657adf9937"
       },
       {
-        "bytes": 14539,
+        "bytes": 15719,
         "path": "scripts/check_env.py",
-        "sha256": "2e67e93ac34d2ae72afb8a8c993cc5369030b8c99251e8b4a4e1ddf0ba42d980"
+        "sha256": "1eb1304cfe474a74a58b39d8fae3e28cf34a01e086bdaa51c5418b15a23ce121"
       },
       {
         "bytes": 4082,
@@ -291,6 +291,11 @@
         "sha256": "ad2754e5d252bdbdceb318db797e5ca937d9588e18d1970caf01211d79676a96"
       },
       {
+        "bytes": 8153,
+        "path": "tests/test_cuda_env.py",
+        "sha256": "bbb6224810e127a29130a955dd438108bf6d1b18823fac425937c4b691056cdf"
+      },
+      {
         "bytes": 9677,
         "path": "tests/test_data_config_hardening.py",
         "sha256": "6abbe0fb75f82f69e73012258b0ff2f0ac4f6bc611c366558651a046ee397ec3"
@@ -371,9 +376,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 71,
+    "included_file_count": 72,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "4f7658bce8fb20325d30cde8754cb29130953a5b3f2ae1f60485ab4a52242819"
+    "snapshot_sha256": "031e601c666518aa0f225d0bc4f0cfda6aef56fdc680222ad772e9fe2b90aeaa"
   }
 }
 -->
@@ -1076,7 +1081,10 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
   이외의 tracked source가 바뀌지 않았는지 확인한다. 생성 뒤 문서 수정이나 history rewrite가 필요하면
   source commit 확정부터 다시 수행한다. 배포 결과는 본문을 고쳐 적기보다 최종 SHA의 Actions와 별도
   배포 기록으로 확인한다.
-- 2026-08-30 Windows CPU 검증은 **267 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
+- `check_env.py`는 CUDA 초기화 후 실제 runtime 장치 수로 GPU 이름/VRAM을 조회한다. MIG의
+  초기화 전후 장치 수 차이로 인한 `Invalid device id`를 CPU 모의 회귀검사로 검증했으며, 실제
+  초기화 실패나 CUDA 불가는 우회하지 않는다. [서버 오류 안내](docs/SERVER.md#7-산출물-확인과-운영상-오류)
+- 2026-08-30 Windows CPU 검증은 **298 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
   없는 경우의 shared-storage link test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
   실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
   원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와
@@ -2283,6 +2291,17 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 
 자주 중단되는 조건은 다음과 같다.
 
+- 이전 `check_env.py`의 GPU 이름 조회에서 `AssertionError: Invalid device id`: MIG에서는 CUDA
+  초기화 전 NVML 장치 수와 초기화 후 CUDA runtime이 열거하는 장치 수가 다를 수 있다. 검사는 이제
+  `torch.cuda.init()` 뒤 장치 수를 읽고 실제 사용 가능한 장치만 조회한다. 저장소에서
+  `git pull --ff-only`로 갱신한다. pull이 충돌하면 기존 변경을 보존하고 먼저 확인한다.
+  이 오류로 사전검사에서만 중단됐고 profile/train 산출물이 없는 경우에는 `bash scripts/run.sh all`을
+  다시 실행한다. 기존 `.venv`와 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
+  덮어쓰거나 CUDA 검사를 끄지 않는다. 이 수정의 로컬 회귀검사는 CPU 모의 장치 기반이며 실제 MIG
+  학습 완료를 의미하지 않는다.
+- `CUDA device probe failed`: 실제 CUDA 초기화·장치 조회 실패로 중단한 것이다. GPU 할당과
+  driver/PyTorch CUDA 호환성을 확인한다. 공개 진단에는 예외 종류만 출력하며, 원문 예외가 필요하면
+  `check_env.py --include-private-host-provenance`를 비공개 진단에서만 사용한다.
 - `CUDA available: false`: login node가 아닌 GPU allocation인지, CUDA wheel과 driver가 맞는지 확인한다.
 - `EventHDR ... exact official file set`: OneDrive 전송이 끝났는지, train 51/eval 19 외 H5가 섞이지
   않았는지 `get_hdr.sh --check`로 확인한다.
@@ -2338,7 +2357,7 @@ hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했
 - 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda·`.venv` 경로로 통합됐는지 문서 검토
 - GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
 
-2026-08-30 Windows CPU 검증은 **267 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
+2026-08-30 Windows CPU 검증은 **298 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
 shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
 실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
 과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
@@ -2878,6 +2897,13 @@ asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 
 `check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, lock mismatch, glibc, data와 runs의 남은
 공간, runs 쓰기 가능 여부, EventHDR exact 51/19 이름과 EventAid-R exact 14 ZIP을 출력·검사한다.
+CUDA가 사용 가능할 때는 먼저 `torch.cuda.init()`으로 초기화한 뒤 runtime 장치 수와 각 장치의
+이름/VRAM을 조회한다. MIG에서 초기화 전 NVML count로 반복 범위를 만들면 실제 runtime 장치보다
+큰 index에 접근할 수 있으므로 초기화 전 count를 쓰지 않는다. CUDA가 불가능하면 장치 속성을
+조회하지 않으며 `--require-cuda`는 계속 실패한다. 초기화·조회 중 `AssertionError`, `RuntimeError`,
+`OSError`, `DeferredCudaCallError`도 실패로 종료한다. 공개 오류에는 예외 종류만 출력하고 원문
+traceback에 담긴 host 경로는 노출하지 않는다. 원문 예외는 `--include-private-host-provenance`를
+명시한 비공개 진단에서만 출력한다. scheduler의 장치 visibility나 GPU 할당은 변경하지 않는다.
 `--validate-all`은 모든 target/event block을 실제 decode하므로 전체 데이터에서는 오래 걸린다.
 
 ## 12. scheduler
@@ -2988,7 +3014,7 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-2026-08-30 Windows CPU 통합 결과는 **267 passed, 1 skipped**이며, skip 1건은 symlink privilege가
+2026-08-30 Windows CPU 통합 결과는 **298 passed, 1 skipped**이며, skip 1건은 symlink privilege가
 없는 환경의 shared-storage link test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
 아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
 
@@ -3051,6 +3077,8 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - 전체 tracked text의 generic/external-marker privacy scan과 deterministic code snapshot
 - 구·신 Git의 공통 LF history 열거와 모든 shell entrypoint의 개별 구문 검사
 - 공개 output의 absolute path/hostname redaction과 Public HTTPS clone 절차
+- CUDA 초기화 전 physical count와 초기화 후 runtime count가 다른 MIG 모의 장치, 다중 GPU,
+  CUDA 불가·0-device·초기화/조회 오류와 공개/private opt-in 예외 출력의 31개 CPU 회귀검사
 
 GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
 syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
@@ -3750,6 +3778,7 @@ import sys
 from pathlib import Path
 
 import torch
+from torch.cuda import DeferredCudaCallError
 
 from asgcn_unet.data import load_eventhdr_split_manifest
 
@@ -3855,6 +3884,24 @@ def _version_tuple(value: str) -> tuple[int, ...]:
     return tuple(int(part) for part in re.findall(r"\d+", value))
 
 
+def _cuda_inventory() -> tuple[bool, list[str], list[float]]:
+    if not torch.cuda.is_available():
+        return False, [], []
+
+    # Before initialization, NVML may report more GPUs than the CUDA runtime
+    # can enumerate under MIG. Do not capture that count in a range first.
+    torch.cuda.init()
+    count = torch.cuda.device_count()
+    if count < 1:
+        raise RuntimeError("CUDA initialized but reported no visible devices")
+    properties = [torch.cuda.get_device_properties(index) for index in range(count)]
+    return (
+        True,
+        [device.name for device in properties],
+        [round(device.total_memory / (1024**3), 2) for device in properties],
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Check ASGCN-U-Net server readiness")
     parser.add_argument("--data-root", type=Path, default=None)
@@ -3896,12 +3943,20 @@ def main() -> None:
         )
         raise SystemExit(f"Cannot create $RUNS_ROOT: {message}") from None
 
-    cuda_available = torch.cuda.is_available()
-    devices = [torch.cuda.get_device_name(index) for index in range(torch.cuda.device_count())]
-    gpu_memory_gib = [
-        round(torch.cuda.get_device_properties(index).total_memory / (1024**3), 2)
-        for index in range(torch.cuda.device_count())
-    ]
+    try:
+        cuda_available, devices, gpu_memory_gib = _cuda_inventory()
+    except (AssertionError, RuntimeError, OSError, DeferredCudaCallError) as error:
+        # Deferred CUDA failures can embed an original traceback containing
+        # private paths. Routine reports expose the exception type, not its text.
+        detail = type(error).__name__
+        if args.include_private_host_provenance:
+            detail = f"{detail}: {error}"
+        raise SystemExit(
+            f"CUDA device probe failed ({detail}). "
+            "Check the GPU allocation, driver/PyTorch CUDA compatibility and "
+            "scheduler-provided device visibility. Restart Python after changes; "
+            "do not bypass the CUDA requirement."
+        ) from None
     try:
         lock_mismatches = _check_lock(lock_path) if lock_path and lock_path.is_file() else None
     except (OSError, TypeError, ValueError) as error:
@@ -16527,6 +16582,268 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
     assert diagnostics["decoder_input_lambda_applied"] is True
     assert diagnostics["isolated_nodes"].item() == 1
     assert diagnostics["max_degree"].item() == 0
+~~~~~~~~
+
+# tests/test_cuda_env.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
+from torch.cuda import DeferredCudaCallError
+
+from scripts import check_env
+
+
+class FakeCuda:
+    """Model a physical NVML count that differs from the initialized CUDA count."""
+
+    def __init__(
+        self,
+        *,
+        available: bool = True,
+        physical_count: int = 8,
+        runtime_count: int = 1,
+        fail_on: str | None = None,
+        failure: Exception | None = None,
+    ) -> None:
+        self.available = available
+        self.physical_count = physical_count
+        self.runtime_count = runtime_count
+        self.fail_on = fail_on
+        self.failure = failure
+        self.initialized = False
+        self.calls: list[str] = []
+
+    def _record(self, operation: str) -> None:
+        self.calls.append(operation)
+        if self.fail_on == operation:
+            assert self.failure is not None
+            raise self.failure
+
+    def is_available(self) -> bool:
+        self._record("is_available")
+        return self.available
+
+    def init(self) -> None:
+        self._record("init")
+        self.initialized = True
+
+    def device_count(self) -> int:
+        self._record("device_count")
+        return self.runtime_count if self.initialized else self.physical_count
+
+    def get_device_properties(self, index: int) -> SimpleNamespace:
+        self._record(f"properties:{index}")
+        assert self.initialized, "CUDA initialization must precede properties"
+        assert 0 <= index < self.runtime_count, "Invalid device id"
+        return SimpleNamespace(
+            name=f"Visible GPU {index}",
+            total_memory=int((index + 1) * 10.25 * (1024**3)),
+        )
+
+
+def _install_cuda(monkeypatch: pytest.MonkeyPatch, cuda: FakeCuda) -> None:
+    monkeypatch.setattr(
+        check_env,
+        "torch",
+        SimpleNamespace(
+            cuda=cuda,
+            __version__="2.13.0",
+            version=SimpleNamespace(cuda="13.0"),
+            backends=SimpleNamespace(cudnn=SimpleNamespace(version=lambda: 90000)),
+        ),
+    )
+
+
+def _set_arguments(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    *arguments: str,
+) -> None:
+    data_root = tmp_path / "data"
+    data_root.mkdir(exist_ok=True)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "check_env.py",
+            "--data-root",
+            str(data_root),
+            "--runs-root",
+            str(tmp_path / "runs"),
+            *arguments,
+        ],
+    )
+
+
+def test_cuda_inventory_uses_initialized_count_for_mig(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    cuda = FakeCuda(physical_count=8, runtime_count=1)
+    _install_cuda(monkeypatch, cuda)
+
+    assert check_env._cuda_inventory() == (True, ["Visible GPU 0"], [10.25])
+    assert cuda.calls == ["is_available", "init", "device_count", "properties:0"]
+
+
+def test_cuda_inventory_unavailable_skips_physical_devices(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    cuda = FakeCuda(available=False, physical_count=8)
+    _install_cuda(monkeypatch, cuda)
+
+    assert check_env._cuda_inventory() == (False, [], [])
+    assert cuda.calls == ["is_available"]
+
+
+def test_cuda_inventory_reports_all_runtime_visible_devices(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    cuda = FakeCuda(physical_count=8, runtime_count=3)
+    _install_cuda(monkeypatch, cuda)
+
+    assert check_env._cuda_inventory() == (
+        True,
+        ["Visible GPU 0", "Visible GPU 1", "Visible GPU 2"],
+        [10.25, 20.5, 30.75],
+    )
+    assert cuda.calls == [
+        "is_available",
+        "init",
+        "device_count",
+        "properties:0",
+        "properties:1",
+        "properties:2",
+    ]
+
+
+def test_check_env_reports_runtime_inventory(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    cuda = FakeCuda(physical_count=8, runtime_count=1)
+    _install_cuda(monkeypatch, cuda)
+    _set_arguments(monkeypatch, tmp_path, "--require-cuda")
+
+    check_env.main()
+
+    report = json.loads(capsys.readouterr().out)
+    assert report["cuda_available"] is True
+    assert report["gpu_devices"] == ["Visible GPU 0"]
+    assert report["gpu_memory_gib"] == [10.25]
+    assert cuda.calls == ["is_available", "init", "device_count", "properties:0"]
+
+
+@pytest.mark.parametrize("require_cuda", [False, True])
+def test_check_env_unavailable_cuda_is_not_inventoried_or_accepted_when_required(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    require_cuda: bool,
+) -> None:
+    cuda = FakeCuda(available=False, physical_count=8)
+    _install_cuda(monkeypatch, cuda)
+    arguments = ["--require-cuda"] if require_cuda else []
+    _set_arguments(monkeypatch, tmp_path, *arguments)
+
+    if require_cuda:
+        with pytest.raises(SystemExit, match="CUDA was required"):
+            check_env.main()
+    else:
+        check_env.main()
+
+    report = json.loads(capsys.readouterr().out)
+    assert report["cuda_available"] is False
+    assert report["gpu_devices"] == []
+    assert report["gpu_memory_gib"] == []
+    assert cuda.calls == ["is_available"]
+
+
+@pytest.mark.parametrize(
+    "failure_type", [AssertionError, RuntimeError, OSError, DeferredCudaCallError]
+)
+@pytest.mark.parametrize("fail_on", ["is_available", "init", "device_count", "properties:0"])
+def test_check_env_cuda_failures_exit_without_accepting_cpu_fallback(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    failure_type: type[Exception],
+    fail_on: str,
+) -> None:
+    cuda = FakeCuda(fail_on=fail_on, failure=failure_type("simulated CUDA failure"))
+    _install_cuda(monkeypatch, cuda)
+    _set_arguments(monkeypatch, tmp_path, "--require-cuda")
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    assert "CUDA" in str(error.value)
+    assert error.value.code not in (None, 0)
+    assert error.value.__suppress_context__ is True
+    assert error.value.__cause__ is None
+    assert capsys.readouterr().out == ""
+    assert cuda.calls[-1] == fail_on
+
+
+def test_check_env_rejects_zero_devices_after_cuda_initialization(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    cuda = FakeCuda(physical_count=8, runtime_count=0)
+    _install_cuda(monkeypatch, cuda)
+    _set_arguments(monkeypatch, tmp_path, "--require-cuda")
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    assert "CUDA" in str(error.value)
+    assert error.value.code not in (None, 0)
+    assert error.value.__suppress_context__ is True
+    assert capsys.readouterr().out == ""
+    assert cuda.calls == ["is_available", "init", "device_count"]
+
+
+@pytest.mark.parametrize("include_private", [False, True])
+@pytest.mark.parametrize(
+    "failure_type", [AssertionError, RuntimeError, OSError, DeferredCudaCallError]
+)
+def test_check_env_cuda_error_details_require_private_opt_in(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    include_private: bool,
+    failure_type: type[Exception],
+) -> None:
+    private_path = tmp_path / "private-environment" / "torch" / "cuda" / "__init__.py"
+    private_message = f"Invalid device id at {private_path} on private-compute-node"
+    cuda = FakeCuda(fail_on="properties:0", failure=failure_type(private_message))
+    _install_cuda(monkeypatch, cuda)
+    arguments = ["--require-cuda"]
+    if include_private:
+        arguments.append("--include-private-host-provenance")
+    _set_arguments(monkeypatch, tmp_path, *arguments)
+
+    with pytest.raises(SystemExit) as error:
+        check_env.main()
+
+    message = str(error.value)
+    captured = capsys.readouterr()
+    assert "CUDA" in message
+    assert error.value.__suppress_context__ is True
+    if include_private:
+        assert private_message in message
+    else:
+        for private_value in (str(tmp_path), private_path.as_posix(), "private-compute-node"):
+            assert private_value not in message + captured.out + captured.err
+    assert captured.out == ""
 ~~~~~~~~
 
 # tests/test_data_config_hardening.py

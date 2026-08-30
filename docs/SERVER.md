@@ -422,6 +422,17 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 
 자주 중단되는 조건은 다음과 같다.
 
+- 이전 `check_env.py`의 GPU 이름 조회에서 `AssertionError: Invalid device id`: MIG에서는 CUDA
+  초기화 전 NVML 장치 수와 초기화 후 CUDA runtime이 열거하는 장치 수가 다를 수 있다. 검사는 이제
+  `torch.cuda.init()` 뒤 장치 수를 읽고 실제 사용 가능한 장치만 조회한다. 저장소에서
+  `git pull --ff-only`로 갱신한다. pull이 충돌하면 기존 변경을 보존하고 먼저 확인한다.
+  이 오류로 사전검사에서만 중단됐고 profile/train 산출물이 없는 경우에는 `bash scripts/run.sh all`을
+  다시 실행한다. 기존 `.venv`와 데이터는 유지하며, scheduler의 `CUDA_VISIBLE_DEVICES`를 임의로
+  덮어쓰거나 CUDA 검사를 끄지 않는다. 이 수정의 로컬 회귀검사는 CPU 모의 장치 기반이며 실제 MIG
+  학습 완료를 의미하지 않는다.
+- `CUDA device probe failed`: 실제 CUDA 초기화·장치 조회 실패로 중단한 것이다. GPU 할당과
+  driver/PyTorch CUDA 호환성을 확인한다. 공개 진단에는 예외 종류만 출력하며, 원문 예외가 필요하면
+  `check_env.py --include-private-host-provenance`를 비공개 진단에서만 사용한다.
 - `CUDA available: false`: login node가 아닌 GPU allocation인지, CUDA wheel과 driver가 맞는지 확인한다.
 - `EventHDR ... exact official file set`: OneDrive 전송이 끝났는지, train 51/eval 19 외 H5가 섞이지
   않았는지 `get_hdr.sh --check`로 확인한다.

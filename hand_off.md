@@ -23,7 +23,7 @@ hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했
 - 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda·`.venv` 경로로 통합됐는지 문서 검토
 - GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
 
-2026-08-30 Windows CPU 검증은 **267 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
+2026-08-30 Windows CPU 검증은 **298 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
 shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
 실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
 과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
@@ -563,6 +563,13 @@ asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 
 `check_env`는 CUDA, GPU 이름/VRAM, Python/torch/CUDA/cuDNN, lock mismatch, glibc, data와 runs의 남은
 공간, runs 쓰기 가능 여부, EventHDR exact 51/19 이름과 EventAid-R exact 14 ZIP을 출력·검사한다.
+CUDA가 사용 가능할 때는 먼저 `torch.cuda.init()`으로 초기화한 뒤 runtime 장치 수와 각 장치의
+이름/VRAM을 조회한다. MIG에서 초기화 전 NVML count로 반복 범위를 만들면 실제 runtime 장치보다
+큰 index에 접근할 수 있으므로 초기화 전 count를 쓰지 않는다. CUDA가 불가능하면 장치 속성을
+조회하지 않으며 `--require-cuda`는 계속 실패한다. 초기화·조회 중 `AssertionError`, `RuntimeError`,
+`OSError`, `DeferredCudaCallError`도 실패로 종료한다. 공개 오류에는 예외 종류만 출력하고 원문
+traceback에 담긴 host 경로는 노출하지 않는다. 원문 예외는 `--include-private-host-provenance`를
+명시한 비공개 진단에서만 출력한다. scheduler의 장치 visibility나 GPU 할당은 변경하지 않는다.
 `--validate-all`은 모든 target/event block을 실제 decode하므로 전체 데이터에서는 오래 걸린다.
 
 ## 12. scheduler
@@ -673,7 +680,7 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-2026-08-30 Windows CPU 통합 결과는 **267 passed, 1 skipped**이며, skip 1건은 symlink privilege가
+2026-08-30 Windows CPU 통합 결과는 **298 passed, 1 skipped**이며, skip 1건은 symlink privilege가
 없는 환경의 shared-storage link test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
 아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
 
@@ -736,6 +743,8 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - 전체 tracked text의 generic/external-marker privacy scan과 deterministic code snapshot
 - 구·신 Git의 공통 LF history 열거와 모든 shell entrypoint의 개별 구문 검사
 - 공개 output의 absolute path/hostname redaction과 Public HTTPS clone 절차
+- CUDA 초기화 전 physical count와 초기화 후 runtime count가 다른 MIG 모의 장치, 다중 GPU,
+  CUDA 불가·0-device·초기화/조회 오류와 공개/private opt-in 예외 출력의 31개 CPU 회귀검사
 
 GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
 syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로

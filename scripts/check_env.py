@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 import torch
+from torch.cuda import DeferredCudaCallError
 
 from asgcn_unet.data import load_eventhdr_split_manifest
 
@@ -117,6 +118,24 @@ def _version_tuple(value: str) -> tuple[int, ...]:
     return tuple(int(part) for part in re.findall(r"\d+", value))
 
 
+def _cuda_inventory() -> tuple[bool, list[str], list[float]]:
+    if not torch.cuda.is_available():
+        return False, [], []
+
+    # Before initialization, NVML may report more GPUs than the CUDA runtime
+    # can enumerate under MIG. Do not capture that count in a range first.
+    torch.cuda.init()
+    count = torch.cuda.device_count()
+    if count < 1:
+        raise RuntimeError("CUDA initialized but reported no visible devices")
+    properties = [torch.cuda.get_device_properties(index) for index in range(count)]
+    return (
+        True,
+        [device.name for device in properties],
+        [round(device.total_memory / (1024**3), 2) for device in properties],
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Check ASGCN-U-Net server readiness")
     parser.add_argument("--data-root", type=Path, default=None)
@@ -158,12 +177,20 @@ def main() -> None:
         )
         raise SystemExit(f"Cannot create $RUNS_ROOT: {message}") from None
 
-    cuda_available = torch.cuda.is_available()
-    devices = [torch.cuda.get_device_name(index) for index in range(torch.cuda.device_count())]
-    gpu_memory_gib = [
-        round(torch.cuda.get_device_properties(index).total_memory / (1024**3), 2)
-        for index in range(torch.cuda.device_count())
-    ]
+    try:
+        cuda_available, devices, gpu_memory_gib = _cuda_inventory()
+    except (AssertionError, RuntimeError, OSError, DeferredCudaCallError) as error:
+        # Deferred CUDA failures can embed an original traceback containing
+        # private paths. Routine reports expose the exception type, not its text.
+        detail = type(error).__name__
+        if args.include_private_host_provenance:
+            detail = f"{detail}: {error}"
+        raise SystemExit(
+            f"CUDA device probe failed ({detail}). "
+            "Check the GPU allocation, driver/PyTorch CUDA compatibility and "
+            "scheduler-provided device visibility. Restart Python after changes; "
+            "do not bypass the CUDA requirement."
+        ) from None
     try:
         lock_mismatches = _check_lock(lock_path) if lock_path and lock_path.is_file() else None
     except (OSError, TypeError, ValueError) as error:

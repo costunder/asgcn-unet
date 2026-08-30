@@ -7,7 +7,8 @@ MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node
 ## 1. private repository 인증, clone과 환경 설치
 
 > 저장소는 private로 유지한다. 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
-> 정리 기록, 원격 `main`의 배포 commit SHA, **같은 SHA의 GitHub Actions 필수 gate 통과**를 확인한다.
+> 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
+> **GitHub Actions 필수 gate** 통과를 확인한다. CI는 실제 marker를 받지 않아 로컬 검사를 대신하지 않는다.
 > 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
 
 MobaXterm에서 SSH session을 열고 서버 terminal에서 실행한다. 서버 로그인용 SSH 인증과 GitHub
@@ -490,9 +491,10 @@ artifact나 외부 첨부에 포함하지 않는다.
 출처 인증이 아니다. 제출용 file hash는 접근통제된 immutable 실험 원장 또는 signed manifest에도
 별도로 보존한다.
 
-원격 history 교체 전후에는 저장소 밖 denylist를 사용해 complete non-shallow clone의 current tree와
-모든 local-ref reachable blob을 함께 검사한다. trusted `main` CI는 `PRIVATE_MARKERS_B64` secret이 비면
-실패한다.
+원격 history 교체 전후에는 저장소 밖 로컬 denylist를 사용해 complete non-shallow clone의 current
+tree와 모든 local-ref reachable blob을 로컬에서 함께 검사한다. 실제 marker는 로컬 환경변수
+`PRIVATE_MARKERS_B64`로도 주입할 수 있지만 GitHub secret·변수·workflow·log·artifact로 전송하지
+않는다. 로컬 release gate의 `--require-external-patterns`는 빈 denylist를 거부한다.
 
 ```bash
 python scripts/scan_private_text.py \
@@ -502,9 +504,11 @@ python scripts/scan_private_text.py \
 
 코드·문서·검증 수치 수정과 history 정리를 끝내 최종 sanitized source commit을 확정한 뒤 clean
 source에서 summary를 재생성하고 summary-only commit을 만든다. 생성 뒤 다른 tracked 파일 수정이나
-source history rewrite가 필요하면 source commit 확정부터 반복한다. 다음 clean provenance gate와
-원격 배포 후 같은 최종 SHA의 GitHub Actions 필수 job 성공을 확인한다. 배포/CI 결과를 본문에
-추가하기 위한 수정도 source 변경이므로, 결과는 우선 해당 SHA의 Actions와 별도 배포 기록으로 남긴다.
+source history rewrite가 필요하면 source commit 확정부터 반복한다. 같은 최종 SHA에서 위 로컬
+실제-marker 검사와 다음 clean provenance gate를 통과해야 한다. CI는 실제 marker 없이 generic
+current-tree/history 검사와 clean provenance를 수행한다. 원격 배포 후 같은 최종 SHA의 GitHub
+Actions 필수 job 성공도 확인하되 로컬 실제-marker 검사와 혼동하지 않는다. 배포/CI 결과를 본문에
+추가하기 위한 수정도 source 변경이므로, 결과는 해당 SHA의 Actions와 별도 로컬 배포 기록으로 남긴다.
 
 ```bash
 python scripts/build_code_summary.py --check --require-clean-provenance

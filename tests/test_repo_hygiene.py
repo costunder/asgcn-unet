@@ -275,6 +275,35 @@ def test_privacy_scanner_checks_unique_blobs_reachable_from_every_ref(tmp_path: 
     assert marker not in history.stderr
 
 
+def test_ci_history_scan_detects_removed_paths_without_private_secrets(tmp_path: Path) -> None:
+    _init_repository(tmp_path)
+    source = tmp_path / "example.txt"
+    sample_home = chr(47).join(("", "home", "fixture", "data"))
+    source.write_text(sample_home + "\n", encoding="utf-8")
+    assert _run(["git", "add", source.name], tmp_path).returncode == 0
+    assert _run(["git", "commit", "-qm", "historical path fixture"], tmp_path).returncode == 0
+    source.write_text("portable data path\n", encoding="utf-8")
+    assert _run(["git", "commit", "-qam", "remove path fixture"], tmp_path).returncode == 0
+    environment = _environment_without_private_markers()
+
+    current = _run(
+        [sys.executable, str(SCANNER), "--all-tracked"],
+        tmp_path,
+        environment=environment,
+    )
+    history = _run(
+        [sys.executable, str(SCANNER), "--all-tracked", "--all-history"],
+        tmp_path,
+        environment=environment,
+    )
+
+    assert current.returncode == 0, current.stderr
+    assert history.returncode == 1
+    assert "generic-unix-home" in history.stderr
+    assert "external private-marker denylist is required" not in history.stderr
+    assert sample_home not in history.stdout + history.stderr
+
+
 def test_privacy_scanner_rejects_incomplete_shallow_history(tmp_path: Path) -> None:
     origin = tmp_path / "origin"
     origin.mkdir()
@@ -425,9 +454,12 @@ def test_ci_pins_actions_and_runs_repository_hygiene_gates() -> None:
     assert workflow.count("run: python -m pytest -q") >= 2
     assert "fetch-depth: 0" in workflow
     assert "if: github.event_name == 'push' && github.ref == 'refs/heads/main'" in workflow
-    assert "PRIVATE_MARKERS_B64: ${{ secrets.PRIVATE_MARKERS_B64 }}" in workflow
+    assert "Scan trusted main history with generic privacy rules" in workflow
+    # Exact identity markers stay in the local release gate, never in CI secrets.
+    assert "PRIVATE_MARKERS_B64" not in workflow
+    assert "secrets." not in workflow
     assert "--all-history" in workflow
-    assert "--require-external-patterns" in workflow
+    assert "--require-external-patterns" not in workflow
     assert "for script in scripts/*.sh server/*.sbatch server/*.pbs; do" in workflow
     assert 'bash -n "$script" || exit 1' in workflow
     assert "run: bash -n scripts/*.sh" not in workflow

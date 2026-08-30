@@ -65,15 +65,12 @@ jobs:
       - name: Scan tracked text with generic privacy rules
         run: python scripts/scan_private_text.py --all-tracked
 
-      - name: Scan trusted main history with the required private denylist
+      - name: Scan trusted main history with generic privacy rules
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        env:
-          PRIVATE_MARKERS_B64: ${{ secrets.PRIVATE_MARKERS_B64 }}
         run: >
           python scripts/scan_private_text.py
           --all-tracked
           --all-history
-          --require-external-patterns
 
       - name: Validate Linux shell entrypoints
         run: |

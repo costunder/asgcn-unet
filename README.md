@@ -89,8 +89,9 @@ MobaXterm은 SSH/SFTP 접속에만 사용한다. 아래 명령은 접속한 Linu
 ### 1. 비공개 저장소 인증과 clone
 
 > 저장소는 private로 유지한다. 서버 본실험용 clone/pull 전에는 sanitized history와 과거 CI
-> run/artifact 정리 기록, 원격 `main`의 배포 commit SHA, **같은 SHA의 GitHub Actions 필수 gate 통과**를
-> 확인한다. 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
+> run/artifact 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
+> **GitHub Actions 필수 gate** 통과를 확인한다. 문서나 최신 CI badge만으로 배포 성공을 판단하지 않는다.
+> CI는 실제 marker를 받지 않으므로 로컬 검사 기록을 대신하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
 
 서버 SSH 로그인과 GitHub private repository 인증은 서로 별개다. 공유 GPU 서버에서는 GitHub 계정
 전체가 아니라 이 repository에만 적용되는 읽기 전용 Deploy key를 권장한다. 아래 명령에는 서버
@@ -515,7 +516,7 @@ wrapper log는 기본적으로 hostname/job ID를 생략하고 config/checkpoint
 공개하거나 첨부하지 않는다. 다만 Slurm의 `slurm-...-<job-id>.out/.err`와 PBS의
 `<job-name>.o<job-id>` 같은 raw scheduler log는 **파일명 자체에 job ID가 있으므로 그대로 공개하지 않는다.**
 공개 전에는 기본 provenance로 생성한 raw log를 `logs/public/train.stdout.log` 같은 중립 파일명으로 복사하고,
-저장소 밖 denylist를 사용해 그 공개 후보의 내용도 검사한다. scan 실패 파일과
+저장소 밖 로컬 denylist를 사용해 그 공개 후보의 내용도 로컬에서 검사한다. scan 실패 파일과
 `INCLUDE_PRIVATE_HOST_PROVENANCE=1`로 만든 opt-in log는 중립명으로 바꿔도 비공개다.
 
 ```bash
@@ -527,14 +528,16 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
 ## 현재 검증 상태와 한계
 
 - 저장소의 개인정보 gate는 모든 Git tracked UTF-8 text와 생성된 `code_summary.md`를 검사한다.
-  generic Unix/macOS/Windows home path와 labelled identity를 기본 탐지하고, 실제 계정·host marker는
-  저장소 밖 denylist 또는 `PRIVATE_MARKERS_B64` CI secret으로 전달한다. 문자열 결합·constant f-string과
-  Base64 표현도 복원 검사하며 탐지 로그에는 marker 내용을 출력하지 않는다. trusted `main` push는
-  `--require-external-patterns --all-history`를 강제하므로 secret이 비었거나 shallow history이면 실패하고,
-  모든 local ref에서 도달 가능한 unique Git blob을 검사한다. 현재 checkout 검사와 history 정리는 서로
-  다른 gate이며, 오염된 과거 history가 남은 동안 history gate가 실패하는 것이 정상이다. history 열거는
-  신·구 Git에서 공통인 `git rev-list --objects --all`의 LF 레코드를 사용하며 `-z` 지원 차이에 의존하지
-  않는다. 경로 출력은 진단용 hint이고 실제 blob 내용은 object ID로 읽는다.
+  generic Unix/macOS/Windows home path와 labelled identity를 기본 탐지한다. 실제 계정·host marker는
+  저장소 밖 로컬 denylist 또는 로컬 환경변수 `PRIVATE_MARKERS_B64`로만 주입하며, GitHub secret·변수·
+  workflow·log·artifact로 전송하지 않는다. 로컬 release gate는 `--all-tracked --all-history`와
+  `--require-external-patterns`를 함께 사용해 빈 denylist와 shallow history를 거부한다. 문자열 결합·
+  constant f-string과 Base64 표현도 복원 검사하며 탐지 로그에는 marker 내용을 출력하지 않는다.
+  CI는 실제 marker 없이 generic current-tree/history 검사와 clean provenance를 확인한다. CI 통과는
+  로컬 실제-marker 검사 통과를 대신하지 않는다. history 검사는 모든 local ref에서 도달 가능한 unique
+  Git blob을 대상으로 하며, 현재 checkout 검사와 별개다. history 열거는 신·구 Git에서 공통인
+  `git rev-list --objects --all`의 LF 레코드를 사용하며 `-z` 지원 차이에 의존하지 않는다. 경로 출력은
+  진단용 hint이고 실제 blob 내용은 object ID로 읽는다.
 - `code_summary.md`는 `python scripts/build_code_summary.py`로 생성한 결정적 전체 text snapshot이다.
   파일별 SHA-256, snapshot SHA-256, 포함 파일 수와 생성 당시 commit/tree/branch/dirty provenance를
   기록하고 CI에서 `--check`로 working tree와의 일치를 확인한다. dirty working tree의 snapshot은
@@ -545,7 +548,7 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
   이외의 tracked source가 바뀌지 않았는지 확인한다. 생성 뒤 문서 수정이나 history rewrite가 필요하면
   source commit 확정부터 다시 수행한다. 배포 결과는 본문을 고쳐 적기보다 최종 SHA의 Actions와 별도
   배포 기록으로 확인한다.
-- 2026-08-30 Windows CPU 검증은 **265 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
+- 2026-08-30 Windows CPU 검증은 **266 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
   없는 경우의 shared-storage link test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
   실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
   원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와

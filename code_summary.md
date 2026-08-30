@@ -4,12 +4,12 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T01:02:37Z",
+    "generated_utc": "2026-08-30T01:03:47Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "c97ad239b0b56d6bbbf6a6ce2430f26f2b7d1832",
-    "source_tree_at_generation": "ef922f7a11c11c96fe4b65a7c7de72d03518bfa8",
+    "source_commit_at_generation": null,
+    "source_tree_at_generation": null,
     "timestamp_source": "source_commit_time",
-    "tracked_tree_dirty_at_generation": false
+    "tracked_tree_dirty_at_generation": true
   },
   "snapshot": {
     "canonicalization": "UTF-8 text with LF newlines",
@@ -31,9 +31,9 @@
         "sha256": "fc3f3ff8c4e4301eb4da6750eb8ffdf1d890311e0fa756a96e87d691400ce1c9"
       },
       {
-        "bytes": 3508,
+        "bytes": 3383,
         "path": ".github/workflows/ci.yml",
-        "sha256": "87cb700a27aeca0a73430c09b72bae9149d4ffc5e8a70e9a3b20ba758f222a5e"
+        "sha256": "a0838ea7844b6335a412a1fc01029658fc405b28dbb24f1865901f32f7711ee3"
       },
       {
         "bytes": 360,
@@ -46,9 +46,9 @@
         "sha256": "84a999d703d3cddb94c4909ce8f14815ec9b7f624b33600bade93e5fc6dfa1c2"
       },
       {
-        "bytes": 32724,
+        "bytes": 33060,
         "path": "README.md",
-        "sha256": "ddbcf2d5624edb1145936347945ba34330366ee6f1bc08e8b413762187a22520"
+        "sha256": "ea15edf6da6103d49e87cb93e380dbb3e9d0a13a9b43180dd4137f25a27ebde1"
       },
       {
         "bytes": 1339,
@@ -81,14 +81,14 @@
         "sha256": "5253e4043315ae27b4f0a5ae66c0260a79961b58d7ad09ecfec032759595d1bd"
       },
       {
-        "bytes": 26448,
+        "bytes": 26998,
         "path": "docs/SERVER.md",
-        "sha256": "164174991c365b10fff230ed34f0b226fd3a0a4f8aaacea3b4a5edd5543cd118"
+        "sha256": "309b27d0cbf988368ff0137defac56e33ac0aef5a873c41bd2aa62783cd6ce39"
       },
       {
-        "bytes": 54292,
+        "bytes": 55080,
         "path": "hand_off.md",
-        "sha256": "80624b717de970b8d9ae216b8bc1853f404b63f5dc6e4f40c1092fee43500955"
+        "sha256": "e3057fd9bfef4457c85bd0da4c0e3bebcf0687d36741bf6217a52685fdc8a283"
       },
       {
         "bytes": 2753,
@@ -351,9 +351,9 @@
         "sha256": "b70b26b4f4231fdc1bcaf605550a41c526aefc771b64d80169421bfbeed09d63"
       },
       {
-        "bytes": 16504,
+        "bytes": 17908,
         "path": "tests/test_repo_hygiene.py",
-        "sha256": "614443298ba706381b494b4005754de940e8ca6f1747107f372b96f309f29403"
+        "sha256": "55a0f9644dbd803f25f7f29e5534acc1efeade7cf13e335bb987c9d04fa5d566"
       },
       {
         "bytes": 9390,
@@ -373,7 +373,7 @@
     ],
     "included_file_count": 71,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "95d6fbd7694a2da34c4a810681383eff54dd21f76919332ef2b22c3c758e4c8b"
+    "snapshot_sha256": "4c95d26d8655a4902bdccd4eb8de63f76b9d1b2cb3bf1dcda6e763ea1b023d8a"
   }
 }
 -->
@@ -511,15 +511,12 @@ jobs:
       - name: Scan tracked text with generic privacy rules
         run: python scripts/scan_private_text.py --all-tracked
 
-      - name: Scan trusted main history with the required private denylist
+      - name: Scan trusted main history with generic privacy rules
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        env:
-          PRIVATE_MARKERS_B64: ${{ secrets.PRIVATE_MARKERS_B64 }}
         run: >
           python scripts/scan_private_text.py
           --all-tracked
           --all-history
-          --require-external-patterns
 
       - name: Validate Linux shell entrypoints
         run: |
@@ -764,8 +761,9 @@ MobaXterm은 SSH/SFTP 접속에만 사용한다. 아래 명령은 접속한 Linu
 ### 1. 비공개 저장소 인증과 clone
 
 > 저장소는 private로 유지한다. 서버 본실험용 clone/pull 전에는 sanitized history와 과거 CI
-> run/artifact 정리 기록, 원격 `main`의 배포 commit SHA, **같은 SHA의 GitHub Actions 필수 gate 통과**를
-> 확인한다. 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
+> run/artifact 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
+> **GitHub Actions 필수 gate** 통과를 확인한다. 문서나 최신 CI badge만으로 배포 성공을 판단하지 않는다.
+> CI는 실제 marker를 받지 않으므로 로컬 검사 기록을 대신하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
 
 서버 SSH 로그인과 GitHub private repository 인증은 서로 별개다. 공유 GPU 서버에서는 GitHub 계정
 전체가 아니라 이 repository에만 적용되는 읽기 전용 Deploy key를 권장한다. 아래 명령에는 서버
@@ -1190,7 +1188,7 @@ wrapper log는 기본적으로 hostname/job ID를 생략하고 config/checkpoint
 공개하거나 첨부하지 않는다. 다만 Slurm의 `slurm-...-<job-id>.out/.err`와 PBS의
 `<job-name>.o<job-id>` 같은 raw scheduler log는 **파일명 자체에 job ID가 있으므로 그대로 공개하지 않는다.**
 공개 전에는 기본 provenance로 생성한 raw log를 `logs/public/train.stdout.log` 같은 중립 파일명으로 복사하고,
-저장소 밖 denylist를 사용해 그 공개 후보의 내용도 검사한다. scan 실패 파일과
+저장소 밖 로컬 denylist를 사용해 그 공개 후보의 내용도 로컬에서 검사한다. scan 실패 파일과
 `INCLUDE_PRIVATE_HOST_PROVENANCE=1`로 만든 opt-in log는 중립명으로 바꿔도 비공개다.
 
 ```bash
@@ -1202,14 +1200,16 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
 ## 현재 검증 상태와 한계
 
 - 저장소의 개인정보 gate는 모든 Git tracked UTF-8 text와 생성된 `code_summary.md`를 검사한다.
-  generic Unix/macOS/Windows home path와 labelled identity를 기본 탐지하고, 실제 계정·host marker는
-  저장소 밖 denylist 또는 `PRIVATE_MARKERS_B64` CI secret으로 전달한다. 문자열 결합·constant f-string과
-  Base64 표현도 복원 검사하며 탐지 로그에는 marker 내용을 출력하지 않는다. trusted `main` push는
-  `--require-external-patterns --all-history`를 강제하므로 secret이 비었거나 shallow history이면 실패하고,
-  모든 local ref에서 도달 가능한 unique Git blob을 검사한다. 현재 checkout 검사와 history 정리는 서로
-  다른 gate이며, 오염된 과거 history가 남은 동안 history gate가 실패하는 것이 정상이다. history 열거는
-  신·구 Git에서 공통인 `git rev-list --objects --all`의 LF 레코드를 사용하며 `-z` 지원 차이에 의존하지
-  않는다. 경로 출력은 진단용 hint이고 실제 blob 내용은 object ID로 읽는다.
+  generic Unix/macOS/Windows home path와 labelled identity를 기본 탐지한다. 실제 계정·host marker는
+  저장소 밖 로컬 denylist 또는 로컬 환경변수 `PRIVATE_MARKERS_B64`로만 주입하며, GitHub secret·변수·
+  workflow·log·artifact로 전송하지 않는다. 로컬 release gate는 `--all-tracked --all-history`와
+  `--require-external-patterns`를 함께 사용해 빈 denylist와 shallow history를 거부한다. 문자열 결합·
+  constant f-string과 Base64 표현도 복원 검사하며 탐지 로그에는 marker 내용을 출력하지 않는다.
+  CI는 실제 marker 없이 generic current-tree/history 검사와 clean provenance를 확인한다. CI 통과는
+  로컬 실제-marker 검사 통과를 대신하지 않는다. history 검사는 모든 local ref에서 도달 가능한 unique
+  Git blob을 대상으로 하며, 현재 checkout 검사와 별개다. history 열거는 신·구 Git에서 공통인
+  `git rev-list --objects --all`의 LF 레코드를 사용하며 `-z` 지원 차이에 의존하지 않는다. 경로 출력은
+  진단용 hint이고 실제 blob 내용은 object ID로 읽는다.
 - `code_summary.md`는 `python scripts/build_code_summary.py`로 생성한 결정적 전체 text snapshot이다.
   파일별 SHA-256, snapshot SHA-256, 포함 파일 수와 생성 당시 commit/tree/branch/dirty provenance를
   기록하고 CI에서 `--check`로 working tree와의 일치를 확인한다. dirty working tree의 snapshot은
@@ -1220,7 +1220,7 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
   이외의 tracked source가 바뀌지 않았는지 확인한다. 생성 뒤 문서 수정이나 history rewrite가 필요하면
   source commit 확정부터 다시 수행한다. 배포 결과는 본문을 고쳐 적기보다 최종 SHA의 Actions와 별도
   배포 기록으로 확인한다.
-- 2026-08-30 Windows CPU 검증은 **265 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
+- 2026-08-30 Windows CPU 검증은 **266 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
   없는 경우의 shared-storage link test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
   실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
   원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와
@@ -2012,7 +2012,8 @@ MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node
 ## 1. private repository 인증, clone과 환경 설치
 
 > 저장소는 private로 유지한다. 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
-> 정리 기록, 원격 `main`의 배포 commit SHA, **같은 SHA의 GitHub Actions 필수 gate 통과**를 확인한다.
+> 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
+> **GitHub Actions 필수 gate** 통과를 확인한다. CI는 실제 marker를 받지 않아 로컬 검사를 대신하지 않는다.
 > 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
 
 MobaXterm에서 SSH session을 열고 서버 terminal에서 실행한다. 서버 로그인용 SSH 인증과 GitHub
@@ -2495,9 +2496,10 @@ artifact나 외부 첨부에 포함하지 않는다.
 출처 인증이 아니다. 제출용 file hash는 접근통제된 immutable 실험 원장 또는 signed manifest에도
 별도로 보존한다.
 
-원격 history 교체 전후에는 저장소 밖 denylist를 사용해 complete non-shallow clone의 current tree와
-모든 local-ref reachable blob을 함께 검사한다. trusted `main` CI는 `PRIVATE_MARKERS_B64` secret이 비면
-실패한다.
+원격 history 교체 전후에는 저장소 밖 로컬 denylist를 사용해 complete non-shallow clone의 current
+tree와 모든 local-ref reachable blob을 로컬에서 함께 검사한다. 실제 marker는 로컬 환경변수
+`PRIVATE_MARKERS_B64`로도 주입할 수 있지만 GitHub secret·변수·workflow·log·artifact로 전송하지
+않는다. 로컬 release gate의 `--require-external-patterns`는 빈 denylist를 거부한다.
 
 ```bash
 python scripts/scan_private_text.py \
@@ -2507,9 +2509,11 @@ python scripts/scan_private_text.py \
 
 코드·문서·검증 수치 수정과 history 정리를 끝내 최종 sanitized source commit을 확정한 뒤 clean
 source에서 summary를 재생성하고 summary-only commit을 만든다. 생성 뒤 다른 tracked 파일 수정이나
-source history rewrite가 필요하면 source commit 확정부터 반복한다. 다음 clean provenance gate와
-원격 배포 후 같은 최종 SHA의 GitHub Actions 필수 job 성공을 확인한다. 배포/CI 결과를 본문에
-추가하기 위한 수정도 source 변경이므로, 결과는 우선 해당 SHA의 Actions와 별도 배포 기록으로 남긴다.
+source history rewrite가 필요하면 source commit 확정부터 반복한다. 같은 최종 SHA에서 위 로컬
+실제-marker 검사와 다음 clean provenance gate를 통과해야 한다. CI는 실제 marker 없이 generic
+current-tree/history 검사와 clean provenance를 수행한다. 원격 배포 후 같은 최종 SHA의 GitHub
+Actions 필수 job 성공도 확인하되 로컬 실제-marker 검사와 혼동하지 않는다. 배포/CI 결과를 본문에
+추가하기 위한 수정도 source 변경이므로, 결과는 해당 SHA의 Actions와 별도 로컬 배포 기록으로 남긴다.
 
 ```bash
 python scripts/build_code_summary.py --check --require-clean-provenance
@@ -2555,22 +2559,26 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 `scripts/scan_private_text.py`와 `tests/test_repo_hygiene.py`가 다음을 검증한다.
 
 - 모든 Git tracked text와 생성된 `code_summary.md`의 generic user-home/labelled identity 검사
-- 저장소 밖 denylist 또는 `PRIVATE_MARKERS_B64`로 주입한 실제 marker의 current tree 및 전체 local-ref
-  reachable history 검사; `--require-external-patterns`에서 빈 denylist와 shallow history 거부
+- 저장소 밖 로컬 denylist 또는 로컬 환경변수 `PRIVATE_MARKERS_B64`로만 주입한 실제 marker의 current
+  tree 및 전체 local-ref reachable history 검사; 로컬 `--require-external-patterns`에서 빈 denylist 거부
+- 실제 marker를 받지 않는 CI의 generic current-tree/history 검사와 clean provenance gate;
+  history 검사는 로컬/CI 모두 shallow clone 거부
 - Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
 - README가 repository 전용 read-only Deploy key와 portable project directory를 사용하는지 검사
 - 기본 파일명이 아닌 Deploy key를 shell-safe `IdentityFile` option과 `IdentitiesOnly=yes`로 명시하는지 문서 검토
 
-2026-08-30 Windows CPU 검증은 **265 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
+2026-08-30 Windows CPU 검증은 **266 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
 shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
 실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
-과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 GitHub Actions 필수 gate
-통과를 함께 확인해야 한다. 로컬 테스트 결과나 이 문서만으로 원격 배포 완료를 간주하지 않는다.
+과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
+gate 기록과 GitHub Actions 필수 gate 통과를 함께 확인해야 한다. 실제 marker는 GitHub secret·변수·
+workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로 로컬 실제-marker 검사를 대신하거나,
+로컬 테스트 결과와 이 문서만으로 원격 배포 완료를 간주하지 않는다.
 
 외부 검토자는 특히 다음을 확인해야 한다.
 
-1. 전체 tracked text와 `code_summary.md`뿐 아니라 모든 local ref의 history를 필수 외부 실제-marker
-   denylist로 검사했는가?
+1. 전체 tracked text와 `code_summary.md`뿐 아니라 모든 local ref의 history를 저장소 밖 로컬
+   실제-marker denylist로 검사하고, marker를 GitHub에 전송하지 않았는가?
 2. private repository 절차가 key 생성 뒤 Deploy key 등록에서 명확히 멈추는가?
 3. 최초 SSH host fingerprint를 GitHub 공식 목록과 대조한 뒤에만 수락하도록 안내하는가?
 4. `ssh -T` 종료 코드가 아니라 exact-repository `git ls-remote ... HEAD`를 최종 인증 판정으로 쓰는가?
@@ -3050,8 +3058,9 @@ bitwise 동일성을 과장하지 않는다.
 
 MobaXterm은 SSH/SFTP client이고 실제 연산은 접속한 Linux server에서 수행한다.
 본실험 전에는 sanitized history와 과거 CI run/artifact 정리 기록을 확인하고, 원격 `main`의 배포
-commit SHA가 같은 SHA의 GitHub Actions 필수 gate를 통과했는지 대조한다. 확인되지 않으면 아래
-checkout을 본실험에 사용하지 않는다. 최신 CI badge나 문서의 상태 설명만으로 대신하지 않는다.
+commit SHA에 대한 로컬 실제-marker release gate 기록과 같은 SHA의 GitHub Actions 필수 gate 통과를
+대조한다. CI는 실제 marker를 받지 않는다. 둘 중 하나라도 확인되지 않으면 아래 checkout을 본실험에
+사용하지 않는다. 최신 CI badge나 문서의 상태 설명만으로 대신하지 않는다.
 서버 SSH 로그인과 GitHub private repository 인증은 별개다. 공유 서버에서는 repository 범위의 읽기
 전용 Deploy key를 사용한다. `$HOME/.ssh/asgcn_unet_deploy`이 없다면 생성하고 공개키
 `$HOME/.ssh/asgcn_unet_deploy.pub`만
@@ -3223,8 +3232,8 @@ SLURM에는 login 환경 전체가 아니라 job에 필요한 변수만 전달�
 식별자를 생략하고 config/checkpoint basename만 기록한다. 정확한 값은 공개하지 않을 로컬 진단에서만
 `INCLUDE_PRIVATE_HOST_PROVENANCE=1`로 opt-in한다. Slurm의 `slurm-...-<job-id>.out/.err`와 PBS의
 `<job-name>.o<job-id>` 같은 raw scheduler log는 파일명 자체에 job ID가 있으므로 그대로 공개하지 않는다.
-기본 provenance log만 `logs/public/train.stdout.log` 같은 중립 파일명으로 복사하고 저장소 밖 denylist로
-공개 후보의 내용을 검사한 뒤 공유한다.
+기본 provenance log만 `logs/public/train.stdout.log` 같은 중립 파일명으로 복사하고 저장소 밖 로컬
+denylist로 공개 후보의 내용을 로컬에서 검사한 뒤 공유한다.
 
 ```bash
 python scripts/scan_private_text.py logs/public/train.stdout.log \
@@ -3300,7 +3309,7 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-2026-08-30 Windows CPU 통합 결과는 **265 passed, 1 skipped**이며, skip 1건은 symlink privilege가
+2026-08-30 Windows CPU 통합 결과는 **266 passed, 1 skipped**이며, skip 1건은 symlink privilege가
 없는 환경의 shared-storage link test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
 아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
 
@@ -3325,9 +3334,9 @@ python scripts/scan_private_text.py --all-tracked --require-external-patterns \
 git diff --check
 ```
 
-history 교체 전후에는 complete non-shallow clone에서 다음 privacy gate를 별도로 실행한다. 오염된
-history가 남아 있으면 실패하며, trusted `main` CI에서는 `PRIVATE_MARKERS_B64` secret이 없으면 검사
-자체가 실패한다.
+history 교체 전후에는 complete non-shallow clone에서 다음 로컬 실제-marker release gate를 별도로
+실행한다. marker는 저장소 밖 로컬 denylist 또는 로컬 환경변수 `PRIVATE_MARKERS_B64`로만 주입한다.
+`--require-external-patterns`는 빈 denylist를 거부하며, 실제 marker를 GitHub에 업로드하지 않는다.
 
 ```bash
 python scripts/scan_private_text.py \
@@ -3335,9 +3344,10 @@ python scripts/scan_private_text.py \
   --extra-patterns /path/outside/repository/private_markers.txt
 ```
 
-최종 sanitized source commit과 summary-only commit을 확정한 뒤에는 clean provenance gate도
-통과해야 한다. 원격 배포 후 같은 최종 SHA의 GitHub Actions에서 privacy·provenance를 포함한
-필수 job 전체의 성공을 확인한다. 로컬 통과나 다른 commit의 성공으로 대체하지 않는다.
+최종 sanitized source commit과 summary-only commit을 확정한 뒤에는 같은 최종 SHA에서 위 로컬
+실제-marker 검사와 아래 clean provenance gate를 통과해야 한다. CI는 실제 marker 없이 generic
+current-tree/history 검사와 clean provenance를 실행한다. 원격 배포 후 같은 최종 SHA의 GitHub
+Actions 필수 job 전체의 성공을 확인하며, CI 성공으로 로컬 실제-marker 검사를 대신하지 않는다.
 
 ```bash
 python scripts/build_code_summary.py --check --require-clean-provenance
@@ -21956,6 +21966,35 @@ def test_privacy_scanner_checks_unique_blobs_reachable_from_every_ref(tmp_path: 
     assert marker not in history.stderr
 
 
+def test_ci_history_scan_detects_removed_paths_without_private_secrets(tmp_path: Path) -> None:
+    _init_repository(tmp_path)
+    source = tmp_path / "example.txt"
+    sample_home = chr(47).join(("", "home", "fixture", "data"))
+    source.write_text(sample_home + "\n", encoding="utf-8")
+    assert _run(["git", "add", source.name], tmp_path).returncode == 0
+    assert _run(["git", "commit", "-qm", "historical path fixture"], tmp_path).returncode == 0
+    source.write_text("portable data path\n", encoding="utf-8")
+    assert _run(["git", "commit", "-qam", "remove path fixture"], tmp_path).returncode == 0
+    environment = _environment_without_private_markers()
+
+    current = _run(
+        [sys.executable, str(SCANNER), "--all-tracked"],
+        tmp_path,
+        environment=environment,
+    )
+    history = _run(
+        [sys.executable, str(SCANNER), "--all-tracked", "--all-history"],
+        tmp_path,
+        environment=environment,
+    )
+
+    assert current.returncode == 0, current.stderr
+    assert history.returncode == 1
+    assert "generic-unix-home" in history.stderr
+    assert "external private-marker denylist is required" not in history.stderr
+    assert sample_home not in history.stdout + history.stderr
+
+
 def test_privacy_scanner_rejects_incomplete_shallow_history(tmp_path: Path) -> None:
     origin = tmp_path / "origin"
     origin.mkdir()
@@ -22106,9 +22145,12 @@ def test_ci_pins_actions_and_runs_repository_hygiene_gates() -> None:
     assert workflow.count("run: python -m pytest -q") >= 2
     assert "fetch-depth: 0" in workflow
     assert "if: github.event_name == 'push' && github.ref == 'refs/heads/main'" in workflow
-    assert "PRIVATE_MARKERS_B64: ${{ secrets.PRIVATE_MARKERS_B64 }}" in workflow
+    assert "Scan trusted main history with generic privacy rules" in workflow
+    # Exact identity markers stay in the local release gate, never in CI secrets.
+    assert "PRIVATE_MARKERS_B64" not in workflow
+    assert "secrets." not in workflow
     assert "--all-history" in workflow
-    assert "--require-external-patterns" in workflow
+    assert "--require-external-patterns" not in workflow
     assert "for script in scripts/*.sh server/*.sbatch server/*.pbs; do" in workflow
     assert 'bash -n "$script" || exit 1' in workflow
     assert "run: bash -n scripts/*.sh" not in workflow

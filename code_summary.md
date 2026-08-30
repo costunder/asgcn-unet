@@ -4,12 +4,12 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T03:50:45Z",
+    "generated_utc": "2026-08-30T05:50:04Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": null,
-    "source_tree_at_generation": null,
+    "source_commit_at_generation": "0e1e5605481832d69e7dfb075c8530ed8b44a263",
+    "source_tree_at_generation": "9cdb23cc3f4c1d6269d406e6bb025914290d772f",
     "timestamp_source": "source_commit_time",
-    "tracked_tree_dirty_at_generation": true
+    "tracked_tree_dirty_at_generation": false
   },
   "snapshot": {
     "canonicalization": "UTF-8 text with LF newlines",

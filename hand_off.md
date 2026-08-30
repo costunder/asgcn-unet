@@ -190,8 +190,10 @@ zero raster를 거쳐 recurrent decoder로 전달된다. `frame_stride>1`이면 
 uniqueness를 강제하고 숫자순으로 읽으므로 `image10`이 `image2`보다 앞서는 문자열 정렬 오류를 허용하지
 않는다.
 
-EventAid-R loader는 ZIP 안의 `event/i.txt`, `gt/j_img.png`, `timestamps.txt`, `shape.txt`를 직접
-읽는다. config의 `target_offset=1`은 event interval `i`를 다음 GT `i+1`과 짝짓는 구현 가정이다.
+EventAid-R loader는 일반 ZIP 안의 `event/i.txt`, `gt/j_img.png` 또는 `.jpg`/`.jpeg`,
+`timestamps.txt`, `shape.txt`를 직접 읽는다. 영상 재압축이나 확장자 변경을 요구하지 않는다.
+`inspect.scenes`는 전체 GT의 `target_formats`와 `layout`을 기록한다.
+config의 `target_offset=1`은 event interval `i`를 다음 GT `i+1`과 짝짓는 구현 가정이다.
 offset은 bool이나 실수를 정수로 조용히 변환하지 않고 정확한 정수만 받는다.
 연속 ID, timestamp coverage, shape, 좌표와 polarity뿐 아니라 numeric event/GT ID 중복,
 case-insensitive ZIP member 중복, metadata member 중복, 중복 timestamp와 잘못된 shape token도
@@ -199,6 +201,17 @@ case-insensitive ZIP member 중복, metadata member 중복, 중복 timestamp와 
 다른 실험과 결과를 섞지 않는다. full inspect는 각 event block의 원 timestamp min/max와 interval
 `t0/t1`, span ratio, offset 및 범위 이탈 수를 집계한다. 공식 14 ZIP에서 timestamp basis와 단위가
 확인되기 전까지 이 집계는 diagnostic이며 strict rejection 조건이 아니다.
+
+공식 `R-traffic`은 `event_upload/`, `gt_upload/`, `timestamps_upload.txt`, `parts.txt`를
+사용한다. parts의 네 inclusive 구간 `1–1297`, `1967–2913`, `3201–5169`, `5377–8511`을
+event/GT ID 집합과 정확히 대조한다. timestamp는 원래 ID가 아니라 업로드된 ID의 숫자 정렬
+순번으로 연결한다. 구간 안에 다음 timestamp와 offset target이 모두 존재하는 event만 쌍을
+만들어, 기본 offset 1에서는 7,348개 중 끝 경계 4개를 제외한 7,344개를 평가한다. metadata에
+`part_index`, `sequence_id`를 추가해 state·temporal metric을 경계에서 초기화하지만, 원래 ID와
+ZIP 단위 `scene`을 보존해 14-scene macro 가중치를 바꾸지 않는다. part/timestamp도 sample
+identity hash에 포함한다. 선언되지 않은 누락 파일을 추정해 건너뛰거나 일반·upload 구조를 섞지
+않는다. 일반 구조의 `R-building`은 timestamp가 GT보다 한 행 많으므로 coverage만 검사하고,
+upload 구조는 정확한 행 수를 요구한다.
 
 두 dataset 모두 `target_normalization.mode=integer_dtype_max`를 명시해 정수 dtype maximum으로
 `[0,1]` luminance를 만든 뒤 기본 config에서 `log1p(5000*x)/log1p(5000)`를 적용한다. float target은
@@ -789,12 +802,29 @@ sample을 전부 decode했으며 전후 원본 SHA-256이 같았다. 기존 `26.
 skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이며, 이 실행에서는 native
 access-violation 진단이 발생하지 않았다. 배포 판정은 수정 commit의 CI 결과로 별도 확인한다.
 
+같은 날짜 EventAid-R 호환성 검증에서는 공식 ZIP 14개의 central directory와 작은 metadata를
+HTTP Range로 읽고, 수정한 production `_build_index()`로 **14/14 인덱싱 성공 및 51,512개 쌍**을
+확인했다. 실제 GT 51,529개는 JPG 10개 장면과 PNG 4개 장면에 분포한다. 일반 13개 장면의
+44,168개 쌍과 `R-traffic` 7,344개 쌍의 합이며, 인덱스 검증 전송량은 합계 9,314,919 bytes였다.
+이는 전체 ZIP 내용 decode나 전체 GPU 실험 완료가 아니다.
+
+실제 데이터 decode는 PNG `R-bear`의 전체 65개 쌍, JPG `R-ball`의 첫·중간·마지막 3개 쌍,
+`R-traffic` 첫 구간의 첫·마지막 2개 쌍에서 완료했다. 별도로 R-traffic 네 구간의 경계를 포함한
+실제 event block 12개를 CRC 검사와 함께 읽어 정렬 순번 기반 timestamp 대응 및 구간 끝 제외를
+검증했다. 다른 구간의 추가 영상 Range 읽기는 원격 HTTP 200/403 응답으로 중단돼 전체 영상 검증으로
+계산하지 않았다. 이 점은 서버에 이미 받은 ZIP을 읽는 로더의 동작과 구분한다.
+JPEG/parts/state 분리 수정 후 Windows CPU 통합 pytest는 **660 passed, 27 skipped**로 종료했고,
+Ruff도 통과했다. skip 27개는 위와 같은 플랫폼·권한 조건이며 이번 실행에서도 native
+access-violation 진단은 발생하지 않았다.
+
 주요 회귀 범위는 다음과 같다.
 
 - strict undirected radius graph와 cell implementation의 pairwise reference parity
 - degree-1 open B-spline endpoint, gradient, 초기화, hand calculation과 autograd
 - BN fold, 식 (6), dead-channel raw/scale/mask save→strict reload, IF soft reset, dynamics 차이, basis cache
 - EventHDR numeric image order와 EventAid exact offset/timestamp diagnostic을 포함한 구조·좌표·polarity·pairing·multiprocess safety
+- EventAid PNG/JPG/JPEG decode, 확장자 간 numeric GT 중복, upload parts의 정확한 파일·timestamp coverage,
+  구간 내부 pairing, part 경계의 state/temporal reset과 ZIP 단위 macro 집계 보존
 - exact-size event cap 경계와 zero-event frame
 - manifest separate-root/physical-scene claim 차단과 exact file coverage
 - final-only validation, balanced/context schedule, loss/gradient non-finite guard

@@ -162,6 +162,22 @@ loader가 archive member를 직접 읽으므로 압축을 풀지 않는다. shar
 `data/EventAid-R`가 검증된 shared directory를 가리키도록 symlink한다. 기본 runner는 이 논리 경로를
 검사하므로 `EVENTAID_ROOT`만 다른 곳으로 바꾸면 안 된다.
 
+GT 확장자는 장면에 따라 PNG 또는 JPG다(JPEG 확장자도 지원). `R-traffic`은
+`event_upload/`, `gt_upload/`, `timestamps_upload.txt`, `parts.txt`를 사용하는 분할 배포다.
+로더가 두 구조를 직접 처리하므로 압축 해제·확장자 변경·재압축은 하지 않는다.
+
+이전 코드에서 `R-ball.zip: event and GT files are required`가 발생했다면 PNG만 인식하던
+로더 문제다. 이미 설치한 Conda 환경과 기존 저장소에서 아래처럼 갱신한다. 데이터나 환경을 다시
+다운로드·생성하지 않는다. 이 복구 명령은 학습 전 데이터 검사에서 중단된 경우에 해당한다.
+
+```bash
+git pull --ff-only &&
+bash scripts/run.sh all
+```
+
+수정 로더는 발견한 event/GT 수와 지원 파일명을 오류에 표시한다. 최신 코드에서도 누락 오류가 나면
+해당 ZIP 내부 구조를 확인하며, 파일을 제외하거나 전체 데이터 검사를 끄지 않는다.
+
 ### full-data와 decode 검사
 
 GPU allocation 안에서 다음 검사를 한 번 통과시킨다.

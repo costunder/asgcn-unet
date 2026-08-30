@@ -5,6 +5,7 @@ import os
 import re
 import zipfile
 import zlib
+from collections import Counter
 from itertools import pairwise
 from numbers import Integral
 from pathlib import Path
@@ -27,7 +28,10 @@ from .common import (
 )
 
 _EVENT_RE = re.compile(r"(?:^|/)event/(\d+)\.txt$", re.IGNORECASE)
-_GT_RE = re.compile(r"(?:^|/)gt/(\d+)_img\.png$", re.IGNORECASE)
+# Official archives contain both PNG (e.g. R-bear) and JPEG (e.g. R-ball) GT.
+_GT_RE = re.compile(r"(?:^|/)gt/(\d+)_img\.(?:png|jpe?g)$", re.IGNORECASE)
+_UPLOAD_EVENT_RE = re.compile(r"(?:^|/)event_upload/(\d+)\.txt$", re.IGNORECASE)
+_UPLOAD_GT_RE = re.compile(r"(?:^|/)gt_upload/(\d+)_img\.(?:png|jpe?g)$", re.IGNORECASE)
 
 
 def _validate_event_coordinates(
@@ -155,6 +159,45 @@ class EventAidRZipDataset(Dataset):
             names.append(info.filename)
         return names
 
+    @classmethod
+    def _read_parts(
+        cls, zf: zipfile.ZipFile, names: list[str], *, path: Path, event_ids: list[int],
+        target_ids: list[int],
+    ) -> list[tuple[int, int]]:
+        """Validate the inclusive, explicitly published R-traffic upload segments."""
+        member = cls._unique_metadata_member(names, "parts.txt", path=path)
+        if member is None:
+            raise ValueError(f"Invalid EventAid-R scene {path}: upload layout requires parts.txt")
+        try:
+            lines = zf.read(member).decode("utf-8").strip().splitlines()
+        except UnicodeDecodeError as error:
+            raise ValueError(f"Invalid EventAid-R parts in {path}::{member}: expected UTF-8") from error
+        if lines and re.fullmatch(
+            r"This group is split into [A-Za-z0-9 -]+ parts:", lines[0].strip()
+        ):
+            lines = lines[1:]
+        parts: list[tuple[int, int]] = []
+        for line in lines:
+            match = re.fullmatch(r"(\d+)\s*~\s*(\d+)", line.strip())
+            if match is None:
+                raise ValueError(
+                    f"Invalid EventAid-R parts in {path}::{member}: expected start~end ranges"
+                )
+            start, end = map(int, match.groups())
+            if start < 1 or end < start or (parts and start <= parts[-1][1]):
+                raise ValueError(
+                    f"Invalid EventAid-R parts in {path}::{member}: ranges must be positive, "
+                    "ordered and non-overlapping"
+                )
+            parts.append((start, end))
+        # Bound allocation by the real member count, not untrusted range endpoints.
+        if not parts or sum(end - start + 1 for start, end in parts) != len(event_ids):
+            raise ValueError(f"Invalid EventAid-R scene {path}: parts.txt event coverage mismatch")
+        declared = [index for start, end in parts for index in range(start, end + 1)]
+        if event_ids != declared or target_ids != declared:
+            raise ValueError(f"Invalid EventAid-R scene {path}: parts.txt event/GT coverage mismatch")
+        return parts
+
     def _build_index(self) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         samples: list[dict[str, Any]] = []
         scene_info: dict[str, Any] = {}
@@ -163,10 +206,28 @@ class EventAidRZipDataset(Dataset):
                 names = self._validated_member_names(zf, path=path)
                 events = self._index_numbered_members(names, _EVENT_RE, label="event", path=path)
                 targets = self._index_numbered_members(names, _GT_RE, label="GT", path=path)
+                upload_events = self._index_numbered_members(
+                    names, _UPLOAD_EVENT_RE, label="event", path=path
+                )
+                upload_targets = self._index_numbered_members(
+                    names, _UPLOAD_GT_RE, label="GT", path=path
+                )
                 shape = self._read_shape(zf, names, path=path)
                 timestamps_name = self._unique_metadata_member(names, "timestamps.txt", path=path)
+                upload_timestamps = self._unique_metadata_member(
+                    names, "timestamps_upload.txt", path=path
+                )
+                upload_layout = bool(upload_events or upload_targets or upload_timestamps)
+                if upload_layout:
+                    if events or targets or timestamps_name is not None:
+                        raise ValueError(
+                            f"Invalid EventAid-R scene {path}: mixed regular and upload layouts"
+                        )
+                    events, targets = upload_events, upload_targets
+                    timestamps_name = upload_timestamps
                 if timestamps_name is None:
-                    raise ValueError(f"Invalid EventAid-R scene {path}: timestamps.txt is missing")
+                    expected = "timestamps_upload.txt" if upload_layout else "timestamps.txt"
+                    raise ValueError(f"Invalid EventAid-R scene {path}: {expected} is missing")
                 try:
                     timestamps = [
                         int(value) for value in zf.read(timestamps_name).decode("utf-8").split()
@@ -187,18 +248,42 @@ class EventAidRZipDataset(Dataset):
                 event_ids = sorted(events)
                 target_ids = sorted(targets)
                 if not event_ids or not target_ids:
+                    folder_suffix = "_upload" if upload_layout else ""
                     raise ValueError(
-                        f"Invalid EventAid-R scene {path}: event and GT files are required"
+                        f"Invalid EventAid-R scene {path}: event and GT files are required "
+                        f"(found event={len(events)}, GT={len(targets)}; expected "
+                        f"event{folder_suffix}/<id>.txt and gt{folder_suffix}/<id>_img.png, "
+                        ".jpg or .jpeg)"
                     )
-                if event_ids != list(range(event_ids[0], event_ids[-1] + 1)):
+                parts = None
+                if upload_layout:
+                    parts = self._read_parts(
+                        zf, names, path=path, event_ids=event_ids, target_ids=target_ids
+                    )
+                    if len(timestamps) != len(event_ids):
+                        raise ValueError(
+                            f"Invalid EventAid-R scene {path}: timestamps_upload.txt must contain "
+                            "one timestamp per uploaded frame in sorted numeric ID order"
+                        )
+                if not upload_layout and event_ids != list(range(event_ids[0], event_ids[-1] + 1)):
                     raise ValueError(
                         f"Invalid EventAid-R scene {path}: event IDs are not contiguous"
                     )
-                if target_ids != list(range(target_ids[0], target_ids[-1] + 1)):
+                if not upload_layout and target_ids != list(range(target_ids[0], target_ids[-1] + 1)):
                     raise ValueError(f"Invalid EventAid-R scene {path}: GT IDs are not contiguous")
-                paired_ids = [
-                    event_id for event_id in event_ids if event_id + self.target_offset in targets
-                ]
+                if parts is None:
+                    paired_ids = [
+                        event_id for event_id in event_ids if event_id + self.target_offset in targets
+                    ]
+                else:
+                    # The uploaded timestamp rows omit the gaps. Never use ID-1
+                    # as a row index or form an interval across two published parts.
+                    paired_ids = [
+                        event_id
+                        for start, end in parts
+                        for event_id in range(start, end)
+                        if start <= event_id + self.target_offset <= end
+                    ]
                 boundary = abs(self.target_offset)
                 if self.target_offset >= 0:
                     allowed_event_gaps = set(event_ids[-boundary:]) if boundary else set()
@@ -209,36 +294,67 @@ class EventAidRZipDataset(Dataset):
                 unpaired_events = set(event_ids) - set(paired_ids)
                 paired_targets = {event_id + self.target_offset for event_id in paired_ids}
                 unpaired_targets = set(target_ids) - paired_targets
-                if (
-                    not paired_ids
-                    or unpaired_events - allowed_event_gaps
-                    or unpaired_targets - allowed_target_gaps
+                if not paired_ids or (
+                    parts is None and (
+                        unpaired_events - allowed_event_gaps
+                        or unpaired_targets - allowed_target_gaps
+                    )
                 ):
                     raise ValueError(
                         f"Invalid EventAid-R scene {path}: event/GT pairing has internal gaps"
                     )
-                if paired_ids[0] < 1 or len(timestamps) <= paired_ids[-1]:
+                if parts is None and (paired_ids[0] < 1 or len(timestamps) <= paired_ids[-1]):
                     raise ValueError(
                         f"Invalid EventAid-R scene {path}: timestamps.txt does not cover "
                         "every paired event interval"
                     )
                 scene = path.stem
-                scene_info[scene] = {"shape": shape, "frames": len(targets), "events": len(events)}
+                scene_info[scene] = {
+                    "shape": shape,
+                    "frames": len(targets),
+                    "events": len(events),
+                    "paired_samples": len(paired_ids),
+                    "target_formats": dict(
+                        sorted(Counter(
+                            name.rsplit(".", 1)[-1].lower() for name in targets.values()
+                        ).items())
+                    ),
+                    "layout": "upload_parts" if upload_layout else "regular",
+                }
+                timestamp_rows = {event_id: row for row, event_id in enumerate(event_ids)}
+                part_indices: dict[int, int] = {}
+                if parts is not None:
+                    paired_set = set(paired_ids)
+                    scene_info[scene]["parts"] = [
+                        {
+                            "start_id": start,
+                            "end_id": end,
+                            "paired_samples": sum(index in paired_set for index in range(start, end)),
+                        }
+                        for start, end in parts
+                    ]
+                    for part_index, (start, end) in enumerate(parts):
+                        part_indices.update(
+                            (event_id, part_index) for event_id in range(start, end + 1)
+                        )
                 for event_id in paired_ids:
                     target_id = event_id + self.target_offset
-                    samples.append(
-                        {
-                            "path": path,
-                            "scene": scene,
-                            "frame_id": event_id,
-                            "event_name": events[event_id],
-                            "target_name": targets[target_id],
-                            "shape": shape,
-                            "sequence_index": event_id,
-                            "t0_us": timestamps[event_id - 1],
-                            "t1_us": timestamps[event_id],
-                        }
-                    )
+                    timestamp_row = timestamp_rows[event_id] if parts is not None else event_id - 1
+                    record = {
+                        "path": path,
+                        "scene": scene,
+                        "frame_id": event_id,
+                        "event_name": events[event_id],
+                        "target_name": targets[target_id],
+                        "shape": shape,
+                        "sequence_index": event_id,
+                        "t0_us": timestamps[timestamp_row],
+                        "t1_us": timestamps[timestamp_row + 1],
+                    }
+                    if parts is not None:
+                        record["part_index"] = part_indices[event_id]
+                        record["sequence_id"] = f"{scene}/part-{part_indices[event_id]:03d}"
+                    samples.append(record)
         return samples, scene_info
 
     def __len__(self) -> int:
@@ -377,6 +493,9 @@ class EventAidRZipDataset(Dataset):
                 "dataset": "EventAid-R",
                 "scene": item["scene"],
                 "sequence_index": item["sequence_index"],
+                **{
+                    key: item[key] for key in ("sequence_id", "part_index") if key in item
+                },
                 "source": str(item["path"]),
                 "t0_us": item["t0_us"],
                 "t1_us": item["t1_us"],

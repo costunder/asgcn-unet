@@ -592,6 +592,8 @@ def _dataset_sample_identity(dataset, index: int) -> dict[str, Any]:
     record = records[index]
     for key in (
         "source_file",
+        "sequence_id",
+        "part_index",
         "sequence_index",
         "frame_id",
         "image_key",
@@ -600,6 +602,8 @@ def _dataset_sample_identity(dataset, index: int) -> dict[str, Any]:
         "start_idx",
         "end_idx",
         "timestamp",
+        "t0_us",
+        "t1_us",
     ):
         value = record.get(key)
         if value is not None:
@@ -756,28 +760,35 @@ def _sampling_counts(summary: dict[str, Any]) -> dict[str, Any]:
 def _sample_sequence_info(
     sample: dict[str, Any],
 ) -> tuple[str, int | None, tuple[int, int]]:
+    """Identify recurrent continuity, not the scene used for quality aggregation."""
     metadata = sample.get("metadata", {})
     if not isinstance(metadata, dict):
         metadata = {}
-    scene = str(metadata.get("scene", "unknown"))
+    sequence_id = str(metadata.get("sequence_id") or metadata.get("scene", "unknown"))
     raw_index = metadata.get("sequence_index")
     try:
         sequence_index = int(raw_index) if raw_index is not None else None
     except (TypeError, ValueError):
         sequence_index = None
     sensor_size = tuple(int(value) for value in sample["sensor_size"])
-    return scene, sequence_index, sensor_size
+    return sequence_id, sequence_index, sensor_size
+
+
+def _sample_metric_scene(sample: dict[str, Any]) -> str:
+    """Keep official scene-level macro metrics even when a scene has several parts."""
+    metadata = sample.get("metadata", {})
+    return str(metadata.get("scene", "unknown")) if isinstance(metadata, dict) else "unknown"
 
 
 def _continues_sequence(
-    scene: str,
+    sequence_id: str,
     sequence_index: int | None,
     sensor_size: tuple[int, int],
-    previous_scene: str | None,
+    previous_sequence_id: str | None,
     previous_sequence_index: int | None,
     previous_sensor_size: tuple[int, int] | None,
 ) -> bool:
-    if scene != previous_scene or sensor_size != previous_sensor_size:
+    if sequence_id != previous_sequence_id or sensor_size != previous_sensor_size:
         return False
     if sequence_index is None or previous_sequence_index is None:
         return True
@@ -2942,7 +2953,7 @@ def validate(
 ) -> dict[str, Any]:
     model.eval()
     accumulator = MetricAccumulator()
-    current_scene = None
+    current_sequence = None
     previous_sequence_index = None
     previous_sensor_size = None
     recurrent_state = None
@@ -2952,17 +2963,17 @@ def validate(
         if len(batch) != 1:
             raise ValueError("Stateful validation currently requires batch_size=1")
         sample = move_sample(batch[0], device)
-        scene, sequence_index, sensor_size = _sample_sequence_info(sample)
+        sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
         if not _continues_sequence(
-            scene,
+            sequence_id,
             sequence_index,
             sensor_size,
-            current_scene,
+            current_sequence,
             previous_sequence_index,
             previous_sensor_size,
         ):
             recurrent_state = None
-        current_scene = scene
+        current_sequence = sequence_id
         previous_sequence_index = sequence_index
         previous_sensor_size = sensor_size
         prediction, diagnostics = model.forward_sample(sample, recurrent_state=recurrent_state)
@@ -2971,7 +2982,11 @@ def validate(
             recurrent_state = recurrent_state.detach()
         if score_positions is None or index in score_positions:
             target = sample["target"].unsqueeze(0)
-            accumulator.update(scene, sample["sample_id"], frame_metrics(prediction, target))
+            accumulator.update(
+                _sample_metric_scene(sample),
+                sample["sample_id"],
+                frame_metrics(prediction, target),
+            )
     return accumulator.summary()
 
 
@@ -3184,7 +3199,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
         model.train()
         _reset_cuda_peak_memory(device)
-        current_scene = None
+        current_sequence = None
         previous_sequence_index = None
         previous_sensor_size = None
         recurrent_state = None
@@ -3199,19 +3214,19 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             if len(batch) != 1:
                 raise ValueError("Stateful training currently requires batch_size=1")
             sample = move_sample(batch[0], device)
-            scene, sequence_index, sensor_size = _sample_sequence_info(sample)
+            sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
             if not _continues_sequence(
-                scene,
+                sequence_id,
                 sequence_index,
                 sensor_size,
-                current_scene,
+                current_sequence,
                 previous_sequence_index,
                 previous_sensor_size,
             ):
                 recurrent_state = None
                 previous_prediction = None
                 previous_target = None
-            current_scene = scene
+            current_sequence = sequence_id
             previous_sequence_index = sequence_index
             previous_sensor_size = sensor_size
             optimizer.zero_grad(set_to_none=True)
@@ -3476,7 +3491,7 @@ def _evaluate_dataset(
     frame_rows: list[dict[str, Any]] = []
     latencies: list[float] = []
     realtime_factors: list[float] = []
-    current_scene = None
+    current_sequence = None
     previous_sequence_index = None
     previous_sensor_size = None
     recurrent_state = None
@@ -3549,19 +3564,19 @@ def _evaluate_dataset(
         sample = move_sample(batch[0], device)
         sample_id = sample.get("sample_id", index)
         _require_finite_tensor(sample["target"], "target", sample_id)
-        scene, sequence_index, sensor_size = _sample_sequence_info(sample)
+        sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
         if not _continues_sequence(
-            scene,
+            sequence_id,
             sequence_index,
             sensor_size,
-            current_scene,
+            current_sequence,
             previous_sequence_index,
             previous_sensor_size,
         ):
             recurrent_state = None
             previous_prediction = None
             previous_target = None
-        current_scene = scene
+        current_sequence = sequence_id
         previous_sequence_index = sequence_index
         previous_sensor_size = sensor_size
         if device.type == "cuda":
@@ -3606,13 +3621,14 @@ def _evaluate_dataset(
         temporal_l1 = metrics.get("temporal_l1")
         previous_prediction = metric_prediction.detach()
         previous_target = target.detach()
-        accumulator.update(scene, sample["sample_id"], metrics)
+        metric_scene = _sample_metric_scene(sample)
+        accumulator.update(metric_scene, sample["sample_id"], metrics)
         dt_us = _positive_interval_us(sample["metadata"].get("dt_us"), sample_id)
         rtf = latency_ms / (dt_us / 1000.0) if dt_us is not None else None
         if rtf is not None:
             realtime_factors.append(rtf)
         row = {
-            "scene": scene,
+            "scene": metric_scene,
             "sample_id": sample["sample_id"],
             **metrics,
             "latency_ms": latency_ms,
@@ -4094,7 +4110,7 @@ def _benchmark_dataset(
     layer_neuron_step_totals: list[int] = []
     realtime_factors: list[float] = []
     recurrent_state = None
-    current_scene = None
+    current_sequence = None
     previous_sequence_index = None
     previous_sensor_size = None
     raw = None
@@ -4202,7 +4218,7 @@ def _benchmark_dataset(
     )
     for iteration, (measured, sample_index) in enumerate(schedule):
         if iteration == len(warmup_indices):
-            current_scene = None
+            current_sequence = None
             previous_sequence_index = None
             previous_sensor_size = None
             _reset_benchmark_measurement_window(
@@ -4213,12 +4229,12 @@ def _benchmark_dataset(
         sample = move_inference_sample(raw, device)
         sample_id = sample.get("sample_id", sample_index)
         _require_finite_tensor(sample["target"], "target", sample_id)
-        scene, sequence_index, sensor_size = _sample_sequence_info(sample)
+        sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
         continuation = _continues_sequence(
-            scene,
+            sequence_id,
             sequence_index,
             sensor_size,
-            current_scene,
+            current_sequence,
             previous_sequence_index,
             previous_sensor_size,
         )
@@ -4226,7 +4242,7 @@ def _benchmark_dataset(
             recurrent_state = None
             if measured:
                 measured_state_resets += 1
-        current_scene = scene
+        current_sequence = sequence_id
         previous_sequence_index = sequence_index
         previous_sensor_size = sensor_size
         with _inference_precision_context(device, precision, autocast_dtype):

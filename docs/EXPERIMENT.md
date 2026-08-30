@@ -75,6 +75,25 @@ timestamp basis·단위가 확인되기 전에는 이 값을 hard rejection에 �
 섞지 않는다. 두 dataset의 sensor response와 exposure가 같다는
 보장은 없으므로 절대 PSNR/SSIM을 동일 분포의 수치처럼 직접 비교하지 않는다.
 
+EventAid-R의 일반 13개 ZIP은 `event/<id>.txt`, `gt/<id>_img.png` 또는 `.jpg`와
+`timestamps.txt`를 사용한다. `.jpeg`와 대소문자 확장자도 인식하며 동일 GT ID가 다른 형식으로
+중복되면 임의로 선택하지 않고 실패한다. 영상은 원본 ZIP에서 Pillow로 decode하며 변환·재압축하지
+않는다. `inspect.scenes`에 전체 GT의 `target_formats`와 `layout`을 기록한다.
+
+`R-traffic`은 `event_upload/`, `gt_upload/`, `timestamps_upload.txt`, `parts.txt` 구조다.
+공식 `parts.txt`의 inclusive ID 구간은 `1–1297`, `1967–2913`, `3201–5169`, `5377–8511`이다.
+업로드 timestamp 행은 원래 ID 자체가 아니라 **업로드된 ID의 숫자 정렬 순번**에 대응한다.
+각 구간 내부에서만 다음 timestamp와 target을 선택하고 구간 끝 event는 다음 구간과 연결하지
+않는다. 일반적인 offset 변경에서도 interval 끝 timestamp와 offset target 모두 같은 구간에
+존재해야 한다. parts 범위와 event/GT 집합 및 timestamp 행 수가 정확히 맞아야 하며, 선언되지
+않은 파일 누락을 새 구간으로 추정하지 않는다. 일반 구조는 `R-building`처럼 여분의 마지막
+timestamp가 있으므로 기존 coverage 검사를 유지한다.
+
+기본 offset 1에서 `R-traffic`의 7,348 event/GT 중 구간 끝 4개를 제외한 7,344개 쌍을 사용한다.
+원래 `frame_id`·`sequence_index`와 ZIP 단위 `scene`은 유지하고 `part_index`·`sequence_id`를
+추가한다. recurrent state와 temporal metric은 part 경계에서 초기화하지만 macro metric은
+기존 14개 ZIP scene을 단위로 계산한다. 선택된 part·timestamp 경계도 sample identity에 결합한다.
+
 event 전처리는 다음 순서다.
 
 1. 설정된 sensor crop을 적용한다. 본실험 config는 `crop_size=null`이라 전체 sensor를 쓴다.

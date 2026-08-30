@@ -60,13 +60,12 @@ def test_eventhdr_rejects_missing_or_misaligned_event_arrays(
         EventHDRDataset(path.parent)
 
 
-@pytest.mark.parametrize("attribute", ["event_idx", "timestamp"])
-def test_eventhdr_requires_image_boundary_attributes(tmp_path: Path, attribute: str) -> None:
+def test_eventhdr_requires_image_timestamp(tmp_path: Path) -> None:
     path = make_eventhdr(tmp_path / "hdr")
     with h5py.File(path, "a") as h5:
-        del h5["images/image000000000"].attrs[attribute]
+        del h5["images/image000000000"].attrs["timestamp"]
 
-    with pytest.raises(ValueError, match=rf"missing '{attribute}'"):
+    with pytest.raises(ValueError, match="missing 'timestamp'"):
         EventHDRDataset(path.parent)
 
 

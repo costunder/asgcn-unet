@@ -4,12 +4,12 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T11:59:23Z",
+    "generated_utc": "2026-08-30T11:59:34Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "26bb05085b7404f8a8c82ab03983f7af4e6971e7",
-    "source_tree_at_generation": "f1c6a43f434a4636880652d53157a01b33f2ef13",
+    "source_commit_at_generation": null,
+    "source_tree_at_generation": null,
     "timestamp_source": "source_commit_time",
-    "tracked_tree_dirty_at_generation": false
+    "tracked_tree_dirty_at_generation": true
   },
   "snapshot": {
     "canonicalization": "UTF-8 text with LF newlines",
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 25504,
+        "bytes": 25795,
         "path": "README.md",
-        "sha256": "36e6c0986d3bb7c4d80937942a101a7e004abcfcb1b770c9e4a837c3e92204f9"
+        "sha256": "383755bad40051d3dae4fb749a79d0469e0ef3393e4491c992ad22a17cdb112d"
       },
       {
         "bytes": 1339,
@@ -86,19 +86,19 @@
         "sha256": "c678c5c0a1ddaa26ad7985ed5efdddcfd9f00cc2edf915585681d4d62444048f"
       },
       {
-        "bytes": 24135,
+        "bytes": 25875,
         "path": "docs/EXPERIMENT.md",
-        "sha256": "5253e4043315ae27b4f0a5ae66c0260a79961b58d7ad09ecfec032759595d1bd"
+        "sha256": "8cdbd47f677ce56510e914f1705610a3273e8f67ffc72e8189a0bb902f468479"
       },
       {
-        "bytes": 28966,
+        "bytes": 29603,
         "path": "docs/SERVER.md",
-        "sha256": "c382dea8e2c9b0aa78b4d7b3adb302572faf957f886056b8de42c0c61f5fd262"
+        "sha256": "ce12a628afd6e3ca1d8a873188eb08fcda89aa094dd0384faedc50f361241ce4"
       },
       {
-        "bytes": 58585,
+        "bytes": 60453,
         "path": "hand_off.md",
-        "sha256": "5a11f9384e596481df2a6df1f60825a9990ca3e8a1b4b31d4ef63ee93b898d40"
+        "sha256": "9553e8786ad5a335c4632f31a7296bb4a4e95e1ce6165d7b33abe263e1aeca6b"
       },
       {
         "bytes": 2753,
@@ -226,9 +226,9 @@
         "sha256": "f2dc65b5bcc61a0f90a890075ae84da48d115380756adb0b643839c011370c46"
       },
       {
-        "bytes": 21751,
+        "bytes": 21852,
         "path": "src/asgcn_unet/cli.py",
-        "sha256": "bb4b412aab844ac5f422137603ed142356464d6e1abf3ff9bc5d72d5dbe02082"
+        "sha256": "bcc074eec95ae14ff81928143a661af8e6d0975ea39f3a7fa7250b139544474d"
       },
       {
         "bytes": 309,
@@ -246,9 +246,9 @@
         "sha256": "99b86d4a5c0272e5c0321a2a09369cf23f25f58d520e9cc9f9a7c46376c7f166"
       },
       {
-        "bytes": 17779,
+        "bytes": 21635,
         "path": "src/asgcn_unet/data/eventhdr.py",
-        "sha256": "1e0b257e8bd2ae57181efad8bc59f19791974650445cb4a50a70871c6ca6265c"
+        "sha256": "815b41dab30b87734d0e5868e74380bea2cd5da3241f22387c055c237876a7df"
       },
       {
         "bytes": 11088,
@@ -331,9 +331,9 @@
         "sha256": "6abbe0fb75f82f69e73012258b0ff2f0ac4f6bc611c366558651a046ee397ec3"
       },
       {
-        "bytes": 17966,
+        "bytes": 17872,
         "path": "tests/test_data_validation.py",
-        "sha256": "3989d4b59f9280b8e336cf2976b333ebf6b216adc9fe148841d718f94c162b5e"
+        "sha256": "11ef80df4106e856dceb7e9065275278aa6ad99c16df5c6adeaba9e2cfa93764"
       },
       {
         "bytes": 17401,
@@ -344,6 +344,11 @@
         "bytes": 18485,
         "path": "tests/test_engine_integrity.py",
         "sha256": "8b080d7b09bf52feffb34e74fdeafd1496553404054671eca9881197ce507ac6"
+      },
+      {
+        "bytes": 13413,
+        "path": "tests/test_eventhdr_index.py",
+        "sha256": "107489296a289e188fa1f91ab67a444953deb53a6fec96942c1027c63f1f8954"
       },
       {
         "bytes": 6084,
@@ -421,9 +426,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 81,
+    "included_file_count": 82,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "5356f2a2b52621be60673186a0f927dddee183278fb1eebaef60acc980ed2bd9"
+    "snapshot_sha256": "ff6273acf153f1c7b14e10cccadaee20b0922966ed458fb8bc5cd7bcbbfef93f"
   }
 }
 -->
@@ -853,7 +858,10 @@ frame별 percentile 보정은 `percentile_debug_only`와 `debug_only=true`를 �
 진단에서만 열린다. EventAid-R은 event block `i`를 다음 GT `i+1`과 짝짓는 `target_offset: 1`을
 사용한다. offset은 bool·실수가 아닌 정확한 정수만 받는다. 이는 이 저장소의 정렬 가정이지 ASGCN 논문
 값은 아니다. EventHDR `images/image<index>`는 numeric suffix가 유일해야 하며 문자열순이 아닌 숫자순으로
-읽는다. EventAid-R full inspect는 event text의 원 timestamp min/max와 `timestamps.txt` interval의 span
+읽는다. 저장된 `event_idx`가 없는 공식 H5는 timestamp에서 참조 packager의 predecessor 규칙으로
+경계를 복원하고 그 출처를 기록하며, 원본 파일은 변경하지 않는다.
+[EventHDR 인덱스 정책](docs/EXPERIMENT.md#eventhdr-이벤트-인덱스)을 참고한다.
+EventAid-R full inspect는 event text의 원 timestamp min/max와 `timestamps.txt` interval의 span
 ratio·offset·범위 이탈 수를 기록하되, 공식 14 ZIP의 단위가 실측으로 확인되기 전에는 이를 임의로 hard
 fail 조건으로 만들지 않는다.
 
@@ -2119,6 +2127,26 @@ EventHDR eval 전체를 평가한다. 따라서 현재 `best.pt`는 여러 epoch
 않는다. EventAid-R 결과를 본 뒤 설정·보정·threshold를 바꾸면 그 결과 역시 외부시험으로 해석할 수
 없다.
 
+### EventHDR 이벤트 인덱스
+
+이미지의 유효한 `event_idx`는 그대로 사용한다. 공식 train `38.h5`처럼 이 속성이 없는 파일은
+이미지 `timestamp`와 정렬된 `events/ts`로 누락 인덱스만 복원한다. 복원 규칙은
+`max(searchsorted(events/ts, timestamp, side="left") - 1, 0)`이다. 이는 EventHDR가 연결한
+[참조 HDF5 packager](https://github.com/TimoStoff/events_contrast_maximization/blob/ab74aba1ab3481689628ce374f8dcc92b5383b00/tools/event_packagers.py#L74-L90)의
+predecessor 규칙을 따르는 호환 정책이며, 표준 `[이전 timestamp, 현재 timestamp)` 경계와는 다르다.
+전역 lower bound를 사용하므로 upstream의 buffer 시작점 clamp 동작까지 복제하는 것은 아니다.
+기존 인덱스를 일괄 재계산하거나 원본 H5를 변경하지 않는다.
+
+복원 시 전체 event timestamp를 1,048,576개 이하의 block으로 읽어 유한값과 block 간 단조성까지
+검사한다. 이미지 timestamp가 없거나 유효하지 않은 저장 인덱스가 있으면 실패하며, 비어 있지 않은
+event stream과 이미지의 시간 범위가 완전히 분리된 경우에도 복원하지 않는다. 빈 event stream은
+0 경계를 사용한다. timestamp 단위나 기준시각을 추측해 변환하지 않는다.
+
+`inspect`의 `event_indexing`에 파일별 저장·복원 이미지 수를, sample metadata의 `event_idx_source`에
+`stored` 또는 `timestamp_predecessor_v1`을 기록한다. 선택된 `start_idx/end_idx`는 기존 dataset index
+identity hash에도 반영된다. 로더가 변경되었으므로 이전 코드에서 생성한 profile/checkpoint와 exact
+resume을 강제하지 않고 현재 source·data로 사전검증한다.
+
 ## 2. 고정 전처리
 
 두 dataset의 target은 config에 명시한 다음 고정 계약으로 `[0,1]` luminance domain에 놓는다.
@@ -2907,6 +2935,11 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - `EventHDR ... exact official file set`: 직접 다운로드 또는 선택한 import가 끝났는지,
   train 51/eval 19 외 H5가 섞이지 않았는지 `get_hdr.sh --check`로 확인한다.
 - `eventaid_r_zip must contain exactly 14`: `get_aid.sh --all`을 완료하고 ZIP을 압축 해제하지 않는다.
+- `images/image... is missing 'event_idx'`: 일부 공식 H5는 해당 속성이 없다. 현재 로더는 이미지
+  timestamp에서 누락된 인덱스를 읽기 전용으로 복원한다. 기존 데이터는 삭제하거나 다시 받지 않는다.
+  이전 버전을 실행했다면 코드를 갱신하고 선택한 Conda 환경에서 `bash scripts/run.sh check`로
+  전체 decode를 다시 확인한다. 복원 정책과 검증 범위는 [실험 프로토콜](EXPERIMENT.md#eventhdr-이벤트-인덱스)을
+  참고한다. `timestamp` 누락·비단조 event 시각·유효하지 않은 저장 인덱스는 우회하지 않는다.
 - `Fresh training run_dir is not empty`: 새 run이면 별도 `output.run_dir`, 중단 run이면 `last.pt` resume를
   사용한다.
 - `passed CUDA preflight report not found` 또는 preflight mismatch: 같은 GPU allocation과 source/data로
@@ -3102,7 +3135,15 @@ decode하는 방식이다.
 
 ### 3.3 loader 의미론
 
-EventHDR loader는 H5의 `events/{xs,ys,ts,ps}`와 `images/image*`의 `event_idx`, `timestamp`를 검사한다.
+EventHDR loader는 H5의 `events/{xs,ys,ts,ps}`와 이미지 `timestamp`를 검사한다. `event_idx`가 있으면
+유효성을 검사하고 그대로 사용한다. 없으면 `max(searchsorted(events/ts, timestamp, side="left") - 1, 0)`으로
+누락 인덱스만 읽기 시점에 복원한다. 이는 참조 packager의 predecessor 호환 정책이며 표준 half-open
+timestamp 구간과 다르다. 원본 H5는 수정하지 않는다. 전체 timestamp를 bounded block으로 검증하며
+NaN/Inf·비단조 timestamp·완전히 분리된 이미지/event 시간 범위는 복원 실패로 처리한다.
+정의와 근거는 [실험 프로토콜](docs/EXPERIMENT.md#eventhdr-이벤트-인덱스)에 있다.
+`inspect.event_indexing`은 파일별 저장·복원 이미지 수를, sample metadata의 `event_idx_source`는
+`stored`/`timestamp_predecessor_v1`을 기록한다. 기존 index identity에 `start_idx/end_idx`가 포함되므로
+선택된 경계도 checkpoint의 data protocol에 결합된다.
 timestamp·event boundary가 단조롭고 좌표·polarity가 유효한지 확인한다. `frame_stride=1`에서 모든
 target interval을 유지하며 event가 0개인 interval도 삭제하지 않는다. 빈 interval은 zero-node graph와
 zero raster를 거쳐 recurrent decoder로 전달된다. `frame_stride>1`이면 건너뛴 interval의 event를
@@ -3698,6 +3739,16 @@ Actions 필수 job 전체의 성공을 확인하며, CI 성공으로 로컬 실�
 ```bash
 python scripts/build_code_summary.py --check --require-clean-provenance
 ```
+
+2026-08-30 실파일 검증: 공식 train `38.h5`(388,073,496 bytes,
+SHA-256 `6bec6badc2ed41be079723e1fc6e081808684904b6dd83f5db179f2760ee7cf6`)의 1,129개 이미지 전부에
+`event_idx`가 없고 `timestamp`는 존재했다. 복원 인덱스 전체를 독립 NumPy 계산과 대조하고 1,129개
+sample을 전부 decode했으며 전후 원본 SHA-256이 같았다. 기존 `26.h5`의 저장 인덱스 500개도 같은
+복원 계산과 일치했고, 기존 인덱스를 유지한 전체 500개 sample decode가 통과했다. 이 검증은 두 파일의
+로더 검증이며 전체 70개 H5·EventAid-R·GPU 학습 완료를 뜻하지 않는다.
+이 인덱스 수정 후 로컬 Windows CPU 통합 pytest는 **598 passed, 27 skipped**로 종료했다.
+skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이며, 이 실행에서는 native
+access-violation 진단이 발생하지 않았다. 배포 판정은 수정 commit의 CI 결과로 별도 확인한다.
 
 주요 회귀 범위는 다음과 같다.
 
@@ -8292,6 +8343,8 @@ def _inspect_one_split(dataset: Any, samples: int, validate_all: bool = False) -
         result["files"] = len(dataset.files)
     if hasattr(dataset, "zero_event_intervals"):
         result["zero_event_intervals"] = int(dataset.zero_event_intervals)
+    if hasattr(dataset, "event_indexing"):
+        result["event_indexing"] = dataset.event_indexing
     if timestamp_records:
         def finite_values(key: str) -> list[float]:
             return [
@@ -9458,6 +9511,53 @@ from .common import (
 
 _EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
 _IMAGE_KEY_RE = re.compile(r"image(\d+)$")
+_TIMESTAMP_CHUNK_SIZE = 1_048_576
+
+
+def _recover_event_indices(
+    event_ts: h5py.Dataset, frame_timestamps: np.ndarray, path: Path
+) -> np.ndarray:
+    """Recover missing legacy indices without loading or rewriting the event stream.
+
+    Use the linked packager's predecessor convention with a global lower bound,
+    independent of its chunk-local clamping: max(searchsorted(left) - 1, 0).
+    These are NOT standard half-open timestamp boundaries. Existing attributes
+    remain authoritative and are never repaired.
+    """
+    event_count = len(event_ts)
+    if event_count == 0:
+        return np.zeros(len(frame_timestamps), dtype=np.int64)
+    insertion = np.full(len(frame_timestamps), event_count, dtype=np.int64)
+    pending = 0
+    previous_last = None
+    first_timestamp = None
+    for start in range(0, event_count, _TIMESTAMP_CHUNK_SIZE):
+        block = np.asarray(event_ts[start : start + _TIMESTAMP_CHUNK_SIZE])
+        if not np.all(np.isfinite(block)):
+            raise _invalid_file(path, "events/ts timestamps must be finite to recover event_idx")
+        if np.any(block[1:] < block[:-1]) or (
+            previous_last is not None and block[0] < previous_last
+        ):
+            raise _invalid_file(
+                path, "events/ts timestamps must be monotonically non-decreasing to recover event_idx"
+            )
+        if first_timestamp is None:
+            first_timestamp = block[0]
+        previous_last = block[-1]
+        # Resolve each query in the first block reaching its timestamp. This also
+        # chooses the first equal event when duplicate timestamps cross blocks.
+        reached = int(np.searchsorted(frame_timestamps, block[-1], side="right"))
+        if reached > pending:
+            insertion[pending:reached] = start + np.searchsorted(
+                block, frame_timestamps[pending:reached], side="left"
+            )
+            pending = reached
+        # Validate the remaining stream even after every frame is indexed.
+    if frame_timestamps[-1] < first_timestamp or frame_timestamps[0] > previous_last:
+        raise _invalid_file(
+            path, "image timestamps and events/ts have disjoint ranges; cannot recover event_idx"
+        )
+    return np.maximum(insertion - 1, 0)
 
 
 def _invalid_file(path: Path, detail: str) -> ValueError:
@@ -9559,6 +9659,7 @@ class EventHDRDataset(Dataset):
         self._handles: dict[Path, h5py.File] = {}
         self._owner_pid = os.getpid()
         self.zero_event_intervals = 0
+        self.event_indexing: dict[str, dict[str, str | int]] = {}
         discovered = sorted([*self.root.rglob("*.h5"), *self.root.rglob("*.hdf5")])
         if not discovered:
             raise FileNotFoundError(
@@ -9667,35 +9768,62 @@ class EventHDRDataset(Dataset):
                 if not numeric_image_keys:
                     raise _invalid_file(path, "group 'images' contains no image arrays")
                 image_keys = [numeric_image_keys[index] for index in sorted(numeric_image_keys)]
-                selected_start_idx = 0
-                selected_start_timestamp: float | None = None
-                selected_sequence_index = 0
-                previous_end_idx: int | None = None
+                frames: list[tuple[str, float, int | None]] = []
                 previous_timestamp: float | None = None
-                for frame_index, key in enumerate(image_keys):
+                for key in image_keys:
                     node = images_group[key]
                     if not isinstance(node, h5py.Dataset):
                         raise _invalid_file(path, f"images/{key} must be an image array")
-                    raw_end_idx = _numeric_scalar_attr(node, "event_idx", path)
-                    if not raw_end_idx.is_integer():
-                        raise _invalid_file(path, f"images/{key} event_idx must be an integer")
-                    end_idx = int(raw_end_idx)
                     timestamp = _numeric_scalar_attr(node, "timestamp", path)
-                    if not 0 <= end_idx <= event_count:
-                        raise _invalid_file(
-                            path,
-                            f"images/{key} event_idx={end_idx} is outside [0,{event_count}]",
-                        )
-                    if previous_end_idx is not None and end_idx < previous_end_idx:
-                        raise _invalid_file(
-                            path, "image event_idx values must be monotonically non-decreasing"
-                        )
                     if previous_timestamp is not None and timestamp < previous_timestamp:
                         raise _invalid_file(
                             path, "image timestamps must be monotonically non-decreasing"
                         )
-                    previous_end_idx = end_idx
                     previous_timestamp = timestamp
+                    end_idx = None
+                    if "event_idx" in node.attrs:
+                        raw_end_idx = _numeric_scalar_attr(node, "event_idx", path)
+                        if not raw_end_idx.is_integer():
+                            raise _invalid_file(path, f"images/{key} event_idx must be an integer")
+                        end_idx = int(raw_end_idx)
+                        if not 0 <= end_idx <= event_count:
+                            raise _invalid_file(
+                                path,
+                                f"images/{key} event_idx={end_idx} is outside [0,{event_count}]",
+                            )
+                    frames.append((key, timestamp, end_idx))
+                missing_count = sum(end is None for _, _, end in frames)
+                recovered = (
+                    _recover_event_indices(
+                        events_group["ts"],
+                        np.asarray([timestamp for _, timestamp, _ in frames], dtype=np.float64),
+                        path,
+                    )
+                    if missing_count
+                    else None
+                )
+                self.event_indexing[source_file] = {
+                    "policy": "stored_or_timestamp_predecessor_v1",
+                    "stored_images": len(frames) - missing_count,
+                    "derived_images": missing_count,
+                }
+                selected_start_idx = 0
+                selected_start_timestamp: float | None = None
+                selected_sequence_index = 0
+                previous_end_idx: int | None = None
+                for frame_index, (key, timestamp, stored_idx) in enumerate(frames):
+                    if stored_idx is None:
+                        assert recovered is not None
+                        end_idx = int(recovered[frame_index])
+                        index_source = "timestamp_predecessor_v1"
+                    else:
+                        end_idx = stored_idx
+                        index_source = "stored"
+                    if previous_end_idx is not None and end_idx < previous_end_idx:
+                        raise _invalid_file(
+                            path, "image event_idx values must be monotonically non-decreasing"
+                        )
+                    previous_end_idx = end_idx
                     if frame_index % self.frame_stride == 0:
                         is_zero_event_interval = end_idx == selected_start_idx
                         if is_zero_event_interval:
@@ -9708,6 +9836,7 @@ class EventHDRDataset(Dataset):
                                 "image_key": key,
                                 "start_idx": selected_start_idx,
                                 "end_idx": end_idx,
+                                "event_idx_source": index_source,
                                 "t0": selected_start_timestamp,
                                 "timestamp": timestamp,
                                 "sequence_index": selected_sequence_index,
@@ -9804,6 +9933,9 @@ class EventHDRDataset(Dataset):
                 "source_file": item["source_file"],
                 "scene": item["scene"],
                 "sequence_index": item["sequence_index"],
+                "event_idx_source": item["event_idx_source"],
+                "event_start_idx": start,
+                "event_end_idx": end,
                 "raw_event_count": raw_event_count,
                 "cropped_event_count": cropped_event_count,
                 "retained_event_count": retained_event_count,
@@ -19096,13 +19228,12 @@ def test_eventhdr_rejects_missing_or_misaligned_event_arrays(
         EventHDRDataset(path.parent)
 
 
-@pytest.mark.parametrize("attribute", ["event_idx", "timestamp"])
-def test_eventhdr_requires_image_boundary_attributes(tmp_path: Path, attribute: str) -> None:
+def test_eventhdr_requires_image_timestamp(tmp_path: Path) -> None:
     path = make_eventhdr(tmp_path / "hdr")
     with h5py.File(path, "a") as h5:
-        del h5["images/image000000000"].attrs[attribute]
+        del h5["images/image000000000"].attrs["timestamp"]
 
-    with pytest.raises(ValueError, match=rf"missing '{attribute}'"):
+    with pytest.raises(ValueError, match="missing 'timestamp'"):
         EventHDRDataset(path.parent)
 
 
@@ -20629,6 +20760,354 @@ def test_check_env_accepts_exact_official_eventhdr_names(tmp_path, monkeypatch) 
     )
 
     check_env.main()
+~~~~~~~~
+
+# tests/test_eventhdr_index.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import hashlib
+from pathlib import Path
+from typing import Any
+
+import h5py
+import numpy as np
+import pytest
+
+from asgcn_unet.cli import _inspect_one_split
+from asgcn_unet.data import EventHDRDataset, eventhdr
+from tests.fixtures import make_eventhdr
+
+_DERIVED = "timestamp_predecessor_v1"
+_POLICY = "stored_or_timestamp_predecessor_v1"
+
+
+def _make_index_file(
+    path: Path,
+    event_timestamps: list[float],
+    frame_timestamps: list[float],
+    stored_indices: list[int | float | None] | None = None,
+) -> Path:
+    """Write only the arrays and frame timestamps, without optional root metadata."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if stored_indices is None:
+        stored_indices = [None] * len(frame_timestamps)
+    assert len(stored_indices) == len(frame_timestamps)
+    with h5py.File(path, "w") as h5:
+        events = h5.create_group("events")
+        count = len(event_timestamps)
+        events.create_dataset("ts", data=np.asarray(event_timestamps, dtype=np.float64))
+        events.create_dataset("xs", data=np.arange(count, dtype=np.int16) % 8)
+        events.create_dataset("ys", data=np.zeros(count, dtype=np.int16))
+        events.create_dataset("ps", data=np.ones(count, dtype=np.uint8))
+        images = h5.create_group("images")
+        for index, (timestamp, event_idx) in enumerate(zip(frame_timestamps, stored_indices)):
+            node = images.create_dataset(
+                f"image{index:09d}", data=np.full((8, 8), index + 1, dtype=np.uint16)
+            )
+            node.attrs["timestamp"] = timestamp
+            if event_idx is not None:
+                node.attrs["event_idx"] = event_idx
+    return path
+
+
+def _assert_sample_boundaries(
+    dataset: EventHDRDataset, expected: list[int], sources: list[str]
+) -> None:
+    assert len(dataset) == len(expected) == len(sources)
+    for index, (end, source) in enumerate(zip(expected, sources)):
+        start = expected[index - 1] if index else 0
+        assert dataset.samples[index]["start_idx"] == start
+        assert dataset.samples[index]["end_idx"] == end
+        sample = dataset[index]
+        metadata = sample["metadata"]
+        assert metadata["event_start_idx"] == start
+        assert metadata["event_end_idx"] == end
+        assert metadata["event_idx_source"] == source
+        assert metadata["raw_event_count"] == end - start
+        assert metadata["zero_event_interval"] is (start == end)
+        assert len(sample["events"]) == end - start
+
+
+def test_missing_indices_use_predecessor_with_duplicates_across_chunk_boundaries(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(eventhdr, "_TIMESTAMP_CHUNK_SIZE", 3)
+    path = _make_index_file(
+        tmp_path / "hdr" / "test.h5",
+        [0, 1, 1, 1, 2, 2, 2, 3, 4, 4, 5, 6],
+        [1, 2, 3, 4, 5, 6],
+    )
+    with h5py.File(path, "r") as h5:
+        assert not dict(h5.attrs)
+        assert all("event_idx" not in node.attrs for node in h5["images"].values())
+    dataset = EventHDRDataset(path.parent, max_events=None)
+    try:
+        # The first event at each frame timestamp is excluded, as is its predecessor.
+        # Equal event timestamps must use their leftmost position, including at a chunk edge.
+        _assert_sample_boundaries(dataset, [0, 3, 6, 7, 9, 10], [_DERIVED] * 6)
+        assert dataset.zero_event_intervals == 1
+        assert dataset.event_indexing == {
+            "test.h5": {"policy": _POLICY, "stored_images": 0, "derived_images": 6}
+        }
+    finally:
+        dataset.close()
+
+
+def test_stored_indices_are_preserved_without_running_recovery(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    path = make_eventhdr(tmp_path / "hdr")
+
+    def unexpected_recovery(*args: Any, **kwargs: Any) -> None:
+        pytest.fail("Files with all event_idx attributes must not use timestamp recovery")
+
+    monkeypatch.setattr(eventhdr, "_recover_event_indices", unexpected_recovery)
+    dataset = EventHDRDataset(path.parent, max_events=None)
+    try:
+        # These stored values intentionally differ from the timestamp-predecessor policy.
+        _assert_sample_boundaries(dataset, [96, 192, 288, 384], ["stored"] * 4)
+        assert dataset.event_indexing == {
+            "test.h5": {"policy": _POLICY, "stored_images": 4, "derived_images": 0}
+        }
+    finally:
+        dataset.close()
+
+
+def test_partial_missing_indices_preserve_stored_values_and_report_provenance(
+    tmp_path: Path,
+) -> None:
+    path = _make_index_file(
+        tmp_path / "hdr" / "test.h5",
+        [0, 1, 2, 3, 4, 5, 6],
+        [1.5, 2.5, 3.5, 4.5],
+        [None, 3, None, 7],
+    )
+    dataset = EventHDRDataset(path.parent, max_events=None)
+    try:
+        _assert_sample_boundaries(dataset, [1, 3, 3, 7], [_DERIVED, "stored", _DERIVED, "stored"])
+        assert dataset.event_indexing == {
+            "test.h5": {"policy": _POLICY, "stored_images": 2, "derived_images": 2}
+        }
+    finally:
+        dataset.close()
+
+
+def test_inspection_reports_relative_file_provenance_for_all_images_with_stride(
+    tmp_path: Path,
+) -> None:
+    _make_index_file(
+        tmp_path / "one" / "test.h5",
+        [0, 1, 2, 3, 4, 5, 6],
+        [1.5, 2.5, 3.5, 4.5],
+        [None, 3, None, 7],
+    )
+    _make_index_file(
+        tmp_path / "two" / "test.h5", [0, 1, 2, 3, 4, 5, 6], [2.5, 4.5], [2, 4]
+    )
+    dataset = EventHDRDataset(tmp_path, max_events=None, frame_stride=2)
+    try:
+        report = _inspect_one_split(dataset, samples=0, validate_all=True)
+        assert len(dataset) == 3
+        assert report["event_indexing"] == {
+            "one/test.h5": {"policy": _POLICY, "stored_images": 2, "derived_images": 2},
+            "two/test.h5": {"policy": _POLICY, "stored_images": 2, "derived_images": 0},
+        }
+        assert report["event_indexing"] == dataset.event_indexing
+    finally:
+        dataset.close()
+
+
+def test_recovery_opens_read_only_and_leaves_source_bytes_unchanged(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    path = _make_index_file(tmp_path / "hdr" / "test.h5", [0, 1, 2, 3], [1, 2, 3])
+    before = hashlib.sha256(path.read_bytes()).digest()
+    original_open = h5py.File
+    modes: list[str] = []
+
+    def read_only_open(name: Any, mode: str = "r", *args: Any, **kwargs: Any) -> h5py.File:
+        assert mode == "r", "Index recovery must never open input HDF5 files for writing"
+        modes.append(mode)
+        return original_open(name, mode, *args, **kwargs)
+
+    monkeypatch.setattr(eventhdr.h5py, "File", read_only_open)
+    dataset = EventHDRDataset(path.parent, max_events=None)
+    try:
+        _assert_sample_boundaries(dataset, [0, 1, 2], [_DERIVED] * 3)
+    finally:
+        dataset.close()
+    assert modes
+    assert hashlib.sha256(path.read_bytes()).digest() == before
+    with original_open(path, "r") as h5:
+        assert not dict(h5.attrs)
+        assert all("event_idx" not in node.attrs for node in h5["images"].values())
+
+
+@pytest.mark.parametrize("frame_stride", [1, 2])
+def test_empty_event_arrays_recover_zero_indices_without_dropping_frames(
+    tmp_path: Path, frame_stride: int
+) -> None:
+    path = _make_index_file(tmp_path / "hdr" / "test.h5", [], [-10, 0, 1, 10])
+    dataset = EventHDRDataset(path.parent, max_events=None, frame_stride=frame_stride)
+    try:
+        selected = 4 if frame_stride == 1 else 2
+        _assert_sample_boundaries(dataset, [0] * selected, [_DERIVED] * selected)
+        assert dataset.zero_event_intervals == selected
+        assert [dataset[index]["metadata"]["timestamp"] for index in range(selected)] == (
+            [-10, 0, 1, 10] if frame_stride == 1 else [-10, 1]
+        )
+        assert dataset.event_indexing["test.h5"]["derived_images"] == 4
+    finally:
+        dataset.close()
+
+
+def test_outlying_frame_timestamps_are_clamped_when_ranges_overlap(tmp_path: Path) -> None:
+    path = _make_index_file(
+        tmp_path / "hdr" / "test.h5", [10, 20, 30, 40], [0, 10, 20, 30, 40, 50]
+    )
+    dataset = EventHDRDataset(path.parent, max_events=None)
+    try:
+        _assert_sample_boundaries(dataset, [0, 0, 0, 1, 2, 3], [_DERIVED] * 6)
+        assert dataset.zero_event_intervals == 3
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("frames", [[0, 1], [50, 60]])
+def test_recovery_rejects_completely_disjoint_timestamp_ranges(
+    tmp_path: Path, frames: list[float]
+) -> None:
+    path = _make_index_file(tmp_path / "hdr" / "test.h5", [10, 20, 30, 40], frames)
+    with pytest.raises(ValueError, match="disjoint|do not overlap|non-overlapping"):
+        EventHDRDataset(path.parent)
+
+
+def test_frame_stride_aggregates_recovered_intervals_and_keeps_zero_event_frames(
+    tmp_path: Path,
+) -> None:
+    path = _make_index_file(
+        tmp_path / "hdr" / "test.h5",
+        [0, 1, 2, 3, 4, 5, 6],
+        [0, 1, 1, 3, 4, 6, 7],
+    )
+    dataset = EventHDRDataset(path.parent, max_events=None, frame_stride=2)
+    try:
+        _assert_sample_boundaries(dataset, [0, 0, 3, 6], [_DERIVED] * 4)
+        assert dataset.zero_event_intervals == 2
+        assert [sample["sequence_index"] for sample in dataset.samples] == [0, 1, 2, 3]
+        assert [sample["timestamp"] for sample in dataset.samples] == [0, 1, 4, 7]
+        assert [sample["t0"] for sample in dataset.samples] == [None, 0, 1, 4]
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize(
+    ("position", "value", "message"),
+    [
+        (1, np.nan, "timestamps must be finite"),
+        (3, np.inf, "timestamps must be finite"),
+        (10, np.nan, "timestamps must be finite"),
+        (1, -1, "timestamps must be monotonically"),
+        (3, 1.5, "timestamps must be monotonically"),
+        (10, 8.5, "timestamps must be monotonically"),
+    ],
+)
+def test_recovery_validates_event_timestamps_within_chunks_across_chunks_and_in_tail(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    position: int,
+    value: float,
+    message: str,
+) -> None:
+    monkeypatch.setattr(eventhdr, "_TIMESTAMP_CHUNK_SIZE", 3)
+    timestamps = [float(index) for index in range(11)]
+    timestamps[position] = value
+    path = _make_index_file(tmp_path / "hdr" / "test.h5", timestamps, [1, 2])
+    with pytest.raises(ValueError, match=message):
+        EventHDRDataset(path.parent)
+
+
+def test_recovery_reads_timestamp_array_in_bounded_chunks_through_the_tail(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(eventhdr, "_TIMESTAMP_CHUNK_SIZE", 3)
+    path = _make_index_file(
+        tmp_path / "hdr" / "test.h5", [float(index) for index in range(11)], [1, 2]
+    )
+    original_getitem = h5py.Dataset.__getitem__
+    covered: set[int] = set()
+
+    def bounded_getitem(node: h5py.Dataset, key: Any, *args: Any, **kwargs: Any) -> Any:
+        if node.name == "/events/ts":
+            if isinstance(key, tuple):
+                assert len(key) == 1
+                key = key[0]
+            if isinstance(key, slice):
+                positions = range(*key.indices(len(node)))
+                assert len(positions) <= 3, "Recovery must not materialize the full event array"
+                covered.update(positions)
+            else:
+                assert isinstance(key, (int, np.integer))
+                covered.add(int(key) % len(node))
+        return original_getitem(node, key, *args, **kwargs)
+
+    monkeypatch.setattr(h5py.Dataset, "__getitem__", bounded_getitem)
+    dataset = EventHDRDataset(path.parent, max_events=None)
+    try:
+        assert [sample["end_idx"] for sample in dataset.samples] == [0, 1]
+        assert covered == set(range(11))
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize(
+    ("value", "message"),
+    [
+        (-1, "outside"),
+        (99, "outside"),
+        (1.5, "must be an integer"),
+        (np.nan, "must be finite"),
+    ],
+)
+def test_invalid_stored_index_is_rejected_instead_of_replaced(
+    tmp_path: Path, value: float, message: str
+) -> None:
+    path = _make_index_file(
+        tmp_path / "hdr" / "test.h5", [0, 1, 2, 3, 4], [1, 2, 3], [None, value, None]
+    )
+    with pytest.raises(ValueError, match=message):
+        EventHDRDataset(path.parent)
+
+
+def test_combined_stored_and_recovered_indices_must_remain_monotonic(tmp_path: Path) -> None:
+    path = _make_index_file(
+        tmp_path / "hdr" / "test.h5", [0, 1, 2, 3, 4], [1, 2, 3], [3, None, None]
+    )
+    with pytest.raises(ValueError, match="event_idx values must be monotonically"):
+        EventHDRDataset(path.parent)
+
+
+@pytest.mark.parametrize("frame_timestamp", [np.nan, np.inf, -1.0])
+def test_recovery_does_not_bypass_frame_timestamp_validation(
+    tmp_path: Path, frame_timestamp: float
+) -> None:
+    path = _make_index_file(tmp_path / "hdr" / "test.h5", [0, 1, 2, 3], [1, frame_timestamp])
+    message = "must be finite" if not np.isfinite(frame_timestamp) else "monotonically"
+    with pytest.raises(ValueError, match=message):
+        EventHDRDataset(path.parent)
+
+
+def test_missing_frame_timestamp_cannot_be_recovered_from_root_metadata(tmp_path: Path) -> None:
+    path = _make_index_file(tmp_path / "hdr" / "test.h5", [0, 1, 2, 3], [1, 2, 3])
+    with h5py.File(path, "a") as h5:
+        del h5["images/image000000001"].attrs["timestamp"]
+        h5.attrs["t0"] = 0.0
+        h5.attrs["tn"] = 3.0
+        h5.attrs["num_imgs"] = 3
+    with pytest.raises(ValueError, match="missing 'timestamp'"):
+        EventHDRDataset(path.parent)
 ~~~~~~~~
 
 # tests/test_get_hdr.py

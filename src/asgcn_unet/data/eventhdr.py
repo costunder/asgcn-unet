@@ -23,6 +23,53 @@ from .common import (
 
 _EVENT_ARRAY_NAMES = ("xs", "ys", "ts", "ps")
 _IMAGE_KEY_RE = re.compile(r"image(\d+)$")
+_TIMESTAMP_CHUNK_SIZE = 1_048_576
+
+
+def _recover_event_indices(
+    event_ts: h5py.Dataset, frame_timestamps: np.ndarray, path: Path
+) -> np.ndarray:
+    """Recover missing legacy indices without loading or rewriting the event stream.
+
+    Use the linked packager's predecessor convention with a global lower bound,
+    independent of its chunk-local clamping: max(searchsorted(left) - 1, 0).
+    These are NOT standard half-open timestamp boundaries. Existing attributes
+    remain authoritative and are never repaired.
+    """
+    event_count = len(event_ts)
+    if event_count == 0:
+        return np.zeros(len(frame_timestamps), dtype=np.int64)
+    insertion = np.full(len(frame_timestamps), event_count, dtype=np.int64)
+    pending = 0
+    previous_last = None
+    first_timestamp = None
+    for start in range(0, event_count, _TIMESTAMP_CHUNK_SIZE):
+        block = np.asarray(event_ts[start : start + _TIMESTAMP_CHUNK_SIZE])
+        if not np.all(np.isfinite(block)):
+            raise _invalid_file(path, "events/ts timestamps must be finite to recover event_idx")
+        if np.any(block[1:] < block[:-1]) or (
+            previous_last is not None and block[0] < previous_last
+        ):
+            raise _invalid_file(
+                path, "events/ts timestamps must be monotonically non-decreasing to recover event_idx"
+            )
+        if first_timestamp is None:
+            first_timestamp = block[0]
+        previous_last = block[-1]
+        # Resolve each query in the first block reaching its timestamp. This also
+        # chooses the first equal event when duplicate timestamps cross blocks.
+        reached = int(np.searchsorted(frame_timestamps, block[-1], side="right"))
+        if reached > pending:
+            insertion[pending:reached] = start + np.searchsorted(
+                block, frame_timestamps[pending:reached], side="left"
+            )
+            pending = reached
+        # Validate the remaining stream even after every frame is indexed.
+    if frame_timestamps[-1] < first_timestamp or frame_timestamps[0] > previous_last:
+        raise _invalid_file(
+            path, "image timestamps and events/ts have disjoint ranges; cannot recover event_idx"
+        )
+    return np.maximum(insertion - 1, 0)
 
 
 def _invalid_file(path: Path, detail: str) -> ValueError:
@@ -124,6 +171,7 @@ class EventHDRDataset(Dataset):
         self._handles: dict[Path, h5py.File] = {}
         self._owner_pid = os.getpid()
         self.zero_event_intervals = 0
+        self.event_indexing: dict[str, dict[str, str | int]] = {}
         discovered = sorted([*self.root.rglob("*.h5"), *self.root.rglob("*.hdf5")])
         if not discovered:
             raise FileNotFoundError(
@@ -232,35 +280,62 @@ class EventHDRDataset(Dataset):
                 if not numeric_image_keys:
                     raise _invalid_file(path, "group 'images' contains no image arrays")
                 image_keys = [numeric_image_keys[index] for index in sorted(numeric_image_keys)]
-                selected_start_idx = 0
-                selected_start_timestamp: float | None = None
-                selected_sequence_index = 0
-                previous_end_idx: int | None = None
+                frames: list[tuple[str, float, int | None]] = []
                 previous_timestamp: float | None = None
-                for frame_index, key in enumerate(image_keys):
+                for key in image_keys:
                     node = images_group[key]
                     if not isinstance(node, h5py.Dataset):
                         raise _invalid_file(path, f"images/{key} must be an image array")
-                    raw_end_idx = _numeric_scalar_attr(node, "event_idx", path)
-                    if not raw_end_idx.is_integer():
-                        raise _invalid_file(path, f"images/{key} event_idx must be an integer")
-                    end_idx = int(raw_end_idx)
                     timestamp = _numeric_scalar_attr(node, "timestamp", path)
-                    if not 0 <= end_idx <= event_count:
-                        raise _invalid_file(
-                            path,
-                            f"images/{key} event_idx={end_idx} is outside [0,{event_count}]",
-                        )
-                    if previous_end_idx is not None and end_idx < previous_end_idx:
-                        raise _invalid_file(
-                            path, "image event_idx values must be monotonically non-decreasing"
-                        )
                     if previous_timestamp is not None and timestamp < previous_timestamp:
                         raise _invalid_file(
                             path, "image timestamps must be monotonically non-decreasing"
                         )
-                    previous_end_idx = end_idx
                     previous_timestamp = timestamp
+                    end_idx = None
+                    if "event_idx" in node.attrs:
+                        raw_end_idx = _numeric_scalar_attr(node, "event_idx", path)
+                        if not raw_end_idx.is_integer():
+                            raise _invalid_file(path, f"images/{key} event_idx must be an integer")
+                        end_idx = int(raw_end_idx)
+                        if not 0 <= end_idx <= event_count:
+                            raise _invalid_file(
+                                path,
+                                f"images/{key} event_idx={end_idx} is outside [0,{event_count}]",
+                            )
+                    frames.append((key, timestamp, end_idx))
+                missing_count = sum(end is None for _, _, end in frames)
+                recovered = (
+                    _recover_event_indices(
+                        events_group["ts"],
+                        np.asarray([timestamp for _, timestamp, _ in frames], dtype=np.float64),
+                        path,
+                    )
+                    if missing_count
+                    else None
+                )
+                self.event_indexing[source_file] = {
+                    "policy": "stored_or_timestamp_predecessor_v1",
+                    "stored_images": len(frames) - missing_count,
+                    "derived_images": missing_count,
+                }
+                selected_start_idx = 0
+                selected_start_timestamp: float | None = None
+                selected_sequence_index = 0
+                previous_end_idx: int | None = None
+                for frame_index, (key, timestamp, stored_idx) in enumerate(frames):
+                    if stored_idx is None:
+                        assert recovered is not None
+                        end_idx = int(recovered[frame_index])
+                        index_source = "timestamp_predecessor_v1"
+                    else:
+                        end_idx = stored_idx
+                        index_source = "stored"
+                    if previous_end_idx is not None and end_idx < previous_end_idx:
+                        raise _invalid_file(
+                            path, "image event_idx values must be monotonically non-decreasing"
+                        )
+                    previous_end_idx = end_idx
                     if frame_index % self.frame_stride == 0:
                         is_zero_event_interval = end_idx == selected_start_idx
                         if is_zero_event_interval:
@@ -273,6 +348,7 @@ class EventHDRDataset(Dataset):
                                 "image_key": key,
                                 "start_idx": selected_start_idx,
                                 "end_idx": end_idx,
+                                "event_idx_source": index_source,
                                 "t0": selected_start_timestamp,
                                 "timestamp": timestamp,
                                 "sequence_index": selected_sequence_index,
@@ -369,6 +445,9 @@ class EventHDRDataset(Dataset):
                 "source_file": item["source_file"],
                 "scene": item["scene"],
                 "sequence_index": item["sequence_index"],
+                "event_idx_source": item["event_idx_source"],
+                "event_start_idx": start,
+                "event_end_idx": end,
                 "raw_event_count": raw_event_count,
                 "cropped_event_count": cropped_event_count,
                 "retained_event_count": retained_event_count,

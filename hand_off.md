@@ -174,7 +174,15 @@ decode하는 방식이다.
 
 ### 3.3 loader 의미론
 
-EventHDR loader는 H5의 `events/{xs,ys,ts,ps}`와 `images/image*`의 `event_idx`, `timestamp`를 검사한다.
+EventHDR loader는 H5의 `events/{xs,ys,ts,ps}`와 이미지 `timestamp`를 검사한다. `event_idx`가 있으면
+유효성을 검사하고 그대로 사용한다. 없으면 `max(searchsorted(events/ts, timestamp, side="left") - 1, 0)`으로
+누락 인덱스만 읽기 시점에 복원한다. 이는 참조 packager의 predecessor 호환 정책이며 표준 half-open
+timestamp 구간과 다르다. 원본 H5는 수정하지 않는다. 전체 timestamp를 bounded block으로 검증하며
+NaN/Inf·비단조 timestamp·완전히 분리된 이미지/event 시간 범위는 복원 실패로 처리한다.
+정의와 근거는 [실험 프로토콜](docs/EXPERIMENT.md#eventhdr-이벤트-인덱스)에 있다.
+`inspect.event_indexing`은 파일별 저장·복원 이미지 수를, sample metadata의 `event_idx_source`는
+`stored`/`timestamp_predecessor_v1`을 기록한다. 기존 index identity에 `start_idx/end_idx`가 포함되므로
+선택된 경계도 checkpoint의 data protocol에 결합된다.
 timestamp·event boundary가 단조롭고 좌표·polarity가 유효한지 확인한다. `frame_stride=1`에서 모든
 target interval을 유지하며 event가 0개인 interval도 삭제하지 않는다. 빈 interval은 zero-node graph와
 zero raster를 거쳐 recurrent decoder로 전달된다. `frame_stride>1`이면 건너뛴 interval의 event를
@@ -770,6 +778,16 @@ Actions 필수 job 전체의 성공을 확인하며, CI 성공으로 로컬 실�
 ```bash
 python scripts/build_code_summary.py --check --require-clean-provenance
 ```
+
+2026-08-30 실파일 검증: 공식 train `38.h5`(388,073,496 bytes,
+SHA-256 `6bec6badc2ed41be079723e1fc6e081808684904b6dd83f5db179f2760ee7cf6`)의 1,129개 이미지 전부에
+`event_idx`가 없고 `timestamp`는 존재했다. 복원 인덱스 전체를 독립 NumPy 계산과 대조하고 1,129개
+sample을 전부 decode했으며 전후 원본 SHA-256이 같았다. 기존 `26.h5`의 저장 인덱스 500개도 같은
+복원 계산과 일치했고, 기존 인덱스를 유지한 전체 500개 sample decode가 통과했다. 이 검증은 두 파일의
+로더 검증이며 전체 70개 H5·EventAid-R·GPU 학습 완료를 뜻하지 않는다.
+이 인덱스 수정 후 로컬 Windows CPU 통합 pytest는 **598 passed, 27 skipped**로 종료했다.
+skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이며, 이 실행에서는 native
+access-violation 진단이 발생하지 않았다. 배포 판정은 수정 commit의 CI 결과로 별도 확인한다.
 
 주요 회귀 범위는 다음과 같다.
 

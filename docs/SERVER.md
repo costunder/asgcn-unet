@@ -486,6 +486,11 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - `EventHDR ... exact official file set`: 직접 다운로드 또는 선택한 import가 끝났는지,
   train 51/eval 19 외 H5가 섞이지 않았는지 `get_hdr.sh --check`로 확인한다.
 - `eventaid_r_zip must contain exactly 14`: `get_aid.sh --all`을 완료하고 ZIP을 압축 해제하지 않는다.
+- `images/image... is missing 'event_idx'`: 일부 공식 H5는 해당 속성이 없다. 현재 로더는 이미지
+  timestamp에서 누락된 인덱스를 읽기 전용으로 복원한다. 기존 데이터는 삭제하거나 다시 받지 않는다.
+  이전 버전을 실행했다면 코드를 갱신하고 선택한 Conda 환경에서 `bash scripts/run.sh check`로
+  전체 decode를 다시 확인한다. 복원 정책과 검증 범위는 [실험 프로토콜](EXPERIMENT.md#eventhdr-이벤트-인덱스)을
+  참고한다. `timestamp` 누락·비단조 event 시각·유효하지 않은 저장 인덱스는 우회하지 않는다.
 - `Fresh training run_dir is not empty`: 새 run이면 별도 `output.run_dir`, 중단 run이면 `last.pt` resume를
   사용한다.
 - `passed CUDA preflight report not found` 또는 preflight mismatch: 같은 GPU allocation과 source/data로

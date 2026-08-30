@@ -157,7 +157,10 @@ frame별 percentile 보정은 `percentile_debug_only`와 `debug_only=true`를 �
 진단에서만 열린다. EventAid-R은 event block `i`를 다음 GT `i+1`과 짝짓는 `target_offset: 1`을
 사용한다. offset은 bool·실수가 아닌 정확한 정수만 받는다. 이는 이 저장소의 정렬 가정이지 ASGCN 논문
 값은 아니다. EventHDR `images/image<index>`는 numeric suffix가 유일해야 하며 문자열순이 아닌 숫자순으로
-읽는다. EventAid-R full inspect는 event text의 원 timestamp min/max와 `timestamps.txt` interval의 span
+읽는다. 저장된 `event_idx`가 없는 공식 H5는 timestamp에서 참조 packager의 predecessor 규칙으로
+경계를 복원하고 그 출처를 기록하며, 원본 파일은 변경하지 않는다.
+[EventHDR 인덱스 정책](docs/EXPERIMENT.md#eventhdr-이벤트-인덱스)을 참고한다.
+EventAid-R full inspect는 event text의 원 timestamp min/max와 `timestamps.txt` interval의 span
 ratio·offset·범위 이탈 수를 기록하되, 공식 14 ZIP의 단위가 실측으로 확인되기 전에는 이를 임의로 hard
 fail 조건으로 만들지 않는다.
 

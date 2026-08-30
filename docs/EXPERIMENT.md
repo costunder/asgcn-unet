@@ -33,6 +33,26 @@ EventHDR eval 전체를 평가한다. 따라서 현재 `best.pt`는 여러 epoch
 않는다. EventAid-R 결과를 본 뒤 설정·보정·threshold를 바꾸면 그 결과 역시 외부시험으로 해석할 수
 없다.
 
+### EventHDR 이벤트 인덱스
+
+이미지의 유효한 `event_idx`는 그대로 사용한다. 공식 train `38.h5`처럼 이 속성이 없는 파일은
+이미지 `timestamp`와 정렬된 `events/ts`로 누락 인덱스만 복원한다. 복원 규칙은
+`max(searchsorted(events/ts, timestamp, side="left") - 1, 0)`이다. 이는 EventHDR가 연결한
+[참조 HDF5 packager](https://github.com/TimoStoff/events_contrast_maximization/blob/ab74aba1ab3481689628ce374f8dcc92b5383b00/tools/event_packagers.py#L74-L90)의
+predecessor 규칙을 따르는 호환 정책이며, 표준 `[이전 timestamp, 현재 timestamp)` 경계와는 다르다.
+전역 lower bound를 사용하므로 upstream의 buffer 시작점 clamp 동작까지 복제하는 것은 아니다.
+기존 인덱스를 일괄 재계산하거나 원본 H5를 변경하지 않는다.
+
+복원 시 전체 event timestamp를 1,048,576개 이하의 block으로 읽어 유한값과 block 간 단조성까지
+검사한다. 이미지 timestamp가 없거나 유효하지 않은 저장 인덱스가 있으면 실패하며, 비어 있지 않은
+event stream과 이미지의 시간 범위가 완전히 분리된 경우에도 복원하지 않는다. 빈 event stream은
+0 경계를 사용한다. timestamp 단위나 기준시각을 추측해 변환하지 않는다.
+
+`inspect`의 `event_indexing`에 파일별 저장·복원 이미지 수를, sample metadata의 `event_idx_source`에
+`stored` 또는 `timestamp_predecessor_v1`을 기록한다. 선택된 `start_idx/end_idx`는 기존 dataset index
+identity hash에도 반영된다. 로더가 변경되었으므로 이전 코드에서 생성한 profile/checkpoint와 exact
+resume을 강제하지 않고 현재 source·data로 사전검증한다.
+
 ## 2. 고정 전처리
 
 두 dataset의 target은 config에 명시한 다음 고정 계약으로 `[0,1]` luminance domain에 놓는다.

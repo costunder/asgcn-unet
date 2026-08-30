@@ -96,6 +96,8 @@ def _inspect_one_split(dataset: Any, samples: int, validate_all: bool = False) -
         result["files"] = len(dataset.files)
     if hasattr(dataset, "zero_event_intervals"):
         result["zero_event_intervals"] = int(dataset.zero_event_intervals)
+    if hasattr(dataset, "event_indexing"):
+        result["event_indexing"] = dataset.event_indexing
     if timestamp_records:
         def finite_values(key: str) -> list[float]:
             return [

@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Import the complete official EventHDR release without pretending to download it.
-
-The public OneDrive folder currently rejects unattended curl requests.  This
-tool therefore accepts either a browser-downloaded ZIP, an extracted source
-directory, or a shared-storage directory and verifies the official file set
-before making it visible under ``data/EventHDR``.
-"""
+"""Download the official EventHDR release directly, or import existing data."""
 
 from __future__ import annotations
 
@@ -70,9 +64,7 @@ def _h5_files(directory: Path) -> dict[str, Path]:
     nested = [
         path
         for path in directory.rglob("*")
-        if path.parent != directory
-        and path.is_file()
-        and path.suffix.lower() in {".h5", ".hdf5"}
+        if path.parent != directory and path.is_file() and path.suffix.lower() in {".h5", ".hdf5"}
     ]
     if nested:
         raise ImportError(
@@ -110,8 +102,7 @@ def _validate_combined_size(files_by_split: dict[str, dict[str, Path]], source: 
     if total_bytes >= MAX_DATASET_BYTES:
         raise ImportError(
             f"EventHDR source is {total_bytes} bytes; the complete accepted dataset must be "
-            "smaller than 100 GB: "
-            + source
+            "smaller than 100 GB: " + source
         )
 
 
@@ -183,8 +174,7 @@ def _prepare_copy_destination(destination: Path, splits: tuple[str, ...]) -> Non
         extras = _destination_extras(split_dir, split)
         if extras:
             raise ImportError(
-                f"Destination {split_dir} contains unexpected HDF5 files: "
-                + _format_names(extras)
+                f"Destination {split_dir} contains unexpected HDF5 files: " + _format_names(extras)
             )
 
 
@@ -218,9 +208,7 @@ def _copy_one(source: Path, target: Path) -> str:
 
 def copy_source(source_dirs: dict[str, Path], destination: Path) -> dict[str, int]:
     splits = tuple(source_dirs)
-    source_files = {
-        split: validate_split_dir(source_dirs[split], split) for split in splits
-    }
+    source_files = {split: validate_split_dir(source_dirs[split], split) for split in splits}
     _prepare_copy_destination(destination, splits)
     counts = {"copied": 0, "kept": 0}
     for split in splits:
@@ -257,9 +245,7 @@ def locate_archive_members(
         elif len(parts) >= 2 and parts[-2].lower() in split_set:
             owner = parts[-2].lower()
         if owner is None:
-            raise ImportError(
-                f"Cannot assign archive HDF5 member to train/eval: {info.filename}"
-            )
+            raise ImportError(f"Cannot assign archive HDF5 member to train/eval: {info.filename}")
         if name in selected[owner]:
             raise ImportError(
                 f"Archive contains duplicate EventHDR {owner} filename {name}: "
@@ -289,9 +275,7 @@ def locate_archive_members(
     return selected
 
 
-def _copy_archive_member(
-    archive: zipfile.ZipFile, info: zipfile.ZipInfo, target: Path
-) -> str:
+def _copy_archive_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, target: Path) -> str:
     if target.exists():
         if target.stat().st_size != info.file_size:
             raise ImportError(
@@ -322,9 +306,7 @@ def _copy_archive_member(
             temporary.unlink(missing_ok=True)
 
 
-def copy_archive(
-    archive_path: Path, destination: Path, splits: tuple[str, ...]
-) -> dict[str, int]:
+def copy_archive(archive_path: Path, destination: Path, splits: tuple[str, ...]) -> dict[str, int]:
     archive_path = archive_path.expanduser().resolve()
     if not archive_path.is_file():
         raise ImportError(f"Archive does not exist: {archive_path}")
@@ -373,20 +355,21 @@ def link_source(source_dirs: dict[str, Path], destination: Path) -> dict[str, in
 
 
 def check_destination(destination: Path, splits: tuple[str, ...]) -> None:
-    files_by_split = {
-        split: validate_split_dir(destination / split, split) for split in splits
-    }
+    files_by_split = {split: validate_split_dir(destination / split, split) for split in splits}
     _validate_combined_size(files_by_split, str(destination))
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
-            "Import/check the complete official EventHDR train (1-51) and eval (1-19) "
-            "HDF5 release. This tool does not claim to bypass OneDrive's browser download."
+            "Download/import/check the complete official EventHDR train (1-51) and "
+            "eval (1-19) HDF5 release. --download needs no browser or user login."
         )
     )
     mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument(
+        "--download", action="store_true", help="download directly from the official public share"
+    )
     mode.add_argument("--source", type=Path, help="extracted EventHDR/train/eval source")
     mode.add_argument("--archive", type=Path, help="browser-downloaded ZIP archive")
     mode.add_argument("--check", action="store_true", help="check files already in destination")
@@ -411,9 +394,46 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    destination = args.destination.expanduser().resolve()
+    destination = (
+        Path(os.path.abspath(args.destination.expanduser()))
+        if args.download
+        else args.destination.expanduser().resolve()
+    )
     splits = (args.split,) if args.split else tuple(EXPECTED)
     try:
+        if args.download:
+            if args.link:
+                raise ImportError("--link requires --source")
+            if __package__:
+                from . import hdr_http
+            else:
+                try:
+                    import hdr_http
+                except ModuleNotFoundError as error:
+                    if error.name != "hdr_http":
+                        raise
+                    from scripts import hdr_http
+            try:
+                counts = hdr_http.download_dataset(
+                    destination, {split: EXPECTED[split] for split in splits}
+                )
+                check_destination(destination, splits)
+            except ImportError:
+                raise ImportError(
+                    "EventHDR failed final file-set validation; no incomplete data accepted"
+                ) from None
+            except (hdr_http.DownloadError, OSError) as error:
+                detail = (
+                    str(error)
+                    if isinstance(error, hdr_http.DownloadError)
+                    else type(error).__name__
+                )
+                raise ImportError(detail) from None
+            print(
+                "EventHDR download passed: "
+                + ", ".join(f"{key}={value}" for key, value in counts.items())
+            )
+            return 0
         if args.link and args.source is None:
             raise ImportError("--link requires --source")
         if args.check:

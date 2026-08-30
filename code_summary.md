@@ -4,12 +4,12 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T05:50:04Z",
+    "generated_utc": "2026-08-30T05:50:25Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "0e1e5605481832d69e7dfb075c8530ed8b44a263",
-    "source_tree_at_generation": "9cdb23cc3f4c1d6269d406e6bb025914290d772f",
+    "source_commit_at_generation": null,
+    "source_tree_at_generation": null,
     "timestamp_source": "source_commit_time",
-    "tracked_tree_dirty_at_generation": false
+    "tracked_tree_dirty_at_generation": true
   },
   "snapshot": {
     "canonicalization": "UTF-8 text with LF newlines",
@@ -46,9 +46,9 @@
         "sha256": "84a999d703d3cddb94c4909ce8f14815ec9b7f624b33600bade93e5fc6dfa1c2"
       },
       {
-        "bytes": 28672,
+        "bytes": 29213,
         "path": "README.md",
-        "sha256": "f739a5b3f2b1fcbc37fb8e6566c25e1f0c746fec038f10591a2a7f88076ce481"
+        "sha256": "377dceb104a4b384524f3fbe681451bfd76d8208e0176f2c7d8997ffd3a94752"
       },
       {
         "bytes": 1339,
@@ -81,14 +81,14 @@
         "sha256": "5253e4043315ae27b4f0a5ae66c0260a79961b58d7ad09ecfec032759595d1bd"
       },
       {
-        "bytes": 26171,
+        "bytes": 28074,
         "path": "docs/SERVER.md",
-        "sha256": "3725f0f13319ec899ab4c9562997b9bbc284df3cd64ff5be60d397f936eaa375"
+        "sha256": "87fbd10347c8aa9ef93fe36d4ba14721c20777cae3d947fdf146501ab87dc9c9"
       },
       {
-        "bytes": 53981,
+        "bytes": 56022,
         "path": "hand_off.md",
-        "sha256": "888e380100dd53a57a2355066805771e1967038cca664013278e5cf9e7d084c0"
+        "sha256": "0bcfd552e42fcabad02a9565b197038434c3896b0abd47acc01affdc08175b5e"
       },
       {
         "bytes": 2753,
@@ -131,14 +131,19 @@
         "sha256": "0e05cd4565fcf81bc83a529b74a6a43dc1ab013a635231adfa13eb6ec88243c6"
       },
       {
-        "bytes": 16680,
+        "bytes": 17826,
         "path": "scripts/get_hdr.py",
-        "sha256": "ca582ad69ced3efcc80ce808d45874ec931cdc190491f6e1715d0acfca535a8a"
+        "sha256": "b1043a7fd2d3d8026a57c4a0f27512b3911cd021535284ad698cdfb27aeed67f"
       },
       {
         "bytes": 399,
         "path": "scripts/get_hdr.sh",
         "sha256": "38aeb6e94ff5f717b850a59c2507ac719319e1361acfbfac9a4b59f3388b23d9"
+      },
+      {
+        "bytes": 20459,
+        "path": "scripts/hdr_http.py",
+        "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
         "bytes": 11460,
@@ -151,9 +156,9 @@
         "sha256": "505f78a421d0d2e97dd4756c1eeacfb0cd183c11b4e1bdb8259f27b7b5e09e92"
       },
       {
-        "bytes": 6697,
+        "bytes": 6676,
         "path": "scripts/setup.sh",
-        "sha256": "52dc94c3e7350e3eb6faa9c8bec8e8cec57446f4106e5384ffc71452d48a6540"
+        "sha256": "a50e1d7f372ade366a0d55bb0e7a31f1afc3db290f9083b38408904a3b49ab14"
       },
       {
         "bytes": 3680,
@@ -331,6 +336,11 @@
         "sha256": "3ef547d03a2b412fbe8eba1d5e909801c33d75c4ff2d2e3dee3f972247daaf4d"
       },
       {
+        "bytes": 30789,
+        "path": "tests/test_hdr_http.py",
+        "sha256": "d523eff536603c100cd206fd5f3d3f97ddb21681f6740851ffc9a5999f890511"
+      },
+      {
         "bytes": 2070,
         "path": "tests/test_inspect_all.py",
         "sha256": "4f2bde00e6fc80e3e898611e8b6d9319efe63eb83ac204a915b672bec0dbe4a7"
@@ -361,9 +371,9 @@
         "sha256": "762f8400d30522de18833de6c331636d4a238e45c7a29f0fa0abb685c3a6acd5"
       },
       {
-        "bytes": 11813,
+        "bytes": 11942,
         "path": "tests/test_server_orchestration.py",
-        "sha256": "262e0f9c363e436a1ceb0a164a290ce1ea495748ba37f760dd75893239906549"
+        "sha256": "7f830c797554996c499ff71e1692b458a129c076520d5d35091048d18711df77"
       },
       {
         "bytes": 1176,
@@ -376,9 +386,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 72,
+    "included_file_count": 74,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "031e601c666518aa0f225d0bc4f0cfda6aef56fdc680222ad772e9fe2b90aeaa"
+    "snapshot_sha256": "cac15a4923f0d77f3d614ba27aa60b7b63eef80666a9c8aa7b291fdac0474f2c"
   }
 }
 -->
@@ -730,26 +740,27 @@ Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서�
 
 ### 3. 두 데이터셋 준비
 
-EventAid-R 전체 14개 ZIP은 자동 다운로드한다. 중단되면 같은 명령으로 이어받는다.
+두 데이터셋 모두 **접속한 Linux 서버에서 직접 다운로드**한다. PC로 먼저 받거나 SFTP로 올릴 필요는
+없다. EventAid-R은 전체 14개 ZIP, EventHDR은 train 51개와 eval 19개의 H5를 받는다.
 
 ```bash
-bash scripts/get_aid.sh --all
-mkdir -p data/_archives
-```
-
-EventHDR은 [공식 OneDrive 폴더](https://1drv.ms/f/s!AuA3qjJbfh9FjQa4GvHC_9Fn9UQm?e=jODI9N)에서
-**train과 eval 폴더를 각각 ZIP으로 다운로드**한다. MobaXterm 왼쪽 SFTP에서 이 저장소의
-`data/_archives/`로 올린다. 서버 파일명을 `train.zip`, `eval.zip`으로 맞춘 뒤 실행한다.
-
-```bash
-bash scripts/get_hdr.sh --archive data/_archives/train.zip --split train &&
-bash scripts/get_hdr.sh --archive data/_archives/eval.zip --split eval &&
+bash scripts/get_aid.sh --all &&
+bash scripts/get_hdr.sh --download &&
 python scripts/check_env.py --require-full-data --lock constraints/py312.txt
 ```
 
-EventHDR의 브라우저 다운로드·업로드는 수동 단계다. 이미 받은 H5 폴더나 통합 ZIP이 있다면
-[다른 가져오기 방법](docs/SERVER.md#2-전체-데이터-배치)을 사용한다.
-최종 데이터는 약 50.4GB지만 ZIP 원본·가상환경·학습 결과 공간은 별도로 필요하다.
+중단되면 같은 다운로드 명령을 다시 실행한다. EventHDR은 Python 표준 라이브러리 HTTP로
+[공식 OneDrive 폴더](https://1drv.ms/f/s!AuA3qjJbfh9FjQa4GvHC_9Fn9UQm?e=jODI9N)에 익명 접근하며,
+사용자 로그인·브라우저·쿠키 없이 `data/EventHDR/{train,eval}`에 저장한다. `.part` 이어받기,
+재시도·만료 링크 갱신과 정확한 파일 집합·크기·SHA-256·HDF5 signature 검사를 수행한다.
+
+이 경로는 2026-08-30 확인한 **문서화되지 않은 OneDrive 익명 호환 endpoint**를 사용하므로
+Microsoft의 안정적 API 계약을 보장하지 않는다. 실접속 검증 범위는 70개 파일 metadata와 train/eval
+각 H5의 첫 8-byte signature, 새 익명 token의 공유 접근 갱신이다. 전체 약 25.72GB 다운로드나 GPU
+학습을 완료했다는 뜻은 아니다.
+split별 다운로드와 이미 가진 ZIP/H5/shared storage의 선택적 가져오기는
+[서버 데이터 안내](docs/SERVER.md#2-전체-데이터-배치)를 따른다.
+최종 데이터는 약 50.4GB이며 가상환경·학습 결과, 선택적으로 보관하는 ZIP 원본 공간은 별도로 필요하다.
 
 ### 4. 전체 학습·보정·평가
 
@@ -842,7 +853,7 @@ SNN 변환 대상은 graph encoder다. residual U-Net과 ConvGRU decoder는 ANN/
 | EventAid-R | ZIP 14개 | 약 24.68GB | 학습·보정에 쓰지 않는 외부 평가 |
 
 두 데이터의 합계는 약 **50.4GB**로 100GB 미만이다. 가상환경, checkpoint, prediction, 로그와
-EventHDR 업로드용 ZIP을 동시에 보관하면 추가 공간이 필요하다.
+선택적 EventHDR import용 ZIP을 동시에 보관하면 추가 공간이 필요하다.
 
 EventHDR 공식 배포는 train 51 H5와 eval 19 H5를 서로 다른 root로 제공한다. 공개 자료에는 이
 70개 H5와 실제 촬영 physical scene 사이의 완전한 대응표가 없다. 따라서
@@ -1084,8 +1095,8 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
 - `check_env.py`는 CUDA 초기화 후 실제 runtime 장치 수로 GPU 이름/VRAM을 조회한다. MIG의
   초기화 전후 장치 수 차이로 인한 `Invalid device id`를 CPU 모의 회귀검사로 검증했으며, 실제
   초기화 실패나 CUDA 불가는 우회하지 않는다. [서버 오류 안내](docs/SERVER.md#7-산출물-확인과-운영상-오류)
-- 2026-08-30 Windows CPU 검증은 **298 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
-  없는 경우의 shared-storage link test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
+- 2026-08-30 Windows CPU 검증은 **412 passed, 5 skipped**다. skip 5건은 OS의 symlink 생성 권한이
+  없는 경우의 shared-storage link 및 downloader symlink 보호 test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
   실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
   원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와
   GitHub Actions 결과로 별도 확인한다.
@@ -1931,15 +1942,40 @@ data/
     └── R-*.zip                 # manifest의 14개 ZIP
 ```
 
-### EventHDR: browser download 뒤 import
+### EventHDR: 서버 직접 다운로드 (기본)
 
-공식 EventHDR OneDrive folder는 현재 unattended `curl` download를 허용하지 않는다.
-`scripts/get_hdr.sh`도 이를 우회한다고 주장하지 않으며, 이미 받은 archive/extracted directory를
-검사해 가져오는 도구다.
+MobaXterm으로 접속한 Linux 서버의 저장소 root에서 실행한다. PC 다운로드·SFTP 전송, 사용자
+로그인·브라우저·쿠키는 필요 없다. Python 표준 라이브러리 HTTP로 공식 OneDrive 공유 폴더에 익명
+접근하고, H5를 ZIP으로 묶지 않고 `data/EventHDR/{train,eval}`에 직접 저장한다.
 
-1. Windows browser에서 공식 OneDrive의 train/eval release를 내려받는다.
-2. 저장소 root에서 `mkdir -p data/_archives`를 실행하고 MobaXterm SFTP panel로 그 폴더에 ZIP을 전송한다.
-3. train/eval 별도 archive의 서버 파일명을 `train.zip`, `eval.zip`으로 맞추고 각각 import한다.
+```bash
+bash scripts/get_hdr.sh --download
+```
+
+기본값은 train `1.h5`–`51.h5`와 eval `1.h5`–`19.h5` 전체다. 한 split만 받을 때는 다음처럼
+지정한다. 전체 학습·평가 전에 두 split 모두 있어야 한다.
+
+```bash
+bash scripts/get_hdr.sh --download --split train
+bash scripts/get_hdr.sh --download --split eval
+```
+
+중단되면 같은 명령으로 다시 실행한다. `.part` 파일에서 이어받고, 일시적 HTTP 실패를 재시도하며
+만료된 다운로드 링크는 새로 조회한다. 완료 파일은 정확한 이름 집합·OneDrive metadata의 byte size와
+SHA-256·HDF5 signature를 검증한다. 익명 접근 token과 임시 다운로드 URL은 메모리에서만 사용하며
+파일이나 로그에 기록하지 않는다.
+
+이 구현은 2026-08-30 실접속으로 확인한 **문서화되지 않은 OneDrive 익명 호환 endpoint**를 사용한다.
+Microsoft가 보장하는 안정적 API 계약은 아니므로 서비스 변경·공유 해제·서버 네트워크 차단 시
+실패할 수 있다. 해당 날짜의 실접속 검증은 train 51/eval 19개 metadata 조회와 각 split H5에 대한
+`Range: bytes=0-7`의 HTTP 206·HDF5 signature, 새 익명 token의 공유 접근 갱신 확인이다.
+전체 약 25.72GB 다운로드·전체 decode·GPU
+본실험 완료를 주장하지 않는다. 다운로드 실패를 빈 dataset이나 CPU 실행으로 우회하지 않는다.
+
+### EventHDR: 이미 받은 데이터 가져오기 (선택)
+
+이미 서버에 ZIP, 풀린 H5 directory 또는 shared-storage 데이터가 있을 때만 아래 import 경로를
+사용한다. 직접 다운로드의 선행 조건이 아니다. train/eval 별도 archive는 각각 split을 지정한다.
 
 ```bash
 bash scripts/get_hdr.sh --archive data/_archives/train.zip --split train
@@ -2005,8 +2041,9 @@ asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 `train.json` inspect는 manifest에 따라 EventHDR train 51개와 eval 19개 root를 모두 검사한다.
 EventAid 명령은 manifest의 14개 ZIP에 있는 모든 선택 event block과 target을 decode한다.
 `--validate-all`은 metadata만 세는 명령이 아니므로 dataset 크기에 따라 오래 걸린다. 실패한 file을
-제외해 진행하지 말고 원본을 다시 전송·검증한다. 출력의 `event_timestamp_diagnostics`에는 각 block의
-원 timestamp min/max, interval span ratio·offset·범위 이탈 합계가 포함된다. 공식 14 ZIP에서 공통
+제외해 진행하지 말고 원본 다운로드 또는 import 상태를 확인·검증한다. 출력의
+`event_timestamp_diagnostics`에는 각 block의 원 timestamp min/max, interval span ratio·offset·범위
+이탈 합계가 포함된다. 공식 14 ZIP에서 공통
 timestamp basis와 단위가 확인되기 전까지 이 값은 진단용이며 자동 rejection 조건은 아니다.
 
 ## 3. 직접 서버에서 전체 실행
@@ -2303,8 +2340,11 @@ python scripts/build_code_summary.py --check --require-clean-provenance
   driver/PyTorch CUDA 호환성을 확인한다. 공개 진단에는 예외 종류만 출력하며, 원문 예외가 필요하면
   `check_env.py --include-private-host-provenance`를 비공개 진단에서만 사용한다.
 - `CUDA available: false`: login node가 아닌 GPU allocation인지, CUDA wheel과 driver가 맞는지 확인한다.
-- `EventHDR ... exact official file set`: OneDrive 전송이 끝났는지, train 51/eval 19 외 H5가 섞이지
-  않았는지 `get_hdr.sh --check`로 확인한다.
+- EventHDR 다운로드 중단: `bash scripts/get_hdr.sh --download`를 다시 실행해 `.part`에서 이어받는다.
+  반복 실패하면 서버의 outbound HTTPS와 공식 공유 상태를 확인한다. 익명 endpoint나 임시 링크를
+  임의 변경하거나 token·서명 URL을 공개 로그에 붙이지 않는다.
+- `EventHDR ... exact official file set`: 직접 다운로드 또는 선택한 import가 끝났는지,
+  train 51/eval 19 외 H5가 섞이지 않았는지 `get_hdr.sh --check`로 확인한다.
 - `eventaid_r_zip must contain exactly 14`: `get_aid.sh --all`을 완료하고 ZIP을 압축 해제하지 않는다.
 - `Fresh training run_dir is not empty`: 새 run이면 별도 `output.run_dir`, 중단 run이면 `last.pt` resume를
   사용한다.
@@ -2357,8 +2397,8 @@ hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했
 - 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda·`.venv` 경로로 통합됐는지 문서 검토
 - GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
 
-2026-08-30 Windows CPU 검증은 **298 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
-shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
+2026-08-30 Windows CPU 검증은 **412 passed, 5 skipped**다. skip 5건은 OS symlink privilege가 없을 때의
+shared-storage link 및 downloader symlink 보호 test이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
 실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
 과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
 gate 기록과 GitHub Actions 필수 gate 통과를 함께 확인해야 한다. 실제 marker는 GitHub secret·변수·
@@ -2434,19 +2474,41 @@ SNN으로 바뀌는 부분은 graph encoder뿐이다. rasterization, U-Net, Conv
 | EventAid-R | `R-*.zip`, 14개 | 약 24.68024 GB | 학습·calibration 뒤 외부 일반화 평가 |
 
 두 데이터셋의 공식 배포 표시 용량 합은 약 50.40 GB로 100 GB 미만이다. EventAid-R은 ZIP을
-추출하지 않고 직접 읽어 중복 저장을 피한다. EventHDR를 browser archive에서 복사할 때는 archive와
-배치된 H5가 일시적으로 함께 존재할 수 있으므로 서버의 실제 여유 공간은 별도로 확인한다.
+추출하지 않고 직접 읽어 중복 저장을 피한다. EventHDR 기본 경로는 서버에 H5를 직접 다운로드한다.
+선택적으로 기존 archive를 import할 때는 archive와 배치된 H5가 일시적으로 함께 존재할 수 있으므로
+서버의 실제 여유 공간은 별도로 확인한다.
 
 ### 3.1 EventHDR 획득과 배치
 
-공식 배포는 [EventHDR 저장소](https://github.com/yunhao-zou/EventHDR)의 OneDrive 링크다. OneDrive가
-비대화형 `curl` 요청을 거부하므로 이 저장소는 동작하지 않는 자동 downloader를 제공하지 않는다.
-사용자가 browser로 받은 ZIP, 이미 풀어 둔 directory 또는 shared filesystem directory를 아래
-도구로 안전하게 배치한다. ZIP 업로드 위치와 이름은 README의 `data/_archives/train.zip`,
-`data/_archives/eval.zip`을 따른다.
+공식 배포는 [EventHDR 저장소](https://github.com/yunhao-zou/EventHDR)의 OneDrive 링크다. 기본 경로는
+**Linux 서버 직접 다운로드**이며 PC 경유·SFTP 전송, 사용자 로그인·브라우저·쿠키를 요구하지 않는다.
+Python 표준 라이브러리 HTTP로 익명 접근해 train 51개와 eval 19개의 H5를
+`data/EventHDR/{train,eval}`에 저장한다.
 
 ```bash
-# browser로 받은 train/eval 포함 ZIP을 직접 읽어 data/EventHDR로 복사
+bash scripts/get_hdr.sh --download
+
+# 한 split만 필요할 때; 전체 실행 전에는 두 split 모두 준비
+bash scripts/get_hdr.sh --download --split train
+bash scripts/get_hdr.sh --download --split eval
+```
+
+같은 명령을 다시 실행하면 `.part` 파일을 이어받으며 일시적 요청 실패를 재시도하고 만료된 링크를
+갱신한다. 정확한 파일 집합, API metadata의 byte size·SHA-256과 HDF5 signature를 확인한다. 익명
+token과 임시 서명 다운로드 URL은 메모리에서만 사용하고 파일·로그에 남기지 않는다. API가 제공하는
+현재 파일 hash와 대조하는 것이며, 저자가 별도로 서명·배포한 checksum release를 대신하지는 않는다.
+
+2026-08-30 확인한 경로는 **문서화되지 않은 OneDrive 익명 호환 endpoint**다. Microsoft의 안정적
+API 계약을 보장하지 않으며 공유 상태나 서비스 변경에 따라 실패할 수 있다. 실접속 검증은 70개 H5
+metadata와 train/eval 각 H5의 첫 8 bytes, 새 익명 token의 공유 접근 갱신에 한정된다. 범위 요청은 HTTP 206과 올바른
+Content-Range·HDF5 signature를 반환했으나 전체 약 25.72GB 다운로드·전체 decode·GPU 본실험은
+수행하지 않았다.
+
+이미 서버에 있는 ZIP, 압축 해제 directory 또는 shared filesystem은 선택적으로 안전하게 import할
+수 있다. 아래 경로는 직접 다운로드의 필수 선행 단계가 아니다.
+
+```bash
+# 이미 가진 train/eval 포함 ZIP을 직접 읽어 data/EventHDR로 복사
 bash scripts/get_hdr.sh --archive data/_archives/EventHDR.zip
 
 # 이미 풀어 둔 EventHDR/{train,eval} 또는 {train,eval} root에서 복사
@@ -2463,10 +2525,11 @@ bash scripts/get_hdr.sh --archive data/_archives/eval.zip --split eval
 bash scripts/get_hdr.sh --check
 ```
 
-`scripts/get_hdr.py`는 train의 정확한 51개 이름, eval의 정확한 19개 이름, missing/extra/nested H5,
-archive 중복·경로 이탈, HDF5 magic과 선택 데이터 100 GB 미만을 검사한다. 복사는 `.part` 임시 파일
-뒤 atomic replace로 완료하며 기존의 다른 크기 파일은 덮어쓰지 않는다. 공식 checksum이 공개되지
-않았으므로 이 검사는 배포자 cryptographic checksum 검증을 대신하지 않는다.
+`scripts/get_hdr.py`의 import/check는 train의 정확한 51개 이름, eval의 정확한 19개 이름,
+missing/extra/nested H5, archive 중복·경로 이탈, HDF5 magic과 선택 데이터 100 GB 미만을 검사한다.
+복사는 `.part` 임시 파일 뒤 atomic replace로 완료하며 기존의 다른 크기 파일은 덮어쓰지 않는다.
+이 로컬 import/check는 다운로드 모드의 원격 SHA-256 대조와 구분되며 배포자 cryptographic
+checksum 검증을 대신하지 않는다.
 
 ### 3.2 EventAid-R 획득과 배치
 
@@ -2986,7 +3049,8 @@ Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native vi
 | `manifests/eventhdr_split.json` | official separate roots와 H5 sequence-file semantics |
 | `manifests/eventaid_r.json` | 14 ZIP 이름, URL, 표시 용량 |
 | `scripts/setup.sh`, `scripts/check_env.py` | server 설치와 환경/data inventory |
-| `scripts/get_hdr.py`, `scripts/get_hdr.sh` | browser/source/shared EventHDR 안전 import/check |
+| `scripts/get_hdr.py`, `scripts/get_hdr.sh` | EventHDR 서버 직접 다운로드 CLI와 선택적 archive/source/shared import/check |
+| `scripts/hdr_http.py` | 익명 OneDrive HTTP 조회, 재개·재시도·링크 갱신과 크기/SHA-256/HDF5 검증 |
 | `scripts/get_aid.sh` | EventAid-R 14 ZIP 다운로드/재개/검사 |
 | `scripts/train.sh`, `scripts/calibrate.sh`, `scripts/eval.sh` | 개별 GPU wrapper |
 | `scripts/run.sh` | `check|profile|train|calibrate|eval|all`, CUDA gate와 18-run matrix orchestration |
@@ -3014,8 +3078,8 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-2026-08-30 Windows CPU 통합 결과는 **298 passed, 1 skipped**이며, skip 1건은 symlink privilege가
-없는 환경의 shared-storage link test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
+2026-08-30 Windows CPU 통합 결과는 **412 passed, 5 skipped**이며, skip 5건은 symlink privilege가
+없는 환경의 shared-storage link 및 downloader symlink 보호 test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
 아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
 
 history scanner는 `git rev-list --objects --all`의 LF 출력으로 통일했다. 구 Git이 `-z`를 받아도 최신
@@ -3079,6 +3143,8 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - 공개 output의 absolute path/hostname redaction과 Public HTTPS clone 절차
 - CUDA 초기화 전 physical count와 초기화 후 runtime count가 다른 MIG 모의 장치, 다중 GPU,
   CUDA 불가·0-device·초기화/조회 오류와 공개/private opt-in 예외 출력의 31개 CPU 회귀검사
+- EventHDR 서버 HTTP 다운로드의 정확한 metadata, SHA-256·HDF5 검사, Range 이어받기,
+  오류 재시도, 익명 token 갱신·공유 재접근, URL·symlink·로그 보호 회귀검사
 
 GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
 syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
@@ -3106,7 +3172,8 @@ GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 - EventAid-R `target_offset=1`과 log tone mapping은 명시적 cross-domain 가정이다.
 - `literal_eq15`의 self-feedback은 표준 rate-conversion과 수학적 긴장이 있다.
 - decoder가 analog라 firing-rate/latency를 완전한 neuromorphic system 수치로 해석할 수 없다.
-- downloader 검사는 공식 checksum을 대체하지 못한다.
+- EventAid-R downloader의 ZIP 검사는 미제공 공식 checksum을 대체하지 못한다. EventHDR 직접
+  downloader는 공식 OneDrive metadata의 SHA-256과 받은 H5의 전체 byte hash를 비교한다.
 - optional LPIPS는 core lock에 포함되지 않는다.
 - 실제 sensor ingest, network transport, compression, RTL, synthesis와 power 측정은 범위 밖이다.
 
@@ -4435,13 +4502,7 @@ echo "Done. Keep the ZIP files compressed; the EventAid-R loader reads them dire
 
 ~~~~~~~~python
 #!/usr/bin/env python3
-"""Import the complete official EventHDR release without pretending to download it.
-
-The public OneDrive folder currently rejects unattended curl requests.  This
-tool therefore accepts either a browser-downloaded ZIP, an extracted source
-directory, or a shared-storage directory and verifies the official file set
-before making it visible under ``data/EventHDR``.
-"""
+"""Download the official EventHDR release directly, or import existing data."""
 
 from __future__ import annotations
 
@@ -4506,9 +4567,7 @@ def _h5_files(directory: Path) -> dict[str, Path]:
     nested = [
         path
         for path in directory.rglob("*")
-        if path.parent != directory
-        and path.is_file()
-        and path.suffix.lower() in {".h5", ".hdf5"}
+        if path.parent != directory and path.is_file() and path.suffix.lower() in {".h5", ".hdf5"}
     ]
     if nested:
         raise ImportError(
@@ -4546,8 +4605,7 @@ def _validate_combined_size(files_by_split: dict[str, dict[str, Path]], source: 
     if total_bytes >= MAX_DATASET_BYTES:
         raise ImportError(
             f"EventHDR source is {total_bytes} bytes; the complete accepted dataset must be "
-            "smaller than 100 GB: "
-            + source
+            "smaller than 100 GB: " + source
         )
 
 
@@ -4619,8 +4677,7 @@ def _prepare_copy_destination(destination: Path, splits: tuple[str, ...]) -> Non
         extras = _destination_extras(split_dir, split)
         if extras:
             raise ImportError(
-                f"Destination {split_dir} contains unexpected HDF5 files: "
-                + _format_names(extras)
+                f"Destination {split_dir} contains unexpected HDF5 files: " + _format_names(extras)
             )
 
 
@@ -4654,9 +4711,7 @@ def _copy_one(source: Path, target: Path) -> str:
 
 def copy_source(source_dirs: dict[str, Path], destination: Path) -> dict[str, int]:
     splits = tuple(source_dirs)
-    source_files = {
-        split: validate_split_dir(source_dirs[split], split) for split in splits
-    }
+    source_files = {split: validate_split_dir(source_dirs[split], split) for split in splits}
     _prepare_copy_destination(destination, splits)
     counts = {"copied": 0, "kept": 0}
     for split in splits:
@@ -4693,9 +4748,7 @@ def locate_archive_members(
         elif len(parts) >= 2 and parts[-2].lower() in split_set:
             owner = parts[-2].lower()
         if owner is None:
-            raise ImportError(
-                f"Cannot assign archive HDF5 member to train/eval: {info.filename}"
-            )
+            raise ImportError(f"Cannot assign archive HDF5 member to train/eval: {info.filename}")
         if name in selected[owner]:
             raise ImportError(
                 f"Archive contains duplicate EventHDR {owner} filename {name}: "
@@ -4725,9 +4778,7 @@ def locate_archive_members(
     return selected
 
 
-def _copy_archive_member(
-    archive: zipfile.ZipFile, info: zipfile.ZipInfo, target: Path
-) -> str:
+def _copy_archive_member(archive: zipfile.ZipFile, info: zipfile.ZipInfo, target: Path) -> str:
     if target.exists():
         if target.stat().st_size != info.file_size:
             raise ImportError(
@@ -4758,9 +4809,7 @@ def _copy_archive_member(
             temporary.unlink(missing_ok=True)
 
 
-def copy_archive(
-    archive_path: Path, destination: Path, splits: tuple[str, ...]
-) -> dict[str, int]:
+def copy_archive(archive_path: Path, destination: Path, splits: tuple[str, ...]) -> dict[str, int]:
     archive_path = archive_path.expanduser().resolve()
     if not archive_path.is_file():
         raise ImportError(f"Archive does not exist: {archive_path}")
@@ -4809,20 +4858,21 @@ def link_source(source_dirs: dict[str, Path], destination: Path) -> dict[str, in
 
 
 def check_destination(destination: Path, splits: tuple[str, ...]) -> None:
-    files_by_split = {
-        split: validate_split_dir(destination / split, split) for split in splits
-    }
+    files_by_split = {split: validate_split_dir(destination / split, split) for split in splits}
     _validate_combined_size(files_by_split, str(destination))
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
-            "Import/check the complete official EventHDR train (1-51) and eval (1-19) "
-            "HDF5 release. This tool does not claim to bypass OneDrive's browser download."
+            "Download/import/check the complete official EventHDR train (1-51) and "
+            "eval (1-19) HDF5 release. --download needs no browser or user login."
         )
     )
     mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument(
+        "--download", action="store_true", help="download directly from the official public share"
+    )
     mode.add_argument("--source", type=Path, help="extracted EventHDR/train/eval source")
     mode.add_argument("--archive", type=Path, help="browser-downloaded ZIP archive")
     mode.add_argument("--check", action="store_true", help="check files already in destination")
@@ -4847,9 +4897,46 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    destination = args.destination.expanduser().resolve()
+    destination = (
+        Path(os.path.abspath(args.destination.expanduser()))
+        if args.download
+        else args.destination.expanduser().resolve()
+    )
     splits = (args.split,) if args.split else tuple(EXPECTED)
     try:
+        if args.download:
+            if args.link:
+                raise ImportError("--link requires --source")
+            if __package__:
+                from . import hdr_http
+            else:
+                try:
+                    import hdr_http
+                except ModuleNotFoundError as error:
+                    if error.name != "hdr_http":
+                        raise
+                    from scripts import hdr_http
+            try:
+                counts = hdr_http.download_dataset(
+                    destination, {split: EXPECTED[split] for split in splits}
+                )
+                check_destination(destination, splits)
+            except ImportError:
+                raise ImportError(
+                    "EventHDR failed final file-set validation; no incomplete data accepted"
+                ) from None
+            except (hdr_http.DownloadError, OSError) as error:
+                detail = (
+                    str(error)
+                    if isinstance(error, hdr_http.DownloadError)
+                    else type(error).__name__
+                )
+                raise ImportError(detail) from None
+            print(
+                "EventHDR download passed: "
+                + ", ".join(f"{key}={value}" for key, value in counts.items())
+            )
+            return 0
         if args.link and args.source is None:
             raise ImportError("--link requires --source")
         if args.check:
@@ -4900,6 +4987,470 @@ fi
 
 cd -- "${PROJECT_ROOT}"
 exec "${PYTHON_BIN}" "${SCRIPT_DIR}/get_hdr.py" "$@"
+~~~~~~~~
+
+# scripts/hdr_http.py
+
+~~~~~~~~python
+"""Download the public EventHDR release directly, without a browser or user login.
+
+OneDrive's anonymous Badger endpoint is an undocumented compatibility interface,
+not a guaranteed Microsoft Graph contract. Tokens and signed URLs stay in memory.
+"""
+
+from __future__ import annotations
+
+import base64
+import hashlib
+import http.client
+import json
+import os
+import re
+import shutil
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from contextlib import contextmanager
+from pathlib import Path
+
+SHARE_URL = "https://1drv.ms/f/s!AuA3qjJbfh9FjQa4GvHC_9Fn9UQm?e=jODI9N"
+API = "https://my.microsoftpersonalcontent.com/_api/v2.0"
+TOKEN_URL = "https://api-badgerp.svc.ms/v1.0/token"
+# Public anonymous-client identifier, not a user credential or client secret.
+APP_ID = "5cbed6ac-a083-4e14-b191-b4ba07653de2"
+HDF5_MAGIC = b"\x89HDF\r\n\x1a\n"
+MAX_BYTES = 100_000_000_000
+MAX_JSON_BYTES = 4 * 1024 * 1024
+CHUNK_BYTES = 1024 * 1024
+RETRY_CODES = {401, 403, 408, 429, 500, 502, 503, 504}
+
+
+class DownloadError(RuntimeError):
+    """A safe-to-publish error that excludes credentials and host paths."""
+
+
+def _check_url(value: str, *, api: bool = False) -> str:
+    if not isinstance(value, str):
+        raise DownloadError("Missing HTTPS download address in official metadata")
+    try:
+        parsed = urllib.parse.urlsplit(value)
+        port = parsed.port
+    except ValueError:
+        raise DownloadError("Invalid download address") from None
+    host = (parsed.hostname or "").lower()
+    approved = host == "api-badgerp.svc.ms" or any(
+        host == domain or host.endswith("." + domain)
+        for domain in ("microsoftpersonalcontent.com", "1drv.com", "sharepoint.com")
+    )
+    if (
+        parsed.scheme != "https"
+        or parsed.username is not None
+        or parsed.password is not None
+        or port not in (None, 443)
+        or not approved
+        or not value.isascii()
+        or any(ord(character) <= 32 for character in value)
+    ):
+        raise DownloadError("Refusing a non-Microsoft or non-HTTPS download address")
+    if api and (
+        host != "my.microsoftpersonalcontent.com" or not parsed.path.startswith("/_api/v2.0/")
+    ):
+        raise DownloadError("Refusing a metadata link outside the official API")
+    return value
+
+
+class _SafeRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        _check_url(newurl)
+        if req.has_header("Authorization") and (
+            urllib.parse.urlsplit(req.full_url).netloc != urllib.parse.urlsplit(newurl).netloc
+        ):
+            raise DownloadError("Refusing to forward authorization to a different host")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def _retryable(error: Exception) -> bool:
+    if isinstance(error, urllib.error.HTTPError):
+        return error.code in RETRY_CODES
+    return isinstance(error, (OSError, urllib.error.URLError, http.client.HTTPException))
+
+
+def _delay(attempt: int) -> None:
+    time.sleep(min(2**attempt, 16))
+
+
+class OneDrive:
+    def __init__(self, opener=None, *, timeout: int = 30, retries: int = 5) -> None:
+        self.opener = opener or urllib.request.build_opener(_SafeRedirect())
+        self.timeout = timeout
+        self.retries = retries
+        self._token: str | None = None
+
+    def _json(self, url: str, *, authenticated: bool = True, data: bytes | None = None) -> dict:
+        _check_url(url, api=authenticated)
+        for attempt in range(self.retries):
+            try:
+                headers = {"Accept": "application/json", "User-Agent": "asgcn-unet/0.3"}
+                if authenticated:
+                    if self._token is None:
+                        token = self._json(
+                            TOKEN_URL,
+                            authenticated=False,
+                            data=json.dumps({"appId": APP_ID}).encode("utf-8"),
+                        ).get("token")
+                        if (
+                            not isinstance(token, str)
+                            or not token
+                            or "\n" in token
+                            or "\r" in token
+                        ):
+                            raise DownloadError("Anonymous OneDrive authorization was unavailable")
+                        self._token = token
+                        # Share access must be redeemed for every fresh anonymous
+                        # token, including a replacement issued during a long run.
+                        if url != self._shared_url():
+                            self._json(self._shared_url())
+                    headers.update(
+                        {"Authorization": "Badger " + self._token, "Prefer": "autoredeem"}
+                    )
+                if data is not None:
+                    headers["Content-Type"] = "application/json"
+                request = urllib.request.Request(url, data=data, headers=headers)
+                with self.opener.open(request, timeout=self.timeout) as response:
+                    raw = response.read(MAX_JSON_BYTES + 1)
+                if len(raw) > MAX_JSON_BYTES:
+                    raise DownloadError("Official metadata response exceeded the safety limit")
+                try:
+                    value = json.loads(raw)
+                except (ValueError, UnicodeError):
+                    raise DownloadError("Official metadata response was not valid JSON") from None
+                if not isinstance(value, dict) or "error" in value:
+                    raise DownloadError("Official metadata service returned an invalid response")
+                return value
+            except (OSError, urllib.error.URLError, http.client.HTTPException) as error:
+                if isinstance(error, urllib.error.HTTPError) and error.code in (401, 403):
+                    self._token = None
+                if not _retryable(error) or attempt + 1 == self.retries:
+                    raise DownloadError(
+                        "Official OneDrive metadata request failed "
+                        + (
+                            f"(HTTP {error.code})"
+                            if isinstance(error, urllib.error.HTTPError)
+                            else f"({type(error).__name__})"
+                        )
+                        + "; retry later or check server "
+                        "HTTPS access. No dataset file was substituted."
+                    ) from None
+                _delay(attempt)
+        raise DownloadError("No metadata request attempts were configured")
+
+    def _children(self, url: str) -> list[dict]:
+        children: list[dict] = []
+        seen: set[str] = set()
+        while url:
+            _check_url(url, api=True)
+            if url in seen or len(seen) >= 100:
+                raise DownloadError("Invalid or repeated metadata pagination link")
+            seen.add(url)
+            page = self._json(url)
+            values = page.get("value")
+            if not isinstance(values, list) or not all(isinstance(item, dict) for item in values):
+                raise DownloadError("Official folder metadata has an invalid file list")
+            children.extend(values)
+            if len(children) > 10_000:
+                raise DownloadError("Official folder metadata exceeded the file count limit")
+            url = page.get("@odata.nextLink", "")
+            if not isinstance(url, str):
+                raise DownloadError("Invalid metadata pagination link")
+        return children
+
+    @staticmethod
+    def _file(value: dict, split: str) -> dict:
+        if not isinstance(value, dict):
+            raise DownloadError("Official HDF5 metadata is not an object")
+        file_info = value.get("file")
+        parent = value.get("parentReference")
+        if not isinstance(file_info, dict) or not isinstance(parent, dict):
+            raise DownloadError("Official HDF5 metadata has invalid file or parent fields")
+        hashes = file_info.get("hashes")
+        if not isinstance(hashes, dict) or not isinstance(value.get("name"), str):
+            raise DownloadError("Official HDF5 metadata has invalid hash or name fields")
+        size = value.get("size")
+        sha256 = hashes.get("sha256Hash", "")
+        if type(size) is not int or not 8 <= size < MAX_BYTES:
+            raise DownloadError("Invalid official HDF5 file size")
+        if not isinstance(sha256, str) or re.fullmatch(r"[0-9a-fA-F]{64}", sha256) is None:
+            raise DownloadError("Official HDF5 metadata is missing a valid SHA-256 checksum")
+        identity = value.get("id")
+        drive_id = parent.get("driveId")
+        if (
+            not isinstance(identity, str)
+            or not identity
+            or not isinstance(drive_id, str)
+            or not drive_id
+        ):
+            raise DownloadError("Official HDF5 metadata is missing its file identity")
+        return {
+            "split": split,
+            "name": value.get("name"),
+            "id": identity,
+            "drive_id": drive_id,
+            "size": size,
+            "sha256": sha256.lower(),
+            "url": _check_url(value.get("@content.downloadUrl")),
+        }
+
+    @staticmethod
+    def _shared_url() -> str:
+        share = "u!" + base64.urlsafe_b64encode(SHARE_URL.encode()).decode().rstrip("=")
+        return f"{API}/shares/{share}/driveItem/children"
+
+    def inventory(self, expected: dict[str, tuple[str, ...]]) -> list[dict]:
+        folders = self._children(self._shared_url())
+        files: list[dict] = []
+        for split, names in expected.items():
+            matches = [
+                item
+                for item in folders
+                if item.get("name") == split and isinstance(item.get("folder"), dict)
+            ]
+            if len(matches) != 1:
+                raise DownloadError(f"Official shared folder must contain one {split} folder")
+            folder = matches[0]
+            identity = folder.get("id")
+            parent = folder.get("parentReference")
+            drive_id = parent.get("driveId") if isinstance(parent, dict) else None
+            if (
+                not isinstance(identity, str)
+                or not identity
+                or not isinstance(drive_id, str)
+                or not drive_id
+            ):
+                raise DownloadError("Official folder metadata is missing its identity")
+            url = self._item_url(drive_id, identity) + "/children"
+            entries = self._children(url)
+            found = [entry.get("name") for entry in entries]
+            if (
+                not all(isinstance(name, str) for name in found)
+                or len(found) != len(names)
+                or set(found) != set(names)
+            ):
+                raise DownloadError(
+                    f"Official {split} metadata must contain exactly {len(names)} H5 files"
+                )
+            by_name = {entry["name"]: entry for entry in entries}
+            files.extend(self._file(by_name[name], split) for name in names)
+        if sum(item["size"] for item in files) >= MAX_BYTES:
+            raise DownloadError("EventHDR release must be smaller than 100 GB")
+        return files
+
+    @staticmethod
+    def _item_url(drive_id: str, identity: str) -> str:
+        return f"{API}/drives/{urllib.parse.quote(drive_id, safe='')}/items/{urllib.parse.quote(identity, safe='')}"
+
+    def refresh(self, item: dict) -> dict:
+        current = self._file(
+            self._json(self._item_url(item["drive_id"], item["id"])), item["split"]
+        )
+        if any(current[key] != item[key] for key in ("id", "drive_id", "name", "size", "sha256")):
+            raise DownloadError("Official file changed; refusing to mix different revisions")
+        return current
+
+    def open_file(self, item: dict, offset: int):
+        # Obtain a fresh signed URL. Never forward the metadata token to file storage.
+        current = self.refresh(item)
+        request = urllib.request.Request(
+            current["url"],
+            headers={"Range": f"bytes={offset}-", "User-Agent": "asgcn-unet/0.3"},
+        )
+        return self.opener.open(request, timeout=self.timeout)
+
+
+def _verify(path: Path, item: dict) -> None:
+    if path.stat().st_size != item["size"]:
+        raise DownloadError(f"{item['name']}: file size does not match official metadata")
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        if stream.read(8) != HDF5_MAGIC:
+            raise DownloadError(f"{item['name']}: downloaded content is not HDF5")
+        stream.seek(0)
+        while chunk := stream.read(CHUNK_BYTES):
+            digest.update(chunk)
+    if digest.hexdigest() != item["sha256"]:
+        raise DownloadError(f"{item['name']}: SHA-256 mismatch; file preserved, not accepted")
+
+
+def _check_response(response, offset: int, size: int) -> None:
+    status = response.status
+    length = response.headers.get("Content-Length")
+    if status == 206:
+        value = response.headers.get("Content-Range", "")
+        match = re.fullmatch(r"bytes (\d+)-(\d+)/(\d+)", value)
+        if match is None:
+            raise DownloadError("Invalid Content-Range in HDF5 response")
+        start, end, total = map(int, match.groups())
+        if start != offset or total != size or not start <= end < size:
+            raise DownloadError("HDF5 Content-Range does not match the requested offset and size")
+        expected_length = end - start + 1
+    elif status == 200 and offset == 0:
+        expected_length = size
+    else:
+        raise DownloadError(
+            "Server did not honor the resume range; refusing to append its response"
+        )
+    if length is None or not length.isdigit() or int(length) != expected_length:
+        raise DownloadError("HDF5 Content-Length does not match the expected response size")
+
+
+def download_file(client: OneDrive, item: dict, target: Path, retries: int = 5) -> str:
+    partial = target.with_name(target.name + ".part")
+    state_path = target.with_name(target.name + ".part.json")
+    identity = {"size": item["size"], "sha256": item["sha256"]}
+    if any(path.is_symlink() for path in (target, partial, state_path)):
+        raise DownloadError("Refusing symlinked HDF5 download files")
+    if target.exists():
+        _verify(target, item)
+        return "kept"
+    if partial.exists() or state_path.exists():
+        try:
+            saved = json.loads(state_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError, UnicodeError):
+            raise DownloadError(
+                "Unverified partial file; preserve it and inspect its resume metadata"
+            ) from None
+        if saved != identity:
+            raise DownloadError(
+                "Partial file identity differs from the official checksum; refusing overwrite"
+            )
+        if partial.exists() and partial.stat().st_size > item["size"]:
+            raise DownloadError("Partial file is larger than the official file; refusing overwrite")
+    else:
+        with state_path.open("x", encoding="utf-8") as stream:
+            json.dump(identity, stream, sort_keys=True)
+            stream.flush()
+            os.fsync(stream.fileno())
+    for attempt in range(retries):
+        offset = partial.stat().st_size if partial.exists() else 0
+        if offset == item["size"]:
+            break
+        try:
+            with client.open_file(item, offset) as response:
+                _check_response(response, offset, item["size"])
+                progress_at = time.monotonic()
+                with partial.open("ab") as stream:
+                    while chunk := response.read(CHUNK_BYTES):
+                        if stream.tell() + len(chunk) > item["size"]:
+                            raise DownloadError("HDF5 response exceeded the declared file size")
+                        stream.write(chunk)
+                        if time.monotonic() - progress_at >= 5:
+                            print(
+                                f"  {stream.tell() / 1e6:.1f}/{item['size'] / 1e6:.1f} MB received",
+                                flush=True,
+                            )
+                            progress_at = time.monotonic()
+                    stream.flush()
+                    os.fsync(stream.fileno())
+            if partial.stat().st_size != item["size"]:
+                raise OSError("Incomplete response")
+            break
+        except (OSError, urllib.error.URLError, http.client.HTTPException) as error:
+            if not _retryable(error) or attempt + 1 == retries:
+                raise DownloadError(
+                    f"{item['name']}: download interrupted; partial data retained. "
+                    "Run the same --download command to resume."
+                ) from None
+            print(f"  retry {attempt + 1}/{retries - 1}; keeping received bytes", flush=True)
+            _delay(attempt)
+    print("  checking SHA-256", flush=True)
+    _verify(partial, item)
+    # The dataset-level lock prevents cooperating downloaders from replacing each other.
+    if target.exists():
+        raise DownloadError("Destination appeared during transfer; refusing overwrite")
+    partial.replace(target)
+    state_path.unlink()
+    return "downloaded"
+
+
+@contextmanager
+def _download_lock(destination: Path):
+    lock_path = destination / ".download.lock"
+    if lock_path.is_symlink():
+        raise DownloadError("Refusing a symlinked download lock")
+    with lock_path.open("a+b") as stream:
+        if stream.seek(0, os.SEEK_END) == 0:
+            stream.write(b"\0")
+            stream.flush()
+        stream.seek(0)
+        try:
+            if os.name == "nt":
+                import msvcrt
+
+                msvcrt.locking(stream.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            raise DownloadError("Another EventHDR download is active in this destination") from None
+        try:
+            yield
+        finally:
+            stream.seek(0)
+            if os.name == "nt":
+                msvcrt.locking(stream.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                fcntl.flock(stream.fileno(), fcntl.LOCK_UN)
+
+
+def download_dataset(
+    destination: Path, expected: dict[str, tuple[str, ...]], client=None
+) -> dict[str, int]:
+    client = client or OneDrive()
+    files = client.inventory(expected)
+    total = sum(item["size"] for item in files)
+    print(
+        f"Official EventHDR: {len(files)} HDF5 files, {total / 1e9:.2f} GB; verifying SHA-256",
+        flush=True,
+    )
+    if destination.is_symlink():
+        raise DownloadError("Refusing a symlinked download root")
+    destination.mkdir(parents=True, exist_ok=True)
+    with _download_lock(destination):
+        for split, names in expected.items():
+            directory = destination / split
+            if directory.is_symlink():
+                raise DownloadError("Refusing a symlinked download split")
+            directory.mkdir(exist_ok=True)
+            existing = {
+                path.relative_to(directory).as_posix()
+                for path in directory.rglob("*")
+                if path.suffix.lower() in {".h5", ".hdf5"}
+            }
+            if existing - set(names):
+                raise DownloadError(
+                    f"Unexpected HDF5 files already exist in {split}; refusing to mix data"
+                )
+        needed = 0
+        for item in files:
+            target = destination / item["split"] / item["name"]
+            partial = target.with_name(target.name + ".part")
+            present = target if target.exists() else partial
+            if present.is_symlink():
+                raise DownloadError("Refusing symlinked HDF5 download files")
+            received = present.stat().st_size if present.is_file() else 0
+            needed += max(0, item["size"] - received)
+        if shutil.disk_usage(destination).free < needed + CHUNK_BYTES:
+            raise DownloadError("Not enough free disk space for the remaining EventHDR files")
+        counts = {"downloaded": 0, "kept": 0}
+        for index, item in enumerate(files, 1):
+            print(
+                f"[{index}/{len(files)}] {item['split']}/{item['name']} ({item['size'] / 1e6:.1f} MB)",
+                flush=True,
+            )
+            outcome = download_file(client, item, destination / item["split"] / item["name"])
+            counts[outcome] += 1
+        return counts
 ~~~~~~~~
 
 # scripts/run.sh
@@ -6061,7 +6612,7 @@ echo
 echo "Installation complete."
 echo "Python: ${VENV_PYTHON}"
 echo "Next: ./scripts/get_aid.sh --all"
-echo "Then: ./scripts/get_hdr.sh --archive /path/to/EventHDR.zip"
+echo "Then: ./scripts/get_hdr.sh --download"
 echo "Finally: ./scripts/run.sh"
 ~~~~~~~~
 
@@ -19244,6 +19795,880 @@ def test_radius_graph_handles_empty_input() -> None:
     assert edge_attr.shape == (0, 1)
 ~~~~~~~~
 
+# tests/test_hdr_http.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import hashlib
+import io
+import json
+import os
+from collections.abc import Callable
+from pathlib import Path
+from typing import Any
+from urllib.error import HTTPError, URLError
+
+import pytest
+
+from scripts import get_hdr, hdr_http
+
+HDF5_MAGIC = b"\x89HDF\r\n\x1a\n"
+PAYLOAD = HDF5_MAGIC + b"official-example-content" * 3
+PUBLIC_URL = "https://public.files.1drv.com/y4m/example?authkey=synthetic-secret"
+
+
+class Response(io.BytesIO):
+    def __init__(
+        self,
+        payload: bytes,
+        *,
+        status: int = 200,
+        headers: dict[str, str] | None = None,
+    ) -> None:
+        super().__init__(payload)
+        self.status = status
+        self.headers = (
+            headers
+            if headers is not None
+            else {
+                "Content-Length": str(len(payload)),
+                "Content-Type": "application/octet-stream",
+            }
+        )
+
+    def getcode(self) -> int:
+        return self.status
+
+    def getheader(self, name: str, default: Any = None) -> Any:
+        return self.headers.get(name, default)
+
+
+class FakeClient:
+    def __init__(self, *responses: Callable[[], Response | Exception]) -> None:
+        self.responses = responses
+        self.calls: list[tuple[dict[str, Any], int]] = []
+        self.refreshes: list[dict[str, Any]] = []
+
+    def open_file(self, item: dict[str, Any], offset: int) -> Response:
+        index = min(len(self.calls), len(self.responses) - 1)
+        self.calls.append((dict(item), offset))
+        assert self.responses, "Existing or rejected local files must not be downloaded"
+        result = self.responses[index]()
+        if isinstance(result, Exception):
+            raise result
+        return result
+
+    def refresh(self, item: dict[str, Any]) -> dict[str, Any]:
+        self.refreshes.append(dict(item))
+        return {**item, "url": PUBLIC_URL + "&fresh=1"}
+
+
+@pytest.fixture(autouse=True)
+def no_retry_delay(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(hdr_http.time, "sleep", lambda _delay: None)
+
+
+def _item(payload: bytes = PAYLOAD) -> dict[str, Any]:
+    return {
+        "split": "train",
+        "name": "1.h5",
+        "id": "synthetic-item",
+        "drive_id": "synthetic-drive",
+        "size": len(payload),
+        "sha256": hashlib.sha256(payload).hexdigest(),
+        "url": PUBLIC_URL,
+    }
+
+
+def _partial(target: Path, item: dict[str, Any], payload: bytes) -> tuple[Path, Path]:
+    part = target.with_name(target.name + ".part")
+    state = target.with_name(target.name + ".part.json")
+    part.write_bytes(payload)
+    state.write_text(
+        json.dumps({"size": item["size"], "sha256": item["sha256"]}),
+        encoding="utf-8",
+    )
+    return part, state
+
+
+def _range_response(payload: bytes, start: int, total: int) -> Response:
+    return Response(
+        payload,
+        status=206,
+        headers={
+            "Content-Length": str(len(payload)),
+            "Content-Range": f"bytes {start}-{start + len(payload) - 1}/{total}",
+            "Content-Type": "application/octet-stream",
+        },
+    )
+
+
+@pytest.mark.parametrize("status", [200, 206])
+def test_download_accepts_complete_verified_response(tmp_path: Path, status: int) -> None:
+    target = tmp_path / "1.h5"
+    client = FakeClient(
+        lambda: Response(PAYLOAD) if status == 200 else _range_response(PAYLOAD, 0, len(PAYLOAD))
+    )
+
+    assert hdr_http.download_file(client, _item(), target) == "downloaded"
+    assert target.read_bytes() == PAYLOAD
+    assert [offset for _, offset in client.calls] == [0]
+    assert not target.with_name("1.h5.part").exists()
+    assert not target.with_name("1.h5.part.json").exists()
+
+
+def test_download_keeps_verified_completed_file_without_network(tmp_path: Path) -> None:
+    target = tmp_path / "1.h5"
+    target.write_bytes(PAYLOAD)
+    client = FakeClient()
+
+    assert hdr_http.download_file(client, _item(), target) == "kept"
+    assert target.read_bytes() == PAYLOAD
+    assert client.calls == []
+
+
+@pytest.mark.parametrize("existing", [b"short", PAYLOAD[:-1] + b"!", b"not-hdf5" + PAYLOAD[8:]])
+def test_download_refuses_to_overwrite_mismatched_completed_file(
+    tmp_path: Path, existing: bytes
+) -> None:
+    target = tmp_path / "1.h5"
+    target.write_bytes(existing)
+    client = FakeClient()
+
+    with pytest.raises(hdr_http.DownloadError):
+        hdr_http.download_file(client, _item(), target, retries=1)
+
+    assert target.read_bytes() == existing
+    assert client.calls == []
+
+
+def test_download_resumes_identity_matched_partial(tmp_path: Path) -> None:
+    target = tmp_path / "1.h5"
+    prefix_length = 19
+    part, state = _partial(target, _item(), PAYLOAD[:prefix_length])
+    client = FakeClient(
+        lambda: _range_response(PAYLOAD[prefix_length:], prefix_length, len(PAYLOAD))
+    )
+
+    assert hdr_http.download_file(client, _item(), target) == "downloaded"
+    assert target.read_bytes() == PAYLOAD
+    assert [offset for _, offset in client.calls] == [prefix_length]
+    assert not part.exists()
+    assert not state.exists()
+
+
+def test_download_resumes_after_interrupted_response(tmp_path: Path) -> None:
+    class InterruptedResponse(Response):
+        def read(self, size: int = -1) -> bytes:
+            if self.tell() == 0:
+                return super().read(19)
+            raise OSError("connection interrupted")
+
+    target = tmp_path / "1.h5"
+    client = FakeClient(
+        lambda: InterruptedResponse(PAYLOAD),
+        lambda: _range_response(PAYLOAD[19:], 19, len(PAYLOAD)),
+    )
+
+    assert hdr_http.download_file(client, _item(), target, retries=2) == "downloaded"
+    assert target.read_bytes() == PAYLOAD
+    assert [offset for _, offset in client.calls] == [0, 19]
+
+
+@pytest.mark.parametrize("identity_problem", ["missing", "size", "sha256", "invalid-json"])
+def test_download_refuses_partial_with_missing_or_wrong_identity(
+    tmp_path: Path, identity_problem: str
+) -> None:
+    target = tmp_path / "1.h5"
+    part, state = _partial(target, _item(), PAYLOAD[:19])
+    if identity_problem == "missing":
+        state.unlink()
+    elif identity_problem == "invalid-json":
+        state.write_text("{incomplete", encoding="utf-8")
+    else:
+        identity = {"size": len(PAYLOAD), "sha256": hashlib.sha256(PAYLOAD).hexdigest()}
+        identity[identity_problem] = 1 if identity_problem == "size" else "0" * 64
+        state.write_text(json.dumps(identity), encoding="utf-8")
+    client = FakeClient()
+
+    with pytest.raises(hdr_http.DownloadError):
+        hdr_http.download_file(client, _item(), target, retries=1)
+
+    assert not target.exists()
+    assert part.read_bytes() == PAYLOAD[:19]
+    assert client.calls == []
+
+
+@pytest.mark.parametrize(
+    "headers,status",
+    [
+        ({"Content-Length": str(len(PAYLOAD) - 19)}, 200),
+        (
+            {
+                "Content-Length": str(len(PAYLOAD) - 19),
+                "Content-Range": f"bytes 18-{len(PAYLOAD) - 2}/{len(PAYLOAD)}",
+            },
+            206,
+        ),
+        (
+            {
+                "Content-Length": str(len(PAYLOAD) - 19),
+                "Content-Range": f"bytes 19-{len(PAYLOAD) - 1}/{len(PAYLOAD) + 1}",
+            },
+            206,
+        ),
+        ({"Content-Length": str(len(PAYLOAD) - 19)}, 206),
+        (
+            {
+                "Content-Length": "1",
+                "Content-Range": f"bytes 19-{len(PAYLOAD) - 1}/{len(PAYLOAD)}",
+            },
+            206,
+        ),
+    ],
+)
+def test_download_rejects_unsafe_resume_response(
+    tmp_path: Path, headers: dict[str, str], status: int
+) -> None:
+    target = tmp_path / "1.h5"
+    part, _ = _partial(target, _item(), PAYLOAD[:19])
+    client = FakeClient(lambda: Response(PAYLOAD[19:], status=status, headers=headers))
+
+    with pytest.raises(hdr_http.DownloadError):
+        hdr_http.download_file(client, _item(), target, retries=1)
+
+    assert not target.exists()
+    assert part.read_bytes() == PAYLOAD[:19]
+
+
+@pytest.mark.parametrize(
+    "content_range",
+    [
+        f"bytes 1-{len(PAYLOAD)}/{len(PAYLOAD)}",
+        f"bytes 0-{len(PAYLOAD) - 1}/{len(PAYLOAD) + 1}",
+        f"bytes 0-{len(PAYLOAD) - 2}/{len(PAYLOAD)}",
+        "bytes nonsense",
+    ],
+)
+def test_download_rejects_bad_initial_content_range(tmp_path: Path, content_range: str) -> None:
+    target = tmp_path / "1.h5"
+    client = FakeClient(
+        lambda: Response(
+            PAYLOAD,
+            status=206,
+            headers={
+                "Content-Length": str(len(PAYLOAD)),
+                "Content-Range": content_range,
+            },
+        )
+    )
+
+    with pytest.raises(hdr_http.DownloadError):
+        hdr_http.download_file(client, _item(), target, retries=1)
+
+    assert not target.exists()
+
+
+@pytest.mark.parametrize(
+    "body,headers",
+    [
+        (PAYLOAD[:-1], {"Content-Length": str(len(PAYLOAD))}),
+        (PAYLOAD + b"!", {"Content-Length": str(len(PAYLOAD))}),
+        (PAYLOAD[:-1] + b"!", {"Content-Length": str(len(PAYLOAD))}),
+        (PAYLOAD, {}),
+        (PAYLOAD, {"Content-Length": "not-a-number"}),
+    ],
+)
+def test_download_rejects_bad_size_hash_or_length_headers(
+    tmp_path: Path, body: bytes, headers: dict[str, str]
+) -> None:
+    target = tmp_path / "1.h5"
+    client = FakeClient(lambda: Response(body, headers=headers))
+
+    with pytest.raises(hdr_http.DownloadError):
+        hdr_http.download_file(client, _item(), target, retries=1)
+
+    assert not target.exists()
+
+
+def test_download_rejects_html_even_with_matching_size_and_hash(tmp_path: Path) -> None:
+    target = tmp_path / "1.h5"
+    html = b"<html>sign in to view this file</html>"
+    client = FakeClient(
+        lambda: Response(
+            html,
+            headers={"Content-Length": str(len(html)), "Content-Type": "text/html"},
+        )
+    )
+
+    with pytest.raises(hdr_http.DownloadError):
+        hdr_http.download_file(client, _item(html), target, retries=1)
+
+    assert not target.exists()
+
+
+@pytest.mark.parametrize("error_type", [URLError, OSError])
+def test_download_retries_transient_transport_failure(
+    tmp_path: Path, error_type: type[Exception]
+) -> None:
+    target = tmp_path / "1.h5"
+    client = FakeClient(lambda: error_type("temporary outage"), lambda: Response(PAYLOAD))
+
+    assert hdr_http.download_file(client, _item(), target, retries=2) == "downloaded"
+    assert target.read_bytes() == PAYLOAD
+    assert [offset for _, offset in client.calls] == [0, 0]
+
+
+@pytest.mark.parametrize("status", [401, 403, 408, 429, 500, 503])
+def test_download_retries_retryable_http_status(tmp_path: Path, status: int) -> None:
+    target = tmp_path / "1.h5"
+    client = FakeClient(
+        lambda: HTTPError(PUBLIC_URL, status, "temporary failure", {}, None),
+        lambda: Response(PAYLOAD),
+    )
+
+    assert hdr_http.download_file(client, _item(), target, retries=2) == "downloaded"
+    assert target.read_bytes() == PAYLOAD
+    assert len(client.calls) == 2
+
+
+def test_download_failure_does_not_expose_url_token_or_private_path(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    target = tmp_path / "1.h5"
+    private_path = tmp_path / "private-environment" / "tls.pem"
+    message = f"download {PUBLIC_URL} with Bearer synthetic-token failed at {private_path}"
+    client = FakeClient(lambda: URLError(message))
+
+    with pytest.raises(hdr_http.DownloadError) as error:
+        hdr_http.download_file(client, _item(), target, retries=1)
+
+    output = capsys.readouterr()
+    public_error = str(error.value) + output.out + output.err
+    for secret in (PUBLIC_URL, "synthetic-secret", "synthetic-token", str(private_path)):
+        assert secret not in public_error
+    assert not target.exists()
+
+
+@pytest.mark.parametrize("symlink_name", ["1.h5", "1.h5.part", "1.h5.part.json"])
+def test_download_refuses_symlinks_without_modifying_referent(
+    tmp_path: Path, symlink_name: str
+) -> None:
+    target = tmp_path / "1.h5"
+    referent = tmp_path / "keep-original"
+    referent.write_bytes(b"original content")
+    link = tmp_path / symlink_name
+    try:
+        link.symlink_to(referent)
+    except OSError:
+        if os.name == "nt":
+            pytest.skip("Windows symlink privilege is unavailable")
+        raise
+    client = FakeClient()
+
+    with pytest.raises(hdr_http.DownloadError):
+        hdr_http.download_file(client, _item(), target, retries=1)
+
+    assert link.is_symlink()
+    assert referent.read_bytes() == b"original content"
+    assert client.calls == []
+
+
+@pytest.mark.parametrize("split", [None, "train", "eval"])
+def test_download_cli_selects_and_checks_requested_official_splits(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    split: str | None,
+) -> None:
+    destination = tmp_path / "EventHDR"
+    calls: list[tuple[Path, dict[str, tuple[str, ...]]]] = []
+
+    def fake_download(target: Path, expected: dict[str, tuple[str, ...]]) -> dict[str, int]:
+        calls.append((target, expected))
+        for split_name, names in expected.items():
+            directory = target / split_name
+            directory.mkdir(parents=True)
+            for name in names:
+                (directory / name).write_bytes(PAYLOAD)
+        return {"downloaded": sum(len(names) for names in expected.values()), "kept": 0}
+
+    monkeypatch.setattr(hdr_http, "download_dataset", fake_download)
+    arguments = ["--download", "--destination", str(destination)]
+    if split is not None:
+        arguments.extend(["--split", split])
+
+    assert get_hdr.main(arguments) == 0
+
+    expected = get_hdr.EXPECTED if split is None else {split: get_hdr.EXPECTED[split]}
+    assert calls == [(destination.resolve(), expected)]
+    for split_name, names in expected.items():
+        assert {path.name for path in (destination / split_name).iterdir()} == set(names)
+    output = capsys.readouterr()
+    assert "EventHDR download passed" in output.out
+    assert str(tmp_path) not in output.out + output.err
+
+
+def test_download_cli_returns_failure_without_raw_filesystem_details(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    private_path = tmp_path / "private-cache" / "token.txt"
+
+    def fail_download(*_args: Any) -> dict[str, int]:
+        raise OSError(f"cannot read {private_path} with synthetic-secret")
+
+    monkeypatch.setattr(hdr_http, "download_dataset", fail_download)
+
+    assert get_hdr.main(["--download", "--destination", str(tmp_path / "EventHDR")]) == 1
+    output = capsys.readouterr()
+    assert "ERROR:" in output.err
+    assert str(private_path) not in output.err
+    assert "synthetic-secret" not in output.err
+    assert "passed" not in output.out
+
+
+def _metadata(name: str = "1.h5", **updates: Any) -> dict[str, Any]:
+    value = {
+        "name": name,
+        "id": "synthetic-item",
+        "parentReference": {"driveId": "synthetic-drive"},
+        "size": len(PAYLOAD),
+        "file": {"hashes": {"sha256Hash": hashlib.sha256(PAYLOAD).hexdigest().upper()}},
+        "@content.downloadUrl": PUBLIC_URL,
+    }
+    value.update(updates)
+    return value
+
+
+def _inventory_client(
+    monkeypatch: pytest.MonkeyPatch, entries: list[dict[str, Any]]
+) -> hdr_http.OneDrive:
+    client = hdr_http.OneDrive(retries=1)
+
+    def fake_json(url: str, **_kwargs: Any) -> dict[str, Any]:
+        if "/shares/" in url:
+            return {
+                "value": [
+                    {
+                        "name": "train",
+                        "folder": {},
+                        "id": "train-folder",
+                        "parentReference": {"driveId": "synthetic-drive"},
+                    }
+                ]
+            }
+        assert url == f"{hdr_http.API}/drives/synthetic-drive/items/train-folder/children"
+        return {"value": entries}
+
+    monkeypatch.setattr(client, "_json", fake_json)
+    return client
+
+
+def test_inventory_normalizes_official_file_metadata(monkeypatch: pytest.MonkeyPatch) -> None:
+    client = _inventory_client(monkeypatch, [_metadata()])
+
+    assert client.inventory({"train": ("1.h5",)}) == [_item()]
+
+
+@pytest.mark.parametrize(
+    "entries",
+    [
+        [],
+        [_metadata(), _metadata("2.h5")],
+        [_metadata(), _metadata()],
+        [_metadata("other.h5")],
+        [_metadata("../1.h5")],
+        [_metadata("1.hdf5")],
+    ],
+)
+def test_inventory_rejects_missing_extra_duplicate_or_renamed_files(
+    monkeypatch: pytest.MonkeyPatch, entries: list[dict[str, Any]]
+) -> None:
+    client = _inventory_client(monkeypatch, entries)
+
+    with pytest.raises(hdr_http.DownloadError):
+        client.inventory({"train": ("1.h5",)})
+
+
+@pytest.mark.parametrize("size", [0, -1, True, "100", 100_000_000_000])
+def test_inventory_rejects_invalid_file_sizes(monkeypatch: pytest.MonkeyPatch, size: Any) -> None:
+    client = _inventory_client(monkeypatch, [_metadata(size=size)])
+
+    with pytest.raises(hdr_http.DownloadError):
+        client.inventory({"train": ("1.h5",)})
+
+
+def test_inventory_rejects_total_size_at_100gb(monkeypatch: pytest.MonkeyPatch) -> None:
+    entries = [_metadata("1.h5", size=50_000_000_000), _metadata("2.h5", size=50_000_000_000)]
+    client = _inventory_client(monkeypatch, entries)
+
+    with pytest.raises(hdr_http.DownloadError):
+        client.inventory({"train": ("1.h5", "2.h5")})
+
+
+@pytest.mark.parametrize("sha256", [None, "", "a" * 63, "g" * 64, "a" * 65])
+def test_inventory_rejects_missing_or_invalid_sha256(
+    monkeypatch: pytest.MonkeyPatch, sha256: Any
+) -> None:
+    client = _inventory_client(monkeypatch, [_metadata(file={"hashes": {"sha256Hash": sha256}})])
+
+    with pytest.raises(hdr_http.DownloadError):
+        client.inventory({"train": ("1.h5",)})
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "http://public.files.1drv.com/content",
+        "https://1drv.com.attacker.example/content?token=synthetic-secret",
+        "https://attacker.example/content",
+        "https://fixture-login:synthetic-secret@public.files.1drv.com/content",
+        "https://public.files.1drv.com:8443/content",
+        "file:///private-environment/token.txt",
+        "https://[invalid-ipv6]/content?token=synthetic-secret",
+        "https://[public.files.1drv.com/content?token=synthetic-secret",
+    ],
+)
+def test_inventory_rejects_unapproved_download_urls_without_leaking_them(
+    monkeypatch: pytest.MonkeyPatch, url: str
+) -> None:
+    client = _inventory_client(monkeypatch, [_metadata(**{"@content.downloadUrl": url})])
+
+    with pytest.raises(hdr_http.DownloadError) as error:
+        client.inventory({"train": ("1.h5",)})
+
+    assert url not in str(error.value)
+    assert "synthetic-secret" not in str(error.value)
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "https://public.files.1drv.com/content",
+        "https://my.microsoftpersonalcontent.com/content",
+        "https://example.sharepoint.com/content",
+    ],
+)
+def test_inventory_accepts_approved_https_storage_urls(
+    monkeypatch: pytest.MonkeyPatch, url: str
+) -> None:
+    client = _inventory_client(monkeypatch, [_metadata(**{"@content.downloadUrl": url})])
+
+    assert client.inventory({"train": ("1.h5",)})[0]["url"] == url
+
+
+def test_metadata_pagination_collects_all_same_api_pages(monkeypatch: pytest.MonkeyPatch) -> None:
+    client = hdr_http.OneDrive(retries=1)
+    start = f"{hdr_http.API}/drives/example/items/folder/children"
+    next_page = start + "?skiptoken=synthetic-page-token"
+    calls: list[str] = []
+
+    def fake_json(url: str, **_kwargs: Any) -> dict[str, Any]:
+        calls.append(url)
+        if url == start:
+            return {"value": [_metadata("1.h5")], "@odata.nextLink": next_page}
+        assert url == next_page
+        return {"value": [_metadata("2.h5")]}
+
+    monkeypatch.setattr(client, "_json", fake_json)
+
+    assert [value["name"] for value in client._children(start)] == ["1.h5", "2.h5"]
+    assert calls == [start, next_page]
+
+
+@pytest.mark.parametrize(
+    "next_page",
+    [
+        "https://attacker.example/page?token=synthetic-secret",
+        "https://public.files.1drv.com/_api/v2.0/items",
+        "https://my.microsoftpersonalcontent.com/not-the-api/items",
+        "https://my.microsoftpersonalcontent.com/_api/v2.0evil/items",
+        123,
+    ],
+)
+def test_metadata_pagination_rejects_foreign_or_invalid_links_before_request(
+    monkeypatch: pytest.MonkeyPatch, next_page: Any
+) -> None:
+    client = hdr_http.OneDrive(retries=1)
+    start = f"{hdr_http.API}/drives/example/items/folder/children"
+    calls: list[str] = []
+
+    def fake_json(url: str, **_kwargs: Any) -> dict[str, Any]:
+        calls.append(url)
+        return {"value": [], "@odata.nextLink": next_page}
+
+    monkeypatch.setattr(client, "_json", fake_json)
+
+    with pytest.raises(hdr_http.DownloadError) as error:
+        client._children(start)
+
+    assert calls == [start]
+    assert "synthetic-secret" not in str(error.value)
+
+
+def test_metadata_pagination_rejects_loops(monkeypatch: pytest.MonkeyPatch) -> None:
+    client = hdr_http.OneDrive(retries=1)
+    start = f"{hdr_http.API}/drives/example/items/folder/children"
+    calls: list[str] = []
+
+    def fake_json(url: str, **_kwargs: Any) -> dict[str, Any]:
+        calls.append(url)
+        return {"value": [], "@odata.nextLink": start}
+
+    monkeypatch.setattr(client, "_json", fake_json)
+
+    with pytest.raises(hdr_http.DownloadError):
+        client._children(start)
+
+    assert calls == [start]
+
+
+class FakeOpener:
+    def __init__(self, *results: bytes | Exception) -> None:
+        self.results = results
+        self.requests: list[Any] = []
+
+    def open(self, request: Any, *, timeout: int) -> Response:
+        assert timeout > 0
+        self.requests.append(request)
+        result = self.results[len(self.requests) - 1]
+        if isinstance(result, Exception):
+            raise result
+        return Response(result)
+
+
+def test_metadata_obtains_anonymous_token_and_reuses_it() -> None:
+    opener = FakeOpener(
+        b'{"token":"synthetic-token"}',
+        b'{"value":[]}',
+        b'{"value":[]}',
+        b'{"value":[]}',
+    )
+    client = hdr_http.OneDrive(opener=opener, retries=1)
+    url = f"{hdr_http.API}/drives/example/items/folder/children"
+
+    assert client._json(url) == {"value": []}
+    assert client._json(url) == {"value": []}
+
+    token_request, redemption_request, metadata_request, repeated_request = opener.requests
+    assert token_request.full_url == hdr_http.TOKEN_URL
+    assert token_request.get_method() == "POST"
+    assert json.loads(token_request.data) == {"appId": hdr_http.APP_ID}
+    assert token_request.get_header("Authorization") is None
+    assert redemption_request.full_url == client._shared_url()
+    assert redemption_request.get_header("Authorization") == "Badger synthetic-token"
+    assert redemption_request.get_header("Prefer") == "autoredeem"
+    assert metadata_request.full_url == repeated_request.full_url == url
+    assert metadata_request.get_header("Authorization") == "Badger synthetic-token"
+    assert repeated_request.get_header("Authorization") == "Badger synthetic-token"
+
+
+def test_shared_root_request_redeems_new_token_without_duplicate_request() -> None:
+    opener = FakeOpener(b'{"token":"synthetic-token"}', b'{"value":[]}')
+    client = hdr_http.OneDrive(opener=opener, retries=1)
+
+    assert client._json(client._shared_url()) == {"value": []}
+    assert [request.full_url for request in opener.requests] == [
+        hdr_http.TOKEN_URL,
+        client._shared_url(),
+    ]
+    assert opener.requests[1].get_header("Authorization") == "Badger synthetic-token"
+    assert opener.requests[1].get_header("Prefer") == "autoredeem"
+
+
+@pytest.mark.parametrize("status", [401, 403])
+def test_metadata_refreshes_expired_anonymous_token(status: int) -> None:
+    url = f"{hdr_http.API}/drives/example/items/folder/children"
+    opener = FakeOpener(
+        b'{"token":"expired-token"}',
+        b'{"value":[]}',
+        HTTPError(url, status, "expired", {}, None),
+        b'{"token":"fresh-token"}',
+        b'{"value":[]}',
+        b'{"value":[]}',
+    )
+    client = hdr_http.OneDrive(opener=opener, retries=2)
+
+    assert client._json(url) == {"value": []}
+    assert [request.full_url for request in opener.requests] == [
+        hdr_http.TOKEN_URL,
+        client._shared_url(),
+        url,
+        hdr_http.TOKEN_URL,
+        client._shared_url(),
+        url,
+    ]
+    for index in (1, 2):
+        assert opener.requests[index].get_header("Authorization") == "Badger expired-token"
+    for index in (4, 5):
+        assert opener.requests[index].get_header("Authorization") == "Badger fresh-token"
+    assert opener.requests[4].get_header("Prefer") == "autoredeem"
+
+
+def test_file_request_refreshes_signed_url_and_sends_range_without_metadata_token(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    opener = FakeOpener(PAYLOAD)
+    client = hdr_http.OneDrive(opener=opener, retries=1)
+    client._token = "synthetic-token"
+    refreshes: list[dict[str, Any]] = []
+
+    def refresh(item: dict[str, Any]) -> dict[str, Any]:
+        refreshes.append(dict(item))
+        return {**item, "url": PUBLIC_URL + "&fresh=1"}
+
+    monkeypatch.setattr(client, "refresh", refresh)
+
+    with client.open_file(_item(), 19) as response:
+        assert response.read() == PAYLOAD
+
+    assert refreshes == [_item()]
+    request = opener.requests[0]
+    assert request.full_url.endswith("&fresh=1")
+    assert request.get_header("Range") == "bytes=19-"
+    assert request.get_header("Authorization") is None
+
+
+@pytest.mark.parametrize("changed_key", ["name", "id", "drive_id", "size", "sha256"])
+def test_refresh_rejects_changed_file_revision(
+    monkeypatch: pytest.MonkeyPatch, changed_key: str
+) -> None:
+    client = hdr_http.OneDrive(retries=1)
+    current = _metadata()
+    if changed_key == "drive_id":
+        current["parentReference"] = {"driveId": "changed-drive"}
+    elif changed_key == "sha256":
+        current["file"] = {"hashes": {"sha256Hash": "0" * 64}}
+    else:
+        current[changed_key] = len(PAYLOAD) + 1 if changed_key == "size" else "changed"
+    monkeypatch.setattr(client, "_json", lambda *_args, **_kwargs: current)
+
+    with pytest.raises(hdr_http.DownloadError):
+        client.refresh(_item())
+
+
+@pytest.mark.parametrize("raw", [b"not-json", b"[]", b'{"error":"synthetic-secret"}'])
+def test_metadata_invalid_response_fails_without_raw_details(raw: bytes) -> None:
+    client = hdr_http.OneDrive(opener=FakeOpener(raw), retries=1)
+
+    with pytest.raises(hdr_http.DownloadError) as error:
+        client._json(hdr_http.TOKEN_URL, authenticated=False)
+
+    assert "synthetic-secret" not in str(error.value)
+
+
+@pytest.mark.parametrize("token", [None, "", "value\nsynthetic-token", "value\rsynthetic-token", 1])
+def test_metadata_rejects_missing_or_unsafe_anonymous_token(token: Any) -> None:
+    client = hdr_http.OneDrive(opener=FakeOpener(json.dumps({"token": token}).encode()), retries=1)
+
+    with pytest.raises(hdr_http.DownloadError) as error:
+        client._json(f"{hdr_http.API}/drives/example/items/folder/children")
+
+    assert "synthetic-token" not in str(error.value)
+
+
+@pytest.mark.parametrize("field", ["file", "parentReference", "hashes", "name"])
+@pytest.mark.parametrize("invalid", [None, [], {"private-detail": "synthetic-secret"}])
+def test_inventory_rejects_malformed_metadata_fields_safely(
+    monkeypatch: pytest.MonkeyPatch, field: str, invalid: Any
+) -> None:
+    updates = {field: invalid} if field != "hashes" else {"file": {"hashes": invalid}}
+    client = _inventory_client(monkeypatch, [_metadata(**updates)])
+
+    with pytest.raises(hdr_http.DownloadError) as error:
+        client.inventory({"train": ("1.h5",)})
+
+    assert "synthetic-secret" not in str(error.value)
+
+
+@pytest.mark.parametrize("value", [None, [], "synthetic-secret"])
+def test_file_metadata_must_be_an_object(value: Any) -> None:
+    with pytest.raises(hdr_http.DownloadError) as error:
+        hdr_http.OneDrive._file(value, "train")
+
+    assert "synthetic-secret" not in str(error.value)
+
+
+class DatasetClient(FakeClient):
+    def inventory(self, expected: dict[str, tuple[str, ...]]) -> list[dict[str, Any]]:
+        return [_item()]
+
+
+@pytest.mark.parametrize("extra_name", ["extra.hdf5", "extra.H5", "nested/1.h5"])
+def test_dataset_rejects_all_unexpected_hdf5_extensions_before_transfer(
+    tmp_path: Path, extra_name: str
+) -> None:
+    destination = tmp_path / "EventHDR"
+    extra = destination / "train" / extra_name
+    extra.parent.mkdir(parents=True)
+    extra.write_bytes(b"existing content")
+    client = DatasetClient()
+
+    with pytest.raises(hdr_http.DownloadError):
+        hdr_http.download_dataset(destination, {"train": ("1.h5",)}, client=client)
+
+    assert extra.read_bytes() == b"existing content"
+    assert not (destination / "train" / "1.h5").exists()
+    assert client.calls == []
+
+
+@pytest.mark.parametrize("failure_type", [get_hdr.ImportError, OSError])
+def test_download_cli_postcheck_failure_suppresses_private_details(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    failure_type: type[Exception],
+) -> None:
+    private_path = tmp_path / "private-data-mount" / "damaged.h5"
+    monkeypatch.setattr(hdr_http, "download_dataset", lambda *_args: {"downloaded": 70, "kept": 0})
+
+    def fail_postcheck(*_args: Any) -> None:
+        raise failure_type(f"invalid file {private_path} on private-compute-node")
+
+    monkeypatch.setattr(get_hdr, "check_destination", fail_postcheck)
+
+    assert get_hdr.main(["--download", "--destination", str(tmp_path / "EventHDR")]) == 1
+
+    output = capsys.readouterr()
+    assert "ERROR:" in output.err
+    assert "passed" not in output.out
+    assert str(private_path) not in output.out + output.err
+    assert "private-compute-node" not in output.out + output.err
+
+
+def test_download_cli_rejects_lexical_symlink_root(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    referent = tmp_path / "preserve-original"
+    referent.mkdir()
+    original = referent / "keep.txt"
+    original.write_bytes(b"existing content")
+    destination = tmp_path / "EventHDR"
+    try:
+        destination.symlink_to(referent, target_is_directory=True)
+    except OSError:
+        if os.name == "nt":
+            pytest.skip("Windows symlink privilege is unavailable")
+        raise
+    client = DatasetClient()
+    monkeypatch.setattr(hdr_http, "OneDrive", lambda: client)
+
+    assert get_hdr.main(["--download", "--destination", str(destination)]) == 1
+
+    output = capsys.readouterr()
+    assert "symlink" in output.err.lower()
+    assert "passed" not in output.out
+    assert destination.is_symlink()
+    assert list(referent.iterdir()) == [original]
+    assert original.read_bytes() == b"existing content"
+    assert client.calls == []
+~~~~~~~~
+
 # tests/test_inspect_all.py
 
 ~~~~~~~~python
@@ -22436,9 +23861,11 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
     assert "source .venv/bin/activate" in quickstart
     assert "python scripts/check_env.py --require-cuda --lock constraints/py312.txt" in quickstart
     assert "bash scripts/get_aid.sh --all" in quickstart
-    assert "bash scripts/get_hdr.sh --archive" in quickstart
-    assert "--split train" in quickstart
-    assert "--split eval" in quickstart
+    assert "bash scripts/get_hdr.sh --download" in quickstart
+    assert "bash scripts/get_hdr.sh --archive" not in quickstart
+    assert "mkdir -p data/_archives" not in quickstart
+    assert "data/EventHDR/{train,eval}" in quickstart
+    assert "SHA-256" in quickstart
     assert "python scripts/check_env.py --require-full-data --lock constraints/py312.txt" in quickstart
     assert "bash scripts/run.sh all" in quickstart
 

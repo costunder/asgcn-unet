@@ -53,26 +53,27 @@ Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서�
 
 ### 3. 두 데이터셋 준비
 
-EventAid-R 전체 14개 ZIP은 자동 다운로드한다. 중단되면 같은 명령으로 이어받는다.
+두 데이터셋 모두 **접속한 Linux 서버에서 직접 다운로드**한다. PC로 먼저 받거나 SFTP로 올릴 필요는
+없다. EventAid-R은 전체 14개 ZIP, EventHDR은 train 51개와 eval 19개의 H5를 받는다.
 
 ```bash
-bash scripts/get_aid.sh --all
-mkdir -p data/_archives
-```
-
-EventHDR은 [공식 OneDrive 폴더](https://1drv.ms/f/s!AuA3qjJbfh9FjQa4GvHC_9Fn9UQm?e=jODI9N)에서
-**train과 eval 폴더를 각각 ZIP으로 다운로드**한다. MobaXterm 왼쪽 SFTP에서 이 저장소의
-`data/_archives/`로 올린다. 서버 파일명을 `train.zip`, `eval.zip`으로 맞춘 뒤 실행한다.
-
-```bash
-bash scripts/get_hdr.sh --archive data/_archives/train.zip --split train &&
-bash scripts/get_hdr.sh --archive data/_archives/eval.zip --split eval &&
+bash scripts/get_aid.sh --all &&
+bash scripts/get_hdr.sh --download &&
 python scripts/check_env.py --require-full-data --lock constraints/py312.txt
 ```
 
-EventHDR의 브라우저 다운로드·업로드는 수동 단계다. 이미 받은 H5 폴더나 통합 ZIP이 있다면
-[다른 가져오기 방법](docs/SERVER.md#2-전체-데이터-배치)을 사용한다.
-최종 데이터는 약 50.4GB지만 ZIP 원본·가상환경·학습 결과 공간은 별도로 필요하다.
+중단되면 같은 다운로드 명령을 다시 실행한다. EventHDR은 Python 표준 라이브러리 HTTP로
+[공식 OneDrive 폴더](https://1drv.ms/f/s!AuA3qjJbfh9FjQa4GvHC_9Fn9UQm?e=jODI9N)에 익명 접근하며,
+사용자 로그인·브라우저·쿠키 없이 `data/EventHDR/{train,eval}`에 저장한다. `.part` 이어받기,
+재시도·만료 링크 갱신과 정확한 파일 집합·크기·SHA-256·HDF5 signature 검사를 수행한다.
+
+이 경로는 2026-08-30 확인한 **문서화되지 않은 OneDrive 익명 호환 endpoint**를 사용하므로
+Microsoft의 안정적 API 계약을 보장하지 않는다. 실접속 검증 범위는 70개 파일 metadata와 train/eval
+각 H5의 첫 8-byte signature, 새 익명 token의 공유 접근 갱신이다. 전체 약 25.72GB 다운로드나 GPU
+학습을 완료했다는 뜻은 아니다.
+split별 다운로드와 이미 가진 ZIP/H5/shared storage의 선택적 가져오기는
+[서버 데이터 안내](docs/SERVER.md#2-전체-데이터-배치)를 따른다.
+최종 데이터는 약 50.4GB이며 가상환경·학습 결과, 선택적으로 보관하는 ZIP 원본 공간은 별도로 필요하다.
 
 ### 4. 전체 학습·보정·평가
 
@@ -165,7 +166,7 @@ SNN 변환 대상은 graph encoder다. residual U-Net과 ConvGRU decoder는 ANN/
 | EventAid-R | ZIP 14개 | 약 24.68GB | 학습·보정에 쓰지 않는 외부 평가 |
 
 두 데이터의 합계는 약 **50.4GB**로 100GB 미만이다. 가상환경, checkpoint, prediction, 로그와
-EventHDR 업로드용 ZIP을 동시에 보관하면 추가 공간이 필요하다.
+선택적 EventHDR import용 ZIP을 동시에 보관하면 추가 공간이 필요하다.
 
 EventHDR 공식 배포는 train 51 H5와 eval 19 H5를 서로 다른 root로 제공한다. 공개 자료에는 이
 70개 H5와 실제 촬영 physical scene 사이의 완전한 대응표가 없다. 따라서
@@ -407,8 +408,8 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
 - `check_env.py`는 CUDA 초기화 후 실제 runtime 장치 수로 GPU 이름/VRAM을 조회한다. MIG의
   초기화 전후 장치 수 차이로 인한 `Invalid device id`를 CPU 모의 회귀검사로 검증했으며, 실제
   초기화 실패나 CUDA 불가는 우회하지 않는다. [서버 오류 안내](docs/SERVER.md#7-산출물-확인과-운영상-오류)
-- 2026-08-30 Windows CPU 검증은 **298 passed, 1 skipped**다. skip 1건은 OS의 symlink 생성 권한이
-  없는 경우의 shared-storage link test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
+- 2026-08-30 Windows CPU 검증은 **412 passed, 5 skipped**다. skip 5건은 OS의 symlink 생성 권한이
+  없는 경우의 shared-storage link 및 downloader symlink 보호 test다. shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했으며,
   실제 Linux Git 2.47.3 실행 결과는 아니다. 전체 검증 명령은 `hand_off.md`에 기록한다. 이 로컬 결과는
   원격 history/과거 CI 정리나 배포 성공을 증명하지 않는다. 원격 배포 여부는 대상 SHA의 release gate와
   GitHub Actions 결과로 별도 확인한다.

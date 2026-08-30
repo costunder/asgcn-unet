@@ -62,15 +62,40 @@ data/
     └── R-*.zip                 # manifest의 14개 ZIP
 ```
 
-### EventHDR: browser download 뒤 import
+### EventHDR: 서버 직접 다운로드 (기본)
 
-공식 EventHDR OneDrive folder는 현재 unattended `curl` download를 허용하지 않는다.
-`scripts/get_hdr.sh`도 이를 우회한다고 주장하지 않으며, 이미 받은 archive/extracted directory를
-검사해 가져오는 도구다.
+MobaXterm으로 접속한 Linux 서버의 저장소 root에서 실행한다. PC 다운로드·SFTP 전송, 사용자
+로그인·브라우저·쿠키는 필요 없다. Python 표준 라이브러리 HTTP로 공식 OneDrive 공유 폴더에 익명
+접근하고, H5를 ZIP으로 묶지 않고 `data/EventHDR/{train,eval}`에 직접 저장한다.
 
-1. Windows browser에서 공식 OneDrive의 train/eval release를 내려받는다.
-2. 저장소 root에서 `mkdir -p data/_archives`를 실행하고 MobaXterm SFTP panel로 그 폴더에 ZIP을 전송한다.
-3. train/eval 별도 archive의 서버 파일명을 `train.zip`, `eval.zip`으로 맞추고 각각 import한다.
+```bash
+bash scripts/get_hdr.sh --download
+```
+
+기본값은 train `1.h5`–`51.h5`와 eval `1.h5`–`19.h5` 전체다. 한 split만 받을 때는 다음처럼
+지정한다. 전체 학습·평가 전에 두 split 모두 있어야 한다.
+
+```bash
+bash scripts/get_hdr.sh --download --split train
+bash scripts/get_hdr.sh --download --split eval
+```
+
+중단되면 같은 명령으로 다시 실행한다. `.part` 파일에서 이어받고, 일시적 HTTP 실패를 재시도하며
+만료된 다운로드 링크는 새로 조회한다. 완료 파일은 정확한 이름 집합·OneDrive metadata의 byte size와
+SHA-256·HDF5 signature를 검증한다. 익명 접근 token과 임시 다운로드 URL은 메모리에서만 사용하며
+파일이나 로그에 기록하지 않는다.
+
+이 구현은 2026-08-30 실접속으로 확인한 **문서화되지 않은 OneDrive 익명 호환 endpoint**를 사용한다.
+Microsoft가 보장하는 안정적 API 계약은 아니므로 서비스 변경·공유 해제·서버 네트워크 차단 시
+실패할 수 있다. 해당 날짜의 실접속 검증은 train 51/eval 19개 metadata 조회와 각 split H5에 대한
+`Range: bytes=0-7`의 HTTP 206·HDF5 signature, 새 익명 token의 공유 접근 갱신 확인이다.
+전체 약 25.72GB 다운로드·전체 decode·GPU
+본실험 완료를 주장하지 않는다. 다운로드 실패를 빈 dataset이나 CPU 실행으로 우회하지 않는다.
+
+### EventHDR: 이미 받은 데이터 가져오기 (선택)
+
+이미 서버에 ZIP, 풀린 H5 directory 또는 shared-storage 데이터가 있을 때만 아래 import 경로를
+사용한다. 직접 다운로드의 선행 조건이 아니다. train/eval 별도 archive는 각각 split을 지정한다.
 
 ```bash
 bash scripts/get_hdr.sh --archive data/_archives/train.zip --split train
@@ -136,8 +161,9 @@ asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 `train.json` inspect는 manifest에 따라 EventHDR train 51개와 eval 19개 root를 모두 검사한다.
 EventAid 명령은 manifest의 14개 ZIP에 있는 모든 선택 event block과 target을 decode한다.
 `--validate-all`은 metadata만 세는 명령이 아니므로 dataset 크기에 따라 오래 걸린다. 실패한 file을
-제외해 진행하지 말고 원본을 다시 전송·검증한다. 출력의 `event_timestamp_diagnostics`에는 각 block의
-원 timestamp min/max, interval span ratio·offset·범위 이탈 합계가 포함된다. 공식 14 ZIP에서 공통
+제외해 진행하지 말고 원본 다운로드 또는 import 상태를 확인·검증한다. 출력의
+`event_timestamp_diagnostics`에는 각 block의 원 timestamp min/max, interval span ratio·offset·범위
+이탈 합계가 포함된다. 공식 14 ZIP에서 공통
 timestamp basis와 단위가 확인되기 전까지 이 값은 진단용이며 자동 rejection 조건은 아니다.
 
 ## 3. 직접 서버에서 전체 실행
@@ -434,8 +460,11 @@ python scripts/build_code_summary.py --check --require-clean-provenance
   driver/PyTorch CUDA 호환성을 확인한다. 공개 진단에는 예외 종류만 출력하며, 원문 예외가 필요하면
   `check_env.py --include-private-host-provenance`를 비공개 진단에서만 사용한다.
 - `CUDA available: false`: login node가 아닌 GPU allocation인지, CUDA wheel과 driver가 맞는지 확인한다.
-- `EventHDR ... exact official file set`: OneDrive 전송이 끝났는지, train 51/eval 19 외 H5가 섞이지
-  않았는지 `get_hdr.sh --check`로 확인한다.
+- EventHDR 다운로드 중단: `bash scripts/get_hdr.sh --download`를 다시 실행해 `.part`에서 이어받는다.
+  반복 실패하면 서버의 outbound HTTPS와 공식 공유 상태를 확인한다. 익명 endpoint나 임시 링크를
+  임의 변경하거나 token·서명 URL을 공개 로그에 붙이지 않는다.
+- `EventHDR ... exact official file set`: 직접 다운로드 또는 선택한 import가 끝났는지,
+  train 51/eval 19 외 H5가 섞이지 않았는지 `get_hdr.sh --check`로 확인한다.
 - `eventaid_r_zip must contain exactly 14`: `get_aid.sh --all`을 완료하고 ZIP을 압축 해제하지 않는다.
 - `Fresh training run_dir is not empty`: 새 run이면 별도 `output.run_dir`, 중단 run이면 `last.pt` resume를
   사용한다.

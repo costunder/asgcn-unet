@@ -245,9 +245,11 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
     assert "source .venv/bin/activate" in quickstart
     assert "python scripts/check_env.py --require-cuda --lock constraints/py312.txt" in quickstart
     assert "bash scripts/get_aid.sh --all" in quickstart
-    assert "bash scripts/get_hdr.sh --archive" in quickstart
-    assert "--split train" in quickstart
-    assert "--split eval" in quickstart
+    assert "bash scripts/get_hdr.sh --download" in quickstart
+    assert "bash scripts/get_hdr.sh --archive" not in quickstart
+    assert "mkdir -p data/_archives" not in quickstart
+    assert "data/EventHDR/{train,eval}" in quickstart
+    assert "SHA-256" in quickstart
     assert "python scripts/check_env.py --require-full-data --lock constraints/py312.txt" in quickstart
     assert "bash scripts/run.sh all" in quickstart
 

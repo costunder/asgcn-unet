@@ -23,8 +23,8 @@ hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했
 - 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda·`.venv` 경로로 통합됐는지 문서 검토
 - GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
 
-2026-08-30 Windows CPU 검증은 **298 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
-shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
+2026-08-30 Windows CPU 검증은 **412 passed, 5 skipped**다. skip 5건은 OS symlink privilege가 없을 때의
+shared-storage link 및 downloader symlink 보호 test이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
 실제 CUDA 본실험이나 Linux Git 2.47.3 실측 통과를 뜻하지 않는다. 원격 배포는 sanitized history와
 과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
 gate 기록과 GitHub Actions 필수 gate 통과를 함께 확인해야 한다. 실제 marker는 GitHub secret·변수·
@@ -100,19 +100,41 @@ SNN으로 바뀌는 부분은 graph encoder뿐이다. rasterization, U-Net, Conv
 | EventAid-R | `R-*.zip`, 14개 | 약 24.68024 GB | 학습·calibration 뒤 외부 일반화 평가 |
 
 두 데이터셋의 공식 배포 표시 용량 합은 약 50.40 GB로 100 GB 미만이다. EventAid-R은 ZIP을
-추출하지 않고 직접 읽어 중복 저장을 피한다. EventHDR를 browser archive에서 복사할 때는 archive와
-배치된 H5가 일시적으로 함께 존재할 수 있으므로 서버의 실제 여유 공간은 별도로 확인한다.
+추출하지 않고 직접 읽어 중복 저장을 피한다. EventHDR 기본 경로는 서버에 H5를 직접 다운로드한다.
+선택적으로 기존 archive를 import할 때는 archive와 배치된 H5가 일시적으로 함께 존재할 수 있으므로
+서버의 실제 여유 공간은 별도로 확인한다.
 
 ### 3.1 EventHDR 획득과 배치
 
-공식 배포는 [EventHDR 저장소](https://github.com/yunhao-zou/EventHDR)의 OneDrive 링크다. OneDrive가
-비대화형 `curl` 요청을 거부하므로 이 저장소는 동작하지 않는 자동 downloader를 제공하지 않는다.
-사용자가 browser로 받은 ZIP, 이미 풀어 둔 directory 또는 shared filesystem directory를 아래
-도구로 안전하게 배치한다. ZIP 업로드 위치와 이름은 README의 `data/_archives/train.zip`,
-`data/_archives/eval.zip`을 따른다.
+공식 배포는 [EventHDR 저장소](https://github.com/yunhao-zou/EventHDR)의 OneDrive 링크다. 기본 경로는
+**Linux 서버 직접 다운로드**이며 PC 경유·SFTP 전송, 사용자 로그인·브라우저·쿠키를 요구하지 않는다.
+Python 표준 라이브러리 HTTP로 익명 접근해 train 51개와 eval 19개의 H5를
+`data/EventHDR/{train,eval}`에 저장한다.
 
 ```bash
-# browser로 받은 train/eval 포함 ZIP을 직접 읽어 data/EventHDR로 복사
+bash scripts/get_hdr.sh --download
+
+# 한 split만 필요할 때; 전체 실행 전에는 두 split 모두 준비
+bash scripts/get_hdr.sh --download --split train
+bash scripts/get_hdr.sh --download --split eval
+```
+
+같은 명령을 다시 실행하면 `.part` 파일을 이어받으며 일시적 요청 실패를 재시도하고 만료된 링크를
+갱신한다. 정확한 파일 집합, API metadata의 byte size·SHA-256과 HDF5 signature를 확인한다. 익명
+token과 임시 서명 다운로드 URL은 메모리에서만 사용하고 파일·로그에 남기지 않는다. API가 제공하는
+현재 파일 hash와 대조하는 것이며, 저자가 별도로 서명·배포한 checksum release를 대신하지는 않는다.
+
+2026-08-30 확인한 경로는 **문서화되지 않은 OneDrive 익명 호환 endpoint**다. Microsoft의 안정적
+API 계약을 보장하지 않으며 공유 상태나 서비스 변경에 따라 실패할 수 있다. 실접속 검증은 70개 H5
+metadata와 train/eval 각 H5의 첫 8 bytes, 새 익명 token의 공유 접근 갱신에 한정된다. 범위 요청은 HTTP 206과 올바른
+Content-Range·HDF5 signature를 반환했으나 전체 약 25.72GB 다운로드·전체 decode·GPU 본실험은
+수행하지 않았다.
+
+이미 서버에 있는 ZIP, 압축 해제 directory 또는 shared filesystem은 선택적으로 안전하게 import할
+수 있다. 아래 경로는 직접 다운로드의 필수 선행 단계가 아니다.
+
+```bash
+# 이미 가진 train/eval 포함 ZIP을 직접 읽어 data/EventHDR로 복사
 bash scripts/get_hdr.sh --archive data/_archives/EventHDR.zip
 
 # 이미 풀어 둔 EventHDR/{train,eval} 또는 {train,eval} root에서 복사
@@ -129,10 +151,11 @@ bash scripts/get_hdr.sh --archive data/_archives/eval.zip --split eval
 bash scripts/get_hdr.sh --check
 ```
 
-`scripts/get_hdr.py`는 train의 정확한 51개 이름, eval의 정확한 19개 이름, missing/extra/nested H5,
-archive 중복·경로 이탈, HDF5 magic과 선택 데이터 100 GB 미만을 검사한다. 복사는 `.part` 임시 파일
-뒤 atomic replace로 완료하며 기존의 다른 크기 파일은 덮어쓰지 않는다. 공식 checksum이 공개되지
-않았으므로 이 검사는 배포자 cryptographic checksum 검증을 대신하지 않는다.
+`scripts/get_hdr.py`의 import/check는 train의 정확한 51개 이름, eval의 정확한 19개 이름,
+missing/extra/nested H5, archive 중복·경로 이탈, HDF5 magic과 선택 데이터 100 GB 미만을 검사한다.
+복사는 `.part` 임시 파일 뒤 atomic replace로 완료하며 기존의 다른 크기 파일은 덮어쓰지 않는다.
+이 로컬 import/check는 다운로드 모드의 원격 SHA-256 대조와 구분되며 배포자 cryptographic
+checksum 검증을 대신하지 않는다.
 
 ### 3.2 EventAid-R 획득과 배치
 
@@ -652,7 +675,8 @@ Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native vi
 | `manifests/eventhdr_split.json` | official separate roots와 H5 sequence-file semantics |
 | `manifests/eventaid_r.json` | 14 ZIP 이름, URL, 표시 용량 |
 | `scripts/setup.sh`, `scripts/check_env.py` | server 설치와 환경/data inventory |
-| `scripts/get_hdr.py`, `scripts/get_hdr.sh` | browser/source/shared EventHDR 안전 import/check |
+| `scripts/get_hdr.py`, `scripts/get_hdr.sh` | EventHDR 서버 직접 다운로드 CLI와 선택적 archive/source/shared import/check |
+| `scripts/hdr_http.py` | 익명 OneDrive HTTP 조회, 재개·재시도·링크 갱신과 크기/SHA-256/HDF5 검증 |
 | `scripts/get_aid.sh` | EventAid-R 14 ZIP 다운로드/재개/검사 |
 | `scripts/train.sh`, `scripts/calibrate.sh`, `scripts/eval.sh` | 개별 GPU wrapper |
 | `scripts/run.sh` | `check|profile|train|calibrate|eval|all`, CUDA gate와 18-run matrix orchestration |
@@ -680,8 +704,8 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-2026-08-30 Windows CPU 통합 결과는 **298 passed, 1 skipped**이며, skip 1건은 symlink privilege가
-없는 환경의 shared-storage link test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
+2026-08-30 Windows CPU 통합 결과는 **412 passed, 5 skipped**이며, skip 5건은 symlink privilege가
+없는 환경의 shared-storage link 및 downloader symlink 보호 test다. 15개 shell entrypoint는 MSYS Bash에서 각각 구문 검사했다.
 아래 명령은 로컬 source 검증용이며 원격 배포 성공 여부는 뒤의 release gate로 별도 판정한다.
 
 history scanner는 `git rev-list --objects --all`의 LF 출력으로 통일했다. 구 Git이 `-z`를 받아도 최신
@@ -745,6 +769,8 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - 공개 output의 absolute path/hostname redaction과 Public HTTPS clone 절차
 - CUDA 초기화 전 physical count와 초기화 후 runtime count가 다른 MIG 모의 장치, 다중 GPU,
   CUDA 불가·0-device·초기화/조회 오류와 공개/private opt-in 예외 출력의 31개 CPU 회귀검사
+- EventHDR 서버 HTTP 다운로드의 정확한 metadata, SHA-256·HDF5 검사, Range 이어받기,
+  오류 재시도, 익명 token 갱신·공유 재접근, URL·symlink·로그 보호 회귀검사
 
 GitHub Actions는 Ubuntu/Windows의 Python 3.10/3.11/3.12 pytest matrix와 Python 3.12 locked Ruff/shell
 syntax/privacy/snapshot job을 정의한다. 외부 Action은 mutable tag 대신 검증한 40-character commit SHA로
@@ -772,7 +798,8 @@ GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 - EventAid-R `target_offset=1`과 log tone mapping은 명시적 cross-domain 가정이다.
 - `literal_eq15`의 self-feedback은 표준 rate-conversion과 수학적 긴장이 있다.
 - decoder가 analog라 firing-rate/latency를 완전한 neuromorphic system 수치로 해석할 수 없다.
-- downloader 검사는 공식 checksum을 대체하지 못한다.
+- EventAid-R downloader의 ZIP 검사는 미제공 공식 checksum을 대체하지 못한다. EventHDR 직접
+  downloader는 공식 OneDrive metadata의 SHA-256과 받은 H5의 전체 byte hash를 비교한다.
 - optional LPIPS는 core lock에 포함되지 않는다.
 - 실제 sensor ingest, network transport, compression, RTL, synthesis와 power 측정은 범위 밖이다.
 

@@ -188,5 +188,5 @@ echo
 echo "Installation complete."
 echo "Python: ${VENV_PYTHON}"
 echo "Next: ./scripts/get_aid.sh --all"
-echo "Then: ./scripts/get_hdr.sh --archive /path/to/EventHDR.zip"
+echo "Then: ./scripts/get_hdr.sh --download"
 echo "Finally: ./scripts/run.sh"

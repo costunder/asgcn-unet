@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T13:57:47Z",
+    "generated_utc": "2026-08-30T14:50:13Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "6c4d39408aa045a8ac434bd5ea4c21a2d10ee4ee",
-    "source_tree_at_generation": "c5a16e9a295150225d08bbf596ccc5f47b59f9b5",
+    "source_commit_at_generation": "d529884702b127f4eb8e1c7e8ee0ea0cb75e254f",
+    "source_tree_at_generation": "c5fb5089eacddbad109b3fe124437db129c1bd8e",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 25795,
+        "bytes": 26141,
         "path": "README.md",
-        "sha256": "383755bad40051d3dae4fb749a79d0469e0ef3393e4491c992ad22a17cdb112d"
+        "sha256": "e946ec267f60fbc933e2eab2aec0c84193c9d53bdb95a56178d9ef630c7f0575"
       },
       {
         "bytes": 1339,
@@ -86,19 +86,19 @@
         "sha256": "c678c5c0a1ddaa26ad7985ed5efdddcfd9f00cc2edf915585681d4d62444048f"
       },
       {
-        "bytes": 25875,
+        "bytes": 27607,
         "path": "docs/EXPERIMENT.md",
-        "sha256": "8cdbd47f677ce56510e914f1705610a3273e8f67ffc72e8189a0bb902f468479"
+        "sha256": "0e5ebc3492f732e96dd5d196ccdf7ced28835de6b315a2bf41ed75ec68c24f17"
       },
       {
-        "bytes": 29603,
+        "bytes": 30581,
         "path": "docs/SERVER.md",
-        "sha256": "ce12a628afd6e3ca1d8a873188eb08fcda89aa094dd0384faedc50f361241ce4"
+        "sha256": "ea961037ccb4c6c19b2918a5c4abdc047b9a4d8f5f21ef5036176367493f8255"
       },
       {
-        "bytes": 60453,
+        "bytes": 63282,
         "path": "hand_off.md",
-        "sha256": "9553e8786ad5a335c4632f31a7296bb4a4e95e1ce6165d7b33abe263e1aeca6b"
+        "sha256": "fc94d5edf302178a2ae0245c4f2c7a8c333c101506d9c72a3d2b77ad1150458f"
       },
       {
         "bytes": 2753,
@@ -241,9 +241,9 @@
         "sha256": "0591d6bd2abee38f7834cf81219d36d2dbfe64cd3992c12f6de06fe2b85a5e5b"
       },
       {
-        "bytes": 18200,
+        "bytes": 24704,
         "path": "src/asgcn_unet/data/eventaid_r.py",
-        "sha256": "99b86d4a5c0272e5c0321a2a09369cf23f25f58d520e9cc9f9a7c46376c7f166"
+        "sha256": "aaae5e4a4b48f73d0dbb06e9a728857d7c0cb5c1081c0a90179a03046ba1ff47"
       },
       {
         "bytes": 21635,
@@ -256,9 +256,9 @@
         "sha256": "5ef139427badf8664679002b8f5a90e728465002435998349f78735ef292104d"
       },
       {
-        "bytes": 190600,
+        "bytes": 191376,
         "path": "src/asgcn_unet/engine.py",
-        "sha256": "2e30d0189c73dda7fda0397c93765ee15ddbd083afa6a3478d2e06dd3f5737da"
+        "sha256": "36bae0d71ce4b8bc99de6391a068c36d71a1ff8a12c58ada11c4c7b2583d2019"
       },
       {
         "bytes": 36977,
@@ -346,6 +346,16 @@
         "sha256": "8b080d7b09bf52feffb34e74fdeafd1496553404054671eca9881197ce507ac6"
       },
       {
+        "bytes": 7171,
+        "path": "tests/test_eventaid_images.py",
+        "sha256": "0ee207572aedbdd62972cd918a03c28d8676f688177539bc926c389faa8c78fb"
+      },
+      {
+        "bytes": 9096,
+        "path": "tests/test_eventaid_parts.py",
+        "sha256": "fe60a01f27c22b8485dcd5995e902988aa2c91283140f95a7dbd1317001f802b"
+      },
+      {
         "bytes": 13413,
         "path": "tests/test_eventhdr_index.py",
         "sha256": "107489296a289e188fa1f91ab67a444953deb53a6fec96942c1027c63f1f8954"
@@ -406,6 +416,11 @@
         "sha256": "deb430542cb8e8448d63b831b7dd798af56e55364938d4f3420866a6aa4cf524"
       },
       {
+        "bytes": 7457,
+        "path": "tests/test_sequence_parts.py",
+        "sha256": "dc677e2591b80e9bdcaccb364ee9eb04a3a9b10127f5157c13e348cb05c3ed4d"
+      },
+      {
         "bytes": 2714,
         "path": "tests/test_server_lock.py",
         "sha256": "2f876783b6a8235885a165a66045d46bfcc0ff1dfdf48d934853bac2202e4c49"
@@ -426,9 +441,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 82,
+    "included_file_count": 85,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "ff6273acf153f1c7b14e10cccadaee20b0922966ed458fb8bc5cd7bcbbfef93f"
+    "snapshot_sha256": "e047cd246d0055342ab394853c95975efa7ecef21b975adcab367227809f3340"
   }
 }
 -->
@@ -762,6 +777,10 @@ Microsoft의 안정적 API 계약을 보장하지 않는다. 실접속 검증 �
 split별 다운로드와 이미 가진 ZIP/H5/shared storage의 선택적 가져오기는
 [서버 데이터 안내](docs/SERVER.md#2-전체-데이터-배치)를 따른다.
 최종 데이터는 약 50.4GB이며 가상환경·학습 결과, 선택적으로 보관하는 ZIP 원본 공간은 별도로 필요하다.
+
+EventAid-R은 장면별 PNG/JPEG GT를 ZIP에서 직접 읽는다. `R-traffic`의 `_upload` 폴더와
+`parts.txt`도 지원하며, 네 구간을 넘어 이벤트·GT를 연결하지 않는다. `inspect`는 장면별 영상 형식과
+구간 정보를 출력한다. 기존 다운로드 파일을 변환하거나 다시 압축할 필요는 없다.
 
 ### 4. 전체 학습·보정·평가
 
@@ -2169,6 +2188,25 @@ timestamp basis·단위가 확인되기 전에는 이 값을 hard rejection에 �
 섞지 않는다. 두 dataset의 sensor response와 exposure가 같다는
 보장은 없으므로 절대 PSNR/SSIM을 동일 분포의 수치처럼 직접 비교하지 않는다.
 
+EventAid-R의 일반 13개 ZIP은 `event/<id>.txt`, `gt/<id>_img.png` 또는 `.jpg`와
+`timestamps.txt`를 사용한다. `.jpeg`와 대소문자 확장자도 인식하며 동일 GT ID가 다른 형식으로
+중복되면 임의로 선택하지 않고 실패한다. 영상은 원본 ZIP에서 Pillow로 decode하며 변환·재압축하지
+않는다. `inspect.scenes`에 전체 GT의 `target_formats`와 `layout`을 기록한다.
+
+`R-traffic`은 `event_upload/`, `gt_upload/`, `timestamps_upload.txt`, `parts.txt` 구조다.
+공식 `parts.txt`의 inclusive ID 구간은 `1–1297`, `1967–2913`, `3201–5169`, `5377–8511`이다.
+업로드 timestamp 행은 원래 ID 자체가 아니라 **업로드된 ID의 숫자 정렬 순번**에 대응한다.
+각 구간 내부에서만 다음 timestamp와 target을 선택하고 구간 끝 event는 다음 구간과 연결하지
+않는다. 일반적인 offset 변경에서도 interval 끝 timestamp와 offset target 모두 같은 구간에
+존재해야 한다. parts 범위와 event/GT 집합 및 timestamp 행 수가 정확히 맞아야 하며, 선언되지
+않은 파일 누락을 새 구간으로 추정하지 않는다. 일반 구조는 `R-building`처럼 여분의 마지막
+timestamp가 있으므로 기존 coverage 검사를 유지한다.
+
+기본 offset 1에서 `R-traffic`의 7,348 event/GT 중 구간 끝 4개를 제외한 7,344개 쌍을 사용한다.
+원래 `frame_id`·`sequence_index`와 ZIP 단위 `scene`은 유지하고 `part_index`·`sequence_id`를
+추가한다. recurrent state와 temporal metric은 part 경계에서 초기화하지만 macro metric은
+기존 14개 ZIP scene을 단위로 계산한다. 선택된 part·timestamp 경계도 sample identity에 결합한다.
+
 event 전처리는 다음 순서다.
 
 1. 설정된 sensor crop을 적용한다. 본실험 config는 `crop_size=null`이라 전체 sensor를 쓴다.
@@ -2610,6 +2648,22 @@ manifest의 14개 scene, 표시 합계 약 24.68 GB를 내려받는다. 각 파�
 loader가 archive member를 직접 읽으므로 압축을 풀지 않는다. shared storage를 쓰면 repository의
 `data/EventAid-R`가 검증된 shared directory를 가리키도록 symlink한다. 기본 runner는 이 논리 경로를
 검사하므로 `EVENTAID_ROOT`만 다른 곳으로 바꾸면 안 된다.
+
+GT 확장자는 장면에 따라 PNG 또는 JPG다(JPEG 확장자도 지원). `R-traffic`은
+`event_upload/`, `gt_upload/`, `timestamps_upload.txt`, `parts.txt`를 사용하는 분할 배포다.
+로더가 두 구조를 직접 처리하므로 압축 해제·확장자 변경·재압축은 하지 않는다.
+
+이전 코드에서 `R-ball.zip: event and GT files are required`가 발생했다면 PNG만 인식하던
+로더 문제다. 이미 설치한 Conda 환경과 기존 저장소에서 아래처럼 갱신한다. 데이터나 환경을 다시
+다운로드·생성하지 않는다. 이 복구 명령은 학습 전 데이터 검사에서 중단된 경우에 해당한다.
+
+```bash
+git pull --ff-only &&
+bash scripts/run.sh all
+```
+
+수정 로더는 발견한 event/GT 수와 지원 파일명을 오류에 표시한다. 최신 코드에서도 누락 오류가 나면
+해당 ZIP 내부 구조를 확인하며, 파일을 제외하거나 전체 데이터 검사를 끄지 않는다.
 
 ### full-data와 decode 검사
 
@@ -3151,8 +3205,10 @@ zero raster를 거쳐 recurrent decoder로 전달된다. `frame_stride>1`이면 
 uniqueness를 강제하고 숫자순으로 읽으므로 `image10`이 `image2`보다 앞서는 문자열 정렬 오류를 허용하지
 않는다.
 
-EventAid-R loader는 ZIP 안의 `event/i.txt`, `gt/j_img.png`, `timestamps.txt`, `shape.txt`를 직접
-읽는다. config의 `target_offset=1`은 event interval `i`를 다음 GT `i+1`과 짝짓는 구현 가정이다.
+EventAid-R loader는 일반 ZIP 안의 `event/i.txt`, `gt/j_img.png` 또는 `.jpg`/`.jpeg`,
+`timestamps.txt`, `shape.txt`를 직접 읽는다. 영상 재압축이나 확장자 변경을 요구하지 않는다.
+`inspect.scenes`는 전체 GT의 `target_formats`와 `layout`을 기록한다.
+config의 `target_offset=1`은 event interval `i`를 다음 GT `i+1`과 짝짓는 구현 가정이다.
 offset은 bool이나 실수를 정수로 조용히 변환하지 않고 정확한 정수만 받는다.
 연속 ID, timestamp coverage, shape, 좌표와 polarity뿐 아니라 numeric event/GT ID 중복,
 case-insensitive ZIP member 중복, metadata member 중복, 중복 timestamp와 잘못된 shape token도
@@ -3160,6 +3216,17 @@ case-insensitive ZIP member 중복, metadata member 중복, 중복 timestamp와 
 다른 실험과 결과를 섞지 않는다. full inspect는 각 event block의 원 timestamp min/max와 interval
 `t0/t1`, span ratio, offset 및 범위 이탈 수를 집계한다. 공식 14 ZIP에서 timestamp basis와 단위가
 확인되기 전까지 이 집계는 diagnostic이며 strict rejection 조건이 아니다.
+
+공식 `R-traffic`은 `event_upload/`, `gt_upload/`, `timestamps_upload.txt`, `parts.txt`를
+사용한다. parts의 네 inclusive 구간 `1–1297`, `1967–2913`, `3201–5169`, `5377–8511`을
+event/GT ID 집합과 정확히 대조한다. timestamp는 원래 ID가 아니라 업로드된 ID의 숫자 정렬
+순번으로 연결한다. 구간 안에 다음 timestamp와 offset target이 모두 존재하는 event만 쌍을
+만들어, 기본 offset 1에서는 7,348개 중 끝 경계 4개를 제외한 7,344개를 평가한다. metadata에
+`part_index`, `sequence_id`를 추가해 state·temporal metric을 경계에서 초기화하지만, 원래 ID와
+ZIP 단위 `scene`을 보존해 14-scene macro 가중치를 바꾸지 않는다. part/timestamp도 sample
+identity hash에 포함한다. 선언되지 않은 누락 파일을 추정해 건너뛰거나 일반·upload 구조를 섞지
+않는다. 일반 구조의 `R-building`은 timestamp가 GT보다 한 행 많으므로 coverage만 검사하고,
+upload 구조는 정확한 행 수를 요구한다.
 
 두 dataset 모두 `target_normalization.mode=integer_dtype_max`를 명시해 정수 dtype maximum으로
 `[0,1]` luminance를 만든 뒤 기본 config에서 `log1p(5000*x)/log1p(5000)`를 적용한다. float target은
@@ -3750,12 +3817,29 @@ sample을 전부 decode했으며 전후 원본 SHA-256이 같았다. 기존 `26.
 skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이며, 이 실행에서는 native
 access-violation 진단이 발생하지 않았다. 배포 판정은 수정 commit의 CI 결과로 별도 확인한다.
 
+같은 날짜 EventAid-R 호환성 검증에서는 공식 ZIP 14개의 central directory와 작은 metadata를
+HTTP Range로 읽고, 수정한 production `_build_index()`로 **14/14 인덱싱 성공 및 51,512개 쌍**을
+확인했다. 실제 GT 51,529개는 JPG 10개 장면과 PNG 4개 장면에 분포한다. 일반 13개 장면의
+44,168개 쌍과 `R-traffic` 7,344개 쌍의 합이며, 인덱스 검증 전송량은 합계 9,314,919 bytes였다.
+이는 전체 ZIP 내용 decode나 전체 GPU 실험 완료가 아니다.
+
+실제 데이터 decode는 PNG `R-bear`의 전체 65개 쌍, JPG `R-ball`의 첫·중간·마지막 3개 쌍,
+`R-traffic` 첫 구간의 첫·마지막 2개 쌍에서 완료했다. 별도로 R-traffic 네 구간의 경계를 포함한
+실제 event block 12개를 CRC 검사와 함께 읽어 정렬 순번 기반 timestamp 대응 및 구간 끝 제외를
+검증했다. 다른 구간의 추가 영상 Range 읽기는 원격 HTTP 200/403 응답으로 중단돼 전체 영상 검증으로
+계산하지 않았다. 이 점은 서버에 이미 받은 ZIP을 읽는 로더의 동작과 구분한다.
+JPEG/parts/state 분리 수정 후 Windows CPU 통합 pytest는 **660 passed, 27 skipped**로 종료했고,
+Ruff도 통과했다. skip 27개는 위와 같은 플랫폼·권한 조건이며 이번 실행에서도 native
+access-violation 진단은 발생하지 않았다.
+
 주요 회귀 범위는 다음과 같다.
 
 - strict undirected radius graph와 cell implementation의 pairwise reference parity
 - degree-1 open B-spline endpoint, gradient, 초기화, hand calculation과 autograd
 - BN fold, 식 (6), dead-channel raw/scale/mask save→strict reload, IF soft reset, dynamics 차이, basis cache
 - EventHDR numeric image order와 EventAid exact offset/timestamp diagnostic을 포함한 구조·좌표·polarity·pairing·multiprocess safety
+- EventAid PNG/JPG/JPEG decode, 확장자 간 numeric GT 중복, upload parts의 정확한 파일·timestamp coverage,
+  구간 내부 pairing, part 경계의 state/temporal reset과 ZIP 단위 macro 집계 보존
 - exact-size event cap 경계와 zero-event frame
 - manifest separate-root/physical-scene claim 차단과 exact file coverage
 - final-only validation, balanced/context schedule, loss/gradient non-finite guard
@@ -9072,6 +9156,7 @@ import os
 import re
 import zipfile
 import zlib
+from collections import Counter
 from itertools import pairwise
 from numbers import Integral
 from pathlib import Path
@@ -9094,7 +9179,10 @@ from .common import (
 )
 
 _EVENT_RE = re.compile(r"(?:^|/)event/(\d+)\.txt$", re.IGNORECASE)
-_GT_RE = re.compile(r"(?:^|/)gt/(\d+)_img\.png$", re.IGNORECASE)
+# Official archives contain both PNG (e.g. R-bear) and JPEG (e.g. R-ball) GT.
+_GT_RE = re.compile(r"(?:^|/)gt/(\d+)_img\.(?:png|jpe?g)$", re.IGNORECASE)
+_UPLOAD_EVENT_RE = re.compile(r"(?:^|/)event_upload/(\d+)\.txt$", re.IGNORECASE)
+_UPLOAD_GT_RE = re.compile(r"(?:^|/)gt_upload/(\d+)_img\.(?:png|jpe?g)$", re.IGNORECASE)
 
 
 def _validate_event_coordinates(
@@ -9222,6 +9310,45 @@ class EventAidRZipDataset(Dataset):
             names.append(info.filename)
         return names
 
+    @classmethod
+    def _read_parts(
+        cls, zf: zipfile.ZipFile, names: list[str], *, path: Path, event_ids: list[int],
+        target_ids: list[int],
+    ) -> list[tuple[int, int]]:
+        """Validate the inclusive, explicitly published R-traffic upload segments."""
+        member = cls._unique_metadata_member(names, "parts.txt", path=path)
+        if member is None:
+            raise ValueError(f"Invalid EventAid-R scene {path}: upload layout requires parts.txt")
+        try:
+            lines = zf.read(member).decode("utf-8").strip().splitlines()
+        except UnicodeDecodeError as error:
+            raise ValueError(f"Invalid EventAid-R parts in {path}::{member}: expected UTF-8") from error
+        if lines and re.fullmatch(
+            r"This group is split into [A-Za-z0-9 -]+ parts:", lines[0].strip()
+        ):
+            lines = lines[1:]
+        parts: list[tuple[int, int]] = []
+        for line in lines:
+            match = re.fullmatch(r"(\d+)\s*~\s*(\d+)", line.strip())
+            if match is None:
+                raise ValueError(
+                    f"Invalid EventAid-R parts in {path}::{member}: expected start~end ranges"
+                )
+            start, end = map(int, match.groups())
+            if start < 1 or end < start or (parts and start <= parts[-1][1]):
+                raise ValueError(
+                    f"Invalid EventAid-R parts in {path}::{member}: ranges must be positive, "
+                    "ordered and non-overlapping"
+                )
+            parts.append((start, end))
+        # Bound allocation by the real member count, not untrusted range endpoints.
+        if not parts or sum(end - start + 1 for start, end in parts) != len(event_ids):
+            raise ValueError(f"Invalid EventAid-R scene {path}: parts.txt event coverage mismatch")
+        declared = [index for start, end in parts for index in range(start, end + 1)]
+        if event_ids != declared or target_ids != declared:
+            raise ValueError(f"Invalid EventAid-R scene {path}: parts.txt event/GT coverage mismatch")
+        return parts
+
     def _build_index(self) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         samples: list[dict[str, Any]] = []
         scene_info: dict[str, Any] = {}
@@ -9230,10 +9357,28 @@ class EventAidRZipDataset(Dataset):
                 names = self._validated_member_names(zf, path=path)
                 events = self._index_numbered_members(names, _EVENT_RE, label="event", path=path)
                 targets = self._index_numbered_members(names, _GT_RE, label="GT", path=path)
+                upload_events = self._index_numbered_members(
+                    names, _UPLOAD_EVENT_RE, label="event", path=path
+                )
+                upload_targets = self._index_numbered_members(
+                    names, _UPLOAD_GT_RE, label="GT", path=path
+                )
                 shape = self._read_shape(zf, names, path=path)
                 timestamps_name = self._unique_metadata_member(names, "timestamps.txt", path=path)
+                upload_timestamps = self._unique_metadata_member(
+                    names, "timestamps_upload.txt", path=path
+                )
+                upload_layout = bool(upload_events or upload_targets or upload_timestamps)
+                if upload_layout:
+                    if events or targets or timestamps_name is not None:
+                        raise ValueError(
+                            f"Invalid EventAid-R scene {path}: mixed regular and upload layouts"
+                        )
+                    events, targets = upload_events, upload_targets
+                    timestamps_name = upload_timestamps
                 if timestamps_name is None:
-                    raise ValueError(f"Invalid EventAid-R scene {path}: timestamps.txt is missing")
+                    expected = "timestamps_upload.txt" if upload_layout else "timestamps.txt"
+                    raise ValueError(f"Invalid EventAid-R scene {path}: {expected} is missing")
                 try:
                     timestamps = [
                         int(value) for value in zf.read(timestamps_name).decode("utf-8").split()
@@ -9254,18 +9399,42 @@ class EventAidRZipDataset(Dataset):
                 event_ids = sorted(events)
                 target_ids = sorted(targets)
                 if not event_ids or not target_ids:
+                    folder_suffix = "_upload" if upload_layout else ""
                     raise ValueError(
-                        f"Invalid EventAid-R scene {path}: event and GT files are required"
+                        f"Invalid EventAid-R scene {path}: event and GT files are required "
+                        f"(found event={len(events)}, GT={len(targets)}; expected "
+                        f"event{folder_suffix}/<id>.txt and gt{folder_suffix}/<id>_img.png, "
+                        ".jpg or .jpeg)"
                     )
-                if event_ids != list(range(event_ids[0], event_ids[-1] + 1)):
+                parts = None
+                if upload_layout:
+                    parts = self._read_parts(
+                        zf, names, path=path, event_ids=event_ids, target_ids=target_ids
+                    )
+                    if len(timestamps) != len(event_ids):
+                        raise ValueError(
+                            f"Invalid EventAid-R scene {path}: timestamps_upload.txt must contain "
+                            "one timestamp per uploaded frame in sorted numeric ID order"
+                        )
+                if not upload_layout and event_ids != list(range(event_ids[0], event_ids[-1] + 1)):
                     raise ValueError(
                         f"Invalid EventAid-R scene {path}: event IDs are not contiguous"
                     )
-                if target_ids != list(range(target_ids[0], target_ids[-1] + 1)):
+                if not upload_layout and target_ids != list(range(target_ids[0], target_ids[-1] + 1)):
                     raise ValueError(f"Invalid EventAid-R scene {path}: GT IDs are not contiguous")
-                paired_ids = [
-                    event_id for event_id in event_ids if event_id + self.target_offset in targets
-                ]
+                if parts is None:
+                    paired_ids = [
+                        event_id for event_id in event_ids if event_id + self.target_offset in targets
+                    ]
+                else:
+                    # The uploaded timestamp rows omit the gaps. Never use ID-1
+                    # as a row index or form an interval across two published parts.
+                    paired_ids = [
+                        event_id
+                        for start, end in parts
+                        for event_id in range(start, end)
+                        if start <= event_id + self.target_offset <= end
+                    ]
                 boundary = abs(self.target_offset)
                 if self.target_offset >= 0:
                     allowed_event_gaps = set(event_ids[-boundary:]) if boundary else set()
@@ -9276,36 +9445,67 @@ class EventAidRZipDataset(Dataset):
                 unpaired_events = set(event_ids) - set(paired_ids)
                 paired_targets = {event_id + self.target_offset for event_id in paired_ids}
                 unpaired_targets = set(target_ids) - paired_targets
-                if (
-                    not paired_ids
-                    or unpaired_events - allowed_event_gaps
-                    or unpaired_targets - allowed_target_gaps
+                if not paired_ids or (
+                    parts is None and (
+                        unpaired_events - allowed_event_gaps
+                        or unpaired_targets - allowed_target_gaps
+                    )
                 ):
                     raise ValueError(
                         f"Invalid EventAid-R scene {path}: event/GT pairing has internal gaps"
                     )
-                if paired_ids[0] < 1 or len(timestamps) <= paired_ids[-1]:
+                if parts is None and (paired_ids[0] < 1 or len(timestamps) <= paired_ids[-1]):
                     raise ValueError(
                         f"Invalid EventAid-R scene {path}: timestamps.txt does not cover "
                         "every paired event interval"
                     )
                 scene = path.stem
-                scene_info[scene] = {"shape": shape, "frames": len(targets), "events": len(events)}
+                scene_info[scene] = {
+                    "shape": shape,
+                    "frames": len(targets),
+                    "events": len(events),
+                    "paired_samples": len(paired_ids),
+                    "target_formats": dict(
+                        sorted(Counter(
+                            name.rsplit(".", 1)[-1].lower() for name in targets.values()
+                        ).items())
+                    ),
+                    "layout": "upload_parts" if upload_layout else "regular",
+                }
+                timestamp_rows = {event_id: row for row, event_id in enumerate(event_ids)}
+                part_indices: dict[int, int] = {}
+                if parts is not None:
+                    paired_set = set(paired_ids)
+                    scene_info[scene]["parts"] = [
+                        {
+                            "start_id": start,
+                            "end_id": end,
+                            "paired_samples": sum(index in paired_set for index in range(start, end)),
+                        }
+                        for start, end in parts
+                    ]
+                    for part_index, (start, end) in enumerate(parts):
+                        part_indices.update(
+                            (event_id, part_index) for event_id in range(start, end + 1)
+                        )
                 for event_id in paired_ids:
                     target_id = event_id + self.target_offset
-                    samples.append(
-                        {
-                            "path": path,
-                            "scene": scene,
-                            "frame_id": event_id,
-                            "event_name": events[event_id],
-                            "target_name": targets[target_id],
-                            "shape": shape,
-                            "sequence_index": event_id,
-                            "t0_us": timestamps[event_id - 1],
-                            "t1_us": timestamps[event_id],
-                        }
-                    )
+                    timestamp_row = timestamp_rows[event_id] if parts is not None else event_id - 1
+                    record = {
+                        "path": path,
+                        "scene": scene,
+                        "frame_id": event_id,
+                        "event_name": events[event_id],
+                        "target_name": targets[target_id],
+                        "shape": shape,
+                        "sequence_index": event_id,
+                        "t0_us": timestamps[timestamp_row],
+                        "t1_us": timestamps[timestamp_row + 1],
+                    }
+                    if parts is not None:
+                        record["part_index"] = part_indices[event_id]
+                        record["sequence_id"] = f"{scene}/part-{part_indices[event_id]:03d}"
+                    samples.append(record)
         return samples, scene_info
 
     def __len__(self) -> int:
@@ -9444,6 +9644,9 @@ class EventAidRZipDataset(Dataset):
                 "dataset": "EventAid-R",
                 "scene": item["scene"],
                 "sequence_index": item["sequence_index"],
+                **{
+                    key: item[key] for key in ("sequence_id", "part_index") if key in item
+                },
                 "source": str(item["path"]),
                 "t0_us": item["t0_us"],
                 "t1_us": item["t1_us"],
@@ -10827,6 +11030,8 @@ def _dataset_sample_identity(dataset, index: int) -> dict[str, Any]:
     record = records[index]
     for key in (
         "source_file",
+        "sequence_id",
+        "part_index",
         "sequence_index",
         "frame_id",
         "image_key",
@@ -10835,6 +11040,8 @@ def _dataset_sample_identity(dataset, index: int) -> dict[str, Any]:
         "start_idx",
         "end_idx",
         "timestamp",
+        "t0_us",
+        "t1_us",
     ):
         value = record.get(key)
         if value is not None:
@@ -10991,28 +11198,35 @@ def _sampling_counts(summary: dict[str, Any]) -> dict[str, Any]:
 def _sample_sequence_info(
     sample: dict[str, Any],
 ) -> tuple[str, int | None, tuple[int, int]]:
+    """Identify recurrent continuity, not the scene used for quality aggregation."""
     metadata = sample.get("metadata", {})
     if not isinstance(metadata, dict):
         metadata = {}
-    scene = str(metadata.get("scene", "unknown"))
+    sequence_id = str(metadata.get("sequence_id") or metadata.get("scene", "unknown"))
     raw_index = metadata.get("sequence_index")
     try:
         sequence_index = int(raw_index) if raw_index is not None else None
     except (TypeError, ValueError):
         sequence_index = None
     sensor_size = tuple(int(value) for value in sample["sensor_size"])
-    return scene, sequence_index, sensor_size
+    return sequence_id, sequence_index, sensor_size
+
+
+def _sample_metric_scene(sample: dict[str, Any]) -> str:
+    """Keep official scene-level macro metrics even when a scene has several parts."""
+    metadata = sample.get("metadata", {})
+    return str(metadata.get("scene", "unknown")) if isinstance(metadata, dict) else "unknown"
 
 
 def _continues_sequence(
-    scene: str,
+    sequence_id: str,
     sequence_index: int | None,
     sensor_size: tuple[int, int],
-    previous_scene: str | None,
+    previous_sequence_id: str | None,
     previous_sequence_index: int | None,
     previous_sensor_size: tuple[int, int] | None,
 ) -> bool:
-    if scene != previous_scene or sensor_size != previous_sensor_size:
+    if sequence_id != previous_sequence_id or sensor_size != previous_sensor_size:
         return False
     if sequence_index is None or previous_sequence_index is None:
         return True
@@ -13177,7 +13391,7 @@ def validate(
 ) -> dict[str, Any]:
     model.eval()
     accumulator = MetricAccumulator()
-    current_scene = None
+    current_sequence = None
     previous_sequence_index = None
     previous_sensor_size = None
     recurrent_state = None
@@ -13187,17 +13401,17 @@ def validate(
         if len(batch) != 1:
             raise ValueError("Stateful validation currently requires batch_size=1")
         sample = move_sample(batch[0], device)
-        scene, sequence_index, sensor_size = _sample_sequence_info(sample)
+        sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
         if not _continues_sequence(
-            scene,
+            sequence_id,
             sequence_index,
             sensor_size,
-            current_scene,
+            current_sequence,
             previous_sequence_index,
             previous_sensor_size,
         ):
             recurrent_state = None
-        current_scene = scene
+        current_sequence = sequence_id
         previous_sequence_index = sequence_index
         previous_sensor_size = sensor_size
         prediction, diagnostics = model.forward_sample(sample, recurrent_state=recurrent_state)
@@ -13206,7 +13420,11 @@ def validate(
             recurrent_state = recurrent_state.detach()
         if score_positions is None or index in score_positions:
             target = sample["target"].unsqueeze(0)
-            accumulator.update(scene, sample["sample_id"], frame_metrics(prediction, target))
+            accumulator.update(
+                _sample_metric_scene(sample),
+                sample["sample_id"],
+                frame_metrics(prediction, target),
+            )
     return accumulator.summary()
 
 
@@ -13419,7 +13637,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
         model.train()
         _reset_cuda_peak_memory(device)
-        current_scene = None
+        current_sequence = None
         previous_sequence_index = None
         previous_sensor_size = None
         recurrent_state = None
@@ -13434,19 +13652,19 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             if len(batch) != 1:
                 raise ValueError("Stateful training currently requires batch_size=1")
             sample = move_sample(batch[0], device)
-            scene, sequence_index, sensor_size = _sample_sequence_info(sample)
+            sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
             if not _continues_sequence(
-                scene,
+                sequence_id,
                 sequence_index,
                 sensor_size,
-                current_scene,
+                current_sequence,
                 previous_sequence_index,
                 previous_sensor_size,
             ):
                 recurrent_state = None
                 previous_prediction = None
                 previous_target = None
-            current_scene = scene
+            current_sequence = sequence_id
             previous_sequence_index = sequence_index
             previous_sensor_size = sensor_size
             optimizer.zero_grad(set_to_none=True)
@@ -13711,7 +13929,7 @@ def _evaluate_dataset(
     frame_rows: list[dict[str, Any]] = []
     latencies: list[float] = []
     realtime_factors: list[float] = []
-    current_scene = None
+    current_sequence = None
     previous_sequence_index = None
     previous_sensor_size = None
     recurrent_state = None
@@ -13784,19 +14002,19 @@ def _evaluate_dataset(
         sample = move_sample(batch[0], device)
         sample_id = sample.get("sample_id", index)
         _require_finite_tensor(sample["target"], "target", sample_id)
-        scene, sequence_index, sensor_size = _sample_sequence_info(sample)
+        sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
         if not _continues_sequence(
-            scene,
+            sequence_id,
             sequence_index,
             sensor_size,
-            current_scene,
+            current_sequence,
             previous_sequence_index,
             previous_sensor_size,
         ):
             recurrent_state = None
             previous_prediction = None
             previous_target = None
-        current_scene = scene
+        current_sequence = sequence_id
         previous_sequence_index = sequence_index
         previous_sensor_size = sensor_size
         if device.type == "cuda":
@@ -13841,13 +14059,14 @@ def _evaluate_dataset(
         temporal_l1 = metrics.get("temporal_l1")
         previous_prediction = metric_prediction.detach()
         previous_target = target.detach()
-        accumulator.update(scene, sample["sample_id"], metrics)
+        metric_scene = _sample_metric_scene(sample)
+        accumulator.update(metric_scene, sample["sample_id"], metrics)
         dt_us = _positive_interval_us(sample["metadata"].get("dt_us"), sample_id)
         rtf = latency_ms / (dt_us / 1000.0) if dt_us is not None else None
         if rtf is not None:
             realtime_factors.append(rtf)
         row = {
-            "scene": scene,
+            "scene": metric_scene,
             "sample_id": sample["sample_id"],
             **metrics,
             "latency_ms": latency_ms,
@@ -14329,7 +14548,7 @@ def _benchmark_dataset(
     layer_neuron_step_totals: list[int] = []
     realtime_factors: list[float] = []
     recurrent_state = None
-    current_scene = None
+    current_sequence = None
     previous_sequence_index = None
     previous_sensor_size = None
     raw = None
@@ -14437,7 +14656,7 @@ def _benchmark_dataset(
     )
     for iteration, (measured, sample_index) in enumerate(schedule):
         if iteration == len(warmup_indices):
-            current_scene = None
+            current_sequence = None
             previous_sequence_index = None
             previous_sensor_size = None
             _reset_benchmark_measurement_window(
@@ -14448,12 +14667,12 @@ def _benchmark_dataset(
         sample = move_inference_sample(raw, device)
         sample_id = sample.get("sample_id", sample_index)
         _require_finite_tensor(sample["target"], "target", sample_id)
-        scene, sequence_index, sensor_size = _sample_sequence_info(sample)
+        sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
         continuation = _continues_sequence(
-            scene,
+            sequence_id,
             sequence_index,
             sensor_size,
-            current_scene,
+            current_sequence,
             previous_sequence_index,
             previous_sensor_size,
         )
@@ -14461,7 +14680,7 @@ def _benchmark_dataset(
             recurrent_state = None
             if measured:
                 measured_state_resets += 1
-        current_scene = scene
+        current_sequence = sequence_id
         previous_sequence_index = sequence_index
         previous_sensor_size = sensor_size
         with _inference_precision_context(device, precision, autocast_dtype):
@@ -20762,6 +20981,437 @@ def test_check_env_accepts_exact_official_eventhdr_names(tmp_path, monkeypatch) 
     check_env.main()
 ~~~~~~~~
 
+# tests/test_eventaid_images.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import hashlib
+import io
+import zipfile
+from pathlib import Path
+
+import numpy as np
+import pytest
+from PIL import Image
+
+from asgcn_unet.cli import _inspect_one_split
+from asgcn_unet.data import EventAidRZipDataset
+
+
+def _image_bytes(frame_id: int, suffix: str) -> bytes:
+    """Encode actual image bytes; test fixtures exist only under pytest tmp_path."""
+    pixels = np.full((8, 12, 3), frame_id * 40, dtype=np.uint8)
+    buffer = io.BytesIO()
+    image_format = "PNG" if suffix.casefold() == "png" else "JPEG"
+    Image.fromarray(pixels).save(buffer, format=image_format)
+    return buffer.getvalue()
+
+
+def _scene_members(
+    suffixes: tuple[str, ...] = ("jpg", "jpg", "jpg", "jpg"),
+    *,
+    prefix: str = "",
+    separator: str = "/",
+) -> dict[str, bytes]:
+    def member(relative: str) -> str:
+        relative = relative.replace("/", separator)
+        return f"{prefix}{separator}{relative}" if prefix else relative
+
+    members = {
+        member("shape.txt"): b"12 8\n",
+        member("timestamps.txt"): b"1000\n2000\n3000\n4000\n",
+    }
+    for frame_id, suffix in enumerate(suffixes, 1):
+        t0 = frame_id * 1000
+        members[member(f"EvEnT/{frame_id:06d}.txt")] = (
+            f"{t0 + 100} 1 2 0\n{t0 + 900} 3 4 1\n".encode()
+        )
+        members[member(f"Gt/{frame_id:06d}_img.{suffix}")] = _image_bytes(frame_id, suffix)
+    return members
+
+
+def _write_scene(root: Path, members: dict[str, bytes]) -> Path:
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / "R-codec.zip"
+    with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for member, content in members.items():
+            archive.writestr(member, content)
+    return path
+
+
+@pytest.mark.parametrize("suffix", ["png", "jpg", "jpeg", "PNG", "JPG", "JPEG"])
+@pytest.mark.parametrize(
+    ("prefix", "separator"),
+    [("", "/"), ("nested/R-codec", "/"), (r"nested\R-codec", "\\")],
+)
+def test_eventaid_decodes_image_formats_with_unchanged_offset_and_timestamps(
+    tmp_path: Path, suffix: str, prefix: str, separator: str
+) -> None:
+    path = _write_scene(
+        tmp_path,
+        _scene_members((suffix,) * 4, prefix=prefix, separator=separator),
+    )
+    original_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+    dataset = EventAidRZipDataset(tmp_path, max_events=None)
+    try:
+        assert len(dataset) == 3
+        assert dataset.scene_info["R-codec"]["target_formats"] == {suffix.lower(): 4}
+        for sample_index in range(3):
+            sample = dataset[sample_index]
+            frame_id = sample_index + 1
+            target_id = frame_id + 1
+            assert sample["sample_id"] == f"R-codec/{frame_id:06d}"
+            assert sample["target"].shape == (1, 8, 12)
+            np.testing.assert_allclose(
+                sample["target"].numpy(), target_id * 40 / 255, rtol=1e-6
+            )
+            assert dataset.samples[sample_index]["target_name"].endswith(
+                f"{target_id:06d}_img.{suffix}"
+            )
+            metadata = sample["metadata"]
+            assert metadata["sequence_index"] == frame_id
+            assert metadata["t0_us"] == frame_id * 1000
+            assert metadata["t1_us"] == (frame_id + 1) * 1000
+            assert metadata["dt_us"] == 1000
+            assert metadata["raw_event_count"] == 2
+            assert metadata["retained_event_count"] == 2
+            assert metadata["event_timestamp_diagnostics"]["outside_interval_count"] == 0
+            np.testing.assert_array_equal(sample["events"][:, :2], [[1, 2], [3, 4]])
+    finally:
+        dataset.close()
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == original_hash
+
+
+def test_eventaid_full_inspect_reports_mixed_target_formats_including_boundary_frame(
+    tmp_path: Path,
+) -> None:
+    _write_scene(tmp_path, _scene_members(("PNG", "jpg", "JPEG", "png")))
+    dataset = EventAidRZipDataset(tmp_path, max_events=None)
+    try:
+        report = _inspect_one_split(dataset, samples=0, validate_all=True)
+    finally:
+        dataset.close()
+    assert report["samples"] == 3
+    assert report["validated_samples"] == 3
+    assert report["scenes"]["R-codec"]["frames"] == 4
+    assert report["scenes"]["R-codec"]["events"] == 4
+    assert report["scenes"]["R-codec"]["target_formats"] == {"png": 2, "jpg": 1, "jpeg": 1}
+    assert report["event_timestamp_diagnostics"]["validated_blocks"] == 3
+
+
+@pytest.mark.parametrize("suffixes", [("png", "jpg"), ("jpg", "jpeg"), ("PNG", "JPEG")])
+def test_eventaid_rejects_duplicate_numeric_gt_ids_across_image_formats(
+    tmp_path: Path, suffixes: tuple[str, str]
+) -> None:
+    original, duplicate = suffixes
+    members = _scene_members((original,) * 4)
+    members[f"nested/gt/2_img.{duplicate}"] = _image_bytes(2, duplicate)
+    _write_scene(tmp_path, members)
+
+    with pytest.raises(ValueError, match="duplicate numeric GT ID 2"):
+        EventAidRZipDataset(tmp_path)
+
+
+@pytest.mark.parametrize(
+    "misleading_name",
+    [
+        "gt/000001_img.jpg.bak",
+        "gt/000001_img.png.txt",
+        "gt/000001_img.jpeg/extra",
+        "gt/000001_img.webp",
+        "gt/000001_img.txt",
+        "notgt/000001_img.jpg",
+        "gt/000001_image.jpg",
+    ],
+)
+def test_eventaid_rejects_scenes_with_only_misleading_or_unsupported_gt_members(
+    tmp_path: Path, misleading_name: str
+) -> None:
+    members = {name: raw for name, raw in _scene_members().items() if not name.startswith("Gt/")}
+    members[misleading_name] = _image_bytes(1, "jpg")
+    _write_scene(tmp_path, members)
+
+    with pytest.raises(ValueError) as captured:
+        EventAidRZipDataset(tmp_path)
+
+    message = str(captured.value).casefold()
+    assert "gt" in message
+    assert "png" in message
+    assert "jpg" in message
+
+
+def test_eventaid_ignores_unrelated_members_without_counting_or_pairing_them(
+    tmp_path: Path,
+) -> None:
+    members = _scene_members()
+    members.update(
+        {
+            "gt/000002_img.jpg.bak": b"not an image",
+            "gt/000002_img.png.txt": b"not an image",
+            "preview/000002_img.png": _image_bytes(2, "png"),
+            "gt/000002_img.webp": b"not a supported target",
+        }
+    )
+    _write_scene(tmp_path, members)
+    dataset = EventAidRZipDataset(tmp_path)
+    try:
+        assert len(dataset) == 3
+        assert dataset.scene_info["R-codec"]["target_formats"] == {"jpg": 4}
+        assert dataset.scene_info["R-codec"]["frames"] == 4
+        for index in range(len(dataset)):
+            assert dataset[index]["target"].shape == (1, 8, 12)
+    finally:
+        dataset.close()
+
+
+def test_eventaid_does_not_substitute_or_skip_corrupt_jpeg_targets(tmp_path: Path) -> None:
+    members = _scene_members()
+    members["Gt/000002_img.jpg"] = b"this is not a JPEG image"
+    _write_scene(tmp_path, members)
+    dataset = EventAidRZipDataset(tmp_path)
+    try:
+        assert len(dataset) == 3
+        with pytest.raises((OSError, ValueError), match="image|target"):
+            dataset[0]
+        with pytest.raises((OSError, ValueError), match="image|target"):
+            _inspect_one_split(dataset, samples=0, validate_all=True)
+    finally:
+        dataset.close()
+~~~~~~~~
+
+# tests/test_eventaid_parts.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import io
+import zipfile
+from pathlib import Path
+
+import numpy as np
+import pytest
+from PIL import Image
+
+from asgcn_unet.cli import _inspect_one_split
+from asgcn_unet.data import EventAidRZipDataset
+from asgcn_unet.engine import _continues_sequence, _sample_sequence_info
+from tests.fixtures import make_eventaid
+
+_PARTS = ((1, 3), (4, 6), (11, 14), (21, 21))
+_IDS = [frame_id for start, end in _PARTS for frame_id in range(start, end + 1)]
+
+
+def _upload_members() -> dict[str, bytes]:
+    """Represent the official upload layout with tiny temporary encoded images."""
+    buffer = io.BytesIO()
+    Image.fromarray(np.full((8, 12, 3), 128, dtype=np.uint8)).save(buffer, format="JPEG")
+    members = {
+        "shape.txt": b"12 8\n",
+        "parts.txt": (
+            "This group is split into four parts:\n"
+            + "\n".join(f"{start}~{end}" for start, end in _PARTS)
+            + "\n"
+        ).encode(),
+        "timestamps_upload.txt": "\n".join(
+            str(1000 + rank * 1000) for rank in range(len(_IDS))
+        ).encode(),
+    }
+    for rank, frame_id in enumerate(_IDS):
+        t0 = 1000 + rank * 1000
+        members[f"event_upload/{frame_id:06d}.txt"] = (
+            f"{t0 + 100} 1 2 0\n{t0 + 900} 3 4 1\n".encode()
+        )
+        members[f"gt_upload/{frame_id:06d}_img.jpg"] = buffer.getvalue()
+    return members
+
+
+def _write_upload(root: Path, members: dict[str, bytes]) -> Path:
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / "R-parts.zip"
+    with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for member, content in members.items():
+            archive.writestr(member, content)
+    return path
+
+
+@pytest.mark.parametrize("offset", [-1, 0, 1])
+def test_upload_pairs_only_within_parts_and_maps_timestamps_by_sorted_id_rank(
+    tmp_path: Path, offset: int
+) -> None:
+    _write_upload(tmp_path, _upload_members())
+    dataset = EventAidRZipDataset(tmp_path, target_offset=offset, max_events=None)
+    expected = [
+        (part_index, frame_id)
+        for part_index, (start, end) in enumerate(_PARTS)
+        for frame_id in range(start, end)
+        if start <= frame_id + offset <= end
+    ]
+    try:
+        assert len(dataset) == len(expected)
+        assert [item["frame_id"] for item in dataset.samples] == [item[1] for item in expected]
+        for index, (part_index, frame_id) in enumerate(expected):
+            rank = _IDS.index(frame_id)
+            sample = dataset[index]
+            metadata = sample["metadata"]
+            assert sample["sample_id"] == f"R-parts/{frame_id:06d}"
+            assert dataset.samples[index]["target_name"] == (
+                f"gt_upload/{frame_id + offset:06d}_img.jpg"
+            )
+            assert metadata["scene"] == "R-parts"
+            assert metadata["part_index"] == part_index
+            assert metadata["sequence_id"] == f"R-parts/part-{part_index:03d}"
+            assert metadata["sequence_index"] == frame_id
+            assert metadata["t0_us"] == 1000 + rank * 1000
+            assert metadata["t1_us"] == 2000 + rank * 1000
+            assert metadata["dt_us"] == 1000
+            assert metadata["event_timestamp_diagnostics"]["outside_interval_count"] == 0
+            np.testing.assert_allclose(sample["target"].numpy(), 128 / 255, rtol=1e-6)
+        report = _inspect_one_split(dataset, samples=0, validate_all=True)
+        assert report["validated_samples"] == len(expected)
+        assert set(report["scenes"]) == {"R-parts"}
+        assert report["scenes"]["R-parts"]["frames"] == len(_IDS)
+        assert report["scenes"]["R-parts"]["events"] == len(_IDS)
+        assert report["scenes"]["R-parts"]["paired_samples"] == len(expected)
+        assert report["scenes"]["R-parts"]["parts"][-1]["paired_samples"] == 0
+    finally:
+        dataset.close()
+
+
+def test_upload_accepts_nested_case_insensitive_members_and_backslash_paths(tmp_path: Path) -> None:
+    members = {
+        "nested\\R-parts\\" + name.upper().replace("/", "\\"): content
+        for name, content in _upload_members().items()
+    }
+    _write_upload(tmp_path, members)
+    dataset = EventAidRZipDataset(tmp_path, max_events=None)
+    try:
+        report = _inspect_one_split(dataset, samples=0, validate_all=True)
+        assert report["validated_samples"] == 7
+        assert report["scenes"]["R-parts"]["target_formats"] == {"jpg": len(_IDS)}
+    finally:
+        dataset.close()
+
+
+def test_part_sequence_identity_resets_recurrence_even_for_adjacent_frame_ids() -> None:
+    def sequence_info(part: int, frame_id: int) -> tuple[str, int | None, tuple[int, int]]:
+        return _sample_sequence_info(
+            {
+                "sensor_size": (8, 12),
+                "metadata": {
+                    "scene": "R-parts",
+                    "sequence_id": f"R-parts/part-{part:03d}",
+                    "sequence_index": frame_id,
+                },
+            }
+        )
+
+    previous = sequence_info(0, 3)
+    adjacent_part = sequence_info(1, 4)
+    same_part_next = sequence_info(1, 5)
+    assert previous[0] == "R-parts/part-000"
+    assert adjacent_part[0] == "R-parts/part-001"
+    assert not _continues_sequence(*adjacent_part, *previous)
+    assert _continues_sequence(*same_part_next, *adjacent_part)
+
+
+@pytest.mark.parametrize(
+    "parts",
+    [
+        b"",
+        b"This group is split into four parts:\n1-3\n4~6\n11~14\n21~21\n",
+        b"This group is split into four parts:\n1~3junk\n4~6\n11~14\n21~21\n",
+        b"This group is split into four parts:\n1~4\n4~6\n11~14\n21~21\n",
+        b"This group is split into four parts:\n4~6\n1~3\n11~14\n21~21\n",
+        b"This group is split into four parts:\n0~3\n4~6\n11~14\n21~21\n",
+        b"This group is split into four parts:\n3~1\n4~6\n11~14\n21~21\n",
+    ],
+)
+def test_upload_rejects_invalid_part_declarations(tmp_path: Path, parts: bytes) -> None:
+    members = _upload_members()
+    members["parts.txt"] = parts
+    _write_upload(tmp_path, members)
+    with pytest.raises(ValueError, match="(?i)part"):
+        EventAidRZipDataset(tmp_path)
+
+
+def test_upload_requires_parts_metadata(tmp_path: Path) -> None:
+    members = _upload_members()
+    del members["parts.txt"]
+    _write_upload(tmp_path, members)
+    with pytest.raises(ValueError, match="parts.txt"):
+        EventAidRZipDataset(tmp_path)
+
+
+def test_upload_does_not_silently_drop_an_entire_unpairable_scene(tmp_path: Path) -> None:
+    make_eventaid(tmp_path, frames=8)
+    _write_upload(tmp_path, _upload_members())
+    # The regular archive can pair this offset, but every upload part is too short.
+    with pytest.raises(ValueError, match="R-parts.*pairing"):
+        EventAidRZipDataset(tmp_path, target_offset=5)
+
+
+@pytest.mark.parametrize("missing", ["event_upload/000021.txt", "gt_upload/000021_img.jpg"])
+def test_upload_requires_coverage_even_for_unpaired_singleton_part(
+    tmp_path: Path, missing: str
+) -> None:
+    members = _upload_members()
+    del members[missing]
+    _write_upload(tmp_path, members)
+    with pytest.raises(ValueError, match="(?i)part|coverage|IDs"):
+        EventAidRZipDataset(tmp_path)
+
+
+def test_upload_rejects_members_not_declared_in_parts(tmp_path: Path) -> None:
+    members = _upload_members()
+    members["event_upload/000030.txt"] = b"12000 1 2 1\n"
+    members["gt_upload/000030_img.jpg"] = members["gt_upload/000001_img.jpg"]
+    _write_upload(tmp_path, members)
+    with pytest.raises(ValueError, match="(?i)part|coverage|IDs"):
+        EventAidRZipDataset(tmp_path)
+
+
+@pytest.mark.parametrize("difference", [-1, 1])
+def test_upload_requires_exact_timestamp_row_count(tmp_path: Path, difference: int) -> None:
+    members = _upload_members()
+    members["timestamps_upload.txt"] = "\n".join(
+        str(1000 + rank * 1000) for rank in range(len(_IDS) + difference)
+    ).encode()
+    _write_upload(tmp_path, members)
+    with pytest.raises(ValueError, match="(?i)timestamp"):
+        EventAidRZipDataset(tmp_path)
+
+
+@pytest.mark.parametrize("member", ["event/000001.txt", "gt/000001_img.jpg"])
+def test_upload_rejects_mixed_regular_and_upload_layouts(tmp_path: Path, member: str) -> None:
+    members = _upload_members()
+    members[member] = (
+        b"1000 1 2 1\n" if member.startswith("event/") else members["gt_upload/000001_img.jpg"]
+    )
+    _write_upload(tmp_path, members)
+    with pytest.raises(ValueError, match="(?i)mix|layout"):
+        EventAidRZipDataset(tmp_path)
+
+
+@pytest.mark.parametrize(
+    ("source", "duplicate"),
+    [
+        ("parts.txt", "nested/PARTS.TXT"),
+        ("timestamps_upload.txt", "nested/TIMESTAMPS_UPLOAD.TXT"),
+        ("event_upload/000001.txt", "nested/event_upload/1.txt"),
+        ("gt_upload/000001_img.jpg", "nested/gt_upload/1_img.jpeg"),
+    ],
+)
+def test_upload_rejects_duplicate_metadata_or_numeric_member_ids(
+    tmp_path: Path, source: str, duplicate: str
+) -> None:
+    members = _upload_members()
+    members[duplicate] = members[source]
+    _write_upload(tmp_path, members)
+    with pytest.raises(ValueError, match="(?i)duplicate"):
+        EventAidRZipDataset(tmp_path)
+~~~~~~~~
+
 # tests/test_eventhdr_index.py
 
 ~~~~~~~~python
@@ -25929,6 +26579,213 @@ def test_runtime_profile_rejects_malformed_or_ambiguous_package_pins(
     assert output.out == ""
     assert "private" not in str(error.value).lower()
     assert str(tmp_path) not in str(error.value) + output.err
+~~~~~~~~
+
+# tests/test_sequence_parts.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import copy
+import csv
+
+import numpy as np
+import pytest
+import torch
+from torch.utils.data import DataLoader, Dataset
+
+import asgcn_unet.engine as engine_module
+from asgcn_unet.data import EventAidRZipDataset, collate_samples
+from asgcn_unet.engine import (
+    _continues_sequence,
+    _dataset_index_contract,
+    _dataset_sample_identity,
+    _model_state_sha256,
+    _sample_sequence_info,
+    _sampling_summary,
+    benchmark,
+    evaluate,
+    validate,
+)
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import atomic_torch_save
+from tests.fixtures import make_eventaid
+
+
+class _PartDataset(Dataset):
+    """Isolate engine part semantics from ZIP parsing using a temporary test fixture."""
+
+    def __init__(self, root):
+        make_eventaid(root, frames=5)
+        self.base = EventAidRZipDataset(root, max_events=8)
+        self.root = self.base.root
+        self.zip_paths = self.base.zip_paths
+        self.samples = []
+        for index, record in enumerate(self.base.samples):
+            part = index // 2
+            self.samples.append(
+                {
+                    **record,
+                    "scene": "R-traffic",
+                    "sequence_id": f"R-traffic/part-{part:03d}",
+                    "part_index": part,
+                    # Global adjacent indices deliberately cannot reveal the part boundary.
+                    "sequence_index": index,
+                    "t0_us": 1_000_000 + index * 10_000,
+                    "t1_us": 1_000_000 + (index + 1) * 10_000,
+                }
+            )
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, index):
+        sample = self.base[index]
+        record = self.samples[index]
+        sample["sample_id"] = f"R-traffic/{index:06d}"
+        sample["metadata"] = {
+            **sample["metadata"],
+            **{
+                key: record[key]
+                for key in ("scene", "sequence_id", "part_index", "sequence_index", "t0_us", "t1_us")
+            },
+        }
+        return sample
+
+    def close(self):
+        self.base.close()
+
+
+@pytest.fixture
+def part_dataset(tmp_path):
+    dataset = _PartDataset(tmp_path / "aid")
+    yield dataset
+    dataset.close()
+
+
+def test_sequence_identity_prefers_declared_part_and_falls_back_to_scene():
+    first = {
+        "sensor_size": [32, 48],
+        "metadata": {"scene": "R-traffic", "sequence_index": 7},
+    }
+    assert _sample_sequence_info(first) == ("R-traffic", 7, (32, 48))
+    first["metadata"]["sequence_id"] = "R-traffic/part-000"
+    second = copy.deepcopy(first)
+    second["metadata"].update(sequence_id="R-traffic/part-001", sequence_index=8)
+    assert not _continues_sequence(*_sample_sequence_info(second), *_sample_sequence_info(first))
+    second["metadata"]["sequence_id"] = "R-traffic/part-000"
+    assert _continues_sequence(*_sample_sequence_info(second), *_sample_sequence_info(first))
+
+
+@pytest.mark.parametrize("key", ["sequence_id", "part_index", "t0_us", "t1_us"])
+def test_sample_identity_binds_part_and_timestamp_mapping_without_changing_group(
+    part_dataset, key
+):
+    record = part_dataset.samples[0]
+    record["part_index"] = np.int64(record["part_index"])
+    record["t0_us"] = np.int64(record["t0_us"])
+    record["t1_us"] = np.float64(record["t1_us"])
+    identity = _dataset_sample_identity(part_dataset, 0)
+    assert identity["group"] == "R-traffic"
+    assert identity["sequence_id"] == "R-traffic/part-000"
+    assert type(identity["part_index"]) is int
+    assert type(identity["t0_us"]) is int
+    assert type(identity["t1_us"]) is float
+    original = _dataset_index_contract(part_dataset)
+    # Index identity does not depend on the working directory or the dataset root path.
+    original_root = part_dataset.root
+    part_dataset.root = original_root.parent
+    assert _dataset_sample_identity(part_dataset, 0) == identity
+    part_dataset.root = original_root
+    assert _dataset_index_contract(part_dataset) == original
+    record[key] = "R-traffic/part-099" if key == "sequence_id" else record[key] + 1
+    changed = _dataset_index_contract(part_dataset)
+    assert changed["sample_identities_sha256"] != original["sample_identities_sha256"]
+    assert original["per_group"] == changed["per_group"] == {"R-traffic": 4}
+
+
+def test_validation_evaluation_and_benchmark_reset_parts_but_keep_scene_metrics(
+    part_dataset, tmp_path, monkeypatch
+):
+    model_config = {
+        "architecture_version": 2,
+        "hidden_dim": 2,
+        "graph_layers": 1,
+        "spline_kernel_size": 2,
+        "decoder_channels": 4,
+        "recurrent": True,
+    }
+    model = ASGCNUNet(**model_config)
+    state_inputs = []
+    original_forward = ASGCNUNet.forward_sample
+
+    def record_state(self, sample, *args, **kwargs):
+        state_inputs.append(kwargs.get("recurrent_state") is not None)
+        return original_forward(self, sample, *args, **kwargs)
+
+    monkeypatch.setattr(ASGCNUNet, "forward_sample", record_state)
+    loader = DataLoader(part_dataset, batch_size=1, collate_fn=collate_samples)
+    validation = validate(model, loader, torch.device("cpu"))
+    assert state_inputs == [False, True, False, True]
+    assert list(validation["per_scene"]) == ["R-traffic"]
+    assert validation["per_scene"]["R-traffic"]["frames"] == 4
+    assert validation["macro"] == validation["micro"]
+    sampling = _sampling_summary(part_dataset, list(range(len(part_dataset))))
+    assert sampling["per_group"] == {"R-traffic": 4}
+    assert sampling["selected_groups"] == 1
+
+    model_state = model.state_dict()
+    checkpoint = tmp_path / "model.pt"
+    atomic_torch_save(
+        {
+            "checkpoint_type": "ann_inference",
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "model_config": model_config,
+        },
+        checkpoint,
+    )
+    config = {
+        "device": "cpu",
+        "dataset": {
+            "type": "eventaid_r_zip",
+            "root": str(part_dataset.root),
+            "target_offset": 1,
+        },
+        "model": model_config,
+        "eval": {
+            "num_workers": 0,
+            "max_samples": None,
+            "output_dir": str(tmp_path / "eval"),
+            "precision": "fp32",
+            "tf32": False,
+        },
+    }
+    monkeypatch.setattr(engine_module, "build_dataset", lambda *_args, **_kwargs: part_dataset)
+    state_inputs.clear()
+    result = evaluate(config, checkpoint, allow_unsealed_checkpoint_for_non_reporting=True)
+    assert state_inputs == [False, True, False, True]
+    quality = result["quality"]
+    assert list(quality["per_scene"]) == ["R-traffic"]
+    assert quality["per_scene"]["R-traffic"]["frames"] == 4
+    assert quality["per_scene"]["R-traffic"]["temporal_l1_frames"] == 2
+    assert quality["macro"] == quality["micro"]
+    with (tmp_path / "eval" / "ann" / "frames.csv").open(newline="", encoding="utf-8") as stream:
+        rows = list(csv.DictReader(stream))
+    assert [row["scene"] for row in rows] == ["R-traffic"] * 4
+    assert [bool(row["temporal_l1"]) for row in rows] == [False, True, False, True]
+
+    state_inputs.clear()
+    timing = benchmark(
+        config,
+        checkpoint,
+        warmup=0,
+        steps=4,
+        allow_unsealed_checkpoint_for_non_reporting=True,
+    )
+    assert state_inputs == [False, True, False, True]
+    assert timing["state_resets"] == 2
+    assert timing["state_reset_ratio"] == 0.5
 ~~~~~~~~
 
 # tests/test_server_lock.py

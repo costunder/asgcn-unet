@@ -4,142 +4,57 @@ MobaXterm은 Windows PC에서 Linux 서버에 접속하는 SSH terminal/SFTP cli
 MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node에서 실행한다. 아래 명령은
 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 본실험 경로만 설명한다.
 
-## 1. private repository 인증, clone과 환경 설치
+## 1. private repository 로그인과 설치
+
+처음 설치는 [README의 빠른 시작(MobaXterm)](../README.md#빠른-시작-mobaxterm)을 순서대로 따른다.
+이 절차는 Conda가 설치된 **본인 전용 서버 OS 계정**을 전제로 한다. 서버 SSH 로그인과 GitHub 인증은
+별개이며, GitHub에는 HTTPS 웹 로그인으로 인증한다. 이 문서에서는 설치 명령을 중복하지 않는다.
+
+- Conda `asgcn` 환경 생성은 최초 한 번만 한다. 재접속 시에는 다시 생성하지 않고
+  `conda activate asgcn` 뒤 프로젝트의 `.venv`를 활성화한다.
+- `gh auth login`이 표시한 일회용 코드를 PC 브라우저의 [GitHub 기기 인증](https://github.com/login/device)에
+  입력해 승인하고, 서버 명령이 성공 종료할 때까지 기다린다. Enter 안내가 나오면 서버에서 Enter를 누른다.
+  서버 브라우저가 열리지 않아도 PC에서 승인할 수 있다.
+- 인증 성공 후 README의 Git 인증 설정·HTTPS clone·`.venv` 설치 순서를 진행한다. 기존 환경이나
+  `asgcn-unet` 폴더가 있으면 삭제하거나 환경 생성 명령을 반복하지 않는다.
+
+웹 인증의 권한은 repository 한 개 전용 read-only 키보다 넓으므로 **공유 OS 계정에서는 사용하지
+않는다**. OS credential store가 없거나 동작하지 않으면 `gh`가 token을 평문 파일에 저장할 수 있다.
+저장 위치는 `gh auth status`로 확인하며 token이나 인증 파일을 공유하지 않는다.
+[GitHub CLI 인증 설명](https://cli.github.com/manual/gh_auth_login)
+더 이상 서버에서 GitHub 접근이 필요 없으면 `gh auth logout --hostname github.com`으로 서버에 저장된
+인증을 지울 수 있다. 이 명령은 token 자체를 revoke하지는 않는다.
+[로그아웃 설명](https://cli.github.com/manual/gh_auth_logout)
+
+Conda는 `gh`·Git·Python 3.12를 제공하고, 프로젝트 실행 환경은 계속 `.venv`다. `scripts/run.sh`와
+scheduler wrapper의 `.venv` 사용은 바꾸지 않는다. `.venv`가 사용하는 Conda 환경도 유지한다.
+README의 기본 설치는 별도 index 지정 없이 PyPI의 locked `torch==2.13.0`을 사용한다.
+`constraints/py312.txt`의 Linux torch profile은 glibc 2.28 이상을 요구하며 setup은 Python·기존 venv·
+constraints·torch wheel과 `pip check`를 검사한다.
+login node에서 GPU가 보이지 않을 수 있으므로 CUDA 검증은 실제 GPU allocation에서 수행한다.
+site CUDA module이 필요한 경우 scheduler의 `CUDA_MODULE=cuda/<version>`을 지정한다.
+
+driver와 기본 wheel이 맞지 않을 때만 [PyTorch 공식 설치 안내](https://pytorch.org/get-started/locally/)와
+공식 wheel 목록에서 **같은 torch 2.13.0**의 호환 CUDA build를 선택한다. 아래는 서버 관리자가 CUDA
+13.0 driver 호환을 확인한 경우의 예시이며, 해당 [공식 index](https://download.pytorch.org/whl/cu130/torch/)는
+Python 3.12용 `2.13.0+cu130` wheel을 제공한다. build tag를 명시해 기존 다른 build와 구분한다.
+
+```bash
+REQUIRE_CUDA=1 TORCH_VERSION=2.13.0+cu130 \
+  TORCH_INDEX_URL=https://download.pytorch.org/whl/cu130 bash scripts/setup.sh &&
+.venv/bin/python scripts/check_env.py --require-cuda --lock constraints/py312.txt
+```
+
+호환 build를 찾지 못하거나 GPU allocation에서도 CUDA 검증이 실패하면 중단하고 관리자에게 driver/
+container를 확인한다. lock을 임의로 낮추거나 CPU 실행으로 검사를 우회하지 않는다.
+
+아래 release gate와 전체 Ruff/pytest 회귀검사는 **유지관리자 배포 절차**다. 확인된 배포를 설치하는
+실험 사용자가 이를 전부 다시 실행해야 한다는 뜻은 아니다. 데이터·GPU readiness 검사는 뒤 절차를 따른다.
 
 > 저장소는 private로 유지한다. 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
 > 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
 > **GitHub Actions 필수 gate** 통과를 확인한다. CI는 실제 marker를 받지 않아 로컬 검사를 대신하지 않는다.
 > 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
-
-MobaXterm에서 SSH session을 열고 서버 terminal에서 실행한다. 서버 로그인용 SSH 인증과 GitHub
-private repository 인증은 서로 별개다. 공유 서버에서는 repository 범위의 읽기 전용 Deploy key를
-사용한다. 전용 키가 없다면 생성하고 공개키만 출력한다.
-
-```bash
-prepare_asgcn_deploy_key() {
-  local key="$HOME/.ssh/asgcn_unet_deploy"
-  local derived_pub stored_pub
-
-  mkdir -p "$HOME/.ssh" || return 1
-  chmod 700 "$HOME/.ssh" || return 1
-  if [[ -e "$key" || -e "$key.pub" ]]; then
-    if [[ ! -f "$key" || ! -f "$key.pub" ]]; then
-      echo "ERROR: incomplete deploy key pair; inspect it manually" >&2
-      return 1
-    fi
-    derived_pub="$(ssh-keygen -y -f "$key")" || return 1
-    stored_pub="$(awk 'NF >= 2 { print $1 " " $2; exit }' "$key.pub")"
-    if [[ -z "$stored_pub" || "$derived_pub" != "$stored_pub" ]]; then
-      echo "ERROR: deploy public key does not match the private key" >&2
-      return 1
-    fi
-    echo "Using the verified existing deploy key pair."
-  else
-    ssh-keygen -t ed25519 \
-      -C "asgcn-unet read-only deploy key" \
-      -f "$key" || return 1
-  fi
-
-  chmod 600 "$key" || return 1
-  chmod 644 "$key.pub" || return 1
-  cat "$key.pub"
-}
-
-prepare_asgcn_deploy_key
-unset -f prepare_asgcn_deploy_key
-```
-
-공개키를 [repository Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 추가하되
-`Allow write access`는 체크하지 않는다. 같은 경로의 개인키가 이미 있다면 `ssh-keygen`으로 덮어쓰지
-않는다. 등록 후 기본 clone 명령부터 실행하지 말고 해당 키로 인증되는지 먼저 확인한다. 최초 연결
-prompt에서는 `yes`를 입력하기 전에 algorithm과 fingerprint를
-[GitHub 공식 목록](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)과
-대조한다.
-
-`ssh -T`는 성공해도 종료 코드 1이 정상이므로 `set -e` one-shot block과 분리해 사람이 메시지만
-확인한다.
-
-```bash
-ssh -o "IdentityFile=$HOME/.ssh/asgcn_unet_deploy" \
-  -o IdentitiesOnly=yes \
-  -T git@github.com
-```
-
-최종 자동 판정은 exact-repository `ls-remote`다.
-
-```bash
-git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
-  ls-remote git@github.com:costunder/asgcn-unet.git HEAD
-```
-
-`ls-remote`가 `HEAD`를 출력한 뒤 사용자가 선택한 directory에서 clone한다. 아래 기본값은 현재
-directory 아래 `asgcn-unet`이고, `ASGCN_DIR`로 바꿀 수 있다. 이후 pull도 같은 키를 사용하도록
-repository-local 설정을 저장한다.
-
-```bash
-ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
-(
-  set -e
-  mkdir -p "$ASGCN_DIR"
-  cd "$ASGCN_DIR"
-  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
-    echo "ERROR: clone target is not empty" >&2
-    exit 1
-  fi
-  git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
-    clone git@github.com:costunder/asgcn-unet.git .
-  git config core.sshCommand \
-    "ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes"
-)
-```
-
-clone block이 성공하면 `git -C "$ASGCN_DIR" rev-parse HEAD`를 CI에서 확인한 배포 SHA와 대조한다.
-같은 SHA일 때만 다음 설치·검증 block을 실행한다. 이후 pull 뒤에도 다시 대조한다. 이 block도
-subshell 안에서 fail-fast로 동작하므로 실패해도 MobaXterm 로그인 shell 자체를 종료하지 않는다.
-
-```bash
-(
-  set -e
-  cd "$ASGCN_DIR"
-python3.12 --version
-python3.12 -c "import venv, ensurepip; print('venv/ensurepip: OK')"
-curl --version | head -n 1
-ldd --version | head -n 1
-
-cp .env.example .env
-# .env의 TORCH_INDEX_URL을 서버 driver에 맞는 PyTorch 공식 CUDA wheel index로 설정
-bash scripts/setup.sh
-
-source .venv/bin/activate
-python -m pip check
-python scripts/check_env.py --lock constraints/py312.txt
-python -m pytest -q
-)
-```
-
-검증한 fingerprint에 동의하는 것은 `known_hosts` 등록일 뿐 GitHub 사용자 인증 성공을 의미하지 않는다.
-비표준 이름의 전용 키에는 위 shell-safe `IdentityFile` option이 필요하다. `ssh -T`는 성공 메시지 뒤에도 종료 코드 1을
-반환할 수 있으므로 `ls-remote`를 최종 판정으로 사용한다. clone 명령의 마지막 `.`은 별도의 하위
-directory를 만들지 않고 현재 directory를 checkout root로 사용한다. 기존 파일이나 실패한 clone의
-숨김 파일이 있으면 `ls -la`로 확인하고 덮어쓰거나 임의 삭제하지 않는다. 약 50.4GB의 최종 dataset
-외에도 EventHDR upload archive, 가상환경과 결과 공간이 필요하므로 `df -h .`로 quota를 먼저 확인한다.
-더 이상 server-side pull이 필요 없으면 GitHub에서 Deploy key를 revoke하고 서버 정책에 따라 전용
-key pair를 폐기한다. Deploy key는 자동 만료되지 않는다.
-
-공식 wheel index는 서버의 `nvidia-smi`와
-[PyTorch 설치 선택기](https://pytorch.org/get-started/locally/)를 기준으로 정한다. 명령행 환경변수가
-`.env`보다 우선하므로 GPU allocation 안에서 설치까지 검증하려면 다음처럼 실행할 수 있다.
-
-```bash
-REQUIRE_CUDA=1 TORCH_INDEX_URL=https://download.pytorch.org/whl/cuXYZ \
-  bash scripts/setup.sh
-```
-
-`constraints/py312.txt`는 Python 3.12 profile과 core/dev package version을 고정한다. setup script는
-Python, 기존 venv, constraints, Linux glibc와 선택한 torch wheel을 검사하고 마지막에 `pip check`를
-실행한다. login node에서 GPU가 보이지 않는 것은 정상일 수 있으므로 `--require-cuda` 검사는 실제 GPU
-allocation 안에서 수행한다. cluster가 module을 쓴다면 Python/CUDA module을 먼저 load한다. Slurm과
-PBS wrapper들은 필요할 때 `CUDA_MODULE=cuda/<version>`도 받는다.
 
 ## 2. 전체 데이터 배치
 
@@ -161,20 +76,18 @@ data/
 검사해 가져오는 도구다.
 
 1. Windows browser에서 공식 OneDrive의 train/eval release를 내려받는다.
-2. MobaXterm 왼쪽 SFTP panel로 서버의 예: `$HOME/uploads/`에 ZIP을 전송한다.
-3. 배포가 train/eval 별도 archive이면 각각 import한다.
+2. 저장소 root에서 `mkdir -p data/_archives`를 실행하고 MobaXterm SFTP panel로 그 폴더에 ZIP을 전송한다.
+3. train/eval 별도 archive의 서버 파일명을 `train.zip`, `eval.zip`으로 맞추고 각각 import한다.
 
 ```bash
-bash scripts/get_hdr.sh \
-  --archive "$HOME/uploads/EventHDR-train.zip" --split train
-bash scripts/get_hdr.sh \
-  --archive "$HOME/uploads/EventHDR-eval.zip" --split eval
+bash scripts/get_hdr.sh --archive data/_archives/train.zip --split train
+bash scripts/get_hdr.sh --archive data/_archives/eval.zip --split eval
 ```
 
 train/eval을 함께 담은 한 archive이면 `--split` 없이 한 번 실행한다.
 
 ```bash
-bash scripts/get_hdr.sh --archive "$HOME/uploads/EventHDR.zip"
+bash scripts/get_hdr.sh --archive data/_archives/EventHDR.zip
 ```
 
 이미 압축을 푼 directory는 안전하게 copy할 수 있다. source는 그 자체가 `train/`·`eval/`을

@@ -6,6 +6,114 @@ EventHDR 전체 공개 배포본으로 학습하고 EventHDR 공식 eval과 Even
 event-to-frame 연구 코드다. MobaXterm으로 Linux GPU 서버에 SSH 접속한 뒤 clone, 설치, 데이터
 구축, GPU 사전검증, 학습, ANN→SNN 보정, 전체 평가를 한 번에 재현할 수 있다.
 
+## 빠른 시작 (MobaXterm)
+
+MobaXterm으로 **본인 Linux 서버 계정**에 접속한 뒤 아래 순서로 실행한다. Conda가 설치된 서버
+기준이다. 명령이 오류로 끝나면 다음 단계로 넘어가지 않는다. GPU를 scheduler로 할당받는 서버라면
+3번의 CUDA 검사와 5번 실행은 GPU allocation 안에서 한다.
+
+### 1. GitHub 로그인 — 처음 한 번
+
+Private 저장소를 내려받기 위한 로그인이다. SSH 키 생성·등록은 필요 없다.
+`asgcn` Conda 환경이 이미 있으면 첫 줄은 생략하고 활성화만 한다. 기존 환경 삭제를 묻는다면 취소한다.
+
+```bash
+conda create -n asgcn --override-channels -c conda-forge python=3.12 gh git
+conda activate asgcn
+gh auth login --hostname github.com --git-protocol https --web
+```
+
+설치 확인에는 `y`, Git 인증 질문에는 `Yes`를 선택한다. 일회용 코드가 나오면 안내에 따라 Enter를
+누르고, **PC 브라우저**에서 [github.com/login/device](https://github.com/login/device)를 열어 그 코드를
+입력·승인한다. 서버에서 브라우저를 열지 못한다는 메시지가 나와도 PC에서 진행하면 된다.
+**서버 터미널에 로그인 성공이 표시되고 프롬프트로 돌아온 뒤** 2번으로 간다.
+
+이미 해당 GitHub 계정으로 인증했다면 `gh auth status`로 확인하고 로그인은 생략할 수 있다.
+이 로그인은 저장소 전용 읽기 키보다 권한 범위가 넓다. 같은 OS 계정을 다른 사람이 사용하는 경우에는
+진행하지 않는다. credential store가 없으면 인증이 평문 파일에 저장될 수 있다. 저장 위치 확인과
+로그아웃은 [서버 안내](docs/SERVER.md#1-private-repository-로그인과-설치)를 참고한다.
+([GitHub CLI 공식 로그인 문서](https://cli.github.com/manual/gh_auth_login))
+
+### 2. 코드 받기
+
+프로젝트를 둘 위치에서 실행한다. 현재 위치 아래 `asgcn-unet/` 폴더가 생긴다.
+
+```bash
+gh auth setup-git --hostname github.com &&
+git clone https://github.com/costunder/asgcn-unet.git &&
+cd asgcn-unet
+```
+
+`gh auth setup-git`은 HTTPS Git 인증에 방금 로그인한 GitHub CLI를 사용하도록 설정한다.
+([공식 설명](https://cli.github.com/manual/gh_auth_setup-git))
+같은 이름의 폴더가 이미 있으면 삭제하거나 덮어쓰지 말고, 기존 clone을 확인하거나 다른 위치에서
+진행한다. 이후 명령은 모두 저장소 root에서 실행한다.
+
+### 3. 환경 설치
+
+```bash
+nvidia-smi
+df -h .
+test -e .env || cp .env.example .env
+bash scripts/setup.sh &&
+source .venv/bin/activate &&
+python scripts/check_env.py --require-cuda --lock constraints/py312.txt
+```
+
+Python 3.12·PyTorch 2.13.0 고정 환경을 프로젝트의 `.venv`에 설치한다. Conda는 Python과 GitHub CLI
+제공용이고 실제 학습은 `.venv`를 쓴다. 기존 `.env`는 보존하므로 이전 설정이 있으면 먼저 확인한다.
+Linux glibc 2.28 이상과 `curl`이 필요하다. 기본 PyTorch wheel과 서버 드라이버가 맞지 않거나 CUDA
+검사가 실패하면 학습하지 말고 [서버 환경 안내](docs/SERVER.md#1-private-repository-로그인과-설치)를
+확인한다. 설치가 됐다는 것만으로 GPU 학습이 검증된 것은 아니다.
+
+### 4. 두 데이터셋 준비
+
+EventAid-R 전체 14개 ZIP은 자동 다운로드한다. 중단되면 같은 명령으로 이어받는다.
+
+```bash
+bash scripts/get_aid.sh --all
+mkdir -p data/_archives
+```
+
+EventHDR은 [공식 OneDrive 폴더](https://1drv.ms/f/s!AuA3qjJbfh9FjQa4GvHC_9Fn9UQm?e=jODI9N)에서
+**train과 eval 폴더를 각각 ZIP으로 다운로드**한다. MobaXterm 왼쪽 SFTP에서 이 저장소의
+`data/_archives/`로 올린다. 서버 파일명을 `train.zip`, `eval.zip`으로 맞춘 뒤 실행한다.
+
+```bash
+bash scripts/get_hdr.sh --archive data/_archives/train.zip --split train &&
+bash scripts/get_hdr.sh --archive data/_archives/eval.zip --split eval &&
+python scripts/check_env.py --require-full-data --lock constraints/py312.txt
+```
+
+EventHDR의 브라우저 다운로드·업로드는 수동 단계다. 이미 받은 H5 폴더나 통합 ZIP이 있다면
+[다른 가져오기 방법](docs/SERVER.md#2-전체-데이터-배치)을 사용한다.
+최종 데이터는 약 50.4GB지만 ZIP 원본·가상환경·학습 결과 공간은 별도로 필요하다.
+
+### 5. 전체 학습·보정·평가
+
+GPU가 할당된 터미널에서 실행한다. 기본 설정은 **40 epoch 전체 학습**이며 smoke test가 아니다.
+
+```bash
+source .venv/bin/activate
+mkdir -p logs
+set -o pipefail
+bash scripts/run.sh all 2>&1 | tee logs/run.log
+```
+
+자동 순서: 전체 데이터 검사 → 최고 밀도 CUDA 사전검증 → ANN 학습 → SNN 보정 → 두 데이터셋 전체
+ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된다.
+다운로드와 학습에는 서버·네트워크에 따른 시간이 걸린다.
+
+연결이 끊겨도 계속 실행하려면 위 블록을 **`tmux new-session -s asgcn`으로 연 세션 안에서**
+실행한다(`tmux` 설치 필요). 분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다.
+SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
+중단 후에는 처음부터 `all`을 반복하지 말고 [재개 절차](#중단-후-재개와-결과-보호)를 따른다.
+
+서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`, `source .venv/bin/activate`만
+실행한다. 로그인·clone·환경 생성을 매번 반복하지 않는다.
+
+## 실험 범위
+
 기본 실험 범위는 다음과 같다.
 
 - EventHDR `train/1.h5`–`51.h5` 전체로 40 epoch ANN 학습
@@ -81,259 +189,7 @@ frame별 percentile 보정은 `percentile_debug_only`와 `debug_only=true`를 �
 ratio·offset·범위 이탈 수를 기록하되, 공식 14 ZIP의 단위가 실측으로 확인되기 전에는 이를 임의로 hard
 fail 조건으로 만들지 않는다.
 
-## MobaXterm/Linux GPU 서버 재현
-
-MobaXterm은 SSH/SFTP 접속에만 사용한다. 아래 명령은 접속한 Linux 서버의 저장소 root에서
-실행한다.
-
-### 1. 비공개 저장소 인증과 clone
-
-> 저장소는 private로 유지한다. 서버 본실험용 clone/pull 전에는 sanitized history와 과거 CI
-> run/artifact 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
-> **GitHub Actions 필수 gate** 통과를 확인한다. 문서나 최신 CI badge만으로 배포 성공을 판단하지 않는다.
-> CI는 실제 marker를 받지 않으므로 로컬 검사 기록을 대신하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
-
-서버 SSH 로그인과 GitHub private repository 인증은 서로 별개다. 공유 GPU 서버에서는 GitHub 계정
-전체가 아니라 이 repository에만 적용되는 읽기 전용 Deploy key를 권장한다. 아래 명령에는 서버
-계정명, hostname 또는 사용자별 절대 경로를 기록하지 않는다.
-
-다음 블록은 기존 key pair가 둘 다 있으면 재사용하고, 둘 중 하나만 있는 불완전 상태는 즉시
-거부한다. 개인키를 자동으로 덮어쓰지 않는다. 새 키의 passphrase 사용 여부는 서버 운영 정책에 맞춘다.
-
-```bash
-prepare_asgcn_deploy_key() {
-  local key="$HOME/.ssh/asgcn_unet_deploy"
-  local derived_pub stored_pub
-
-  mkdir -p "$HOME/.ssh" || return 1
-  chmod 700 "$HOME/.ssh" || return 1
-
-  if [[ -e "$key" || -e "$key.pub" ]]; then
-    if [[ ! -f "$key" || ! -f "$key.pub" ]]; then
-      echo "ERROR: incomplete deploy key pair; inspect it manually" >&2
-      return 1
-    fi
-    derived_pub="$(ssh-keygen -y -f "$key")" || return 1
-    stored_pub="$(awk 'NF >= 2 { print $1 " " $2; exit }' "$key.pub")"
-    if [[ -z "$stored_pub" || "$derived_pub" != "$stored_pub" ]]; then
-      echo "ERROR: deploy public key does not match the private key" >&2
-      return 1
-    fi
-    echo "Using the verified existing deploy key pair."
-  else
-    ssh-keygen -t ed25519 \
-      -C "asgcn-unet read-only deploy key" \
-      -f "$key" || return 1
-  fi
-
-  chmod 600 "$key" || return 1
-  chmod 644 "$key.pub" || return 1
-  cat "$key.pub"
-}
-
-prepare_asgcn_deploy_key
-unset -f prepare_asgcn_deploy_key
-```
-
-마지막 명령이 출력한 `ssh-ed25519 ...` 한 줄을 repository의
-[Settings > Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 추가한다. 실험 서버는
-clone과 pull만 필요하므로 `Allow write access`는 체크하지 않는다. `.pub`이 없는 개인키는 GitHub,
-문서, 채팅 어디에도 붙여 넣지 않는다.
-
-등록 후 해당 키로 인증과 repository 읽기를 차례로 검사한다. 기본 SSH 파일명이 아닌 전용 키이므로
-`IdentityFile`과 `IdentitiesOnly`를 생략하면 `Permission denied (publickey)`가 날 수 있다.
-`-o "IdentityFile=..."` 형태는 드문 경우지만 Unix home 경로에 공백이 있어도 하나의 SSH option으로
-전달된다.
-최초 연결에서 fingerprint가 표시되면 `yes`를 입력하기 전에 algorithm과 값을
-[GitHub 공식 SSH fingerprint 목록](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)과
-대조한다.
-
-`ssh -T`는 사람이 인증 메시지와 fingerprint를 확인하기 위한 독립 명령이다. 인증에 성공해도 GitHub가
-shell을 제공하지 않으므로 종료 코드 1이 정상이다. 따라서 `set -e` one-shot block에 넣지 않는다.
-
-```bash
-ssh -o "IdentityFile=$HOME/.ssh/asgcn_unet_deploy" \
-  -o IdentitiesOnly=yes \
-  -T git@github.com
-```
-
-최종 자동 판정은 정확한 repository의 `HEAD`를 읽는 다음 명령이다.
-
-```bash
-git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
-  ls-remote git@github.com:costunder/asgcn-unet.git HEAD
-```
-
-검증한 fingerprint에 `yes`로 답하는 것은 GitHub 서버를 `known_hosts`에 추가하는 절차일 뿐 사용자 키
-인증 성공을 뜻하지 않는다. `ssh -T`는 성공 메시지를 출력하고도 종료 코드 1을 반환할 수 있으므로
-`ls-remote`가 `HEAD`를 출력하는 것을 최종 통과 조건으로 삼는다.
-
-검사가 성공하면 사용자가 선택한 위치에 프로젝트 directory를 만든다. 아래 기본값은 명령을 실행한
-directory 아래 `asgcn-unet`이며, 다른 위치를 원하면 `ASGCN_DIR`만 지정한다.
-
-```bash
-ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
-(
-  set -e
-  mkdir -p "$ASGCN_DIR"
-  cd "$ASGCN_DIR"
-  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
-    echo "ERROR: clone target is not empty" >&2
-    exit 1
-  fi
-  git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
-    clone git@github.com:costunder/asgcn-unet.git .
-  git config core.sshCommand \
-    "ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes"
-)
-```
-
-HTTPS를 사용한다면 GitHub 계정 비밀번호가 아니라 이 private repository에 접근 가능한 token을 암호
-입력란에 넣는다. token을 URL이나 shell history에 직접 적지 않는다.
-
-```bash
-ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
-(
-  set -e
-  mkdir -p "$ASGCN_DIR"
-  cd "$ASGCN_DIR"
-  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
-    echo "ERROR: clone target is not empty" >&2
-    exit 1
-  fi
-  git clone https://github.com/costunder/asgcn-unet.git .
-)
-```
-
-마지막 `.` 때문에 별도의 하위 폴더를 만들지 않는다. 실패한 clone을 포함해 대상 폴더에 기존 파일이나
-숨김 파일이 있으면 `ls -la`로 확인하고, clone을 강행하거나 임의 삭제하지 말고 먼저 보존·정리한다.
-데이터와 upload archive, 가상환경, 결과를 함께 둘 공간은 실행 전에 `df -h .`로 확인한다.
-clone block이 성공하면 `git -C "$ASGCN_DIR" rev-parse HEAD`를 CI에서 확인한 배포 SHA와 대조한다.
-같은 SHA일 때만 `cd "$ASGCN_DIR"`로 들어가 다음 설치 절차를 실행한다. 이후 pull 뒤에도 다시 대조한다.
-실험 종료 후 이 서버에서 더 이상 pull이 필요 없다면 GitHub의 Deploy keys에서 해당 키를 revoke한 뒤,
-서버 정책에 따라 전용 private/public key pair를 폐기한다. Deploy key는 자동 만료되지 않는다.
-
-### 2. Python/CUDA 환경 설치
-
-먼저 서버 상태를 확인한다.
-
-```bash
-python3.12 --version
-nvidia-smi
-ldd --version | head -n 1
-curl --version | head -n 1
-```
-
-재현 프로필은 Python 3.12, `constraints/py312.txt`, PyTorch 2.13.0을 사용한다. Linux의 locked
-PyTorch profile은 glibc 2.28 이상을 요구하며 설치 스크립트가 이를 먼저 검사한다. 서버 NVIDIA
-driver에 맞는 CUDA wheel index는 [PyTorch 공식 설치 선택기](https://pytorch.org/get-started/locally/)
-에서 확인한다.
-
-```bash
-cp .env.example .env
-# .env의 PYTHON_BIN과 필요 항목을 서버에 맞게 확인한다.
-# 아래 값은 공식 선택기에서 확인한 실제 URL로 바꾼다.
-export TORCH_INDEX_URL='<official PyTorch CUDA wheel index URL>'
-
-bash scripts/setup.sh
-source .venv/bin/activate
-python scripts/check_env.py --lock constraints/py312.txt
-python -m pip check
-python -m pytest -q
-```
-
-로그인 node가 GPU를 숨기는 클러스터에서는 설치 시 `.env`의 `REQUIRE_CUDA=0`을 유지해도 된다.
-학습 전에는 반드시 실제 GPU allocation 안에서 다음 검사를 통과시킨다.
-
-```bash
-source .venv/bin/activate
-python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-```
-
-### 3. EventAid-R 전체 자동 다운로드
-
-EventAid-R은 공식 manifest의 14개 ZIP을 내려받고 ZIP container를 검증한다. 압축을 풀 필요가 없으며
-loader가 ZIP을 직접 읽는다.
-
-```bash
-source .venv/bin/activate
-bash scripts/get_aid.sh --all
-```
-
-중단되면 같은 명령을 다시 실행한다. 유효한 ZIP은 유지하고 `curl --continue-at -`로 미완료 파일을
-이어받는다.
-
-### 4. EventHDR 전체 가져오기
-
-EventHDR는 [공식 저장소](https://github.com/yunhao-zou/EventHDR)의
-[공식 OneDrive 배포 폴더](https://1drv.ms/f/s!AuA3qjJbfh9FjQa4GvHC_9Fn9UQm?e=jODI9N)에서
-받는다. OneDrive 공개 폴더가 무인 `curl` 요청을 거부하므로 가짜 자동 downloader를 두지 않았다.
-브라우저로 받은 파일을 MobaXterm SFTP로 서버에 올린 뒤 아래 세 방법 중 하나를 사용한다.
-
-train/eval을 각각 ZIP으로 받았다면:
-
-```bash
-bash scripts/get_hdr.sh --archive /path/to/train.zip --split train
-bash scripts/get_hdr.sh --archive /path/to/eval.zip --split eval
-```
-
-train/eval을 함께 포함한 하나의 ZIP을 받았다면:
-
-```bash
-bash scripts/get_hdr.sh --archive /path/to/EventHDR.zip
-```
-
-이미 압축을 풀었거나 서버 shared storage에 있다면 복사하거나 symlink한다.
-
-```bash
-bash scripts/get_hdr.sh --source /path/to/EventHDR
-# 대용량 복제를 피하려면:
-bash scripts/get_hdr.sh --source /shared/path/EventHDR --link
-```
-
-각 split만 따로 존재하는 source에는 `--split train` 또는 `--split eval`을 함께 준다. importer는
-정확히 train `1.h5`–`51.h5`, eval `1.h5`–`19.h5`인지, 예상 밖 H5가 없는지, 각 파일이 HDF5인지,
-합계가 100GB 미만인지 검사한다. 기존의 다른 파일을 덮어쓰지 않으며 복사는 `.part` 임시 파일 뒤
-원자적으로 완료된다.
-
-최종 배치는 다음과 같다.
-
-```text
-data/
-├── EventHDR/
-│   ├── train/1.h5 ... 51.h5
-│   └── eval/1.h5 ... 19.h5
-└── EventAid-R/
-    └── R-*.zip                  # 14개
-```
-
-가져온 EventHDR와 두 데이터의 전체 coverage를 확인한다.
-
-```bash
-bash scripts/get_hdr.sh --check
-python scripts/check_env.py --require-full-data --lock constraints/py312.txt
-```
-
-### 5. 전체 실험 한 번에 실행
-
-GPU allocation 안에서 다음 한 명령을 실행한다.
-
-```bash
-source .venv/bin/activate
-mkdir -p logs
-bash scripts/run.sh all 2>&1 | tee logs/run.log
-```
-
-MobaXterm 연결이 끊겨도 계속 실행하려면 `tmux` 안에서 시작한다.
-
-```bash
-tmux new-session -s asgcn
-source .venv/bin/activate
-mkdir -p logs
-bash scripts/run.sh all 2>&1 | tee logs/run.log
-```
-
-분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다.
+## 전체 실행에서 하는 일
 
 `scripts/run.sh all`은 다음 순서를 fail-fast로 실행한다.
 
@@ -359,7 +215,7 @@ PNG 저장 수만 제한하고 metric 계산 범위는 제한하지 않는다.
 우회로 실행해도 `report_eligible=false`와 그 이유가 기록된다. 표본 수를 갖는 compute-only
 benchmark는 이 quality 계약과 별도로 sampling provenance를 기록한다.
 
-실행될 명령표만 확인하려면 데이터와 GPU 없이 다음을 사용할 수 있다.
+실행될 명령표만 확인하려면 데이터와 GPU 없이 다음을 사용할 수 있다. 실제 실행을 대신하지 않는다.
 
 ```bash
 DRY_RUN=1 bash scripts/run.sh all

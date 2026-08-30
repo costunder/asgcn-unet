@@ -211,7 +211,33 @@ def test_eventaid_downloader_defaults_to_the_complete_release() -> None:
     assert 'if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then\n  DOWNLOAD_ALL=1' in script
 
 
-def test_readme_uses_portable_server_paths() -> None:
+def test_readme_starts_with_portable_https_quickstart_for_the_full_experiment() -> None:
     readme = _text("README.md")
-    assert "$HOME/.ssh/asgcn_unet_deploy" in readme
-    assert 'ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"' in readme
+    quickstart_heading = "## 빠른 시작 (MobaXterm)\n"
+    assert readme.index(quickstart_heading) < readme.index("## 구현 범위와 모델 구조")
+    quickstart = readme.split(quickstart_heading, maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
+
+    assert "conda create -n asgcn --override-channels -c conda-forge python=3.12 gh git" in quickstart
+    assert "conda activate asgcn" in quickstart
+    assert "gh auth login --hostname github.com --git-protocol https --web" in quickstart
+    assert "https://github.com/login/device" in quickstart
+    assert (
+        "gh auth setup-git --hostname github.com &&\n"
+        "git clone https://github.com/costunder/asgcn-unet.git &&\n"
+        "cd asgcn-unet"
+    ) in quickstart
+    for line in quickstart.splitlines():
+        if line.startswith("conda create "):
+            assert " -y " not in f" {line} "
+            assert "--yes" not in line
+
+    assert "prepare_asgcn_deploy_key" not in readme
+    assert "git@github.com" not in quickstart
+    assert "ASGCN_DIR" not in quickstart
+    assert "bash scripts/setup.sh" in quickstart
+    assert "source .venv/bin/activate" in quickstart
+    assert "bash scripts/get_aid.sh --all" in quickstart
+    assert "bash scripts/get_hdr.sh --archive" in quickstart
+    assert "--split train" in quickstart
+    assert "--split eval" in quickstart
+    assert "bash scripts/run.sh all" in quickstart

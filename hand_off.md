@@ -8,7 +8,7 @@
 
 이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
 저장소는 private로 유지한다. 서버 계정명, hostname, 사용자별 Unix/Windows absolute home path를
-문서에서 제거했고, clone 위치는 `$HOME`, `$PWD`와 사용자가 정하는 `ASGCN_DIR`로만 표현한다.
+문서에서 제거했고, clone 위치는 사용자가 고른 현재 directory 아래 `asgcn-unet`으로 표현한다.
 저장소 내부에는 과거의 구체 식별자를 회귀 fixture로도 보존하지 않는다. 대신
 `scripts/scan_private_text.py`와 `tests/test_repo_hygiene.py`가 다음을 검증한다.
 
@@ -19,8 +19,8 @@
   history 검사는 로컬/CI 모두 shallow clone 거부
 - Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
 - shebang entrypoint의 Git 실행 권한을 Windows에서도 검사해 Linux checkout 권한 누락 방지
-- README가 repository 전용 read-only Deploy key와 portable project directory를 사용하는지 검사
-- 기본 파일명이 아닌 Deploy key를 shell-safe `IdentityFile` option과 `IdentitiesOnly=yes`로 명시하는지 문서 검토
+- 설치 명령이 README 빠른 시작의 Conda·GitHub CLI HTTPS 웹 로그인으로 통합됐는지 문서 검토
+- 본인 전용 OS 계정 전제와 인증 권한·저장 token 주의가 명확한지 문서 검토
 
 2026-08-30 Windows CPU 검증은 **267 passed, 1 skipped**다. skip은 OS symlink privilege가 없을 때의
 shared-storage link test 1건이며, shell entrypoint 15개는 MSYS Bash에서 각각 구문 검사했다. 이 기록은
@@ -30,14 +30,15 @@ gate 기록과 GitHub Actions 필수 gate 통과를 함께 확인해야 한다. 
 workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로 로컬 실제-marker 검사를 대신하거나,
 로컬 테스트 결과와 이 문서만으로 원격 배포 완료를 간주하지 않는다.
 
-외부 검토자는 특히 다음을 확인해야 한다.
+유지관리자와 외부 검토자는 특히 다음을 확인해야 한다. 확인된 배포의 실험 사용자가 전체 회귀검사를
+다시 수행해야 한다는 뜻은 아니다.
 
 1. 전체 tracked text와 `code_summary.md`뿐 아니라 모든 local ref의 history를 저장소 밖 로컬
    실제-marker denylist로 검사하고, marker를 GitHub에 전송하지 않았는가?
-2. private repository 절차가 key 생성 뒤 Deploy key 등록에서 명확히 멈추는가?
-3. 최초 SSH host fingerprint를 GitHub 공식 목록과 대조한 뒤에만 수락하도록 안내하는가?
-4. `ssh -T` 종료 코드가 아니라 exact-repository `git ls-remote ... HEAD`를 최종 인증 판정으로 쓰는가?
-5. clone 대상이 비어 있는지 확인하고 기존 파일을 자동 삭제하지 않는가?
+2. Conda가 있는 본인 전용 OS 계정을 전제로 README 빠른 시작만 따라가도록 안내하는가?
+3. 서버가 출력한 일회용 코드를 PC의 GitHub 기기 인증 페이지에서 승인하도록 안내하는가?
+4. 로그인 성공 뒤에만 HTTPS clone을 진행하고 token을 URL이나 명령행에 넣지 않는가?
+5. 기존 Conda 환경과 clone 폴더를 자동 삭제하거나 덮어쓰지 않는가?
 6. 이 보안·배포 수정이 model/data/experiment protocol을 의도치 않게 바꾸지 않았는가?
 7. 실제 GPU의 full-topology/densest-step profile이 checkpoint의 verified preflight gate로 이어지는가?
 8. ANN/SNN 평가 artifact가 sealed lineage와 현재 data/source/runtime/precision protocol을 갖는가?
@@ -106,11 +107,12 @@ SNN으로 바뀌는 부분은 graph encoder뿐이다. rasterization, U-Net, Conv
 공식 배포는 [EventHDR 저장소](https://github.com/yunhao-zou/EventHDR)의 OneDrive 링크다. OneDrive가
 비대화형 `curl` 요청을 거부하므로 이 저장소는 동작하지 않는 자동 downloader를 제공하지 않는다.
 사용자가 browser로 받은 ZIP, 이미 풀어 둔 directory 또는 shared filesystem directory를 아래
-도구로 안전하게 배치한다.
+도구로 안전하게 배치한다. ZIP 업로드 위치와 이름은 README의 `data/_archives/train.zip`,
+`data/_archives/eval.zip`을 따른다.
 
 ```bash
 # browser로 받은 train/eval 포함 ZIP을 직접 읽어 data/EventHDR로 복사
-bash scripts/get_hdr.sh --archive /absolute/path/EventHDR.zip
+bash scripts/get_hdr.sh --archive data/_archives/EventHDR.zip
 
 # 이미 풀어 둔 EventHDR/{train,eval} 또는 {train,eval} root에서 복사
 bash scripts/get_hdr.sh --source /absolute/path/EventHDR
@@ -118,9 +120,9 @@ bash scripts/get_hdr.sh --source /absolute/path/EventHDR
 # shared storage를 복사하지 않고 split directory symlink로 연결
 bash scripts/get_hdr.sh --source /shared/datasets/EventHDR --link
 
-# train/eval을 따로 받았을 때
-bash scripts/get_hdr.sh --source /downloads/train --split train
-bash scripts/get_hdr.sh --source /downloads/eval --split eval
+# train/eval ZIP을 따로 받았을 때
+bash scripts/get_hdr.sh --archive data/_archives/train.zip --split train
+bash scripts/get_hdr.sh --archive data/_archives/eval.zip --split eval
 
 # 현재 목적지 재검사
 bash scripts/get_hdr.sh --check
@@ -511,128 +513,36 @@ bitwise 동일성을 과장하지 않는다.
 
 ## 11. MobaXterm/Linux GPU 서버 절차
 
-MobaXterm은 SSH/SFTP client이고 실제 연산은 접속한 Linux server에서 수행한다.
+실제 연산은 MobaXterm으로 접속한 Linux server에서 수행한다. 설치는
+[README 빠른 시작(MobaXterm)](README.md#빠른-시작-mobaxterm)을 단일 진입점으로 사용한다.
+Conda가 있는 본인 전용 OS 계정에서 최초 한 번 `asgcn` 환경을 만들고, GitHub CLI HTTPS 웹 로그인에
+표시된 코드를 PC의 [GitHub 기기 인증](https://github.com/login/device)에서 승인한다. 서버 로그인
+명령이 성공 종료한 뒤 README의 Git 인증 설정·clone·`.venv` 설치 순서를 이어간다. 기존 환경이나
+프로젝트 폴더가 있으면 생성·clone을 반복하거나 삭제하지 않는다.
+
+이 인증은 repository 하나 전용 read-only 키보다 권한이 넓으므로 공유 OS 계정에서는 사용하지 않는다.
+OS credential store가 없거나 실패하면 token이 평문 파일에 저장될 수 있고, `gh auth status`로
+저장 위치를 확인할 수 있다. token·인증 파일은 공유하지 않는다.
+[GitHub CLI 인증 설명](https://cli.github.com/manual/gh_auth_login)
+`gh auth logout --hostname github.com`은 서버에 저장된 인증을 정리하지만 token 자체를 revoke하지는
+않는다. [로그아웃 설명](https://cli.github.com/manual/gh_auth_logout)
+
+Conda는 GitHub CLI·Git·Python 3.12를 제공하며 프로젝트 runtime은 계속 `.venv`다. 기존 run/scheduler
+wrapper의 `.venv` 경로를 변경하지 않고, 그 Python을 제공하는 Conda 환경도 유지한다. 전체 Ruff/pytest와
+history/provenance release gate는 유지관리용이며, 설치할 때마다 실험 사용자가 반복할 절차가 아니다.
+
+유지관리자는 다음 배포 조건을 확인한다.
 본실험 전에는 sanitized history와 과거 CI run/artifact 정리 기록을 확인하고, 원격 `main`의 배포
 commit SHA에 대한 로컬 실제-marker release gate 기록과 같은 SHA의 GitHub Actions 필수 gate 통과를
-대조한다. CI는 실제 marker를 받지 않는다. 둘 중 하나라도 확인되지 않으면 아래 checkout을 본실험에
+대조한다. CI는 실제 marker를 받지 않는다. 둘 중 하나라도 확인되지 않으면 해당 checkout을 본실험에
 사용하지 않는다. 최신 CI badge나 문서의 상태 설명만으로 대신하지 않는다.
-서버 SSH 로그인과 GitHub private repository 인증은 별개다. 공유 서버에서는 repository 범위의 읽기
-전용 Deploy key를 사용한다. `$HOME/.ssh/asgcn_unet_deploy`이 없다면 생성하고 공개키
-`$HOME/.ssh/asgcn_unet_deploy.pub`만
-[Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 등록한다. 개인키를 덮어쓰거나
-외부로 복사하면 안 된다. 문서에는 서버 계정명, hostname 또는 사용자별 절대 경로를 기록하지 않는다.
-
-```bash
-prepare_asgcn_deploy_key() {
-  local key="$HOME/.ssh/asgcn_unet_deploy"
-  local derived_pub stored_pub
-
-  mkdir -p "$HOME/.ssh" || return 1
-  chmod 700 "$HOME/.ssh" || return 1
-  if [[ -e "$key" || -e "$key.pub" ]]; then
-    if [[ ! -f "$key" || ! -f "$key.pub" ]]; then
-      echo "ERROR: incomplete deploy key pair; inspect it manually" >&2
-      return 1
-    fi
-    derived_pub="$(ssh-keygen -y -f "$key")" || return 1
-    stored_pub="$(awk 'NF >= 2 { print $1 " " $2; exit }' "$key.pub")"
-    if [[ -z "$stored_pub" || "$derived_pub" != "$stored_pub" ]]; then
-      echo "ERROR: deploy public key does not match the private key" >&2
-      return 1
-    fi
-    echo "Using the verified existing deploy key pair."
-  else
-    ssh-keygen -t ed25519 \
-      -C "asgcn-unet read-only deploy key" \
-      -f "$key" || return 1
-  fi
-
-  chmod 600 "$key" || return 1
-  chmod 644 "$key.pub" || return 1
-  cat "$key.pub"
-}
-
-prepare_asgcn_deploy_key
-unset -f prepare_asgcn_deploy_key
-```
-
-여기서 멈추고 출력된 `.pub` 한 줄만
-[Deploy keys](https://github.com/costunder/asgcn-unet/settings/keys)에 등록한다. `Allow write access`는
-체크하지 않는다. 등록을 마친 다음 새 명령 블록을 실행한다. 최초 연결 prompt에서는 `yes`를 입력하기
-전에 algorithm과 fingerprint를
-[GitHub 공식 목록](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)과
-대조한다.
-
-`ssh -T`는 성공 메시지와 함께 종료 코드 1을 반환하므로 `set -e` one-shot block과 분리한다.
-
-```bash
-ssh -o "IdentityFile=$HOME/.ssh/asgcn_unet_deploy" \
-  -o IdentitiesOnly=yes \
-  -T git@github.com
-```
-
-최종 자동 판정은 다음 독립 블록이다. `HEAD`가 출력된 경우에만 그 아래 clone 블록으로 넘어간다.
-
-```bash
-git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
-  ls-remote git@github.com:costunder/asgcn-unet.git HEAD
-```
-
-clone과 repository-local SSH 설정은 bounded subshell에서 fail-fast로 수행한다. 오류가 나도 MobaXterm
-로그인 shell 자체는 종료하지 않는다.
-
-```bash
-ASGCN_DIR="${ASGCN_DIR:-$PWD/asgcn-unet}"
-(
-  set -e
-  mkdir -p "$ASGCN_DIR"
-  cd "$ASGCN_DIR"
-  if [[ -n "$(find . -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
-    echo "ERROR: clone target is not empty" >&2
-    exit 1
-  fi
-  git -c core.sshCommand="ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes" \
-    clone git@github.com:costunder/asgcn-unet.git .
-  git config core.sshCommand \
-    "ssh -o 'IdentityFile=$HOME/.ssh/asgcn_unet_deploy' -o IdentitiesOnly=yes"
-)
-```
-
-clone이 성공하면 `git -C "$ASGCN_DIR" rev-parse HEAD`를 CI에서 확인한 배포 SHA와 대조한다.
-같은 SHA일 때만 설치·검증을 별도 fail-fast block으로 실행한다. 이후 pull 뒤에도 다시 대조한다.
-
-```bash
-(
-  set -e
-  cd "$ASGCN_DIR"
-python3.12 --version
-ldd --version | head -n 1
-nvidia-smi
-
-cp .env.example .env
-# .env에서 server driver와 맞는 공식 TORCH_INDEX_URL 등을 설정
-bash scripts/setup.sh
-source .venv/bin/activate
-
-python scripts/check_env.py --require-cuda --lock constraints/py312.txt
-python -m pip check
-python -m ruff check .
-python -m pytest -q
-)
-```
-
-위 clone은 Deploy key 등록과 `ls-remote` 성공 뒤에만 실행한다. 검증한 fingerprint에 동의한 것은
-`known_hosts` 등록일 뿐 `publickey` 인증 성공이 아니다. `ssh -T`는 성공 메시지와 함께 종료 코드
-1을 반환할 수 있다. 전용 키는 기본 파일명이 아니므로 평범한
-`git clone git@github.com:...`만 실행해서는 안 된다.
-실험 종료 뒤 이 서버에서 pull이 더 필요 없으면 GitHub Deploy key를 revoke하고 서버 정책에 따라 전용
-key pair를 폐기한다. Deploy key는 자동 만료되지 않는다.
 
 프로젝트는 Python 3.10 이상을 지원한다. 재현용 lock은 Python 3.12.13에서 검증됐고 core/dev package와
 torch public version을 `constraints/py312.txt`에 고정한다. 현재 lock의 핵심은 torch 2.13.0,
 numpy 2.5.2, h5py 3.16.0, Pillow 12.3.0, pytest 9.1.1, Ruff 0.16.5다. Linux torch 2.13.0 lock
-profile은 glibc 2.28 이상을 요구한다. CUDA build는 `nvidia-smi` driver와 PyTorch 공식 selector에
-맞는 `TORCH_INDEX_URL`에서 먼저 설치한다.
+profile은 glibc 2.28 이상을 요구한다. 기본 설치는 README의 locked wheel 경로를 따른다. 별도
+`TORCH_INDEX_URL`이 필요하면 서버 driver와 호환되고 같은 torch 2.13.0을 제공하는 공식 index를
+선택한다. GPU allocation에서 CUDA 검증이 실패하면 본실험을 진행하지 않는다.
 
 core runtime dependency는 torch, NumPy, h5py, Pillow와 tqdm이다. development extra는 pytest와
 Ruff다. LPIPS만 필요할 때 optional eval extra를 설치한다.

@@ -5,26 +5,27 @@
 
 ## 개발 환경
 
-Python 3.10 이상을 사용합니다. Linux/macOS에서는 다음과 같이 설치합니다.
+서버 실험과 모델 개발은 [README의 설치 및 실행](README.md#설치-및-실행)에 정의한
+Linux Conda 환경을 사용합니다. Python 3.12.14, PyTorch 2.13.0+cu126 및 전이 의존성을
+고정하고, 설치·다운로드·학습·평가에 같은 환경을 사용합니다.
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
+conda activate asgcn
+bash scripts/setup.sh
+```
+
+CPU 호환성 테스트만 개발하는 경우에는 별도 Conda 환경을 사용합니다. 이 환경은 고정된 서버
+실험 profile과 구분하며, GPU 학습·평가 결과를 산출하는 용도로 사용하지 않습니다.
+
+```bash
+conda create -n asgcn-dev --override-channels -c conda-forge python=3.12 pip
+conda activate asgcn-dev
 python -m pip install -e ".[dev]"
 ```
 
-Windows PowerShell에서는 다음 명령을 사용합니다.
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
-```
-
-GPU 학습을 개발하는 경우 환경에 맞는 CUDA PyTorch를 먼저 설치한 뒤 editable install을
-실행하세요. 기본 테스트와 CI는 CPU만 사용합니다.
+GitHub Actions는 Linux 고정 Conda profile의 실제 설치·전체 테스트와 Ubuntu/Windows의
+Python 3.10·3.11·3.12 호환성 matrix를 검사합니다. 테스트 연산은 CPU에서 실행되며,
+GPU 실험 검증은 실제 데이터와 할당된 GPU에서 별도로 수행해야 합니다.
 
 ## 변경 전 검증
 

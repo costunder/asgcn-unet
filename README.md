@@ -3,32 +3,27 @@
 [![CI](https://github.com/costunder/asgcn-unet/actions/workflows/ci.yml/badge.svg)](https://github.com/costunder/asgcn-unet/actions/workflows/ci.yml)
 
 EventHDR 전체 공개 배포본으로 학습하고 EventHDR 공식 eval과 EventAid-R 전체에서 평가하는
-event-to-frame 연구 코드다. MobaXterm으로 Linux GPU 서버에 SSH 접속한 뒤 clone, 설치, 데이터
-구축, GPU 사전검증, 학습, ANN→SNN 보정, 전체 평가를 한 번에 재현할 수 있다.
+event-to-frame 연구 코드다. ASGCN graph encoder와 recurrent U-Net decoder를 결합하고,
+ANN 및 ANN→SNN 변환 모델의 복원 품질·지연·발화율을 동일한 데이터와 평가 조건에서 비교한다.
 
-## 빠른 시작 (MobaXterm)
+## 설치 및 실행
 
-아래는 저장소가 **Public인 동안 인증 없이** 코드를 받는 절차다. GitHub CLI(`gh`)·GitHub 로그인·SSH
-키·token은 필요 없다. MobaXterm으로 Linux 서버에 접속한 뒤 실행한다. Git과 Conda가 설치된 서버
-기준이며, 명령이 오류로 끝나면 다음 단계로 넘어가지 않는다.
-GPU를 scheduler로 할당받는 서버라면 4번 실행은 GPU allocation 안에서 한다.
+Linux x86_64, glibc 2.28 이상, Git·Conda·curl이 필요하다. 학습·평가는 NVIDIA GPU에서 실행한다.
+아래 명령은 서버 터미널 기준이다. scheduler를 사용하는 환경에서는 학습 전에 GPU를 할당받는다.
 
-### 1. Public 코드 받기
-
-코드를 둘 현재 폴더에서 실행하면 `asgcn-unet/` 폴더가 생기고 그 안으로 이동한다.
+### 1. 저장소 받기
 
 ```bash
 git clone https://github.com/costunder/asgcn-unet.git &&
 cd asgcn-unet
 ```
 
-같은 이름의 폴더가 이미 있으면 삭제하거나 덮어쓰지 말고 기존 clone을 확인한다. 이후 명령은 모두
-저장소 root에서 실행한다. URL은 위 코드 그대로 사용하며 Markdown 링크의 `[]()`를 붙이지 않는다.
+이후 명령은 저장소 root에서 실행한다. 기존 checkout이 있으면 중복 clone 없이 해당 디렉터리를 사용한다.
 
 ### 2. 환경 설치
 
-Python 3.12.14인 `asgcn` Conda 환경이 이미 있으면 첫 줄은 생략한다. 기존 환경 삭제를 묻는다면
-취소한다. 새 환경 설치 확인에는 `y`를 입력한다.
+Python 3.12.14인 `asgcn` Conda 환경이 이미 있으면 환경 생성 명령은 생략한다.
+다른 버전의 기존 환경은 덮어쓰지 않는다.
 
 ```bash
 conda create -n asgcn --override-channels -c conda-forge python=3.12.14 pip
@@ -40,14 +35,12 @@ bash scripts/setup.sh
 `constraints/server.json`이 Python **3.12.14**, PyTorch **2.13.0+cu126**, CUDA runtime **12.6**을
 고정한다. `constraints/server.txt`가 pip·설치 도구를 포함한 전이 의존성의 버전과 배포 파일 SHA-256을
 고정하며, `constraints/py312.txt`의 core/dev 버전도 함께 검사한다. `.env`는 필요 없으며 설치기는
-기존 `.env`도 읽지 않는다. 이전 설치에서 전환한다면 [서버 환경 안내](docs/SERVER.md#1-public-저장소-clone과-설치)를 따른다.
-Linux glibc 2.28 이상과 `curl`이 필요하다. 설치 성공만으로 GPU 학습이 검증된 것은 아니며,
-4번 실행의 CUDA·전체 데이터·profile 검사가 실패하면 학습을 진행하지 않는다.
+기존 `.env`도 읽지 않는다. 이전 설치에서 전환한다면 [서버 환경 안내](docs/SERVER.md#1-환경-설치)를 따른다.
+학습 실행 시 CUDA·전체 데이터·profile 검사를 수행하며, 검사 실패 시 학습을 시작하지 않는다.
 
 ### 3. 두 데이터셋 준비
 
-두 데이터셋 모두 **접속한 Linux 서버에서 직접 다운로드**한다. PC로 먼저 받거나 SFTP로 올릴 필요는
-없다. EventAid-R은 전체 14개 ZIP, EventHDR은 train 51개와 eval 19개의 H5를 받는다.
+서버에서 EventAid-R 14개 ZIP과 EventHDR train 51개·eval 19개의 H5를 직접 다운로드한다.
 
 ```bash
 bash scripts/get_aid.sh --all &&
@@ -71,7 +64,7 @@ split별 다운로드와 이미 가진 ZIP/H5/shared storage의 선택적 가져
 
 ### 4. 전체 학습·보정·평가
 
-GPU가 할당된 터미널에서 실행한다. 기본 설정은 **40 epoch 전체 학습**이며 smoke test가 아니다.
+GPU가 할당된 터미널에서 실행한다. 기본 설정은 EventHDR train 전체를 사용하는 **40 epoch 학습**이다.
 
 ```bash
 conda activate asgcn
@@ -82,7 +75,6 @@ bash scripts/run.sh all 2>&1 | tee logs/run.log
 
 자동 순서: 전체 데이터 검사 → 최고 밀도 CUDA 사전검증 → ANN 학습 → SNN 보정 → 두 데이터셋 전체
 ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된다.
-다운로드와 학습에는 서버·네트워크에 따른 시간이 걸린다.
 
 연결이 끊겨도 계속 실행하려면 위 블록을 **`tmux new-session -s asgcn`으로 연 세션 안에서**
 실행한다(`tmux` 설치 필요). 분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다.
@@ -91,21 +83,6 @@ SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 
 서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`만 실행한다.
 clone·환경 생성·설치를 매번 반복하지 않는다.
-
-### 5. 실행 후 Private으로 되돌리기
-
-실험을 마치면 PC 브라우저에서 [저장소 Settings](https://github.com/costunder/asgcn-unet/settings)를 열고
-**General → Danger Zone → Change repository visibility → Change visibility**에서 Private을 선택한다.
-안내에 따라 확인한 뒤 **Make this repository private**으로 직접 전환한다.
-실험 완료를 감시하거나 자동으로 Private으로 바꾸는 기능은 없다.
-
-Private으로 바꿔도 이미 서버에 받은 코드·데이터·실행 결과는 그대로 남는다. 이후 새 clone이나
-`git pull`에는 인증이 필요하다. 노출 시간을 줄이려면 실험 완료를 기다리지 않고 **clone 직후**에
-Private으로 돌려도 기존 서버 코드는 실행할 수 있다.
-
-Public인 동안 코드·커밋 이력·Actions 로그를 누구나 볼 수 있다. 다른 사람이 받은 복사본은 회수할 수
-없고, 공개 fork도 Private 전환으로 비공개가 되지 않는다.
-[GitHub 공식 공개 범위 변경 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
 
 ## 실험 범위
 
@@ -382,36 +359,15 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
 
 ## 현재 검증 상태와 한계
 
-- 저장소의 개인정보 gate는 모든 Git tracked UTF-8 text와 생성된 `code_summary.md`를 검사한다.
-  generic Unix/macOS/Windows home path와 labelled identity를 기본 탐지한다. 실제 계정·host marker는
-  저장소 밖 로컬 denylist 또는 로컬 환경변수 `PRIVATE_MARKERS_B64`로만 주입하며, GitHub secret·변수·
-  workflow·log·artifact로 전송하지 않는다. 로컬 release gate는 `--all-tracked --all-history`와
-  `--require-external-patterns`를 함께 사용해 빈 denylist와 shallow history를 거부한다. 문자열 결합·
-  constant f-string과 Base64 표현도 복원 검사하며 탐지 로그에는 marker 내용을 출력하지 않는다.
-  CI는 실제 marker 없이 generic current-tree/history 검사와 clean provenance를 확인한다. CI 통과는
-  로컬 실제-marker 검사 통과를 대신하지 않는다. history 검사는 모든 local ref에서 도달 가능한 unique
-  Git blob을 대상으로 하며, 현재 checkout 검사와 별개다. history 열거는 신·구 Git에서 공통인
-  `git rev-list --objects --all`의 LF 레코드를 사용하며 `-z` 지원 차이에 의존하지 않는다. 경로 출력은
-  진단용 hint이고 실제 blob 내용은 object ID로 읽는다.
-- `code_summary.md`는 `python scripts/build_code_summary.py`로 생성한 결정적 전체 text snapshot이다.
-  파일별 SHA-256, snapshot SHA-256, 포함 파일 수와 생성 당시 commit/tree/branch/dirty provenance를
-  기록하고 CI에서 `--check`로 working tree와의 일치를 확인한다. dirty working tree의 snapshot은
-  superseded commit을 가리키지 않도록 commit/tree를 `null`로 기록하며 snapshot SHA-256을 검증
-  identity로 사용한다. 배포 때는 코드·문서·검증 수치 수정과 history 정리를 마쳐 최종 sanitized source
-  commit을 확정하고, clean source에서 summary를 재생성한 뒤 summary-only commit을 만든다.
-  `--check --require-clean-provenance`는 source commit이 현재 HEAD의 ancestor이고 그 이후 summary
-  이외의 tracked source가 바뀌지 않았는지 확인한다. 생성 뒤 문서 수정이나 history rewrite가 필요하면
-  source commit 확정부터 다시 수행한다. 배포 결과는 본문을 고쳐 적기보다 최종 SHA의 Actions와 별도
-  배포 기록으로 확인한다.
+- CI는 Linux Conda 고정 profile의 실제 설치·버전 일치·전체 회귀검사와 Ubuntu/Windows의
+  Python 3.10·3.11·3.12 호환성을 검사한다. 검증 결과는 사용한 commit의 Actions에서 확인한다.
+- `code_summary.md`는 source commit과 파일별 SHA-256을 기록하는 전체 text snapshot이다.
+  CI는 snapshot 일치와 source provenance를 확인한다. 개인정보 검사는 현재 tracked text와 Git history를
+  대상으로 하며, 실제 식별자는 저장소 밖 로컬 검사에만 사용한다.
+  상세 검증 기록과 유지관리 절차는 [인계서](hand_off.md#14-테스트-상태와-검증-범위)에 있다.
 - `check_env.py`는 CUDA 초기화 후 실제 runtime 장치 수로 GPU 이름/VRAM을 조회한다. MIG의
   초기화 전후 장치 수 차이로 인한 `Invalid device id`를 CPU 모의 회귀검사로 검증했으며, 실제
   초기화 실패나 CUDA 불가는 우회하지 않는다. [서버 오류 안내](docs/SERVER.md#7-산출물-확인과-운영상-오류)
-- Conda 전환 후 2026-08-30 Windows CPU pytest 결과는 **571 passed, 27 skipped**였다.
-  skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이다. 다만 프로세스가 성공 종료해도
-  Windows native access-violation 진단이 출력되어 이 로컬 실행을 무경고 검증으로 간주하지 않는다.
-  shell entrypoint 16개는 MSYS Bash에서 각각 구문 검사했다. 배포 판정은 해당 SHA의 Linux Conda
-  실제 설치·고정 profile 검증·전체 회귀검사와 별도 Ubuntu/Windows matrix의 CI 결과로 확인한다.
-  전체 명령은 `hand_off.md`에 기록하며, 로컬 결과만으로 원격 배포 성공을 주장하지 않는다.
 - 코드의 unit/integration test와 Linux 의존성 검사는 구성되어 있지만, EventHDR+EventAid-R 전체
   실데이터를 사용한 `runs/profile.json`, CUDA 40-epoch 학습·전체 행렬 실행, A6000/A100 peak
   memory·runtime·latency artifact는 이 로컬 검증에서 생성하지 않았다. 따라서 README는 실행 절차

@@ -1,14 +1,12 @@
-# MobaXterm·Linux GPU 서버 실행 가이드
+# Linux GPU 서버 실행 가이드
 
-MobaXterm은 Windows PC에서 Linux 서버에 접속하는 SSH terminal/SFTP client다. 학습과 평가는
-MobaXterm 자체가 아니라 접속한 GPU server 또는 scheduler compute node에서 실행한다. 아래 명령은
-저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 본실험 경로만 설명한다.
+MobaXterm 등의 SSH client로 접속한 Linux GPU 서버 또는 scheduler compute node에서 실행한다.
+아래 명령은 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 실험 경로를 설명한다.
 
-## 1. Public 저장소 clone과 설치
+## 1. 환경 설치
 
-처음 설치는 [README의 빠른 시작(MobaXterm)](../README.md#빠른-시작-mobaxterm)을 순서대로 따른다.
-이 절차는 Conda와 Git이 있는 **본인 전용 서버 OS 계정**을 전제로 한다. Public 저장소를
-GitHub 로그인·토큰·SSH 키 설정 없이 HTTPS로 clone한다. 이 문서에서는 설치 명령을 중복하지 않는다.
+최초 설치는 [README의 설치 및 실행](../README.md#설치-및-실행)을 따른다.
+이 문서는 환경 전환, 데이터 배치, scheduler 제출과 실행 복구를 다룬다.
 
 - Conda `asgcn` 환경 생성은 최초 한 번만 한다. 재접속 시에는 다시 생성하지 않고
   `conda activate asgcn`만 실행한다.
@@ -54,7 +52,7 @@ bash scripts/setup.sh
 ```
 
 `deactivate`는 기존 virtualenv가 활성화되어 있을 때만 실행한다. pull이 충돌하면 기존 변경을
-보존하고 확인한다. 저장소가 Private이면 pull에는 인증이 필요하다. 이미 받은 `data/`는 그대로 사용하며
+보존하고 확인한다. 이미 받은 `data/`는 그대로 사용하며
 환경 전환 때문에 데이터를 다시 다운로드하지 않는다. 기존 `.env`와 `.venv`도 자동 삭제하지 않는다.
 새 Conda 환경에서 아래 GPU 검증과 기존 데이터 검사를 통과한 뒤에만, 이전 환경을 더 이상 쓰는 job이
 없는지 확인하고 필요하면 기존 `.venv` 폴더만 수동 정리한다. source/runtime이 바뀐 기존 checkpoint는
@@ -67,15 +65,6 @@ python scripts/check_env.py --require-cuda --lock constraints/py312.txt \
 
 아래 release gate와 전체 Ruff/pytest 회귀검사는 **유지관리자 배포 절차**다. 확인된 배포를 설치하는
 실험 사용자가 이를 전부 다시 실행해야 한다는 뜻은 아니다. 데이터·GPU readiness 검사는 뒤 절차를 따른다.
-
-> 사용자 요청 절차는 Public 상태에서 설치하고 실험 후 사용자가 직접 Private로 되돌리는 것이다.
-> 본실험용 clone/pull 전에는 sanitized history와 과거 CI run/artifact
-> 정리 기록, 원격 `main`의 배포 commit SHA, 같은 SHA의 **로컬 실제-marker release gate**와
-> **GitHub Actions 필수 gate** 통과를 확인한다. CI는 실제 marker를 받지 않아 로컬 검사를 대신하지 않는다.
-> 문서나 최신 CI badge만으로 배포 성공을 판단하지 않으며, 확인 전에는 본실험을 시작하지 않는다.
-
-Public 전환 시 코드·Git history·Actions history/logs가 공개된다. Private로 복귀해도 이미 생긴
-공개 fork나 외부 사본은 회수되지 않는다. [GitHub 공개 범위 변경 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)를 확인한다.
 
 ## 2. 전체 데이터 배치
 
@@ -454,7 +443,7 @@ artifact나 외부 첨부에 포함하지 않는다.
 출처 인증이 아니다. 제출용 file hash는 접근통제된 immutable 실험 원장 또는 signed manifest에도
 별도로 보존한다.
 
-원격 history 교체 전후에는 저장소 밖 로컬 denylist를 사용해 complete non-shallow clone의 current
+배포 전에는 저장소 밖 로컬 denylist를 사용해 complete non-shallow clone의 current
 tree와 모든 local-ref reachable blob을 로컬에서 함께 검사한다. 실제 marker는 로컬 환경변수
 `PRIVATE_MARKERS_B64`로도 주입할 수 있지만 GitHub secret·변수·workflow·log·artifact로 전송하지
 않는다. 로컬 release gate의 `--require-external-patterns`는 빈 denylist를 거부한다.
@@ -465,7 +454,7 @@ python scripts/scan_private_text.py \
   --extra-patterns /path/outside/repository/private_markers.txt
 ```
 
-코드·문서·검증 수치 수정과 history 정리를 끝내 최종 sanitized source commit을 확정한 뒤 clean
+코드·문서·검증 기록을 검토하고 source commit을 확정한 뒤 clean
 source에서 summary를 재생성하고 summary-only commit을 만든다. 생성 뒤 다른 tracked 파일 수정이나
 source history rewrite가 필요하면 source commit 확정부터 반복한다. 같은 최종 SHA에서 위 로컬
 실제-marker 검사와 다음 clean provenance gate를 통과해야 한다. CI는 실제 marker 없이 generic
@@ -511,10 +500,3 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - `max_graph_edges=2,000,000` 또는 OOM: edge를 조용히 잘라 진행하지 않는다. 별도 config에서
   `max_events`, `graph_radius`, model width를 변경하고 peak memory를 다시 측정해 다른 실험으로 기록한다.
 - SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.
-
-## 8. 실험 종료 후 Private 복귀(수동)
-
-사용자가 GitHub 저장소의 `Settings` → `General` → `Danger Zone` → `Change repository visibility` →
-`Change visibility`에서 Private를 선택하고 안내를 확인한 뒤 `Make this repository private`로 확정한다.
-자동 복귀는 하지 않는다. 서버에 이미 clone한 파일과 실행 중인 실험은 유지되지만, 이후 `git pull`이나
-새 clone에는 GitHub 인증이 필요하다. [공식 절차](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)

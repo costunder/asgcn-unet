@@ -212,25 +212,22 @@ def test_eventaid_downloader_defaults_to_the_complete_release() -> None:
     assert 'if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then\n  DOWNLOAD_ALL=1' in script
 
 
-def test_readme_starts_with_public_https_quickstart_and_manual_private_restoration() -> None:
+def test_readme_documents_reproducible_installation_and_full_experiment() -> None:
     readme = _text("README.md")
-    quickstart_heading = "## 빠른 시작 (MobaXterm)\n"
-    assert readme.index(quickstart_heading) < readme.index("## 구현 범위와 모델 구조")
-    quickstart = readme.split(quickstart_heading, maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
+    installation_heading = "## 설치 및 실행\n"
+    installation = readme.split(installation_heading, maxsplit=1)[1].split("\n## ", maxsplit=1)[0]
 
     clone_command = (
         "git clone https://github.com/costunder/asgcn-unet.git &&\n"
         "cd asgcn-unet"
     )
     conda_command = "conda create -n asgcn --override-channels -c conda-forge python=3.12.14 pip"
-    assert clone_command in quickstart
-    assert "cd ~" not in quickstart
-    assert conda_command in quickstart
-    assert quickstart.index(clone_command) < quickstart.index(conda_command)
-    assert "conda activate asgcn" in quickstart
-    public_clone = quickstart.split("### 1.", maxsplit=1)[1].split("\n### ", maxsplit=1)[0]
-    assert "Public" in public_clone
-    for line in quickstart.splitlines():
+    assert clone_command in installation
+    assert "cd ~" not in installation
+    assert conda_command in installation
+    assert installation.index(clone_command) < installation.index(conda_command)
+    assert "conda activate asgcn" in installation
+    for line in installation.splitlines():
         if line.startswith("conda create "):
             assert "gh" not in line.split()
             assert " -y " not in f" {line} "
@@ -238,37 +235,43 @@ def test_readme_starts_with_public_https_quickstart_and_manual_private_restorati
 
     assert "prepare_asgcn_deploy_key" not in readme
     for private_auth_command in ("gh auth", "ssh-keygen", "git@"):
-        assert private_auth_command not in quickstart
+        assert private_auth_command not in installation
     for absolute_home_path in ("/home/", "/Users/", "C:\\Users\\"):
-        assert absolute_home_path not in quickstart
-    assert "ASGCN_DIR" not in quickstart
-    assert "bash scripts/setup.sh" in quickstart
-    assert "conda activate asgcn\nbash scripts/setup.sh" in quickstart
-    assert ".venv" not in quickstart
-    assert ".env.example" not in quickstart
-    assert "nvidia-smi" not in quickstart
-    assert "df -h ." not in quickstart
-    assert "constraints/server.json" in quickstart
-    assert "2.13.0+cu126" in quickstart
-    assert "bash scripts/get_aid.sh --all" in quickstart
-    assert "bash scripts/get_hdr.sh --download" in quickstart
-    assert "bash scripts/get_hdr.sh --archive" not in quickstart
-    assert "mkdir -p data/_archives" not in quickstart
-    assert "data/EventHDR/{train,eval}" in quickstart
-    assert "SHA-256" in quickstart
-    assert "python scripts/check_env.py --require-full-data --lock constraints/py312.txt" in quickstart
-    assert "--runtime-profile constraints/server.json" in quickstart
-    assert "bash scripts/run.sh all" in quickstart
+        assert absolute_home_path not in installation
+    assert "ASGCN_DIR" not in installation
+    assert "conda activate asgcn\nbash scripts/setup.sh" in installation
+    assert ".venv" not in installation
+    assert ".env.example" not in installation
+    assert "constraints/server.json" in installation
+    assert "2.13.0+cu126" in installation
+    assert "bash scripts/get_aid.sh --all" in installation
+    assert "bash scripts/get_hdr.sh --download" in installation
+    assert "bash scripts/get_hdr.sh --archive" not in installation
+    assert "mkdir -p data/_archives" not in installation
+    assert "data/EventHDR/{train,eval}" in installation
+    assert "SHA-256" in installation
+    assert "python scripts/check_env.py --require-full-data --lock constraints/py312.txt" in installation
+    assert "--runtime-profile constraints/server.json" in installation
+    assert "bash scripts/run.sh all" in installation
+    assert installation.index(conda_command) < installation.index("bash scripts/setup.sh")
+    assert installation.index("bash scripts/setup.sh") < installation.index("bash scripts/get_aid.sh")
+    assert installation.index("bash scripts/get_hdr.sh") < installation.index("scripts/check_env.py")
+    assert installation.index("scripts/check_env.py") < installation.index("bash scripts/run.sh all")
+    assert "docs/SERVER.md#1-환경-설치" in installation
+    server_guide = _text("docs/SERVER.md")
+    assert "## 1. 환경 설치\n" in server_guide
+    assert "../README.md#설치-및-실행" in server_guide
 
-    private_restoration = quickstart.split("### 5.", maxsplit=1)[1]
-    for visibility_label in (
-        "Private",
-        "Settings",
-        "Danger Zone",
-        "Change repository visibility",
-        "Make this repository private",
-    ):
-        assert visibility_label in private_restoration
-    assert "수동" in private_restoration or "직접" in private_restoration
-    assert "실험 완료를 감시하거나 자동으로 Private으로 바꾸는 기능은 없다." in private_restoration
-    assert "docs/SERVER.md#1-public-저장소-clone과-설치" in quickstart
+
+def test_research_docs_exclude_repository_visibility_workflows() -> None:
+    for relative in ("README.md", "docs/SERVER.md", "hand_off.md"):
+        documentation = _text(relative)
+        for visibility_instruction in (
+            "Change repository visibility",
+            "Make this repository private",
+            "Danger Zone",
+            "setting-repository-visibility",
+            "Private 복귀",
+            "Private으로 되돌리기",
+        ):
+            assert visibility_instruction not in documentation, relative

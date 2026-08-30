@@ -1,16 +1,15 @@
 # ASGCN-U-Net 프로젝트 인계서
 
-이 문서는 다른 ChatGPT나 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
+이 문서는 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
 이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-30의 현재
 구현과 일치하도록 다시 대조했다.
 
 ## 0. 검증 기록과 배포 판정 기준
 
 이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
-사용자 요청 절차는 저장소를 Public으로 전환해 인증 없이 설치하고, 서버 실험 후 사용자가 직접
-Private로 되돌리는 것이다. 실제 원격 visibility와 배포 성공은 별도로 확인한다. 서버 계정명,
-hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했고 clone 폴더는 `asgcn-unet`으로 표현한다.
-저장소 내부에는 과거의 구체 식별자를 회귀 fixture로도 보존하지 않는다. 대신
+설치와 실험 절차는 README를 기준으로 하며, 배포 검증은 해당 commit의 CI와 아래 release gate로
+확인한다. 문서와 기본 산출물은 서버 계정명·hostname·사용자별 absolute home path를 기록하지 않는다.
+저장소 내부에는 사용자별 식별자를 회귀 fixture로도 보존하지 않는다. 대신
 `scripts/scan_private_text.py`와 `tests/test_repo_hygiene.py`가 다음을 검증한다.
 
 - 모든 Git tracked text와 생성된 `code_summary.md`의 generic user-home/labelled identity 검사
@@ -20,16 +19,17 @@ hostname, 사용자별 Unix/Windows absolute home path를 문서에서 제거했
   history 검사는 로컬/CI 모두 shallow clone 거부
 - Python 문자열 결합·constant f-string·Base64 표현을 복원해 숨은 marker 검사
 - shebang entrypoint의 Git 실행 권한을 Windows에서도 검사해 Linux checkout 권한 누락 방지
-- 설치 명령이 README 빠른 시작의 Public HTTPS clone·Conda 단일 환경 경로로 통합됐는지 문서 검토
-- GitHub 인증 없는 설치와 실험 후 사용자의 수동 Private 복귀가 명확한지 문서 검토
+- 설치 명령이 README의 HTTPS clone·Conda 단일 환경 경로로 통합됐는지 문서 검토
 
-Conda 전환 후 2026-08-30 Windows CPU pytest는 **571 passed, 27 skipped**로 종료했다.
+환경 전환 기준 commit `1afb40f`는 2026-08-30 [CI 7개 job](https://github.com/costunder/asgcn-unet/actions/runs/33308213057)을
+통과했다. Linux Conda 고정 profile의 실제 설치·정확한 버전 검증과 pytest **598 passed, 4 warnings**를
+확인했다. 같은 전환 작업의 Windows CPU pytest는 **571 passed, 27 skipped**로 종료했다.
 skip은 Linux 전용 설치 shell test 22건과 symlink 권한 관련 5건이다. 성공 종료 중에도 Windows native
 access-violation 진단이 출력되어 무경고 검증으로 간주하지 않는다. shell entrypoint 16개는 MSYS Bash에서
 각각 구문 검사했다. 해당 SHA의 Linux Conda 실제 설치·고정 profile·전체 pytest와 별도 cross-platform
-CI 결과로 배포 판정을 확인하며, 이 기록은 실제 CUDA 본실험 완료를 뜻하지 않는다. 원격 배포는 sanitized history와
-과거 CI run/artifact 정리 기록, 원격 `main`의 대상 commit SHA, 같은 SHA의 로컬 실제-marker release
-gate 기록과 GitHub Actions 필수 gate 통과를 함께 확인해야 한다. 실제 marker는 GitHub secret·변수·
+CI 결과로 배포 판정을 확인하며, 이 기록은 실제 CUDA 본실험 완료를 뜻하지 않는다. 후속 변경은 해당
+commit SHA의 로컬 실제-marker release gate 기록과 GitHub Actions 필수 gate 통과를 별도로 확인한다.
+실제 marker는 GitHub secret·변수·
 workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로 로컬 실제-marker 검사를 대신하거나,
 로컬 테스트 결과와 이 문서만으로 원격 배포 완료를 간주하지 않는다.
 
@@ -38,11 +38,11 @@ workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로
 
 1. 전체 tracked text와 `code_summary.md`뿐 아니라 모든 local ref의 history를 저장소 밖 로컬
    실제-marker denylist로 검사하고, marker를 GitHub에 전송하지 않았는가?
-2. Conda가 있는 본인 전용 OS 계정을 전제로 README 빠른 시작만 따라가도록 안내하는가?
-3. Public HTTPS clone에 GitHub 로그인·토큰·SSH 키 설정을 요구하지 않는가?
-4. 공개 노출 범위와 실험 후 수동 Private 복귀, 복귀 후 pull 인증 필요를 안내하는가?
+2. README가 필요한 서버 환경과 Conda 설치·데이터 준비·학습·평가를 일관되게 안내하는가?
+3. clone 이후 명령이 저장소 root 기준으로 실행 가능한가?
+4. 저장소 관리와 실험 실행 절차가 분리되어 있는가?
 5. 기존 Conda 환경과 clone 폴더를 자동 삭제하거나 덮어쓰지 않는가?
-6. 이 보안·배포 수정이 model/data/experiment protocol을 의도치 않게 바꾸지 않았는가?
+6. 변경 사항이 model/data/experiment protocol에 미치는 영향을 검증했는가?
 7. 실제 GPU의 full-topology/densest-step profile이 checkpoint의 verified preflight gate로 이어지는가?
 8. ANN/SNN 평가 artifact가 sealed lineage와 현재 data/source/runtime/precision protocol을 갖는가?
 
@@ -62,7 +62,7 @@ workflow·log·artifact로 전송하지 않는다. CI의 generic 검사만으로
 - 완전한 spiking network
 - FPGA/ASIC latency·전력·에너지 실측 또는 반도체 통합 구현 완료
 
-대상 repository의 Public HTTPS clone 주소는 다음과 같다.
+repository의 HTTPS clone 주소는 다음과 같다.
 
 ```text
 https://github.com/costunder/asgcn-unet.git
@@ -537,14 +537,12 @@ provenance가 엄격하므로 commit이나 source/runtime 변경 뒤에는 resum
 없다. exact resume은 저장된 state와 protocol의 정확한 복원을 뜻하며 서로 다른 hardware에서의
 bitwise 동일성을 과장하지 않는다.
 
-## 11. MobaXterm/Linux GPU 서버 절차
+## 11. Linux GPU 서버 절차
 
-실제 연산은 MobaXterm으로 접속한 Linux server에서 수행한다. 설치는
-[README 빠른 시작(MobaXterm)](README.md#빠른-시작-mobaxterm)을 단일 진입점으로 사용한다.
-Conda와 Git이 있는 본인 전용 OS 계정에서 Public 저장소를 인증 없이 HTTPS로 clone하고, 최초 한 번
-`asgcn` Conda 환경에 설치한다. clone은 코드를 둘 현재 폴더에서 실행하며 홈으로 이동할 필요는 없다.
-GitHub CLI·토큰·SSH 키 설정은 필요 없다. 기존 환경이나 프로젝트 폴더가 있으면 생성·clone을
-반복하거나 삭제하지 않는다.
+실제 연산은 Linux GPU server에서 수행한다. 설치는
+[README의 설치 및 실행](README.md#설치-및-실행)을 단일 진입점으로 사용한다.
+저장소를 clone하고 `asgcn` Conda 환경에 설치하며, 이후 명령은 저장소 root에서 실행한다.
+기존 환경이나 프로젝트 폴더는 덮어쓰지 않는다.
 
 Git은 서버에 이미 설치된 것을 사용한다. `conda create -n asgcn --override-channels -c conda-forge
 python=3.12.14 pip`로 생성한 non-base 환경을 활성화하고 `bash scripts/setup.sh`로 직접 설치한다.
@@ -558,15 +556,8 @@ job을 종료하고 결과를 보존한 뒤 같은 Conda 환경에서 pull·설�
 이전 환경은 새 Conda runtime과 GPU/data 검증을 통과하기 전에는 정리하지 않는다. source/runtime이
 바뀌면 기존 run의 exact resume이 거부될 수 있으므로 checkpoint를 강제로 이어 붙이지 않는다.
 
-Public 전환은 코드·Git history·Actions history/logs를 공개하며, Private 복귀로 이미 생긴 공개 fork나
-외부 사본을 회수할 수는 없다. 실험 종료 후 사용자가 `Settings` → `General` → `Danger Zone` →
-`Change repository visibility` → `Change visibility`에서 Private를 선택하고 안내를 확인한 뒤
-`Make this repository private`로 확정한다. 자동 복귀는 하지 않는다. 서버 clone과 실행 중인 실험은
-유지되지만 이후 pull·새 clone에는 인증이 필요하다. [GitHub 공식 안내](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
-
 유지관리자는 다음 배포 조건을 확인한다.
-본실험 전에는 sanitized history와 과거 CI run/artifact 정리 기록을 확인하고, 원격 `main`의 배포
-commit SHA에 대한 로컬 실제-marker release gate 기록과 같은 SHA의 GitHub Actions 필수 gate 통과를
+배포할 commit SHA에 대한 로컬 실제-marker release gate 기록과 같은 SHA의 GitHub Actions 필수 gate 통과를
 대조한다. CI는 실제 marker를 받지 않는다. 둘 중 하나라도 확인되지 않으면 해당 checkout을 본실험에
 사용하지 않는다. 최신 CI badge나 문서의 상태 설명만으로 대신하지 않는다.
 
@@ -721,8 +712,8 @@ block 형태로 담는다. header에는 file별 SHA-256과 전체 snapshot SHA-2
 `null`로 두고 snapshot SHA-256을 검증 identity로 사용한다. clean generation의 commit/tree도 summary를
 포함하는 새 commit과 자기참조적으로 같을 수 없으므로 현재 remote SHA라고 주장하지 않는다. 본문과
 manifest의 정확한 동일성은 `--check`, remote 배포 동일성은 별도의 remote commit/CI 확인으로 판정한다.
-release에서는 코드뿐 아니라 README·인계서·서버 문서와 검증 수치 수정, history 정리까지 마친 뒤
-최종 sanitized source commit을 확정한다. clean source에서 summary를 재생성하고 summary만 별도
+release에서는 코드·README·인계서·서버 문서와 검증 기록을 검토한 뒤
+source commit을 확정한다. clean source에서 summary를 재생성하고 summary만 별도
 commit한다. 이 사이에 다른 tracked 파일 수정이나 source history의 amend/rebase/rewrite를 끼우지
 않는다. 변경이 필요하면 새 source commit을 확정한 뒤 다시 생성한다.
 `--check --require-clean-provenance`는 기록된 source commit/tree가 유효하고 현재 HEAD까지 summary 외
@@ -732,7 +723,7 @@ tracked source 차이가 없는지 검사한다. dirty snapshot에는 이 releas
 
 ## 14. 테스트 상태와 검증 범위
 
-Conda 전환 후 2026-08-30 Windows CPU 통합 pytest 결과는 **571 passed, 27 skipped**다.
+환경 전환 기준 commit `1afb40f`의 2026-08-30 Windows CPU 통합 pytest 결과는 **571 passed, 27 skipped**다.
 skip 22건은 Linux 전용 설치 shell test, 5건은 symlink 권한 관련 검사다. Windows native access-violation
 진단이 출력된 후에도 pytest는 exit 0으로 종료했으나, 원인이 확인되지 않아 무경고 검증으로 인정하지 않는다.
 이 결과는 기존 pytest 임시 디렉터리 권한 충돌을 피하도록 저장소 밖 새 임시 디렉터리를 지정해 얻었다.
@@ -761,7 +752,7 @@ python scripts/scan_private_text.py --all-tracked --require-external-patterns \
 git diff --check
 ```
 
-history 교체 전후에는 complete non-shallow clone에서 다음 로컬 실제-marker release gate를 별도로
+배포 전에는 complete non-shallow clone에서 다음 로컬 실제-marker release gate를 별도로
 실행한다. marker는 저장소 밖 로컬 denylist 또는 로컬 환경변수 `PRIVATE_MARKERS_B64`로만 주입한다.
 `--require-external-patterns`는 빈 denylist를 거부하며, 실제 marker를 GitHub에 업로드하지 않는다.
 
@@ -771,7 +762,7 @@ python scripts/scan_private_text.py \
   --extra-patterns /path/outside/repository/private_markers.txt
 ```
 
-최종 sanitized source commit과 summary-only commit을 확정한 뒤에는 같은 최종 SHA에서 위 로컬
+source commit과 summary-only commit을 확정한 뒤에는 같은 최종 SHA에서 위 로컬
 실제-marker 검사와 아래 clean provenance gate를 통과해야 한다. CI는 실제 marker 없이 generic
 current-tree/history 검사와 clean provenance를 실행한다. 원격 배포 후 같은 최종 SHA의 GitHub
 Actions 필수 job 전체의 성공을 확인하며, CI 성공으로 로컬 실제-marker 검사를 대신하지 않는다.
@@ -798,7 +789,7 @@ python scripts/build_code_summary.py --check --require-clean-provenance
 - float target 계약, EventAid ZIP logical duplicate, config/loss/batch/sample-limit fail-fast
 - 전체 tracked text의 generic/external-marker privacy scan과 deterministic code snapshot
 - 구·신 Git의 공통 LF history 열거와 모든 shell entrypoint의 개별 구문 검사
-- 공개 output의 absolute path/hostname redaction과 Public HTTPS clone 절차
+- 산출물의 absolute path/hostname redaction과 Linux 서버 설치 절차
 - CUDA 초기화 전 physical count와 초기화 후 runtime count가 다른 MIG 모의 장치, 다중 GPU,
   CUDA 불가·0-device·초기화/조회 오류와 공개/private opt-in 예외 출력의 31개 CPU 회귀검사
 - EventHDR 서버 HTTP 다운로드의 정확한 metadata, SHA-256·HDF5 검사, Range 이어받기,
@@ -839,7 +830,7 @@ GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 - optional LPIPS는 core lock에 포함되지 않는다.
 - 실제 sensor ingest, network transport, compression, RTL, synthesis와 power 측정은 범위 밖이다.
 
-다른 ChatGPT가 교차검증할 때는 최소한 다음 질문에 답해야 한다.
+연구 결과를 교차검증할 때는 다음 항목을 확인한다.
 
 1. 결과 설명이 `paper-core 기반 복원 적응` 범위를 넘어 공식 재현을 주장하는가?
 2. EventHDR가 정확히 train 51/eval 19이고 EventAid-R이 정확히 14 ZIP인가?

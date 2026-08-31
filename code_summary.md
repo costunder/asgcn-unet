@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-31T13:11:49Z",
+    "generated_utc": "2026-08-31T15:06:02Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "8337757516592dab288c3a7df0a9fa2a2e2372bd",
-    "source_tree_at_generation": "6b88ac623779f091c3c5ea97a2aa8487b79bb63a",
+    "source_commit_at_generation": "736ef9485f2c2c1cebb07d08f0d0c691aa7c28f3",
+    "source_tree_at_generation": "961416543a9121c67993ad702eee540e9f578225",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 30679,
+        "bytes": 31298,
         "path": "README.md",
-        "sha256": "ec507cf4b4889fa8e29b4c0aeea1f693ddef0edb31d1cf4d2d758477a0a4e8e1"
+        "sha256": "7f22485cbda6b28f50d66abe2d6fe256f22727d84707052bcdba6499e7086f91"
       },
       {
         "bytes": 1339,
@@ -96,9 +96,9 @@
         "sha256": "190e91f0f15f1ff647bc8c12074737c78233741f43e21c371edef5c964b3215e"
       },
       {
-        "bytes": 8695,
+        "bytes": 16947,
         "path": "docs/PERF.md",
-        "sha256": "aa88b7577235a736d735544007e580b6ccf6a6dfa9371da505caaf695d6038a2"
+        "sha256": "3d6f7a5a5d88c6edba6fca209f53e292cf21226bfa3267aa83601437a9fb1962"
       },
       {
         "bytes": 36811,
@@ -106,14 +106,14 @@
         "sha256": "a03d02c8b0539471e080a5a4ee969b3531b167133799047e4cb75ad462c45647"
       },
       {
-        "bytes": 9251,
+        "bytes": 10373,
         "path": "docs/TRAIN.md",
-        "sha256": "ad568439ccd263db1d72112609cbbec396bcb924300a036b94921bc4a4ecb7cc"
+        "sha256": "2163eaaf3e6458c1ce8b7c3335477d227779ceac568829b5162893fdd3c2ec57"
       },
       {
-        "bytes": 73726,
+        "bytes": 76101,
         "path": "hand_off.md",
-        "sha256": "b88ecae85143fb2148ad3ca8c38d7e7d24211fac62e66d39db97a1408625a661"
+        "sha256": "18f261fd0c953ec01b66456c1f6bb383e512b0ec3493f72020b8924ef991212b"
       },
       {
         "bytes": 2753,
@@ -129,6 +129,11 @@
         "bytes": 767,
         "path": "pyproject.toml",
         "sha256": "a7dea41f5b9f8daae84b3344f4d17c88433ae06cecd7f21ae8becee406817994"
+      },
+      {
+        "bytes": 40507,
+        "path": "scripts/bench.py",
+        "sha256": "8c961069a6e869973e25f88d94ddff2cf396d0416125c1905422692ce2755484"
       },
       {
         "bytes": 15327,
@@ -281,9 +286,9 @@
         "sha256": "80ee5ee5e1de87c64b9233985086ab2f41ae544cc5401bd1678bbfd19d157526"
       },
       {
-        "bytes": 38274,
+        "bytes": 41380,
         "path": "src/asgcn_unet/graph.py",
-        "sha256": "590ba92f4a81bf8c476c545f9a09adce82d5f7a00a7098cd630fabb8ffbc455d"
+        "sha256": "8824bf0d4372159c78c930ccdf896740a242816f3c3f41a3933f830cfbf399d8"
       },
       {
         "bytes": 2863,
@@ -296,19 +301,24 @@
         "sha256": "b8c0ecd4f7a8d271dd8d8a160c6c42b93915ceabfb835069fb1d82e16b83d6b4"
       },
       {
-        "bytes": 19131,
+        "bytes": 19363,
         "path": "src/asgcn_unet/model.py",
-        "sha256": "624001d5fd52e667a24b0d19e52e64edf2a66caf00fc922acf68bb6ba0a65b19"
+        "sha256": "bfef41bf4f226c4d2f5a4d90143ad3a4045e301d1a62a5c1c84514d1bcad6337"
       },
       {
-        "bytes": 4968,
+        "bytes": 13427,
         "path": "src/asgcn_unet/ops.py",
-        "sha256": "481aa7c3875e7e29bc44b10f30f07233b32fbdeedb8e50aa345552497944bfed"
+        "sha256": "7aa1683171f049431b5638c678f21c4302139b3afed8cad81b1877e9bd603e36"
       },
       {
-        "bytes": 78024,
+        "bytes": 8478,
+        "path": "src/asgcn_unet/ops_cuda.py",
+        "sha256": "88a55b0424f1d18daaca8cf4d83c8e6cd4585d78a7e557ae231b9213b023e180"
+      },
+      {
+        "bytes": 78534,
         "path": "src/asgcn_unet/preflight.py",
-        "sha256": "3e567d53d6a8a6eabf8c08ef9bda97296ab5b66e7ed9be667343d55f64522960"
+        "sha256": "f826e75835c2ea827126c24850130e1d85ce6604ba25f45c6c39938101d46d92"
       },
       {
         "bytes": 2451,
@@ -326,9 +336,9 @@
         "sha256": "5f0babbb3a1753e2e0bbb07dc701ed3962a656f99ceca38baf1f0b09d09ff585"
       },
       {
-        "bytes": 5972,
+        "bytes": 6398,
         "path": "src/asgcn_unet/training.py",
-        "sha256": "f90a9593cff45e31055be00296d1d4e5240a03ab83ad2b2745235e881cf48458"
+        "sha256": "0b64a08ca705dbc7cdec4c7a8b05cdf6682e54b529225440d610686806e25bf1"
       },
       {
         "bytes": 3720,
@@ -369,6 +379,11 @@
         "bytes": 19369,
         "path": "tests/test_batching.py",
         "sha256": "f4cb04439f7d08ae3aa41b4ab2598f580d08af22d6b2b6859db1a3ed05768aa1"
+      },
+      {
+        "bytes": 16394,
+        "path": "tests/test_bench.py",
+        "sha256": "a3d5fc90c2d9680c44a08e0d04b7b4ceee336b69a63009b4bab6641b9c049226"
       },
       {
         "bytes": 7846,
@@ -436,6 +451,11 @@
         "sha256": "bc9f28698e6a4ac009809984a5bdd9c336acfddaa3143b490dc0d32a7a79d591"
       },
       {
+        "bytes": 9935,
+        "path": "tests/test_graph_lookup.py",
+        "sha256": "76be30a63ede0ea69c5270ddfae0c42611431e1fcaa5d04670d903b1ce8191e2"
+      },
+      {
         "bytes": 8399,
         "path": "tests/test_graph_opt.py",
         "sha256": "36aa9ad433bd87ef24bb597968c7e2f9d8fa57a439a4f2766c6001c38a1c2974"
@@ -476,9 +496,9 @@
         "sha256": "2fcf9064556afc93041d3179cbf758c6bc4d8330d5952c06ae4b8c24280d3b11"
       },
       {
-        "bytes": 19423,
+        "bytes": 20209,
         "path": "tests/test_profile_resume.py",
-        "sha256": "734e2ec3f26895322ef471117a799c74e9ea02e3ab1c572f28996c18ea844dc9"
+        "sha256": "aecb299becd426570c8abfa6a51fcc26197246091160d21d81154293da25ac53"
       },
       {
         "bytes": 14690,
@@ -526,6 +546,11 @@
         "sha256": "6717f6888bcad0e1f51f380c54f4603ff5ecb27b8541c8c5a8a91e54179899d5"
       },
       {
+        "bytes": 20245,
+        "path": "tests/test_spline_backend.py",
+        "sha256": "c41e9d507547f47d57fc83b1d871aab96664d19c90957a9afbb2f93d70a27127"
+      },
+      {
         "bytes": 13008,
         "path": "tests/test_spline_opt.py",
         "sha256": "4cdcd1e4d21136d71d1454dd9a99081febe81ff1af6b060bcd3d701e9782d7ae"
@@ -541,9 +566,9 @@
         "sha256": "457768baee11e6bb8a7b655ab30068f3fd0c1eb2553531e4af494b3fdd943812"
       },
       {
-        "bytes": 20909,
+        "bytes": 23123,
         "path": "tests/test_training_batch.py",
-        "sha256": "419c173c524abe5faf54d3ab8b3fc8922509deeaa68a6d4491b861672f2d050c"
+        "sha256": "9b2b2088b9f60f052e629688006e7eb5676203007a484cee64c16c0428b66610"
       },
       {
         "bytes": 2742,
@@ -551,9 +576,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 107,
+    "included_file_count": 112,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "0023f91e9e5dc03ae4cd435d87a0042bc2f0c50d368704f634bda88b172dc2ac"
+    "snapshot_sha256": "8197edf0686ff5d5ab6febee6c45d43570e538653d0b5eb401db2cf463e4585e"
   }
 }
 -->
@@ -921,12 +946,18 @@ clone·환경 생성·설치를 매번 반복하지 않는다.
 독립된 시퀀스 최대 4개를 묶어 **graph encoder 한 번 + U-Net decoder 한 번**으로 처리한다.
 프레임 간 graph edge와 recurrent state는 섞지 않고, 전체 프레임·40 epochs는 유지한다.
 BN 통계와 optimizer 갱신 주기가 달라지는 별도 실험(protocol v6)이므로 기준선 checkpoint에서
-exact resume하지 않는다. 실제 MIG GPU의 속도 향상·40-epoch 수렴은 아직 측정하지 않았다.
+exact resume하지 않는다. 사용자 제공 B4 서버 로그에서는 CUDA 학습과 단계별 시간이 확인됐지만,
+동일 입력 대비 속도 향상·최적 배치 크기·40-epoch 수렴은 아직 검증되지 않았다.
 
 실행 중인 기준선 작업을 보존한다. 해당 작업이 끝나기 전에 같은 checkout에서 pull하거나
 같은 GPU에 새 학습을 겹쳐 실행하지 않는다. 기존 작업 종료 후의 새 실험 명령, 이전 topology
 보고서 재사용, 실제 batch CUDA 검사, `runs/batch/timing.json`과 epoch별 frame/s 기록은
 [배치 학습 안내](docs/TRAIN.md)를 따른다. 학습·calibration·평가 결과도 `runs/batch` 아래로 분리한다.
+
+성능 비교는 `scripts/bench.py`로 **동일한 실제 EventHDR 프레임 집합**의 배치 크기와 spline backend를
+비교한다. 별도 측정 결과만 저장하며 기존 학습·checkpoint·config를 변경하지 않는다.
+새 융합 연산은 선택형이며, CUDA 수치 검사와 처리량 비교 없이 기본값이나 "최적 설정"으로 채택하지 않는다.
+실행 조건과 측정 범위는 [성능 비교 안내](docs/PERF.md#동일-실데이터-gpu-비교)를 따른다.
 
 ## 실험 범위
 
@@ -2753,9 +2784,107 @@ validation 완료 여부와 epoch를 봉인한다. 40 epoch 최종 평가를 이
 ~~~~~~~~markdown
 # Graph encoder 최적화 검증
 
-이 문서는 아래 기준 commit 대비 연산 단위 최적화 기록이다. 후속 독립 시퀀스 미니배치 학습 설계,
-실제 학습 단계별 타이밍과 별도 실험 실행은 [TRAIN.md](TRAIN.md)를 따른다. 아래 CPU 수치를
-미니배치의 GPU 가속 실측으로 해석하지 않는다.
+앞부분은 GPU 병목 후속 수정과 동일 실데이터 비교 방법이고, 뒷부분은 이전 commit 대비
+CPU 연산 단위 측정 기록이다. 독립 시퀀스 미니배치 학습 설계와 별도 실험 실행은
+[TRAIN.md](TRAIN.md)를 따른다. CPU 수치를 GPU 가속 실측으로 해석하지 않는다.
+
+## 동일 실데이터 GPU 비교
+
+현재 병목 판단 자료는 사용자가 제공한 B4의 50-update CUDA stream 측정이다.
+graph 22.16 ms, encoder 47.59 ms, decoder 6.14 ms, loss 1.82 ms, backward 50.19 ms였다.
+이 값은 exclusive kernel time이나 GPU utilization이 아니며, 서로 중첩될 수 있다.
+loss의 host 41.30 ms를 CPU loss 계산 41.30 ms로 해석하지 않는다. 앞서 제출된 GPU 작업을 기다린
+시간이 포함될 수 있다. `gradient_check`는 update당 두 scope이므로 scope 평균과 step 평균도 다르다.
+PyTorch의 [동기화 설명](https://docs.pytorch.org/tutorials/recipes/recipes/tuning_guide.html#avoid-unnecessary-cpu-gpu-synchronization)을 참고한다.
+
+후속 변경은 다음과 같다.
+
+- 그래프: 여러 인접-cell 조회 청크의 allocation count를 한 번에 가져온다. candidate distance/edge는
+  기존 청크 단위로 만들며 4-million candidate 한계와 max-edge guard, strict radius, edge 정렬을 유지한다.
+  유효성 검사는 삭제하지 않고 결과 전송을 묶는다. 작은 hash 상수만 LRU 32개로 재사용하며 CUDA
+  device와 stream별로 구분한다. 이벤트별 graph나 전체 dataset을 GPU에 cache하지 않는다.
+- Temporal loss: 모든 lane의 이전 context가 있으면 전체 prediction/target tensor를 직접 사용한다.
+  일부 context만 유효한 배치에는 기존 indexing과 유효 비율을 그대로 적용한다.
+- `torch_fused`: 두 활성 spline basis 항을 묶어 청크당 gather/scatter dispatch 수를 줄인다.
+  청크 working storage는 두 basis 항을 포함하므로 기준보다 클 수 있다. backward까지 모든 edge의
+  channel message를 저장하지는 않는다.
+- `triton`: gather·basis 곱·scatter를 하나의 GPU kernel로 실행하고 projected-feature gradient도
+  융합한다. edge-channel message를 GPU 메모리에 중간 텐서로 저장하지 않는다. basis gradient와
+  고차 미분 요청도 지원하되 `create_graph=True`의 backward는 명시적으로 미분 가능한 Torch 수식을 쓴다.
+
+기준 `torch`는 유지하며 두 후보는 선택형이다. `triton`은 NVIDIA SM80 이상 CUDA와 Triton이 필요하고,
+CPU/지원하지 않는 GPU/누락된 Triton/결정론 강제 모드에서는 오류를 낸다. 다른 backend로 조용히
+바꾸지 않는다. 서버의 기존 `constraints/server.json`·`server.txt`에는 이미 Triton 3.7.1이 고정돼 있어
+별도의 최신 버전 설치를 요구하지 않는다. atomic reduction의 누적 순서가 달라질 수 있으므로 두 후보의
+bitwise 동일한 trajectory를 주장하지 않는다. 기존 AMP 재시도·유한 gradient 검사·clipping은 유지한다.
+
+### 실행
+
+**기존 학습과 같은 GPU/MIG에서 동시에 실행하지 않는다.** 실행 중인 checkout을 pull하거나 학습을
+임의 종료하지 않는다. 다음 명령은 변경된 소스를 받은 checkout에서 GPU가 다른 학습에 사용되지
+않을 때 실행한다. 완료된 기존 run/config/checkpoint는 변경하지 않는다.
+
+```bash
+conda activate asgcn
+python -m pytest -q tests/test_spline_backend.py tests/test_graph_lookup.py &&
+python scripts/bench.py --config configs/batch.json \
+  --batches 4 8 16 --backends torch torch_fused triton --output runs/bench
+```
+
+같은 실제 EventHDR 16개 독립 시퀀스의 연속 구간을 사용한다. 시퀀스당 warmup 8프레임과 측정
+32프레임으로, 각 조건은 **같은 warmup 128프레임 + 같은 측정 512프레임**을 처리한다.
+`--batches 1 4 8 16`으로 B1도 비교할 수 있다. `--frames-per-stream 128`은 조건당 측정 프레임을
+2,048개로 늘린다. batch마다 같은 step 수를 주어 서로 다른 frame 수를 비교하지 않는다.
+frame_stride·max_events·해상도·모델 크기를 줄이지 않으며 production 데이터 대체 경로는 없다.
+
+각 조건은 fresh subprocess에서 동일 seed의 모델·optimizer·scaler로 시작한다. 기본 반복 2회이고,
+비교 순서는 seed로 섞는다. 동일 batch의 첫/최소·최대 raw-event 입력에서 기준 backend 대비
+prediction·loss·gradient·BN 통계를 검사한 뒤 실제 `_training_step`과 시퀀스 context를 실행한다.
+gradient는 clipping 전 norm과 clipping 후 tensor의 성분별 오차·벡터 상대 L2 오차를 함께 검사한다.
+작아진 gradient에 큰 absolute tolerance만 적용해 방향 오류를 숨기지 않는다.
+수치 검사 대상이 모두 edge 없는 그래프이면 spline 연산 자체를 검증하지 못하므로 통과시키지 않는다.
+배치 크기가 다르면 BN pooling/update 횟수가 달라지므로 배치 크기 사이의 수치 동등성을 요구하지 않는다.
+
+출력은 별도의 `runs/bench/report.json`과 조건별 JSON이다. 기존 출력이 있으면 덮어쓰지 않으므로
+다음 측정은 `--output runs/bench2`처럼 새 경로를 지정한다. OOM·수치 불일치·backend 오류는 실패로
+기록한다. 실패 조건을 더 작은 배치로 몰래 실행하거나 CPU로 바꿔 성공 처리하지 않는다.
+
+### 해석과 후속 학습
+
+측정 wall time은 해당 구간의 실제 HDF5 decode·전송·그래프·forward/loss/backward·검사·optimizer·
+context 저장과 종료 CUDA 동기화를 포함한다. benchmark loader는 동기식이며 production의 4-worker
+prefetch와 다르다. OS file cache를 지우지 않는다. 따라서 특정 window의 비교 결과이지 전체 epoch
+처리량/수렴이나 모든 입력의 OOM 안전성을 입증하는 결과가 아니다. 준비·파일 hash·수치 비교와
+warmup 시간은 throughput에서 제외한다. 이 단계에서 처음 사용하는 kernel을 준비하지만, 새로운
+dtype/stride 등으로 측정 구간에서 추가 JIT가 발생한다면 그 비용은 포함된다. 이벤트 수 N은
+runtime 인자로 전달해 frame마다 node 수가 바뀐다는 이유로 재컴파일하지 않도록 한다.
+모든 비교 backend에 후속 graph 수정이 공통 적용되므로, 이 비교의 `torch`는 spline 기준 구현이지
+이전 commit 전체를 실행한 결과가 아니다. 이전 학습 화면과 비교한 값을 통제된 가속률로 보고하지 않는다.
+
+`--trace-steps 8`을 추가하면 throughput과 분리된 추가 pass에서 bounded PyTorch operator trace를
+저장한다. 이 trace용 실행의 시간은 가속률 계산에 사용하지 않는다. trace·보고서는 사용자별 경로와
+hostname을 가리며, source/설정/선택 프레임 identity는 hash로 기록한다.
+측정 API의 범위는 [PyTorch Profiler](https://docs.pytorch.org/docs/2.13/profiler.html)를 참고한다.
+
+메모리를 많이 쓴 조건이 아니라 **수치 검사를 통과하고 반복 측정 처리량이 좋아진 조건**을 후보로
+선택한다. benchmark는 config를 자동 변경하거나 학습을 시작하지 않는다. 선택한 batch/backend는
+새 run/config의 실제 dense/full-batch CUDA preflight를 거쳐야 한다. 새 소스에 이전 checkpoint를
+exact-resume하도록 source 검사를 우회하지 않는다. 검증되는 이전 topology 통계만 재사용할 수 있으며,
+이전 GPU probe 통과는 새 backend/B의 통과 근거가 아니다.
+
+새 GPU kernel은 로컬 CPU 환경에서 CUDA 컴파일·실행·속도를 검증하지 못했다. 이 문서는 구현과
+측정 절차이지 성능 개선 완료 선언이 아니다. 아래 과거 CPU 수치로 이 GPU 변경의 가속률을 대신하지 않는다.
+
+### 이번 변경의 로컬 검증
+
+전체 Windows CPU suite는 **1,286 passed, 82 skipped, 1 warning (73.36초), exit 0**이다.
+skip은 CUDA 장비·Linux shell·Windows symlink 제약을 포함한다. warning은 기존 test-only quantized
+buffer의 deprecated API 경고이며 이 실행에 native access-violation 출력은 없었다.
+Ruff와 diff whitespace 검사를 통과했다. CUDA 커널 테스트는 작성됐지만 실행되지 않은 항목을
+통과로 세지 않는다. CPU `torch_fused` 비교에서는 일부 조건이 기준보다 느렸으며, dispatch 감소를
+실제 속도 향상으로 환산하지 않고 선택형 후보로 유지한다.
+
+## 이전 연산 최적화 기록
 
 2026-08-31. 비교 기준은 변경 전 commit `0eae40f`의 graph 구현이다. 모델 구조, parameter/state-dict
 key, 두 SNN dynamics, 전체 데이터 범위, 8,192-event 제한과 40 epoch는 변경하지 않았다.
@@ -3493,7 +3622,8 @@ bash scripts/run.sh eval
 `configs/train.json`은 기존 batch 1 기준선(training protocol v5)이다.
 `configs/batch.json`은 batch 상한 4의 별도 실험(training protocol v6)이며,
 ASGCN 모델의 `architecture_version=2`를 바꾸는 설정은 아니다.
-새 배치 경로의 실제 서버 GPU 속도·최대 메모리·40-epoch 수렴은 아직 검증하지 않았다.
+사용자 제공 서버 로그로 B4 CUDA 학습과 초기 측정 창은 확인됐다. 같은 입력 대비 속도 향상,
+전체 학습 최대 메모리와 40-epoch 수렴을 검증한 것은 아니다.
 
 ## 계산과 순서
 
@@ -3602,7 +3732,19 @@ Batch 전체 CUDA 검사를 통과한 현재 보고서가 있어야 학습을 �
 기존 spline 최적화의 중간 텐서 보관 감소와 이번 호출 배치화를 실제 GPU 속도 향상으로 환산하지 않는다.
 Batch는 동시에 처리하는 노드·edge·decoder activation이 늘어 peak VRAM이 더 커질 수 있다.
 A100 전체 GPU와 MIG 1g.10gb는 같은 실행 자원이 아니며, B=4가 해당 MIG에서 충분한지도 실제 gate로 확인해야 한다.
-4배 가속을 약속하지 않는다. 프로젝트 전용 C++/CUDA 확장을 새로 만든 것도 아니다.
+4배 가속을 약속하지 않는다. 기존 `torch` backend는 그대로 유지한다.
+
+후속 최적화는 인접 cell 조회 여러 청크의 allocation count를 한 번에 전송하고,
+device/stream별 작은 불변 hash 상수를 재사용한다. 이벤트별 graph cache는 아니다.
+학습 temporal loss에서 모든 lane의 context가 유효하면 불필요한 advanced indexing 두 번을 생략한다.
+유효 context가 일부뿐인 배치의 loss 계산은 그대로 유지한다.
+
+`model.spline_backend`에는 기준 `torch` 외에 두 basis 항을 묶는 `torch_fused`와
+GPU 커널로 gather·weight·scatter를 융합하는 명시적 `triton` 후보가 있다.
+두 후보는 부동소수점 누적 순서를 바꿀 수 있으므로 bitwise 동일한 학습을 주장하지 않는다.
+기본 config, 모델 크기, event 제한, 전체 epoch/frame 수와 AMP 안전 검사는 변경하지 않았다.
+CUDA 수치·성능 검사 없이 기본값을 바꾸거나 기존 checkpoint의 source 검사를 우회하지 않는다.
+비교 명령과 후보별 제약은 [PERF.md](PERF.md#동일-실데이터-gpu-비교)에 정리한다.
 ~~~~~~~~
 
 # hand_off.md
@@ -3611,10 +3753,36 @@ A100 전체 GPU와 MIG 1g.10gb는 같은 실행 자원이 아니며, B=4가 해�
 # ASGCN-U-Net 프로젝트 인계서
 
 이 문서는 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
-이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-31의 현재
+이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-09-01의 현재
 구현과 일치하도록 다시 대조했다.
 
 ## 0. 검증 기록과 배포 판정 기준
+
+### GPU 처리량 병목 후속 수정
+
+사용자 제공 B4 서버 로그는 실제 CUDA 학습 중 약 1,216 MiB process GPU memory를 보였다.
+첫 10 warmup 이후 50개 성공 update 측정 창에서 CUDA stream 경과시간 평균은 graph 약 22.16 ms,
+encoder 47.59 ms, decoder 6.14 ms, backward 50.19 ms였다. 이는 VRAM 부족의 증거가 아니며,
+전체 GPU utilization이나 배치 크기의 최적성을 입증하지도 않는다. host/CUDA 시간을 합산하지 않는다.
+`gradient_check`는 update당 두 번 측정하므로 scope 평균을 update 평균으로 오인하지 않는다.
+
+후속 변경은 그래프의 조회/크기 전송 묶음화, 작은 hash 상수의 device/stream별 재사용,
+완전한 temporal context 배치의 indexing 생략과 선택형 spline 융합 backend다.
+`torch`는 기준 구현이며 `torch_fused`와 CUDA-only `triton`은 동일 입력 수치·속도 비교 대상이다.
+기본 배치/모델/데이터/40 epochs를 임의로 줄이지 않고 finite 검사·AMP rollback·exact-resume 보호를 유지한다.
+
+`scripts/bench.py`는 같은 실제 EventHDR 연속 프레임 집합으로 backend/배치 크기를 비교하고,
+새 subprocess마다 모델·optimizer·scaler를 초기화한다. 실제 학습 함수와 시퀀스 context를 사용하며
+데이터 대체, checkpoint 생성/수정 또는 기존 학습의 재개는 하지 않는다. 새 소스의 GPU 커널 수치·
+속도·전체 학습은 로컬 CPU 테스트로 검증됐다고 주장하지 않는다. 상세 범위와 실행은
+[PERF.md](docs/PERF.md#동일-실데이터-gpu-비교)를 따른다.
+
+이번 변경의 최종 전체 Windows CPU 검사는 **1,286 passed, 82 skipped, 1 warning (73.36초)**이며
+종료코드 0이다. skip에는 CUDA 실행 불가 항목이 포함되고, 기존 test-only quantized buffer의
+deprecated API 경고 1개가 있었다. 해당 전체 실행에서 native access-violation 출력은 없었다.
+Ruff·diff 검사와 tracked text/도달 가능한 Git history의 개인정보 검사를 통과했다.
+동일 프레임/상태 보존, gradient 방향 오류 거부, 실패/OOM의 성공 표시 방지, 익명화 전 원본 trace의
+비공개 임시 저장·실패 시 정리를 회귀검사한다. 아래 1167/41 등은 이전 단계의 기록이다.
 
 ### 독립 시퀀스 미니배치 경로
 
@@ -3634,7 +3802,8 @@ GPU 측정 통과는 구분하며 GPU 검사는 항상 다시 수행한다.
 `timing.py`는 실제 학습 10 warmup 뒤 50 step의 host/CUDA 단계 시간을 수집한다. `history.json`은
 validation을 제외한 epoch wall time, 처리 frame 수, optimizer update 수와 frame/s를 기록한다.
 그래프는 여전히 매 프레임·매 epoch 생성하며 전체 graph cache는 구현하지 않았다. Batch 4의
-실제 MIG 처리량·VRAM·수렴 결과는 아직 없다. 구현 계약·한계·서버 명령은 [TRAIN.md](docs/TRAIN.md)를
+동일 입력 대비 MIG 가속률·전체 peak·수렴 결과는 아직 없다. 위 초기 서버 측정과 구분한다.
+구현 계약·한계·서버 명령은 [TRAIN.md](docs/TRAIN.md)를
 기준으로 한다. 아래 997/40 기록은 이전 AMP 수정 시점이며 이번 배치 경로의 검증 수치가 아니다.
 
 이번 배치·artifact 보호 수정의 전체 Windows CPU 회귀검사는 **1167 passed, 41 skipped,
@@ -4703,6 +4872,1028 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+~~~~~~~~
+
+# scripts/bench.py
+
+~~~~~~~~python
+"""Isolated real-EventHDR training throughput comparisons, never training resume.
+
+Every trial runs in a fresh process. Timed frame identities and per-stream warmup
+lengths are shared across batch sizes; epoch throughput/quality is not inferred.
+"""
+
+from __future__ import annotations
+
+import argparse
+import copy
+import hashlib
+import json
+import math
+import os
+import random
+import re
+import socket
+import statistics
+import subprocess
+import sys
+import tempfile
+import time
+from collections import defaultdict
+from contextlib import nullcontext
+from pathlib import Path
+from types import SimpleNamespace
+from typing import Any
+
+# A detached benchmark checkout must not import another checkout's editable install.
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / "src"))
+
+import torch
+from torch.utils.data import Subset
+
+from asgcn_unet.batching import SequenceBatchSampler, sequence_key
+from asgcn_unet.data import build_dataset
+from asgcn_unet.engine import (
+    _build_optimizer,
+    _current_source_contract,
+    _dataset_content_fingerprint,
+    _dataset_sample_identity,
+    _make_grad_scaler,
+    _optimizer_mode,
+    _public_config,
+    _training_protocol,
+    _training_step,
+)
+from asgcn_unet.losses import ReconstructionLoss
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.preflight import _runtime_provenance
+from asgcn_unet.timing import StageTimer
+from asgcn_unet.training import TrainingState, forward_training_loss
+from asgcn_unet.utils import (
+    load_json,
+    move_sample,
+    resolve_experiment_paths,
+    save_json,
+    set_seed,
+    validate_experiment_config,
+)
+
+
+def digest(value: Any) -> str:
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+    ).hexdigest()
+
+
+def redact(text: str, config: dict, output: Path) -> str:
+    roots = [PROJECT, output, Path.home()]
+    roots.extend(
+        Path(value).expanduser().resolve()
+        for section in ("dataset", "output", "train")
+        for key, value in config.get(section, {}).items()
+        if key in {"root", "val_root", "split_manifest", "file_manifest", "run_dir", "resume"}
+        and isinstance(value, str)
+    )
+    for root in sorted(roots, key=lambda p: len(str(p)), reverse=True):
+        for spelling in {str(root), root.as_posix()}:
+            text = text.replace(spelling, "$PATH")
+    text = re.sub(r"(?i)(?<![A-Za-z0-9_])/(?:home|Users)/[^/\s\"']+", "$HOME", text)
+    text = re.sub(r"(?i)\b[A-Z]:[\\/]Users[\\/][^\\/\s\"']+", "$HOME", text)
+    for machine_name in {socket.gethostname(), os.getenv("HOSTNAME", ""), os.getenv("COMPUTERNAME", "")}:
+        if machine_name:
+            text = re.sub(re.escape(machine_name), "$HOST", text, flags=re.IGNORECASE)
+    return text
+
+
+def _positive(value: int, name: str) -> None:
+    if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+        raise ValueError(f"{name} must be a positive integer")
+
+
+def select_windows(dataset, *, streams: int, warmup: int, frames: int, seed: int) -> dict:
+    """Choose metadata-only, contiguous equal-length windows of one sensor shape."""
+    for name, value in (("streams", streams), ("warmup", warmup), ("frames", frames)):
+        _positive(value, name)
+    if frames < 2:
+        raise ValueError("At least two measured frames per stream are required")
+    geometry = SequenceBatchSampler(dataset, 1, seed=seed).sample_sensor_sizes
+    grouped = defaultdict(list)
+    for index, record in enumerate(dataset.samples):
+        grouped[sequence_key(record)].append(index)
+    required = warmup + frames
+    candidates = defaultdict(dict)
+    rng = random.Random(seed)
+    for key, indices in sorted(grouped.items()):
+        segments: list[list[int]] = []
+        for index in indices:
+            if not segments or (
+                dataset.samples[index]["sequence_index"]
+                != dataset.samples[segments[-1][-1]]["sequence_index"] + 1
+                or geometry[index] != geometry[segments[-1][-1]]
+            ):
+                segments.append([])
+            segments[-1].append(index)
+        for shape in sorted({geometry[segment[0]] for segment in segments}):
+            eligible = [s for s in segments if geometry[s[0]] == shape and len(s) >= required]
+            if eligible:
+                segment = rng.choice(eligible)
+                start = rng.randrange(len(segment) - required + 1)
+                candidates[shape][key] = segment[start : start + required]
+    shapes = [shape for shape, groups in candidates.items() if len(groups) >= streams]
+    if not shapes:
+        raise ValueError(
+            f"Need {streams} independent same-shape streams with {required} contiguous frames each; "
+            "the selected real dataset cannot form this comparison"
+        )
+    shape = min(shapes, key=lambda s: (-len(candidates[s]), s))
+    keys = sorted(candidates[shape])
+    rng.shuffle(keys)
+    windows = [candidates[shape][key] for key in sorted(keys[:streams])]
+    entries = []
+    for stream, window in enumerate(windows):
+        for offset, index in enumerate(window):
+            entries.append(
+                {
+                    **_dataset_sample_identity(dataset, index),
+                    "stream": stream,
+                    "phase": "warmup" if offset < warmup else "measure",
+                    "window_offset": offset,
+                }
+            )
+    selection = {
+        "schema": "asgcn_real_training_windows_v1",
+        "selection_policy": "seeded_contiguous_equal_length_independent_same_geometry",
+        "seed": seed,
+        "streams": streams,
+        "sensor_size": list(shape),
+        "warmup_frames_per_stream": warmup,
+        "measured_frames_per_stream": frames,
+        "warmup_frames": streams * warmup,
+        "measured_frames": streams * frames,
+        "entries": entries,
+    }
+    selection["sha256"] = digest(selection)
+    return selection
+
+
+def validate_selection(dataset, selection: dict) -> None:
+    original = {key: value for key, value in selection.items() if key != "sha256"}
+    if selection.get("sha256") != digest(original):
+        raise ValueError("Benchmark selection hash is invalid")
+    entries = selection["entries"]
+    seen = set()
+    for entry in entries:
+        index = entry["dataset_index"]
+        if index in seen or not 0 <= index < len(dataset):
+            raise ValueError("Benchmark selection has a duplicate/out-of-range frame")
+        seen.add(index)
+        identity = _dataset_sample_identity(dataset, index)
+        if any(entry.get(key) != value for key, value in identity.items()):
+            raise ValueError("Benchmark frame identity differs from the selected real dataset")
+    regenerated = select_windows(
+        dataset,
+        streams=selection["streams"],
+        warmup=selection["warmup_frames_per_stream"],
+        frames=selection["measured_frames_per_stream"],
+        seed=selection["seed"],
+    )
+    if regenerated != selection:
+        raise ValueError("Benchmark selection differs from its deterministic metadata plan")
+
+
+def batch_schedule(dataset, selection: dict, size: int):
+    _positive(size, "batch size")
+    if selection["streams"] % size:
+        raise ValueError("Every batch size must divide the common stream count")
+    subset = Subset(dataset, [entry["dataset_index"] for entry in selection["entries"]])
+    sampler = SequenceBatchSampler(subset, size, seed=selection["seed"])
+    schedule = list(sampler)
+    if not schedule or any(len(batch) != size for batch in schedule):
+        raise ValueError("The selected comparison must form genuine full-size batches")
+    phases = []
+    for batch in schedule:
+        labels = {selection["entries"][index]["phase"] for index in batch}
+        if len(labels) != 1:
+            raise ValueError("Warmup and measurement frames must never mix inside a batch")
+        phases.append(labels.pop())
+    if sorted(i for batch in schedule for i in batch) != list(range(len(subset))):
+        raise ValueError("The batch schedule dropped or repeated selected frames")
+    return subset, sampler, schedule, phases
+
+
+def variant_config(config: dict, size: int, backend: str, chunk: int | None) -> dict:
+    variant = copy.deepcopy(config)
+    variant["device"] = "cuda"
+    variant["train"].update(
+        batch_size=size, batching="single_frame" if size == 1 else "independent_sequences"
+    )
+    variant["model"]["spline_backend"] = backend
+    if chunk is not None:
+        variant["model"]["spline_chunk_size"] = chunk
+    validate_experiment_config(variant)
+    return variant
+
+
+def _source_contract() -> dict:
+    return {
+        **_current_source_contract(),
+        "benchmark_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    }
+
+
+def _file_signatures(dataset, selection: dict) -> list[dict]:
+    paths = sorted(
+        {Path(dataset.samples[entry["dataset_index"]]["path"]) for entry in selection["entries"]}
+    )
+    result = []
+    for path in paths:
+        stat = path.stat()
+        result.append(
+            {
+                "file": path.relative_to(dataset.root).as_posix(),
+                "size": stat.st_size,
+                "mtime_ns": stat.st_mtime_ns,
+                "ctime_ns": stat.st_ctime_ns,
+            }
+        )
+    return result
+
+
+def _fresh(config: dict, device: torch.device):
+    set_seed(int(config.get("seed", 2026)))
+    model = ASGCNUNet(**config["model"]).to(device).train()
+    optimizer = _build_optimizer(model, config["train"])
+    amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    return (
+        model,
+        optimizer,
+        _make_grad_scaler(amp),
+        ReconstructionLoss(config["train"].get("loss_weights")),
+        amp,
+    )
+
+
+def _step(model, optimizer, scaler, criterion, samples, contexts, config, amp, *, step, timer=None):
+    def forward_loss():
+        return forward_training_loss(
+            model,
+            criterion,
+            samples,
+            contexts,
+            batch_mode=int(config["train"]["batch_size"]) > 1,
+            amp_enabled=amp,
+            temporal_weight=float((config["train"].get("loss_weights") or {}).get("temporal", 0)),
+            timing=timer,
+        )
+
+    return _training_step(
+        model,
+        optimizer,
+        scaler,
+        forward_loss,
+        optimizer_mode=_optimizer_mode(config["train"]),
+        max_norm=float(config["train"].get("grad_clip", 1)),
+        epoch=0,
+        step=step,
+        sample_id=[sample["sample_id"] for sample in samples],
+        timing=timer,
+    )
+
+
+def _numeric_snapshot(config: dict, dataset, indices: list[int], device: torch.device) -> dict:
+    model, optimizer, scaler, criterion, amp = _fresh(config, device)
+    samples = [move_sample(dataset[index], device) for index in indices]
+    payload, loss, norm, scale = _step(
+        model,
+        optimizer,
+        scaler,
+        criterion,
+        samples,
+        [(None, None, None)] * len(samples),
+        config,
+        amp,
+        step=0,
+    )
+    prediction, diagnostics, _target = payload
+    tensors = {"prediction": prediction.detach().float().cpu()}
+    tensors.update(
+        (
+            "gradient/" + name,
+            None if parameter.grad is None else parameter.grad.detach().float().cpu(),
+        )
+        for name, parameter in model.named_parameters()
+    )
+    tensors.update(
+        ("buffer/" + name, value.detach().float().cpu())
+        for name, value in model.named_buffers()
+        if "running_" in name
+    )
+    return {
+        "tensors": tensors,
+        "loss": loss,
+        "gradient_norm": norm,
+        "amp": scale,
+        "topology": [(int(item["nodes"]), int(item["edges"])) for item in diagnostics],
+    }
+
+
+def compare_snapshots(reference: dict, candidate: dict, *, amp: bool) -> dict:
+    atol, rtol = (2e-3, 2e-2) if amp else (2e-5, 2e-4)
+    l2_atol, l2_rtol = (5e-6, 0.05) if amp else (1e-7, 2e-4)
+    if reference["topology"] != candidate["topology"]:
+        raise ValueError("Backend parity failed: graph nodes/edges differ")
+    if set(reference["tensors"]) != set(candidate["tensors"]):
+        raise ValueError("Backend parity failed: tensor inventories differ")
+    if not math.isclose(
+        reference["gradient_norm"], candidate["gradient_norm"], abs_tol=atol, rel_tol=rtol
+    ):
+        raise ValueError("Backend parity failed: pre-clipping gradient norm differs")
+    maximum = 0.0
+    compared = 0
+    gradient_error_sq = gradient_reference_sq = 0.0
+    maximum_gradient_relative_l2 = 0.0
+    for name, expected in reference["tensors"].items():
+        actual = candidate["tensors"][name]
+        if expected is None or actual is None:
+            if expected is not actual:
+                raise ValueError(f"Backend parity failed: missing gradient {name}")
+            continue
+        if expected.shape != actual.shape or not torch.allclose(
+            expected, actual, atol=atol, rtol=rtol
+        ):
+            raise ValueError(f"Backend parity failed: {name} exceeds atol={atol}, rtol={rtol}")
+        if expected.numel():
+            maximum = max(maximum, float((expected - actual).abs().max()))
+        if name.startswith("gradient/"):
+            error_l2 = float(torch.linalg.vector_norm((expected - actual).double()))
+            reference_l2 = float(torch.linalg.vector_norm(expected.double()))
+            if error_l2 > l2_atol + l2_rtol * reference_l2:
+                raise ValueError(f"Backend parity failed: {name} gradient L2 direction differs")
+            gradient_error_sq += error_l2**2
+            gradient_reference_sq += reference_l2**2
+            maximum_gradient_relative_l2 = max(
+                maximum_gradient_relative_l2, error_l2 / max(reference_l2, l2_atol)
+            )
+        compared += 1
+    gradient_error = math.sqrt(gradient_error_sq)
+    gradient_reference = math.sqrt(gradient_reference_sq)
+    if gradient_error > l2_atol + l2_rtol * gradient_reference:
+        raise ValueError("Backend parity failed: whole-gradient L2 direction differs")
+    for name in reference["loss"]:
+        if not math.isclose(
+            reference["loss"][name],
+            candidate["loss"].get(name, float("nan")),
+            abs_tol=atol,
+            rel_tol=rtol,
+        ):
+            raise ValueError(f"Backend parity failed: loss {name}")
+    return {
+        "passed": True,
+        "atol": atol,
+        "rtol": rtol,
+        "compared_tensors": compared,
+        "max_absolute_difference": maximum,
+        "gradient_comparison": "clipped_direction_per_parameter_and_global_l2_plus_preclip_norm",
+        "gradient_l2_atol": l2_atol,
+        "gradient_l2_rtol": l2_rtol,
+        "gradient_l2_error": gradient_error,
+        "reference_gradient_l2": gradient_reference,
+        "max_parameter_gradient_relative_l2": maximum_gradient_relative_l2,
+    }
+
+
+def numerical_gate(config: dict, reference_config: dict, subset, schedule, device) -> dict:
+    counts = [
+        sum(
+            int(subset.dataset.samples[subset.indices[i]]["end_idx"])
+            - int(subset.dataset.samples[subset.indices[i]]["start_idx"])
+            for i in batch
+        )
+        for batch in schedule
+    ]
+    choices: dict[int, list[str]] = {0: ["first"]}
+    for index, reason in (
+        (min(range(len(counts)), key=counts.__getitem__), "sparse_raw_events"),
+        (max(range(len(counts)), key=counts.__getitem__), "dense_raw_events"),
+    ):
+        choices.setdefault(index, []).append(reason)
+    measurements = []
+    for index, reasons in choices.items():
+        reference = _numeric_snapshot(reference_config, subset, schedule[index], device)
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
+        candidate = _numeric_snapshot(config, subset, schedule[index], device)
+        comparison = compare_snapshots(
+            reference,
+            candidate,
+            amp=bool(config["train"].get("amp", True)) and device.type == "cuda",
+        )
+        measurements.append(
+            {
+                "batch_index": index,
+                "dataset_indices": [subset.indices[i] for i in schedule[index]],
+                "reasons": reasons,
+                "reference_amp": reference["amp"],
+                "candidate_amp": candidate["amp"],
+                "topology": [
+                    {"nodes": nodes, "edges": edges} for nodes, edges in candidate["topology"]
+                ],
+                **comparison,
+            }
+        )
+    if not any(item["edges"] > 0 for row in measurements for item in row["topology"]):
+        raise ValueError(
+            "No graph edges in the selected numerical cases; the spline backend was not exercised"
+        )
+    return {
+        "passed": True,
+        "nonempty_spline_exercised": True,
+        "reference_backend": "torch",
+        "state": "fresh_seed_no_context_same_batch",
+        "density_basis": "raw_event_interval_not_full_graph_scan",
+        "measurements": measurements,
+    }
+
+
+def export_trace(profiler, path: Path, config: dict) -> None:
+    if path.exists() or path.is_symlink():
+        raise FileExistsError("Refusing to overwrite an existing operator trace")
+    with tempfile.TemporaryDirectory(prefix="asgcn-bench-trace-") as temporary:
+        raw_path = Path(temporary) / "trace.json"
+        raw_path.touch(mode=0o600, exist_ok=False)
+        profiler.export_chrome_trace(str(raw_path))
+        trace = json.loads(raw_path.read_text(encoding="utf-8"))
+
+        def sanitized(value):
+            if isinstance(value, str):
+                return redact(value, config, path.parent)
+            if isinstance(value, list):
+                return [sanitized(item) for item in value]
+            if isinstance(value, dict):
+                return {sanitized(key): sanitized(item) for key, item in value.items()}
+            return value
+
+        save_json(path, sanitized(trace))
+
+
+def exercise(config, subset, sampler, schedule, phases, device, *, trace_path=None, trace_steps=0):
+    active_profilers = []
+    try:
+        return _exercise_impl(
+            config,
+            subset,
+            sampler,
+            schedule,
+            phases,
+            device,
+            trace_path=trace_path,
+            trace_steps=trace_steps,
+            active_profilers=active_profilers,
+        )
+    finally:
+        pending_error = sys.exc_info()[0] is not None
+        for profiler in active_profilers:
+            try:
+                profiler.__exit__(None, None, None)
+            except Exception:
+                if not pending_error:
+                    raise
+
+
+def _exercise_impl(
+    config: dict,
+    subset,
+    sampler,
+    schedule,
+    phases,
+    device,
+    *,
+    trace_path=None,
+    trace_steps=0,
+    active_profilers=None,
+) -> dict:
+    """Run every selected frame; synchronize only at timed segment boundaries."""
+    model, optimizer, scaler, criterion, amp = _fresh(config, device)
+    size = int(config["train"]["batch_size"])
+    state = TrainingState(independent_sequences=size > 1)
+    cuda = device.type == "cuda"
+    measured_frames = warmup_frames = 0
+    losses, norms, retries = [], [], []
+    decode_ms = elapsed_ms = cuda_ms = 0.0
+    allocated = reserved = 0.0
+    segments = 0
+    active = False
+    start_wall = 0.0
+    start_event = end_event = None
+    timer = StageTimer(
+        device,
+        enabled=trace_path is not None,
+        warmup_steps=0,
+        measurement_steps=max(1, trace_steps),
+    )
+    profiler = None
+    trace_completed = 0
+    if trace_path is not None:
+        activities = [torch.profiler.ProfilerActivity.CPU]
+        if cuda:
+            activities.append(torch.profiler.ProfilerActivity.CUDA)
+        profiler = torch.profiler.profile(
+            activities=activities, record_shapes=True, profile_memory=True, with_stack=False
+        )
+
+    def finish_segment():
+        nonlocal active, elapsed_ms, cuda_ms, allocated, reserved
+        if not active:
+            return
+        if cuda:
+            end_event.record()
+            torch.cuda.synchronize(device)
+            cuda_ms += float(start_event.elapsed_time(end_event))
+            allocated = max(allocated, torch.cuda.max_memory_allocated(device) / 1024**2)
+            reserved = max(reserved, torch.cuda.max_memory_reserved(device) / 1024**2)
+        elapsed_ms += (time.perf_counter() - start_wall) * 1000
+        active = False
+
+    for step, (batch, phase) in enumerate(zip(schedule, phases, strict=True)):
+        measured = phase == "measure"
+        if active and not measured:
+            finish_segment()
+        if measured and not active:
+            if cuda:
+                torch.cuda.synchronize(device)
+                torch.cuda.reset_peak_memory_stats(device)
+                start_event, end_event = (
+                    torch.cuda.Event(enable_timing=True),
+                    torch.cuda.Event(enable_timing=True),
+                )
+                start_event.record()
+            start_wall = time.perf_counter()
+            active = True
+            segments += 1
+        tracing = measured and profiler is not None and trace_completed < trace_steps
+        if tracing and trace_completed == 0:
+            profiler.__enter__()
+            active_profilers.append(profiler)
+        recorder = timer if tracing else None
+        decode_start = time.perf_counter()
+        with recorder.scope("dataload", gpu=False) if recorder is not None else nullcontext():
+            raw = [subset[index] for index in batch]
+        if measured:
+            decode_ms += (time.perf_counter() - decode_start) * 1000
+        with recorder.scope("transfer") if recorder is not None else nullcontext():
+            samples = [move_sample(sample, device) for sample in raw]
+        contexts = state.prepare(samples)
+        payload, loss, norm, scale = _step(
+            model,
+            optimizer,
+            scaler,
+            criterion,
+            samples,
+            contexts,
+            config,
+            amp,
+            step=step,
+            timer=recorder,
+        )
+        prediction, diagnostics, target = payload
+        state.commit(samples, prediction, diagnostics, target)
+        if size > 1:
+            state.release_finished(samples, sampler.final_sequence_indices)
+            if len(state.values) > size:
+                raise RuntimeError("Benchmark state storage exceeded active sequence lanes")
+        if measured:
+            measured_frames += len(samples)
+            losses.extend([loss["total"]] * len(samples))
+            norms.append(norm)
+            retries.append(int(scale["retries"]))
+        else:
+            warmup_frames += len(samples)
+        if tracing:
+            profiler.step()
+            trace_completed += 1
+            timer.step()
+            if trace_completed == trace_steps:
+                active_profilers.pop()
+                profiler.__exit__(None, None, None)
+        # Previous batch autograd outputs must not inflate the next batch's peak.
+        del payload, prediction, diagnostics, target, samples, contexts, raw
+    finish_segment()
+    if profiler is not None:
+        if trace_completed < trace_steps:
+            if trace_completed:
+                active_profilers.pop()
+                profiler.__exit__(None, None, None)
+            raise ValueError("Not enough measured batches for the requested operator trace")
+        export_trace(profiler, trace_path, config)
+    if measured_frames == 0 or not math.isfinite(elapsed_ms) or elapsed_ms <= 0:
+        raise RuntimeError("Benchmark did not complete a valid measured window")
+    return {
+        "status": "passed",
+        "cuda_measured": cuda,
+        "frames_per_second": measured_frames * 1000 / elapsed_ms,
+        "measured_frames": measured_frames,
+        "warmup_frames": warmup_frames,
+        "optimizer_steps_measured": len(norms),
+        "timed_segments": segments,
+        "wall_ms_including_decode_transfer_step": elapsed_ms,
+        "host_decode_ms": decode_ms,
+        "cuda_stream_elapsed_ms": cuda_ms if cuda else None,
+        "peak_allocated_mib": allocated if cuda else None,
+        "peak_reserved_mib": reserved if cuda else None,
+        "loss_mean_per_frame": statistics.fmean(losses),
+        "gradient_norm_min": min(norms),
+        "gradient_norm_max": max(norms),
+        "amp_retries": sum(retries),
+        "amp_retried_steps": sum(n > 0 for n in retries),
+        "amp_scale_final": float(scaler.get_scale()),
+        "operator_trace_only": profiler is not None,
+        "stages": timer.collect() if profiler is not None else None,
+    }
+
+
+def worker(job: dict) -> int:
+    output = Path(job["output"]).expanduser().resolve()
+    config = job["config"]
+    protect_output(output.parent, config)
+    if output.exists() or output.is_symlink():
+        raise FileExistsError("The benchmark worker refuses an existing trial output")
+    dataset = None
+    report = {
+        "schema": "asgcn_training_performance_trial_v1",
+        "status": "failed",
+        "variant": job["variant"],
+        "selection_sha256": job["selection"]["sha256"],
+        "source": _source_contract(),
+        "config_sha256": digest(_public_config(config)),
+    }
+    try:
+        torch.set_num_threads(job["threads"])
+        device = torch.device("cuda")
+        if not torch.cuda.is_available():
+            raise RuntimeError(
+                "This real-data training benchmark requires CUDA; CPU fallback is disabled"
+            )
+        torch.cuda.init()
+        report["runtime"] = _runtime_provenance(device)
+        if report["source"] != job["source"]:
+            raise ValueError("Source changed after the comparison plan was created")
+        dataset = build_dataset(config["dataset"], split="train")
+        validate_selection(dataset, job["selection"])
+        if _file_signatures(dataset, job["selection"]) != job["file_signatures"]:
+            raise ValueError("Selected source files changed before this benchmark trial")
+        subset, sampler, schedule, phases = batch_schedule(
+            dataset, job["selection"], config["train"]["batch_size"]
+        )
+        report["schedule_sha256"] = digest(schedule)
+        report["training_protocol"] = _training_protocol(config, device)
+        report["numerical_gate"] = numerical_gate(
+            config, job["reference_config"], subset, schedule, device
+        )
+        torch.cuda.empty_cache()
+        report["measurement"] = exercise(config, subset, sampler, schedule, phases, device)
+        if (
+            report["measurement"]["measured_frames"] != job["selection"]["measured_frames"]
+            or report["measurement"]["warmup_frames"] != job["selection"]["warmup_frames"]
+        ):
+            raise ValueError("Trial did not consume exactly the common warmup/measured frame set")
+        if job["trace_steps"]:
+            torch.cuda.empty_cache()
+            trace_path = output.with_suffix(".trace.json")
+            report["operator_trace"] = exercise(
+                config,
+                subset,
+                sampler,
+                schedule,
+                phases,
+                device,
+                trace_path=trace_path,
+                trace_steps=job["trace_steps"],
+            )
+        if _file_signatures(dataset, job["selection"]) != job["file_signatures"]:
+            raise ValueError("Selected source files changed during this benchmark trial")
+        if _source_contract() != job["source"]:
+            raise ValueError("Executable source changed during this benchmark trial")
+        report["status"] = "passed"
+    except (
+        OSError,
+        ImportError,
+        ValueError,
+        TypeError,
+        KeyError,
+        RuntimeError,
+        ArithmeticError,
+        AssertionError,
+    ) as error:
+        report["failure"] = {
+            "type": type(error).__name__,
+            "message": redact(str(error), config, output.parent)[:3000],
+        }
+        report["failure_category"] = (
+            "cuda_out_of_memory"
+            if isinstance(error, torch.cuda.OutOfMemoryError)
+            or "out of memory" in str(error).lower()
+            else "failed"
+        )
+    finally:
+        if dataset is not None and hasattr(dataset, "close"):
+            dataset.close()
+    save_json(output, report)
+    return 0 if report["status"] == "passed" else 1
+
+
+def _parse():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", default="configs/train.json")
+    parser.add_argument("--output", default="runs/bench")
+    parser.add_argument("--batches", type=int, nargs="+", default=[1, 4, 8, 16])
+    parser.add_argument(
+        "--backends", nargs="+", choices=["torch", "torch_fused", "triton"], default=["torch"]
+    )
+    parser.add_argument(
+        "--chunks",
+        type=int,
+        nargs="+",
+        help="Compare explicit spline chunks; default: configured chunk",
+    )
+    parser.add_argument("--streams", type=int, default=16)
+    parser.add_argument("--warmup-per-stream", type=int, default=8)
+    parser.add_argument("--frames-per-stream", type=int, default=32)
+    parser.add_argument("--repeats", type=int, default=2)
+    parser.add_argument("--threads", type=int, default=4)
+    parser.add_argument(
+        "--trace-steps",
+        type=int,
+        default=0,
+        help="Separate instrumented pass; excluded from throughput",
+    )
+    parser.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
+    return parser.parse_args()
+
+
+def protect_output(output: Path, config: dict) -> None:
+    """Do not create benchmark children inside data, source or any known run."""
+    protected = [
+        PROJECT / name
+        for name in ("src", "scripts", "tests", "configs", "constraints", "docs", ".git")
+    ]
+    protected.append(Path(config["output"]["run_dir"]).resolve())
+    protected.extend(
+        Path(config["dataset"][key]).resolve()
+        for key in ("root", "val_root")
+        if config["dataset"].get(key)
+    )
+    for root in protected:
+        if output == root or root in output.parents or output in root.parents:
+            raise ValueError(
+                "Benchmark output must be separate from dataset, source, and training directories"
+            )
+    runs = PROJECT / "runs"
+    if runs in output.parents and not output.relative_to(runs).parts[0].startswith("bench"):
+        raise ValueError(
+            "Inside runs/, use a new dedicated bench* directory, not another experiment run"
+        )
+    for parent in output.parents:
+        if any(
+            (parent / name).exists()
+            for name in ("last.pt", "best.pt", "history.json", "preflight_gate.json")
+        ):
+            raise ValueError("Benchmark output cannot be nested inside an existing training run")
+
+
+def aggregate(trials: list[dict]) -> list[dict]:
+    grouped = defaultdict(list)
+    for trial in trials:
+        variant = trial["variant"]
+        grouped[(variant["batch_size"], variant["backend"], variant["spline_chunk_size"])].append(
+            trial
+        )
+    summaries = []
+    for (size, backend, chunk), rows in sorted(grouped.items(), key=lambda pair: str(pair[0])):
+        passed = [row["measurement"] for row in rows if row["status"] == "passed"]
+        fps = [row["frames_per_second"] for row in passed]
+        summaries.append(
+            {
+                "batch_size": size,
+                "backend": backend,
+                "spline_chunk_size": chunk,
+                "passed_repeats": len(passed),
+                "requested_repeats": len(rows),
+                "all_repeats_passed": len(passed) == len(rows),
+                "frames_per_second_median": statistics.median(fps) if fps else None,
+                "frames_per_second_min": min(fps) if fps else None,
+                "frames_per_second_max": max(fps) if fps else None,
+                "peak_allocated_mib_max": max(row["peak_allocated_mib"] for row in passed)
+                if passed
+                else None,
+                "peak_reserved_mib_max": max(row["peak_reserved_mib"] for row in passed)
+                if passed
+                else None,
+            }
+        )
+    return summaries
+
+
+def run(args) -> int:
+    if args.worker:
+        return worker(json.load(sys.stdin))
+    for name in ("streams", "warmup_per_stream", "frames_per_stream", "repeats", "threads"):
+        _positive(getattr(args, name), name)
+    if args.trace_steps < 0:
+        raise ValueError("trace-steps must be nonnegative")
+    if len(set(args.batches)) != len(args.batches) or any(
+        size not in {1, 4, 8, 16} for size in args.batches
+    ):
+        raise ValueError("Choose distinct real batch sizes from 1, 4, 8, 16")
+    if any(args.streams % size for size in args.batches):
+        raise ValueError("Common stream count must be divisible by every requested batch size")
+    if len(set(args.backends)) != len(args.backends):
+        raise ValueError("Backends must not repeat")
+    chunks = args.chunks or [None]
+    if len(set(chunks)) != len(chunks):
+        raise ValueError("Spline chunks must not repeat")
+    for chunk in chunks:
+        if chunk is not None:
+            _positive(chunk, "spline chunk")
+    config = resolve_experiment_paths(load_json(args.config), args.config)
+    if config.get("dataset", {}).get("type") != "eventhdr":
+        raise ValueError("This benchmark uses real EventHDR training windows only")
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA is required; this command never substitutes CPU or generated data")
+    output = Path(args.output).expanduser().resolve()
+    protect_output(output, config)
+    output.mkdir(parents=True, exist_ok=False)
+    torch.set_num_threads(args.threads)
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        selection = select_windows(
+            dataset,
+            streams=args.streams,
+            warmup=args.warmup_per_stream,
+            frames=args.frames_per_stream,
+            seed=int(config.get("seed", 2026)),
+        )
+        files = sorted(
+            {dataset.samples[entry["dataset_index"]]["path"] for entry in selection["entries"]}
+        )
+        content = _dataset_content_fingerprint(SimpleNamespace(root=dataset.root, files=files))
+        signatures = _file_signatures(dataset, selection)
+    finally:
+        dataset.close()
+    source = _source_contract()
+    report = {
+        "schema": "asgcn_real_training_comparison_v1",
+        "status": "running",
+        "config": _public_config(config),
+        "config_sha256": digest(_public_config(config)),
+        "source": source,
+        "selected_source_content": content,
+        "selection": selection,
+        # The parent deliberately owns no CUDA context while a trial is running.
+        "runtime": None,
+        "cpu_threads": args.threads,
+        "repeats": args.repeats,
+        "trials": [],
+        "scope": {
+            "full_dataset_training": False,
+            "checkpoint_created_or_modified": False,
+            "same_frame_set": True,
+            "same_per_stream_warmup": True,
+            "same_optimizer_step_count": False,
+            "batch_sizes_numerically_equivalent": False,
+            "loader": "synchronous_real_decode_no_prefetch",
+            "cache_policy": "OS_file_cache_not_flushed",
+            "gpu_exclusive_allocation_required": True,
+            "exclusive_allocation_automatically_verified": False,
+            "baseline_scope": "current_checkout_torch_backend_not_previous_commit",
+            "remaining_jit_compile_time_included": True,
+        },
+        "interpretation": "Measured window throughput only. Different batch sizes change BatchNorm pooling and optimizer update frequency; loss equality across batch sizes is not claimed. Do not run beside training on the same GPU/MIG allocation.",
+    }
+    save_json(output / "report.json", report)
+    print(
+        "Use an idle, dedicated GPU/MIG allocation. Existing jobs are not stopped; GPU exclusivity is not automatically verified.",
+        flush=True,
+    )
+    variants = [
+        (size, backend, chunk, repeat)
+        for repeat in range(args.repeats)
+        for size in args.batches
+        for backend in args.backends
+        for chunk in chunks
+    ]
+    random.Random(int(config.get("seed", 2026))).shuffle(variants)
+    failed = False
+    for index, (size, backend, chunk, repeat) in enumerate(variants):
+        variant = {
+            "batch_size": size,
+            "backend": backend,
+            "spline_chunk_size": chunk
+            if chunk is not None
+            else config["model"].get("spline_chunk_size"),
+            "repeat": repeat,
+        }
+        label = f"trial-{index:03d}-b{size}-{backend}"
+        trial_path = output / f"{label}.json"
+        trial_config = variant_config(config, size, backend, chunk)
+        job = {
+            "output": str(trial_path),
+            "config": trial_config,
+            "reference_config": variant_config(config, size, "torch", None),
+            "variant": variant,
+            "selection": selection,
+            "source": source,
+            "file_signatures": signatures,
+            "threads": args.threads,
+            "trace_steps": args.trace_steps if repeat == 0 else 0,
+        }
+        print(
+            f"[{index + 1}/{len(variants)}] B{size} {backend} chunk={variant['spline_chunk_size']} repeat={repeat + 1}",
+            flush=True,
+        )
+        completed = subprocess.run(
+            [sys.executable, str(Path(__file__).resolve()), "--worker"],
+            input=json.dumps(job),
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        if trial_path.is_file():
+            trial = load_json(trial_path)
+        else:
+            trial = {
+                "status": "failed",
+                "variant": variant,
+                "failure": {
+                    "type": "WorkerFailure",
+                    "message": redact(completed.stderr[-3000:], config, output),
+                },
+            }
+            save_json(trial_path, trial)
+        valid = completed.returncode == 0 and trial.get("status") == "passed"
+        if trial.get("runtime") is not None:
+            if report["runtime"] is None:
+                report["runtime"] = trial["runtime"]
+            elif report["runtime"] != trial["runtime"]:
+                valid = False
+                trial["failure"] = {
+                    "type": "RuntimeChanged",
+                    "message": "CUDA/software runtime changed between benchmark trials",
+                }
+        failed = failed or not valid
+        report["trials"].append(
+            {
+                "file": trial_path.name,
+                "variant": variant,
+                "status": "passed" if valid else "failed",
+                "measurement": trial.get("measurement"),
+                "failure": trial.get("failure"),
+            }
+        )
+        save_json(output / "report.json", report)
+        if valid:
+            measured = trial["measurement"]
+            print(
+                f"  {measured['frames_per_second']:.2f} frames/s; peak allocated {measured['peak_allocated_mib']:.1f} MiB, reserved {measured['peak_reserved_mib']:.1f} MiB; AMP retries {measured['amp_retries']}",
+                flush=True,
+            )
+        else:
+            print(
+                "  FAILED: " + trial.get("failure", {}).get("message", "worker did not complete"),
+                flush=True,
+            )
+    final_content = _dataset_content_fingerprint(
+        SimpleNamespace(root=Path(config["dataset"]["root"]), files=files)
+    )
+    if final_content != content or _source_contract() != source:
+        failed = True
+        report["failure"] = (
+            "Selected source data or executable source changed during the comparison"
+        )
+    report["data_content_unchanged"] = final_content == content
+    report["summary"] = aggregate(report["trials"])
+    report["status"] = "failed" if failed else "passed"
+    save_json(output / "report.json", report)
+    return int(failed)
+
+
+def main() -> int:
+    args = _parse()
+    try:
+        return run(args)
+    except KeyboardInterrupt:
+        print("Benchmark interrupted; completed trial reports are retained.", file=sys.stderr)
+        return 130
+    except (OSError, ValueError, TypeError, KeyError, RuntimeError) as error:
+        print(
+            "Benchmark refused: " + redact(str(error), {}, Path(args.output).resolve()),
+            file=sys.stderr,
+        )
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 ~~~~~~~~
 
 # scripts/build_code_summary.py
@@ -16433,12 +17624,13 @@ from __future__ import annotations
 import math
 from collections.abc import Iterator
 from dataclasses import dataclass
+from functools import lru_cache
 
 import torch
 from torch import nn
 from torch.nn import functional as F
 
-from .ops import weighted_spline_sum
+from .ops import require_spline_backend, weighted_spline_sum
 
 PAPER_CORE_VERSION = 2
 
@@ -16525,9 +17717,12 @@ def prepare_event_nodes(
             torch.empty((0, 4), device=events.device, dtype=torch.float32),
         )
     events = events.float()
-    if not bool(torch.isfinite(events).all()):
+    finite, unordered = torch.stack((
+        torch.isfinite(events).all(), (events[1:, 2] < events[:-1, 2]).any()
+    )).tolist()
+    if not finite:
         raise ValueError("Event coordinates, timestamps, and polarities must be finite")
-    if bool((events[1:, 2] < events[:-1, 2]).any()):
+    if unordered:
         raise ValueError("Event timestamps must be monotonically non-decreasing")
     x = events[:, 0] / max(width - 1, 1)
     y = events[:, 1] / max(height - 1, 1)
@@ -16538,6 +17733,29 @@ def prepare_event_nodes(
     positions = torch.stack((x, y, t, polarity_position), dim=-1)
     node_features = torch.stack((x, y, t, polarity), dim=-1)
     return node_features, positions
+
+
+@lru_cache(maxsize=32)
+def _spatial_hash_constants(
+    cells_per_axis: int, position_dims: int, device_name: str, stream_handle: int | None
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Cache immutable, tiny hash tables, never event-dependent graph data.
+
+    The caller only caches the model's one-to-four dimensional tables. Larger
+    public radius-query dimensions use the uncached factory to avoid retaining
+    an arbitrarily large Cartesian product. The CUDA stream is part of the cache
+    key: asynchronously initialized tables are never consumed on another stream.
+    Do not mutate the returned tensors.
+    """
+    device = torch.device(device_name)
+    strides = torch.tensor(
+        [cells_per_axis**dimension for dimension in range(position_dims)],
+        device=device,
+        dtype=torch.long,
+    )
+    offset_axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
+    offsets = torch.cartesian_prod(*([offset_axis] * position_dims)).reshape(-1, position_dims)
+    return strides, offsets
 
 
 def _radius_graph_candidate_chunks(
@@ -16564,61 +17782,80 @@ def _radius_graph_candidate_chunks(
         return
 
     coordinates = positions[:, :position_dims]
-    if not bool(torch.isfinite(coordinates).all()):
+    finite, outside = torch.stack((
+        torch.isfinite(coordinates).all(), ((coordinates < 0) | (coordinates > 1)).any()
+    )).tolist()
+    if not finite:
         raise ValueError("Graph coordinates must be finite")
-    if bool(((coordinates < 0) | (coordinates > 1)).any()):
+    if outside:
         raise ValueError("Normalized graph coordinates must lie in [0,1]")
 
     cells_per_axis = max(2, math.ceil(1.0 / radius) + 1)
     if cells_per_axis**position_dims >= torch.iinfo(torch.long).max:
         raise ValueError("graph_radius is too small for integer spatial hashing")
-    strides = torch.tensor(
-        [cells_per_axis**dimension for dimension in range(position_dims)],
-        device=device,
-        dtype=torch.long,
-    )
+    factory = _spatial_hash_constants if position_dims <= 4 else _spatial_hash_constants.__wrapped__
+    stream_handle = torch.cuda.current_stream(device).cuda_stream if device.type == "cuda" else None
+    strides, offsets = factory(cells_per_axis, position_dims, str(device), stream_handle)
     cells = torch.floor(coordinates / radius).to(torch.long)
     cells = cells.clamp_(0, cells_per_axis - 1)
     cell_hash = (cells * strides).sum(dim=1)
     sorted_hash, sorted_nodes = torch.sort(cell_hash)
-    offset_axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
-    offsets = torch.cartesian_prod(*([offset_axis] * position_dims)).reshape(
-        -1, position_dims
-    )
-
     # Bound worst-case candidate materialization even if every event occupies one cell.
     effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
-    for start in range(0, count, effective_chunk_size):
-        stop = min(start + effective_chunk_size, count)
-        neighbor_cells = cells[start:stop, None, :] + offsets[None, :, :]
+    # Lookup several small source/cell tables together, then copy their scalar
+    # allocation counts once. Candidate distances are still materialized one
+    # original bounded chunk at a time; this does not enlarge the edge scratch.
+    lookup_chunks = max(1, min(8, 4096 // effective_chunk_size))
+    lookup_size = effective_chunk_size * lookup_chunks
+    cells_per_source = offsets.shape[0]
+    for lookup_start in range(0, count, lookup_size):
+        lookup_stop = min(lookup_start + lookup_size, count)
+        neighbor_cells = cells[lookup_start:lookup_stop, None, :] + offsets[None, :, :]
         valid_cells = ((neighbor_cells >= 0) & (neighbor_cells < cells_per_axis)).all(dim=2)
         neighbor_hashes = (neighbor_cells * strides).sum(dim=2).flatten()
-        left = torch.searchsorted(sorted_hash, neighbor_hashes, right=False)
+        left_all = torch.searchsorted(sorted_hash, neighbor_hashes, right=False)
         right = torch.searchsorted(sorted_hash, neighbor_hashes, right=True)
         # Keep a fixed-size source/cell table: repeat_interleave already accepts
         # zero counts. Compacting valid/nonempty cells first adds five boolean
         # index operations (and their CUDA synchronization) without changing any
         # candidates. Mask invalid cells because their hashes may alias valid ones.
-        counts = (right - left).masked_fill_(~valid_cells.flatten(), 0)
-        candidate_count = int(counts.sum().item())
-        starts = counts.cumsum(0) - counts
-        groups = torch.repeat_interleave(
-            torch.arange(counts.numel(), device=device), counts, output_size=candidate_count
-        )
-        expanded_sources = groups.div(offsets.shape[0], rounding_mode="floor") + start
-        # Expand the group identity once rather than repeating sources, left
-        # boundaries and cumulative counts into three candidate-sized tensors.
-        destination_offsets = (left - starts)[groups] + torch.arange(
-            candidate_count, device=device
-        )
-        candidate_destinations = sorted_nodes[destination_offsets]
-        # A generator retains its locals while the caller filters/materializes
-        # edges. Release candidate-sized integer scratch before yielding.
-        del groups, destination_offsets
-        candidate_distances = torch.linalg.vector_norm(
-            coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
-        )
-        yield expanded_sources, candidate_destinations, candidate_distances
+        counts_all = (right - left_all).masked_fill_(~valid_cells.flatten(), 0)
+        ranges = [
+            (start, min(start + effective_chunk_size, lookup_stop))
+            for start in range(lookup_start, lookup_stop, effective_chunk_size)
+        ]
+        cell_ranges = [
+            ((start - lookup_start) * cells_per_source,
+             (stop - lookup_start) * cells_per_source)
+            for start, stop in ranges
+        ]
+        candidate_counts = torch.stack([
+            counts_all[start:stop].sum() for start, stop in cell_ranges
+        ]).tolist()
+        del neighbor_cells, valid_cells, neighbor_hashes, right
+        for (start, _stop), (cell_start, cell_stop), candidate_count in zip(
+            ranges, cell_ranges, candidate_counts, strict=True
+        ):
+            left = left_all[cell_start:cell_stop]
+            counts = counts_all[cell_start:cell_stop]
+            starts = counts.cumsum(0) - counts
+            groups = torch.repeat_interleave(
+                torch.arange(counts.numel(), device=device), counts, output_size=candidate_count
+            )
+            expanded_sources = groups.div(cells_per_source, rounding_mode="floor") + start
+            # Expand the group identity once rather than repeating sources, left
+            # boundaries and cumulative counts into three candidate-sized tensors.
+            destination_offsets = (left - starts)[groups] + torch.arange(
+                candidate_count, device=device
+            )
+            candidate_destinations = sorted_nodes[destination_offsets]
+            # A generator retains its locals while the caller filters/materializes
+            # edges. Release candidate-sized integer scratch before yielding.
+            del groups, destination_offsets
+            candidate_distances = torch.linalg.vector_norm(
+                coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
+            )
+            yield expanded_sources, candidate_destinations, candidate_distances
 
 
 def build_radius_graph(
@@ -16821,6 +18058,7 @@ class PaperSplineConv(nn.Module):
         root_weight: bool = True,
         bias: bool = True,
         edge_chunk_size: int | None = 65_536,
+        spline_backend: str = "torch",
     ) -> None:
         super().__init__()
         if int(degree) != 1:
@@ -16840,6 +18078,9 @@ class PaperSplineConv(nn.Module):
                 raise ValueError("spline_chunk_size must be a positive integer or null")
             edge_chunk_size = int(edge_chunk_size)
         self.edge_chunk_size = edge_chunk_size
+        if spline_backend not in {"torch", "torch_fused", "triton"}:
+            raise ValueError("spline_backend must be torch, torch_fused, or triton")
+        self.spline_backend = spline_backend
         self.weight = nn.Parameter(
             torch.empty(self.kernel_size, self.in_channels, self.out_channels)
         )
@@ -16952,6 +18193,8 @@ class PaperSplineConv(nn.Module):
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
         in_degree: torch.Tensor | None = None,
     ) -> torch.Tensor:
+        if self.spline_backend == "triton":
+            require_spline_backend(self.spline_backend, x.device)
         source, destination = edge_index
         output = torch.zeros((x.shape[0], self.out_channels), device=x.device, dtype=x.dtype)
         if source.numel() > 0:
@@ -16966,7 +18209,8 @@ class PaperSplineConv(nn.Module):
             edge_count = int(source.numel())
             chunk_size = edge_count if self.edge_chunk_size is None else self.edge_chunk_size
             output = weighted_spline_sum(
-                projected, source, destination, indices, basis, chunk_size, x.dtype
+                projected, source, destination, indices, basis, chunk_size, x.dtype,
+                backend=self.spline_backend,
             )
             if in_degree is None:
                 in_degree = torch.bincount(destination, minlength=x.shape[0])
@@ -17092,6 +18336,7 @@ class ASGCNEncoder(nn.Module):
         spline_degree: int = 1,
         spline_root_weight: bool = True,
         spline_chunk_size: int | None = 65_536,
+        spline_backend: str = "torch",
     ) -> None:
         super().__init__()
         hidden_dim = int(hidden_dim)
@@ -17099,6 +18344,7 @@ class ASGCNEncoder(nn.Module):
         if graph_layers < 1:
             raise ValueError("graph_layers must be at least 1 for ASGCN")
         self.hidden_dim = hidden_dim
+        self.spline_backend = spline_backend
         channels = [4] + [hidden_dim] * graph_layers
         self.layers = nn.ModuleList(
             [
@@ -17110,6 +18356,7 @@ class ASGCNEncoder(nn.Module):
                     root_weight=spline_root_weight,
                     bias=True,
                     edge_chunk_size=spline_chunk_size,
+                    spline_backend=spline_backend,
                 )
                 for index in range(graph_layers)
             ]
@@ -17132,6 +18379,7 @@ class ASGCNEncoder(nn.Module):
     def forward_ann(
         self, graph: EventGraph, return_activations: bool = False
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
+        require_spline_backend(self.spline_backend, graph.node_features.device)
         hidden = graph.node_features
         activations: list[torch.Tensor] = []
         basis_cache = self._basis_cache(graph)
@@ -17156,6 +18404,7 @@ class ASGCNEncoder(nn.Module):
         dynamics: str = "literal_eq15",
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
         """Run explicit IF timesteps using literal Eq. (15) or a standard-IF control."""
+        require_spline_backend(self.spline_backend, graph.node_features.device)
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")
         simulation_steps = int(simulation_steps)
@@ -17620,6 +18869,7 @@ from torch import nn
 
 from .batching import concatenate_graphs, sequence_key
 from .graph import PAPER_CORE_VERSION, ASGCNEncoder, EventGraph, build_event_graph
+from .ops import SPLINE_BACKENDS, require_spline_backend
 from .unet import RecurrentUNetDecoder
 
 
@@ -17682,8 +18932,8 @@ class ASGCNUNet(nn.Module):
             )
         if graph_operator != "spline":
             raise ValueError("graph_operator must be 'spline' for the ASGCN paper core")
-        if spline_backend != "torch":
-            raise ValueError("Only the portable pure-PyTorch spline backend is supported")
+        if spline_backend not in SPLINE_BACKENDS:
+            raise ValueError(f"spline_backend must be one of {sorted(SPLINE_BACKENDS)}")
         if spline_pseudo != "distance_over_radius":
             raise ValueError(
                 "spline_pseudo must be 'distance_over_radius'; this explicit "
@@ -17716,6 +18966,7 @@ class ASGCNUNet(nn.Module):
         if int(raster_downsample) < 1:
             raise ValueError("raster_downsample must be at least 1")
         self.architecture_version = PAPER_CORE_VERSION
+        self.spline_backend = spline_backend
         self.encoder = ASGCNEncoder(
             hidden_dim,
             graph_layers,
@@ -17723,6 +18974,7 @@ class ASGCNUNet(nn.Module):
             spline_degree=spline_degree,
             spline_root_weight=spline_root_weight,
             spline_chunk_size=spline_chunk_size,
+            spline_backend=spline_backend,
         )
         self.decoder = RecurrentUNetDecoder(
             hidden_dim, decoder_channels, output_channels, recurrent
@@ -17751,6 +19003,7 @@ class ASGCNUNet(nn.Module):
         self.raster_downsample = int(raster_downsample)
 
     def _graph(self, sample: dict[str, Any]) -> EventGraph:
+        require_spline_backend(self.spline_backend, sample["events"].device)
         return build_event_graph(
             sample["events"],
             sample["sensor_size"],
@@ -18044,6 +19297,8 @@ from __future__ import annotations
 
 import torch
 
+SPLINE_BACKENDS = frozenset({"torch", "torch_fused", "triton"})
+
 
 class _SplineSum(torch.autograd.Function):
     """Gather, weight and scatter without retaining an E-by-C tensor per basis.
@@ -18132,6 +19387,130 @@ class _SplineSum(torch.autograd.Function):
         return grad_projected, None, None, None, grad_basis, None, None
 
 
+def _save_spline_context(ctx, projected, source, destination, indices, basis, chunk_size):
+    ctx.projected_shape = projected.shape
+    ctx.projected_dtype = projected.dtype
+    ctx.chunk_size = chunk_size
+    saved = (source, destination, indices, basis)
+    if ctx.needs_input_grad[4]:
+        saved += (projected,)
+    ctx.save_for_backward(*saved)
+
+
+class _SplineSumFused(torch.autograd.Function):
+    """Combine the two basis terms before one destination scatter per chunk.
+
+    This portable candidate halves basis-loop gather/scatter dispatches. Working
+    tensors contain at most two basis terms per configured edge chunk, and no
+    E-by-C messages are retained for backward. Unlike the reference, accumulation
+    is edge-major; floating-point comparisons require dtype-appropriate tolerances.
+    """
+
+    @staticmethod
+    def forward(ctx, projected, source, destination, indices, basis, chunk_size, output_dtype):
+        _save_spline_context(ctx, projected, source, destination, indices, basis, chunk_size)
+        output = torch.zeros(
+            (projected.shape[0], projected.shape[2]),
+            dtype=output_dtype, device=projected.device,
+        )
+        for start in range(0, source.numel(), chunk_size):
+            stop = min(start + chunk_size, source.numel())
+            values = projected[source[start:stop, None], indices[start:stop]]
+            messages = values * basis[start:stop, :, None].to(projected.dtype)
+            # Round each product in projected dtype before converting to the
+            # accumulation dtype, matching the reference's AMP cast boundaries.
+            combined = messages.to(output_dtype).sum(dim=1)
+            output.index_add_(0, destination[start:stop], combined)
+        return output
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        source, destination, indices, basis, *saved_projection = ctx.saved_tensors
+        node_count, kernel_size, channels = ctx.projected_shape
+        grad_projected = (
+            torch.zeros(ctx.projected_shape, device=grad_output.device, dtype=ctx.projected_dtype)
+            if ctx.needs_input_grad[0] else None
+        )
+        grad_basis = torch.zeros_like(basis) if ctx.needs_input_grad[4] else None
+        for start in range(0, source.numel(), ctx.chunk_size):
+            stop = min(start + ctx.chunk_size, source.numel())
+            local_source, local_indices = source[start:stop], indices[start:stop]
+            messages = grad_output[destination[start:stop]].to(ctx.projected_dtype)
+            if grad_projected is not None:
+                weighted = messages[:, None, :] * basis[start:stop, :, None].to(ctx.projected_dtype)
+                rows = local_source[:, None] * kernel_size + local_indices
+                grad_projected.reshape(node_count * kernel_size, channels).index_add_(
+                    0, rows.reshape(-1), weighted.reshape(-1, channels)
+                )
+            if grad_basis is not None:
+                values = saved_projection[0][local_source[:, None], local_indices]
+                grad_basis[start:stop] = (messages[:, None, :] * values).sum(dim=-1).to(basis.dtype)
+        return grad_projected, None, None, None, grad_basis, None, None
+
+
+def _triton_ops():
+    """Import the optional CUDA implementation only after explicit selection."""
+    try:
+        from . import ops_cuda
+    except ModuleNotFoundError as error:
+        if error.name == "triton" or (error.name or "").startswith("triton."):
+            raise RuntimeError(
+                "spline_backend='triton' requires the Triton package in the CUDA Python "
+                "environment. Install the server's supported PyTorch/Triton combination "
+                "or explicitly select 'torch'/'torch_fused'; no backend fallback was applied."
+            ) from error
+        raise
+    return ops_cuda
+
+
+def require_spline_backend(backend: str, device: torch.device) -> None:
+    """Fail explicitly before execution, including graphs without any edges."""
+    if backend not in SPLINE_BACKENDS:
+        raise ValueError(f"Unknown spline_backend: {backend!r}")
+    if backend == "triton":
+        if device.type != "cuda":
+            raise ValueError("spline_backend='triton' requires CUDA tensors; no CPU fallback is used")
+        if torch.version.hip is not None or torch.cuda.get_device_capability(device)[0] < 8:
+            raise RuntimeError("The Triton spline candidate requires an NVIDIA SM80-or-newer GPU")
+        if torch.are_deterministic_algorithms_enabled():
+            raise RuntimeError(
+                "The Triton spline candidate uses atomic reductions and cannot satisfy "
+                "torch deterministic-algorithms mode; explicitly select the reference backend"
+            )
+        _triton_ops()
+
+
+class _SplineSumTriton(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, projected, source, destination, indices, basis, chunk_size, output_dtype):
+        _save_spline_context(ctx, projected, source, destination, indices, basis, chunk_size)
+        output = torch.zeros(
+            (projected.shape[0], projected.shape[2]),
+            dtype=output_dtype, device=projected.device,
+        )
+        _triton_ops().spline_forward(projected, source, destination, indices, basis, output, chunk_size)
+        return output
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        if torch.is_grad_enabled():
+            # Native kernels do not construct an autograd graph. Explicitly use
+            # the differentiable portable formula for requested higher derivatives.
+            return _SplineSumFused.backward(ctx, grad_output)
+        source, destination, indices, basis, *saved_projection = ctx.saved_tensors
+        grad_projected = (
+            torch.zeros(ctx.projected_shape, device=grad_output.device, dtype=ctx.projected_dtype)
+            if ctx.needs_input_grad[0] else None
+        )
+        grad_basis = torch.zeros_like(basis) if ctx.needs_input_grad[4] else None
+        _triton_ops().spline_backward(
+            grad_output, source, destination, indices, basis, grad_projected,
+            saved_projection[0] if saved_projection else None, grad_basis,
+            ctx.projected_shape, ctx.projected_dtype, ctx.chunk_size,
+        )
+        return grad_projected, None, None, None, grad_basis, None, None
+
+
 def weighted_spline_sum(
     projected: torch.Tensor,
     source: torch.Tensor,
@@ -18140,17 +19519,212 @@ def weighted_spline_sum(
     basis: torch.Tensor,
     chunk_size: int,
     output_dtype: torch.dtype,
+    *,
+    backend: str = "torch",
 ) -> torch.Tensor:
     """Sum the two active degree-1 spline terms into destination node features.
 
-    The caller validates topology/basis and performs degree normalization. The
+    The caller validates topology/basis and performs degree normalization. Native
+    pointer-based execution additionally masks and asserts invalid index bounds
+    on-device without a per-layer host synchronization. As with CUDA tensor
+    indexing, an invalid input may leave the CUDA context unusable. The
     configured chunk size bounds edge-message working storage, not the node
-    projections or the complete graph. Higher-order backward can retain its own
-    graph and therefore does not have the ordinary-backward memory bound.
+    projections or the complete graph. torch_fused uses two terms per chunk;
+    triton keeps edge messages in kernel registers. Both are explicit candidate
+    backends, not default speedup claims. Higher-order backward can retain its own
+    graph and therefore does not have the ordinary-backward memory bound. Triton
+    uses differentiable torch_fused backward only when create_graph=True.
     """
-    return _SplineSum.apply(
+    if backend not in SPLINE_BACKENDS:
+        raise ValueError(f"Unknown spline_backend: {backend!r}")
+    operation = _SplineSum
+    if backend == "torch_fused":
+        operation = _SplineSumFused
+    elif backend == "triton":
+        require_spline_backend(backend, projected.device)
+        if any(value.layout != torch.strided for value in (projected, source, destination, indices, basis)):
+            raise TypeError("The Triton spline backend requires strided tensor layouts")
+        floating = {torch.float16, torch.bfloat16, torch.float32, torch.float64}
+        if projected.dtype not in floating or basis.dtype not in floating or output_dtype not in floating:
+            raise TypeError("The Triton spline backend requires real floating-point tensors")
+        if any(value.device != projected.device for value in (source, destination, indices, basis)):
+            raise ValueError("The Triton spline backend requires all tensors on one CUDA device")
+        if any(value.dtype not in {torch.int32, torch.int64} for value in (source, destination, indices)):
+            raise TypeError("The Triton spline backend requires integer topology indices")
+        if (
+            projected.ndim != 3 or source.ndim != 1 or destination.shape != source.shape
+            or indices.shape != (source.numel(), 2) or basis.shape != indices.shape
+            or isinstance(chunk_size, bool) or not isinstance(chunk_size, int) or chunk_size < 1
+        ):
+            raise ValueError("Invalid Triton spline tensor shapes or chunk size")
+        operation = _SplineSumTriton
+    return operation.apply(
         projected, source, destination, indices, basis, chunk_size, output_dtype
     )
+~~~~~~~~
+
+# src/asgcn_unet/ops_cuda.py
+
+~~~~~~~~python
+"""Explicit, optional Triton spline kernels; imported only for the CUDA backend.
+
+These kernels are original implementations of the two-active-basis gather,
+multiply and scatter formula. They keep edge messages in registers rather than
+allocating E-by-C tensors. CUDA atomics change summation order, not the operator.
+The reference remains available as spline_backend='torch'.
+"""
+
+from __future__ import annotations
+
+import torch
+import triton
+import triton.language as tl
+
+
+@triton.jit(do_not_specialize=["N", "start", "edge_count"], debug=True)
+def _forward_kernel(
+    projected, source, destination, indices, basis, output,
+    start, edge_count,
+    N, K: tl.constexpr, C: tl.constexpr,
+    P0: tl.constexpr, P1: tl.constexpr, P2: tl.constexpr,
+    S0: tl.constexpr, D0: tl.constexpr, I0: tl.constexpr, I1: tl.constexpr,
+    B0: tl.constexpr, B1: tl.constexpr, O0: tl.constexpr, O1: tl.constexpr,
+    BLOCK: tl.constexpr,
+):
+    offset = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)
+    edge = start + offset // C
+    channel = offset % C
+    mask = offset < edge_count * C
+    src = tl.load(source + edge * S0, mask, other=0).to(tl.int64)
+    dst = tl.load(destination + edge * D0, mask, other=0).to(tl.int64)
+    left = tl.load(indices + edge * I0, mask, other=0).to(tl.int64)
+    right = tl.load(indices + edge * I0 + I1, mask, other=0).to(tl.int64)
+    valid = (src >= 0) & (src < N) & (dst >= 0) & (dst < N)
+    valid = valid & (left >= 0) & (left < K) & (right >= 0) & (right < K)
+    tl.device_assert((~mask) | valid, "Spline topology index out of bounds")
+    mask = mask & valid
+    v0 = tl.load(projected + src * P0 + left * P1 + channel * P2, mask, other=0)
+    v1 = tl.load(projected + src * P0 + right * P1 + channel * P2, mask, other=0)
+    b0 = tl.load(basis + edge * B0, mask, other=0).to(projected.dtype.element_ty)
+    b1 = tl.load(basis + edge * B0 + B1, mask, other=0).to(projected.dtype.element_ty)
+    # Explicit conversions preserve multiplication rounding under FP16/BF16 AMP.
+    m0 = (v0 * b0).to(projected.dtype.element_ty).to(output.dtype.element_ty)
+    m1 = (v1 * b1).to(projected.dtype.element_ty).to(output.dtype.element_ty)
+    combined = (m0 + m1).to(output.dtype.element_ty)
+    tl.atomic_add(output + dst * O0 + channel * O1, combined, mask, sem="relaxed")
+
+
+@triton.jit(do_not_specialize=["N", "start", "edge_count"], debug=True)
+def _projected_backward_kernel(
+    grad_output, source, destination, indices, basis, grad_projected,
+    start, edge_count,
+    N, K: tl.constexpr, C: tl.constexpr,
+    G0: tl.constexpr, G1: tl.constexpr,
+    P0: tl.constexpr, P1: tl.constexpr, P2: tl.constexpr,
+    S0: tl.constexpr, D0: tl.constexpr, I0: tl.constexpr, I1: tl.constexpr,
+    B0: tl.constexpr, B1: tl.constexpr, BLOCK: tl.constexpr,
+):
+    offset = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)
+    edge = start + offset // C
+    channel = offset % C
+    mask = offset < edge_count * C
+    src = tl.load(source + edge * S0, mask, other=0).to(tl.int64)
+    dst = tl.load(destination + edge * D0, mask, other=0).to(tl.int64)
+    left = tl.load(indices + edge * I0, mask, other=0).to(tl.int64)
+    right = tl.load(indices + edge * I0 + I1, mask, other=0).to(tl.int64)
+    valid = (src >= 0) & (src < N) & (dst >= 0) & (dst < N)
+    valid = valid & (left >= 0) & (left < K) & (right >= 0) & (right < K)
+    tl.device_assert((~mask) | valid, "Spline topology index out of bounds")
+    mask = mask & valid
+    gradient = tl.load(grad_output + dst * G0 + channel * G1, mask, other=0)
+    gradient = gradient.to(grad_projected.dtype.element_ty)
+    b0 = tl.load(basis + edge * B0, mask, other=0).to(grad_projected.dtype.element_ty)
+    b1 = tl.load(basis + edge * B0 + B1, mask, other=0).to(grad_projected.dtype.element_ty)
+    g0 = (gradient * b0).to(grad_projected.dtype.element_ty)
+    g1 = (gradient * b1).to(grad_projected.dtype.element_ty)
+    tl.atomic_add(grad_projected + src * P0 + left * P1 + channel * P2, g0, mask, sem="relaxed")
+    tl.atomic_add(grad_projected + src * P0 + right * P1 + channel * P2, g1, mask, sem="relaxed")
+
+
+@triton.jit(do_not_specialize=["N", "start"], debug=True)
+def _basis_backward_kernel(
+    grad_output, projected, source, destination, indices, grad_basis,
+    start,
+    N, K: tl.constexpr, C: tl.constexpr,
+    G0: tl.constexpr, G1: tl.constexpr,
+    P0: tl.constexpr, P1: tl.constexpr, P2: tl.constexpr,
+    S0: tl.constexpr, D0: tl.constexpr, I0: tl.constexpr, I1: tl.constexpr,
+    B0: tl.constexpr, B1: tl.constexpr, BLOCK_C: tl.constexpr,
+):
+    edge = start + tl.program_id(0)
+    channel = tl.arange(0, BLOCK_C)
+    src = tl.load(source + edge * S0).to(tl.int64)
+    dst = tl.load(destination + edge * D0).to(tl.int64)
+    left = tl.load(indices + edge * I0).to(tl.int64)
+    right = tl.load(indices + edge * I0 + I1).to(tl.int64)
+    valid = (src >= 0) & (src < N) & (dst >= 0) & (dst < N)
+    valid = valid & (left >= 0) & (left < K) & (right >= 0) & (right < K)
+    tl.device_assert(valid, "Spline topology index out of bounds")
+    mask = (channel < C) & valid
+    gradient = tl.load(grad_output + dst * G0 + channel * G1, mask, other=0)
+    gradient = gradient.to(projected.dtype.element_ty)
+    v0 = tl.load(projected + src * P0 + left * P1 + channel * P2, mask, other=0)
+    v1 = tl.load(projected + src * P0 + right * P1 + channel * P2, mask, other=0)
+    products0 = (gradient * v0).to(projected.dtype.element_ty)
+    products1 = (gradient * v1).to(projected.dtype.element_ty)
+    # Torch sums half/bfloat16 products in FP32, then rounds the result back to
+    # their input dtype before the explicit conversion to the basis dtype.
+    if projected.dtype.element_ty == tl.float64:
+        total0 = tl.sum(products0.to(tl.float64), axis=0)
+        total1 = tl.sum(products1.to(tl.float64), axis=0)
+    else:
+        total0 = tl.sum(products0.to(tl.float32), axis=0)
+        total1 = tl.sum(products1.to(tl.float32), axis=0)
+    total0 = total0.to(projected.dtype.element_ty).to(grad_basis.dtype.element_ty)
+    total1 = total1.to(projected.dtype.element_ty).to(grad_basis.dtype.element_ty)
+    tl.store(grad_basis + edge * B0, total0, valid)
+    tl.store(grad_basis + edge * B0 + B1, total1, valid)
+
+
+def spline_forward(projected, source, destination, indices, basis, output, chunk_size):
+    if source.numel() == 0 or projected.shape[2] == 0:
+        return
+    with torch.cuda.device(projected.device):
+        for start in range(0, source.numel(), chunk_size):
+            count = min(chunk_size, source.numel() - start)
+            _forward_kernel[(triton.cdiv(count * projected.shape[2], 256),)](
+                projected, source, destination, indices, basis, output, start, count,
+                *projected.shape, *projected.stride(), source.stride(0), destination.stride(0),
+                *indices.stride(), *basis.stride(), *output.stride(),
+                BLOCK=256, num_warps=4, enable_fp_fusion=False, debug=True,
+            )
+
+
+def spline_backward(
+    grad_output, source, destination, indices, basis, grad_projected,
+    projected, grad_basis, projected_shape, projected_dtype, chunk_size,
+):
+    del projected_dtype  # Dtype is carried by grad_projected or saved projected tensors.
+    if source.numel() == 0 or projected_shape[2] == 0:
+        return
+    with torch.cuda.device(grad_output.device):
+        for start in range(0, source.numel(), chunk_size):
+            count = min(chunk_size, source.numel() - start)
+            if grad_projected is not None:
+                _projected_backward_kernel[(triton.cdiv(count * projected_shape[2], 256),)](
+                    grad_output, source, destination, indices, basis, grad_projected, start, count,
+                    *projected_shape, *grad_output.stride(), *grad_projected.stride(),
+                    source.stride(0), destination.stride(0), *indices.stride(), *basis.stride(),
+                    BLOCK=256, num_warps=4, enable_fp_fusion=False, debug=True,
+                )
+            if grad_basis is not None:
+                _basis_backward_kernel[(count,)](
+                    grad_output, projected, source, destination, indices, grad_basis, start,
+                    *projected_shape, *grad_output.stride(), *projected.stride(),
+                    source.stride(0), destination.stride(0), *indices.stride(), *grad_basis.stride(),
+                    BLOCK_C=triton.next_power_of_2(projected_shape[2]),
+                    num_warps=4, enable_fp_fusion=False, debug=True,
+                )
 ~~~~~~~~
 
 # src/asgcn_unet/preflight.py
@@ -18224,6 +19798,16 @@ LEGACY_TOPOLOGY_SOURCES = frozenset(
 # new batch gate changes imports/optimizer execution but not these graph counts.
 LEGACY_V2_TOPOLOGY_SOURCES = frozenset(
     {
+        # B4 release before lookup batching: identical candidate/strict-radius
+        # semantics; only topology counts may be reused, never GPU probe results.
+        (
+            "e47f63d738e034cf53fe22aa8323598f28e4a243128fea42ee90cab9eed22650",
+            "ef843d8ed2fa98808e2befc3aef653de845b79a6",
+        ),
+        (
+            "e47f63d738e034cf53fe22aa8323598f28e4a243128fea42ee90cab9eed22650",
+            "8337757516592dab288c3a7df0a9fa2a2e2372bd",
+        ),
         (
             "57ee2e525d652d9cf60d42f56519944f58bb6b9b98eeba1e66e6798b02831306",
             "c8b1da000ec394e210ecf148f96c61086dde74ed",
@@ -18454,6 +20038,7 @@ def _topology_implementation_contract(device: torch.device) -> dict[str, Any]:
     graph_functions = {
         "uniformly_sample_events",
         "prepare_event_nodes",
+        "_spatial_hash_constants",
         "_radius_graph_candidate_chunks",
         "radius_graph_topology",
     }
@@ -20615,9 +22200,14 @@ def forward_training_loss(
             if temporal_weight > 0 and valid:
                 previous_prediction = torch.cat([contexts[i][1] for i in valid])
                 previous_target = torch.cat([contexts[i][2] for i in valid])
+                # The steady-state batch usually has context in every lane.
+                # Reusing the whole tensors avoids two advanced-index gathers
+                # (and CUDA index construction) without changing the reduction.
+                current_prediction = prediction if len(valid) == len(samples) else prediction[valid]
+                current_target = target if len(valid) == len(samples) else target[valid]
                 temporal = F.l1_loss(
-                    prediction[valid] - previous_prediction,
-                    target[valid] - previous_target,
+                    current_prediction - previous_prediction,
+                    current_target - previous_target,
                 ) * (len(valid) / len(samples))
                 loss = loss + temporal_weight * temporal
                 parts["temporal"] = temporal.detach()
@@ -23036,6 +24626,444 @@ def test_batch_timing_scopes_are_nonoverlapping_operator_stages():
     _model().eval().forward_training_batch([_sample("a"), _sample("b")], timing=Timer())
     assert visits == [(stage, event) for stage in ("graph", "encoder", "decoder")
                       for event in ("start", "end")]
+~~~~~~~~
+
+# tests/test_bench.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import copy
+import json
+from argparse import Namespace
+from pathlib import Path
+
+import pytest
+import torch
+
+from scripts import bench
+from tests.test_batch_preflight import _batch_config
+
+
+def _dataset(tmp_path, *, streams=4, frames=8):
+    config = _batch_config(tmp_path, batch_size=1, streams=streams, frames=frames)
+    return config, bench.build_dataset(config["dataset"], split="train")
+
+
+def _selection(dataset):
+    return bench.select_windows(dataset, streams=4, warmup=2, frames=4, seed=17)
+
+
+def _args(tmp_path):
+    return Namespace(
+        worker=False,
+        config=str(tmp_path / "config.json"),
+        output=str(tmp_path / "bench"),
+        batches=[1, 4],
+        backends=["torch"],
+        chunks=None,
+        streams=4,
+        warmup_per_stream=2,
+        frames_per_stream=4,
+        repeats=1,
+        threads=1,
+        trace_steps=0,
+    )
+
+
+def test_same_real_frames_and_warmup_membership_across_batch_sizes(tmp_path):
+    _, dataset = _dataset(tmp_path)
+    try:
+        selection = _selection(dataset)
+        bench.validate_selection(dataset, selection)
+        common = None
+        for size in (1, 2, 4):
+            subset, _sampler, schedule, phases = bench.batch_schedule(dataset, selection, size)
+            grouped = {
+                phase: sorted(
+                    subset.indices[index]
+                    for batch, label in zip(schedule, phases, strict=True)
+                    if label == phase
+                    for index in batch
+                )
+                for phase in ("warmup", "measure")
+            }
+            assert len(grouped["warmup"]) == 8
+            assert len(grouped["measure"]) == 16
+            assert common is None or grouped == common
+            common = grouped
+            assert all(len(batch) == size for batch in schedule)
+    finally:
+        dataset.close()
+
+
+def test_window_plan_is_metadata_only_and_seeded(tmp_path, monkeypatch):
+    _, dataset = _dataset(tmp_path)
+    try:
+
+        def forbidden(*args):
+            pytest.fail("Selection decoded a sample")
+
+        monkeypatch.setattr(type(dataset), "__getitem__", forbidden)
+        selected = _selection(dataset)
+        assert selected == _selection(dataset)
+        assert selected["sha256"] == bench.digest(
+            {key: value for key, value in selected.items() if key != "sha256"}
+        )
+        assert len({(e["source_file"], e["stream"]) for e in selected["entries"]}) == 4
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("change", ["hash", "identity", "phase"])
+def test_selection_tampering_rejected(tmp_path, change):
+    _, dataset = _dataset(tmp_path)
+    try:
+        selected = _selection(dataset)
+        if change == "hash":
+            selected["sha256"] = "0" * 64
+        else:
+            selected["entries"][0]["image_key" if change == "identity" else "phase"] = "forged"
+            selected["sha256"] = bench.digest(
+                {key: value for key, value in selected.items() if key != "sha256"}
+            )
+        with pytest.raises(ValueError, match="selection|identity"):
+            bench.validate_selection(dataset, selected)
+    finally:
+        dataset.close()
+
+
+def test_insufficient_real_windows_do_not_fabricate_or_repeat_frames(tmp_path):
+    _, dataset = _dataset(tmp_path, streams=3, frames=4)
+    try:
+        with pytest.raises(ValueError, match="cannot form this comparison"):
+            _selection(dataset)
+    finally:
+        dataset.close()
+
+
+def test_mixed_or_partial_batches_are_rejected(tmp_path):
+    _, dataset = _dataset(tmp_path)
+    try:
+        selected = _selection(dataset)
+        with pytest.raises(ValueError, match="divide"):
+            bench.batch_schedule(dataset, selected, 3)
+        selected["entries"][0]["phase"] = "measure"
+        with pytest.raises(ValueError, match="must never mix"):
+            bench.batch_schedule(dataset, selected, 4)
+    finally:
+        dataset.close()
+
+
+def test_real_cpu_training_loop_keeps_all_frames_and_temporal_context(tmp_path, monkeypatch):
+    config, dataset = _dataset(tmp_path, streams=2, frames=4)
+    config["model"]["recurrent"] = True
+    selection = bench.select_windows(dataset, streams=2, warmup=1, frames=2, seed=0)
+    config = bench.variant_config(config, 2, "torch", None)
+    calls = []
+    original = bench._step
+
+    def observed(model, optimizer, scaler, criterion, samples, contexts, *args, **kwargs):
+        calls.append((len(samples), sum(value[1] is not None for value in contexts)))
+        return original(model, optimizer, scaler, criterion, samples, contexts, *args, **kwargs)
+
+    monkeypatch.setattr(bench, "_step", observed)
+    try:
+        subset, sampler, schedule, phases = bench.batch_schedule(dataset, selection, 2)
+        report = bench.exercise(config, subset, sampler, schedule, phases, torch.device("cpu"))
+        assert calls == [(2, 0), (2, 2), (2, 2)]
+        assert report["warmup_frames"] == 2
+        assert report["measured_frames"] == 4
+        assert report["optimizer_steps_measured"] == 2
+        assert report["frames_per_second"] > 0
+        assert report["host_decode_ms"] > 0
+        assert report["peak_allocated_mib"] is None
+        assert report["cuda_measured"] is False
+        assert not (tmp_path / "train").exists()
+    finally:
+        dataset.close()
+
+
+def test_backend_parity_checks_real_prediction_and_gradients(tmp_path):
+    config, dataset = _dataset(tmp_path, streams=2, frames=4)
+    try:
+        reference = bench._numeric_snapshot(config, dataset, [0], torch.device("cpu"))
+        candidate = bench._numeric_snapshot(config, dataset, [0], torch.device("cpu"))
+        assert bench.compare_snapshots(reference, candidate, amp=False)["passed"]
+        norm = candidate["gradient_norm"]
+        candidate["gradient_norm"] = norm + 1
+        with pytest.raises(ValueError, match="pre-clipping gradient"):
+            bench.compare_snapshots(reference, candidate, amp=False)
+        candidate["gradient_norm"] = norm
+        candidate["tensors"]["prediction"] += 1
+        with pytest.raises(ValueError, match="prediction"):
+            bench.compare_snapshots(reference, candidate, amp=False)
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("edge_count", [0, 2])
+def test_numerical_gate_cannot_validate_an_unexecuted_spline(tmp_path, monkeypatch, edge_count):
+    config, dataset = _dataset(tmp_path, streams=2, frames=4)
+    try:
+        selection = bench.select_windows(dataset, streams=2, warmup=1, frames=2, seed=7)
+        subset, _, schedule, _ = bench.batch_schedule(dataset, selection, 1)
+
+        def snapshot(*args):
+            return {
+                "topology": [(2, edge_count)], "tensors": {}, "loss": {"total": 0.1},
+                "gradient_norm": 0.0, "amp": {},
+            }
+
+        monkeypatch.setattr(bench, "_numeric_snapshot", snapshot)
+        if edge_count:
+            report = bench.numerical_gate(config, config, subset, schedule, torch.device("cpu"))
+            assert report["nonempty_spline_exercised"] is True
+            assert report["measurements"][0]["topology"] == [{"nodes": 2, "edges": 2}]
+        else:
+            with pytest.raises(ValueError, match="spline backend was not exercised"):
+                bench.numerical_gate(config, config, subset, schedule, torch.device("cpu"))
+    finally:
+        dataset.close()
+
+
+def test_cuda_only_refusal_creates_no_benchmark_or_train_output(tmp_path, monkeypatch):
+    config, dataset = _dataset(tmp_path)
+    dataset.close()
+    (tmp_path / "config.json").write_text(json.dumps(config))
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: False)
+    with pytest.raises(RuntimeError, match="never substitutes CPU"):
+        bench.run(_args(tmp_path))
+    assert not (tmp_path / "bench").exists()
+    assert not (tmp_path / "train").exists()
+
+
+@pytest.mark.parametrize("output", ["bench", "train", "train/nested"])
+def test_existing_or_training_output_is_never_overwritten(tmp_path, monkeypatch, output):
+    config, dataset = _dataset(tmp_path)
+    dataset.close()
+    (tmp_path / "config.json").write_text(json.dumps(config))
+    args = _args(tmp_path)
+    args.output = str(tmp_path / output)
+    (tmp_path / output).mkdir(parents=True)
+    marker = tmp_path / output / "keep.txt"
+    marker.write_text("untouched")
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: True)
+    with pytest.raises((FileExistsError, ValueError)):
+        bench.run(args)
+    assert marker.read_text() == "untouched"
+
+
+def test_source_stat_change_detected_without_touching_training_cache(tmp_path):
+    _, dataset = _dataset(tmp_path)
+    try:
+        selection = _selection(dataset)
+        before = bench._file_signatures(dataset, selection)
+        assert before == bench._file_signatures(dataset, selection)
+        assert not (tmp_path / "train" / ".data_hash_cache.json").exists()
+    finally:
+        dataset.close()
+
+
+def test_redaction_removes_accounts_hostnames_and_configured_roots(tmp_path, monkeypatch):
+    from tests.test_repo_hygiene import _private_unix_path, _private_windows_path
+
+    monkeypatch.setattr(bench.socket, "gethostname", lambda: "private-gpu-host")
+    text = f"private-gpu-host {_private_unix_path()} {_private_windows_path()}"
+    cleaned = bench.redact(text, {}, tmp_path)
+    assert "research-node-user" not in cleaned
+    assert "private-gpu-host" not in cleaned
+
+
+def test_variant_config_does_not_mutate_training_config(tmp_path):
+    config, dataset = _dataset(tmp_path)
+    dataset.close()
+    before = copy.deepcopy(config)
+    variant = bench.variant_config(config, 4, "triton", 128)
+    assert config == before
+    assert variant["model"]["spline_backend"] == "triton"
+    assert variant["model"]["spline_chunk_size"] == 128
+    assert variant["train"]["batch_size"] == 4
+
+
+def test_all_requested_batch_sizes_keep_the_same_nonempty_measured_corpus(tmp_path):
+    _, dataset = _dataset(tmp_path, streams=16, frames=4)
+    try:
+        selection = bench.select_windows(dataset, streams=16, warmup=1, frames=2, seed=11)
+        expected = {
+            entry["dataset_index"] for entry in selection["entries"] if entry["phase"] == "measure"
+        }
+        for size in (1, 4, 8, 16):
+            subset, _, schedule, phases = bench.batch_schedule(dataset, selection, size)
+            actual = [
+                subset.indices[index]
+                for batch, phase in zip(schedule, phases, strict=True)
+                if phase == "measure"
+                for index in batch
+            ]
+            assert len(actual) == len(set(actual)) == 32
+            assert set(actual) == expected
+    finally:
+        dataset.close()
+
+
+def test_trace_profiler_is_closed_when_training_raises(tmp_path, monkeypatch):
+    config, dataset = _dataset(tmp_path, streams=1, frames=4)
+    selection = bench.select_windows(dataset, streams=1, warmup=1, frames=2, seed=11)
+    calls = []
+
+    class Recorder:
+        def __enter__(self):
+            calls.append("enter")
+            return self
+
+        def __exit__(self, *args):
+            calls.append("exit")
+
+    monkeypatch.setattr(torch.profiler, "profile", lambda **kwargs: Recorder())
+    original = bench._step
+
+    def fail_after_warmup(*args, **kwargs):
+        if kwargs["step"] > 0:
+            raise RuntimeError("training failed while tracing")
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(bench, "_step", fail_after_warmup)
+    try:
+        subset, sampler, schedule, phases = bench.batch_schedule(dataset, selection, 1)
+        with pytest.raises(RuntimeError, match="training failed while tracing"):
+            bench.exercise(
+                config,
+                subset,
+                sampler,
+                schedule,
+                phases,
+                torch.device("cpu"),
+                trace_path=tmp_path / "trace.json",
+                trace_steps=1,
+            )
+        assert calls == ["enter", "exit"]
+    finally:
+        dataset.close()
+
+
+def test_oom_in_numerical_gate_cannot_be_reported_as_throughput_success(tmp_path, monkeypatch):
+    config, dataset = _dataset(tmp_path)
+    selection = _selection(dataset)
+    signatures = bench._file_signatures(dataset, selection)
+    dataset.close()
+    output = tmp_path / "bench" / "trial.json"
+    source = {"test": "fixed"}
+    monkeypatch.setattr(bench, "_source_contract", lambda: source)
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: True)
+    monkeypatch.setattr(torch.cuda, "init", lambda: None)
+    monkeypatch.setattr(bench, "_runtime_provenance", lambda device: {})
+    monkeypatch.setattr(bench, "_training_protocol", lambda config, device: {})
+
+    def oom(*args):
+        raise torch.cuda.OutOfMemoryError("test CUDA out of memory")
+
+    monkeypatch.setattr(bench, "numerical_gate", oom)
+    job = {
+        "config": config,
+        "output": str(output),
+        "variant": {"batch_size": 1},
+        "selection": selection,
+        "source": source,
+        "threads": 1,
+        "reference_config": config,
+        "file_signatures": signatures,
+        "trace_steps": 0,
+    }
+    assert bench.worker(job) == 1
+    report = json.loads(output.read_text())
+    assert report["status"] == "failed"
+    assert report["failure_category"] == "cuda_out_of_memory"
+    assert "measurement" not in report
+    assert not (tmp_path / "train").exists()
+    original = output.read_bytes()
+    with pytest.raises(FileExistsError):
+        bench.worker(job)
+    assert output.read_bytes() == original
+
+
+def test_aggregate_keeps_failed_repeat_visible_instead_of_declaring_success():
+    variant = {"batch_size": 4, "backend": "torch", "spline_chunk_size": 64}
+    rows = [
+        {
+            "variant": variant,
+            "status": "passed",
+            "measurement": {
+                "frames_per_second": fps,
+                "peak_allocated_mib": 10,
+                "peak_reserved_mib": 20,
+            },
+        }
+        for fps in (10, 20)
+    ]
+    rows.append({"variant": variant, "status": "failed", "measurement": None})
+    summary = bench.aggregate(rows)[0]
+    assert summary["frames_per_second_median"] == 15
+    assert summary["passed_repeats"] == 2
+    assert summary["requested_repeats"] == 3
+    assert summary["all_repeats_passed"] is False
+
+
+@pytest.mark.parametrize("location", ["data", "source", "other_run"])
+def test_protected_data_source_and_nonconfigured_run_directories(tmp_path, location):
+    config, dataset = _dataset(tmp_path)
+    dataset.close()
+    output = {
+        "data": tmp_path / "hdr" / "bench",
+        "source": bench.PROJECT / "src" / "bench",
+        "other_run": bench.PROJECT / "runs" / "batch" / "benchmark",
+    }[location]
+    with pytest.raises(ValueError, match="separate|dedicated"):
+        bench.protect_output(output.resolve(), config)
+
+
+def test_backend_gate_rejects_equal_norm_small_element_sign_flip():
+    gradient = torch.full((1_000_000,), 0.001)
+    reference = {
+        "tensors": {"gradient/weight": gradient},
+        "topology": [(1, 0)],
+        "gradient_norm": 1.0,
+        "loss": {"total": 0.1},
+    }
+    candidate = {**reference, "tensors": {"gradient/weight": -gradient}}
+    # Elementwise AMP tolerance alone accepts this entire reversed direction.
+    assert torch.allclose(gradient, -gradient, atol=0.002, rtol=0.02)
+    with pytest.raises(ValueError, match="gradient L2 direction"):
+        bench.compare_snapshots(reference, candidate, amp=True)
+
+
+@pytest.mark.parametrize("failure", [False, True])
+def test_raw_profiler_metadata_is_never_published_and_temporary_is_removed(tmp_path, failure):
+    from tests.test_repo_hygiene import _private_unix_path
+
+    final = tmp_path / "public.trace.json"
+    temporary = []
+
+    class Recorder:
+        def export_chrome_trace(self, path):
+            temporary.append(Path(path))
+            Path(path).write_text(
+                "not-json"
+                if failure
+                else json.dumps(
+                    {"traceName": _private_unix_path(), "traceEvents": []}
+                )
+            )
+
+    if failure:
+        with pytest.raises(json.JSONDecodeError):
+            bench.export_trace(Recorder(), final, {})
+        assert not final.exists()
+    else:
+        bench.export_trace(Recorder(), final, {})
+        assert "research-node-user" not in final.read_text()
+    assert temporary[0] != final
+    assert not temporary[0].exists()
 ~~~~~~~~
 
 # tests/test_conda_runtime.py
@@ -27277,6 +29305,229 @@ def test_cli_nonreporting_bypass_is_warned_and_embedded_in_training_config(
     assert "WARNING" in capsys.readouterr().err
 ~~~~~~~~
 
+# tests/test_graph_lookup.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import math
+
+import pytest
+import torch
+
+from asgcn_unet import graph
+
+
+@pytest.fixture(autouse=True)
+def clear_hash_cache():
+    graph._spatial_hash_constants.cache_clear()
+    yield
+    graph._spatial_hash_constants.cache_clear()
+
+
+def test_lookup_batches_scalar_transfers_without_merging_candidate_chunks(monkeypatch):
+    positions = torch.rand((31, 4), generator=torch.Generator().manual_seed(31))
+    original = torch.Tensor.tolist
+    transfers = []
+
+    def record_transfer(tensor):
+        transfers.append((tensor.dtype, tensor.shape))
+        return original(tensor)
+
+    monkeypatch.setattr(torch.Tensor, "tolist", record_transfer)
+    chunks = list(graph._radius_graph_candidate_chunks(positions, 0.3, chunk_size=2))
+    # Sixteen original source chunks share two count transfers. Public finite and
+    # range validation still happens, in a separate single paired flag transfer.
+    assert transfers == [(torch.bool, (2,)), (torch.long, (8,)), (torch.long, (8,))]
+    assert len(chunks) == 16
+    for index, (sources, destinations, distances) in enumerate(chunks):
+        start = index * 2
+        assert torch.all((sources >= start) & (sources < min(start + 2, 31)))
+        assert sources.shape == destinations.shape == distances.shape
+
+
+def test_lookup_tables_stay_bounded_when_requested_chunk_is_tiny(monkeypatch):
+    positions = torch.rand((129, 4), generator=torch.Generator().manual_seed(91))
+    original = torch.searchsorted
+    lookup_source_counts = []
+
+    def record_lookup(sorted_sequence, values, **kwargs):
+        lookup_source_counts.append(values.numel() // 27)
+        return original(sorted_sequence, values, **kwargs)
+
+    monkeypatch.setattr(torch, "searchsorted", record_lookup)
+    list(graph._radius_graph_candidate_chunks(positions, 0.08, chunk_size=1))
+    assert len(lookup_source_counts) == math.ceil(129 / 8) * 2
+    assert max(lookup_source_counts) == 8
+
+
+def test_worst_case_candidate_cap_remains_four_million(monkeypatch):
+    positions = torch.full((9000, 4), 0.5)
+    allocations = []
+
+    class AllocationObserved(Exception):
+        pass
+
+    def record_without_allocating(_groups, _counts, *, output_size):
+        allocations.append(output_size)
+        raise AllocationObserved
+
+    monkeypatch.setattr(torch, "repeat_interleave", record_without_allocating)
+    candidates = graph._radius_graph_candidate_chunks(positions, 0.08, chunk_size=9000)
+    with pytest.raises(AllocationObserved):
+        next(candidates)
+    assert allocations == [(4_000_000 // 9000) * 9000]
+    assert allocations[0] <= 4_000_000
+
+
+def test_edge_guard_stops_after_first_materialized_chunk(monkeypatch):
+    positions = torch.full((31, 4), 0.5)
+    original = torch.linalg.vector_norm
+    materializations = []
+
+    def record_norm(values, **kwargs):
+        materializations.append(values.shape)
+        return original(values, **kwargs)
+
+    monkeypatch.setattr(torch.linalg, "vector_norm", record_norm)
+    with pytest.raises(RuntimeError, match="max_graph_edges=1"):
+        graph.build_radius_graph(positions, 0.08, chunk_size=2, max_edges=1)
+    assert materializations == [(2 * 31, 3)]
+
+
+def test_position_gradients_match_dense_oracle_across_lookup_blocks():
+    initial = torch.rand((37, 4), generator=torch.Generator().manual_seed(86),
+                         dtype=torch.float64)
+    positions = initial.clone().requires_grad_()
+    reference = initial.clone().requires_grad_()
+    edges, attributes = graph.build_radius_graph(positions, 0.5, chunk_size=2)
+    distances = torch.linalg.vector_norm(reference[:, None, :3] - reference[None, :, :3],
+                                         dim=-1)
+    valid = (distances < 0.5) & ~torch.eye(37, dtype=torch.bool)
+    assert torch.equal(edges, valid.nonzero().t())
+    expected = (distances[valid] / 0.5).unsqueeze(-1)
+    assert torch.equal(attributes, expected)
+    weights = torch.linspace(0.1, 0.9, len(attributes), dtype=torch.float64)[:, None]
+    actual_gradient = torch.autograd.grad((attributes * weights).sum(), positions)[0]
+    expected_gradient = torch.autograd.grad((expected * weights).sum(), reference)[0]
+    torch.testing.assert_close(actual_gradient, expected_gradient, atol=1e-12, rtol=1e-12)
+
+
+def test_cached_tables_reused_and_not_mutated_by_graph_queries(monkeypatch):
+    original = torch.cartesian_prod
+    creations = []
+
+    def record_cartesian(*arrays):
+        creations.append(len(arrays))
+        return original(*arrays)
+
+    monkeypatch.setattr(torch, "cartesian_prod", record_cartesian)
+    positions = torch.rand((19, 4), generator=torch.Generator().manual_seed(222))
+    graph.build_radius_graph(positions, 0.08, chunk_size=2)
+    strides, offsets = graph._spatial_hash_constants(14, 3, "cpu", None)
+    original_strides, original_offsets = strides.clone(), offsets.clone()
+    graph.build_radius_graph(positions.flip(0), 0.08, chunk_size=5)
+    graph.radius_graph_topology(positions, 0.08, chunk_size=7)
+    next_strides, next_offsets = graph._spatial_hash_constants(14, 3, "cpu", None)
+    assert next_strides is strides and next_offsets is offsets
+    assert torch.equal(strides, original_strides)
+    assert torch.equal(offsets, original_offsets)
+    assert creations == [3]
+    assert graph._spatial_hash_constants.cache_info().currsize == 1
+
+
+def test_cache_is_bounded_and_higher_dimensional_queries_are_not_retained():
+    for cells_per_axis in range(2, 50):
+        graph._spatial_hash_constants(cells_per_axis, 3, "cpu", None)
+    assert graph._spatial_hash_constants.cache_info().maxsize == 32
+    assert graph._spatial_hash_constants.cache_info().currsize == 32
+    graph._spatial_hash_constants.cache_clear()
+    positions = torch.zeros((2, 5))
+    edges, attributes = graph.build_radius_graph(positions, 0.4, position_dims=5)
+    assert edges.shape == (2, 2)
+    assert torch.count_nonzero(attributes) == 0
+    assert graph._spatial_hash_constants.cache_info().currsize == 0
+
+
+@pytest.mark.parametrize("operation", [graph.build_radius_graph, graph.radius_graph_topology])
+def test_combined_coordinate_validation_keeps_error_priority(operation):
+    positions = torch.tensor([[float("nan"), 2.0, 0.0, 1.0]])
+    with pytest.raises(ValueError, match="Graph coordinates must be finite"):
+        operation(positions, 0.1)
+
+
+def test_combined_event_validation_keeps_error_priority_and_one_transfer(monkeypatch):
+    events = torch.tensor([[float("nan"), 0, 1, 1], [0, 0, 0, 1]])
+    original = torch.Tensor.tolist
+    transfers = []
+
+    def record_transfer(tensor):
+        transfers.append((tensor.dtype, tensor.shape))
+        return original(tensor)
+
+    monkeypatch.setattr(torch.Tensor, "tolist", record_transfer)
+    with pytest.raises(ValueError, match="must be finite"):
+        graph.prepare_event_nodes(events, (8, 8))
+    assert transfers == [(torch.bool, (2,))]
+    events[0, 0] = 0
+    with pytest.raises(ValueError, match="monotonically non-decreasing"):
+        graph.prepare_event_nodes(events, (8, 8))
+
+
+@pytest.mark.parametrize("backend", ["torch", "torch_fused", "triton"])
+def test_encoder_forwards_explicit_backend_without_changing_state_dict(backend):
+    default = graph.ASGCNEncoder(hidden_dim=4, graph_layers=2)
+    selected = graph.ASGCNEncoder(hidden_dim=4, graph_layers=2, spline_backend=backend)
+    assert all(layer.spline_backend == backend for layer in selected.layers)
+    selected.load_state_dict(default.state_dict(), strict=True)
+    assert selected.state_dict().keys() == default.state_dict().keys()
+
+
+def test_invalid_backend_is_rejected_at_construction():
+    with pytest.raises(ValueError, match="spline_backend"):
+        graph.PaperSplineConv(4, 4, spline_backend="automatic-fallback")
+
+
+def test_explicit_triton_backend_rejects_cpu_even_for_empty_graph():
+    layer = graph.PaperSplineConv(4, 4, spline_backend="triton")
+    with pytest.raises(ValueError, match="requires CUDA"):
+        layer.spline_aggregate(torch.empty((0, 4)), torch.empty((2, 0), dtype=torch.long),
+                               torch.empty((0, 1)))
+
+
+@pytest.mark.parametrize("mode", ["ann", "snn"])
+def test_encoder_backend_validation_cannot_be_bypassed_with_empty_graph(mode):
+    encoder = graph.ASGCNEncoder(hidden_dim=4, graph_layers=1, spline_backend="triton")
+    encoder.layers[0]._snn_is_normalized = True
+    empty_graph = graph.EventGraph(torch.empty((0, 4)), torch.empty((0, 4)),
+                                   torch.empty((2, 0), dtype=torch.long), torch.empty((0, 1)))
+    with pytest.raises(ValueError, match="requires CUDA"):
+        getattr(encoder, f"forward_{mode}")(empty_graph)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA accelerator unavailable")
+def test_hash_cache_isolated_between_cuda_streams():
+    positions = torch.rand((31, 4), generator=torch.Generator().manual_seed(12)).cuda()
+    stream_a, stream_b = torch.cuda.Stream(), torch.cuda.Stream()
+    stream_a.wait_stream(torch.cuda.current_stream())
+    stream_b.wait_stream(torch.cuda.current_stream())
+    with torch.cuda.stream(stream_a):
+        edges_a, attr_a = graph.build_radius_graph(positions, 0.3, chunk_size=2)
+        constants_a = graph._spatial_hash_constants(5, 3, str(positions.device),
+                                                  stream_a.cuda_stream)
+    with torch.cuda.stream(stream_b):
+        edges_b, attr_b = graph.build_radius_graph(positions, 0.3, chunk_size=2)
+        constants_b = graph._spatial_hash_constants(5, 3, str(positions.device),
+                                                  stream_b.cuda_stream)
+    torch.cuda.current_stream().wait_stream(stream_a)
+    torch.cuda.current_stream().wait_stream(stream_b)
+    assert constants_a[0].data_ptr() != constants_b[0].data_ptr()
+    assert constants_a[1].data_ptr() != constants_b[1].data_ptr()
+    assert torch.equal(edges_a, edges_b)
+    assert torch.equal(attr_a, attr_b)
+    assert graph._spatial_hash_constants.cache_info().currsize == 2
+~~~~~~~~
+
 # tests/test_graph_opt.py
 
 ~~~~~~~~python
@@ -30789,6 +33040,7 @@ import copy
 import json
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 import torch
@@ -30799,6 +33051,23 @@ from asgcn_unet.scan import ScanInUseError, ScanJournal, canonical_hash
 from asgcn_unet.utils import save_json
 from tests.fixtures import make_eventhdr
 from tests.test_gpu_preflight import _config
+
+
+def test_topology_identity_includes_spatial_hash_constant_factory(monkeypatch) -> None:
+    original = Path.read_text
+    before = profile._topology_implementation_contract(torch.device("cpu"))
+
+    def modified(path, *args, **kwargs):
+        content = original(path, *args, **kwargs)
+        if path.name == "graph.py":
+            assert "@lru_cache(maxsize=32)" in content
+            content = content.replace("@lru_cache(maxsize=32)", "@lru_cache(maxsize=31)")
+        return content
+
+    monkeypatch.setattr(Path, "read_text", modified)
+    after = profile._topology_implementation_contract(torch.device("cpu"))
+    assert before["implementation"]["graph.py"] != after["implementation"]["graph.py"]
+    assert before["semantics"] == after["semantics"]
 
 
 def _record(index: int) -> dict:
@@ -34186,6 +36455,412 @@ def test_cuda_autocast_matches_original(dynamics) -> None:
     _assert_exact(actual, expected)
 ~~~~~~~~
 
+# tests/test_spline_backend.py
+
+~~~~~~~~python
+"""Backend regressions; generated tensors are test fixtures, not experiment data."""
+
+from __future__ import annotations
+
+import ast
+import builtins
+import importlib.util
+import os
+import subprocess
+import sys
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
+
+import pytest
+import torch
+
+from asgcn_unet import ops
+from asgcn_unet.graph import ASGCNEncoder, EventGraph, PaperSplineConv
+from asgcn_unet.model import ASGCNUNet
+from tests.test_spline_opt import _reference_sum
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _case(dtype, device="cpu", kind="sparse", noncontiguous=False):
+    generator = torch.Generator().manual_seed(9021)
+    nodes, kernels, channels = 7, 4, 5
+    projected = torch.randn((kernels, nodes, channels), generator=generator).transpose(0, 1) * 0.2
+    if not noncontiguous:
+        projected = projected.contiguous()
+    if kind == "empty":
+        edges = torch.empty((2, 0), dtype=torch.long)
+    elif kind == "repeated":
+        edges = torch.tensor([[0, 0, 3, 3, 6], [1, 1, 1, 4, 1]]).repeat(1, 5)
+    elif kind == "dense":
+        edges = torch.cartesian_prod(torch.arange(nodes), torch.arange(nodes)).T
+    else:
+        edges = torch.randint(nodes, (2, 23), generator=generator)
+    count = edges.shape[1]
+    indices = torch.randint(kernels, (count * 2, 2), generator=generator)[::2]
+    basis = torch.rand((2, count), generator=generator).T
+    if noncontiguous:
+        edge_storage = torch.empty((count, 4), dtype=torch.long)
+        edge_storage[:, ::2] = edges.T
+        source, destination = edge_storage[:, 0], edge_storage[:, 2]
+    else:
+        source, destination = edges.contiguous()
+        indices, basis = indices.contiguous(), basis.contiguous()
+    basis_dtype = torch.float64 if dtype == torch.float64 else torch.float32
+    return (
+        projected.to(device=device, dtype=dtype).requires_grad_(),
+        source.to(device), destination.to(device), indices.to(device),
+        basis.to(device=device, dtype=basis_dtype).requires_grad_(),
+    )
+
+
+def _tolerance(dtype):
+    if dtype == torch.float64:
+        return 1e-11
+    if dtype == torch.float16:
+        return 0.005
+    if dtype == torch.bfloat16:
+        return 0.035
+    return 2e-5
+
+
+def _parity(backend, dtype, kind, chunk_size, *, device="cpu", noncontiguous=False, output_dtype=None):
+    projected, source, destination, indices, basis = _case(dtype, device, kind, noncontiguous)
+    reference_projected = projected.detach().clone().requires_grad_()
+    reference_basis = basis.detach().clone().requires_grad_()
+    output_dtype = output_dtype or (torch.float64 if dtype == torch.float64 else torch.float32)
+    actual = ops.weighted_spline_sum(
+        projected, source, destination, indices, basis, chunk_size, output_dtype, backend=backend,
+    )
+    expected = _reference_sum(
+        reference_projected, source, destination, indices, reference_basis, chunk_size, output_dtype,
+    )
+    # The eager oracle has no graph for an empty input; make its zero derivative explicit.
+    expected = expected + (reference_projected.sum() * 0 + reference_basis.sum() * 0).to(output_dtype)
+    tolerance = _tolerance(dtype)
+    torch.testing.assert_close(actual, expected, atol=tolerance, rtol=tolerance)
+    cotangent = torch.linspace(-0.8, 0.9, actual.numel() * 2, device=device, dtype=output_dtype)
+    cotangent = cotangent.reshape(actual.shape[0] * 2, actual.shape[1])[::2]
+    actual_gradients = torch.autograd.grad(actual, (projected, basis), cotangent)
+    expected_gradients = torch.autograd.grad(expected, (reference_projected, reference_basis), cotangent)
+    for observed, reference in zip(actual_gradients, expected_gradients):
+        assert torch.isfinite(observed).all()
+        torch.testing.assert_close(observed, reference, atol=tolerance, rtol=tolerance)
+
+
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64, torch.float16, torch.bfloat16])
+@pytest.mark.parametrize("kind", ["empty", "sparse", "dense", "repeated"])
+@pytest.mark.parametrize("chunk_size", [1, 7, 64])
+def test_portable_fused_forward_projected_and_basis_gradients(dtype, kind, chunk_size):
+    _parity("torch_fused", dtype, kind, chunk_size)
+
+
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64, torch.float16, torch.bfloat16])
+def test_portable_fused_noncontiguous_and_same_dtype_accumulation(dtype):
+    _parity("torch_fused", dtype, "repeated", 7, noncontiguous=True, output_dtype=dtype)
+
+
+@pytest.mark.parametrize("requires_projection,requires_basis", [(True, False), (False, True)])
+def test_portable_fused_selective_gradients(requires_projection, requires_basis):
+    projected, source, destination, indices, basis = _case(torch.float64)
+    projected.requires_grad_(requires_projection)
+    basis.requires_grad_(requires_basis)
+    reference_projected = projected.detach().clone().requires_grad_(requires_projection)
+    reference_basis = basis.detach().clone().requires_grad_(requires_basis)
+    actual = ops.weighted_spline_sum(
+        projected, source, destination, indices, basis, 7, torch.float64, backend="torch_fused",
+    )
+    expected = _reference_sum(reference_projected, source, destination, indices, reference_basis, 7, torch.float64)
+    actual.sum().backward()
+    expected.sum().backward()
+    for observed, reference in ((projected, reference_projected), (basis, reference_basis)):
+        assert (observed.grad is None) == (reference.grad is None)
+        if observed.grad is not None:
+            torch.testing.assert_close(observed.grad, reference.grad, atol=1e-11, rtol=1e-11)
+
+
+def _gradchecks(backend, device="cpu"):
+    torch.manual_seed(14)
+    projected = torch.randn((3, 2, 2), device=device, dtype=torch.float64, requires_grad=True)
+    source = torch.tensor([0, 0, 2, 1], device=device)
+    destination = torch.tensor([1, 1, 0, 2], device=device)
+    indices = torch.tensor([[0, 1], [1, 0], [1, 1], [0, 1]], device=device)
+    basis = torch.rand((4, 2), device=device, dtype=torch.float64, requires_grad=True)
+
+    def operation(projected, basis):
+        return ops.weighted_spline_sum(projected, source, destination, indices, basis, 3, torch.float64, backend=backend)
+
+    assert torch.autograd.gradcheck(operation, (projected, basis), atol=1e-5, rtol=1e-4)
+    assert torch.autograd.gradgradcheck(operation, (projected, basis), atol=1e-5, rtol=1e-4)
+
+
+def test_portable_fused_gradcheck_and_double_backward():
+    _gradchecks("torch_fused")
+
+
+@pytest.mark.parametrize("basis_grad", [False, True])
+def test_fused_backward_retains_topology_not_per_edge_channel_messages(basis_grad):
+    projected, source, destination, indices, basis = _case(torch.float64, kind="dense")
+    basis.requires_grad_(basis_grad)
+    saved = []
+    with torch.autograd.graph.saved_tensors_hooks(lambda tensor: saved.append(tensor) or tensor, lambda tensor: tensor):
+        output = ops.weighted_spline_sum(projected, source, destination, indices, basis, 7, torch.float64, backend="torch_fused")
+    assert len(saved) == 4 + int(basis_grad)
+    assert all(tensor is expected for tensor, expected in zip(saved[:4], (source, destination, indices, basis)))
+    if basis_grad:
+        assert saved[-1] is projected
+    output.sum().backward()
+    assert projected.grad is not None
+
+
+def test_portable_fused_halves_forward_scatter_dispatches():
+    inputs = _case(torch.float32, kind="dense")
+    counts = {}
+    for backend in ("torch", "torch_fused"):
+        with torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU]) as profiler:
+            ops.weighted_spline_sum(*inputs, 7, torch.float32, backend=backend)
+        counts[backend] = sum(event.count for event in profiler.key_averages() if event.key == "aten::index_add_")
+    assert counts == {"torch": 14, "torch_fused": 7}
+
+
+def test_default_and_portable_backend_never_import_optional_cuda_module(monkeypatch):
+    monkeypatch.setattr(ops, "_triton_ops", lambda: pytest.fail("optional CUDA import on portable backend"))
+    inputs = _case(torch.float32)
+    for backend in ("torch", "torch_fused"):
+        ops.weighted_spline_sum(*inputs, 7, torch.float32, backend=backend).sum().backward()
+
+
+def test_native_backend_cpu_is_rejected_even_for_empty_graphs():
+    inputs = _case(torch.float32, kind="empty")
+    with pytest.raises(ValueError, match="requires CUDA"):
+        ops.weighted_spline_sum(*inputs, 7, torch.float32, backend="triton")
+    layer = PaperSplineConv(1, 2, spline_backend="triton")
+    with pytest.raises(ValueError, match="requires CUDA"):
+        layer.spline_aggregate(torch.empty((0, 1)), torch.empty((2, 0), dtype=torch.long), torch.empty((0, 1)))
+    graph = EventGraph(torch.empty((0, 1)), torch.empty((0, 3)), torch.empty((2, 0), dtype=torch.long), torch.empty((0, 1)))
+    with pytest.raises(ValueError, match="requires CUDA"):
+        ASGCNEncoder(2, 1, spline_backend="triton").forward_ann(graph)
+    with pytest.raises(ValueError, match="requires CUDA"):
+        ASGCNUNet(spline_backend="triton").forward_sample({"events": torch.empty((0, 4)), "sensor_size": (16, 16)})
+
+
+def test_native_requires_supported_device_and_determinism_contract(monkeypatch):
+    monkeypatch.setattr(ops, "_triton_ops", lambda: pytest.fail("invalid backend should fail before import"))
+    monkeypatch.setattr(torch.cuda, "get_device_capability", lambda device: (7, 5))
+    with pytest.raises(RuntimeError, match="SM80"):
+        ops.require_spline_backend("triton", torch.device("cuda:0"))
+    monkeypatch.setattr(torch.cuda, "get_device_capability", lambda device: (8, 0))
+    monkeypatch.setattr(torch, "are_deterministic_algorithms_enabled", lambda: True)
+    with pytest.raises(RuntimeError, match="deterministic"):
+        ops.require_spline_backend("triton", torch.device("cuda:0"))
+
+
+def test_native_missing_dependency_is_explicit_no_fallback(monkeypatch):
+    real_import = builtins.__import__
+
+    def missing_import(name, globals=None, locals=None, fromlist=(), level=0):
+        if "ops_cuda" in fromlist:
+            raise ModuleNotFoundError("No module named 'triton'", name="triton")
+        return real_import(name, globals, locals, fromlist, level)
+
+    monkeypatch.setattr(builtins, "__import__", missing_import)
+    with pytest.raises(RuntimeError, match="no backend fallback was applied"):
+        ops._triton_ops()
+
+
+def test_native_metadata_validation_does_not_dispatch_kernel(monkeypatch):
+    # CPU stand-in exercises metadata validation, not CUDA kernel execution.
+    monkeypatch.setattr(ops, "require_spline_backend", lambda backend, device: None)
+    monkeypatch.setattr(ops, "_triton_ops", lambda: pytest.fail("invalid input reached kernel dispatch"))
+    projected, source, destination, indices, basis = _case(torch.float32)
+    with pytest.raises(TypeError, match="integer topology"):
+        ops.weighted_spline_sum(projected, source.float(), destination, indices, basis, 7, torch.float32, backend="triton")
+    with pytest.raises(TypeError, match="real floating"):
+        ops.weighted_spline_sum(projected.long(), source, destination, indices, basis, 7, torch.float32, backend="triton")
+    for bad_indices, bad_basis, bad_chunk in ((indices[:, :1], basis, 7), (indices, basis[:, :1], 7), (indices, basis, 0)):
+        with pytest.raises(ValueError, match="shapes or chunk"):
+            ops.weighted_spline_sum(projected, source, destination, bad_indices, bad_basis, bad_chunk, torch.float32, backend="triton")
+
+
+def test_native_higher_order_backward_uses_differentiable_torch_formula(monkeypatch):
+    def fake_native_forward(projected, source, destination, indices, basis, output, chunk):
+        output.copy_(_reference_sum(projected, source, destination, indices, basis, chunk, output.dtype))
+
+    stand_in = SimpleNamespace(
+        spline_forward=fake_native_forward,
+        spline_backward=lambda *args: pytest.fail("native backward cannot provide higher derivatives"),
+    )
+    monkeypatch.setattr(ops, "_triton_ops", lambda: stand_in)
+    projected, source, destination, indices, basis = _case(torch.float64)
+    output = ops._SplineSumTriton.apply(projected, source, destination, indices, basis, 7, torch.float64)
+    first = torch.autograd.grad(output.sum(), projected, create_graph=True)[0]
+    second = torch.autograd.grad(first.sum(), basis)[0]
+    torch.testing.assert_close(second, torch.full_like(basis, projected.shape[2]), atol=0, rtol=0)
+
+
+def test_native_kernels_do_not_specialize_on_node_count_and_always_assert_bounds():
+    # This checks declarations even when the optional CUDA module cannot import.
+    path = Path(ops.__file__).with_name("ops_cuda.py")
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    kernels = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name.endswith("_kernel")]
+    assert len(kernels) == 3
+    for kernel in kernels:
+        parameters = {argument.arg: argument.annotation for argument in kernel.args.args}
+        assert parameters["N"] is None
+        jit = kernel.decorator_list[0]
+        options = {keyword.arg: ast.literal_eval(keyword.value) for keyword in jit.keywords}
+        assert options["debug"] is True
+        assert {"N", "start"}.issubset(options["do_not_specialize"])
+        if "edge_count" in parameters:
+            assert "edge_count" in options["do_not_specialize"]
+        assert any(isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "device_assert" for node in ast.walk(kernel))
+
+
+def _require_native_cuda():
+    if not torch.cuda.is_available():
+        pytest.skip("CUDA unavailable; native kernels have not been exercised on this host")
+    if torch.cuda.get_device_capability()[0] < 8:
+        pytest.skip("Native candidate requires NVIDIA SM80+")
+    if importlib.util.find_spec("triton") is None:
+        pytest.fail("CUDA native-backend tests require Triton; missing dependency is not a passing fallback")
+
+
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64, torch.float16, torch.bfloat16])
+@pytest.mark.parametrize("kind", ["empty", "sparse", "dense", "repeated"])
+@pytest.mark.parametrize("backend", ["torch_fused", "triton"])
+def test_cuda_forward_projected_and_basis_gradients(backend, dtype, kind):
+    if backend == "triton":
+        _require_native_cuda()
+    elif not torch.cuda.is_available():
+        pytest.skip("CUDA unavailable")
+    _parity(backend, dtype, kind, 7, device="cuda", noncontiguous=True)
+
+
+def test_cuda_native_gradcheck_and_higher_order_fallback():
+    _require_native_cuda()
+    _gradchecks("triton", "cuda")
+
+
+@pytest.mark.parametrize("backend", ["torch_fused", "triton"])
+def test_cuda_full_model_amp_training_step_matches_reference(backend):
+    _require_native_cuda() if backend == "triton" else None
+    if not torch.cuda.is_available():
+        pytest.skip("CUDA unavailable")
+    from asgcn_unet.engine import _training_step
+    from asgcn_unet.losses import ReconstructionLoss
+
+    torch.manual_seed(2026)
+    reference = ASGCNUNet().cuda().train()
+    candidate = ASGCNUNet(spline_backend=backend).cuda().train()
+    candidate.load_state_dict(reference.state_dict())
+    index = torch.arange(96, device="cuda")
+    sample = {
+        "events": torch.stack((10 + index % 8, 10 + index // 8, index / 95, index % 2 * 2 - 1), dim=-1).float(),
+        "sensor_size": (240, 320),
+        "target": torch.linspace(0.1, 0.9, 240 * 320, device="cuda").reshape(1, 240, 320),
+        "sample_id": "synthetic-regression/native-parity", "metadata": {},
+    }
+    criterion = ReconstructionLoss()
+    results = []
+    for model in (reference, candidate):
+        optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+        scaler = torch.amp.GradScaler("cuda", init_scale=1.0)
+
+        def closure(model=model):
+            with torch.autocast("cuda", dtype=torch.float16):
+                prediction, diagnostics = model.forward_sample(sample)
+                loss, parts = criterion(prediction, sample["target"].unsqueeze(0))
+            return loss, parts, (prediction, diagnostics)
+
+        with patch.object(optimizer, "step", wraps=optimizer.step) as step:
+            payload, losses, norm, amp = _training_step(
+                model, optimizer, scaler, closure, optimizer_mode="adam", max_norm=1.0,
+                epoch=0, step=0, sample_id=sample["sample_id"],
+            )
+        assert step.call_count == 1 and amp["retries"] == 0
+        assert payload[1]["edges"] > 0
+        assert all(torch.isfinite(parameter.grad).all() for parameter in model.parameters() if parameter.grad is not None)
+        results.append((payload[0].detach(), losses, norm))
+    torch.testing.assert_close(results[0][0], results[1][0], atol=0.005, rtol=0.005)
+    assert results[0][1]["total"] == pytest.approx(results[1][1]["total"], abs=0.005, rel=0.005)
+    for expected, actual in zip(reference.parameters(), candidate.parameters()):
+        assert (expected.grad is None) == (actual.grad is None)
+        if expected.grad is not None:
+            torch.testing.assert_close(actual.grad, expected.grad, atol=0.005, rtol=0.01)
+
+
+def test_cuda_native_selected_device_and_nondefault_stream():
+    _require_native_cuda()
+    device = torch.device("cuda:1" if torch.cuda.device_count() > 1 else "cuda:0")
+    stream = torch.cuda.Stream(device=device)
+    with torch.cuda.stream(stream):
+        _parity("triton", torch.float32, "repeated", 7, device=device, noncontiguous=True)
+    stream.synchronize()
+
+
+def test_cuda_native_varying_graph_sizes_reuse_compiled_kernels(monkeypatch):
+    _require_native_cuda()
+    from asgcn_unet import ops_cuda
+
+    def execute(nodes, edges):
+        projected = torch.randn((nodes, 4, 5), device="cuda", requires_grad=True)
+        source = torch.arange(edges, device="cuda") % nodes
+        destination = (source + 1) % nodes
+        indices = torch.stack((source % 4, (source + 1) % 4), dim=-1)
+        basis = torch.full((edges, 2), 0.5, device="cuda", requires_grad=True)
+        output = ops.weighted_spline_sum(projected, source, destination, indices, basis, 16, torch.float32, backend="triton")
+        output.sum().backward()
+        torch.cuda.synchronize()
+        assert torch.isfinite(output).all() and torch.isfinite(projected.grad).all()
+
+    execute(7, 19)
+    # Test-only instrumentation of the installed Triton JIT, never a production
+    # dependency on its internal cache representation. All tensor strides/dtypes,
+    # fixed K/C, and pointer alignment remain the same as in the warmup.
+    for kernel in (ops_cuda._forward_kernel, ops_cuda._projected_backward_kernel, ops_cuda._basis_backward_kernel):
+        monkeypatch.setattr(kernel, "_do_compile", lambda *args, **kwargs: pytest.fail("Changing graph N/E triggered a new compilation"))
+    execute(8, 37)
+    execute(13, 21)
+    execute(31, 48)
+
+
+@pytest.mark.parametrize("bad_index", ["source", "destination", "basis"])
+def test_cuda_native_invalid_index_fails_even_when_environment_debug_is_disabled(bad_index):
+    _require_native_cuda()
+    # Device assertions can invalidate their CUDA context; isolate them from the
+    # test runner, and require an error rather than accepting silently lost edges.
+    script = f"""
+import torch
+from asgcn_unet.ops import weighted_spline_sum
+p = torch.ones((2, 2, 3), device='cuda', requires_grad=True)
+s = torch.tensor([0], device='cuda')
+d = torch.tensor([1], device='cuda')
+i = torch.tensor([[0, 1]], device='cuda')
+b = torch.ones((1, 2), device='cuda')
+{{'source': s, 'destination': d, 'basis': i}}[{bad_index!r}].fill_(7)
+try:
+    weighted_spline_sum(p, s, d, i, b, 7, torch.float32, backend='triton')
+    torch.cuda.synchronize()
+except RuntimeError as error:
+    if 'device-side assert' not in str(error).lower():
+        raise
+    print('EXPECTED_DEVICE_ASSERT')
+else:
+    raise AssertionError('Invalid native indices were silently accepted')
+"""
+    environment = dict(os.environ, TRITON_DEBUG="0")
+    result = subprocess.run([sys.executable, "-c", script], env=environment, capture_output=True, text=True, timeout=180, check=False)
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "EXPECTED_DEVICE_ASSERT" in result.stdout
+~~~~~~~~
+
 # tests/test_spline_opt.py
 
 ~~~~~~~~python
@@ -35186,6 +37861,59 @@ def test_forward_loss_matches_explicit_per_frame_temporal_mean_and_gradients(bat
     expected.backward()
     torch.testing.assert_close(model.prediction.grad, reference.grad, rtol=0, atol=0)
     assert model.calls == 1
+
+
+@pytest.mark.parametrize("batch_size", [1, 4, 8, 16])
+@pytest.mark.parametrize("all_context", [False, True])
+def test_temporal_full_context_avoids_index_gathers_with_equal_loss_and_gradient(
+    batch_size, all_context
+) -> None:
+    from torch.utils._python_dispatch import TorchDispatchMode
+
+    class IndexCounter(TorchDispatchMode):
+        def __init__(self):
+            super().__init__()
+            self.calls = 0
+
+        def __torch_dispatch__(self, func, types, args=(), kwargs=None):
+            if func == torch.ops.aten.index.Tensor:
+                self.calls += 1
+            return func(*args, **(kwargs or {}))
+
+    torch.manual_seed(7)
+    samples = [_sample(str(i), 1, size=(16, 16), target=i / 16) for i in range(batch_size)]
+    contexts = [
+        (None, torch.rand(1, 1, 16, 16), torch.rand(1, 1, 16, 16))
+        if all_context or i % 2 else (None, None, None)
+        for i in range(batch_size)
+    ]
+    prediction = torch.rand(batch_size, 1, 16, 16)
+    model = _FixedPrediction(prediction)
+    reference = prediction.detach().clone().requires_grad_()
+    criterion = ReconstructionLoss()
+    counter = IndexCounter()
+    with counter:
+        loss, parts, _ = forward_training_loss(
+            model, criterion, samples, contexts, batch_mode=batch_size > 1,
+            amp_enabled=False, temporal_weight=0.7,
+        )
+    valid = [i for i, context in enumerate(contexts) if context[1] is not None]
+    assert counter.calls == (2 if valid and not all_context else 0)
+    target = torch.stack([sample["target"] for sample in samples])
+    expected, _ = criterion(reference, target)
+    if valid:
+        temporal = F.l1_loss(
+            reference[valid] - torch.cat([contexts[i][1] for i in valid]),
+            target[valid] - torch.cat([contexts[i][2] for i in valid]),
+        ) * (len(valid) / len(samples))
+        expected = expected + 0.7 * temporal
+        torch.testing.assert_close(parts["temporal"], temporal, rtol=0, atol=0)
+    else:
+        assert "temporal" not in parts
+    torch.testing.assert_close(loss, expected, rtol=0, atol=0)
+    loss.backward()
+    expected.backward()
+    torch.testing.assert_close(model.prediction.grad, reference.grad, rtol=0, atol=0)
 
 
 def test_whole_batch_amp_retry_commits_once_without_advancing_other_streams() -> None:

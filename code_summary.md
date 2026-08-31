@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-30T16:28:27Z",
+    "generated_utc": "2026-08-31T04:06:08Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "1e3b5cff49d66e5187a34c9229e79e26499e8e0b",
-    "source_tree_at_generation": "03c2f180ea6c63ae6b3f2cdab3844a873ac6d50f",
+    "source_commit_at_generation": "940b3b8a999a49a05535fb6c24ac5fc93a507934",
+    "source_tree_at_generation": "d27d12a6bedc8569dcba318f12f3175ad5ec12c0",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 26187,
+        "bytes": 26801,
         "path": "README.md",
-        "sha256": "064996508d9ccc63eedda8b2cd71652aca8eb2de196546bd70af42d915de7007"
+        "sha256": "98f04d56d037fcb9cd94ed5f7151c0df5cb53f46ca702966ba26fc816eb0b3ce"
       },
       {
         "bytes": 1339,
@@ -81,9 +81,9 @@
         "sha256": "8fc2e10b2ecbb0b4b0f8cdbc350c418dec80e4a434c8df54674aa4f663dd0172"
       },
       {
-        "bytes": 12857,
+        "bytes": 13841,
         "path": "docs/ASGCN.md",
-        "sha256": "c678c5c0a1ddaa26ad7985ed5efdddcfd9f00cc2edf915585681d4d62444048f"
+        "sha256": "0c4defd5e3564c7bb657ad48df6863b95ce815d15da3d4ebeb5f3687a79cbcde"
       },
       {
         "bytes": 27607,
@@ -91,14 +91,19 @@
         "sha256": "0e5ebc3492f732e96dd5d196ccdf7ced28835de6b315a2bf41ed75ec68c24f17"
       },
       {
+        "bytes": 7892,
+        "path": "docs/PERF.md",
+        "sha256": "1b6bb8653a7e8d0ee7f28ad8d2cdc8a80599c91ddc37e9599ace3a05db3c60aa"
+      },
+      {
         "bytes": 32655,
         "path": "docs/SERVER.md",
         "sha256": "c224e7c1a4047fd9779197a1051cc74760cad1551b912387ab133dbb5507461c"
       },
       {
-        "bytes": 66828,
+        "bytes": 67418,
         "path": "hand_off.md",
-        "sha256": "4ef7a5d6027fe26c5bed317079edcf775ce74d825eff6f7bf73e23e2cf131e8b"
+        "sha256": "f1c37c7f04cd3f58a5261b57420475ae55fa53fd838da1729c5dce1fa03550af"
       },
       {
         "bytes": 2753,
@@ -261,9 +266,9 @@
         "sha256": "f24972329942b63591302a82a89fd520211c98d736aedfaddb79771b296d293d"
       },
       {
-        "bytes": 36977,
+        "bytes": 38274,
         "path": "src/asgcn_unet/graph.py",
-        "sha256": "5cec4df7d1198d71bdb269e76b80a63230e73475a9694b5e33eba0faecd4c9bf"
+        "sha256": "590ba92f4a81bf8c476c545f9a09adce82d5f7a00a7098cd630fabb8ffbc455d"
       },
       {
         "bytes": 2863,
@@ -279,6 +284,11 @@
         "bytes": 13508,
         "path": "src/asgcn_unet/model.py",
         "sha256": "fcd5bd70bfb4a5b04fc985ee3289980213a83717c41a191bd937b39eb0d96d45"
+      },
+      {
+        "bytes": 4968,
+        "path": "src/asgcn_unet/ops.py",
+        "sha256": "481aa7c3875e7e29bc44b10f30f07233b32fbdeedb8e50aa345552497944bfed"
       },
       {
         "bytes": 29740,
@@ -306,9 +316,9 @@
         "sha256": "5cb5ebff9b794834a77fd38d6402aab04ce413e7f0d464789f9abbafebe30661"
       },
       {
-        "bytes": 22409,
+        "bytes": 22519,
         "path": "tests/test_asgcn_paper_core.py",
-        "sha256": "ad2754e5d252bdbdceb318db797e5ca937d9588e18d1970caf01211d79676a96"
+        "sha256": "6edfdc829b7772d611db072b35d227bc7b60e7539970fcba6c48c9a7e1e022d6"
       },
       {
         "bytes": 7846,
@@ -369,6 +379,11 @@
         "bytes": 10637,
         "path": "tests/test_gpu_preflight.py",
         "sha256": "2e0735e9c203fe5d484e9668bba2a5c86461927e9fbd1b9cadcf2b81c8fe4335"
+      },
+      {
+        "bytes": 8399,
+        "path": "tests/test_graph_opt.py",
+        "sha256": "36aa9ad433bd87ef24bb597968c7e2f9d8fa57a439a4f2766c6001c38a1c2974"
       },
       {
         "bytes": 1878,
@@ -436,6 +451,16 @@
         "sha256": "0efc9d2cd0405de6b3979c88b88043c4386119c53459c2578e569ec00538d207"
       },
       {
+        "bytes": 11827,
+        "path": "tests/test_snn_opt.py",
+        "sha256": "6717f6888bcad0e1f51f380c54f4603ff5ecb27b8541c8c5a8a91e54179899d5"
+      },
+      {
+        "bytes": 13008,
+        "path": "tests/test_spline_opt.py",
+        "sha256": "4cdcd1e4d21136d71d1454dd9a99081febe81ff1af6b060bcd3d701e9782d7ae"
+      },
+      {
         "bytes": 1176,
         "path": "tests/test_temporal_metric.py",
         "sha256": "606b9d6097b82bca902993e18153d1e424f0332e4d064e33374ef50c72cbc1e2"
@@ -446,9 +471,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 86,
+    "included_file_count": 91,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "5352f9b90e73e3c51e3544242da52734a71bbd7f25694c2961d16fc936895af6"
+    "snapshot_sha256": "8ac37dd26cc29ae3145a6f8231859aa8cc90a39bc81dd506ea46e4e264445d1b"
   }
 }
 -->
@@ -853,6 +878,14 @@ SNN 변환 대상은 graph encoder다. residual U-Net과 ConvGRU decoder는 ANN/
 제어하기 위해 한 frame의 crop 후 event가 8,192개를 넘으면 시작·끝을 보존하는 균일 index로 정확히
 8,192개를 선택한다. 이는 ASGCN 논문의 고정 sampling factor `R`과 구분해 결과 metadata에 기록되는
 복원 시스템용 안전 제한이다.
+
+### 연산 최적화
+
+graph candidate 확장·edge compaction의 중복을 줄이고, Spline 집계에는 edge-message 전체를
+역전파까지 보관하지 않는 custom autograd를 적용했다. SNN의 고정 첫 계층 전류는 forward당 한 번만
+계산한다. graph·모델·sampling·학습 범위는 유지하며 기존 실행 명령도 같다. 출력·gradient 검증과
+CPU 측정, 아직 측정하지 않은 GPU 성능의 구분은 [성능 기록](docs/PERF.md)에 정리했다.
+새 source에는 새 CUDA preflight가 필요하며 기존 checkpoint의 exact-resume 검사를 우회하지 않는다.
 
 ## 데이터와 실험 역할
 
@@ -2018,8 +2051,18 @@ spline 값을 바꾸지 않는다. 구현은 순수 PyTorch라 `torch-spline-con
 
 `EventGraph`의 destination incoming degree도 graph 생성 시 한 번 계산해 모든 layer와 IF timestep이
 공유한다. 기본 `spline_chunk_size=65536`은 최대 2,000,000개 edge의 message gather를 고정 크기
-chunk로 나눠 peak memory를 제한한다. chunk마다 같은 순서로 `index_add_`하므로 neighbor나 edge를
-줄이는 근사가 아니며, chunked/unchunked 출력과 gradient 동등성을 회귀검사한다.
+chunk로 나눈다. `ops.py`의 custom autograd는 forward 중 각 chunk의 `[edges,Cout]` message를
+역전파용으로 모두 보관하지 않는다. backward는 destination derivative를 chunk당 한 번 gather해
+두 basis 항에 재사용하고 node projection gradient에 직접 누적한다. basis gradient가 필요한 경우만
+node projection을 추가 보관한다. degree normalization과 node matrix projection의 autograd는 유지한다.
+이는 graph·neighbor·edge를 줄이는 근사가 아니며, forward의 basis-major 누적 순서를 유지한다.
+backward의 누적 순서는 달라질 수 있어 gradient는 dtype별 허용 오차로 검사한다. double backward도
+검사하지만, 그때 생성되는 고차 미분 graph까지 같은 메모리 상한을 주장하지는 않는다.
+
+SNN은 첫 layer의 analog event input과 graph가 모든 timestep에서 고정이므로 첫 affine current를
+forward당 한 번 계산한다. 각 layer의 실제 integration dtype에 맞춘 threshold도 재사용하고,
+zero-valued spike branch는 scalar로 처리한다. 두 dynamics와 soft reset, timestep 수는 그대로다.
+측정 조건과 결과는 [PERF.md](PERF.md)를 따른다.
 
 weight 초기화 bound는 `1/sqrt(K*Cin)`, root bound는 `1/sqrt(Cin)`으로 고정했다. open degree 1,
 scalar pseudo-coordinate, mean aggregation, root weight와 bias 범위에서만 구현·테스트했으며 이를
@@ -2485,6 +2528,118 @@ validation 완료 여부와 epoch를 봉인한다. 40 epoch 최종 평가를 이
 - file coverage/HDF5·ZIP decode 실패, non-finite loss/metric, 비단조 timestamp, 좌표 범위 오류,
   `max_graph_edges` 초과 또는 OOM이 발생하면 해당 sample을 조용히 제외하지 말고 run을 폐기해 원인과
   설정을 고친 뒤 새 artifact로 실행한다.
+~~~~~~~~
+
+# docs/PERF.md
+
+~~~~~~~~markdown
+# Graph encoder 최적화 검증
+
+2026-08-31. 비교 기준은 변경 전 commit `0eae40f`의 graph 구현이다. 모델 구조, parameter/state-dict
+key, 두 SNN dynamics, 전체 데이터 범위, 8,192-event 제한과 40 epoch는 변경하지 않았다.
+이 문서의 CPU 연산 측정은 학습된 모델의 품질 평가, 전체 pipeline 처리량 또는 GPU 실측이 아니다.
+
+## 변경한 연산
+
+1. **Radius graph:** valid/nonempty cell의 반복 boolean compaction을 zero-count masking으로 대체하고,
+   candidate group을 한 번 확장해 source/destination을 구한다. retained edge index를 한 번만 만들어
+   source, destination, distance에 재사용한다. topology scan은 고정 크기 integer scatter로 degree를
+   누적하고 마지막에 통계를 한 번 전송한다. strict `< radius`, directed edge, 출력 정렬과 edge guard는
+   유지한다. 입력 검증과 candidate 수 확인, variable-size edge compaction의 동기화가 모두 없어진 것은 아니다.
+2. **Spline:** 기존 eager autograd는 chunk를 순회하더라도 두 basis의 `[E,Cout]` message를 역전파까지
+   저장했다. `ops.py`는 topology·scalar basis를 저장하고 backward에서 chunk별 destination derivative를
+   한 번 gather해 두 항에 재사용한다. node projection gradient는 직접 누적하고 basis derivative에
+   필요한 경우만 node projection을 추가 저장한다. 학습 gradient를 detach하거나 생략하지 않는다.
+3. **SNN:** 고정 analog input에 대한 첫 layer affine 호출을 `T`회에서 1회로 줄였다. threshold
+   conversion을 재사용하고 spike의 zero branch에서 `[N,C]` zero tensor를 매번 할당하지 않는다.
+   membrane·spike recurrence와 soft reset은 유지한다.
+
+별도 C++/CUDA extension이나 compiler 의존성은 추가하지 않았다. 기존 PyTorch native tensor 연산의
+구성과 autograd 저장 방식을 변경한 것이다. 새 CUDA kernel을 구현·검증했다고 주장하지 않는다.
+
+## 검증 조건과 경계
+
+- Windows CPU, PyTorch `2.13.0+cpu`; 연산 시간 비교는 `torch.set_num_threads(1)`.
+- old/new는 같은 입력과 parameter state를 사용한다. 시간은 warmup 후 순서를 교차한 반복 측정의 중앙값.
+- GPU 장비가 없어 CUDA FP32/FP16/BF16 동등성·지연시간·peak VRAM은 여기서 확인하지 못했다.
+- floating-point reduction 순서는 backward에서 달라질 수 있다. FP32/FP64 gradient는 수치 허용 오차로,
+  CPU bfloat16은 dtype의 반올림 오차를 허용해 비교했다. CPU bfloat16 테스트에서 최대 absolute gradient
+  차이 `0.0078125`를 관찰했다. bitwise 동일한 학습 trajectory를 주장하지 않는다.
+- forward의 basis-major 누적 순서는 유지했고 CPU 비교에서 forward가 일치했다. SNN은 timestep별 spike,
+  firing rate, 임계점 및 바로 인접한 float 경계까지 기존 loop와 비교했다.
+- 첫·두 번째 미분을 `gradcheck`/`gradgradcheck`로 검사했다. 고차 미분 graph의 메모리까지 ordinary
+  backward와 동일한 상한으로 제한된다는 주장은 하지 않는다.
+
+## 연산 단위 측정
+
+아래 두 시간 측정은 고정 seed로 생성한 연산 입력이다. production dataset이나 학습 sample을
+대체하지 않으며, 실제 데이터 성능으로 해석하지 않는다.
+
+| 대상 | 변경 전 | 변경 후 | 조건 |
+|---|---:|---:|---|
+| sparse radius graph 생성 | 58.208 ms | 51.270 ms | N=8,192, 3D, radius=0.08, chunk=512 |
+| 동일 graph topology scan | 47.338 ms | 41.600 ms | 동일 입력 |
+| SNN standard IF, T=32 | 212.333 ms | 181.860 ms | N=512, E=8,192, C=32, 6 layers; warmup 후 7회 |
+
+Spline의 **역전파용 고유 저장 tensor storage**는 N=1,024 / E=65,536 / K=5 / Cin=Cout=64 /
+chunk=8,192 / FP32 / basis gradient off 조건에서 **36,524,032 → 2,969,600 bytes**로 약 91.9% 감소했다.
+같은 underlying storage를 공유하는 view는 한 번만 센 값이며 process RAM이나 peak VRAM이 아니다.
+node projection, graph와 다른 layer의 allocation이 있으므로 전체 모델 메모리가 같은 비율로 줄지는 않는다.
+
+## 실제 EventHDR 입력 측정
+
+공식 `26.h5`와 `38.h5`의 dataset index 100 (`image000000100`)을 read-only로 읽었다. 입력은 full-frame
+240×320이며 기본 event 제한 8,192를 유지했다. 각각 N=2,109/E=58,834와 N=8,192/E=210,200이다.
+38.h5의 원래 interval event 9,266개에서 8,192개를 선택하는 기존 sampling도 변경하지 않았다.
+
+seed=2026, hidden=64, graph layers=6, spline K=5/chunk=65,536, graph radius=0.08/chunk=512. 같은 초기
+parameter state와 입력을 사용했다. ANN은 train mode에서 `output.square().mean().backward()`를 실행하고
+매번 parameter gradient를 초기화했다. input feature/position에는 gradient를 요청하지 않았다.
+SNN은 별도로 초기화한 encoder의 선택된 실제 frame activation으로 normalization한 동일 state를
+`no_grad`로 실행했다. 이는 timing용 state이며 전체 calibration을 완료한 checkpoint가 아니다.
+각 구현 1회 warmup 후 old/new 순서를 교차한 각 5회 측정의 중앙값이다. 데이터 로딩과 U-Net, optimizer step,
+metric·전송 시간은 포함하지 않는다. **학습된 복원 모델이나 전체 실험 성능이 아닌 graph encoder 측정**이다.
+
+| 연산 / 실제 입력 | 변경 전 | 변경 후 |
+|---|---:|---:|
+| radius graph / 26.h5 | 17.280 ms | 14.992 ms |
+| radius graph / 38.h5 | 68.817 ms | 61.029 ms |
+| ANN encoder forward+backward / 26.h5 | 168.506 ms | 173.512 ms |
+| ANN encoder forward+backward / 38.h5 | 675.631 ms | 571.890 ms |
+| SNN literal Eq15 T=16 / 26.h5 | 1,723.525 ms | 1,283.198 ms |
+| SNN literal Eq15 T=16 / 38.h5 | 5,400.837 ms | 4,686.728 ms |
+| SNN standard IF T=16 / 26.h5 | 1,500.482 ms | 1,284.872 ms |
+| SNN standard IF T=16 / 38.h5 | 5,381.739 ms | 4,679.053 ms |
+
+26.h5의 ANN 중앙값은 약 3.0% 느려졌다. 반복 범위도 old 160.9–174.6 ms/new 157.1–178.8 ms로 겹쳤다.
+모든 입력에서 latency가 개선됐다고 주장하지 않는다. 해당 sample에서도 저장 메모리는 크게 줄었고,
+더 큰 38.h5 graph의 ANN 중앙값은 약 15.4% 짧아졌다. 전체 데이터 분포/GPU에서의 trade-off는 별도 측정 대상이다.
+
+| ANN encoder의 역전파용 고유 저장 tensor storage | 변경 전 | 변경 후 |
+|---|---:|---:|
+| 26.h5 입력 | 190,153,816 bytes | 9,415,768 bytes |
+| 38.h5 입력 | 680,135,104 bytes | 34,400,704 bytes |
+
+shared view 중복을 제외하되 saved parameter/graph storage를 포함한 값이다. process peak RAM/VRAM은
+아니며 backward working buffer는 별도다. 두 입력 모두 ANN forward와 graph가 일치했고, parameter
+gradient의 최대 absolute 차이는 각각 `1.49e-8`, `1.86e-8`이었다. 두 SNN dynamics의 출력과 발화율도
+기존 loop와 일치했다. 작은 표본의 수치·시간 비교가 전체 학습 trajectory 동등성을 입증하지는 않는다.
+
+## 회귀검사
+
+```bash
+python -m pytest -q tests/test_graph_opt.py tests/test_spline_opt.py tests/test_snn_opt.py
+```
+
+각 test의 이전 연산은 독립적인 동등성 기준이며 production backend나 대체 dataset으로 사용되지 않는다.
+전체 suite는 **860 passed, 35 skipped**였다. skip은 Linux 전용 shell test 22개, Windows symlink 권한
+관련 5개와 CUDA 의존 검사 8개다. Ruff와 `git diff --check`도 통과했다.
+
+## 기존 실험과의 관계
+
+실행 명령과 config는 그대로다. 기존 profile/checkpoint의 source contract는 이전 소스를 기록하므로
+새 소스에서 exact-resume를 강제하거나 검사 값을 수동 변경하지 않는다. 기존 결과는 보존하고 새
+preflight 및 실험 lineage로 측정한다. 이 최적화 검증은 전체 학습·전체 평가를 대신하지 않는다.
 ~~~~~~~~
 
 # docs/SERVER.md
@@ -3055,6 +3210,12 @@ bash scripts/run.sh eval
 구현과 일치하도록 다시 대조했다.
 
 ## 0. 검증 기록과 배포 판정 기준
+
+2026-08-31 연산 최적화에서는 radius candidate 확장/compaction, Spline custom autograd의 저장
+tensor 메모리와 SNN 고정 첫 layer 계산을 개선했다. 기존 모델·config·sampling·전체 실험 범위는
+변경하지 않았다. 전체 CPU 회귀검사는 **860 passed, 35 skipped**이며 수치·시간·저장 메모리 검증과
+GPU 미검증 범위는 [PERF.md](docs/PERF.md)를 따른다. C++/CUDA extension을 새로 구현한 것은 아니다.
+새 source contract가 적용되므로 이전 profile/checkpoint의 exact-resume 보호를 우회하지 않는다.
 
 이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
 설치와 실험 절차는 README를 기준으로 하며, 배포 검증은 해당 commit의 CI와 아래 release gate로
@@ -15174,6 +15335,8 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
+from .ops import weighted_spline_sum
+
 PAPER_CORE_VERSION = 2
 
 
@@ -15324,31 +15487,31 @@ def _radius_graph_candidate_chunks(
     effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
     for start in range(0, count, effective_chunk_size):
         stop = min(start + effective_chunk_size, count)
-        local_sources = torch.arange(start, stop, device=device, dtype=torch.long)
         neighbor_cells = cells[start:stop, None, :] + offsets[None, :, :]
         valid_cells = ((neighbor_cells >= 0) & (neighbor_cells < cells_per_axis)).all(dim=2)
-        neighbor_hashes = (neighbor_cells * strides).sum(dim=2)
-        candidate_sources = local_sources[:, None].expand_as(neighbor_hashes)[valid_cells]
-        candidate_hashes = neighbor_hashes[valid_cells]
-        left = torch.searchsorted(sorted_hash, candidate_hashes, right=False)
-        right = torch.searchsorted(sorted_hash, candidate_hashes, right=True)
-        counts = right - left
-        nonempty = counts > 0
-        if not bool(nonempty.any()):
-            continue
-        candidate_sources = candidate_sources[nonempty]
-        left = left[nonempty]
-        counts = counts[nonempty]
+        neighbor_hashes = (neighbor_cells * strides).sum(dim=2).flatten()
+        left = torch.searchsorted(sorted_hash, neighbor_hashes, right=False)
+        right = torch.searchsorted(sorted_hash, neighbor_hashes, right=True)
+        # Keep a fixed-size source/cell table: repeat_interleave already accepts
+        # zero counts. Compacting valid/nonempty cells first adds five boolean
+        # index operations (and their CUDA synchronization) without changing any
+        # candidates. Mask invalid cells because their hashes may alias valid ones.
+        counts = (right - left).masked_fill_(~valid_cells.flatten(), 0)
         candidate_count = int(counts.sum().item())
-        expanded_sources = torch.repeat_interleave(
-            candidate_sources, counts, output_size=candidate_count
-        )
-        expanded_left = torch.repeat_interleave(left, counts, output_size=candidate_count)
         starts = counts.cumsum(0) - counts
-        within_group = torch.arange(candidate_count, device=device) - torch.repeat_interleave(
-            starts, counts, output_size=candidate_count
+        groups = torch.repeat_interleave(
+            torch.arange(counts.numel(), device=device), counts, output_size=candidate_count
         )
-        candidate_destinations = sorted_nodes[expanded_left + within_group]
+        expanded_sources = groups.div(offsets.shape[0], rounding_mode="floor") + start
+        # Expand the group identity once rather than repeating sources, left
+        # boundaries and cumulative counts into three candidate-sized tensors.
+        destination_offsets = (left - starts)[groups] + torch.arange(
+            candidate_count, device=device
+        )
+        candidate_destinations = sorted_nodes[destination_offsets]
+        # A generator retains its locals while the caller filters/materializes
+        # edges. Release candidate-sized integer scratch before yielding.
+        del groups, destination_offsets
         candidate_distances = torch.linalg.vector_norm(
             coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
         )
@@ -15396,7 +15559,10 @@ def build_radius_graph(
         within_radius = (expanded_sources != candidate_destinations) & (
             candidate_distances < radius
         )
-        chunk_edge_count = int(within_radius.sum().item())
+        # One compaction serves all three tensors. Tensor shape metadata supplies
+        # the retained count without an additional scalar reduction/.item().
+        kept = torch.nonzero(within_radius, as_tuple=True)[0]
+        chunk_edge_count = kept.numel()
         if (
             max_edges is not None
             and retained_edge_count + chunk_edge_count > max_edges
@@ -15410,9 +15576,9 @@ def build_radius_graph(
         if chunk_edge_count == 0:
             continue
         retained_edge_count += chunk_edge_count
-        sources.append(expanded_sources[within_radius])
-        destination_chunks.append(candidate_destinations[within_radius])
-        distances_kept.append(candidate_distances[within_radius])
+        sources.append(expanded_sources.index_select(0, kept))
+        destination_chunks.append(candidate_destinations.index_select(0, kept))
+        distances_kept.append(candidate_distances.index_select(0, kept))
 
     if not sources:
         return (
@@ -15447,7 +15613,6 @@ def radius_graph_topology(
     count = int(positions.shape[0])
     in_degree = torch.zeros(count, device=positions.device, dtype=torch.long)
     candidate_count = 0
-    edge_count = 0
     radius = float(radius)
     for expanded_sources, candidate_destinations, candidate_distances in (
         _radius_graph_candidate_chunks(
@@ -15458,21 +15623,26 @@ def radius_graph_topology(
         )
     ):
         nonself = expanded_sources != candidate_destinations
-        candidate_count += int(nonself.sum().item())
+        # Every source appears in exactly one chunk and its own cell contributes
+        # exactly one self-pair, including coincident but distinct event nodes.
+        # Deduct those N pairs once after summing allocation sizes on the host.
+        candidate_count += candidate_destinations.numel()
         within_radius = nonself & (candidate_distances < radius)
-        chunk_edge_count = int(within_radius.sum().item())
-        edge_count += chunk_edge_count
-        if chunk_edge_count:
-            in_degree.add_(
-                torch.bincount(candidate_destinations[within_radius], minlength=count)
-            )
+        # Fixed-shape integer scatter avoids per-chunk nonzero compaction,
+        # bincount output-size discovery and scalar synchronizations on CUDA.
+        in_degree.index_add_(0, candidate_destinations, within_radius.to(torch.long))
 
-    isolated_nodes = int((in_degree == 0).sum().item()) if count else 0
+    if count:
+        edge_count, max_degree, isolated_nodes = torch.stack(
+            (in_degree.sum(), in_degree.max(), (in_degree == 0).sum())
+        ).tolist()
+    else:
+        edge_count = max_degree = isolated_nodes = 0
     return {
         "nodes": count,
-        "candidate_directed_edges": candidate_count,
+        "candidate_directed_edges": candidate_count - count,
         "actual_directed_edges": edge_count,
-        "max_degree": int(in_degree.max().item()) if count else 0,
+        "max_degree": max_degree,
         "isolated_nodes": isolated_nodes,
         "isolate_ratio": isolated_nodes / count if count else 0.0,
     }
@@ -15692,23 +15862,9 @@ class PaperSplineConv(nn.Module):
             projected = torch.einsum("ni,kio->nko", x, self.weight)
             edge_count = int(source.numel())
             chunk_size = edge_count if self.edge_chunk_size is None else self.edge_chunk_size
-            for active_basis in range(2):
-                for start in range(0, edge_count, chunk_size):
-                    stop = min(start + chunk_size, edge_count)
-                    messages = projected[
-                        source[start:stop], indices[start:stop, active_basis]
-                    ]
-                    messages = messages * basis[start:stop, active_basis, None].to(
-                        messages.dtype
-                    )
-                    # CPU autocast can produce bfloat16 projections while ``x``
-                    # (and therefore ``output``) remains float32. ``index_add_``
-                    # requires matching dtypes, so accumulate in the output dtype.
-                    output.index_add_(
-                        0,
-                        destination[start:stop],
-                        messages.to(output.dtype),
-                    )
+            output = weighted_spline_sum(
+                projected, source, destination, indices, basis, chunk_size, x.dtype
+            )
             if in_degree is None:
                 in_degree = torch.bincount(destination, minlength=x.shape[0])
             if in_degree.shape != (x.shape[0],):
@@ -15929,16 +16085,33 @@ class ASGCNEncoder(nn.Module):
         )
         active_counts = [graph.node_features.new_zeros(()) for _ in self.layers]
         basis_cache = self._basis_cache(graph)
+        # The analog event features and topology are constant for all IF steps.
+        # ``affine`` has no BatchNorm/dropout state updates, so its first-layer
+        # current can be reused without changing the recurrence or autograd.
+        first_current = self.layers[0].affine(
+            graph.node_features,
+            graph.edge_index,
+            graph.edge_attr,
+            basis_cache,
+            graph.in_degree,
+        )
+        # Resolve conversions against each layer's actual integration dtype, not
+        # the input dtype: autocast plus a float32 bias can promote the current.
+        thresholds: list[torch.Tensor | None] = [None for _ in self.layers]
 
         for _ in range(simulation_steps):
             hidden = graph.node_features
             for index, layer in enumerate(self.layers):
-                current = layer.affine(
-                    hidden,
-                    graph.edge_index,
-                    graph.edge_attr,
-                    basis_cache,
-                    graph.in_degree,
+                current = (
+                    first_current
+                    if index == 0
+                    else layer.affine(
+                        hidden,
+                        graph.edge_index,
+                        graph.edge_attr,
+                        basis_cache,
+                        graph.in_degree,
+                    )
                 )
                 integrated = membranes[index] + current
                 if previous_spikes is not None:
@@ -15946,16 +16119,21 @@ class ASGCNEncoder(nn.Module):
                     # intentionally separate from the standard rate-conversion IF
                     # control because the paper does not resolve their mismatch.
                     integrated = integrated + previous_spikes[index]
-                threshold = layer.threshold.to(integrated).expand_as(integrated)
-                spikes = torch.where(
-                    integrated >= threshold, threshold, torch.zeros_like(integrated)
-                )
+                threshold = thresholds[index]
+                if threshold is None:
+                    threshold = layer.threshold.to(integrated).expand_as(integrated)
+                    thresholds[index] = threshold
+                # A scalar zero avoids allocating a full node/channel tensor on
+                # every layer/step while preserving threshold-valued spikes.
+                spikes = torch.where(integrated >= threshold, threshold, 0.0)
                 membranes[index] = integrated - spikes
                 if previous_spikes is not None:
                     previous_spikes[index] = spikes
                 if index == len(self.layers) - 1:
                     output_spike_sum = output_spike_sum + spikes
-                active_counts[index] = active_counts[index] + (spikes != 0).sum()
+                # Counts are non-differentiable statistics, unlike membrane and
+                # spike tensors; updating only these scalar accumulators is safe.
+                active_counts[index].add_((spikes != 0).sum())
                 hidden = spikes
 
         firing_rates = [
@@ -16647,6 +16825,124 @@ class ASGCNUNet(nn.Module):
             }
         )
         return summary
+~~~~~~~~
+
+# src/asgcn_unet/ops.py
+
+~~~~~~~~python
+"""Memory-bounded tensor operations used by the graph encoder."""
+
+from __future__ import annotations
+
+import torch
+
+
+class _SplineSum(torch.autograd.Function):
+    """Gather, weight and scatter without retaining an E-by-C tensor per basis.
+
+    Projection remains outside this Function so PyTorch supplies its matrix-product
+    derivatives. Ordinary backward only needs topology and scalar basis weights;
+    projected node features are saved only when basis derivatives are requested.
+    Backward uses differentiable tensor operations to also support double backward.
+    """
+
+    @staticmethod
+    def forward(
+        ctx,
+        projected: torch.Tensor,
+        source: torch.Tensor,
+        destination: torch.Tensor,
+        indices: torch.Tensor,
+        basis: torch.Tensor,
+        chunk_size: int,
+        output_dtype: torch.dtype,
+    ) -> torch.Tensor:
+        ctx.projected_shape = projected.shape
+        ctx.projected_dtype = projected.dtype
+        ctx.chunk_size = chunk_size
+        # Do not retain N*K*C projections when only their derivative is needed.
+        saved = (source, destination, indices, basis)
+        if ctx.needs_input_grad[4]:
+            saved += (projected,)
+        ctx.save_for_backward(*saved)
+        output = torch.zeros(
+            (projected.shape[0], projected.shape[2]),
+            dtype=output_dtype,
+            device=projected.device,
+        )
+        edge_count = source.numel()
+        # Preserve the reference's basis-major accumulation and AMP cast order.
+        for active_basis in range(2):
+            for start in range(0, edge_count, chunk_size):
+                stop = min(start + chunk_size, edge_count)
+                values = projected[source[start:stop], indices[start:stop, active_basis]]
+                messages = values * basis[start:stop, active_basis, None].to(values.dtype)
+                output.index_add_(0, destination[start:stop], messages.to(output_dtype))
+        return output
+
+    @staticmethod
+    def backward(ctx, grad_output: torch.Tensor):
+        source, destination, indices, basis, *saved_projection = ctx.saved_tensors
+        node_count, kernel_size, channels = ctx.projected_shape
+        projected_dtype = ctx.projected_dtype
+        grad_projected = (
+            torch.zeros(
+                (node_count, kernel_size, channels),
+                device=grad_output.device,
+                dtype=projected_dtype,
+            )
+            if ctx.needs_input_grad[0]
+            else None
+        )
+        grad_basis = torch.zeros_like(basis) if ctx.needs_input_grad[4] else None
+        edge_count = source.numel()
+        for start in range(0, edge_count, ctx.chunk_size):
+            stop = min(start + ctx.chunk_size, edge_count)
+            local_source = source[start:stop]
+            # Both basis terms use the same destination derivative. Gather it
+            # once per chunk, rather than materializing it twice per edge.
+            grad_messages = grad_output[destination[start:stop]].to(projected_dtype)
+            for active_basis in range(2):
+                local_basis = indices[start:stop, active_basis]
+                # Forward casts each message to output_dtype before index_add_.
+                # Its derivative must cast back before multiplying/reducing.
+                if grad_projected is not None:
+                    weighted = grad_messages * basis[start:stop, active_basis, None].to(
+                        projected_dtype
+                    )
+                    # This is the derivative of the original two-index gather.
+                    # Accumulate directly into N*K*C rather than flattening row
+                    # indices and constructing a full-sized gradient per chunk.
+                    grad_projected.index_put_(
+                        (local_source, local_basis), weighted, accumulate=True
+                    )
+                if grad_basis is not None:
+                    values = saved_projection[0][local_source, local_basis]
+                    grad_basis[start:stop, active_basis] = (grad_messages * values).sum(
+                        dim=-1
+                    ).to(basis.dtype)
+        return grad_projected, None, None, None, grad_basis, None, None
+
+
+def weighted_spline_sum(
+    projected: torch.Tensor,
+    source: torch.Tensor,
+    destination: torch.Tensor,
+    indices: torch.Tensor,
+    basis: torch.Tensor,
+    chunk_size: int,
+    output_dtype: torch.dtype,
+) -> torch.Tensor:
+    """Sum the two active degree-1 spline terms into destination node features.
+
+    The caller validates topology/basis and performs degree normalization. The
+    configured chunk size bounds edge-message working storage, not the node
+    projections or the complete graph. Higher-order backward can retain its own
+    graph and therefore does not have the ordinary-backward memory bound.
+    """
+    return _SplineSum.apply(
+        projected, source, destination, indices, basis, chunk_size, output_dtype
+    )
 ~~~~~~~~
 
 # src/asgcn_unet/preflight.py
@@ -18168,16 +18464,19 @@ def test_explicit_if_uses_half_threshold_initialization_and_threshold_spikes() -
 
 def test_explicit_if_loop_keeps_soft_reset_residual() -> None:
     encoder = _normalized_single_layer_encoder()
-    currents = [torch.tensor([[0.8]]), torch.tensor([[-0.2]])]
+    current = torch.tensor([[0.8]])
 
-    with patch.object(encoder.layers[0], "affine", side_effect=currents) as affine:
-        output, firing_rates = encoder.forward_snn(_single_node_graph(), simulation_steps=2)
+    with patch.object(encoder.layers[0], "affine", return_value=current) as affine:
+        output, firing_rates = encoder.forward_snn(
+            _single_node_graph(), simulation_steps=2, dynamics="standard_if"
+        )
 
-    # t1: 0.5+0.8 -> spike, residual 0.3. t2: 0.3-0.2+previous spike -> spike.
-    # A hard reset to zero would not fire at t2.
+    # A static input produces the same affine current on every step, now cached.
+    # t1: 0.5+0.8 -> spike, residual 0.3. t2: 0.3+0.8 -> another spike.
+    # Standard IF with a hard reset to zero would not fire at t2.
     torch.testing.assert_close(output, torch.tensor([[1.0]]))
     torch.testing.assert_close(firing_rates[0], torch.tensor(1.0))
-    assert affine.call_count == 2
+    assert affine.call_count == 1
 
 
 def test_snn_reuses_one_spline_basis_across_all_timesteps() -> None:
@@ -22304,6 +22603,205 @@ def test_cli_nonreporting_bypass_is_warned_and_embedded_in_training_config(
         "bypassed_non_reporting"
     )
     assert "WARNING" in capsys.readouterr().err
+~~~~~~~~
+
+# tests/test_graph_opt.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import pytest
+import torch
+
+from asgcn_unet.graph import build_radius_graph, radius_graph_topology
+
+
+def _pairwise_reference(
+    positions: torch.Tensor, radius: float, dimensions: int
+) -> tuple[torch.Tensor, torch.Tensor, dict[str, int | float]]:
+    """Independent dense oracle, only for small regression-test graphs."""
+    count = positions.shape[0]
+    coordinates = positions[:, :dimensions]
+    difference = coordinates[:, None] - coordinates[None, :]
+    distance = torch.linalg.vector_norm(difference, dim=-1)
+    nonself = ~torch.eye(count, dtype=torch.bool, device=positions.device)
+    retained = nonself & (distance < radius)
+    edges = retained.nonzero().t().contiguous()
+    attributes = (distance[retained] / radius).clamp(0, 1).unsqueeze(-1)
+    cells = torch.floor(coordinates / radius).to(torch.long)
+    adjacent = ((cells[:, None] - cells[None, :]).abs() <= 1).all(-1)
+    degree = retained.sum(0)
+    isolated = int((degree == 0).sum()) if count else 0
+    topology = {
+        "nodes": count,
+        "candidate_directed_edges": int((adjacent & nonself).sum()),
+        "actual_directed_edges": int(retained.sum()),
+        "max_degree": int(degree.max()) if count else 0,
+        "isolated_nodes": isolated,
+        "isolate_ratio": isolated / count if count else 0.0,
+    }
+    return edges, attributes, topology
+
+
+@pytest.mark.parametrize("dimensions", [1, 2, 3, 4])
+@pytest.mark.parametrize("chunk_size", [1, 7, 512])
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64])
+def test_exact_radius_graph_and_topology_match_dense_oracle(
+    dimensions: int, chunk_size: int, dtype: torch.dtype
+) -> None:
+    positions = torch.rand(
+        (31, 4), generator=torch.Generator().manual_seed(1603), dtype=dtype
+    )
+    # Include boundary cells and distinct nodes at an identical position. Invalid
+    # neighbor-cell hashes can alias occupied cells unless their counts are masked.
+    positions[0].zero_()
+    positions[1].fill_(1)
+    positions[2] = positions[0]
+    radius = 0.25
+    expected_edges, expected_attributes, expected_topology = _pairwise_reference(
+        positions, radius, dimensions
+    )
+    edges, attributes = build_radius_graph(
+        positions, radius, position_dims=dimensions, chunk_size=chunk_size
+    )
+    assert torch.equal(edges, expected_edges)
+    torch.testing.assert_close(attributes, expected_attributes, rtol=0, atol=0)
+    assert attributes.dtype == dtype
+    assert attributes.device == positions.device
+    assert radius_graph_topology(
+        positions, radius, position_dims=dimensions, chunk_size=chunk_size
+    ) == expected_topology
+
+
+@pytest.mark.parametrize("count", [0, 1])
+def test_empty_and_singleton_graphs_have_no_edges_or_candidates(count: int) -> None:
+    positions = torch.zeros((count, 4), dtype=torch.float64)
+    edges, attributes = build_radius_graph(positions, 0.08, chunk_size=1)
+    assert edges.shape == (2, 0)
+    assert attributes.shape == (0, 1)
+    assert attributes.dtype == positions.dtype
+    assert radius_graph_topology(positions, 0.08, chunk_size=1) == {
+        "nodes": count,
+        "candidate_directed_edges": 0,
+        "actual_directed_edges": 0,
+        "max_degree": 0,
+        "isolated_nodes": count,
+        "isolate_ratio": float(count),
+    }
+
+
+@pytest.mark.parametrize("radius", [0.25, 1.0, 2.0])
+def test_coincident_nodes_are_distinct_directed_neighbors(radius: float) -> None:
+    positions = torch.full((13, 4), 0.5)
+    edges, attributes = build_radius_graph(positions, radius, chunk_size=5)
+    assert edges.shape[1] == 13 * 12
+    assert torch.count_nonzero(attributes) == 0
+    assert torch.all(edges[0] != edges[1])
+    topology = radius_graph_topology(positions, radius, chunk_size=5)
+    assert topology["candidate_directed_edges"] == 13 * 12
+    assert topology["actual_directed_edges"] == 13 * 12
+    assert topology["max_degree"] == 12
+    assert topology["isolated_nodes"] == 0
+
+
+def test_radius_boundary_remains_strict_without_rounding_approximation() -> None:
+    radius = 0.25
+    exact = torch.tensor(radius, dtype=torch.float64)
+    below = torch.nextafter(exact, torch.tensor(0.0, dtype=torch.float64))
+    above = torch.nextafter(exact, torch.tensor(1.0, dtype=torch.float64))
+    positions = torch.zeros((4, 4), dtype=torch.float64)
+    positions[1:, 0] = torch.stack((below, exact, above))
+    expected_edges, expected_attributes, expected_topology = _pairwise_reference(
+        positions, radius, 3
+    )
+    for chunk_size in (1, 4):
+        edges, attributes = build_radius_graph(positions, radius, chunk_size=chunk_size)
+        assert torch.equal(edges, expected_edges)
+        torch.testing.assert_close(attributes, expected_attributes, atol=0, rtol=0)
+        assert radius_graph_topology(
+            positions, radius, chunk_size=chunk_size
+        ) == expected_topology
+        assert edges[1, edges[0] == 0].tolist() == [1]
+
+
+@pytest.mark.parametrize("chunk_size", [1, 13])
+def test_memory_guard_fails_instead_of_truncating_exact_graph(chunk_size: int) -> None:
+    positions = torch.full((13, 4), 0.5)
+    edge_count = 13 * 12
+    edges, _ = build_radius_graph(
+        positions, 0.25, chunk_size=chunk_size, max_edges=edge_count
+    )
+    assert edges.shape[1] == edge_count
+    with pytest.raises(RuntimeError, match="max_graph_edges=155"):
+        build_radius_graph(
+            positions, 0.25, chunk_size=chunk_size, max_edges=edge_count - 1
+        )
+    # The preflight counter must measure the complete graph even when a model's
+    # explicit materialization guard would reject it.
+    assert radius_graph_topology(
+        positions, 0.25, chunk_size=chunk_size
+    )["actual_directed_edges"] == edge_count
+
+
+@pytest.mark.parametrize("dimensions", [1, 3, 4])
+def test_edge_attribute_position_gradients_match_dense_reference(dimensions: int) -> None:
+    initial = torch.rand(
+        (17, 4), generator=torch.Generator().manual_seed(605), dtype=torch.float64
+    )
+    initial[1] = initial[0]
+    actual_positions = initial.clone().requires_grad_()
+    reference_positions = initial.clone().requires_grad_()
+    edges, attributes = build_radius_graph(
+        actual_positions, 0.6, position_dims=dimensions, chunk_size=3
+    )
+    expected_edges, expected_attributes, _ = _pairwise_reference(
+        reference_positions, 0.6, dimensions
+    )
+    assert torch.equal(edges, expected_edges)
+    coefficients = torch.linspace(0.2, 1.3, len(attributes), dtype=torch.float64)[:, None]
+    actual_gradient = torch.autograd.grad(
+        (attributes * coefficients).sum(), actual_positions
+    )[0]
+    reference_gradient = torch.autograd.grad(
+        (expected_attributes * coefficients).sum(), reference_positions
+    )[0]
+    torch.testing.assert_close(actual_gradient, reference_gradient, rtol=1e-12, atol=1e-12)
+    assert torch.isfinite(actual_gradient).all()
+    assert torch.count_nonzero(actual_gradient[:, dimensions:]) == 0
+
+
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), -0.1, 1.1])
+def test_invalid_selected_coordinates_are_not_silently_discarded(value: float) -> None:
+    positions = torch.zeros((3, 4))
+    positions[0, 0] = value
+    for operation in (build_radius_graph, radius_graph_topology):
+        with pytest.raises(ValueError, match="finite|\\[0,1\\]"):
+            operation(positions, 0.2)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA accelerator unavailable")
+def test_cuda_exact_graph_topology_and_position_gradients() -> None:
+    positions = torch.rand(
+        (37, 4), generator=torch.Generator().manual_seed(77), dtype=torch.float64
+    )
+    positions[0].zero_()
+    positions[1].fill_(1)
+    positions[2] = positions[0]
+    reference = positions.cuda().requires_grad_()
+    actual = positions.cuda().requires_grad_()
+    expected_edges, expected_attributes, expected_topology = _pairwise_reference(
+        reference, 0.4, 3
+    )
+    edges, attributes = build_radius_graph(actual, 0.4, chunk_size=7)
+    assert torch.equal(edges, expected_edges)
+    torch.testing.assert_close(attributes, expected_attributes, atol=0, rtol=0)
+    torch.testing.assert_close(
+        torch.autograd.grad(attributes.sum(), actual)[0],
+        torch.autograd.grad(expected_attributes.sum(), reference)[0],
+        atol=1e-12,
+        rtol=1e-12,
+    )
+    assert radius_graph_topology(actual, 0.4, chunk_size=7) == expected_topology
 ~~~~~~~~
 
 # tests/test_graph_vectorized.py
@@ -27595,6 +28093,628 @@ def test_research_docs_exclude_repository_visibility_workflows() -> None:
             "Private으로 되돌리기",
         ):
             assert visibility_instruction not in documentation, relative
+~~~~~~~~
+
+# tests/test_snn_opt.py
+
+~~~~~~~~python
+"""Exact IF recurrence regressions for invariant-current caching.
+
+The reference intentionally retains the pre-optimization timestep implementation;
+it is a test oracle, not an alternate experiment/inference implementation.
+"""
+
+from __future__ import annotations
+
+import copy
+from contextlib import ExitStack
+from unittest.mock import patch
+
+import pytest
+import torch
+
+from asgcn_unet.graph import ASGCNEncoder, EventGraph
+
+
+def _graph(nodes: int = 9, *, dtype: torch.dtype = torch.float32) -> EventGraph:
+    generator = torch.Generator().manual_seed(241)
+    features = torch.rand((nodes, 4), generator=generator, dtype=dtype) * 2 - 1
+    pairs = [(i, j) for i in range(nodes) for j in range(nodes) if i != j]
+    edges = (
+        torch.tensor(pairs, dtype=torch.long).t().contiguous()
+        if pairs
+        else torch.empty((2, 0), dtype=torch.long)
+    )
+    return EventGraph(
+        features,
+        features.clone(),
+        edges,
+        torch.linspace(0, 1, len(pairs), dtype=dtype).reshape(-1, 1),
+    )
+
+
+def _encoder(
+    layers: int = 3,
+    *,
+    root: bool = True,
+    dtype: torch.dtype = torch.float32,
+) -> ASGCNEncoder:
+    with torch.random.fork_rng(devices=[]):
+        torch.manual_seed(481)
+        encoder = ASGCNEncoder(
+            hidden_dim=5,
+            graph_layers=layers,
+            spline_kernel_size=3,
+            spline_root_weight=root,
+            spline_chunk_size=17,
+        ).to(dtype=dtype).eval()
+    with torch.no_grad():
+        for index, layer in enumerate(encoder.layers):
+            layer.bias.copy_(torch.linspace(-0.2, 0.8, 5, dtype=dtype))
+            layer.norm.running_mean.fill_(0.03 * (index + 1))
+            layer.norm.running_var.copy_(torch.linspace(0.6, 1.4, 5, dtype=dtype))
+            layer.norm.weight.copy_(torch.linspace(0.7, 1.1, 5, dtype=dtype))
+            layer.norm.bias.fill_(0.1)
+            layer.calibration_activation_max.copy_(
+                torch.linspace(0.8, 1.2, 5, dtype=dtype)
+            )
+        encoder.calibration_samples_seen.fill_(1)
+        encoder.fold_batch_norm()
+        encoder.apply_parameter_normalization()
+        for layer in encoder.layers:
+            layer.threshold.copy_(torch.linspace(0.5, 1.5, 5, dtype=dtype))
+    return encoder
+
+
+def _reference_snn(
+    encoder: ASGCNEncoder,
+    graph: EventGraph,
+    steps: int,
+    dynamics: str,
+) -> tuple[torch.Tensor, list[torch.Tensor]]:
+    node_count = int(graph.node_features.shape[0])
+    if node_count == 0:
+        return graph.node_features.new_empty((0, encoder.hidden_dim)), [
+            graph.node_features.new_zeros(()) for _ in encoder.layers
+        ]
+    membranes = [
+        layer.threshold.to(graph.node_features).expand(node_count, -1).clone() * 0.5
+        for layer in encoder.layers
+    ]
+    previous_spikes = (
+        [
+            graph.node_features.new_zeros((node_count, layer.out_channels))
+            for layer in encoder.layers
+        ]
+        if dynamics == "literal_eq15"
+        else None
+    )
+    output_sum = graph.node_features.new_zeros(
+        (node_count, encoder.layers[-1].out_channels)
+    )
+    active_counts = [graph.node_features.new_zeros(()) for _ in encoder.layers]
+    basis_cache = encoder._basis_cache(graph)
+    for _ in range(steps):
+        hidden = graph.node_features
+        for index, layer in enumerate(encoder.layers):
+            current = layer.affine(
+                hidden, graph.edge_index, graph.edge_attr, basis_cache, graph.in_degree
+            )
+            integrated = membranes[index] + current
+            if previous_spikes is not None:
+                integrated = integrated + previous_spikes[index]
+            threshold = layer.threshold.to(integrated).expand_as(integrated)
+            spikes = torch.where(
+                integrated >= threshold, threshold, torch.zeros_like(integrated)
+            )
+            membranes[index] = integrated - spikes
+            if previous_spikes is not None:
+                previous_spikes[index] = spikes
+            if index == len(encoder.layers) - 1:
+                output_sum = output_sum + spikes
+            active_counts[index] = active_counts[index] + (spikes != 0).sum()
+            hidden = spikes
+    rates = [
+        active.to(graph.node_features.dtype)
+        / float(steps * max(1, node_count * layer.out_channels))
+        for active, layer in zip(active_counts, encoder.layers, strict=True)
+    ]
+    return output_sum / float(steps), rates
+
+
+def _assert_exact(actual, expected) -> None:
+    torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+
+
+def _trace(function):
+    original_where = torch.where
+    spikes = []
+
+    def traced_where(*args, **kwargs):
+        result = original_where(*args, **kwargs)
+        spikes.append(result.detach().clone())
+        return result
+
+    with patch("asgcn_unet.graph.torch.where", side_effect=traced_where):
+        result = function()
+    return result, spikes
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+@pytest.mark.parametrize("steps", [1, 4, 8, 16, 32])
+@pytest.mark.parametrize("nodes", [0, 1, 9])
+@pytest.mark.parametrize("root", [False, True])
+def test_every_spike_and_rate_matches_original(dynamics, steps, nodes, root) -> None:
+    encoder = _encoder(root=root)
+    graph = _graph(nodes)
+    with torch.no_grad():
+        expected, expected_trace = _trace(
+            lambda: _reference_snn(encoder, graph, steps, dynamics)
+        )
+        actual, actual_trace = _trace(
+            lambda: encoder.forward_snn(graph, steps, dynamics)
+        )
+    _assert_exact(actual, expected)
+    assert len(actual_trace) == len(expected_trace) == (3 * steps if nodes else 0)
+    _assert_exact(actual_trace, expected_trace)
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+@pytest.mark.parametrize("steps", [4, 8, 16, 32])
+@pytest.mark.parametrize("layers", [1, 3])
+def test_only_first_affine_is_cached(dynamics, steps, layers) -> None:
+    encoder = _encoder(layers)
+    with ExitStack() as stack:
+        calls = [
+            stack.enter_context(patch.object(layer, "affine", wraps=layer.affine))
+            for layer in encoder.layers
+        ]
+        with torch.no_grad():
+            encoder.forward_snn(_graph(), steps, dynamics)
+    assert [call.call_count for call in calls] == [1] + [steps] * (layers - 1)
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+@pytest.mark.parametrize("training", [False, True])
+def test_folded_bn_state_is_unchanged(dynamics, training) -> None:
+    encoder = _encoder().train(training)
+    before = {name: value.clone() for name, value in encoder.state_dict().items()}
+    with torch.no_grad():
+        actual = encoder.forward_snn(_graph(), 8, dynamics)
+        expected = _reference_snn(encoder, _graph(), 8, dynamics)
+    _assert_exact(actual, expected)
+    _assert_exact(encoder.state_dict(), before)
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+@pytest.mark.parametrize("dtype", [torch.float32, torch.bfloat16])
+def test_autocast_preserves_integration_and_output_dtype(dynamics, dtype) -> None:
+    encoder = _encoder()
+    graph = _graph(dtype=dtype)
+    with torch.no_grad(), torch.autocast("cpu", dtype=torch.bfloat16):
+        expected = _reference_snn(encoder, graph, 8, dynamics)
+        actual = encoder.forward_snn(graph, 8, dynamics)
+    _assert_exact(actual, expected)
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+@pytest.mark.parametrize("layers", [1, 3])
+def test_hard_threshold_autograd_is_preserved(dynamics, layers) -> None:
+    reference = _encoder(layers, dtype=torch.float64)
+    for layer in reference.layers:
+        layer.threshold.requires_grad_(True)
+    optimized = copy.deepcopy(reference)
+    expected_graph = _graph(dtype=torch.float64)
+    expected_graph.node_features.requires_grad_(True)
+    actual_graph = copy.deepcopy(expected_graph)
+    expected, _ = _reference_snn(reference, expected_graph, 8, dynamics)
+    actual, _ = optimized.forward_snn(actual_graph, 8, dynamics)
+    _assert_exact(actual, expected)
+    loss_weights = torch.linspace(0.25, 1.25, actual.numel(), dtype=actual.dtype).reshape_as(
+        actual
+    )
+    (expected * loss_weights).sum().backward()
+    (actual * loss_weights).sum().backward()
+    for old, new in zip(reference.layers, optimized.layers, strict=True):
+        torch.testing.assert_close(new.threshold.grad, old.threshold.grad, rtol=1e-14, atol=1e-14)
+    assert bool((optimized.layers[-1].threshold.grad > 0).any())
+    # Hard spike decisions do not define input/weight gradients. Caching must
+    # neither introduce a surrogate gradient nor detach a real threshold path.
+    assert actual_graph.node_features.grad is expected_graph.node_features.grad is None
+    assert all(parameter.grad is None for parameter in optimized.parameters())
+    assert all(parameter.grad is None for parameter in reference.parameters())
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+def test_exact_threshold_boundaries_and_signed_currents(dynamics) -> None:
+    encoder = _encoder(1)
+    encoder.layers[0].threshold.fill_(1.0)
+    graph = _graph(1)
+    # Select adjacent *integrated* values. Adjacent currents around 0.5 can
+    # round back to exactly 1.0 when the half-threshold membrane is added.
+    below = torch.nextafter(torch.tensor(1.0), torch.tensor(float("-inf"))) - 0.5
+    above = torch.nextafter(torch.tensor(1.0), torch.tensor(float("inf"))) - 0.5
+    currents = torch.tensor([[-0.5, 0.0, below, 0.5, above]])
+    with patch.object(encoder.layers[0], "affine", return_value=currents):
+        actual, trace = _trace(lambda: encoder.forward_snn(graph, 4, dynamics))
+        expected, expected_trace = _trace(lambda: _reference_snn(encoder, graph, 4, dynamics))
+    _assert_exact(actual, expected)
+    _assert_exact(trace, expected_trace)
+    # Equality fires; negative and zero currents remain below the initial
+    # threshold at step one. Adjacent float values are compared without epsilon.
+    _assert_exact(trace[0], torch.tensor([[0.0, 0.0, 0.0, 1.0, 1.0]]))
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+def test_current_cache_does_not_outlive_a_forward(dynamics) -> None:
+    encoder = _encoder(1)
+    graph = _graph()
+    with torch.no_grad():
+        before = encoder.forward_snn(graph, 8, dynamics)
+        graph.node_features.mul_(-2)
+        encoder.layers[0].bias.add_(0.5)
+        encoder.layers[0].threshold.mul_(1.25)
+        after = encoder.forward_snn(graph, 8, dynamics)
+        expected = _reference_snn(encoder, graph, 8, dynamics)
+    _assert_exact(after, expected)
+    assert not torch.equal(before[0], after[0])
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+def test_zero_branch_does_not_allocate_node_channel_tensors(dynamics) -> None:
+    encoder = _encoder(1)
+    with (
+        patch.object(encoder.layers[0], "affine", return_value=torch.full((9, 5), 0.2)),
+        patch("asgcn_unet.graph.torch.zeros_like", wraps=torch.zeros_like) as zero_factory,
+    ):
+        encoder.forward_snn(_graph(), 32, dynamics)
+    assert zero_factory.call_count == 0
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA device not available")
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+def test_cuda_autocast_matches_original(dynamics) -> None:
+    encoder = _encoder().cuda()
+    graph = _graph()
+    graph = EventGraph(
+        graph.node_features.cuda(),
+        graph.positions.cuda(),
+        graph.edge_index.cuda(),
+        graph.edge_attr.cuda(),
+    )
+    with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
+        actual = encoder.forward_snn(graph, 8, dynamics)
+        expected = _reference_snn(encoder, graph, 8, dynamics)
+    _assert_exact(actual, expected)
+~~~~~~~~
+
+# tests/test_spline_opt.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+from collections.abc import Callable
+from copy import deepcopy
+
+import pytest
+import torch
+
+from asgcn_unet.graph import PaperSplineConv, linear_open_bspline_basis
+from asgcn_unet.ops import weighted_spline_sum
+
+
+def _reference_sum(
+    projected: torch.Tensor,
+    source: torch.Tensor,
+    destination: torch.Tensor,
+    indices: torch.Tensor,
+    basis: torch.Tensor,
+    chunk_size: int | None,
+    output_dtype: torch.dtype,
+) -> torch.Tensor:
+    """Original eager implementation, retained only as an independent test oracle."""
+    output = torch.zeros(
+        (projected.shape[0], projected.shape[2]),
+        device=projected.device,
+        dtype=output_dtype,
+    )
+    edge_count = source.numel()
+    if edge_count:
+        chunk_size = edge_count if chunk_size is None else chunk_size
+        for active_basis in range(2):
+            for start in range(0, edge_count, chunk_size):
+                stop = min(start + chunk_size, edge_count)
+                messages = projected[source[start:stop], indices[start:stop, active_basis]]
+                messages = messages * basis[start:stop, active_basis, None].to(messages.dtype)
+                output.index_add_(0, destination[start:stop], messages.to(output.dtype))
+    return output
+
+
+def _reference_affine(
+    layer: PaperSplineConv,
+    x: torch.Tensor,
+    edges: torch.Tensor,
+    pseudo: torch.Tensor,
+) -> torch.Tensor:
+    source, destination = edges
+    if source.numel():
+        indices, basis = linear_open_bspline_basis(pseudo, layer.kernel_size)
+        projected = torch.einsum("ni,kio->nko", x, layer.weight)
+        output = _reference_sum(
+            projected,
+            source,
+            destination,
+            indices,
+            basis,
+            layer.edge_chunk_size,
+            x.dtype,
+        )
+        degree = torch.bincount(destination, minlength=x.shape[0]).to(x.dtype).unsqueeze(-1)
+        output = output / degree.clamp_min(1.0)
+    else:
+        output = x.new_zeros((x.shape[0], layer.out_channels))
+    if layer.root is not None:
+        output = output + x @ layer.root
+    if layer.bias is not None:
+        output = output + layer.bias
+    return output
+
+
+def _graph(kind: str, device: str, dtype: torch.dtype) -> tuple[torch.Tensor, torch.Tensor]:
+    generator = torch.Generator().manual_seed(319)
+    if kind == "empty":
+        edges = torch.empty((2, 0), dtype=torch.long)
+    elif kind == "dense":
+        edges = torch.cartesian_prod(torch.arange(6), torch.arange(6)).T
+    elif kind == "repeated":
+        edges = torch.tensor([[0, 0, 2, 2, 2, 5], [1, 1, 1, 4, 4, 1]]).repeat(1, 3)
+    else:
+        edges = torch.randint(0, 6, (2, 19), generator=generator)
+    pseudo = torch.rand((edges.shape[1], 1), generator=generator, dtype=dtype)
+    return edges.to(device), pseudo.to(device)
+
+
+def _assert_optional_close(
+    actual: tuple[torch.Tensor | None, ...],
+    expected: tuple[torch.Tensor | None, ...],
+    *,
+    atol: float,
+    rtol: float,
+) -> None:
+    assert len(actual) == len(expected)
+    for actual_gradient, expected_gradient in zip(actual, expected):
+        assert (actual_gradient is None) == (expected_gradient is None)
+        if actual_gradient is not None:
+            torch.testing.assert_close(
+                actual_gradient, expected_gradient, atol=atol, rtol=rtol
+            )
+
+
+def _affine_parity(
+    *,
+    dtype: torch.dtype,
+    device: str,
+    chunk_size: int | None,
+    graph_kind: str,
+    gradient_case: str = "all",
+    autocast: bool = False,
+    autocast_dtype: torch.dtype = torch.bfloat16,
+    cached_basis: bool = False,
+) -> None:
+    generator = torch.Generator().manual_seed(777)
+    layer = PaperSplineConv(4, 5, kernel_size=4, edge_chunk_size=chunk_size).to(
+        device=device, dtype=dtype
+    )
+    with torch.no_grad():
+        for parameter in layer.parameters():
+            parameter.copy_(
+                torch.randn(parameter.shape, generator=generator, dtype=dtype).to(device) * 0.2
+            )
+    parameter_grad = gradient_case in {"all", "parameters"}
+    layer.requires_grad_(parameter_grad)
+    reference_layer = deepcopy(layer)
+    x = torch.randn((6, 4), generator=generator, dtype=dtype).to(device)
+    x.requires_grad_(gradient_case in {"all", "input"})
+    reference_x = x.detach().clone().requires_grad_(x.requires_grad)
+    edges, pseudo = _graph(graph_kind, device, dtype)
+    pseudo.requires_grad_(gradient_case in {"all", "basis"})
+    reference_pseudo = pseudo.detach().clone().requires_grad_(pseudo.requires_grad)
+    basis_cache = linear_open_bspline_basis(pseudo, layer.kernel_size) if cached_basis else None
+    degree = torch.bincount(edges[1], minlength=x.shape[0]) if cached_basis else None
+    with torch.autocast(device_type=device, dtype=autocast_dtype, enabled=autocast):
+        actual = layer.affine(x, edges, pseudo, basis_cache, degree)
+        expected = _reference_affine(reference_layer, reference_x, edges, reference_pseudo)
+    # CPU preserves the original cast and accumulation order exactly. CUDA
+    # index_add_ uses atomics, so repeated destinations are not bitwise stable.
+    forward_tolerance = 2e-6 if device == "cuda" else 0
+    torch.testing.assert_close(actual, expected, atol=forward_tolerance, rtol=forward_tolerance)
+    active = [tensor for tensor in (x, pseudo, *layer.parameters()) if tensor.requires_grad]
+    reference_active = [
+        tensor
+        for tensor in (reference_x, reference_pseudo, *reference_layer.parameters())
+        if tensor.requires_grad
+    ]
+    cotangent = torch.randn(actual.shape, generator=generator, dtype=dtype).to(device)
+    actual_grads = torch.autograd.grad(actual, active, cotangent, allow_unused=True)
+    reference_grads = torch.autograd.grad(expected, reference_active, cotangent, allow_unused=True)
+    if autocast and autocast_dtype == torch.bfloat16:
+        # bfloat16 has seven fraction bits; fused accumulation can change rounding.
+        atol, rtol = 0.025, 0.025
+    elif autocast:
+        atol, rtol = 0.003, 0.003
+    elif dtype == torch.float64:
+        atol, rtol = 1e-11, 1e-11
+    else:
+        atol, rtol = 2e-5, 2e-5
+    _assert_optional_close(actual_grads, reference_grads, atol=atol, rtol=rtol)
+
+
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64])
+@pytest.mark.parametrize("chunk_size", [1, 7, None])
+@pytest.mark.parametrize("graph_kind", ["normal", "repeated", "dense", "empty"])
+def test_affine_forward_and_all_gradients_match_eager(dtype, chunk_size, graph_kind):
+    _affine_parity(dtype=dtype, device="cpu", chunk_size=chunk_size, graph_kind=graph_kind)
+
+
+@pytest.mark.parametrize("gradient_case", ["parameters", "input", "basis"])
+@pytest.mark.parametrize("cached_basis", [False, True])
+def test_selective_gradient_inputs_and_cached_basis(gradient_case, cached_basis):
+    _affine_parity(
+        dtype=torch.float64,
+        device="cpu",
+        chunk_size=5,
+        graph_kind="repeated",
+        gradient_case=gradient_case,
+        cached_basis=cached_basis,
+    )
+
+
+@pytest.mark.parametrize("gradient_case", ["all", "parameters", "input", "basis"])
+@pytest.mark.parametrize("chunk_size", [1, None])
+def test_cpu_bfloat16_autocast_forward_and_gradients(gradient_case, chunk_size):
+    _affine_parity(
+        dtype=torch.float32,
+        device="cpu",
+        chunk_size=chunk_size,
+        graph_kind="repeated",
+        gradient_case=gradient_case,
+        autocast=True,
+    )
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable on this test host")
+@pytest.mark.parametrize("chunk_size", [1, 7, None])
+def test_cuda_forward_and_gradients(chunk_size):
+    _affine_parity(
+        dtype=torch.float32,
+        device="cuda",
+        chunk_size=chunk_size,
+        graph_kind="dense",
+    )
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable on this test host")
+@pytest.mark.parametrize("autocast_dtype", [torch.float16, torch.bfloat16])
+def test_cuda_autocast_forward_and_gradients(autocast_dtype):
+    if autocast_dtype == torch.bfloat16 and not torch.cuda.is_bf16_supported():
+        pytest.skip("This CUDA device does not support bfloat16")
+    _affine_parity(
+        dtype=torch.float32,
+        device="cuda",
+        chunk_size=7,
+        graph_kind="dense",
+        autocast=True,
+        autocast_dtype=autocast_dtype,
+    )
+
+
+@pytest.mark.parametrize("chunk_size", [1, None])
+def test_projected_basis_function_gradcheck_and_double_backward(chunk_size):
+    generator = torch.Generator().manual_seed(15)
+    x = torch.randn((3, 2), generator=generator, dtype=torch.float64, requires_grad=True)
+    weight = torch.randn((3, 2, 2), generator=generator, dtype=torch.float64, requires_grad=True)
+    # Stay away from knots, where the piecewise-linear spline derivative jumps.
+    pseudo = torch.tensor([[0.13], [0.37], [0.61], [0.88]], dtype=torch.float64, requires_grad=True)
+    source = torch.tensor([0, 0, 2, 1])
+    destination = torch.tensor([1, 1, 0, 2])
+
+    def aggregate(features, kernels, coordinates):
+        indices, basis = linear_open_bspline_basis(coordinates, 3)
+        projected = torch.einsum("ni,kio->nko", features, kernels)
+        return weighted_spline_sum(
+            projected,
+            source,
+            destination,
+            indices,
+            basis,
+            source.numel() if chunk_size is None else chunk_size,
+            features.dtype,
+        )
+
+    inputs = (x, weight, pseudo)
+    assert torch.autograd.gradcheck(aggregate, inputs, atol=1e-5, rtol=1e-4)
+    assert torch.autograd.gradgradcheck(aggregate, inputs, atol=1e-5, rtol=1e-4)
+
+
+def test_operator_noncontiguous_inputs_and_basis_gradients():
+    generator = torch.Generator().manual_seed(318)
+    projected = torch.randn((4, 3, 5), generator=generator, dtype=torch.float64).transpose(0, 1)
+    projected.requires_grad_(True)
+    basis = torch.rand((18, 2), generator=generator, dtype=torch.float64)[::2].requires_grad_(True)
+    indices = torch.randint(0, 4, (18, 2), generator=generator)[::2]
+    edge_storage = torch.randint(0, 3, (9, 2), generator=generator)
+    source, destination = edge_storage.T
+    assert not projected.is_contiguous()
+    assert not basis.is_contiguous()
+    assert not source.is_contiguous()
+    reference_projected = projected.detach().clone().requires_grad_(True)
+    reference_basis = basis.detach().clone().requires_grad_(True)
+    actual = weighted_spline_sum(
+        projected, source, destination, indices, basis, 4, torch.float64
+    )
+    expected = _reference_sum(
+        reference_projected, source, destination, indices, reference_basis, 4, torch.float64
+    )
+    torch.testing.assert_close(actual, expected, atol=0, rtol=0)
+    actual_grads = torch.autograd.grad(actual.square().sum(), (projected, basis))
+    expected_grads = torch.autograd.grad(
+        expected.square().sum(), (reference_projected, reference_basis)
+    )
+    _assert_optional_close(actual_grads, expected_grads, atol=1e-11, rtol=1e-11)
+
+
+def _saved_storage(
+    operation: Callable[..., torch.Tensor],
+    projected: torch.Tensor,
+    source: torch.Tensor,
+    destination: torch.Tensor,
+    indices: torch.Tensor,
+    basis: torch.Tensor,
+) -> tuple[set[tuple[int, ...]], int]:
+    shapes: set[tuple[int, ...]] = set()
+    storage_bytes: dict[tuple[str, int], int] = {}
+
+    def pack(tensor):
+        shapes.add(tuple(tensor.shape))
+        storage = tensor.untyped_storage()
+        storage_bytes[(str(tensor.device), storage.data_ptr())] = storage.nbytes()
+        return tensor
+
+    with torch.autograd.graph.saved_tensors_hooks(pack, lambda tensor: tensor):
+        output = operation(projected, source, destination, indices, basis, 64, torch.float64)
+    # Run backward too: merely declining to save required operands is not sufficient.
+    output.sum().backward()
+    return shapes, sum(storage_bytes.values())
+
+
+@pytest.mark.parametrize("basis_grad", [False, True])
+def test_training_does_not_save_per_edge_channel_messages(basis_grad):
+    generator = torch.Generator().manual_seed(510)
+    projected = torch.randn((32, 5, 11), generator=generator, dtype=torch.float64)
+    source = torch.randint(0, 32, (257,), generator=generator)
+    destination = torch.randint(0, 32, (257,), generator=generator)
+    indices = torch.randint(0, 5, (257, 2), generator=generator)
+    basis = torch.rand((257, 2), generator=generator, dtype=torch.float64).requires_grad_(basis_grad)
+    reference_shapes, reference_bytes = _saved_storage(
+        _reference_sum,
+        projected.clone().requires_grad_(True),
+        source,
+        destination,
+        indices,
+        basis,
+    )
+    actual_shapes, actual_bytes = _saved_storage(
+        weighted_spline_sum,
+        projected.clone().requires_grad_(True),
+        source,
+        destination,
+        indices,
+        basis,
+    )
+    assert (64, 11) in reference_shapes
+    assert (64, 11) not in actual_shapes
+    assert (1, 11) not in actual_shapes
+    assert actual_bytes < reference_bytes / 2
 ~~~~~~~~
 
 # tests/test_temporal_metric.py

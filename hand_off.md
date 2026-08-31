@@ -6,6 +6,12 @@
 
 ## 0. 검증 기록과 배포 판정 기준
 
+2026-08-31 연산 최적화에서는 radius candidate 확장/compaction, Spline custom autograd의 저장
+tensor 메모리와 SNN 고정 첫 layer 계산을 개선했다. 기존 모델·config·sampling·전체 실험 범위는
+변경하지 않았다. 전체 CPU 회귀검사는 **860 passed, 35 skipped**이며 수치·시간·저장 메모리 검증과
+GPU 미검증 범위는 [PERF.md](docs/PERF.md)를 따른다. C++/CUDA extension을 새로 구현한 것은 아니다.
+새 source contract가 적용되므로 이전 profile/checkpoint의 exact-resume 보호를 우회하지 않는다.
+
 이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
 설치와 실험 절차는 README를 기준으로 하며, 배포 검증은 해당 commit의 CI와 아래 release gate로
 확인한다. 문서와 기본 산출물은 서버 계정명·hostname·사용자별 absolute home path를 기록하지 않는다.

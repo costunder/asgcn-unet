@@ -386,16 +386,19 @@ def test_explicit_if_uses_half_threshold_initialization_and_threshold_spikes() -
 
 def test_explicit_if_loop_keeps_soft_reset_residual() -> None:
     encoder = _normalized_single_layer_encoder()
-    currents = [torch.tensor([[0.8]]), torch.tensor([[-0.2]])]
+    current = torch.tensor([[0.8]])
 
-    with patch.object(encoder.layers[0], "affine", side_effect=currents) as affine:
-        output, firing_rates = encoder.forward_snn(_single_node_graph(), simulation_steps=2)
+    with patch.object(encoder.layers[0], "affine", return_value=current) as affine:
+        output, firing_rates = encoder.forward_snn(
+            _single_node_graph(), simulation_steps=2, dynamics="standard_if"
+        )
 
-    # t1: 0.5+0.8 -> spike, residual 0.3. t2: 0.3-0.2+previous spike -> spike.
-    # A hard reset to zero would not fire at t2.
+    # A static input produces the same affine current on every step, now cached.
+    # t1: 0.5+0.8 -> spike, residual 0.3. t2: 0.3+0.8 -> another spike.
+    # Standard IF with a hard reset to zero would not fire at t2.
     torch.testing.assert_close(output, torch.tensor([[1.0]]))
     torch.testing.assert_close(firing_rates[0], torch.tensor(1.0))
-    assert affine.call_count == 2
+    assert affine.call_count == 1
 
 
 def test_snn_reuses_one_spline_basis_across_all_timesteps() -> None:

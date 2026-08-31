@@ -103,8 +103,18 @@ spline 값을 바꾸지 않는다. 구현은 순수 PyTorch라 `torch-spline-con
 
 `EventGraph`의 destination incoming degree도 graph 생성 시 한 번 계산해 모든 layer와 IF timestep이
 공유한다. 기본 `spline_chunk_size=65536`은 최대 2,000,000개 edge의 message gather를 고정 크기
-chunk로 나눠 peak memory를 제한한다. chunk마다 같은 순서로 `index_add_`하므로 neighbor나 edge를
-줄이는 근사가 아니며, chunked/unchunked 출력과 gradient 동등성을 회귀검사한다.
+chunk로 나눈다. `ops.py`의 custom autograd는 forward 중 각 chunk의 `[edges,Cout]` message를
+역전파용으로 모두 보관하지 않는다. backward는 destination derivative를 chunk당 한 번 gather해
+두 basis 항에 재사용하고 node projection gradient에 직접 누적한다. basis gradient가 필요한 경우만
+node projection을 추가 보관한다. degree normalization과 node matrix projection의 autograd는 유지한다.
+이는 graph·neighbor·edge를 줄이는 근사가 아니며, forward의 basis-major 누적 순서를 유지한다.
+backward의 누적 순서는 달라질 수 있어 gradient는 dtype별 허용 오차로 검사한다. double backward도
+검사하지만, 그때 생성되는 고차 미분 graph까지 같은 메모리 상한을 주장하지는 않는다.
+
+SNN은 첫 layer의 analog event input과 graph가 모든 timestep에서 고정이므로 첫 affine current를
+forward당 한 번 계산한다. 각 layer의 실제 integration dtype에 맞춘 threshold도 재사용하고,
+zero-valued spike branch는 scalar로 처리한다. 두 dynamics와 soft reset, timestep 수는 그대로다.
+측정 조건과 결과는 [PERF.md](PERF.md)를 따른다.
 
 weight 초기화 bound는 `1/sqrt(K*Cin)`, root bound는 `1/sqrt(Cin)`으로 고정했다. open degree 1,
 scalar pseudo-coordinate, mean aggregation, root weight와 bias 범위에서만 구현·테스트했으며 이를

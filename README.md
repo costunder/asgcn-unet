@@ -133,6 +133,14 @@ SNN 변환 대상은 graph encoder다. residual U-Net과 ConvGRU decoder는 ANN/
 8,192개를 선택한다. 이는 ASGCN 논문의 고정 sampling factor `R`과 구분해 결과 metadata에 기록되는
 복원 시스템용 안전 제한이다.
 
+### 연산 최적화
+
+graph candidate 확장·edge compaction의 중복을 줄이고, Spline 집계에는 edge-message 전체를
+역전파까지 보관하지 않는 custom autograd를 적용했다. SNN의 고정 첫 계층 전류는 forward당 한 번만
+계산한다. graph·모델·sampling·학습 범위는 유지하며 기존 실행 명령도 같다. 출력·gradient 검증과
+CPU 측정, 아직 측정하지 않은 GPU 성능의 구분은 [성능 기록](docs/PERF.md)에 정리했다.
+새 source에는 새 CUDA preflight가 필요하며 기존 checkpoint의 exact-resume 검사를 우회하지 않는다.
+
 ## 데이터와 실험 역할
 
 | 데이터 | 공개 파일 | 용량 | 이 저장소의 역할 |

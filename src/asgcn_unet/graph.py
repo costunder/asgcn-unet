@@ -8,6 +8,8 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
+from .ops import weighted_spline_sum
+
 PAPER_CORE_VERSION = 2
 
 
@@ -158,31 +160,31 @@ def _radius_graph_candidate_chunks(
     effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
     for start in range(0, count, effective_chunk_size):
         stop = min(start + effective_chunk_size, count)
-        local_sources = torch.arange(start, stop, device=device, dtype=torch.long)
         neighbor_cells = cells[start:stop, None, :] + offsets[None, :, :]
         valid_cells = ((neighbor_cells >= 0) & (neighbor_cells < cells_per_axis)).all(dim=2)
-        neighbor_hashes = (neighbor_cells * strides).sum(dim=2)
-        candidate_sources = local_sources[:, None].expand_as(neighbor_hashes)[valid_cells]
-        candidate_hashes = neighbor_hashes[valid_cells]
-        left = torch.searchsorted(sorted_hash, candidate_hashes, right=False)
-        right = torch.searchsorted(sorted_hash, candidate_hashes, right=True)
-        counts = right - left
-        nonempty = counts > 0
-        if not bool(nonempty.any()):
-            continue
-        candidate_sources = candidate_sources[nonempty]
-        left = left[nonempty]
-        counts = counts[nonempty]
+        neighbor_hashes = (neighbor_cells * strides).sum(dim=2).flatten()
+        left = torch.searchsorted(sorted_hash, neighbor_hashes, right=False)
+        right = torch.searchsorted(sorted_hash, neighbor_hashes, right=True)
+        # Keep a fixed-size source/cell table: repeat_interleave already accepts
+        # zero counts. Compacting valid/nonempty cells first adds five boolean
+        # index operations (and their CUDA synchronization) without changing any
+        # candidates. Mask invalid cells because their hashes may alias valid ones.
+        counts = (right - left).masked_fill_(~valid_cells.flatten(), 0)
         candidate_count = int(counts.sum().item())
-        expanded_sources = torch.repeat_interleave(
-            candidate_sources, counts, output_size=candidate_count
-        )
-        expanded_left = torch.repeat_interleave(left, counts, output_size=candidate_count)
         starts = counts.cumsum(0) - counts
-        within_group = torch.arange(candidate_count, device=device) - torch.repeat_interleave(
-            starts, counts, output_size=candidate_count
+        groups = torch.repeat_interleave(
+            torch.arange(counts.numel(), device=device), counts, output_size=candidate_count
         )
-        candidate_destinations = sorted_nodes[expanded_left + within_group]
+        expanded_sources = groups.div(offsets.shape[0], rounding_mode="floor") + start
+        # Expand the group identity once rather than repeating sources, left
+        # boundaries and cumulative counts into three candidate-sized tensors.
+        destination_offsets = (left - starts)[groups] + torch.arange(
+            candidate_count, device=device
+        )
+        candidate_destinations = sorted_nodes[destination_offsets]
+        # A generator retains its locals while the caller filters/materializes
+        # edges. Release candidate-sized integer scratch before yielding.
+        del groups, destination_offsets
         candidate_distances = torch.linalg.vector_norm(
             coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
         )
@@ -230,7 +232,10 @@ def build_radius_graph(
         within_radius = (expanded_sources != candidate_destinations) & (
             candidate_distances < radius
         )
-        chunk_edge_count = int(within_radius.sum().item())
+        # One compaction serves all three tensors. Tensor shape metadata supplies
+        # the retained count without an additional scalar reduction/.item().
+        kept = torch.nonzero(within_radius, as_tuple=True)[0]
+        chunk_edge_count = kept.numel()
         if (
             max_edges is not None
             and retained_edge_count + chunk_edge_count > max_edges
@@ -244,9 +249,9 @@ def build_radius_graph(
         if chunk_edge_count == 0:
             continue
         retained_edge_count += chunk_edge_count
-        sources.append(expanded_sources[within_radius])
-        destination_chunks.append(candidate_destinations[within_radius])
-        distances_kept.append(candidate_distances[within_radius])
+        sources.append(expanded_sources.index_select(0, kept))
+        destination_chunks.append(candidate_destinations.index_select(0, kept))
+        distances_kept.append(candidate_distances.index_select(0, kept))
 
     if not sources:
         return (
@@ -281,7 +286,6 @@ def radius_graph_topology(
     count = int(positions.shape[0])
     in_degree = torch.zeros(count, device=positions.device, dtype=torch.long)
     candidate_count = 0
-    edge_count = 0
     radius = float(radius)
     for expanded_sources, candidate_destinations, candidate_distances in (
         _radius_graph_candidate_chunks(
@@ -292,21 +296,26 @@ def radius_graph_topology(
         )
     ):
         nonself = expanded_sources != candidate_destinations
-        candidate_count += int(nonself.sum().item())
+        # Every source appears in exactly one chunk and its own cell contributes
+        # exactly one self-pair, including coincident but distinct event nodes.
+        # Deduct those N pairs once after summing allocation sizes on the host.
+        candidate_count += candidate_destinations.numel()
         within_radius = nonself & (candidate_distances < radius)
-        chunk_edge_count = int(within_radius.sum().item())
-        edge_count += chunk_edge_count
-        if chunk_edge_count:
-            in_degree.add_(
-                torch.bincount(candidate_destinations[within_radius], minlength=count)
-            )
+        # Fixed-shape integer scatter avoids per-chunk nonzero compaction,
+        # bincount output-size discovery and scalar synchronizations on CUDA.
+        in_degree.index_add_(0, candidate_destinations, within_radius.to(torch.long))
 
-    isolated_nodes = int((in_degree == 0).sum().item()) if count else 0
+    if count:
+        edge_count, max_degree, isolated_nodes = torch.stack(
+            (in_degree.sum(), in_degree.max(), (in_degree == 0).sum())
+        ).tolist()
+    else:
+        edge_count = max_degree = isolated_nodes = 0
     return {
         "nodes": count,
-        "candidate_directed_edges": candidate_count,
+        "candidate_directed_edges": candidate_count - count,
         "actual_directed_edges": edge_count,
-        "max_degree": int(in_degree.max().item()) if count else 0,
+        "max_degree": max_degree,
         "isolated_nodes": isolated_nodes,
         "isolate_ratio": isolated_nodes / count if count else 0.0,
     }
@@ -526,23 +535,9 @@ class PaperSplineConv(nn.Module):
             projected = torch.einsum("ni,kio->nko", x, self.weight)
             edge_count = int(source.numel())
             chunk_size = edge_count if self.edge_chunk_size is None else self.edge_chunk_size
-            for active_basis in range(2):
-                for start in range(0, edge_count, chunk_size):
-                    stop = min(start + chunk_size, edge_count)
-                    messages = projected[
-                        source[start:stop], indices[start:stop, active_basis]
-                    ]
-                    messages = messages * basis[start:stop, active_basis, None].to(
-                        messages.dtype
-                    )
-                    # CPU autocast can produce bfloat16 projections while ``x``
-                    # (and therefore ``output``) remains float32. ``index_add_``
-                    # requires matching dtypes, so accumulate in the output dtype.
-                    output.index_add_(
-                        0,
-                        destination[start:stop],
-                        messages.to(output.dtype),
-                    )
+            output = weighted_spline_sum(
+                projected, source, destination, indices, basis, chunk_size, x.dtype
+            )
             if in_degree is None:
                 in_degree = torch.bincount(destination, minlength=x.shape[0])
             if in_degree.shape != (x.shape[0],):
@@ -763,16 +758,33 @@ class ASGCNEncoder(nn.Module):
         )
         active_counts = [graph.node_features.new_zeros(()) for _ in self.layers]
         basis_cache = self._basis_cache(graph)
+        # The analog event features and topology are constant for all IF steps.
+        # ``affine`` has no BatchNorm/dropout state updates, so its first-layer
+        # current can be reused without changing the recurrence or autograd.
+        first_current = self.layers[0].affine(
+            graph.node_features,
+            graph.edge_index,
+            graph.edge_attr,
+            basis_cache,
+            graph.in_degree,
+        )
+        # Resolve conversions against each layer's actual integration dtype, not
+        # the input dtype: autocast plus a float32 bias can promote the current.
+        thresholds: list[torch.Tensor | None] = [None for _ in self.layers]
 
         for _ in range(simulation_steps):
             hidden = graph.node_features
             for index, layer in enumerate(self.layers):
-                current = layer.affine(
-                    hidden,
-                    graph.edge_index,
-                    graph.edge_attr,
-                    basis_cache,
-                    graph.in_degree,
+                current = (
+                    first_current
+                    if index == 0
+                    else layer.affine(
+                        hidden,
+                        graph.edge_index,
+                        graph.edge_attr,
+                        basis_cache,
+                        graph.in_degree,
+                    )
                 )
                 integrated = membranes[index] + current
                 if previous_spikes is not None:
@@ -780,16 +792,21 @@ class ASGCNEncoder(nn.Module):
                     # intentionally separate from the standard rate-conversion IF
                     # control because the paper does not resolve their mismatch.
                     integrated = integrated + previous_spikes[index]
-                threshold = layer.threshold.to(integrated).expand_as(integrated)
-                spikes = torch.where(
-                    integrated >= threshold, threshold, torch.zeros_like(integrated)
-                )
+                threshold = thresholds[index]
+                if threshold is None:
+                    threshold = layer.threshold.to(integrated).expand_as(integrated)
+                    thresholds[index] = threshold
+                # A scalar zero avoids allocating a full node/channel tensor on
+                # every layer/step while preserving threshold-valued spikes.
+                spikes = torch.where(integrated >= threshold, threshold, 0.0)
                 membranes[index] = integrated - spikes
                 if previous_spikes is not None:
                     previous_spikes[index] = spikes
                 if index == len(self.layers) - 1:
                     output_spike_sum = output_spike_sum + spikes
-                active_counts[index] = active_counts[index] + (spikes != 0).sum()
+                # Counts are non-differentiable statistics, unlike membrane and
+                # spike tensors; updating only these scalar accumulators is safe.
+                active_counts[index].add_((spikes != 0).sum())
                 hidden = spikes
 
         firing_rates = [

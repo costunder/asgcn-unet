@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-31T09:08:03Z",
+    "generated_utc": "2026-08-31T13:11:49Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "1e3c4652c0e451c5b2c86a7561de98004d3c2d21",
-    "source_tree_at_generation": "a2d5f5712e5572031353bddc9e6679c93dbc5e94",
+    "source_commit_at_generation": "8337757516592dab288c3a7df0a9fa2a2e2372bd",
+    "source_tree_at_generation": "6b88ac623779f091c3c5ea97a2aa8487b79bb63a",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,14 +41,19 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 29627,
+        "bytes": 30679,
         "path": "README.md",
-        "sha256": "bd1364bc19c4dc2766f9c41c738638f25c68c67373a9218086f96994bd950701"
+        "sha256": "ec507cf4b4889fa8e29b4c0aeea1f693ddef0edb31d1cf4d2d758477a0a4e8e1"
       },
       {
         "bytes": 1339,
         "path": "configs/aid.json",
         "sha256": "b87085811b8c925f8a9e0fe00736e04342369bf508c4a05672df5566ae9bfad0"
+      },
+      {
+        "bytes": 1770,
+        "path": "configs/batch.json",
+        "sha256": "30209819d88eebc7c29b722c0ec465256cf0173ac2e39f8159d8207013772fcf"
       },
       {
         "bytes": 1340,
@@ -91,19 +96,24 @@
         "sha256": "190e91f0f15f1ff647bc8c12074737c78233741f43e21c371edef5c964b3215e"
       },
       {
-        "bytes": 8381,
+        "bytes": 8695,
         "path": "docs/PERF.md",
-        "sha256": "292bc5d501440c21230c1862a14ed234bcd21516c15c72871266f5bf9993bfe0"
+        "sha256": "aa88b7577235a736d735544007e580b6ccf6a6dfa9371da505caaf695d6038a2"
       },
       {
-        "bytes": 36441,
+        "bytes": 36811,
         "path": "docs/SERVER.md",
-        "sha256": "bbb7e7f0d025da3179486994322fcf2b75d5f6e64e8b703aa48437aeadf649f2"
+        "sha256": "a03d02c8b0539471e080a5a4ee969b3531b167133799047e4cb75ad462c45647"
       },
       {
-        "bytes": 70624,
+        "bytes": 9251,
+        "path": "docs/TRAIN.md",
+        "sha256": "ad568439ccd263db1d72112609cbbec396bcb924300a036b94921bc4a4ecb7cc"
+      },
+      {
+        "bytes": 73726,
         "path": "hand_off.md",
-        "sha256": "e58f0d55df2f8bf6063fe2d7a36ae70faab4da367271e4fe304e4251e41c5e4b"
+        "sha256": "b88ecae85143fb2148ad3ca8c38d7e7d24211fac62e66d39db97a1408625a661"
       },
       {
         "bytes": 2753,
@@ -136,9 +146,9 @@
         "sha256": "7bdf8d95346ef0a2991c7f55fc5068100c83bb331c185950a01ba06432f69729"
       },
       {
-        "bytes": 4033,
+        "bytes": 4192,
         "path": "scripts/eval.sh",
-        "sha256": "744cc4dbdceac5c779fb8f7acdaddfcb770f77ed31c5a10f55ed0f197a249f39"
+        "sha256": "2a94ccc3583667b77db9477a646c7098bd370a4c1612b0db0724a223bb5db044"
       },
       {
         "bytes": 3783,
@@ -161,9 +171,9 @@
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
-        "bytes": 12505,
+        "bytes": 13452,
         "path": "scripts/run.sh",
-        "sha256": "34fad02175177ba62ea1c944326d8d6bf01fed798551cebbcb1485b72c44cf71"
+        "sha256": "fc3d10b2dc046a55090f9586694116804c33f18320438b5dc8e5679ce132e234"
       },
       {
         "bytes": 3596,
@@ -231,9 +241,14 @@
         "sha256": "f2dc65b5bcc61a0f90a890075ae84da48d115380756adb0b643839c011370c46"
       },
       {
-        "bytes": 23415,
+        "bytes": 9453,
+        "path": "src/asgcn_unet/batching.py",
+        "sha256": "b12a71508d0ca5e0b597ce8a577901641cf62615225dcffcd5cc7462195e20cf"
+      },
+      {
+        "bytes": 23708,
         "path": "src/asgcn_unet/cli.py",
-        "sha256": "d7962a04fc9de264f7ca85e8f2825d6235b777d9c68c439f3ec29b159d77ba89"
+        "sha256": "314987f0939f3ee7178b7a1e2e441027e1d4854a275cc3806edb02ed0a1c8ce4"
       },
       {
         "bytes": 309,
@@ -261,9 +276,9 @@
         "sha256": "5ef139427badf8664679002b8f5a90e728465002435998349f78735ef292104d"
       },
       {
-        "bytes": 199166,
+        "bytes": 205002,
         "path": "src/asgcn_unet/engine.py",
-        "sha256": "232614e1fe257d936370ec287ab69a37b95f32f4649f05f66669a24f5c946341"
+        "sha256": "80ee5ee5e1de87c64b9233985086ab2f41ae544cc5401bd1678bbfd19d157526"
       },
       {
         "bytes": 38274,
@@ -281,9 +296,9 @@
         "sha256": "b8c0ecd4f7a8d271dd8d8a160c6c42b93915ceabfb835069fb1d82e16b83d6b4"
       },
       {
-        "bytes": 13508,
+        "bytes": 19131,
         "path": "src/asgcn_unet/model.py",
-        "sha256": "fcd5bd70bfb4a5b04fc985ee3289980213a83717c41a191bd937b39eb0d96d45"
+        "sha256": "624001d5fd52e667a24b0d19e52e64edf2a66caf00fc922acf68bb6ba0a65b19"
       },
       {
         "bytes": 4968,
@@ -291,9 +306,9 @@
         "sha256": "481aa7c3875e7e29bc44b10f30f07233b32fbdeedb8e50aa345552497944bfed"
       },
       {
-        "bytes": 55013,
+        "bytes": 78024,
         "path": "src/asgcn_unet/preflight.py",
-        "sha256": "4924090dd25b42b4fd1c6d18b8aa1e3093c339d602900e06ffd737493bd32a2c"
+        "sha256": "3e567d53d6a8a6eabf8c08ef9bda97296ab5b66e7ed9be667343d55f64522960"
       },
       {
         "bytes": 2451,
@@ -306,14 +321,24 @@
         "sha256": "03f26f4638fae88c5b76c81d2bf17d10ab0b375f8cf9b0251719a21729a5b438"
       },
       {
+        "bytes": 8826,
+        "path": "src/asgcn_unet/timing.py",
+        "sha256": "5f0babbb3a1753e2e0bbb07dc701ed3962a656f99ceca38baf1f0b09d09ff585"
+      },
+      {
+        "bytes": 5972,
+        "path": "src/asgcn_unet/training.py",
+        "sha256": "f90a9593cff45e31055be00296d1d4e5240a03ab83ad2b2745235e881cf48458"
+      },
+      {
         "bytes": 3720,
         "path": "src/asgcn_unet/unet.py",
         "sha256": "fec44e04051e57dbd8adb098c92cbc50db5a28a6755cd89a3aa0f41b400519bf"
       },
       {
-        "bytes": 8697,
+        "bytes": 9412,
         "path": "src/asgcn_unet/utils.py",
-        "sha256": "6cd8856803230f017735e6a0ecdacff3ba8e03ec737899aaae2b891c8ead9343"
+        "sha256": "3ccd7f915ee9a6b60a39e96ac103f53261ee80da41d587430d11b441a0afdc31"
       },
       {
         "bytes": 58,
@@ -326,14 +351,24 @@
         "sha256": "5cb5ebff9b794834a77fd38d6402aab04ce413e7f0d464789f9abbafebe30661"
       },
       {
-        "bytes": 17390,
+        "bytes": 26238,
         "path": "tests/test_amp.py",
-        "sha256": "1c58cd8fbc21f25a24e61111c94b12a9f93a45688cc8c30893352581cc73bdf3"
+        "sha256": "41fcd06cf067c082acdc5147eed4874cb7603adddb14cc5f59fad754bb66ee6a"
       },
       {
         "bytes": 22519,
         "path": "tests/test_asgcn_paper_core.py",
         "sha256": "6edfdc829b7772d611db072b35d227bc7b60e7539970fcba6c48c9a7e1e022d6"
+      },
+      {
+        "bytes": 12599,
+        "path": "tests/test_batch_preflight.py",
+        "sha256": "ffd4f30a14ddde554a371081cb4d4b54bc4007276ed8ebe893d66cbdfb53bb9e"
+      },
+      {
+        "bytes": 19369,
+        "path": "tests/test_batching.py",
+        "sha256": "f4cb04439f7d08ae3aa41b4ab2598f580d08af22d6b2b6859db1a3ed05768aa1"
       },
       {
         "bytes": 7846,
@@ -396,9 +431,9 @@
         "sha256": "3ba0339c3e0b380a07bae6a57c3e330dbb633b51f79519d3d4c7ba51789a0c97"
       },
       {
-        "bytes": 10870,
+        "bytes": 11069,
         "path": "tests/test_gpu_preflight.py",
-        "sha256": "9ce0bdd12443e53155d84b30e9fb4a62fbe984dd4faef6b301e3eef580eb375d"
+        "sha256": "bc9f28698e6a4ac009809984a5bdd9c336acfddaa3143b490dc0d32a7a79d591"
       },
       {
         "bytes": 8399,
@@ -436,9 +471,9 @@
         "sha256": "d00916678082cf669352ab679400721ce01f1a39cb8ad22fdc6a238f7e6ae174"
       },
       {
-        "bytes": 22816,
+        "bytes": 23806,
         "path": "tests/test_pipeline.py",
-        "sha256": "572a20837c8dcdfde47915c188fd6b9a5d557bcea1d6f44434ead738b89aef52"
+        "sha256": "2fcf9064556afc93041d3179cbf758c6bc4d8330d5952c06ae4b8c24280d3b11"
       },
       {
         "bytes": 19423,
@@ -446,19 +481,24 @@
         "sha256": "734e2ec3f26895322ef471117a799c74e9ea02e3ab1c572f28996c18ea844dc9"
       },
       {
-        "bytes": 14834,
+        "bytes": 14690,
         "path": "tests/test_public_provenance.py",
-        "sha256": "b70b26b4f4231fdc1bcaf605550a41c526aefc771b64d80169421bfbeed09d63"
+        "sha256": "86a6554e8e5b7a483bc11492843de74f1155aa4b2c5da9fc59bab4b904980451"
       },
       {
-        "bytes": 16342,
+        "bytes": 15884,
         "path": "tests/test_recovery.py",
-        "sha256": "ca7a0d57985f1ef4eb992dda1e7962981e70c21edfdec1c43122824c9d2754c4"
+        "sha256": "abf7d802c48615fc3addfbaf1ccba1e9886a5fd65ce784949e16d1e75c1ce5ba"
       },
       {
         "bytes": 19173,
         "path": "tests/test_repo_hygiene.py",
         "sha256": "762f8400d30522de18833de6c331636d4a238e45c7a29f0fa0abb685c3a6acd5"
+      },
+      {
+        "bytes": 5524,
+        "path": "tests/test_run_artifacts.py",
+        "sha256": "2db55d95a0be7568749a657cc54a3d003af5b2bd6af05c5bc74db375d565e19f"
       },
       {
         "bytes": 16048,
@@ -476,9 +516,9 @@
         "sha256": "2f876783b6a8235885a165a66045d46bfcc0ff1dfdf48d934853bac2202e4c49"
       },
       {
-        "bytes": 12527,
+        "bytes": 13869,
         "path": "tests/test_server_orchestration.py",
-        "sha256": "b5e13637931d2c024c1352d462b98d43745a190605daddaae6bdc4a9ed281fd0"
+        "sha256": "92c864f39a226646838308aef4a50c0e9293fc9998b273d7966a5c0f216f6706"
       },
       {
         "bytes": 11827,
@@ -496,14 +536,24 @@
         "sha256": "606b9d6097b82bca902993e18153d1e424f0332e4d064e33374ef50c72cbc1e2"
       },
       {
+        "bytes": 11868,
+        "path": "tests/test_timing.py",
+        "sha256": "457768baee11e6bb8a7b655ab30068f3fd0c1eb2553531e4af494b3fdd943812"
+      },
+      {
+        "bytes": 20909,
+        "path": "tests/test_training_batch.py",
+        "sha256": "419c173c524abe5faf54d3ab8b3fc8922509deeaa68a6d4491b861672f2d050c"
+      },
+      {
         "bytes": 2742,
         "path": "tests/test_utils_atomic.py",
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 97,
+    "included_file_count": 107,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "bb1014543e446fcd516321d308963acbbfce791f1701e8bc4240ae73dc820984"
+    "snapshot_sha256": "0023f91e9e5dc03ae4cd435d87a0042bc2f0c50d368704f634bda88b172dc2ac"
   }
 }
 -->
@@ -864,6 +914,19 @@ SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 
 서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`만 실행한다.
 clone·환경 생성·설치를 매번 반복하지 않는다.
+
+## GPU 미니배치 학습
+
+위 기본 명령은 기존 `configs/train.json`의 batch 1 기준선이다. 새 `configs/batch.json`은
+독립된 시퀀스 최대 4개를 묶어 **graph encoder 한 번 + U-Net decoder 한 번**으로 처리한다.
+프레임 간 graph edge와 recurrent state는 섞지 않고, 전체 프레임·40 epochs는 유지한다.
+BN 통계와 optimizer 갱신 주기가 달라지는 별도 실험(protocol v6)이므로 기준선 checkpoint에서
+exact resume하지 않는다. 실제 MIG GPU의 속도 향상·40-epoch 수렴은 아직 측정하지 않았다.
+
+실행 중인 기준선 작업을 보존한다. 해당 작업이 끝나기 전에 같은 checkout에서 pull하거나
+같은 GPU에 새 학습을 겹쳐 실행하지 않는다. 기존 작업 종료 후의 새 실험 명령, 이전 topology
+보고서 재사용, 실제 batch CUDA 검사, `runs/batch/timing.json`과 epoch별 frame/s 기록은
+[배치 학습 안내](docs/TRAIN.md)를 따른다. 학습·calibration·평가 결과도 `runs/batch` 아래로 분리한다.
 
 ## 실험 범위
 
@@ -1274,6 +1337,77 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
     "save_predictions": 20,
     "output_dir": "runs/eval/aid"
   }
+}
+~~~~~~~~
+
+# configs/batch.json
+
+~~~~~~~~json
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventhdr",
+    "root": "data/EventHDR/train",
+    "val_root": "data/EventHDR/eval",
+    "split_manifest": "manifests/eventhdr_split.json",
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "frame_stride": 1,
+    "target_normalization": {"mode": "integer_dtype_max"},
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
+  },
+  "model": {
+    "architecture_version": 2,
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "graph_operator": "spline",
+    "spline_backend": "torch",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "spline_chunk_size": 65536,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "train": {
+    "epochs": 40,
+    "batch_size": 4,
+    "batching": "independent_sequences",
+    "num_workers": 4,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "optimizer": "adam_gc",
+    "learning_rate": 0.001,
+    "weight_decay": 0.005,
+    "lr_milestones": [20, 30],
+    "lr_gamma": 0.1,
+    "grad_clip": 1.0,
+    "amp": true,
+    "log_every": 20,
+    "timing_steps": 50,
+    "timing_warmup": 10,
+    "validate_every": null,
+    "resume": null,
+    "max_train_samples": null,
+    "max_val_samples": null,
+    "validation_context_frames": 64,
+    "rehash_data": true,
+    "loss_weights": {"charbonnier": 1.0, "ssim": 0.2, "gradient": 0.1, "temporal": 0.2}
+  },
+  "output": {"run_dir": "runs/batch"}
 }
 ~~~~~~~~
 
@@ -2619,6 +2753,10 @@ validation 완료 여부와 epoch를 봉인한다. 40 epoch 최종 평가를 이
 ~~~~~~~~markdown
 # Graph encoder 최적화 검증
 
+이 문서는 아래 기준 commit 대비 연산 단위 최적화 기록이다. 후속 독립 시퀀스 미니배치 학습 설계,
+실제 학습 단계별 타이밍과 별도 실험 실행은 [TRAIN.md](TRAIN.md)를 따른다. 아래 CPU 수치를
+미니배치의 GPU 가속 실측으로 해석하지 않는다.
+
 2026-08-31. 비교 기준은 변경 전 commit `0eae40f`의 graph 구현이다. 모델 구조, parameter/state-dict
 key, 두 SNN dynamics, 전체 데이터 범위, 8,192-event 제한과 40 epoch는 변경하지 않았다.
 이 문서의 CPU 연산 측정은 학습된 모델의 품질 평가, 전체 pipeline 처리량 또는 GPU 실측이 아니다.
@@ -2738,6 +2876,10 @@ event-only HDF5 읽기, CPU helper thread 제한, 구간별 저장·재개를 �
 
 MobaXterm 등의 SSH client로 접속한 Linux GPU 서버 또는 scheduler compute node에서 실행한다.
 아래 명령은 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 실험 경로를 설명한다.
+
+GPU 미니배치 실험은 [TRAIN.md](TRAIN.md)를 따른다. `EXPERIMENT=batch`는 별도 `configs/batch.json`,
+`runs/batch`, batch CUDA profile과 평가 출력 경로를 선택한다. 기본 단일 프레임 실험과 checkpoint를
+공유하지 않는다. 실행 중인 기준선 checkout을 갱신하거나 같은 GPU에서 학습을 겹쳐 실행하지 않는다.
 
 ## 1. 환경 설치
 
@@ -3343,6 +3485,126 @@ bash scripts/run.sh eval
 - SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.
 ~~~~~~~~
 
+# docs/TRAIN.md
+
+~~~~~~~~markdown
+# 단일 프레임 기준선과 독립 시퀀스 배치 학습
+
+`configs/train.json`은 기존 batch 1 기준선(training protocol v5)이다.
+`configs/batch.json`은 batch 상한 4의 별도 실험(training protocol v6)이며,
+ASGCN 모델의 `architecture_version=2`를 바꾸는 설정은 아니다.
+새 배치 경로의 실제 서버 GPU 속도·최대 메모리·40-epoch 수렴은 아직 검증하지 않았다.
+
+## 계산과 순서
+
+각 프레임의 이벤트로 기존과 같은 그래프를 만든 뒤, 노드 인덱스만 이동해 분리된 그래프들을 합친다.
+프레임 사이의 edge는 만들지 않는다. 합친 그래프에 encoder ANN을 **한 번**, 각 프레임의 raster를
+쌓은 텐서에 recurrent U-Net decoder를 **한 번** 호출한다. `forward_sample`을 B번 부르는
+방식이나 gradient accumulation은 아니다. 기존 batch 1 경로는 유지한다.
+
+시퀀스 키는 `(sequence_id 또는 scene, source_file)`이다. 같은 scene에 속해도 다른 원본 파일은
+독립된 recurrent stream으로 취급한다. 샘플러는 다음 조건을 지킨다.
+
+- 전체 선택 프레임을 epoch마다 한 번씩 포함하며, 각 시퀀스 내부 시간 순서를 보존한다.
+- 동시에 최대 B개 시퀀스만 활성화한다. 한 배치에 같은 시퀀스의 두 프레임을 넣지 않는다.
+- crop 이후 해상도가 같은 활성 시퀀스끼리 묶는다. 다른 해상도는 순환 처리하고,
+  시퀀스가 끝나면 빈 자리에 다음 시퀀스를 넣는다.
+- 마지막 배치·해상도 불일치 배치는 작아질 수 있다. padding이나 `drop_last`로 프레임을 버리지 않는다.
+- 이벤트가 0개인 프레임도 포함한다. 샘플러는 HDF5 image의 크기 메타데이터만 읽고 GT 픽셀은 읽지 않는다.
+
+Recurrent state와 temporal loss의 이전 prediction/GT는 배치 슬롯 번호가 아니라 시퀀스 키로 연결한다.
+처음 보는 시퀀스, frame index의 불연속, 해상도 변경, 새 epoch에서는 context를 초기화한다.
+유효 state가 없는 슬롯은 0으로 초기화하며 다른 슬롯의 state를 가져오지 않는다.
+성공한 optimizer update 뒤에만 context를 갱신하고 detach한다. 선택된 마지막 프레임을 처리한
+시퀀스의 context는 제거해 최대 B개 활성 시퀀스만 유지한다. 프레임 간 장기 BPTT는 하지 않는다.
+AMP overflow 재시도는 같은 배치와 같은 입력 context를 다시 사용하며, 성공 전에는 순서를 진행하지 않는다.
+
+## 별도 실험이어야 하는 이유
+
+Encoder의 학습 BatchNorm은 합친 그래프의 **전체 노드**를 기준으로 통계를 계산한다.
+따라서 노드 수가 많은 프레임이 BN 통계에 더 많이 기여한다. 배치마다 optimizer update도 한 번만 하므로,
+기존의 프레임별 BN·프레임별 parameter update와 학습 궤적이 다르다.
+
+Reconstruction loss는 배치에 실제 포함된 프레임들의 평균이다. 같은 해상도끼리 묶으므로 픽셀 평균은
+프레임별 평균과 같다. Charbonnier/SSIM/gradient/temporal 가중치는 각각 `1.0/0.2/0.1/0.2`다.
+Temporal 항은 연속 context가 있는 프레임만 계산하되 `유효 context 수 / 실제 배치 크기`를 곱한다.
+Context가 없는 프레임의 temporal 항을 0으로 놓은 전체 프레임 평균에 해당한다.
+부분 배치도 실제 크기로 평균내며, epoch loss는 처리한 프레임 수로 가중 평균한다.
+
+기본 40 epochs와 학습률 `0.001`은 그대로지만, epoch당 update 횟수는 배치 구성에 따라 줄어든다.
+동일한 프레임 노출 횟수가 동일한 optimizer update 횟수나 동일한 수렴 결과를 뜻하지 않는다.
+기준선 checkpoint를 batch 실험에 `--resume`으로 연결하지 않는다. Batch 실험은 새로 학습하며,
+그 이후의 재개만 일치하는 batch protocol/checkpoint 계약을 따른다.
+검증·calibration·평가는 기존의 시간 순서 batch 1 경로를 사용한다.
+
+## 실제 학습 시간 기록
+
+Batch 설정은 실제 학습의 첫 10개 성공 step을 warmup으로 두고, 다음 50개 step에 `StageTimer`를 켠다.
+여기서 step은 배치 하나에 대한 성공한 optimizer update이며 frame 수와 구분한다.
+별도 모델을 돌리거나 측정을 위해 추가 optimizer update를 실행하지 않는다. 수집 창이 끝나면
+`runs/batch/timing.json`을 저장한다. 기록 대상은 data loading, transfer, graph, encoder, decoder,
+loss, backward, gradient 검사, optimizer 등의 단계다. AMP 재시도가 있으면 해당 step의 재시도 작업도 포함한다.
+
+`host_wall`은 Python 실행·연산 제출·대기 시간을 포함한 host 경과시간이다. `cuda_elapsed`는
+선택한 CUDA stream의 event 사이 경과시간이며, GPU utilization이나 다른 작업을 제외한 kernel 순수 실행시간이
+아니다. 중첩된 단계는 시간이 겹칠 수 있으므로 합산해서 전체 step 시간으로 해석하지 않는다.
+측정 창을 회수할 때 CUDA를 한 번 동기화한다. 각 단계 경계마다 동기화하지는 않는다.
+측정 자체의 overhead와 첫 50개 step의 대표성 한계도 고려해야 한다.
+`window_complete`, `measured_steps`, `dropped_scopes`를 확인해 미완료·기록 누락을 구분한다.
+
+`runs/batch/history.json`에는 epoch의 `training_seconds`, `frames`, `optimizer_steps`,
+`frames_per_second`, `batch_size_limit`, AMP 재시도와 GPU peak allocated/reserved 메모리가 기록된다.
+`performance` 시간은 epoch 종료 CUDA 동기화까지 포함하고 validation 시간은 제외한다.
+반면 현재 `gpu_memory` peak는 epoch 학습 시작부터 해당 epoch의 선택적 validation까지 포함한다.
+따라서 validation을 실행한 epoch의 peak를 순수 학습 VRAM으로 해석하지 않는다.
+진행률의 단위도 optimizer step이 아니라 **frame**이다. CUDA timing이 없으면 GPU 측정으로 보고하지 않는다.
+
+## 서버 실행과 결과 분리
+
+현재 기준선 학습이 실행 중이면 그 checkout에서 `git pull`하거나 임의로 작업을 종료하지 않는다.
+기존 작업이 끝난 뒤, 또는 사용자가 보존할 checkpoint와 종료 시점을 정한 뒤 소스를 갱신한다.
+기존 `runs/train`과 checkpoint는 그대로 보존한다. 아래 명령은 갱신된 저장소 root에서,
+Conda `asgcn`과 할당된 GPU를 사용하며 기존 학습이 실행 중이지 않을 때의 새 실험 명령이다.
+기존 run을 가리키는 `TRAIN_CONFIG`, `ANN_CHECKPOINT`, `SNN_CHECKPOINT`, `RESUME_CHECKPOINT` 등의
+수동 override가 남아 있지 않은 terminal을 사용한다.
+
+완료된 호환 topology 보고서 `runs/profile2.json`이 있는 경우:
+
+```bash
+export EXPERIMENT=batch PROFILE_OUTPUT=runs/batch-profile.json &&
+PROFILE_REUSE_REPORT=runs/profile2.json bash scripts/run.sh profile &&
+bash scripts/run.sh train &&
+bash scripts/run.sh calibrate &&
+bash scripts/run.sh eval
+```
+
+이전 보고서는 topology 기록만 검증 후 재사용한다. 예전 GPU 통과 결과는 재사용하지 않고,
+현재 설정의 실제 batch schedule과 밀집/첫/빈/희소 입력 배치에 대해 CUDA 학습 경로를 새로 검사한다.
+Batch 전체 CUDA 검사를 통과한 현재 보고서가 있어야 학습을 시작한다. 이 검사는 40 epochs의 성공이나
+모든 입력에서 OOM이 없다는 보증이 아니다. 구현된 gate와 실제 서버 통과 결과를 구분한다.
+
+호환 보고서가 없으면 위 `profile` 명령에서 `PROFILE_REUSE_REPORT=...`만 빼고 전수 scan부터 수행한다.
+재사용이 거부되면 검증을 우회하지 않는다. 이미 만들어진 출력/scan을 덮어쓰지 말고 실패 원인을 확인하거나
+`runs/batch-profile2.json`처럼 새 `PROFILE_OUTPUT` 경로를 선택한다.
+새 terminal에서도 `EXPERIMENT`와 `PROFILE_OUTPUT`을 다시 설정한다.
+
+출력은 `runs/batch`(학습·calibration), `runs/batch-profile.json`(사전검사),
+`runs/batch-status`(stage 상태), `runs/batch/eval/hdr`와 `runs/batch/eval/aid`(평가)로 분리한다.
+기존 EventHDR/EventAid-R 데이터는 다시 다운로드하거나 복제하지 않는다.
+
+## 아직 해결하지 않은 병목
+
+그래프는 **프레임마다, epoch마다 다시 생성**한다. 전체 데이터의 graph cache나 디스크 graph cache는
+구현하지 않았다. 작은 LRU cache는 시간순으로 한 번씩 읽는 학습에서 적중률이 낮을 수 있고,
+전체 edge/index/attribute cache는 설정과 이벤트 밀도에 따라 100 GB를 넘을 수 있다.
+실제 topology 크기와 I/O 시간을 측정한 뒤 명시적인 저장 공간 예산으로 판단할 다음 작업이다.
+
+기존 spline 최적화의 중간 텐서 보관 감소와 이번 호출 배치화를 실제 GPU 속도 향상으로 환산하지 않는다.
+Batch는 동시에 처리하는 노드·edge·decoder activation이 늘어 peak VRAM이 더 커질 수 있다.
+A100 전체 GPU와 MIG 1g.10gb는 같은 실행 자원이 아니며, B=4가 해당 MIG에서 충분한지도 실제 gate로 확인해야 한다.
+4배 가속을 약속하지 않는다. 프로젝트 전용 C++/CUDA 확장을 새로 만든 것도 아니다.
+~~~~~~~~
+
 # hand_off.md
 
 ~~~~~~~~markdown
@@ -3354,12 +3616,45 @@ bash scripts/run.sh eval
 
 ## 0. 검증 기록과 배포 판정 기준
 
+### 독립 시퀀스 미니배치 경로
+
+단일 프레임 update 반복을 줄이기 위해 `configs/batch.json`과 training protocol v6를 추가했다.
+기존 `configs/train.json`의 v5 경로는 보존한다. B=4는 프레임 간 edge가 없는 disjoint graph와
+vectorized recurrent U-Net의 실제 배치 처리이며, `forward_sample` 네 번 호출이나 gradient
+accumulation이 아니다. 시퀀스당 시간 순서, 전체 프레임, 40 epochs, 모델 크기는 유지한다.
+Pooled-node BN과 배치 평균 loss/optimizer update는 학습 프로토콜 변경이므로 별도 run으로 시작한다.
+기준선 checkpoint의 exact-resume 보호를 우회하지 않는다.
+
+`batching.py`는 최대 B개 활성 시퀀스와 해상도별 배치를 스케줄링한다. `training.py`는 시퀀스별
+detach/독립 저장소 context와 temporal loss를 관리하며, 성공한 update만 commit하고 끝난 시퀀스를
+제거한다. AMP 실패는 배치 전체를 재시도한다. `preflight.py`는 실제 최대 B 구성, 밀집/첫/빈/희소
+배치의 공유 학습 경로를 CUDA에서 검사해야 gate를 발급한다. 이전 topology 수치 재사용과 이전
+GPU 측정 통과는 구분하며 GPU 검사는 항상 다시 수행한다.
+
+`timing.py`는 실제 학습 10 warmup 뒤 50 step의 host/CUDA 단계 시간을 수집한다. `history.json`은
+validation을 제외한 epoch wall time, 처리 frame 수, optimizer update 수와 frame/s를 기록한다.
+그래프는 여전히 매 프레임·매 epoch 생성하며 전체 graph cache는 구현하지 않았다. Batch 4의
+실제 MIG 처리량·VRAM·수렴 결과는 아직 없다. 구현 계약·한계·서버 명령은 [TRAIN.md](docs/TRAIN.md)를
+기준으로 한다. 아래 997/40 기록은 이전 AMP 수정 시점이며 이번 배치 경로의 검증 수치가 아니다.
+
+이번 배치·artifact 보호 수정의 전체 Windows CPU 회귀검사는 **1167 passed, 41 skipped,
+1 warning (75.08초)**다. CUDA 하드웨어·Linux shell·Windows symlink 제약 검사는 skip이며,
+warning은 test-only quantized buffer의 PyTorch deprecated API 경고다. 일부 테스트 실행에서는
+Windows native access-violation 진단도 출력됐으나 해당 실행은 pytest 결과까지 반환됐다.
+최종 전체 재실행은 종료코드 0이며 위 1 warning 외 native 진단 출력은 없었다. Ruff와 diff 검사는
+통과했다. 이 기록은 Linux wrapper 실제 실행, 실제 MIG throughput/VRAM 또는 전체 학습 완료의 증거가 아니다.
+
+추가 artifact 회귀검사는 잘못된 fresh/resume 시도에서 기존 config·gate·hash cache·checkpoint
+바이트 보존을 확인한다. CLI는 gate를 먼저 저장하지 않고 engine의 모든 재개 검증 후에만
+run metadata를 게시한다. 기존 99,088-frame 학습에서 제공된 2시간 이상 소요/592 MiB 화면은
+문제 제기 자료이며, 새 배치 경로의 성능 측정치로 사용하지 않는다.
+
 2026-08-31 서버 진단에서 첫 EventHDR 프레임의 event 수가 0이고, 기본 FP16 scale 65,536에서만
 `decoder.enc1.body.0.bias` gradient가 비유한 값이 되는 것을 확인했다. 같은 입력의 FP16 scale 1과
 FP32는 finite loss/gradient였고 norm은 약 16.83이었다. 이는 사용자 제공 단일 프레임 진단 결과이며
 수정된 코드의 GPU 전체 학습 성공 기록이 아니다.
 
-현재 수정은 training protocol **v5**, `same_sample_backoff_v1`로 AMP overflow를 처리한다. 같은
+기존 단일 프레임 경로는 training protocol **v5**, `same_sample_backoff_v1`로 AMP overflow를 처리한다. 같은
 프레임을 최대 16회 재시도하며 실패한 시도의 BN/mutable buffer와 Python/NumPy/Torch/CUDA RNG를
 복원한다. 실패 시 optimizer update나 프레임 건너뛰기는 없고, recurrent/temporal state는 성공한
 시도만 반영한다. finite gradient 확인 후 GC·clip·update를 수행하며 원래 backend 오류를 숨기지 않는다.
@@ -3874,7 +4169,8 @@ config/checkpoint/output 경로는 shareable artifact에서 repository-relative 
 hostname을 출력하지 않는다.
 
 보고용 ANN 평가에는 verified CUDA preflight가 포함된 clean `ann_inference`, finite macro-SSIM selection,
-training protocol v5와 validation protocol v7이 필요하다. 보고용 SNN은 그 ANN에서 봉인된
+training protocol v5(단일 프레임) 또는 v6(독립 시퀀스 배치)와 validation protocol v7이 필요하다.
+v6는 일치하는 실제 full-batch CUDA gate도 요구한다. 보고용 SNN은 그 ANN에서 봉인된
 `calibration_protocol.sealed=true`를 요구한다. `metrics.json.evaluation_protocol`과
 `benchmark.json.benchmark_protocol`은 public config/model, checkpoint file·tensor와 lineage,
 현재 eval dataset의 전체 content SHA-256·transform·manifest·coverage·sampling, source,
@@ -5551,6 +5847,10 @@ export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
 
 DYNAMICS_ARGS=()
+OUTPUT_ARGS=()
+if [[ -n "${EVAL_OUTPUT_DIR:-}" ]]; then
+  OUTPUT_ARGS=(--output-dir "${EVAL_OUTPUT_DIR}")
+fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   DYNAMICS_ARGS=(--snn-dynamics "${SNN_DYNAMICS}")
 fi
@@ -5572,6 +5872,7 @@ runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
   --checkpoint "${CHECKPOINT_PATH}" \
   --inference-mode "${INFERENCE_MODE}" \
   --simulation-steps "${SIMULATION_STEPS}" \
+  "${OUTPUT_ARGS[@]}" \
   "${DYNAMICS_ARGS[@]}"
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
@@ -5583,6 +5884,7 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     --steps "${BENCHMARK_STEPS}" \
     --inference-mode "${INFERENCE_MODE}" \
     --simulation-steps "${SIMULATION_STEPS}" \
+    "${OUTPUT_ARGS[@]}" \
     "${DYNAMICS_ARGS[@]}"
 fi
 ~~~~~~~~
@@ -6740,6 +7042,7 @@ Stages:
   all         Run check, profile, train, calibrate and eval in order (default)
 
 Important environment:
+  EXPERIMENT=single|batch                Default: single; batch is a separate run
   RESUME_CHECKPOINT=PATH
   TRAIN_CONFIG / HDR_CONFIG / AID_CONFIG
   ANN_CHECKPOINT / SNN_CHECKPOINT
@@ -6787,13 +7090,31 @@ if [[ "$#" -gt 1 ]]; then
   exit 2
 fi
 
+EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single)
+    DEFAULT_TRAIN_CONFIG=configs/train.json
+    DEFAULT_TRAIN_RUN=runs/train
+    DEFAULT_PROFILE_OUTPUT=runs/profile.json
+    DEFAULT_STATUS_DIR=runs/status
+    DEFAULT_EVAL_ROOT=""
+    ;;
+  batch)
+    DEFAULT_TRAIN_CONFIG=configs/batch.json
+    DEFAULT_TRAIN_RUN=runs/batch
+    DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json
+    DEFAULT_STATUS_DIR=runs/batch-status
+    DEFAULT_EVAL_ROOT=runs/batch/eval
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single or batch" >&2; exit 2 ;;
+esac
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
-TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
+TRAIN_CONFIG="${TRAIN_CONFIG:-${DEFAULT_TRAIN_CONFIG}}"
 HDR_CONFIG="${HDR_CONFIG:-configs/hdr.json}"
 AID_CONFIG="${AID_CONFIG:-configs/aid.json}"
-ANN_CHECKPOINT="${ANN_CHECKPOINT:-runs/train/best.pt}"
-SNN_CHECKPOINT="${SNN_CHECKPOINT:-runs/train/best_snn.pt}"
+ANN_CHECKPOINT="${ANN_CHECKPOINT:-${DEFAULT_TRAIN_RUN}/best.pt}"
+SNN_CHECKPOINT="${SNN_CHECKPOINT:-${DEFAULT_TRAIN_RUN}/best_snn.pt}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
 CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
@@ -6802,7 +7123,7 @@ BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
-PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
 PROFILE_RESUME="${PROFILE_RESUME:-0}"
 PROFILE_REUSE_REPORT="${PROFILE_REUSE_REPORT:-}"
 PROFILE_CPU_THREADS="${PROFILE_CPU_THREADS:-4}"
@@ -6810,7 +7131,8 @@ RESTART_TRAIN="${RESTART_TRAIN:-0}"
 ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-2}"
 DRY_RUN="${DRY_RUN:-0}"
-STATUS_DIR="${STATUS_DIR:-runs/status}"
+STATUS_DIR="${STATUS_DIR:-${DEFAULT_STATUS_DIR}}"
+EVAL_OUTPUT_ROOT="${EVAL_OUTPUT_ROOT:-${DEFAULT_EVAL_ROOT}}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 
 cd "${PROJECT_ROOT}"
@@ -7052,6 +7374,11 @@ run_one_evaluation() {
   local mode="$3"
   local simulation_steps="$4"
   local dynamics="$5"
+  local config_name="${config_path##*/}"
+  local output_dir=""
+  if [[ -n "${EVAL_OUTPUT_ROOT}" ]]; then
+    output_dir="${EVAL_OUTPUT_ROOT}/${config_name%.json}"
+  fi
   run_cmd env \
     REQUIRE_CUDA="${REQUIRE_CUDA}" \
     VALIDATE_DATASET=0 \
@@ -7061,6 +7388,7 @@ run_one_evaluation() {
     INFERENCE_MODE="${mode}" \
     SIMULATION_STEPS="${simulation_steps}" \
     SNN_DYNAMICS="${dynamics}" \
+    EVAL_OUTPUT_DIR="${output_dir}" \
     PYTHON_BIN="${PYTHON_BIN}" \
     bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
 }
@@ -8775,6 +9103,206 @@ runtime_command srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
 """ASGCN-U-Net event-to-frame reconstruction."""
 ~~~~~~~~
 
+# src/asgcn_unet/batching.py
+
+~~~~~~~~python
+"""Disjoint graph batches and chronological, independent sequence scheduling."""
+
+from __future__ import annotations
+
+import random
+from collections import OrderedDict, deque
+from collections.abc import Iterator
+from contextlib import ExitStack
+from pathlib import Path
+from types import MappingProxyType
+from typing import Any
+
+import h5py
+import torch
+from torch.utils.data import Sampler, Subset
+
+from .graph import EventGraph
+
+
+def sequence_key(sample: dict[str, Any]) -> tuple[str, str]:
+    """Identify a recurrent stream without merging distinct files of one scene."""
+    metadata = sample.get("metadata", sample)
+    if not isinstance(metadata, dict):
+        raise TypeError("Sequence batching requires dictionary sample metadata")
+    identity = metadata.get("sequence_id") or metadata.get("scene")
+    if not isinstance(identity, str) or not identity:
+        raise ValueError("Sequence batching requires a nonempty scene or sequence_id")
+    source = metadata.get("source_file", "")
+    if not isinstance(source, str):
+        raise TypeError("Sequence batching source_file must be a string")
+    return identity, source
+
+
+def concatenate_graphs(graphs: list[EventGraph]) -> EventGraph:
+    """Form a disjoint union; no radius query is performed across sample borders."""
+    if not graphs:
+        raise ValueError("Cannot concatenate an empty graph batch")
+    device = graphs[0].node_features.device
+    dtype = graphs[0].node_features.dtype
+    offset = 0
+    edges = []
+    degrees = []
+    for graph in graphs:
+        if graph.node_features.device != device or graph.node_features.dtype != dtype:
+            raise ValueError("Batched graphs must share node dtype and device")
+        if (graph.positions.device != device or graph.edge_index.device != device
+                or graph.edge_attr.device != device):
+            raise ValueError("Batched graph topology and nodes must share a device")
+        if (graph.positions.dtype != graphs[0].positions.dtype
+                or graph.edge_attr.dtype != graphs[0].edge_attr.dtype):
+            raise ValueError("Batched graph positions and edge attributes must share their dtypes")
+        edges.append(graph.edge_index + offset)
+        assert graph.in_degree is not None
+        degrees.append(graph.in_degree)
+        offset += graph.node_features.shape[0]
+    return EventGraph(
+        node_features=torch.cat([graph.node_features for graph in graphs], dim=0),
+        positions=torch.cat([graph.positions for graph in graphs], dim=0),
+        edge_index=torch.cat(edges, dim=1),
+        edge_attr=torch.cat([graph.edge_attr for graph in graphs], dim=0),
+        in_degree=torch.cat(degrees, dim=0),
+    )
+
+
+class SequenceBatchSampler(Sampler[list[int]]):
+    """Refill independent sequence lanes without shuffling frames within a stream.
+
+    Every selected dataset index appears exactly once per epoch, including empty
+    event intervals and final partial batches. A batch contains at most one frame
+    from each stream and one post-crop sensor shape. Shape changes do not create a
+    new concurrent copy of a stream; the training loop must reset its recurrent
+    state at the same shape/index discontinuities as ordinary framewise training.
+
+    EventHDR image dimensions are read from HDF5 metadata only, never GT pixels.
+    ``shuffle_sequences`` changes only the deterministic lane admission order.
+    """
+
+    def __init__(
+        self,
+        dataset: Any,
+        batch_size: int,
+        *,
+        shuffle_sequences: bool = False,
+        seed: int = 2026,
+    ) -> None:
+        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+            raise ValueError("Sequence batch_size must be a positive integer")
+        if not isinstance(shuffle_sequences, bool):
+            raise TypeError("shuffle_sequences must be a boolean")
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            raise TypeError("Sequence sampler seed must be an integer")
+        self.dataset = dataset
+        self.batch_size = batch_size
+        self.shuffle_sequences = shuffle_sequences
+        self.seed = seed
+        self.epoch = 0
+        base = dataset
+        selected = list(range(len(dataset)))
+        while isinstance(base, Subset):
+            selected = [int(base.indices[index]) for index in selected]
+            base = base.dataset
+        if len(set(selected)) != len(selected):
+            raise ValueError("Sequence batching does not permit duplicate selected dataset indices")
+        records = getattr(base, "samples", None)
+        if not isinstance(records, list) or len(records) != len(base):
+            raise TypeError("Sequence batching requires an indexed dataset.samples list")
+        crop_size = getattr(base, "crop_size", None)
+        self.sample_count = len(selected)
+        self._streams: OrderedDict[tuple[str, str], list[int]] = OrderedDict()
+        shapes: list[tuple[int, int]] = []
+        previous_indices: dict[tuple[str, str], int] = {}
+        with ExitStack() as stack:
+            handles: dict[Path, h5py.File] = {}
+            for sample_index, original_index in enumerate(selected):
+                record = records[original_index]
+                if not isinstance(record, dict):
+                    raise TypeError("Sequence batching sample records must be dictionaries")
+                key = sequence_key(record)
+                index = record.get("sequence_index")
+                if isinstance(index, bool) or not isinstance(index, int) or index < 0:
+                    raise ValueError("Sequence batching requires nonnegative integer sequence_index")
+                if key in previous_indices and index <= previous_indices[key]:
+                    raise ValueError("Each sequence must be indexed in strictly chronological order")
+                previous_indices[key] = index
+                self._streams.setdefault(key, []).append(sample_index)
+                shape = record.get("sensor_size")
+                if shape is None:
+                    path = Path(record["path"])
+                    if path not in handles:
+                        handles[path] = stack.enter_context(h5py.File(path, "r"))
+                    image = handles[path]["images"][record["image_key"]]
+                    if not isinstance(image, h5py.Dataset) or image.ndim not in (2, 3):
+                        raise ValueError("Sequence batching requires HxW or HxWxC image metadata")
+                    shape = image.shape[:2]
+                if not isinstance(shape, (tuple, list)) or len(shape) != 2:
+                    raise ValueError("Sequence batching sensor_size must contain height and width")
+                height, width = (int(value) for value in shape)
+                if crop_size is not None:
+                    height = min(height, int(crop_size[0]))
+                    width = min(width, int(crop_size[1]))
+                if height < 1 or width < 1:
+                    raise ValueError("Sequence batching sensor dimensions must be positive")
+                shapes.append((height, width))
+        self._shapes = tuple(shapes)
+        # Last selected chronological index, not the last index in the source
+        # file: Subsets may end early. Evict state after this sample succeeds.
+        self.final_sequence_indices = MappingProxyType(previous_indices)
+        self.sequence_count = len(self._streams)
+        self._batches = self._schedule()
+
+    @property
+    def sample_sensor_sizes(self) -> tuple[tuple[int, int], ...]:
+        """Post-crop geometry indexed by the sampler's selected dataset indices."""
+        return self._shapes
+
+    def _schedule(self) -> tuple[tuple[int, ...], ...]:
+        streams = [tuple(indices) for indices in self._streams.values()]
+        if self.shuffle_sequences:
+            random.Random(self.seed + self.epoch).shuffle(streams)
+        pending = deque(deque(indices) for indices in streams)
+        lanes: list[deque[int] | None] = [None] * min(self.batch_size, len(streams))
+        batches: list[tuple[int, ...]] = []
+        next_lane = 0
+        while pending or any(lanes):
+            for lane in range(len(lanes)):
+                if not lanes[lane] and pending:
+                    lanes[lane] = pending.popleft()
+            # Round-robin shape selection prevents a long sequence from starving
+            # lanes with a different resolution. Matching lanes advance together.
+            active = next(
+                (next_lane + offset) % len(lanes)
+                for offset in range(len(lanes))
+                if lanes[(next_lane + offset) % len(lanes)]
+            )
+            assert lanes[active] is not None
+            shape = self._shapes[lanes[active][0]]
+            selected = []
+            for lane in lanes:
+                if lane and self._shapes[lane[0]] == shape:
+                    selected.append(lane.popleft())
+            batches.append(tuple(selected))
+            next_lane = (active + 1) % len(lanes)
+        return tuple(batches)
+
+    def set_epoch(self, epoch: int) -> None:
+        if isinstance(epoch, bool) or not isinstance(epoch, int) or epoch < 0:
+            raise ValueError("Sequence sampler epoch must be a nonnegative integer")
+        self.epoch = epoch
+        self._batches = self._schedule()
+
+    def __iter__(self) -> Iterator[list[int]]:
+        return (list(batch) for batch in self._batches)
+
+    def __len__(self) -> int:
+        return len(self._batches)
+~~~~~~~~
+
 # src/asgcn_unet/cli.py
 
 ~~~~~~~~python
@@ -8796,7 +9324,7 @@ from .data import build_dataset
 from .engine import _artifact_path_label, benchmark, calibrate, evaluate, train
 from .preflight import training_preflight, verify_training_preflight
 from .recovery import archive_uncheckpointed_run
-from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path, save_json
+from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
 
 
 def _inspect_path_labels(config: dict[str, Any]) -> list[tuple[Path, str]]:
@@ -9139,6 +9667,8 @@ def build_parser() -> argparse.ArgumentParser:
             "permanently marked sealed=false"
         ),
     )
+    eval_cmd.add_argument("--output-dir", help="separate evaluation artifacts from other experiments")
+    bench_cmd.add_argument("--output-dir", help="separate timing artifacts from other experiments")
     return parser
 
 
@@ -9152,6 +9682,8 @@ def _execute_command(args: argparse.Namespace) -> None:
         message = _redact_inspect_text(str(error), [(config_path, "$CONFIG")])
         raise SystemExit(f"Dataset inspection failed: {message}") from None
     base_dir = experiment_base_dir(config_path)
+    if args.command in {"evaluate", "benchmark"} and args.output_dir:
+        config["eval"]["output_dir"] = str(resolve_path(args.output_dir, base_dir))
     if args.command == "inspect":
         try:
             result = inspect_dataset(
@@ -9212,7 +9744,6 @@ def _execute_command(args: argparse.Namespace) -> None:
             if archived is not None:
                 print(f"Archived uncheckpointed run metadata: {_artifact_path_label(archived)}")
         config["preflight_gate"] = preflight_gate
-        save_json(Path(config["output"]["run_dir"]) / "preflight_gate.json", preflight_gate)
         result = {
             "best_checkpoint": _artifact_path_label(train(config, resume_from=resume))
         }
@@ -9300,6 +9831,7 @@ def _public_error_path_labels(args: argparse.Namespace) -> list[tuple[Path, str]
         ("checkpoint", "$CHECKPOINT"),
         ("resume", "$RESUME_CHECKPOINT"),
         ("output", "$OUTPUT"),
+        ("output_dir", "$EVAL_OUTPUT"),
         ("report", "$PREFLIGHT_REPORT"),
         ("preflight_report", "$PREFLIGHT_REPORT"),
     ):
@@ -10980,16 +11512,16 @@ import sys
 import time
 from collections import Counter, defaultdict
 from collections.abc import Callable
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import torch
-from torch.nn import functional as F
 from torch.utils.data import DataLoader, Subset
 from tqdm import tqdm
 
+from .batching import SequenceBatchSampler
 from .data import build_dataset, collate_samples, load_eventhdr_split_manifest
 from .graph import PAPER_CORE_VERSION, PaperSplineConv
 from .losses import ReconstructionLoss
@@ -11000,6 +11532,8 @@ from .metrics import (
     temporal_consistency_error,
 )
 from .model import ASGCNUNet
+from .timing import StageTimer
+from .training import TrainingState, batching_contract, forward_training_loss
 from .utils import (
     atomic_torch_save,
     load_json,
@@ -11926,15 +12460,26 @@ def _valid_training_protocol_contract(value: Any) -> bool:
         "runtime",
         "source",
     }
+    if isinstance(value, dict) and value.get("version") == 6:
+        required_fields.add("batching")
     if not isinstance(value, dict) or set(value) != required_fields:
         return False
     if (
-        value.get("version") != 5
+        value.get("version") not in {5, 6}
         or not isinstance(value.get("seed"), int)
         or isinstance(value.get("seed"), bool)
         or value.get("recurrent_state_detached_each_sample") is not True
         or not _valid_source_contract(value.get("source"))
     ):
+        return False
+    if not isinstance(value.get("data_order"), dict):
+        return False
+    batch_size = value["data_order"].get("batch_size")
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+        return False
+    if value["version"] != (5 if batch_size == 1 else 6):
+        return False
+    if batch_size > 1 and value.get("batching") != batching_contract(batch_size):
         return False
     if any(
         not isinstance(value.get(field), dict)
@@ -12331,6 +12876,21 @@ def _valid_preflight_gate(value: Any) -> bool:
     ):
         return False
     measured_steps = value.get("measured_steps")
+    batch_size = value.get("batch_size", 1)
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+        return False
+    if batch_size > 1:
+        batch = value.get("batch_preflight")
+        if (
+            not isinstance(batch, dict)
+            or batch.get("contract") != batching_contract(batch_size)
+            or not _is_sha256(batch.get("schedule_sha256"))
+            or batch.get("largest_measured_batch_size") != batch_size
+            or isinstance(batch.get("measured_batches"), bool)
+            or not isinstance(batch.get("measured_batches"), int)
+            or batch["measured_batches"] < 1
+        ):
+            return False
     scope = value.get("measurement_scope")
     return (
         isinstance(measured_steps, int)
@@ -12376,8 +12936,14 @@ def _ann_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
 
     training = checkpoint.get("training_protocol")
     if not _valid_training_protocol_contract(training):
-        reasons.append("complete training_protocol v4 contract is missing or invalid")
+        reasons.append("complete training_protocol v5/v6 contract is missing or invalid")
         training = None
+    elif training["version"] == 6 and (
+        not isinstance(preflight_gate, dict)
+        or preflight_gate.get("batch_size") != training["data_order"]["batch_size"]
+        or not _valid_preflight_gate(preflight_gate)
+    ):
+        reasons.append("sequence-batch training requires a matching full-batch CUDA gate")
 
     validation = checkpoint.get("validation_protocol")
     if not isinstance(validation, dict) or validation.get("version") != 7:
@@ -12643,14 +13209,14 @@ def _snn_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
         if not _is_sha256(protocol.get(field)):
             reasons.append(f"calibration_protocol {field} is invalid")
     source_ann_protocols: dict[str, dict[str, Any]] = {}
-    for name, expected_version in (("training", 5), ("validation", 7)):
+    for name, expected_versions in (("training", {5, 6}), ("validation", {7})):
         identity = protocol.get(f"source_ann_{name}_protocol")
         flat_digest = protocol.get(f"source_ann_{name}_protocol_sha256")
         contract = identity.get("contract") if isinstance(identity, dict) else None
         digest = identity.get("sha256") if isinstance(identity, dict) else None
         if (
             not isinstance(contract, dict)
-            or contract.get("version") != expected_version
+            or contract.get("version") not in expected_versions
             or not _is_sha256(digest)
             or digest != _canonical_sha256(contract)
             or flat_digest != digest
@@ -13223,6 +13789,7 @@ def _data_loader(
     shuffle: bool = False,
     persistent_workers: bool | None = None,
     prefetch_factor: int | None = None,
+    batch_sampler=None,
 ):
     if num_workers < 0:
         raise ValueError("num_workers must be non-negative")
@@ -13234,6 +13801,10 @@ def _data_loader(
         "pin_memory": device.type == "cuda",
         "collate_fn": collate_samples,
     }
+    if batch_sampler is not None:
+        loader_options.pop("batch_size")
+        loader_options.pop("shuffle")
+        loader_options["batch_sampler"] = batch_sampler
     if num_workers > 0:
         loader_options["persistent_workers"] = (
             True if persistent_workers is None else bool(persistent_workers)
@@ -13345,6 +13916,7 @@ def _training_protocol_config_reasons(
     if not isinstance(train_config, dict):
         return ["public ANN training settings are missing"]
     try:
+        validate_experiment_config(config)
         optimizer_mode = _optimizer_mode(train_config)
         optimizer = {
             "mode": optimizer_mode,
@@ -13402,6 +13974,7 @@ def _training_protocol_config_reasons(
             else max(1, int(raw_validate_every))
         )
         expected_fields = {
+            "version": 5 if int(train_config.get("batch_size", 1)) == 1 else 6,
             "seed": int(config.get("seed", 2026)),
             "optimizer": optimizer,
             "scheduler": _scheduler_spec(train_config),
@@ -13426,6 +13999,8 @@ def _training_protocol_config_reasons(
                 else None
             ),
         }
+        if int(train_config.get("batch_size", 1)) > 1:
+            expected_fields["batching"] = batching_contract(int(train_config["batch_size"]))
     except (KeyError, TypeError, ValueError, OverflowError):
         return ["public ANN training config cannot reproduce its protocol"]
 
@@ -13674,7 +14249,11 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
         gpu_name = None
         compute_capability = None
     return {
-        "version": 5,
+        "version": 5 if int(train_config.get("batch_size", 1)) == 1 else 6,
+        **(
+            {"batching": batching_contract(int(train_config["batch_size"]))}
+            if int(train_config.get("batch_size", 1)) > 1 else {}
+        ),
         "seed": int(config.get("seed", 2026)),
         "optimizer": {
             "mode": optimizer_mode,
@@ -13856,27 +14435,44 @@ def _clip_and_validate_gradients(
     step: int,
     sample_id: Any,
 ) -> float:
-    """Reject invalid gradients without relabeling unrelated backend errors."""
+    """Validate the clipping norm once; collect parameter names only on failure."""
     if not math.isfinite(max_norm) or max_norm <= 0:
         raise ValueError("train.grad_clip must be finite and greater than zero")
-    invalid = _nonfinite_gradient_names(model)
-    if invalid:
-        raise FloatingPointError(
-            "Non-finite gradients before clipping at "
-            f"epoch={epoch}, step={step}, sample={sample_id}; parameters={', '.join(invalid)}"
+    parameters = list(model.parameters())
+    get_norm = getattr(torch.nn.utils, "get_total_norm", None)
+    clip_with_norm = getattr(torch.nn.utils, "clip_grads_with_norm_", None)
+    if callable(get_norm) and callable(clip_with_norm):
+        # These public functions implement the same norm and clipping operations
+        # as clip_grad_norm_. A finite L2 norm already proves its gradient
+        # elements finite, so rescanning every parameter on success is redundant.
+        gradients = [parameter.grad for parameter in parameters if parameter.grad is not None]
+        total_norm = get_norm(gradients, norm_type=2.0, error_if_nonfinite=False)
+    else:
+        # Preserve support for older PyTorch releases lacking the split public
+        # API. This compatibility path retains the original strict validation.
+        invalid = _nonfinite_gradient_names(model)
+        if invalid:
+            raise FloatingPointError(
+                "Non-finite gradients before clipping at "
+                f"epoch={epoch}, step={step}, sample={sample_id}; "
+                f"parameters={', '.join(invalid)}"
+            )
+        total_norm = torch.nn.utils.clip_grad_norm_(
+            parameters, max_norm, norm_type=2.0, error_if_nonfinite=True
         )
-    # error_if_nonfinite also catches overflow of the total norm even when every
-    # gradient element is finite. Preserve its actual RuntimeError and any CUDA
-    # backend exception instead of claiming all clipping failures are NaN/Inf.
-    total_norm = torch.nn.utils.clip_grad_norm_(
-        model.parameters(), max_norm, norm_type=2.0, error_if_nonfinite=True
-    )
     finite_norm = float(total_norm.detach().cpu())
     if not math.isfinite(finite_norm):
+        invalid = _nonfinite_gradient_names(model)
+        description = "gradients" if invalid else "gradient norm"
+        names = f"; parameters={', '.join(invalid)}" if invalid else ""
         raise FloatingPointError(
-            "Non-finite gradient norm after clipping at "
-            f"epoch={epoch}, step={step}, sample={sample_id}"
+            f"Non-finite {description} before clipping at "
+            f"epoch={epoch}, step={step}, sample={sample_id}{names}"
         )
+    if callable(get_norm) and callable(clip_with_norm):
+        # No invalid gradient is modified, and unrelated backend failures from
+        # either public operation propagate with their original exception type.
+        clip_with_norm(parameters, max_norm, total_norm)
     return finite_norm
 
 
@@ -13895,6 +14491,34 @@ def _nonfinite_gradient_names(model: torch.nn.Module) -> list[str]:
     return invalid
 
 
+@torch.no_grad()
+def _snapshot_model_buffers(model: torch.nn.Module) -> dict[str, torch.Tensor]:
+    """Pack same-shape buffers into shared storage without changing their values.
+
+    The default model has 58 buffers but only six device/dtype/shape groups. One
+    stack per group replaces one allocation/copy per buffer. Restored values are
+    views into the packs; all buffers, including non-BatchNorm state, are retained.
+    """
+    groups: dict[
+        tuple[torch.device, torch.dtype, torch.Size], list[tuple[str, torch.Tensor]]
+    ] = defaultdict(list)
+    snapshot: dict[str, torch.Tensor] = {}
+    for name, value in model.named_buffers():
+        if value.layout != torch.strided or value.is_quantized:
+            # Stacking sparse or differently quantized buffers is not generally
+            # value-preserving. Keep the existing clone behavior for these cases.
+            snapshot[name] = value.detach().clone()
+        else:
+            groups[(value.device, value.dtype, value.shape)].append((name, value))
+    for entries in groups.values():
+        packed = torch.stack([value for _name, value in entries])
+        snapshot.update(
+            (name, value)
+            for (name, _original), value in zip(entries, packed.unbind(), strict=True)
+        )
+    return snapshot
+
+
 def _training_step(
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
@@ -13907,6 +14531,7 @@ def _training_step(
     step: int,
     sample_id: Any,
     max_amp_retries: int = _AMP_MAX_RETRIES,
+    timing: Any = None,
 ) -> tuple[Any, dict[str, float], float, dict[str, float | int]]:
     """Commit one sample, retrying only recoverable AMP gradient overflows.
 
@@ -13927,11 +14552,7 @@ def _training_step(
     scale_before = float(scaler.get_scale())
     if not math.isfinite(scale_before) or scale_before <= 0:
         raise FloatingPointError(f"Invalid AMP scale before training step: {scale_before}")
-    saved_buffers = (
-        {name: value.detach().clone() for name, value in model.named_buffers()}
-        if amp_enabled
-        else {}
-    )
+    saved_buffers = _snapshot_model_buffers(model) if amp_enabled else {}
     saved_rng = _capture_rng_state() if amp_enabled else None
 
     def rollback() -> None:
@@ -13952,9 +14573,11 @@ def _training_step(
             loss_values = _ensure_finite_loss(
                 loss, loss_parts, epoch=epoch, step=step, sample_id=sample_id
             )
-            scaler.scale(loss).backward()
-            scaler.unscale_(optimizer)
-            invalid = _nonfinite_gradient_names(model)
+            with timing.scope("backward") if timing is not None else nullcontext():
+                scaler.scale(loss).backward()
+                scaler.unscale_(optimizer)
+            with timing.scope("gradient_check") if timing is not None else nullcontext():
+                invalid = _nonfinite_gradient_names(model)
             if invalid:
                 attempt_scale = float(scaler.get_scale())
                 context = (
@@ -13980,11 +14603,12 @@ def _training_step(
                 # Release the failed graph/payload before allocating the retry.
                 del loss, loss_parts, payload
                 continue
-            if optimizer_mode == "adam_gc":
-                _centralize_gradients(model)
-            gradient_norm = _clip_and_validate_gradients(
-                model, max_norm, epoch=epoch, step=step, sample_id=sample_id
-            )
+            with timing.scope("gradient_check") if timing is not None else nullcontext():
+                if optimizer_mode == "adam_gc":
+                    _centralize_gradients(model)
+                gradient_norm = _clip_and_validate_gradients(
+                    model, max_norm, epoch=epoch, step=step, sample_id=sample_id
+                )
         except Exception as error:
             try:
                 rollback()
@@ -13994,8 +14618,9 @@ def _training_step(
                 raise error from rollback_error
             raise
         # Only finite, centralized and clipped gradients reach the optimizer.
-        scaler.step(optimizer)
-        scaler.update()
+        with timing.scope("optimizer") if timing is not None else nullcontext():
+            scaler.step(optimizer)
+            scaler.update()
         return payload, loss_values, gradient_norm, {
             "scale_before": scale_before,
             "scale_after": float(scaler.get_scale()),
@@ -14151,14 +14776,16 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     train_dataset = build_dataset(data_config, split="train")
     val_dataset = _validation_dataset(config)
     batch_size = int(train_config.get("batch_size", 1))
-    if batch_size != 1 and config["model"].get("recurrent", True):
-        raise ValueError("The recurrent experiment uses chronological batch_size=1")
+    batch_sampler = (
+        SequenceBatchSampler(train_dataset, batch_size, seed=seed) if batch_size > 1 else None
+    )
     train_loader = _data_loader(
         train_dataset,
         batch_size,
         int(train_config.get("num_workers", 0)),
         device,
         shuffle=False,
+        batch_sampler=batch_sampler,
         **_loader_kwargs(train_config),
     )
     val_indices = _balanced_contiguous_indices(
@@ -14205,7 +14832,6 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     validation_protocol = _validation_protocol(
         config, val_sampling, train_dataset, val_dataset, digest_cache
     )
-    save_json(hash_cache_path, {"version": 1, "files": digest_cache})
     val_loader = _data_loader(
         Subset(val_dataset, val_schedule),
         1,
@@ -14270,7 +14896,6 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 "best.pt from another or inconsistent run"
             )
     public_config = _public_config(config)
-    save_json(run_dir / "config.json", public_config)
 
     best_ssim = float("-inf")
     best_model_state_sha256: str | None = None
@@ -14322,63 +14947,55 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         None if raw_validate_every is None else max(1, int(raw_validate_every))
     )
     max_train_samples = train_config.get("max_train_samples")
+    timing_steps = int(train_config.get("timing_steps", 0))
+    timing = StageTimer(
+        device, enabled=timing_steps > 0,
+        warmup_steps=int(train_config.get("timing_warmup", 10)),
+        measurement_steps=max(1, timing_steps),
+    )
+    timing_saved = False
+    # Publish run metadata only after every fresh/resume check, including
+    # optimizer/scaler/RNG restoration. Rejected attempts must preserve the
+    # previous gate, config and hash cache alongside the original checkpoints.
+    save_json(hash_cache_path, {"version": 1, "files": digest_cache})
+    save_json(run_dir / "config.json", public_config)
+    if "preflight_gate" in config:
+        save_json(run_dir / "preflight_gate.json", config["preflight_gate"])
     for epoch in range(start_epoch, epochs + 1):
         epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
         model.train()
         _reset_cuda_peak_memory(device)
-        current_sequence = None
-        previous_sequence_index = None
-        previous_sensor_size = None
-        recurrent_state = None
-        previous_prediction = None
-        previous_target = None
+        state = TrainingState(independent_sequences=batch_size > 1)
+        if batch_sampler is not None:
+            batch_sampler.set_epoch(epoch)
         running_loss = 0.0
         epoch_amp_retries = 0
         epoch_amp_retried_samples = 0
         seen = 0
-        progress = tqdm(train_loader, desc=f"train {epoch:03d}/{epochs:03d}")
-        for step, batch in enumerate(progress):
+        optimizer_steps = 0
+        epoch_start = time.perf_counter()
+        loader_iterator = iter(train_loader)
+        frame_total = len(train_dataset)
+        if max_train_samples is not None:
+            frame_total = min(frame_total, int(max_train_samples))
+        progress = tqdm(total=frame_total, desc=f"train {epoch:03d}/{epochs:03d}", unit="frame")
+        for step in range(len(train_loader)):
             if max_train_samples is not None and seen >= int(max_train_samples):
                 break
-            if len(batch) != 1:
-                raise ValueError("Stateful training currently requires batch_size=1")
-            sample = move_sample(batch[0], device)
-            sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
-            if not _continues_sequence(
-                sequence_id,
-                sequence_index,
-                sensor_size,
-                current_sequence,
-                previous_sequence_index,
-                previous_sensor_size,
-            ):
-                recurrent_state = None
-                previous_prediction = None
-                previous_target = None
-            current_sequence = sequence_id
-            previous_sequence_index = sequence_index
-            previous_sensor_size = sensor_size
-            def forward_loss(
-                current_sample=sample,
-                incoming_state=recurrent_state,
-                incoming_prediction=previous_prediction,
-                incoming_target=previous_target,
-            ):
-                # Incoming state/targets remain unchanged throughout AMP retries.
-                with torch.autocast(device_type=device.type, enabled=amp_enabled):
-                    prediction, diagnostics = model.forward_sample(
-                        current_sample, recurrent_state=incoming_state
-                    )
-                    target = current_sample["target"].unsqueeze(0)
-                    loss, loss_parts = criterion(prediction, target)
-                    if temporal_weight > 0 and incoming_prediction is not None:
-                        temporal = F.l1_loss(
-                            prediction - incoming_prediction,
-                            target - incoming_target,
-                        )
-                        loss = loss + temporal_weight * temporal
-                        loss_parts["temporal"] = temporal.detach()
-                return loss, loss_parts, (prediction, diagnostics, target)
+            with timing.scope("dataload", gpu=False):
+                batch = next(loader_iterator)
+                if max_train_samples is not None:
+                    batch = batch[: int(max_train_samples) - seen]
+            with timing.scope("transfer"):
+                samples = [move_sample(sample, device) for sample in batch]
+            contexts = state.prepare(samples)
+
+            def forward_loss(current_samples=samples, incoming_contexts=contexts):
+                return forward_training_loss(
+                    model, criterion, current_samples, incoming_contexts,
+                    batch_mode=batch_size > 1, amp_enabled=amp_enabled,
+                    temporal_weight=temporal_weight, timing=timing,
+                )
 
             payload, loss_values, _gradient_norm, amp_info = _training_step(
                 model,
@@ -14389,19 +15006,24 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 max_norm=float(train_config.get("grad_clip", 1.0)),
                 epoch=epoch,
                 step=step,
-                sample_id=sample.get("sample_id", "unknown"),
+                sample_id=[sample.get("sample_id", "unknown") for sample in samples],
+                timing=timing,
             )
             prediction, diagnostics, target = payload
             epoch_amp_retries += int(amp_info["retries"])
-            epoch_amp_retried_samples += int(amp_info["retries"] > 0)
-
-            recurrent_state = diagnostics["recurrent_state"]
-            if recurrent_state is not None:
-                recurrent_state = recurrent_state.detach()
-            previous_prediction = prediction.detach()
-            previous_target = target.detach()
-            running_loss += loss_values["total"]
-            seen += 1
+            epoch_amp_retried_samples += len(samples) * int(amp_info["retries"] > 0)
+            state.commit(samples, prediction, diagnostics, target)
+            if batch_sampler is not None:
+                state.release_finished(samples, batch_sampler.final_sequence_indices)
+                if len(state.values) > batch_size:
+                    raise RuntimeError("Sequence state storage exceeded the active batch size")
+            running_loss += loss_values["total"] * len(samples)
+            seen += len(samples)
+            optimizer_steps += 1
+            progress.update(len(samples))
+            if timing.step():
+                save_json(run_dir / "timing.json", timing.collect())
+                timing_saved = True
             if step % int(train_config.get("log_every", 20)) == 0 or amp_info["retries"]:
                 progress.set_postfix(
                     loss=f"{running_loss / max(seen, 1):.4f}",
@@ -14409,7 +15031,10 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                     amp_scale=amp_info["scale_after"],
                     **loss_values,
                 )
-
+        progress.close()
+        if device.type == "cuda":
+            torch.cuda.synchronize(device)
+        epoch_seconds = time.perf_counter() - epoch_start
         should_validate = epoch == epochs or (
             validate_every is not None and epoch % validate_every == 0
         )
@@ -14445,6 +15070,15 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 epoch_learning_rates[0] if len(epoch_learning_rates) == 1 else epoch_learning_rates
             ),
             "gpu_memory": _cuda_peak_memory(device),
+            "performance": {
+                "training_seconds": epoch_seconds,
+                "frames": seen,
+                "optimizer_steps": optimizer_steps,
+                "frames_per_second": seen / epoch_seconds if epoch_seconds > 0 else None,
+                "batch_size_limit": batch_size,
+                "includes_validation": False,
+                "timing_instrumentation_requested": timing_steps > 0,
+            },
             "amp": {
                 "retries": epoch_amp_retries,
                 "retried_samples": epoch_amp_retried_samples,
@@ -14521,6 +15155,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             atomic_torch_save(best_checkpoint, run_dir / "best.pt")
         atomic_torch_save(checkpoint, run_dir / "last.pt")
         print(record)
+    if timing_steps > 0 and not timing_saved:
+        save_json(run_dir / "timing.json", timing.collect())
     best_path = run_dir / "best.pt"
     if not best_path.is_file():
         raise RuntimeError(
@@ -15583,7 +16219,7 @@ def _sealed_calibration_protocol(
     )
     if not isinstance(training_protocol, dict):
         mismatches.append("source checkpoint has no training protocol")
-    elif training_protocol.get("version") != 5:
+    elif training_protocol.get("version") not in {5, 6}:
         mismatches.append("source checkpoint has an unsupported training protocol")
     if not isinstance(expected_source, dict):
         mismatches.append("source checkpoint has no training source contract")
@@ -16976,11 +17612,13 @@ def percentile(values: list[float], q: float) -> float:
 from __future__ import annotations
 
 import math
+from contextlib import nullcontext
 from typing import Any
 
 import torch
 from torch import nn
 
+from .batching import concatenate_graphs, sequence_key
 from .graph import PAPER_CORE_VERSION, ASGCNEncoder, EventGraph, build_event_graph
 from .unet import RecurrentUNetDecoder
 
@@ -17199,6 +17837,109 @@ class ASGCNUNet(nn.Module):
             "recurrent_state": next_state,
         }
         return prediction, diagnostics
+
+    def forward_training_batch(
+        self,
+        samples: list[dict[str, Any]],
+        recurrent_states: list[torch.Tensor | None] | None = None,
+        *,
+        timing: Any = None,
+    ) -> tuple[torch.Tensor, list[dict[str, Any]]]:
+        """Train independent sequence frames with one encoder and decoder call.
+
+        This opt-in ANN path uses pooled-node graph BatchNorm in training mode;
+        it is a distinct minibatch protocol, not gradient accumulation or a claim
+        of equivalence to sequential batch-one parameter updates. No graph edge
+        or recurrent state crosses a sample boundary.
+        """
+        if not samples:
+            raise ValueError("Training batches must contain at least one sample")
+        sensor_size = tuple(int(value) for value in samples[0]["sensor_size"])
+        if len(sensor_size) != 2 or min(sensor_size) < 1:
+            raise ValueError("Training batches require positive height and width")
+        if any(tuple(sample["sensor_size"]) != sensor_size for sample in samples):
+            raise ValueError("A training batch must contain one shared sensor_size")
+        keys = [sequence_key(sample) for sample in samples]
+        if len(set(keys)) != len(keys):
+            raise ValueError("A training batch may contain only one frame from each sequence")
+        if recurrent_states is None:
+            recurrent_states = [None] * len(samples)
+        if len(recurrent_states) != len(samples):
+            raise ValueError("recurrent_states must contain one entry per batch sample")
+        gpu = samples[0]["events"].device.type == "cuda"
+
+        def scope(label: str):
+            return timing.scope(label, gpu=gpu) if timing is not None else nullcontext()
+
+        with scope("graph"):
+            graphs = [self._graph(sample) for sample in samples]
+            graph = concatenate_graphs(graphs)
+            node_counts = [item.node_features.shape[0] for item in graphs]
+        with scope("encoder"):
+            features, _activations = self.encoder.forward_ann(graph)
+        with scope("decoder"):
+            per_sample_features = features.split(node_counts, dim=0)
+            raster = torch.cat([
+                rasterize_features(values, item, sensor_size, self.raster_downsample)
+                for values, item in zip(per_sample_features, graphs, strict=True)
+            ], dim=0)
+            state_batch = None
+            if self.decoder.recurrent is not None:
+                # Two stride-two, padding-one downsampling convolutions each
+                # round upward, so the recurrent grid is ceil(raster_size / 4).
+                expected = (
+                    1,
+                    self.decoder.recurrent.hidden_channels,
+                    (raster.shape[-2] + 3) // 4,
+                    (raster.shape[-1] + 3) // 4,
+                )
+                valid_states = []
+                for state in recurrent_states:
+                    if state is not None and not isinstance(state, torch.Tensor):
+                        raise TypeError("A recurrent state must be a tensor or None")
+                    valid_states.append(
+                        state if state is not None and tuple(state.shape) == expected else None
+                    )
+                reference = next((state for state in valid_states if state is not None), None)
+                if reference is not None:
+                    if reference.device != raster.device or any(
+                        state is not None
+                        and (state.device != reference.device or state.dtype != reference.dtype)
+                        for state in valid_states
+                    ):
+                        raise ValueError("Batched recurrent states must share device and dtype")
+                    state_batch = torch.cat([
+                        reference.new_zeros(expected) if state is None else state
+                        for state in valid_states
+                    ], dim=0)
+            predictions, next_state = self.decoder(raster, sensor_size, state_batch)
+        diagnostics = []
+        for index, (sample, item) in enumerate(zip(samples, graphs, strict=True)):
+            nodes = int(item.node_features.shape[0])
+            assert item.in_degree is not None
+            isolated = (item.in_degree == 0).sum()
+            maximum = item.in_degree.max() if nodes else item.in_degree.new_zeros(())
+            sampling_ratio = float(sample.get("metadata", {}).get("dataset_sampling_ratio", 1.0))
+            diagnostics.append({
+                "paper_core_version": self.architecture_version,
+                "nodes": nodes,
+                "edges": int(item.edge_index.shape[1]),
+                "isolated_nodes": isolated,
+                "isolate_ratio": isolated.to(item.node_features.dtype) / float(max(1, nodes)),
+                "max_degree": maximum,
+                "edge_feature": "normalized_scalar_distance",
+                "event_sampling_factor": self.event_sampling_factor,
+                "dataset_sampling_ratio": sampling_ratio,
+                "effective_sampling_ratio": sampling_ratio * self.event_sampling_factor,
+                "snn_dynamics": None,
+                "decoder_input_lambda_applied": False,
+                "firing_rates": [],
+                "firing_rate_denominators": [],
+                "spike_counts": [],
+                "activations": [],
+                "recurrent_state": None if next_state is None else next_state[index : index + 1],
+            })
+        return predictions, diagnostics
 
     def forward(
         self,
@@ -17433,6 +18174,7 @@ import torch
 from torch.nn import functional as F
 from tqdm import tqdm
 
+from .batching import SequenceBatchSampler, sequence_key
 from .data import build_dataset
 from .engine import (
     _AMP_MAX_RETRIES,
@@ -17455,6 +18197,7 @@ from .graph import prepare_event_nodes, radius_graph_topology, uniformly_sample_
 from .losses import ReconstructionLoss
 from .model import ASGCNUNet
 from .scan import ScanInUseError, ScanJournal
+from .training import batching_contract, forward_training_loss
 from .utils import move_sample, resolve_device, save_json, set_seed, validate_experiment_config
 
 # These exact clean source trees were audited for the same event selection and
@@ -17473,6 +18216,21 @@ LEGACY_TOPOLOGY_SOURCES = frozenset(
         (
             "043e3803ae817dd10355f4370a4ee8acddfb311ec7342c2f9b630fc2a8974bec",
             "11fe7f75d64f693e4aec39990de5bf4019818deb",
+        ),
+    }
+)
+
+# Version-2 framewise reports with the already-audited CUDA topology scan. The
+# new batch gate changes imports/optimizer execution but not these graph counts.
+LEGACY_V2_TOPOLOGY_SOURCES = frozenset(
+    {
+        (
+            "57ee2e525d652d9cf60d42f56519944f58bb6b9b98eeba1e66e6798b02831306",
+            "c8b1da000ec394e210ecf148f96c61086dde74ed",
+        ),
+        (
+            "57ee2e525d652d9cf60d42f56519944f58bb6b9b98eeba1e66e6798b02831306",
+            "1e3c4652c0e451c5b2c86a7561de98004d3c2d21",
         ),
     }
 )
@@ -17568,6 +18326,7 @@ def _base_report(
         "topology": None,
         "topology_contract": None,
         "scan_provenance": None,
+        "batch_training_probe": None,
         "training_probe": {
             "selected_samples": [],
             "completed_samples": 0,
@@ -18030,6 +18789,355 @@ def _immediate_training_context(
     )
 
 
+def _make_batch_sampler(dataset: Any, config: dict[str, Any]) -> SequenceBatchSampler:
+    batch_size = int(config["train"].get("batch_size", 1))
+    if batch_size <= 1 or config["train"].get("batching") != "independent_sequences":
+        raise ValueError("Batched preflight requires independent_sequences with batch_size > 1")
+    sampler = SequenceBatchSampler(dataset, batch_size, seed=int(config.get("seed", 2026)))
+    largest = max((len(batch) for batch in sampler), default=0)
+    if sampler.sequence_count < batch_size or largest != batch_size:
+        raise ValueError(
+            f"Cannot form the requested full batch_size={batch_size}: "
+            f"independent_sequences={sampler.sequence_count}, largest_geometry_compatible_batch={largest}"
+        )
+    return sampler
+
+
+def _batch_plan(
+    dataset: Any,
+    records: list[dict[str, Any]],
+    config: dict[str, Any],
+    count: int,
+    *,
+    sampler: SequenceBatchSampler | None = None,
+) -> dict[str, Any]:
+    sampler = _make_batch_sampler(dataset, config) if sampler is None else sampler
+    batches = list(sampler)
+    if len(batches) < count:
+        raise ValueError(
+            "The actual sequence schedule contains fewer batches than requested probes"
+        )
+    sizes = sampler.sample_sensor_sizes
+    previous: dict[tuple[str, str], int] = {}
+    predecessors: list[int | None] = []
+    for index, item in enumerate(dataset.samples):
+        key = sequence_key(item)
+        predecessor = previous.get(key)
+        if predecessor is not None and (
+            item["sequence_index"] != dataset.samples[predecessor]["sequence_index"] + 1
+            or sizes[index] != sizes[predecessor]
+        ):
+            predecessor = None
+        predecessors.append(predecessor)
+        previous[key] = index
+    entries = []
+    for number, indices in enumerate(batches):
+        if len({sizes[index] for index in indices}) != 1:
+            raise ValueError("Sequence batch schedule mixes incompatible sensor shapes")
+        entries.append(
+            {
+                "batch_index": number,
+                "dataset_indices": indices,
+                "sample_ids": [records[index]["sample_id"] for index in indices],
+                "batch_size": len(indices),
+                "sensor_size": list(sizes[indices[0]]),
+                "sum_nodes": sum(records[index]["model_sampled_events"] for index in indices),
+                "sum_actual_directed_edges": sum(
+                    records[index]["actual_directed_edges"] for index in indices
+                ),
+                "sum_candidate_directed_edges": sum(
+                    records[index]["candidate_directed_edges"] for index in indices
+                ),
+                "predecessor_indices": [predecessors[index] for index in indices],
+            }
+        )
+    ranked = sorted(
+        entries,
+        key=lambda entry: (
+            -entry["sum_actual_directed_edges"],
+            -entry["sum_candidate_directed_edges"],
+            -entry["sum_nodes"],
+            entry["batch_index"],
+        ),
+    )
+    numerical: dict[int, list[str]] = {0: ["first_scheduled_batch"]}
+    empty = next(
+        (
+            entry
+            for entry in entries
+            if any(records[i]["model_sampled_events"] == 0 for i in entry["dataset_indices"])
+        ),
+        None,
+    )
+    sparsest = min(
+        (record for record in records if record["model_sampled_events"] > 0),
+        key=lambda record: (
+            record["model_sampled_events"],
+            record["actual_directed_edges"],
+            record["dataset_index"],
+        ),
+        default=None,
+    )
+    sparse = next(
+        (
+            entry
+            for entry in entries
+            if sparsest is not None and sparsest["dataset_index"] in entry["dataset_indices"]
+        ),
+        None,
+    )
+    largest = max(entry["batch_size"] for entry in entries)
+    largest_entry = next(entry for entry in entries if entry["batch_size"] == largest)
+    for entry, reason in (
+        (empty, "contains_empty_frame"),
+        (sparse, "contains_sparsest_nonempty_frame"),
+        (largest_entry, "largest_actual_batch"),
+    ):
+        if entry is not None:
+            numerical.setdefault(entry["batch_index"], []).append(reason)
+    batch_size = int(config["train"]["batch_size"])
+    return {
+        "schema": "asgcn_sequence_batch_probe_plan_v1",
+        "batching_contract": batching_contract(batch_size),
+        "requested_batch_size": batch_size,
+        "largest_actual_batch_size": largest,
+        "sequence_count": sampler.sequence_count,
+        "dataset_samples": len(records),
+        "scheduled_batches": len(batches),
+        "scheduled_frames": sum(len(batch) for batch in batches),
+        "partial_batches": sum(len(batch) < batch_size for batch in batches),
+        "schedule_sha256": _canonical_sha256(batches),
+        "rank_basis": [
+            "sum_actual_edges_desc",
+            "sum_candidate_edges_desc",
+            "sum_nodes_desc",
+            "batch_index_asc",
+        ],
+        "selected_dense": ranked[:count],
+        "selected_numerical": [
+            dict(entries[index], reasons=reasons) for index, reasons in numerical.items()
+        ],
+    }
+
+
+@torch.no_grad()
+def _batch_predecessor_contexts(
+    model: ASGCNUNet,
+    dataset: Any,
+    selected: dict[str, Any],
+    config: dict[str, Any],
+    device: torch.device,
+) -> tuple[list[tuple[Any, Any, Any]], list[int | None]]:
+    contexts: list[tuple[Any, Any, Any]] = [(None, None, None)] * selected["batch_size"]
+    used: list[int | None] = [None] * selected["batch_size"]
+    temporal_weight = float((config["train"].get("loss_weights") or {}).get("temporal", 0.0))
+    if not config["model"].get("recurrent", True) and temporal_weight <= 0:
+        return contexts, used
+    valid = [
+        (slot, index)
+        for slot, index in enumerate(selected["predecessor_indices"])
+        if index is not None
+    ]
+    if not valid:
+        return contexts, used
+    samples = [move_sample(dataset[index], device) for _, index in valid]
+    amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    # This is one actual batched predecessor replay, not B sequential forwards.
+    # It is an empirical context-memory probe, not a full-history trajectory.
+    with torch.autocast(device_type=device.type, enabled=amp):
+        prediction, diagnostics = model.forward_training_batch(samples, [None] * len(samples))
+    target = torch.stack([sample["target"] for sample in samples])
+    for local, (slot, predecessor) in enumerate(valid):
+        state = diagnostics[local]["recurrent_state"]
+        contexts[slot] = (
+            state.detach() if state is not None else None,
+            prediction[local : local + 1].detach(),
+            target[local : local + 1].detach(),
+        )
+        used[slot] = predecessor
+    return contexts, used
+
+
+def _gpu_batch_step(
+    model: ASGCNUNet,
+    criterion: ReconstructionLoss,
+    optimizer: torch.optim.Optimizer,
+    scaler: Any,
+    dataset: Any,
+    records: list[dict[str, Any]],
+    selected: dict[str, Any],
+    config: dict[str, Any],
+    device: torch.device,
+    *,
+    fresh: bool,
+) -> dict[str, Any]:
+    samples = [move_sample(dataset[index], device) for index in selected["dataset_indices"]]
+    if fresh:
+        contexts = [(None, None, None)] * len(samples)
+        predecessors: list[int | None] = [None] * len(samples)
+    else:
+        contexts, predecessors = _batch_predecessor_contexts(
+            model, dataset, selected, config, device
+        )
+    amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    temporal_weight = float((config["train"].get("loss_weights") or {}).get("temporal", 0.0))
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+        torch.cuda.reset_peak_memory_stats(device)
+        start = torch.cuda.Event(enable_timing=True)
+        end = torch.cuda.Event(enable_timing=True)
+        start.record()
+    else:
+        start_time = time.perf_counter()
+
+    def forward_loss():
+        return forward_training_loss(
+            model,
+            criterion,
+            samples,
+            contexts,
+            batch_mode=True,
+            amp_enabled=amp,
+            temporal_weight=temporal_weight,
+        )
+
+    payload, loss, gradient_norm, amp_info = _training_step(
+        model,
+        optimizer,
+        scaler,
+        forward_loss,
+        optimizer_mode=_optimizer_mode(config["train"]),
+        max_norm=float(config["train"].get("grad_clip", 1.0)),
+        epoch=0,
+        step=selected["batch_index"],
+        sample_id=" | ".join(selected["sample_ids"]),
+    )
+    prediction, diagnostics, target = payload
+    if (
+        len(diagnostics) != len(samples)
+        or prediction.shape != target.shape
+        or prediction.shape[0] != selected["batch_size"]
+        or list(prediction.shape[-2:]) != selected["sensor_size"]
+    ):
+        raise RuntimeError("Batched training probe output does not match the actual selected batch")
+    for index, detail in zip(selected["dataset_indices"], diagnostics, strict=True):
+        if (
+            int(detail["edges"]) != records[index]["actual_directed_edges"]
+            or int(detail["nodes"]) != records[index]["model_sampled_events"]
+        ):
+            raise RuntimeError("Batched training graph differs from cached per-frame topology")
+    if device.type == "cuda":
+        end.record()
+        end.synchronize()
+        elapsed = float(start.elapsed_time(end))
+        allocated = torch.cuda.max_memory_allocated(device) / 1024**2
+        reserved = torch.cuda.max_memory_reserved(device) / 1024**2
+    else:
+        elapsed = (time.perf_counter() - start_time) * 1000
+        allocated = reserved = None
+    if not math.isfinite(elapsed) or elapsed <= 0:
+        raise FloatingPointError("Batched training probe produced an invalid elapsed time")
+    return {
+        **selected,
+        "execution": "disjoint_graph_batch_and_vectorized_decoder",
+        "initialization": "fresh_training_seed" if fresh else "shared_dense_probe_model",
+        "context_policy": "none" if fresh else "one_batched_predecessor_replay_training_mode",
+        "context_indices": predecessors,
+        "loss": loss,
+        "gradient_norm": gradient_norm,
+        "amp_enabled": amp,
+        "amp": amp_info,
+        "step_time_ms": elapsed,
+        "peak_allocated_mib": allocated,
+        "peak_reserved_mib": reserved,
+    }
+
+
+def _run_batch_probe(
+    report: dict[str, Any],
+    dataset: Any,
+    records: list[dict[str, Any]],
+    config: dict[str, Any],
+    device: torch.device,
+    sampler: SequenceBatchSampler,
+    count: int,
+) -> None:
+    plan = _batch_plan(dataset, records, config, count, sampler=sampler)
+    probe: dict[str, Any] = {
+        "plan": plan,
+        "dense_steps": [],
+        "numerical_steps": [],
+        "passed": False,
+    }
+    report["batch_training_probe"] = probe
+    criterion = ReconstructionLoss(config["train"].get("loss_weights"))
+    amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    for selected in plan["selected_numerical"]:
+        set_seed(int(config.get("seed", 2026)))
+        model = ASGCNUNet(**config["model"]).to(device).train()
+        optimizer = _build_optimizer(model, config["train"])
+        scaler = _make_grad_scaler(amp)
+        probe["numerical_steps"].append(
+            _gpu_batch_step(
+                model,
+                criterion,
+                optimizer,
+                scaler,
+                dataset,
+                records,
+                selected,
+                config,
+                device,
+                fresh=True,
+            )
+        )
+        del model, optimizer, scaler
+    set_seed(int(config.get("seed", 2026)))
+    model = ASGCNUNet(**config["model"]).to(device).train()
+    optimizer = _build_optimizer(model, config["train"])
+    scaler = _make_grad_scaler(amp)
+    for selected in plan["selected_dense"]:
+        probe["dense_steps"].append(
+            _gpu_batch_step(
+                model,
+                criterion,
+                optimizer,
+                scaler,
+                dataset,
+                records,
+                selected,
+                config,
+                device,
+                fresh=False,
+            )
+        )
+    probe["passed"] = True
+
+
+def _topology_input_config(config: dict[str, Any]) -> dict[str, Any]:
+    model = config.get("model", {})
+    defaults = {
+        "event_sampling_factor": 1,
+        "graph_radius": 0.08,
+        "graph_position_dims": 3,
+        "graph_chunk_size": 512,
+        "max_graph_edges": 2_000_000,
+    }
+    return {
+        "seed": int(config.get("seed", 2026)),
+        "dataset": _public_config(config.get("dataset", {})),
+        "graph": {name: model.get(name, default) for name, default in defaults.items()},
+    }
+
+
+def _audited_source(source: Any, allowlist: frozenset[tuple[str, str]]) -> bool:
+    return (
+        isinstance(source, dict)
+        and source.get("git_source_dirty") is False
+        and (source.get("source_tree_sha256"), source.get("git_commit")) in allowlist
+    )
+
+
 def _reusable_topology(
     path: Path,
     config: dict[str, Any],
@@ -18046,20 +19154,25 @@ def _reusable_topology(
     if schema == "asgcn_training_preflight_v1":
         _require_verified_report_contract(report, path, allow_legacy=True)
         source = report.get("source_provenance")
-        if (
-            not isinstance(source, dict)
-            or source.get("git_source_dirty") is not False
-            or (source.get("source_tree_sha256"), source.get("git_commit"))
-            not in LEGACY_TOPOLOGY_SOURCES
-        ):
+        if not _audited_source(source, LEGACY_TOPOLOGY_SOURCES):
             raise ValueError("Legacy topology source is not in the audited compatibility allowlist")
         record_device = "cpu"
     elif schema == "asgcn_training_preflight_v2":
+        source = report.get("source_provenance")
         if report.get("topology_contract") != implementation:
-            raise ValueError("Reusable topology implementation differs from the current code")
+            if not _audited_source(source, LEGACY_V2_TOPOLOGY_SOURCES):
+                raise ValueError("Reusable topology implementation differs from the current code")
+            previous_implementation = report.get("topology_contract")
+            if not isinstance(previous_implementation, dict) or any(
+                previous_implementation.get(field) != implementation.get(field)
+                for field in ("schema", "semantics", "torch", "device_type")
+            ):
+                raise ValueError(
+                    "Audited topology reuse requires the same graph semantics and runtime"
+                )
+            _require_verified_report_contract(report, path)
         if report.get("output") != _artifact_path_label(path):
             raise ValueError("Reusable profile output identity does not match its file")
-        source = report.get("source_provenance")
         if (
             not isinstance(source, dict)
             or not isinstance(source.get("source_tree_sha256"), str)
@@ -18073,14 +19186,15 @@ def _reusable_topology(
         )
     else:
         raise ValueError("Unsupported reusable topology report schema")
-    public_config = _public_config(config)
     config_provenance = report.get("config_provenance")
     if (
         not isinstance(config_provenance, dict)
-        or config_provenance.get("config") != public_config
-        or config_provenance.get("sha256") != _canonical_sha256(public_config)
+        or not isinstance(config_provenance.get("config"), dict)
+        or config_provenance.get("sha256") != _canonical_sha256(config_provenance["config"])
     ):
-        raise ValueError("Reusable topology config differs from the current experiment")
+        raise ValueError("Reusable topology original config hash is invalid")
+    if _topology_input_config(config_provenance["config"]) != _topology_input_config(config):
+        raise ValueError("Reusable topology inputs differ from the current experiment")
     if report.get("data_provenance") != data_provenance:
         raise ValueError("Reusable topology data differs from the current EventHDR files")
     topology = report.get("topology")
@@ -18112,6 +19226,7 @@ def _reusable_topology(
         "source_provenance": report["source_provenance"],
         "record_device": record_device,
         "gpu_measurements_reused": False,
+        "config_reuse_scope": "seed_dataset_graph_topology_inputs_only",
     }
 
 
@@ -18219,6 +19334,11 @@ def _run_training_preflight(
         dataset = build_dataset(config["dataset"], split="train")
         if len(dataset) < profile_samples:
             raise ValueError("EventHDR training split has fewer samples than profile_samples")
+        batch_sampler = (
+            _make_batch_sampler(dataset, config)
+            if int(config["train"].get("batch_size", 1)) > 1
+            else None
+        )
         data_provenance = _data_provenance(dataset, config)
         implementation = _topology_implementation_contract(device)
         report["data_provenance"] = data_provenance
@@ -18349,9 +19469,18 @@ def _run_training_preflight(
                 )
                 report["training_probe"]["steps"].append(step_result)
                 report["training_probe"]["completed_samples"] = step
-            report["checks"]["forward_backward"] = len(report["training_probe"]["steps"]) == len(
-                selected
-            ) and len(report["training_probe"]["numerical_probes"]) == len(numerical_selection)
+            # Do not keep the framewise probe's model, optimizer or predecessor
+            # tensors alive while measuring the actual batched training path.
+            del model, optimizer, scaler, context
+            if batch_sampler is not None:
+                _run_batch_probe(
+                    report, dataset, records, config, device, batch_sampler, profile_samples
+                )
+            report["checks"]["forward_backward"] = (
+                len(report["training_probe"]["steps"]) == len(selected)
+                and len(report["training_probe"]["numerical_probes"]) == len(numerical_selection)
+                and (batch_sampler is None or report["batch_training_probe"]["passed"] is True)
+            )
             report["checks"]["cuda_oom_free"] = True if cuda_ready else None
         else:
             report["training_probe"]["failure_category"] = "edge_guard_exceeded"
@@ -18441,6 +19570,139 @@ def _validate_probe_amp(measured: dict[str, Any], effective: bool, *, fresh: boo
         raise ValueError("Training preflight reports AMP retries/scaling while AMP is disabled")
     if fresh and amp["scale_before"] != (65536.0 if effective else 1.0):
         raise ValueError("Training preflight numerical probe did not use the fresh GradScaler")
+
+
+def _validate_batch_probe(
+    report: dict[str, Any], expected_plan: dict[str, Any] | None = None
+) -> None:
+    config = report["config_provenance"]["config"]
+    batch_size = int(config.get("train", {}).get("batch_size", 1))
+    probe = report.get("batch_training_probe")
+    if batch_size == 1:
+        if probe is not None:
+            raise ValueError("A framewise configuration must not claim a batched training gate")
+        return
+    if config["train"].get("batching") != "independent_sequences":
+        raise ValueError("Batched training gate requires independent_sequences")
+    if not isinstance(probe, dict) or probe.get("passed") is not True:
+        raise ValueError("Batched training requires a passed actual-batch CUDA training probe")
+    plan = probe.get("plan")
+    if not isinstance(plan, dict) or plan.get("schema") != "asgcn_sequence_batch_probe_plan_v1":
+        raise ValueError("Batched training probe has no valid sequence schedule plan")
+    if (
+        plan.get("batching_contract") != batching_contract(batch_size)
+        or plan.get("requested_batch_size") != batch_size
+        or plan.get("largest_actual_batch_size") != batch_size
+        or plan.get("dataset_samples") != report["topology"]["dataset_samples"]
+        or plan.get("scheduled_frames") != report["topology"]["dataset_samples"]
+        or not isinstance(plan.get("schedule_sha256"), str)
+        or re.fullmatch(r"[0-9a-f]{64}", plan["schedule_sha256"]) is None
+    ):
+        raise ValueError("Batched training probe does not represent the requested full batch")
+    if expected_plan is not None and plan != expected_plan:
+        raise ValueError("Batched training probe differs from the actual dataset sequence schedule")
+    dense = plan.get("selected_dense")
+    numerical = plan.get("selected_numerical")
+    if (
+        not isinstance(dense, list)
+        or len(dense) != report["request"]["profile_samples"]
+        or not isinstance(numerical, list)
+        or not 1 <= len(numerical) <= 4
+    ):
+        raise ValueError("Batched training probe selection is incomplete")
+    if not any(
+        entry.get("batch_index") == 0 and "first_scheduled_batch" in entry.get("reasons", [])
+        for entry in numerical
+    ) or not any(
+        entry.get("batch_size") == batch_size and "largest_actual_batch" in entry.get("reasons", [])
+        for entry in numerical
+    ):
+        raise ValueError("Batched training numerical coverage lacks first/full-batch cases")
+    effective = report["training_probe"]["training_protocol"]["mixed_precision"]["effective"]
+    if not isinstance(effective, bool):
+        raise TypeError("Batched training gate has no mixed-precision protocol")
+    records = report["topology"]["samples"]
+    history_enabled = (
+        bool(config["model"].get("recurrent", True))
+        or float((config["train"].get("loss_weights") or {}).get("temporal", 0.0)) > 0
+    )
+    measured_full = False
+    for selection, field, fresh in (
+        (numerical, "numerical_steps", True),
+        (dense, "dense_steps", False),
+    ):
+        measurements = probe.get(field)
+        if not isinstance(measurements, list) or len(measurements) != len(selection):
+            raise ValueError("Batched training probe did not measure every selected batch")
+        for chosen, measured in zip(selection, measurements, strict=True):
+            if not isinstance(chosen, dict) or not isinstance(measured, dict):
+                raise TypeError("Batched training selections and measurements must be objects")
+            indices = chosen.get("dataset_indices")
+            if (
+                not isinstance(indices, list)
+                or not indices
+                or any(
+                    isinstance(i, bool) or not isinstance(i, int) or not 0 <= i < len(records)
+                    for i in indices
+                )
+                or len(set(indices)) != len(indices)
+                or chosen.get("batch_size") != len(indices)
+                or not 1 <= len(indices) <= batch_size
+                or chosen.get("sample_ids") != [records[i]["sample_id"] for i in indices]
+                or chosen.get("sum_nodes")
+                != sum(records[i]["model_sampled_events"] for i in indices)
+                or chosen.get("sum_actual_directed_edges")
+                != sum(records[i]["actual_directed_edges"] for i in indices)
+                or chosen.get("sum_candidate_directed_edges")
+                != sum(records[i]["candidate_directed_edges"] for i in indices)
+            ):
+                raise ValueError("Batched training selection differs from its per-frame topology")
+            if any(measured.get(key) != value for key, value in chosen.items()):
+                raise ValueError("Batched training measurement identity differs from its selection")
+            if (
+                measured.get("execution") != "disjoint_graph_batch_and_vectorized_decoder"
+                or measured.get("initialization")
+                != ("fresh_training_seed" if fresh else "shared_dense_probe_model")
+                or measured.get("context_policy")
+                != ("none" if fresh else "one_batched_predecessor_replay_training_mode")
+                or measured.get("context_indices")
+                != (
+                    chosen["predecessor_indices"]
+                    if not fresh and history_enabled
+                    else [None] * len(indices)
+                )
+            ):
+                raise ValueError("Batched training probe execution/context contract is invalid")
+            _validate_probe_amp(measured, effective, fresh=fresh)
+            for name in ("step_time_ms", "peak_allocated_mib", "peak_reserved_mib"):
+                value = measured.get(name)
+                if (
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    or value <= 0
+                ):
+                    raise ValueError(f"Batched training probe has invalid {name}")
+            loss = measured.get("loss")
+            norm = measured.get("gradient_norm")
+            if (
+                not isinstance(loss, dict)
+                or "total" not in loss
+                or any(
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    for value in loss.values()
+                )
+                or isinstance(norm, bool)
+                or not isinstance(norm, (int, float))
+                or not math.isfinite(float(norm))
+                or norm < 0
+            ):
+                raise ValueError("Batched training probe contains non-finite loss or gradients")
+            measured_full = measured_full or len(indices) == batch_size
+    if not measured_full:
+        raise ValueError("No actual full-sized batch was measured by the CUDA training gate")
 
 
 def _require_verified_report_contract(
@@ -18595,6 +19857,7 @@ def _require_verified_report_contract(
                 )
             ):
                 raise ValueError("Training preflight measured non-finite loss or gradients")
+        _validate_batch_probe(report)
     return report
 
 
@@ -18657,11 +19920,19 @@ def verify_training_preflight(
             dataset=dataset,
             complete=True,
         )
+        if int(config["train"].get("batch_size", 1)) > 1:
+            expected_plan = _batch_plan(
+                dataset,
+                report["topology"]["samples"],
+                config,
+                int(report["request"]["profile_samples"]),
+            )
+            _validate_batch_probe(report, expected_plan)
     finally:
         if hasattr(dataset, "close"):
             dataset.close()
 
-    return {
+    verification = {
         "schema": "asgcn_preflight_verification_v1",
         "status": "verified",
         "report_eligible": True,
@@ -18674,6 +19945,18 @@ def verify_training_preflight(
         "gpu": report["runtime_provenance"]["gpu"],
         "measured_steps": int(probe["completed_samples"]),
     }
+    batch_size = int(config["train"].get("batch_size", 1))
+    if batch_size > 1:
+        batched = report["batch_training_probe"]
+        plan = batched["plan"]
+        verification["batch_size"] = batch_size
+        verification["batch_preflight"] = {
+            "contract": plan["batching_contract"],
+            "schedule_sha256": plan["schedule_sha256"],
+            "measured_batches": len(batched["dense_steps"]) + len(batched["numerical_steps"]),
+            "largest_measured_batch_size": batch_size,
+        }
+    return verification
 
 
 __all__ = ["training_preflight", "verify_training_preflight"]
@@ -18963,6 +20246,384 @@ class ScanJournal:
         self.last_commit = time.monotonic()
 ~~~~~~~~
 
+# src/asgcn_unet/timing.py
+
+~~~~~~~~python
+"""Opt-in, bounded timing of the actual training path.
+
+Host wall spans measure Python/dispatch/wait time, not GPU execution. CUDA
+events measure elapsed stream time, not GPU utilization or exclusive kernel
+time. Nested spans may overlap and must not be summed as a step duration.
+"""
+
+from __future__ import annotations
+
+import copy
+import math
+from contextlib import contextmanager, nullcontext
+from time import perf_counter
+from typing import Any
+
+import torch
+
+_LABELS = (
+    "dataload",
+    "transfer",
+    "graph",
+    "encoder",
+    "decoder",
+    "model",
+    "loss",
+    "backward",
+    "gradient_check",
+    "optimizer",
+    "step",
+)
+_NO_SCOPE = nullcontext()
+
+
+def _integer(value: int, name: str, minimum: int) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
+        raise ValueError(f"{name} must be an integer >= {minimum}")
+    return value
+
+
+def _summary(values: list[float]) -> dict[str, int | float | None]:
+    if not values:
+        return {"count": 0, "total_ms": 0.0, "mean_ms": None, "p50_ms": None, "p95_ms": None}
+    ordered = sorted(values)
+
+    def percentile(fraction: float) -> float:
+        position = (len(ordered) - 1) * fraction
+        low = math.floor(position)
+        high = math.ceil(position)
+        return ordered[low] + (ordered[high] - ordered[low]) * (position - low)
+
+    total = math.fsum(values)
+    return {
+        "count": len(values),
+        "total_ms": total,
+        "mean_ms": total / len(values),
+        "p50_ms": percentile(0.5),
+        "p95_ms": percentile(0.95),
+    }
+
+
+class StageTimer:
+    """Time at most ``measurement_steps`` after a fixed warmup.
+
+    Call ``step()`` once after each complete training iteration. It returns
+    true only when the requested window has just completed. ``collect()``
+    explicitly finalizes the window, including a partial window, and performs
+    one selected-device synchronization if CUDA events were recorded. Repeated
+    collection returns the cached report without another synchronization.
+
+    Disabled, warmup and completed-window scopes return a shared no-op context;
+    they do not read clocks, inspect CUDA or create events. The record cap is an
+    additional bound on repeated/nested scopes within an individual iteration.
+    """
+
+    def __init__(
+        self,
+        device: torch.device | str,
+        *,
+        enabled: bool = False,
+        warmup_steps: int = 10,
+        measurement_steps: int = 50,
+        max_records: int | None = None,
+    ) -> None:
+        if not isinstance(enabled, bool):
+            raise TypeError("enabled must be a boolean")
+        self.enabled = enabled
+        self.device = torch.device(device)
+        if self.device.type not in {"cpu", "cuda"}:
+            raise ValueError("StageTimer supports CPU diagnostics and CUDA training only")
+        self.warmup_steps = _integer(warmup_steps, "warmup_steps", 0)
+        self.measurement_steps = _integer(measurement_steps, "measurement_steps", 1)
+        self.max_records = _integer(
+            self.measurement_steps * len(_LABELS) * 4 if max_records is None else max_records,
+            "max_records",
+            1,
+        )
+        self._step_index = 0
+        self._active_scopes = 0
+        self._reserved_records = 0
+        self._dropped_scopes = 0
+        self._failed_scopes = 0
+        self._cuda_device: torch.device | None = None
+        self._records: list[tuple[str, float, Any, Any]] = []
+        self._report: dict[str, Any] | None = None
+
+    @property
+    def collecting(self) -> bool:
+        return (
+            self.enabled
+            and self._report is None
+            and self.warmup_steps <= self._step_index < self.warmup_steps + self.measurement_steps
+        )
+
+    def scope(self, label: str, *, gpu: bool = True):
+        if not self.collecting:
+            return _NO_SCOPE
+        if label not in _LABELS:
+            raise ValueError(f"Unknown training timing label: {label!r}")
+        if not isinstance(gpu, bool):
+            raise TypeError("gpu must be a boolean")
+        if self._reserved_records >= self.max_records:
+            self._dropped_scopes += 1
+            return _NO_SCOPE
+        return self._scope(label, gpu)
+
+    @contextmanager
+    def _scope(self, label: str, gpu: bool):
+        # Scope creation and entry may be separated by caller code.
+        if not self.collecting:
+            yield
+            return
+        if self._reserved_records >= self.max_records:
+            self._dropped_scopes += 1
+            yield
+            return
+        self._reserved_records += 1
+        self._active_scopes += 1
+        start_event = end_event = None
+        stream = None
+        try:
+            if gpu and self.device.type == "cuda":
+                # Explicitly use the selected device's current stream. Do not
+                # silently fall back to CPU if that CUDA context is unavailable.
+                stream = torch.cuda.current_stream(self._cuda_device or self.device)
+                if self._cuda_device is None:
+                    self._cuda_device = torch.device(stream.device)
+                start_event = torch.cuda.Event(enable_timing=True)
+                end_event = torch.cuda.Event(enable_timing=True)
+                start_event.record(stream)
+            started = perf_counter()
+            try:
+                yield
+            except BaseException:
+                self._failed_scopes += 1
+                raise
+            else:
+                host_ms = (perf_counter() - started) * 1000.0
+                if end_event is not None:
+                    end_event.record(stream)
+                self._records.append((label, host_ms, start_event, end_event))
+        finally:
+            self._active_scopes -= 1
+
+    def step(self) -> bool:
+        if not self.enabled or self._report is not None:
+            return False
+        if self._active_scopes:
+            raise RuntimeError("Close all timing scopes before completing a training step")
+        end = self.warmup_steps + self.measurement_steps
+        if self._step_index >= end:
+            return False
+        self._step_index += 1
+        return self._step_index == end
+
+    def collect(self) -> dict[str, Any]:
+        if self._active_scopes:
+            raise RuntimeError("Cannot collect timings while a scope is active")
+        if self._report is not None:
+            return copy.deepcopy(self._report)
+        cuda_records = [record for record in self._records if record[2] is not None]
+        if cuda_records:
+            # The only barrier introduced by this recorder: once per window,
+            # never at individual stage boundaries.
+            torch.cuda.synchronize(self._cuda_device)
+        host_spans: dict[str, list[float]] = {label: [] for label in _LABELS}
+        cuda: dict[str, list[float]] = {label: [] for label in _LABELS}
+        for label, host_ms, start_event, end_event in self._records:
+            host_spans[label].append(host_ms)
+            if start_event is not None:
+                elapsed = float(start_event.elapsed_time(end_event))
+                if not math.isfinite(elapsed) or elapsed < 0:
+                    raise RuntimeError("CUDA timing returned a non-finite or negative duration")
+                cuda[label].append(elapsed)
+        measured_steps = min(
+            max(self._step_index - self.warmup_steps, 0), self.measurement_steps
+        )
+        self._report = {
+            "format_version": 1,
+            "enabled": self.enabled,
+            "device": str(self.device),
+            "cuda_event_device": str(self._cuda_device) if cuda_records else None,
+            "cpu_diagnostic_only": self.enabled and self.device.type == "cpu",
+            "cuda_events_measured": bool(cuda_records),
+            "warmup_steps": self.warmup_steps,
+            "requested_steps": self.measurement_steps,
+            "measured_steps": measured_steps,
+            "window_complete": self.enabled and measured_steps == self.measurement_steps,
+            "max_records": self.max_records,
+            "recorded_scopes": len(self._records),
+            "dropped_scopes": self._dropped_scopes,
+            "failed_scopes": self._failed_scopes,
+            "stages": {
+                label: {
+                    "host_wall": _summary(host_spans[label]),
+                    "cuda_elapsed": _summary(cuda[label]),
+                }
+                for label in _LABELS
+            },
+            "interpretation": (
+                "Host wall time includes dispatch and waits, not GPU execution time. "
+                "CUDA events measure elapsed time on the recorded stream, not GPU utilization "
+                "or exclusive kernel time. Nested stage durations may overlap."
+            ),
+        }
+        self._records.clear()
+        return copy.deepcopy(self._report)
+~~~~~~~~
+
+# src/asgcn_unet/training.py
+
+~~~~~~~~python
+"""Shared causal state and loss semantics for training and its CUDA gate."""
+
+from __future__ import annotations
+
+from contextlib import nullcontext
+from typing import Any
+
+import torch
+from torch.nn import functional as F
+
+from .batching import sequence_key
+
+
+def batching_contract(batch_size: int) -> dict[str, Any] | None:
+    if batch_size == 1:
+        return None
+    return {
+        "version": "independent_sequences_v1",
+        "graph": "disjoint_union_no_cross_sample_edges",
+        "encoder_batch_norm": "pooled_nodes_in_minibatch",
+        "decoder": "one_vectorized_call_per_minibatch",
+        "state": "per_sequence_detached_after_success",
+        "loss": "mean_per_frame_temporal_missing_context_zero",
+        "partial_batch": "keep_every_frame_no_padding",
+        "order": "deterministic_shape_compatible_sequence_lanes",
+    }
+
+
+class TrainingState:
+    """Route state by sequence identity, not a batch lane that can be reassigned."""
+
+    def __init__(self, *, independent_sequences: bool) -> None:
+        self.independent_sequences = independent_sequences
+        self.values: dict[tuple[str, str], tuple[Any, ...]] = {}
+        self.last_key: tuple[str, str] | None = None
+
+    def _key(self, sample: dict[str, Any]) -> tuple[str, str]:
+        if self.independent_sequences:
+            return sequence_key(sample)
+        metadata = sample.get("metadata", {})
+        return str(metadata.get("sequence_id") or metadata.get("scene", "unknown")), ""
+
+    def prepare(self, samples: list[dict[str, Any]]) -> list[tuple[Any, Any, Any]]:
+        contexts = []
+        keys = [self._key(sample) for sample in samples]
+        if len(keys) != len(set(keys)):
+            raise ValueError("A training batch must not contain two frames of one sequence")
+        for key, sample in zip(keys, samples, strict=True):
+            metadata = sample.get("metadata", {})
+            index = metadata.get("sequence_index")
+            size = tuple(sample["sensor_size"])
+            previous = self.values.get(key)
+            if not self.independent_sequences and key != self.last_key:
+                previous = None
+            continues = (
+                previous is not None
+                and index is not None
+                and previous[0] is not None
+                and index == previous[0] + 1
+                and size == previous[1]
+            )
+            contexts.append(previous[2:] if continues else (None, None, None))
+        return contexts
+
+    def commit(
+        self,
+        samples: list[dict[str, Any]],
+        prediction: torch.Tensor,
+        diagnostics: list[dict[str, Any]],
+        target: torch.Tensor,
+    ) -> None:
+        if not self.independent_sequences:
+            self.values.clear()
+        def detached_context(tensor):
+            if tensor is None:
+                return None
+            # A retained lane must not keep the entire source batch allocation alive.
+            return tensor.detach().clone() if self.independent_sequences else tensor.detach()
+
+        for index, (sample, detail) in enumerate(zip(samples, diagnostics, strict=True)):
+            key = self._key(sample)
+            state = detail["recurrent_state"]
+            self.values[key] = (
+                sample.get("metadata", {}).get("sequence_index"),
+                tuple(sample["sensor_size"]),
+                detached_context(state),
+                detached_context(prediction[index : index + 1]),
+                detached_context(target[index : index + 1]),
+            )
+            self.last_key = key
+
+    def release_finished(self, samples, final_sequence_indices) -> None:
+        """Finished lanes must not retain GPU frames throughout a whole epoch."""
+        for sample in samples:
+            key = self._key(sample)
+            index = sample.get("metadata", {}).get("sequence_index")
+            if key in final_sequence_indices and index == final_sequence_indices[key]:
+                self.values.pop(key, None)
+
+
+def forward_training_loss(
+    model,
+    criterion,
+    samples: list[dict[str, Any]],
+    contexts: list[tuple[Any, Any, Any]],
+    *,
+    batch_mode: bool,
+    amp_enabled: bool,
+    temporal_weight: float,
+    timing=None,
+):
+    """One actual model call; failed AMP attempts never update the context store."""
+    if not samples or len(contexts) != len(samples):
+        raise ValueError("Training needs one incoming context for every frame")
+    device = samples[0]["events"].device
+    with torch.autocast(device_type=device.type, enabled=amp_enabled):
+        if batch_mode:
+            prediction, diagnostics = model.forward_training_batch(
+                samples, [context[0] for context in contexts], timing=timing
+            )
+        else:
+            if len(samples) != 1:
+                raise ValueError("The baseline path requires exactly one frame")
+            with timing.scope("model") if timing is not None else nullcontext():
+                prediction, detail = model.forward_sample(
+                    samples[0], recurrent_state=contexts[0][0]
+                )
+            diagnostics = [detail]
+        with timing.scope("loss") if timing is not None else nullcontext():
+            target = torch.stack([sample["target"] for sample in samples])
+            loss, parts = criterion(prediction, target)
+            valid = [i for i, context in enumerate(contexts) if context[1] is not None]
+            if temporal_weight > 0 and valid:
+                previous_prediction = torch.cat([contexts[i][1] for i in valid])
+                previous_target = torch.cat([contexts[i][2] for i in valid])
+                temporal = F.l1_loss(
+                    prediction[valid] - previous_prediction,
+                    target[valid] - previous_target,
+                ) * (len(valid) / len(samples))
+                loss = loss + temporal_weight * temporal
+                parts["temporal"] = temporal.detach()
+    return loss, parts, (prediction, diagnostics, target)
+~~~~~~~~
+
 # src/asgcn_unet/unet.py
 
 ~~~~~~~~python
@@ -19100,8 +20761,18 @@ def validate_experiment_config(config: dict[str, Any]) -> None:
         if not isinstance(train, dict):
             raise TypeError("train must be an object")
         batch_size = train.get("batch_size", 1)
-        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size != 1:
-            raise ValueError("train.batch_size must be 1 for the current sample-wise pipeline")
+        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+            raise ValueError("train.batch_size must be a positive integer")
+        batching = train.get("batching", "single_frame")
+        expected_batching = "single_frame" if batch_size == 1 else "independent_sequences"
+        if batching != expected_batching:
+            raise ValueError("train.batch_size and train.batching must explicitly agree")
+        if batch_size > 1 and (dataset or {}).get("type") != "eventhdr":
+            raise ValueError("Independent sequence batches require the EventHDR index")
+        for field in ("timing_steps", "timing_warmup"):
+            value = train.get(field, 0 if field == "timing_steps" else 10)
+            if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+                raise ValueError(f"train.{field} must be a nonnegative integer")
         _validate_optional_positive_integer(
             train.get("max_train_samples"), "train.max_train_samples"
         )
@@ -19390,6 +21061,7 @@ from __future__ import annotations
 
 import copy
 import random
+from contextlib import contextmanager
 from unittest.mock import patch
 
 import numpy as np
@@ -19612,7 +21284,10 @@ def test_nonfinite_forward_loss_is_never_retried(component) -> None:
     torch.testing.assert_close(model.state_dict(), before, rtol=0, atol=0)
 
 
-def test_unrelated_clipping_error_keeps_original_exception(monkeypatch) -> None:
+@pytest.mark.parametrize(
+    "operation", ["get_total_norm", "clip_grads_with_norm_", "clip_grad_norm_"]
+)
+def test_unrelated_clipping_error_keeps_original_exception(monkeypatch, operation) -> None:
     model = _StatefulLoss()
     optimizer = torch.optim.Adam(model.parameters())
     scaler = _scaler(32768.0)
@@ -19629,7 +21304,10 @@ def test_unrelated_clipping_error_keeps_original_exception(monkeypatch) -> None:
     def broken_clip(*args, **kwargs):
         raise failure
 
-    monkeypatch.setattr(torch.nn.utils, "clip_grad_norm_", broken_clip)
+    if operation == "clip_grad_norm_":
+        # Older supported PyTorch releases expose only this combined operation.
+        monkeypatch.setattr(torch.nn.utils, "get_total_norm", None)
+    monkeypatch.setattr(torch.nn.utils, operation, broken_clip)
     with pytest.raises(RuntimeError) as caught:
         _step(model, optimizer, scaler, closure)
     assert caught.value is failure
@@ -19701,6 +21379,181 @@ def test_disabled_amp_matches_direct_non_amp_optimizer_step() -> None:
     reference_optimizer.step()
     torch.testing.assert_close(model.state_dict(), reference.state_dict(), rtol=0, atol=0)
     assert info == {"scale_before": 1.0, "scale_after": 1.0, "retries": 0}
+
+
+def test_default_model_buffer_snapshot_packs_all_58_buffers_into_six_storages() -> None:
+    from asgcn_unet.model import ASGCNUNet
+
+    model = ASGCNUNet()
+    original = dict(model.named_buffers())
+    snapshot = engine._snapshot_model_buffers(model)
+    assert len(original) == len(snapshot) == 58
+    assert len({value.untyped_storage().data_ptr() for value in snapshot.values()}) == 6
+    assert len({value.untyped_storage().data_ptr() for value in original.values()}) == 58
+    for name, value in original.items():
+        torch.testing.assert_close(snapshot[name], value, rtol=0, atol=0)
+        assert snapshot[name].untyped_storage().data_ptr() != value.untyped_storage().data_ptr()
+
+
+def test_buffer_snapshot_preserves_all_dtypes_shapes_and_nonpersistent_state() -> None:
+    model = nn.Module()
+    model.register_buffer("float_a", torch.arange(3, dtype=torch.float32))
+    model.register_buffer("float_b", torch.arange(3, dtype=torch.float32) + 10, persistent=False)
+    model.register_buffer("float64_state", torch.arange(3, dtype=torch.float64))
+    model.register_buffer("noncontiguous", torch.arange(6, dtype=torch.float32).reshape(2, 3).T)
+    model.register_buffer("same_shape", torch.ones(3, 2, requires_grad=True))
+    model.register_buffer("counter", torch.tensor(19, dtype=torch.int64))
+    model.register_buffer("flag", torch.tensor(True))
+    model.register_buffer("byte", torch.tensor([1, 7, 255], dtype=torch.uint8))
+    model.register_buffer("complex", torch.tensor([1 + 2j, 3 + 4j]))
+    model.register_buffer("empty", torch.empty(0, 3))
+    expected = {name: value.detach().clone() for name, value in model.named_buffers()}
+    snapshot = engine._snapshot_model_buffers(model)
+    assert snapshot.keys() == expected.keys()
+    assert not model.noncontiguous.is_contiguous()
+    assert snapshot["float_a"].untyped_storage().data_ptr() == (
+        snapshot["float_b"].untyped_storage().data_ptr()
+    )
+    assert snapshot["noncontiguous"].untyped_storage().data_ptr() == (
+        snapshot["same_shape"].untyped_storage().data_ptr()
+    )
+    assert snapshot["float64_state"].untyped_storage().data_ptr() != (
+        snapshot["float_a"].untyped_storage().data_ptr()
+    )
+    with torch.no_grad():
+        for value in model.buffers():
+            value.zero_()
+        for name, value in snapshot.items():
+            assert not value.requires_grad
+            torch.testing.assert_close(value, expected[name], rtol=0, atol=0)
+        for name, value in model.named_buffers():
+            value.copy_(snapshot[name])
+    for name, value in model.named_buffers():
+        torch.testing.assert_close(value, expected[name], rtol=0, atol=0)
+
+
+def test_sparse_and_quantized_buffer_snapshots_keep_original_clone_semantics() -> None:
+    model = nn.Module()
+    model.register_buffer("sparse", torch.tensor([[0.0, 2.0], [3.0, 0.0]]).to_sparse())
+    model.register_buffer("quantized_a", torch.quantize_per_tensor(torch.arange(3.0), 0.1, 0, torch.qint8))
+    model.register_buffer("quantized_b", torch.quantize_per_tensor(torch.arange(3.0), 0.3, 2, torch.qint8))
+    snapshot = engine._snapshot_model_buffers(model)
+    torch.testing.assert_close(snapshot, dict(model.named_buffers()), rtol=0, atol=0)
+    assert snapshot["sparse"].layout == torch.sparse_coo
+    assert snapshot["sparse"].values().data_ptr() != model.sparse.values().data_ptr()
+    assert snapshot["quantized_a"].q_scale() != snapshot["quantized_b"].q_scale()
+    assert snapshot["quantized_a"].untyped_storage().data_ptr() != (
+        model.quantized_a.untyped_storage().data_ptr()
+    )
+
+
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64])
+@pytest.mark.parametrize("max_norm", [0.01, 1.0, 1e6])
+@pytest.mark.parametrize("legacy", [False, True])
+def test_clipping_matches_public_torch_operation_exactly(monkeypatch, dtype, max_norm, legacy) -> None:
+    torch.manual_seed(132)
+    model = nn.Sequential(nn.Linear(3, 4), nn.Linear(4, 2)).to(dtype=dtype)
+    for parameter in model.parameters():
+        parameter.grad = torch.randn_like(parameter)
+    model[1].weight.grad.zero_()
+    model[1].bias.grad = None
+    reference = copy.deepcopy(model)
+    for actual, expected in zip(model.parameters(), reference.parameters(), strict=True):
+        expected.grad = None if actual.grad is None else actual.grad.clone()
+    reference_norm = torch.nn.utils.clip_grad_norm_(reference.parameters(), max_norm, error_if_nonfinite=True)
+    if legacy:
+        monkeypatch.setattr(torch.nn.utils, "get_total_norm", None)
+    else:
+        monkeypatch.setattr(
+            engine,
+            "_nonfinite_gradient_names",
+            lambda _model: pytest.fail("finite clipping must not rescan every parameter"),
+        )
+    norm = engine._clip_and_validate_gradients(model, max_norm, epoch=0, step=0, sample_id="parity")
+    assert norm == float(reference_norm)
+    for actual, expected in zip(model.parameters(), reference.parameters(), strict=True):
+        if actual.grad is None:
+            assert expected.grad is None
+        else:
+            torch.testing.assert_close(actual.grad, expected.grad, rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("bad_value", [float("nan"), float("inf"), float("-inf")])
+def test_invalid_clipping_reports_only_bad_parameters_without_mutating_gradients(bad_value) -> None:
+    model = nn.Linear(3, 2)
+    model.weight.grad = torch.ones_like(model.weight)
+    model.bias.grad = torch.full_like(model.bias, bad_value)
+    with pytest.raises(FloatingPointError, match="Non-finite gradients before clipping") as caught:
+        engine._clip_and_validate_gradients(model, 1.0, epoch=4, step=8, sample_id="bad")
+    assert str(caught.value).endswith("epoch=4, step=8, sample=bad; parameters=bias")
+    torch.testing.assert_close(model.weight.grad, torch.ones_like(model.weight), rtol=0, atol=0)
+    torch.testing.assert_close(
+        model.bias.grad, torch.full_like(model.bias, bad_value), rtol=0, atol=0, equal_nan=True
+    )
+
+
+def test_finite_elements_with_overflowing_norm_fail_before_clipping() -> None:
+    model = nn.Linear(3, 2)
+    model.weight.grad = torch.full_like(model.weight, 1e38)
+    model.bias.grad = torch.ones_like(model.bias)
+    assert not engine._nonfinite_gradient_names(model)
+    with pytest.raises(FloatingPointError, match="Non-finite gradient norm before clipping") as caught:
+        engine._clip_and_validate_gradients(model, 1.0, epoch=4, step=8, sample_id="norm")
+    assert "parameters=" not in str(caught.value)
+    torch.testing.assert_close(model.weight.grad, torch.full_like(model.weight, 1e38), rtol=0, atol=0)
+    torch.testing.assert_close(model.bias.grad, torch.ones_like(model.bias), rtol=0, atol=0)
+
+
+def test_successful_training_checks_raw_gradient_elements_only_once() -> None:
+    model = nn.Linear(3, 2)
+    optimizer = torch.optim.Adam(model.parameters())
+
+    def closure():
+        return model(torch.ones(3)).square().mean(), {}, None
+
+    with patch.object(engine, "_nonfinite_gradient_names", wraps=engine._nonfinite_gradient_names) as scan:
+        _, _, _, info = _step(model, optimizer, _scaler(32768.0), closure)
+    assert info["retries"] == 0
+    assert scan.call_count == 1
+
+
+@pytest.mark.parametrize("scale", [32768.0, 65536.0])
+def test_training_timing_covers_backward_checks_and_only_successful_optimizer(scale) -> None:
+    class RecordingTimer:
+        def __init__(self):
+            self.stages = []
+            self.active = None
+
+        @contextmanager
+        def scope(self, name):
+            assert self.active is None
+            self.active = name
+            self.stages.append(name)
+            try:
+                yield
+            finally:
+                self.active = None
+
+    model = nn.Linear(1, 1, bias=False)
+    optimizer = torch.optim.Adam(model.parameters())
+    timer = RecordingTimer()
+    calls = 0
+
+    def closure():
+        nonlocal calls
+        calls += 1
+        assert timer.active is None  # The caller times its own forward stages.
+        return model.weight.half().float().sum(), {}, "same-sample"
+
+    with patch.object(optimizer, "step", wraps=optimizer.step) as optimizer_step:
+        payload, _, _, info = _step(model, optimizer, _scaler(scale), closure, timing=timer)
+    assert payload == "same-sample"
+    assert optimizer_step.call_count == 1
+    assert calls == info["retries"] + 1
+    assert timer.stages == ["backward", "gradient_check"] * info["retries"] + [
+        "backward", "gradient_check", "gradient_check", "optimizer"
+    ]
+    assert timer.active is None
 
 
 def test_protocol_binds_retry_policy_and_rejects_tampering() -> None:
@@ -20417,6 +22270,772 @@ def test_snn_restores_last_layer_lambda_before_analog_decoder() -> None:
     assert diagnostics["decoder_input_lambda_applied"] is True
     assert diagnostics["isolated_nodes"].item() == 1
     assert diagnostics["max_degree"].item() == 0
+~~~~~~~~
+
+# tests/test_batch_preflight.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import copy
+import json
+
+import h5py
+import pytest
+import torch
+
+import asgcn_unet.preflight as profile
+from asgcn_unet.data import build_dataset
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import save_json
+from tests.fixtures import make_eventhdr
+from tests.test_gpu_preflight import _config
+
+
+def _batch_config(tmp_path, *, batch_size=2, streams=3, frames=4, empty=False):
+    root = tmp_path / "hdr"
+    for index in range(streams):
+        path = make_eventhdr(root / f"scene-{index}", frames=frames)
+        if empty:
+            with h5py.File(path, "r+") as handle:
+                handle["images/image000000000"].attrs["event_idx"] = 0
+    config = _config(root)
+    config["train"]["batch_size"] = batch_size
+    if batch_size > 1:
+        config["train"]["batching"] = "independent_sequences"
+    return config
+
+
+def _records(dataset, config):
+    return [
+        profile._sample_topology(dataset.get_topology_sample(index), config["model"], index)
+        for index in range(len(dataset))
+    ]
+
+
+def _run(config, output, **kwargs):
+    return profile.training_preflight(
+        config, output, profile_samples=1, top_density_count=2, require_cuda=False, **kwargs
+    )
+
+
+def _finite_measurement():
+    return {
+        "loss": {"total": 0.3},
+        "gradient_norm": 0.2,
+        "amp_enabled": False,
+        "amp": {"scale_before": 1.0, "scale_after": 1.0, "retries": 0},
+        "step_time_ms": 2.0,
+        "peak_allocated_mib": 100.0,
+        "peak_reserved_mib": 120.0,
+    }
+
+
+@pytest.fixture
+def fake_steps(monkeypatch):
+    calls = []
+
+    def frame(model, criterion, optimizer, scaler, raw, selected, config, device, step, **kwargs):
+        return {
+            "dataset_index": selected["dataset_index"],
+            "sample_id": selected["sample_id"],
+            "nodes": selected["model_sampled_events"],
+            "actual_directed_edges": selected["actual_directed_edges"],
+            "temporal_loss_applied": False,
+            "temporal_context_sample_id": None,
+            **_finite_measurement(),
+        }
+
+    def batch(
+        model, criterion, optimizer, scaler, dataset, records, selected, config, device, *, fresh
+    ):
+        calls.append((list(selected["dataset_indices"]), fresh))
+        history = (
+            config["model"].get("recurrent", True)
+            or (config["train"].get("loss_weights") or {}).get("temporal", 0.0) > 0
+        )
+        return {
+            **selected,
+            **_finite_measurement(),
+            "execution": "disjoint_graph_batch_and_vectorized_decoder",
+            "initialization": "fresh_training_seed" if fresh else "shared_dense_probe_model",
+            "context_policy": "none" if fresh else "one_batched_predecessor_replay_training_mode",
+            "context_indices": selected["predecessor_indices"]
+            if not fresh and history
+            else [None] * selected["batch_size"],
+        }
+
+    monkeypatch.setattr(profile, "_gpu_step", frame)
+    monkeypatch.setattr(profile, "_gpu_batch_step", batch)
+    return calls
+
+
+def test_batch_plan_uses_metadata_schedule_and_retains_partial_tail(tmp_path, monkeypatch):
+    config = _batch_config(tmp_path)
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        records = _records(dataset, config)
+
+        def no_pixels(self, index):
+            pytest.fail("Planning must not decode an image/event sample")
+
+        monkeypatch.setattr(type(dataset), "__getitem__", no_pixels)
+        plan = profile._batch_plan(dataset, records, config, 3)
+        assert plan["requested_batch_size"] == plan["largest_actual_batch_size"] == 2
+        assert plan["sequence_count"] == 3
+        assert plan["scheduled_frames"] == plan["dataset_samples"] == 12
+        assert plan["partial_batches"] == 4
+        assert len(plan["selected_dense"]) == 3
+        assert plan["selected_numerical"][0]["batch_index"] == 0
+        assert "largest_actual_batch" in plan["selected_numerical"][0]["reasons"]
+        totals = [entry["sum_actual_directed_edges"] for entry in plan["selected_dense"]]
+        assert totals == sorted(totals, reverse=True)
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("streams", [1, 2])
+def test_batch_gate_rejects_requested_capacity_without_enough_independent_streams(
+    tmp_path, streams
+):
+    config = _batch_config(tmp_path, batch_size=3, streams=streams)
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        with pytest.raises(ValueError, match="Cannot form.*full batch_size=3"):
+            profile._make_batch_sampler(dataset, config)
+    finally:
+        dataset.close()
+
+
+def test_batch_plan_requires_actual_full_size_even_if_sequences_have_different_geometry(tmp_path):
+    config = _batch_config(tmp_path, batch_size=2, streams=2)
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        for item in dataset.samples:
+            item["sensor_size"] = (32, 48) if "scene-0" in item["source_file"] else (64, 48)
+        with pytest.raises(ValueError, match="largest_geometry_compatible_batch=1"):
+            profile._make_batch_sampler(dataset, config)
+    finally:
+        dataset.close()
+
+
+def test_actual_cpu_batch_probe_calls_vectorized_model_and_backward(tmp_path, monkeypatch):
+    config = _batch_config(tmp_path, empty=True)
+    calls = []
+    original = ASGCNUNet.forward_training_batch
+
+    def observed(self, samples, states, **kwargs):
+        calls.append(len(samples))
+        return original(self, samples, states, **kwargs)
+
+    monkeypatch.setattr(ASGCNUNet, "forward_training_batch", observed)
+    report = _run(config, tmp_path / "profile.json")
+    assert report["status"] == "diagnostic_passed", report["training_probe"]["failure"]
+    assert report["report_eligible"] is False
+    batched = report["batch_training_probe"]
+    assert batched["passed"] is True
+    assert 2 in calls
+    assert len(batched["dense_steps"]) == 1
+    assert batched["numerical_steps"][0]["batch_size"] == 2
+    assert "contains_empty_frame" in batched["numerical_steps"][0]["reasons"]
+    for measured in batched["dense_steps"] + batched["numerical_steps"]:
+        assert measured["execution"] == "disjoint_graph_batch_and_vectorized_decoder"
+        assert measured["gradient_norm"] >= 0
+        assert measured["step_time_ms"] > 0
+        assert measured["peak_allocated_mib"] is None
+
+
+def test_batch_failure_cannot_pass_using_successful_framewise_probes(
+    tmp_path, monkeypatch, fake_steps
+):
+    config = _batch_config(tmp_path)
+
+    def fail(*args, **kwargs):
+        raise RuntimeError("actual batched decoder failed")
+
+    monkeypatch.setattr(profile, "_gpu_batch_step", fail)
+    report = _run(config, tmp_path / "failed.json")
+    assert len(report["training_probe"]["steps"]) == 1
+    assert report["batch_training_probe"]["passed"] is False
+    assert report["checks"]["forward_backward"] is False
+    assert report["passed"] is False
+    assert "batched decoder" in report["training_probe"]["failure"]["message"]
+
+
+def _as_passed(report):
+    report["status"] = "passed"
+    report["passed"] = report["report_eligible"] = True
+    report["request"]["require_cuda"] = True
+    report["checks"]["cuda_available"] = report["checks"]["cuda_oom_free"] = True
+    return report
+
+
+def test_final_verifier_rebuilds_actual_batch_schedule_and_seals_full_batch(
+    tmp_path, monkeypatch, fake_steps
+):
+    config = _batch_config(tmp_path)
+    path = tmp_path / "profile.json"
+    report = _as_passed(_run(config, path))
+    save_json(path, report)
+    monkeypatch.setattr(profile.torch.cuda, "is_available", lambda: True)
+    monkeypatch.setattr(profile, "resolve_device", lambda value: torch.device("cuda"))
+    monkeypatch.setattr(profile, "_current_source_contract", lambda: report["source_provenance"])
+    monkeypatch.setattr(profile, "_runtime_provenance", lambda device: report["runtime_provenance"])
+    monkeypatch.setattr(
+        profile, "_topology_implementation_contract", lambda device: report["topology_contract"]
+    )
+    monkeypatch.setattr(
+        profile,
+        "_training_protocol",
+        lambda config, device: report["training_probe"]["training_protocol"],
+    )
+    verified = profile.verify_training_preflight(config, path)
+    assert verified["batch_size"] == 2
+    assert verified["batch_preflight"]["largest_measured_batch_size"] == 2
+    assert verified["batch_preflight"]["measured_batches"] >= 2
+    report["batch_training_probe"]["plan"]["schedule_sha256"] = "0" * 64
+    save_json(path, report)
+    with pytest.raises(ValueError, match="actual dataset sequence schedule"):
+        profile.verify_training_preflight(config, path)
+
+
+@pytest.mark.parametrize(
+    "change", ["missing", "size", "execution", "context", "loss", "amp", "incomplete", "selection"]
+)
+def test_batch_gate_rejects_forged_or_incomplete_measurement(tmp_path, fake_steps, change):
+    config = _batch_config(tmp_path)
+    report = _as_passed(_run(config, tmp_path / "profile.json"))
+    batch = report["batch_training_probe"]
+    if change == "missing":
+        report["batch_training_probe"] = None
+    elif change == "size":
+        batch["numerical_steps"][0]["batch_size"] = 1
+    elif change == "execution":
+        batch["dense_steps"][0]["execution"] = "sequential_frames"
+    elif change == "context":
+        batch["numerical_steps"][0]["context_indices"] = [0, 1]
+    elif change == "loss":
+        batch["dense_steps"][0]["loss"]["total"] = float("nan")
+    elif change == "amp":
+        batch["numerical_steps"][0]["amp"]["retries"] = 1
+    elif change == "incomplete":
+        batch["dense_steps"].clear()
+    else:
+        batch["plan"]["selected_dense"][0]["dataset_indices"] = [0, 0]
+    with pytest.raises((ValueError, TypeError), match="[Bb]atch|AMP"):
+        profile._validate_batch_probe(report)
+
+
+def test_topology_reuse_allows_batch_optimizer_and_decoder_changes_but_reruns_gpu_gate(
+    tmp_path, fake_steps
+):
+    original_config = _batch_config(tmp_path, batch_size=1)
+    old_path = tmp_path / "old.json"
+    old = _as_passed(_run(original_config, old_path))
+    old_source, old_commit = min(profile.LEGACY_V2_TOPOLOGY_SOURCES)
+    old["source_provenance"] = {
+        "source_tree_sha256": old_source,
+        "git_commit": old_commit,
+        "git_source_dirty": False,
+    }
+    old["topology_contract"]["implementation"] = {"historical": "audited old import dependencies"}
+    save_json(old_path, old)
+    before = old_path.read_bytes()
+    config = copy.deepcopy(original_config)
+    config["train"].update(batch_size=2, batching="independent_sequences", learning_rate=0.002)
+    config["model"]["hidden_dim"] = 8
+    fake_steps.clear()
+    new = _run(config, tmp_path / "batch.json", reuse_report=old_path)
+    assert new["passed"] is True, new["training_probe"]["failure"]
+    assert new["scan_provenance"]["new_samples"] == 0
+    assert new["topology"] == old["topology"]
+    assert new["batch_training_probe"]["passed"] is True
+    assert any(len(indices) == 2 for indices, fresh in fake_steps)
+    assert old_path.read_bytes() == before
+
+
+@pytest.mark.parametrize("change", ["source", "dirty", "torch", "graph", "seed", "original_hash"])
+def test_old_v2_reuse_does_not_accept_unknown_sources_or_different_topology_inputs(
+    tmp_path, fake_steps, change
+):
+    config = _batch_config(tmp_path, batch_size=1)
+    path = tmp_path / "old.json"
+    old = _as_passed(_run(config, path))
+    source, commit = min(profile.LEGACY_V2_TOPOLOGY_SOURCES)
+    old["source_provenance"] = {
+        "source_tree_sha256": source,
+        "git_commit": commit,
+        "git_source_dirty": False,
+    }
+    old["topology_contract"]["implementation"] = {"historical": "audited"}
+    requested = copy.deepcopy(config)
+    requested["train"].update(batch_size=2, batching="independent_sequences")
+    if change == "source":
+        old["source_provenance"]["source_tree_sha256"] = "0" * 64
+    elif change == "dirty":
+        old["source_provenance"]["git_source_dirty"] = True
+    elif change == "torch":
+        old["topology_contract"]["torch"] = "unverified-runtime"
+    elif change == "graph":
+        requested["model"]["graph_radius"] += 0.01
+    elif change == "seed":
+        requested["seed"] += 1
+    else:
+        old["config_provenance"]["sha256"] = "0" * 64
+    save_json(path, old)
+    fake_steps.clear()
+    report = _run(requested, tmp_path / "rejected.json", reuse_report=path)
+    assert report["passed"] is False
+    assert fake_steps == []
+    assert json.loads(path.read_text())["source_provenance"] == old["source_provenance"]
+~~~~~~~~
+
+# tests/test_batching.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+from collections import Counter, defaultdict
+from contextlib import contextmanager
+
+import h5py
+import pytest
+import torch
+from torch import nn
+from torch.utils.data import Subset
+
+from asgcn_unet.batching import SequenceBatchSampler, concatenate_graphs, sequence_key
+from asgcn_unet.data.eventhdr import EventHDRDataset
+from asgcn_unet.graph import EventGraph, build_event_graph
+from asgcn_unet.model import ASGCNUNet
+from tests.fixtures import make_eventhdr
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _single_cpu_thread():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+class IndexedDataset:
+    """Metadata fixture: any attempt to decode a sample is a test failure."""
+
+    def __init__(self, records, crop_size=None):
+        self.samples = records
+        self.crop_size = crop_size
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, index):
+        raise AssertionError("The sampler must not decode events or image pixels")
+
+
+def _records(lengths, shapes=None):
+    records = []
+    for stream, length in enumerate(lengths):
+        for frame in range(length):
+            records.append({
+                "scene": f"scene-{stream}",
+                "source_file": f"{stream}.h5",
+                "sequence_index": frame,
+                "sensor_size": (17, 21) if shapes is None else shapes[stream][frame],
+            })
+    return records
+
+
+def _assert_schedule(sampler):
+    batches = list(sampler)
+    assert len(batches) == len(sampler)
+    assert Counter(index for batch in batches for index in batch) == Counter(
+        range(len(sampler.dataset))
+    )
+    seen = defaultdict(list)
+    for batch in batches:
+        assert 1 <= len(batch) <= sampler.batch_size
+        assert len({sampler._shapes[index] for index in batch}) == 1
+        keys = []
+        for index in batch:
+            base = sampler.dataset
+            while isinstance(base, Subset):
+                index = base.indices[index]
+                base = base.dataset
+            record = base.samples[index]
+            key = sequence_key(record)
+            keys.append(key)
+            seen[key].append(record["sequence_index"])
+        assert len(keys) == len(set(keys))
+    assert all(indices == sorted(set(indices)) for indices in seen.values())
+
+
+@pytest.mark.parametrize("lengths", [[], [0], [1], [5], [1, 5, 2, 4], [4, 4, 4, 4]])
+@pytest.mark.parametrize("batch_size", [1, 2, 3, 8])
+def test_sampler_complete_chronological_coverage(lengths, batch_size):
+    sampler = SequenceBatchSampler(IndexedDataset(_records(lengths)), batch_size)
+    _assert_schedule(sampler)
+    first = list(sampler)
+    sampler.set_epoch(3)
+    assert list(sampler) == first
+    if first:
+        first[0].clear()
+        assert next(iter(sampler))  # Mutating a yielded batch cannot corrupt future epochs.
+
+
+def test_sampler_refills_lanes_immediately_and_keeps_final_partial_batch():
+    sampler = SequenceBatchSampler(IndexedDataset(_records([1, 4, 2])), 2)
+    assert list(sampler) == [[0, 1], [5, 2], [6, 3], [4]]
+
+
+def test_sampler_mixed_geometry_and_within_stream_resize_do_not_duplicate_streams():
+    shapes = [
+        [(17, 21), (9, 13), (17, 21)],
+        [(9, 13)] * 4,
+        [(17, 21)] * 2,
+    ]
+    sampler = SequenceBatchSampler(IndexedDataset(_records([3, 4, 2], shapes)), 3)
+    _assert_schedule(sampler)
+    # The resized frame in stream zero advances only after its preceding frame.
+    assert list(sampler)[:2] == [[0, 7], [1, 3]]
+
+
+def test_sampler_shuffle_only_admission_order_is_seeded_and_epoch_deterministic():
+    dataset = IndexedDataset(_records([4] * 7))
+    left = SequenceBatchSampler(dataset, 3, shuffle_sequences=True, seed=29)
+    right = SequenceBatchSampler(dataset, 3, shuffle_sequences=True, seed=29)
+    before = list(left)
+    assert before == list(right)
+    left.set_epoch(2)
+    right.set_epoch(2)
+    assert list(left) == list(right)
+    assert list(left) != before
+    _assert_schedule(left)
+
+
+def test_sampler_nested_subset_preserves_indices_and_allows_chronological_gaps():
+    dataset = IndexedDataset(_records([5, 5]))
+    selected = Subset(Subset(dataset, [0, 1, 2, 3, 5, 6, 7, 9]), [0, 2, 4, 7])
+    sampler = SequenceBatchSampler(selected, 2)
+    assert list(sampler) == [[0, 2], [1, 3]]
+    assert sampler.final_sequence_indices == {("scene-0", "0.h5"): 2,
+                                               ("scene-1", "1.h5"): 4}
+    with pytest.raises(TypeError):
+        sampler.final_sequence_indices[("scene-0", "0.h5")] = 99
+    _assert_schedule(sampler)
+
+
+@pytest.mark.parametrize("indices", [[0, 0], [2, 1]])
+def test_sampler_rejects_duplicate_or_reverse_selected_frames(indices):
+    with pytest.raises(ValueError, match="duplicate|chronological"):
+        SequenceBatchSampler(Subset(IndexedDataset(_records([4])), indices), 2)
+
+
+def test_sequence_keys_distinguish_same_scene_different_source():
+    records = _records([2, 2])
+    for record in records:
+        record["scene"] = "shared-scene"
+    sampler = SequenceBatchSampler(IndexedDataset(records), 2)
+    assert list(sampler) == [[0, 2], [1, 3]]
+    assert sequence_key({"metadata": records[0]}) == ("shared-scene", "0.h5")
+    assert sequence_key({"scene": "old", "sequence_id": "new"}) == ("new", "")
+
+
+@pytest.mark.parametrize("batch_size", [0, -1, True, 2.5, "2"])
+def test_sampler_rejects_invalid_batch_size(batch_size):
+    with pytest.raises(ValueError, match="positive integer"):
+        SequenceBatchSampler(IndexedDataset([]), batch_size)
+
+
+@pytest.mark.parametrize("record", [
+    {"sequence_index": 0, "sensor_size": (8, 8)},
+    {"scene": "a", "sequence_index": -1, "sensor_size": (8, 8)},
+    {"scene": "a", "sequence_index": True, "sensor_size": (8, 8)},
+    {"scene": "a", "sequence_index": 0, "sensor_size": (0, 8)},
+    {"scene": "a", "source_file": 4, "sequence_index": 0, "sensor_size": (8, 8)},
+])
+def test_sampler_rejects_malformed_metadata(record):
+    with pytest.raises((TypeError, ValueError)):
+        SequenceBatchSampler(IndexedDataset([record]), 2)
+
+
+@pytest.mark.parametrize("crop", [None, (11, 17), (100, 100)])
+def test_sampler_eventhdr_uses_shape_metadata_without_image_decode(tmp_path, monkeypatch, crop):
+    make_eventhdr(tmp_path, frames=5)
+    dataset = EventHDRDataset(
+        tmp_path, crop_size=crop, target_normalization={"mode": "integer_dtype_max"}
+    )
+    expected = [dataset[index]["sensor_size"] for index in range(len(dataset))]
+    original = h5py.Dataset.__getitem__
+
+    def guarded_getitem(node, key):
+        if node.name.startswith("/images/"):
+            raise AssertionError("GT pixel access during sampler construction")
+        return original(node, key)
+
+    def no_array(*args, **kwargs):
+        raise AssertionError("No dataset array conversion during sampler construction")
+
+    monkeypatch.setattr(h5py.Dataset, "__getitem__", guarded_getitem)
+    monkeypatch.setattr(h5py.Dataset, "__array__", no_array)
+    monkeypatch.setattr(h5py.Dataset, "read_direct", no_array)
+    try:
+        sampler = SequenceBatchSampler(dataset, 3)
+        assert sampler._shapes == tuple(expected)
+        assert sampler.sample_sensor_sizes == tuple(expected)
+        assert sampler.sample_sensor_sizes is sampler.sample_sensor_sizes
+        assert list(sampler) == [[index] for index in range(len(dataset))]
+    finally:
+        dataset.close()
+
+
+def _sample(name, *, count=7, sensor_size=(17, 21), requires_grad=False):
+    height, width = sensor_size
+    events = torch.tensor([
+        [float((index * 3 + 1) % width), float((index * 2 + 1) % height),
+         index * 0.001, float(index % 2)]
+        for index in range(count)
+    ], dtype=torch.float32).reshape(-1, 4).requires_grad_(requires_grad)
+    return {
+        "events": events,
+        "sensor_size": sensor_size,
+        "sample_id": f"{name}/frame0",
+        "metadata": {"scene": name, "source_file": f"{name}.h5", "sequence_index": 0},
+    }
+
+
+def _model(*, recurrent=True):
+    torch.manual_seed(79)
+    return ASGCNUNet(
+        hidden_dim=8, graph_layers=2, graph_radius=2.0,
+        graph_chunk_size=5, spline_chunk_size=13,
+        raster_downsample=2, decoder_channels=4, recurrent=recurrent,
+    )
+
+
+def _make_graph(sample):
+    return build_event_graph(
+        sample["events"], sample["sensor_size"], graph_radius=2.0,
+        event_sampling_factor=1, graph_position_dims=3, graph_chunk_size=5,
+    )
+
+
+@pytest.mark.parametrize("counts", [[3, 5], [0, 3, 0, 1], [0, 0]])
+def test_disjoint_union_preserves_every_local_edge_attribute_degree_and_gradient(counts):
+    graphs = [_make_graph(_sample(str(i), count=count)) for i, count in enumerate(counts)]
+    for graph in graphs:
+        graph.node_features = graph.node_features.detach().requires_grad_()
+        graph.edge_attr = graph.edge_attr.detach().requires_grad_()
+    union = concatenate_graphs(graphs)
+    offset = edge_start = 0
+    membership = torch.repeat_interleave(torch.arange(len(counts)), torch.tensor(counts))
+    for graph in graphs:
+        nodes, edges = len(graph.node_features), graph.edge_index.shape[1]
+        torch.testing.assert_close(
+            union.edge_index[:, edge_start:edge_start + edges], graph.edge_index + offset
+        )
+        torch.testing.assert_close(union.edge_attr[edge_start:edge_start + edges], graph.edge_attr)
+        torch.testing.assert_close(union.in_degree[offset:offset + nodes], graph.in_degree)
+        offset += nodes
+        edge_start += edges
+    assert torch.equal(membership[union.edge_index[0]], membership[union.edge_index[1]])
+    (union.node_features.sum() + union.edge_attr.sum()).backward()
+    for graph in graphs:
+        torch.testing.assert_close(graph.node_features.grad, torch.ones_like(graph.node_features))
+        torch.testing.assert_close(graph.edge_attr.grad, torch.ones_like(graph.edge_attr))
+
+
+def test_disjoint_union_rejects_missing_graphs_and_mixed_dtype():
+    with pytest.raises(ValueError, match="empty graph"):
+        concatenate_graphs([])
+    graph = _make_graph(_sample("a"))
+    different = EventGraph(
+        graph.node_features.double(), graph.positions.double(),
+        graph.edge_index, graph.edge_attr.double(), graph.in_degree,
+    )
+    with pytest.raises(ValueError, match="dtype"):
+        concatenate_graphs([graph, different])
+
+
+@pytest.mark.parametrize("recurrent", [False, True])
+@pytest.mark.parametrize("counts", [[0], [1], [0, 1, 7], [5, 8, 3], [0, 0]])
+def test_batch_eval_matches_independent_samples_and_diagnostics(recurrent, counts):
+    model = _model(recurrent=recurrent).eval()
+    samples = [_sample(str(i), count=count) for i, count in enumerate(counts)]
+    with torch.no_grad():
+        individual = [model.forward_sample(sample) for sample in samples]
+        prediction, diagnostics = model.forward_training_batch(samples)
+    assert prediction.shape == (len(samples), 1, 17, 21)
+    torch.testing.assert_close(prediction, torch.cat([result[0] for result in individual]),
+                               rtol=2e-5, atol=2e-6)
+    for actual, (_, expected) in zip(diagnostics, individual, strict=True):
+        assert actual.keys() == expected.keys()
+        for key in actual:
+            if isinstance(actual[key], torch.Tensor):
+                torch.testing.assert_close(actual[key], expected[key], rtol=2e-5, atol=2e-6)
+            else:
+                assert actual[key] == expected[key]
+
+
+def test_training_batch_calls_encoder_and_decoder_once_and_pools_batchnorm(monkeypatch):
+    model = _model().train()
+    samples = [_sample("a", count=5, requires_grad=True),
+               _sample("b", count=8, requires_grad=True)]
+    calls = Counter()
+    original_ann = model.encoder.forward_ann
+    captured = {}
+
+    def encoder(graph, *args, **kwargs):
+        calls["encoder"] += 1
+        captured["graph"] = graph
+        return original_ann(graph, *args, **kwargs)
+
+    def decoder_hook(_module, args):
+        calls["decoder"] += 1
+        assert args[0].shape[0] == 2
+
+    def no_sample(*args, **kwargs):
+        raise AssertionError("The batch path must not call forward_sample")
+
+    monkeypatch.setattr(model.encoder, "forward_ann", encoder)
+    monkeypatch.setattr(model, "forward_sample", no_sample)
+    hook = model.decoder.register_forward_pre_hook(decoder_hook)
+    try:
+        prediction, diagnostics = model.forward_training_batch(samples)
+        prediction.square().mean().backward()
+    finally:
+        hook.remove()
+    assert calls == {"encoder": 1, "decoder": 1}
+    assert len(captured["graph"].node_features) == 13
+    for sample in samples:
+        gradient = sample["events"].grad
+        assert gradient is not None and torch.isfinite(gradient).all() and gradient.abs().sum() > 0
+    for module in (model.encoder, model.decoder):
+        grads = [parameter.grad for parameter in module.parameters() if parameter.grad is not None]
+        assert grads and all(torch.isfinite(grad).all() for grad in grads)
+        assert sum(grad.abs().sum() for grad in grads) > 0
+    assert all(norm.num_batches_tracked.item() == 1 for norm in model.encoder.modules()
+               if isinstance(norm, nn.BatchNorm1d))
+    assert [detail["nodes"] for detail in diagnostics] == [5, 8]
+
+
+def test_batch_one_training_and_gradients_preserve_existing_single_sample_behavior():
+    baseline, batched = _model().train(), _model().train()
+    left, right = _sample("a", requires_grad=True), _sample("a", requires_grad=True)
+    individual, _ = baseline.forward_sample(left)
+    prediction, _ = batched.forward_training_batch([right])
+    torch.testing.assert_close(prediction, individual, rtol=0, atol=0)
+    individual.square().mean().backward()
+    prediction.square().mean().backward()
+    torch.testing.assert_close(right["events"].grad, left["events"].grad, rtol=0, atol=0)
+    for expected, actual in zip(baseline.parameters(), batched.parameters(), strict=True):
+        torch.testing.assert_close(actual.grad, expected.grad, rtol=0, atol=0)
+
+
+def test_recurrent_state_follows_sample_order_and_none_is_per_lane_zero():
+    model = _model().eval()
+    samples = [_sample(name, count=count) for name, count in [("a", 5), ("b", 8), ("c", 3)]]
+    with torch.no_grad():
+        previous = [model.forward_sample(sample)[1]["recurrent_state"] for sample in samples]
+        # Reorder lanes, admit a fresh stream, and carry the other two states.
+        current = [samples[2], _sample("new"), samples[0]]
+        states = [previous[2], None, previous[0]]
+        expected = [model.forward_sample(sample, recurrent_state=state)
+                    for sample, state in zip(current, states, strict=True)]
+        prediction, details = model.forward_training_batch(current, states)
+        torch.testing.assert_close(prediction, torch.cat([item[0] for item in expected]),
+                                   rtol=2e-5, atol=2e-6)
+        for actual, (_, individual) in zip(details, expected, strict=True):
+            torch.testing.assert_close(actual["recurrent_state"], individual["recurrent_state"],
+                                       rtol=2e-5, atol=2e-6)
+        # Both state and predictions remain routed correctly for the next batch.
+        carried = [detail["recurrent_state"] for detail in details]
+        predicted_next, _ = model.forward_training_batch(current, carried)
+        expected_next = [model.forward_sample(sample, recurrent_state=state)[0]
+                         for sample, state in zip(current, carried, strict=True)]
+        torch.testing.assert_close(predicted_next, torch.cat(expected_next),
+                                   rtol=2e-5, atol=2e-6)
+
+
+def test_wrong_shape_state_resets_like_existing_decoder():
+    model = _model().eval()
+    samples = [_sample("a"), _sample("b")]
+    with torch.no_grad():
+        _, detail = model.forward_sample(samples[0])
+        states = [detail["recurrent_state"], torch.ones(1, 16, 1, 1)]
+        expected = [model.forward_sample(sample, recurrent_state=state)[0]
+                    for sample, state in zip(samples, states, strict=True)]
+        actual, _ = model.forward_training_batch(samples, states)
+    torch.testing.assert_close(actual, torch.cat(expected), rtol=2e-5, atol=2e-6)
+
+
+def test_recurrent_state_gradients_do_not_cross_batch_lanes():
+    model = _model().eval()
+    samples = [_sample("a"), _sample("b")]
+    with torch.no_grad():
+        states = [model.forward_sample(sample)[1]["recurrent_state"] for sample in samples]
+    states = [state.detach().requires_grad_() for state in states]
+    prediction, _ = model.forward_training_batch(samples, states)
+    prediction[0].square().mean().backward()
+    assert states[0].grad is not None and states[0].grad.abs().sum() > 0
+    assert states[1].grad is not None and torch.count_nonzero(states[1].grad) == 0
+
+
+def test_autocast_recurrent_mixed_none_state_remains_finite_and_matches_single_samples():
+    model = _model().eval()
+    samples = [_sample("a"), _sample("b")]
+    with torch.no_grad(), torch.autocast("cpu", dtype=torch.bfloat16):
+        previous = model.forward_sample(samples[0])[1]["recurrent_state"]
+        states = [previous, None]
+        expected = [model.forward_sample(sample, recurrent_state=state)[0]
+                    for sample, state in zip(samples, states, strict=True)]
+        actual, details = model.forward_training_batch(samples, states)
+    assert torch.isfinite(actual).all()
+    assert all(torch.isfinite(detail["recurrent_state"]).all() for detail in details)
+    torch.testing.assert_close(actual, torch.cat(expected), rtol=0.02, atol=0.005)
+
+
+def test_all_empty_training_batch_still_updates_decoder_without_changing_bn_statistics():
+    model = _model().train()
+    prediction, diagnostics = model.forward_training_batch([
+        _sample("a", count=0), _sample("b", count=0)
+    ])
+    prediction.square().mean().backward()
+    assert torch.isfinite(prediction).all()
+    assert all(detail["nodes"] == detail["edges"] == 0 for detail in diagnostics)
+    assert model.decoder.head.weight.grad.abs().sum() > 0
+    assert all(norm.num_batches_tracked.item() == 0 for norm in model.encoder.modules()
+               if isinstance(norm, nn.BatchNorm1d))
+
+
+def test_batch_input_validation():
+    model = _model()
+    with pytest.raises(ValueError, match="at least one"):
+        model.forward_training_batch([])
+    with pytest.raises(ValueError, match="sensor_size"):
+        model.forward_training_batch([_sample("a"), _sample("b", sensor_size=(18, 21))])
+    with pytest.raises(ValueError, match="one frame"):
+        model.forward_training_batch([_sample("a"), _sample("a")])
+    with pytest.raises(ValueError, match="one entry"):
+        model.forward_training_batch([_sample("a")], [])
+    with pytest.raises(TypeError, match="tensor or None"):
+        model.forward_training_batch([_sample("a")], ["state"])
+
+
+def test_batch_timing_scopes_are_nonoverlapping_operator_stages():
+    visits = []
+
+    class Timer:
+        @contextmanager
+        def scope(self, label, *, gpu):
+            assert gpu is False
+            visits.append((label, "start"))
+            yield
+            visits.append((label, "end"))
+
+    _model().eval().forward_training_batch([_sample("a"), _sample("b")], timing=Timer())
+    assert visits == [(stage, event) for stage in ("graph", "encoder", "decoder")
+                      for event in ("start", "end")]
 ~~~~~~~~
 
 # tests/test_conda_runtime.py
@@ -24354,6 +26973,7 @@ def test_link_mode_uses_shared_storage_without_copy(tmp_path: Path) -> None:
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 import torch
@@ -24635,6 +27255,8 @@ def test_cli_nonreporting_bypass_is_warned_and_embedded_in_training_config(
     def fake_train(resolved_config, resume_from=None):
         captured.update(resolved_config)
         assert resume_from is None
+        assert resolved_config["preflight_gate"]["status"] == "bypassed_non_reporting"
+        assert not (Path(resolved_config["output"]["run_dir"]) / "preflight_gate.json").exists()
         return tmp_path / "best.pt"
 
     monkeypatch.setattr(cli_module, "train", fake_train)
@@ -24650,9 +27272,8 @@ def test_cli_nonreporting_bypass_is_warned_and_embedded_in_training_config(
     assert captured["preflight_gate"]["status"] == "bypassed_non_reporting"
     assert captured["preflight_gate"]["report_eligible"] is False
     gate_path = tmp_path / "train" / "preflight_gate.json"
-    assert json.loads(gate_path.read_text(encoding="utf-8"))["status"] == (
-        "bypassed_non_reporting"
-    )
+    # Mocked engine.train has not validated or published run metadata.
+    assert not gate_path.exists()
     assert "WARNING" in capsys.readouterr().err
 ~~~~~~~~
 
@@ -27592,6 +30213,35 @@ def test_eventhdr_loader(tmp_path):
     assert dataset[1]["metadata"]["dt_us"] == 2_000
 
 
+@pytest.mark.parametrize("command", ["evaluate", "benchmark"])
+@pytest.mark.parametrize("override", [None, "runs/batch/eval/hdr"])
+def test_cli_evaluation_output_override_is_project_relative(
+    tmp_path, monkeypatch, command, override,
+):
+    from pathlib import Path
+
+    from asgcn_unet import cli
+
+    root = Path(__file__).resolve().parents[1]
+    config_path = root / "configs/hdr.json"
+    original = config_path.read_bytes()
+    captured = {}
+
+    def record(config, checkpoint, **kwargs):
+        captured.update(config)
+        return {}
+
+    monkeypatch.setattr(cli, command, record)
+    monkeypatch.chdir(tmp_path)
+    arguments = [command, "--config", str(config_path), "--checkpoint", "runs/model.pt"]
+    if override is not None:
+        arguments += ["--output-dir", override]
+    cli.main(arguments)
+    expected = root / (override or "runs/eval/hdr")
+    assert Path(captured["eval"]["output_dir"]) == expected.resolve()
+    assert config_path.read_bytes() == original
+
+
 def test_eventhdr_stride_aggregates_intervals(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     dataset = EventHDRDataset(tmp_path / "hdr", max_events=None, frame_stride=2)
@@ -28988,7 +31638,6 @@ def test_noninspect_cli_failure_redacts_paths_and_hostname_by_default(
             "report_eligible": True,
         },
     )
-    monkeypatch.setattr(cli, "save_json", lambda *args, **kwargs: None)
 
     extra_arguments = {
         "profile": ["--output", str(profile_report)],
@@ -29062,7 +31711,6 @@ def test_noninspect_cli_private_error_trace_requires_environment_opt_in(
             "report_eligible": True,
         },
     )
-    monkeypatch.setattr(cli, "save_json", lambda *args, **kwargs: None)
 
     extra_arguments = {
         "profile": ["--output", str(profile_report)],
@@ -29135,7 +31783,6 @@ import pytest
 
 import asgcn_unet.cli as cli_module
 from asgcn_unet.recovery import archive_uncheckpointed_run
-from asgcn_unet.utils import save_json
 
 
 def _metadata_directory(path: Path) -> dict[str, bytes]:
@@ -29388,29 +32035,21 @@ def test_cli_archives_only_after_verified_profile_and_before_new_gate(
         archives.append(result)
         return result
 
-    def write_gate(path, value):
-        calls.append("write_gate")
-        assert calls == ["verify", "archive", "write_gate"]
-        assert not run_dir.exists()
-        assert value == gate
-        save_json(path, value)
-
     def train(value, *, resume_from):
         calls.append("train")
         assert resume_from is None
         assert value["preflight_gate"] == gate
-        assert json.loads((run_dir / "preflight_gate.json").read_text()) == gate
-        assert not (run_dir / "config.json").exists()
+        # Publication belongs to engine.train after its own run/resume checks.
+        assert not run_dir.exists()
         return run_dir / "best.pt"
 
     monkeypatch.setattr(cli_module, "verify_training_preflight", verify)
     monkeypatch.setattr(cli_module, "archive_uncheckpointed_run", archive)
-    monkeypatch.setattr(cli_module, "save_json", write_gate)
     monkeypatch.setattr(cli_module, "train", train)
     cli_module._execute_command(_args(
         project, "train", "--restart-uncheckpointed", "--preflight-report", "runs/passed.json"
     ))
-    assert calls == ["verify", "archive", "write_gate", "train"]
+    assert calls == ["verify", "archive", "train"]
     _assert_payloads(archives[0], payloads)
 
 
@@ -29428,7 +32067,7 @@ def test_failed_profile_verification_cannot_move_or_overwrite_old_metadata(
         raise AssertionError("Unverified profile must not alter training output")
 
     monkeypatch.setattr(cli_module, "verify_training_preflight", rejected)
-    for name in ("archive_uncheckpointed_run", "save_json", "train"):
+    for name in ("archive_uncheckpointed_run", "train"):
         monkeypatch.setattr(cli_module, name, forbidden)
     with pytest.raises(RuntimeError, match="profile is stale"):
         cli_module._execute_command(_args(project, "train", "--restart-uncheckpointed"))
@@ -29448,7 +32087,6 @@ def test_rejected_archive_cannot_overwrite_existing_preflight_gate(tmp_path, mon
     def forbidden(*args, **kwargs):
         raise AssertionError("Rejected archive must not write a new gate or train")
 
-    monkeypatch.setattr(cli_module, "save_json", forbidden)
     monkeypatch.setattr(cli_module, "train", forbidden)
     with pytest.raises(ValueError, match="checkpoints, history, or unknown"):
         cli_module._execute_command(_args(project, "train", "--restart-uncheckpointed"))
@@ -29469,7 +32107,7 @@ def test_restart_and_checkpoint_resume_are_rejected_before_any_mutation(
     def forbidden(*args, **kwargs):
         raise AssertionError("Conflicting resume must fail before any work")
 
-    for name in ("verify_training_preflight", "archive_uncheckpointed_run", "save_json", "train"):
+    for name in ("verify_training_preflight", "archive_uncheckpointed_run", "train"):
         monkeypatch.setattr(cli_module, name, forbidden)
     with pytest.raises(ValueError, match="cannot be combined with resume"):
         cli_module._execute_command(_args(project, "train", *extra))
@@ -29481,7 +32119,7 @@ def test_restart_cannot_bypass_the_required_passed_profile(tmp_path, monkeypatch
     def forbidden(*args, **kwargs):
         raise AssertionError("Restart with a bypass must fail before any mutation")
 
-    for name in ("archive_uncheckpointed_run", "save_json", "train"):
+    for name in ("archive_uncheckpointed_run", "train"):
         monkeypatch.setattr(cli_module, name, forbidden)
     with pytest.raises(ValueError, match="preflight|profile|bypass"):
         cli_module._execute_command(_args(
@@ -30034,6 +32672,163 @@ def test_ci_pins_actions_and_runs_repository_hygiene_gates() -> None:
     assert "for script in scripts/*.sh server/*.sbatch server/*.pbs; do" in workflow
     assert 'bash -n "$script" || exit 1' in workflow
     assert "run: bash -n scripts/*.sh" not in workflow
+~~~~~~~~
+
+# tests/test_run_artifacts.py
+
+~~~~~~~~python
+"""Rejected train requests must not republish metadata over an existing run."""
+
+from __future__ import annotations
+
+import copy
+import json
+from pathlib import Path
+
+import pytest
+import torch
+
+from asgcn_unet import cli, engine
+from asgcn_unet.utils import save_json
+from tests.test_training_batch import _config
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _gate(label: str) -> dict:
+    return {
+        "schema": "asgcn_preflight_verification_v1",
+        "status": "bypassed_non_reporting",
+        "report_eligible": False,
+        "report": "pytest-only.json",
+        "warning": label,
+    }
+
+
+def _snapshot(directory: Path) -> dict[str, bytes]:
+    return {
+        path.relative_to(directory).as_posix(): path.read_bytes()
+        for path in directory.rglob("*") if path.is_file()
+    }
+
+
+def _cli_args(config_path: Path, *extra):
+    return cli.build_parser().parse_args([
+        "train", "--config", str(config_path), *extra,
+    ])
+
+
+@pytest.mark.parametrize("occupied", ["config.json", "history.json", "last.pt", "best.pt"])
+def test_cli_rejected_fresh_run_preserves_existing_gate_and_all_artifact_bytes(
+    tmp_path, monkeypatch, occupied
+):
+    config = _config(tmp_path, batch_size=1)
+    run_dir = Path(config["output"]["run_dir"])
+    run_dir.mkdir()
+    (run_dir / "preflight_gate.json").write_bytes(b'{"original":"gate"}\r\n')
+    (run_dir / occupied).write_bytes(b"original protected artifact\n")
+    config_path = tmp_path / "request.json"
+    save_json(config_path, config)
+    before = _snapshot(run_dir)
+    monkeypatch.setattr(cli, "verify_training_preflight", lambda *_args: _gate("replacement"))
+    with pytest.raises(ValueError, match="Fresh training run_dir is not empty"):
+        cli._execute_command(_cli_args(config_path))
+    assert _snapshot(run_dir) == before
+
+
+def test_cli_does_not_publish_gate_when_engine_rejects_dataset_preparation(tmp_path, monkeypatch):
+    config = _config(tmp_path, batch_size=1)
+    run_dir = Path(config["output"]["run_dir"])
+    run_dir.mkdir()
+    (run_dir / "preflight_gate.json").write_bytes(b'{"original":"standalone gate"}\n')
+    before = _snapshot(run_dir)
+    config_path = tmp_path / "request.json"
+    save_json(config_path, config)
+    monkeypatch.setattr(cli, "verify_training_preflight", lambda *_args: _gate("replacement"))
+
+    def invalid_data(*_args, **_kwargs):
+        raise ValueError("dataset validation rejected")
+
+    monkeypatch.setattr(engine, "build_dataset", invalid_data)
+    with pytest.raises(ValueError, match="dataset validation rejected"):
+        cli._execute_command(_cli_args(config_path))
+    assert _snapshot(run_dir) == before
+
+
+def test_validated_cli_fresh_training_publishes_gate_with_config_before_first_update(
+    tmp_path, monkeypatch
+):
+    config = _config(tmp_path, batch_size=1)
+    config_path = tmp_path / "request.json"
+    save_json(config_path, config)
+    run_dir = Path(config["output"]["run_dir"])
+    gate = _gate("pytest CPU publication only")
+    monkeypatch.setattr(cli, "verify_training_preflight", lambda *_args: gate)
+    original_step = engine._training_step
+    calls = 0
+
+    def observed_step(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        assert json.loads((run_dir / "preflight_gate.json").read_text()) == gate
+        published = json.loads((run_dir / "config.json").read_text())
+        assert published["preflight_gate"] == gate
+        assert (run_dir / ".data_hash_cache.json").is_file()
+        return original_step(*args, **kwargs)
+
+    monkeypatch.setattr(engine, "_training_step", observed_step)
+    cli._execute_command(_cli_args(config_path))
+    assert calls > 0
+    checkpoint = torch.load(run_dir / "last.pt", map_location="cpu", weights_only=False)
+    assert checkpoint["preflight_gate"] == gate
+
+
+@pytest.mark.parametrize("failure", [
+    "gate", "optimizer", "scheduler", "scaler", "rng_state", "rng_schema",
+])
+def test_rejected_resume_preserves_gate_config_cache_and_checkpoints(
+    tmp_path, monkeypatch, failure
+):
+    config = _config(tmp_path, batch_size=1)
+    config["preflight_gate"] = _gate("original")
+    engine.train(config)
+    run_dir = Path(config["output"]["run_dir"])
+    checkpoint_path = run_dir / "last.pt"
+    before = _snapshot(run_dir)
+    resume_config = copy.deepcopy(config)
+    resume_config["train"]["epochs"] = 2
+    if failure == "gate":
+        resume_config["preflight_gate"] = _gate("different verified request")
+        message = "preflight gate"
+    else:
+        original_load = engine.load_model_checkpoint
+
+        def altered_load(path, *args, **kwargs):
+            model, checkpoint = original_load(path, *args, **kwargs)
+            if Path(path) == checkpoint_path:
+                if failure == "rng_schema":
+                    checkpoint["rng_state"] = {}
+                else:
+                    checkpoint.pop(failure)
+            return model, checkpoint
+
+        monkeypatch.setattr(engine, "load_model_checkpoint", altered_load)
+        message = {
+            "optimizer": "no optimizer state",
+            "scheduler": "no scheduler state",
+            "scaler": "no GradScaler state",
+            "rng_state": "no RNG state",
+            "rng_schema": "rng_state is missing",
+        }[failure]
+    with pytest.raises(ValueError, match=message):
+        engine.train(resume_config, resume_from=checkpoint_path)
+    assert _snapshot(run_dir) == before
 ~~~~~~~~
 
 # tests/test_runtime_profile.py
@@ -30845,25 +33640,52 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert "record_stage_failure" in script
 
 
-def test_only_three_configs_define_short_output_roots_and_spline_chunking() -> None:
+def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
     config_dir = ROOT / "configs"
     assert {path.name for path in config_dir.glob("*.json")} == {
         "train.json",
+        "batch.json",
         "hdr.json",
         "aid.json",
     }
 
     configs = {
         name: json.loads((config_dir / name).read_text(encoding="utf-8"))
-        for name in ("train.json", "hdr.json", "aid.json")
+        for name in ("train.json", "batch.json", "hdr.json", "aid.json")
     }
     assert configs["train.json"]["output"]["run_dir"] == "runs/train"
+    assert configs["batch.json"]["output"]["run_dir"] == "runs/batch"
+    assert configs["batch.json"]["train"]["batch_size"] == 4
+    assert configs["batch.json"]["train"]["batching"] == "independent_sequences"
+    assert configs["batch.json"]["train"]["timing_steps"] == 50
+    assert configs["batch.json"]["dataset"] == configs["train.json"]["dataset"]
+    assert configs["batch.json"]["model"] == configs["train.json"]["model"]
+    for key, value in configs["train.json"]["train"].items():
+        if key != "batch_size":
+            assert configs["batch.json"]["train"][key] == value, key
     assert configs["hdr.json"]["eval"]["output_dir"] == "runs/eval/hdr"
     assert configs["aid.json"]["eval"]["output_dir"] == "runs/eval/aid"
     assert configs["train.json"]["model"] == configs["hdr.json"]["model"]
     assert configs["train.json"]["model"] == configs["aid.json"]["model"]
     for config in configs.values():
         assert config["model"]["spline_chunk_size"] == 65536
+
+
+def test_batch_wrapper_isolates_training_profile_status_and_evaluation() -> None:
+    script = _text("scripts/run.sh")
+    assert 'EXPERIMENT="${EXPERIMENT:-single}"' in script
+    for assignment in (
+        "DEFAULT_TRAIN_CONFIG=configs/batch.json",
+        "DEFAULT_TRAIN_RUN=runs/batch",
+        "DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json",
+        "DEFAULT_STATUS_DIR=runs/batch-status",
+        "DEFAULT_EVAL_ROOT=runs/batch/eval",
+    ):
+        assert assignment in script
+    assert 'EVAL_OUTPUT_DIR="${output_dir}"' in script
+    evaluation = _text("scripts/eval.sh")
+    assert 'OUTPUT_ARGS=(--output-dir "${EVAL_OUTPUT_DIR}")' in evaluation
+    assert evaluation.count('"${OUTPUT_ARGS[@]}"') == 2
 
 
 def test_calibration_wrapper_defaults_to_all_samples_and_protects_output() -> None:
@@ -31727,6 +34549,740 @@ def test_metric_accumulator_supports_temporal_metric_after_first_frame() -> None
     assert summary["micro"]["temporal_l1"] == pytest.approx(0.2)
     assert summary["macro"]["temporal_l1"] == pytest.approx(0.2)
     assert summary["per_scene"]["scene-a"]["temporal_l1_frames"] == 1
+~~~~~~~~
+
+# tests/test_timing.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+from types import SimpleNamespace
+
+import pytest
+import torch
+
+from asgcn_unet import timing
+
+
+class FakeCuda:
+    """Event/stream ordering oracle: these numbers are not GPU measurements."""
+
+    def __init__(self):
+        self.calls: list[tuple] = []
+        self.events: list[FakeEvent] = []
+        self.current_index = 2
+        self.synchronized = False
+        self.streams = {index: SimpleNamespace(device=torch.device(f"cuda:{index}")) for index in (2, 3)}
+        self.durations = [1.0, 3.0, 5.0, 7.0, 9.0]
+
+    def current_stream(self, device):
+        selected = torch.device(device)
+        index = self.current_index if selected.index is None else selected.index
+        self.calls.append(("stream", str(selected)))
+        return self.streams[index]
+
+    def Event(self, *, enable_timing):
+        assert enable_timing is True
+        event = FakeEvent(self, len(self.events))
+        self.events.append(event)
+        self.calls.append(("event", event.index))
+        return event
+
+    def synchronize(self, device):
+        self.calls.append(("synchronize", str(device)))
+        self.synchronized = True
+
+
+class FakeEvent:
+    def __init__(self, cuda: FakeCuda, index: int):
+        self.cuda = cuda
+        self.index = index
+        self.stream = None
+
+    def record(self, stream):
+        self.stream = stream
+        self.cuda.calls.append(("record", self.index, str(stream.device)))
+
+    def elapsed_time(self, end):
+        assert self.cuda.synchronized, "elapsed_time was read before the collection barrier"
+        assert self.stream is end.stream
+        assert end.index == self.index + 1
+        self.cuda.calls.append(("elapsed", self.index, end.index))
+        return self.cuda.durations[self.index // 2]
+
+
+def _fake_cuda(monkeypatch):
+    cuda = FakeCuda()
+    monkeypatch.setattr(timing, "torch", SimpleNamespace(device=torch.device, cuda=cuda))
+    return cuda
+
+
+def _clock(monkeypatch, values):
+    iterator = iter(values)
+    monkeypatch.setattr(timing, "perf_counter", lambda: next(iterator))
+
+
+@pytest.mark.parametrize("device", ["cpu", "cuda:3"])
+def test_disabled_timer_never_queries_clocks_or_cuda(monkeypatch, device):
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Disabled timing must not inspect clocks or CUDA")
+
+    monkeypatch.setattr(timing, "perf_counter", forbidden)
+    monkeypatch.setattr(
+        timing,
+        "torch",
+        SimpleNamespace(
+            device=torch.device,
+            cuda=SimpleNamespace(current_stream=forbidden, Event=forbidden, synchronize=forbidden),
+        ),
+    )
+    recorder = timing.StageTimer(device)
+    for _ in range(100):
+        with recorder.scope("backward"):
+            pass
+        assert recorder.step() is False
+    report = recorder.collect()
+    assert report["enabled"] is False
+    assert report["window_complete"] is False
+    assert report["measured_steps"] == 0
+    assert report["cuda_events_measured"] is False
+    assert report["recorded_scopes"] == 0
+
+
+def test_cpu_window_excludes_warmup_and_post_window_and_summarizes(monkeypatch):
+    cuda = _fake_cuda(monkeypatch)
+    _clock(monkeypatch, [0.0, 0.001, 1.0, 1.003, 2.0, 2.005])
+    recorder = timing.StageTimer("cpu", enabled=True, warmup_steps=2, measurement_steps=3)
+    completed = []
+    for _ in range(8):
+        with recorder.scope("backward"):
+            pass
+        completed.append(recorder.step())
+    assert completed == [False, False, False, False, True, False, False, False]
+    report = recorder.collect()
+    summary = report["stages"]["backward"]["host_wall"]
+    assert summary["count"] == 3
+    assert summary["total_ms"] == pytest.approx(9.0)
+    assert summary["mean_ms"] == pytest.approx(3.0)
+    assert summary["p50_ms"] == pytest.approx(3.0)
+    assert summary["p95_ms"] == pytest.approx(4.8)
+    assert report["cpu_diagnostic_only"] is True
+    assert report["cuda_events_measured"] is False
+    assert report["cuda_event_device"] is None
+    assert report["stages"]["backward"]["cuda_elapsed"]["count"] == 0
+    assert report["window_complete"] is True
+    assert report["measured_steps"] == 3
+    assert cuda.calls == []
+
+
+def test_cuda_events_record_selected_stream_without_per_stage_barriers(monkeypatch):
+    cuda = _fake_cuda(monkeypatch)
+    _clock(monkeypatch, [0.0, 0.010, 1.0, 1.020, 2.0, 2.030])
+    recorder = timing.StageTimer("cuda:3", enabled=True, warmup_steps=0, measurement_steps=1)
+    with recorder.scope("dataload", gpu=False):
+        pass
+    with recorder.scope("encoder"):
+        pass
+    with recorder.scope("decoder"):
+        pass
+    assert recorder.step() is True
+    assert all(call[0] not in {"synchronize", "elapsed"} for call in cuda.calls)
+    assert [event.stream.device for event in cuda.events] == [torch.device("cuda:3")] * 4
+    report = recorder.collect()
+    assert [call for call in cuda.calls if call[0] == "synchronize"] == [("synchronize", "cuda:3")]
+    assert report["cuda_event_device"] == "cuda:3"
+    assert report["cuda_events_measured"] is True
+    assert report["cpu_diagnostic_only"] is False
+    assert report["stages"]["dataload"]["host_wall"]["mean_ms"] == pytest.approx(10)
+    assert report["stages"]["dataload"]["cuda_elapsed"]["count"] == 0
+    assert report["stages"]["encoder"]["host_wall"]["mean_ms"] == pytest.approx(20)
+    assert report["stages"]["encoder"]["cuda_elapsed"]["mean_ms"] == 1
+    assert report["stages"]["decoder"]["cuda_elapsed"]["mean_ms"] == 3
+    assert "not GPU utilization" in report["interpretation"]
+    assert recorder.collect() == report
+    assert len([call for call in cuda.calls if call[0] == "synchronize"]) == 1
+    # Consumers cannot mutate the cached result.
+    report["stages"]["encoder"]["cuda_elapsed"]["count"] = 999
+    assert recorder.collect()["stages"]["encoder"]["cuda_elapsed"]["count"] == 1
+
+
+def test_unindexed_cuda_device_is_pinned_at_first_recording(monkeypatch):
+    cuda = _fake_cuda(monkeypatch)
+    _clock(monkeypatch, [0.0, 0.001, 1.0, 1.001])
+    recorder = timing.StageTimer("cuda", enabled=True, warmup_steps=0, measurement_steps=1)
+    with recorder.scope("graph"):
+        pass
+    cuda.current_index = 3
+    with recorder.scope("encoder"):
+        pass
+    recorder.step()
+    report = recorder.collect()
+    assert report["cuda_event_device"] == "cuda:2"
+    assert [call for call in cuda.calls if call[0] == "stream"] == [("stream", "cuda"), ("stream", "cuda:2")]
+    assert [call for call in cuda.calls if call[0] == "synchronize"] == [("synchronize", "cuda:2")]
+
+
+def test_collect_without_gpu_spans_does_not_synchronize(monkeypatch):
+    cuda = _fake_cuda(monkeypatch)
+    _clock(monkeypatch, [0.0, 0.005])
+    recorder = timing.StageTimer("cuda:2", enabled=True, warmup_steps=0, measurement_steps=1)
+    with recorder.scope("dataload", gpu=False):
+        pass
+    recorder.step()
+    report = recorder.collect()
+    assert not report["cuda_events_measured"]
+    assert report["cuda_event_device"] is None
+    assert cuda.calls == []
+
+
+def test_collection_finalizes_partial_window_and_no_more_work_is_recorded(monkeypatch):
+    _clock(monkeypatch, [0.0, 0.005])
+    recorder = timing.StageTimer("cpu", enabled=True, warmup_steps=0, measurement_steps=50)
+    with recorder.scope("loss", gpu=False):
+        pass
+    recorder.step()
+    report = recorder.collect()
+    assert not report["window_complete"]
+    assert report["measured_steps"] == 1
+    assert not recorder.collecting
+    with recorder.scope("loss"):
+        pass
+    assert recorder.step() is False
+    assert recorder.collect() == report
+
+
+def test_scope_record_cap_bounds_event_allocation_and_discloses_drops(monkeypatch):
+    cuda = _fake_cuda(monkeypatch)
+    _clock(monkeypatch, [0.0, 0.005, 1.0, 1.010])
+    recorder = timing.StageTimer(
+        "cuda:2", enabled=True, warmup_steps=0, measurement_steps=1, max_records=2
+    )
+    for _ in range(100):
+        with recorder.scope("encoder"):
+            pass
+    recorder.step()
+    report = recorder.collect()
+    assert len(cuda.events) == 4
+    assert report["recorded_scopes"] == 2
+    assert report["dropped_scopes"] == 98
+
+
+def test_inflight_collect_and_step_are_rejected_but_scope_can_finish(monkeypatch):
+    _clock(monkeypatch, [0.0, 0.001])
+    recorder = timing.StageTimer("cpu", enabled=True, warmup_steps=0, measurement_steps=1)
+    with recorder.scope("model"):
+        with pytest.raises(RuntimeError, match="scope is active"):
+            recorder.collect()
+        with pytest.raises(RuntimeError, match="Close all timing scopes"):
+            recorder.step()
+    assert recorder.step()
+    assert recorder.collect()["recorded_scopes"] == 1
+
+
+def test_nested_scopes_do_not_double_count_as_exclusive_time(monkeypatch):
+    _clock(monkeypatch, [0.0, 0.001, 0.002, 0.005])
+    recorder = timing.StageTimer("cpu", enabled=True, warmup_steps=0, measurement_steps=1)
+    with recorder.scope("model"), recorder.scope("encoder"):
+        pass
+    recorder.step()
+    report = recorder.collect()
+    assert report["stages"]["model"]["host_wall"]["total_ms"] == 5
+    assert report["stages"]["encoder"]["host_wall"]["total_ms"] == 1
+    assert "may overlap" in report["interpretation"]
+
+
+def test_failed_stage_preserves_exception_and_is_not_aggregated(monkeypatch):
+    _clock(monkeypatch, [0.0])
+    recorder = timing.StageTimer("cpu", enabled=True, warmup_steps=0, measurement_steps=1)
+    with pytest.raises(ArithmeticError, match="training failure"), recorder.scope("backward"):
+        raise ArithmeticError("training failure")
+    report = recorder.collect()
+    assert report["failed_scopes"] == 1
+    assert report["recorded_scopes"] == 0
+    assert not report["window_complete"]
+
+
+def test_cuda_context_error_is_not_silently_reported_as_cpu(monkeypatch):
+    cuda = _fake_cuda(monkeypatch)
+
+    def unavailable(device):
+        raise RuntimeError("CUDA context unavailable")
+
+    cuda.current_stream = unavailable
+    recorder = timing.StageTimer("cuda", enabled=True, warmup_steps=0, measurement_steps=1)
+    with pytest.raises(RuntimeError, match="CUDA context unavailable"), recorder.scope("transfer"):
+        pass
+    assert recorder._active_scopes == 0
+    assert not recorder.collect()["cpu_diagnostic_only"]
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"enabled": 1},
+        {"warmup_steps": -1},
+        {"warmup_steps": True},
+        {"measurement_steps": 0},
+        {"measurement_steps": 1.0},
+        {"max_records": 0},
+        {"max_records": False},
+    ],
+)
+def test_invalid_recorder_configuration_is_rejected(kwargs):
+    with pytest.raises((TypeError, ValueError)):
+        timing.StageTimer("cpu", **kwargs)
+
+
+def test_unknown_label_and_invalid_gpu_flag_are_rejected_in_active_window():
+    recorder = timing.StageTimer("cpu", enabled=True, warmup_steps=0, measurement_steps=1)
+    with pytest.raises(ValueError, match="Unknown training timing label"):
+        recorder.scope("typo")
+    with pytest.raises(TypeError, match="gpu must be a boolean"):
+        recorder.scope("loss", gpu=1)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable on this test host")
+def test_real_cuda_events_measure_an_actual_training_operation():
+    device = torch.device("cuda", torch.cuda.current_device())
+    recorder = timing.StageTimer(device, enabled=True, warmup_steps=0, measurement_steps=1)
+    x = torch.randn((128, 128), device=device, requires_grad=True)
+    with recorder.scope("model"):
+        loss = (x @ x).square().mean()
+    with recorder.scope("backward"):
+        loss.backward()
+    recorder.step()
+    report = recorder.collect()
+    assert report["cuda_events_measured"]
+    assert not report["cpu_diagnostic_only"]
+    for label in ("model", "backward"):
+        stats = report["stages"][label]["cuda_elapsed"]
+        assert stats["count"] == 1
+        assert stats["mean_ms"] >= 0
+~~~~~~~~
+
+# tests/test_training_batch.py
+
+~~~~~~~~python
+"""Causal minibatch training regressions; generated HDF5 lives only in pytest tempdirs."""
+
+from __future__ import annotations
+
+import copy
+import json
+import random
+import shutil
+from collections import Counter, defaultdict
+from pathlib import Path
+from unittest.mock import patch
+
+import numpy as np
+import pytest
+import torch
+from torch import nn
+from torch.nn import functional as F
+
+from asgcn_unet import engine
+from asgcn_unet.batching import sequence_key
+from asgcn_unet.data import build_dataset
+from asgcn_unet.losses import ReconstructionLoss
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.training import TrainingState, batching_contract, forward_training_loss
+from tests.fixtures import make_eventhdr
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _config(tmp_path: Path, *, batch_size: int = 2, timing_steps: int = 0) -> dict:
+    train_root = tmp_path / "train"
+    train_root.mkdir(parents=True)
+    files = []
+    for index, frames in enumerate((3, 2, 2)):
+        source = make_eventhdr(tmp_path / "fixtures" / str(index), frames=frames)
+        name = f"{index + 1}.h5"
+        shutil.copyfile(source, train_root / name)
+        files.append(name)
+    val_root = tmp_path / "validation"
+    make_eventhdr(val_root, frames=2)
+    split = tmp_path / "split.json"
+    split.write_text(json.dumps({
+        "status": "final",
+        "split_schema": "official_separate_roots_v1",
+        "group_semantics": "h5_sequence_file_not_physical_scene",
+        "train_files": files,
+        "val_files": ["test.h5"],
+    }), encoding="utf-8")
+    return {
+        "seed": 17,
+        "device": "cpu",
+        "dataset": {
+            "type": "eventhdr", "root": str(train_root), "val_root": str(val_root),
+            "split_manifest": str(split), "target_channels": 1,
+            "max_events": 16, "crop_size": [16, 16], "tone_map": "log",
+        },
+        "model": {
+            "architecture_version": 2, "graph_operator": "spline", "spline_backend": "torch",
+            "spline_pseudo": "distance_over_radius", "spline_is_open": True,
+            "hidden_dim": 4, "graph_layers": 1, "event_sampling_factor": 1,
+            "graph_radius": 2.0, "graph_position_dims": 3, "graph_chunk_size": 16,
+            "spline_kernel_size": 3, "spline_degree": 1, "spline_root_weight": True,
+            "raster_downsample": 4, "decoder_channels": 4, "output_channels": 1,
+            "recurrent": True,
+        },
+        "train": {
+            "epochs": 1, "batch_size": batch_size, "num_workers": 0, "amp": False,
+            "batching": "independent_sequences" if batch_size > 1 else "single_frame",
+            "optimizer": "adam_gc", "learning_rate": 0.0002, "grad_clip": 1.0,
+            "lr_milestones": [1], "lr_gamma": 0.5, "validate_every": 1,
+            "max_train_samples": None, "max_val_samples": None, "log_every": 100,
+            "loss_weights": {"charbonnier": 1.0, "ssim": 0.2, "gradient": 0.1, "temporal": 0.1},
+            "timing_steps": timing_steps, "timing_warmup": 0,
+        },
+        "output": {"run_dir": str(tmp_path / "run")},
+    }
+
+
+def _checkpoint(run_dir: Path) -> dict:
+    return torch.load(run_dir / "last.pt", map_location="cpu", weights_only=False)
+
+
+@pytest.mark.parametrize("timing_steps", [0, 2])
+def test_real_hdf5_batch_training_covers_every_frame_and_keeps_partial_tail(
+    tmp_path, monkeypatch, timing_steps
+) -> None:
+    config = _config(tmp_path, timing_steps=timing_steps)
+    dataset = build_dataset(config["dataset"], split="train")
+    expected_ids = [dataset[index]["sample_id"] for index in range(len(dataset))]
+    batch_calls = []
+    single_calls = []
+    previous_state = {}
+    original_batch = ASGCNUNet.forward_training_batch
+    original_single = ASGCNUNet.forward_sample
+    original_release = TrainingState.release_finished
+    retained_sequence_counts = []
+
+    def tracked_batch(model, samples, recurrent_states=None, *, timing=None):
+        assert model.training
+        assert len({sequence_key(sample) for sample in samples}) == len(samples)
+        for sample, state in zip(samples, recurrent_states, strict=True):
+            key = sequence_key(sample)
+            if key in previous_state:
+                torch.testing.assert_close(state, previous_state[key], rtol=0, atol=0)
+                assert not state.requires_grad
+            else:
+                assert state is None
+        # Calling forward_sample in this actual training batch would fail below.
+        with (
+            patch.object(model.encoder, "forward_ann", wraps=model.encoder.forward_ann) as encoder,
+            patch.object(model.decoder, "forward", wraps=model.decoder.forward) as decoder,
+        ):
+            result = original_batch(model, samples, recurrent_states, timing=timing)
+        assert encoder.call_count == decoder.call_count == 1
+        assert decoder.call_args.args[0].shape[0] == len(samples)
+        for sample, detail in zip(samples, result[1], strict=True):
+            previous_state[sequence_key(sample)] = detail["recurrent_state"].detach().clone()
+        batch_calls.append([(sample["sample_id"], sequence_key(sample), sample["metadata"]["sequence_index"]) for sample in samples])
+        return result
+
+    def tracked_single(model, sample, *args, **kwargs):
+        assert not model.training, "batch training must not loop over forward_sample"
+        single_calls.append((sample["metadata"]["sequence_index"], kwargs.get("recurrent_state")))
+        return original_single(model, sample, *args, **kwargs)
+
+    def tracked_release(state, samples, final_sequence_indices):
+        original_release(state, samples, final_sequence_indices)
+        retained_sequence_counts.append(len(state.values))
+        assert len(state.values) <= 2
+
+    monkeypatch.setattr(ASGCNUNet, "forward_training_batch", tracked_batch)
+    monkeypatch.setattr(ASGCNUNet, "forward_sample", tracked_single)
+    monkeypatch.setattr(TrainingState, "release_finished", tracked_release)
+    engine.train(config)
+    run_dir = Path(config["output"]["run_dir"])
+    checkpoint = _checkpoint(run_dir)
+    assert [len(batch) for batch in batch_calls] == [2, 2, 2, 1]
+    assert retained_sequence_counts == [2, 1, 1, 0]
+    assert Counter(item[0] for batch in batch_calls for item in batch) == Counter(expected_ids)
+    sequence_order = defaultdict(list)
+    for batch in batch_calls:
+        for _, key, index in batch:
+            sequence_order[key].append(index)
+    assert sorted(sequence_order.values()) == [[0, 1], [0, 1], [0, 1, 2]]
+    assert [item[0] for item in single_calls] == [0, 1]
+    assert single_calls[0][1] is None and single_calls[1][1] is not None
+    assert checkpoint["training_protocol"]["version"] == 6
+    assert checkpoint["training_protocol"]["batching"] == batching_contract(2)
+    performance = checkpoint["history"][0]["performance"]
+    assert performance["frames"] == 7
+    assert performance["optimizer_steps"] == 4
+    assert performance["batch_size_limit"] == 2
+    assert performance["includes_validation"] is False
+    assert performance["frames_per_second"] > 0
+    assert checkpoint["history"][0]["val"]["frames"] == 2
+    assert {int(state["step"]) for state in checkpoint["optimizer"]["state"].values()} == {4}
+    if timing_steps:
+        report = json.loads((run_dir / "timing.json").read_text(encoding="utf-8"))
+        assert report["cpu_diagnostic_only"] is True
+        assert report["cuda_events_measured"] is False
+        assert report["window_complete"] is True
+        assert report["measured_steps"] == 2
+        for stage in ("dataload", "transfer", "graph", "encoder", "decoder", "loss", "backward", "optimizer"):
+            assert report["stages"][stage]["host_wall"]["count"] == 2
+        assert report["stages"]["gradient_check"]["host_wall"]["count"] == 4
+    else:
+        assert not (run_dir / "timing.json").exists()
+
+
+def _sample(identity, index, *, source="first.h5", size=(2, 2), target=0.0):
+    return {
+        "sample_id": f"{identity}/{source}/{index}",
+        "events": torch.empty(0, 4), "sensor_size": size,
+        "target": torch.full((1, *size), target),
+        "metadata": {"sequence_id": identity, "source_file": source, "sequence_index": index},
+    }
+
+
+def _commit_markers(store, samples, markers):
+    prediction = torch.stack([torch.full_like(sample["target"], marker) for sample, marker in zip(samples, markers, strict=True)]).requires_grad_()
+    target = torch.stack([sample["target"] for sample in samples])
+    diagnostics = [{"recurrent_state": torch.full((1, 2, 1, 1), marker, requires_grad=True)} for marker in markers]
+    store.commit(samples, prediction, diagnostics, target)
+
+
+def test_sequence_context_follows_identity_not_batch_position_and_is_detached() -> None:
+    state = TrainingState(independent_sequences=True)
+    initial = [_sample("shared", 0, source="a.h5"), _sample("shared", 0, source="b.h5")]
+    assert state.prepare(initial) == [(None, None, None), (None, None, None)]
+    _commit_markers(state, initial, [11.0, 22.0])
+    # Same scene label, different source files; swap lanes on the next call.
+    following = [_sample("shared", 1, source="b.h5"), _sample("shared", 1, source="a.h5")]
+    contexts = state.prepare(following)
+    for context, marker in zip(contexts, (22.0, 11.0), strict=True):
+        assert all(not value.requires_grad for value in context)
+        assert context[0].unique().item() == context[1].unique().item() == marker
+    # prepare is read-only: failed/uncommitted attempts cannot advance an index.
+    repeated = state.prepare(following)
+    for actual, expected in zip(repeated, contexts, strict=True):
+        assert all(a is b for a, b in zip(actual, expected, strict=True))
+
+
+@pytest.mark.parametrize("batch_size", [2, 8])
+def test_committed_sequence_slices_do_not_keep_full_batch_storages_alive(batch_size) -> None:
+    state = TrainingState(independent_sequences=True)
+    samples = [_sample(str(index), 0) for index in range(batch_size)]
+    prediction = torch.arange(batch_size * 4, dtype=torch.float32).reshape(batch_size, 1, 2, 2).requires_grad_()
+    target = prediction.detach() + 0.25
+    hidden = torch.arange(batch_size * 2, dtype=torch.float32).reshape(batch_size, 2, 1, 1).requires_grad_()
+    diagnostics = [{"recurrent_state": hidden[index:index + 1]} for index in range(batch_size)]
+    state.commit(samples, prediction, diagnostics, target)
+    original_storages = {
+        value.untyped_storage().data_ptr() for value in (prediction, target, hidden)
+    }
+    committed_storages = set()
+    for index, sample in enumerate(samples):
+        context = state.values[sequence_key(sample)][2:]
+        for actual, expected in zip(context, (hidden[index:index + 1], prediction[index:index + 1], target[index:index + 1]), strict=True):
+            torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+            assert not actual.requires_grad
+            pointer = actual.untyped_storage().data_ptr()
+            assert pointer not in original_storages
+            assert pointer not in committed_storages
+            committed_storages.add(pointer)
+            assert actual.untyped_storage().nbytes() == actual.numel() * actual.element_size()
+
+
+@pytest.mark.parametrize("index,size", [(0, (2, 2)), (2, (2, 2)), (None, (2, 2)), (1, (3, 2))])
+def test_sequence_context_resets_on_rewind_gap_missing_index_or_shape_change(index, size) -> None:
+    state = TrainingState(independent_sequences=True)
+    _commit_markers(state, [_sample("a", 0)], [3.0])
+    assert state.prepare([_sample("a", index, size=size)]) == [(None, None, None)]
+
+
+def test_duplicate_streams_are_rejected_before_context_mutation() -> None:
+    state = TrainingState(independent_sequences=True)
+    with pytest.raises(ValueError, match="two frames of one sequence"):
+        state.prepare([_sample("a", 0), _sample("a", 1)])
+    assert state.values == {}
+
+
+def test_only_completed_streams_release_state_and_new_lane_starts_without_context() -> None:
+    store = TrainingState(independent_sequences=True)
+    samples = [_sample("a", 2), _sample("b", 2)]
+    _commit_markers(store, samples, [1.0, 2.0])
+    ongoing = store.values[sequence_key(samples[1])]
+    store.release_finished(samples, {sequence_key(samples[0]): 2, sequence_key(samples[1]): 4})
+    assert set(store.values) == {sequence_key(samples[1])}
+    assert store.values[sequence_key(samples[1])] is ongoing
+    contexts = store.prepare([_sample("c", 0), _sample("b", 3)])
+    assert contexts[0] == (None, None, None)
+    assert all(a is b for a, b in zip(contexts[1], ongoing[2:], strict=True))
+
+
+def test_baseline_context_matches_previous_single_trajectory_reset_formula() -> None:
+    store = TrainingState(independent_sequences=False)
+    previous = (None, None, None)
+    context = (None, None, None)
+    trajectory = [_sample("a", 0), _sample("a", 1), _sample("b", 0), _sample("a", 2), _sample("a", 4), _sample("a", 5)]
+    for position, sample in enumerate(trajectory):
+        identity, index, size = engine._sample_sequence_info(sample)
+        expected = context if engine._continues_sequence(identity, index, size, *previous) else (None, None, None)
+        actual = store.prepare([sample])[0]
+        assert all(a is b for a, b in zip(actual, expected, strict=True))
+        _commit_markers(store, [sample], [float(position)])
+        context = tuple(store.values[store.last_key][2:])
+        previous = (identity, index, size)
+        assert len(store.values) == 1
+
+
+class _FixedPrediction(nn.Module):
+    def __init__(self, prediction):
+        super().__init__()
+        self.prediction = nn.Parameter(prediction)
+        self.calls = 0
+
+    def forward_training_batch(self, samples, recurrent_states, *, timing=None):
+        self.calls += 1
+        return self.prediction, [{"recurrent_state": value} for value in recurrent_states]
+
+    def forward_sample(self, sample, *, recurrent_state=None):
+        self.calls += 1
+        return self.prediction, {"recurrent_state": recurrent_state}
+
+
+@pytest.mark.parametrize("batch_mode", [False, True])
+def test_forward_loss_matches_explicit_per_frame_temporal_mean_and_gradients(batch_mode) -> None:
+    samples = [_sample("a", 1, size=(16, 16), target=0.5)]
+    contexts = [(None, torch.full((1, 1, 16, 16), 0.4), torch.full((1, 1, 16, 16), 0.3))]
+    prediction = torch.full((1, 1, 16, 16), 0.8)
+    if batch_mode:
+        samples.append(_sample("b", 0, size=(16, 16), target=0.1))
+        contexts.append((None, None, None))
+        prediction = torch.cat([prediction, torch.full_like(prediction, 0.2)])
+    model = _FixedPrediction(prediction)
+    reference = prediction.detach().clone().requires_grad_()
+    criterion = ReconstructionLoss()
+    loss, parts, payload = forward_training_loss(
+        model, criterion, samples, contexts, batch_mode=batch_mode,
+        amp_enabled=False, temporal_weight=0.7,
+    )
+    target = torch.stack([sample["target"] for sample in samples])
+    expected, _ = criterion(reference, target)
+    temporal_terms = [
+        F.l1_loss(reference[i:i + 1] - context[1], target[i:i + 1] - context[2])
+        if context[1] is not None else reference.new_zeros(())
+        for i, context in enumerate(contexts)
+    ]
+    temporal = torch.stack(temporal_terms).mean()
+    expected = expected + 0.7 * temporal
+    torch.testing.assert_close(loss, expected, rtol=0, atol=0)
+    torch.testing.assert_close(parts["temporal"], temporal, rtol=0, atol=0)
+    torch.testing.assert_close(payload[2], target, rtol=0, atol=0)
+    loss.backward()
+    expected.backward()
+    torch.testing.assert_close(model.prediction.grad, reference.grad, rtol=0, atol=0)
+    assert model.calls == 1
+
+
+def test_whole_batch_amp_retry_commits_once_without_advancing_other_streams() -> None:
+    class BatchLoss(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.weight = nn.Parameter(torch.tensor(0.25))
+            self.register_buffer("forward_count", torch.zeros((), dtype=torch.long))
+
+        def forward_training_batch(self, samples, recurrent_states, *, timing=None):
+            self.forward_count.add_(1)
+            prediction = self.weight.half().float().expand(len(samples), 1, 2, 2)
+            states = [state + torch.rand_like(state) for state in recurrent_states]
+            return prediction, [{"recurrent_state": state} for state in states]
+
+    model = BatchLoss()
+    optimizer = torch.optim.Adam(model.parameters())
+    scaler = torch.amp.GradScaler("cpu", init_scale=65536.0)
+    store = TrainingState(independent_sequences=True)
+    _commit_markers(store, [_sample("a", 0), _sample("b", 0)], [1.0, 2.0])
+    samples = [_sample("a", 1), _sample("b", 1)]
+    contexts = store.prepare(samples)
+    original_state = copy.deepcopy(store.values)
+    attempts = []
+
+    def criterion(prediction, target):
+        loss = prediction.mean()
+        return loss, {"reconstruction": loss.detach()}
+
+    def closure():
+        torch.testing.assert_close(store.values, original_state, rtol=0, atol=0)
+        result = forward_training_loss(
+            model, criterion, samples, contexts, batch_mode=True,
+            amp_enabled=False, temporal_weight=0.0,
+        )
+        attempts.append((result[2][1], random.random(), np.random.random()))
+        return result
+
+    with patch.object(optimizer, "step", wraps=optimizer.step) as update:
+        payload, _, _, info = engine._training_step(
+            model, optimizer, scaler, closure, optimizer_mode="adamw", max_norm=1.0,
+            epoch=1, step=0, sample_id=[sample["sample_id"] for sample in samples],
+        )
+    assert info["retries"] == 1
+    assert update.call_count == 1
+    assert model.forward_count.item() == 1
+    assert len(attempts) == 2
+    torch.testing.assert_close(attempts[0], attempts[1], rtol=0, atol=0)
+    store.commit(samples, *payload)
+    assert [entry[0] for entry in store.values.values()] == [1, 1]
+    assert int(optimizer.state[model.weight]["step"]) == 1
+
+
+def test_batched_epoch_resume_reproduces_uninterrupted_model_optimizer_and_rng(tmp_path) -> None:
+    config = _config(tmp_path)
+    config["train"]["epochs"] = 2
+    config["output"]["run_dir"] = str(tmp_path / "continuous")
+    engine.train(config)
+    uninterrupted = _checkpoint(tmp_path / "continuous")
+    config["train"]["epochs"] = 1
+    config["output"]["run_dir"] = str(tmp_path / "resumed")
+    engine.train(config)
+    first = _checkpoint(tmp_path / "resumed")
+    assert first["training_protocol"]["version"] == 6
+    config["train"]["epochs"] = 2
+    engine.train(config, resume_from=tmp_path / "resumed" / "last.pt")
+    resumed = _checkpoint(tmp_path / "resumed")
+    for field in ("model", "optimizer", "scheduler", "scaler", "val"):
+        torch.testing.assert_close(resumed[field], uninterrupted[field], rtol=0, atol=0)
+    assert resumed["best_model_state_sha256"] == uninterrupted["best_model_state_sha256"]
+    assert resumed["rng_state"]["python"] == uninterrupted["rng_state"]["python"]
+    np.testing.assert_array_equal(resumed["rng_state"]["numpy"][1], uninterrupted["rng_state"]["numpy"][1])
+    torch.testing.assert_close(resumed["rng_state"]["torch"], uninterrupted["rng_state"]["torch"], rtol=0, atol=0)
+    assert [entry["train_loss"] for entry in resumed["history"]] == [entry["train_loss"] for entry in uninterrupted["history"]]
+    assert [(entry["performance"]["frames"], entry["performance"]["optimizer_steps"]) for entry in resumed["history"]] == [(7, 4), (7, 4)]
+    assert {int(state["step"]) for state in resumed["optimizer"]["state"].values()} == {8}
+
+
+@pytest.mark.parametrize("changed", ["batch_one", "batch_three", "source", "contract"])
+def test_batch_resume_rejects_baseline_different_batch_source_or_contract(changed) -> None:
+    config = {"seed": 17, "train": {"batch_size": 2, "batching": "independent_sequences", "amp": False}}
+    protocol = engine._training_protocol(config, torch.device("cpu"))
+    assert protocol["version"] == 6
+    assert engine._valid_training_protocol_contract(protocol)
+    altered = copy.deepcopy(protocol)
+    if changed in {"batch_one", "batch_three"}:
+        config["train"]["batch_size"] = 1 if changed == "batch_one" else 3
+        config["train"]["batching"] = "single_frame" if changed == "batch_one" else "independent_sequences"
+        altered = engine._training_protocol(config, torch.device("cpu"))
+        assert altered["version"] == (5 if changed == "batch_one" else 6)
+    elif changed == "source":
+        altered["source"]["source_tree_sha256"] = "0" * 64
+    else:
+        altered["batching"]["loss"] = "mean_only_context_frames"
+        assert not engine._valid_training_protocol_contract(altered)
+    with pytest.raises(ValueError, match="training protocol differs"):
+        engine._validate_training_protocol({"training_protocol": protocol}, altered)
 ~~~~~~~~
 
 # tests/test_utils_atomic.py

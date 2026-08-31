@@ -77,7 +77,7 @@ set -o pipefail
 bash scripts/run.sh all 2>&1 | tee logs/run.log
 ```
 
-자동 순서: 전체 데이터 검사 → 최고 밀도 CUDA 사전검증 → ANN 학습 → SNN 보정 → 두 데이터셋 전체
+자동 순서: 전체 데이터 검사 → CUDA 전수 그래프 검사·수치/밀집 표본 검증 → ANN 학습 → SNN 보정 → 두 데이터셋 전체
 ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된다.
 
 연결이 끊겨도 계속 실행하려면 위 블록을 **`tmux new-session -s asgcn`으로 연 세션 안에서**
@@ -139,7 +139,8 @@ graph candidate 확장·edge compaction의 중복을 줄이고, Spline 집계에
 역전파까지 보관하지 않는 custom autograd를 적용했다. SNN의 고정 첫 계층 전류는 forward당 한 번만
 계산한다. graph·모델·sampling·학습 범위는 유지하며 기존 실행 명령도 같다. 출력·gradient 검증과
 CPU 측정, 아직 측정하지 않은 GPU 성능의 구분은 [성능 기록](docs/PERF.md)에 정리했다.
-새 source에는 새 CUDA preflight가 필요하며 기존 checkpoint의 exact-resume 검사를 우회하지 않는다.
+새 source에는 새 CUDA 학습 검증이 필요하다. 검증된 이전 전수 통계만 명시적으로 이관할 수 있으며,
+이전 GPU 측정값이나 학습 checkpoint의 exact-resume 검사를 우회하지 않는다.
 
 ## 데이터와 실험 역할
 
@@ -182,8 +183,8 @@ fail 조건으로 만들지 않는다.
 `scripts/run.sh all`은 다음 순서를 fail-fast로 실행한다.
 
 1. `check`: CUDA·locked dependency·전체 파일 coverage를 확인하고 두 데이터의 모든 sample을 decode
-2. `profile`: EventHDR train graph를 전수 조사하고 edge 수 상위 표본 3개에서 CUDA forward/backward,
-   optimizer step, peak allocated/reserved VRAM과 step time 측정
+2. `profile`: EventHDR train graph를 CUDA에서 전수 조사하고 첫 프레임·빈/희소 입력 및 edge 수 상위
+   표본 3개에서 CUDA forward/backward, optimizer step, peak allocated/reserved VRAM과 step time 측정
 3. `train`: 검증된 `runs/profile.json`을 현재 config·data·source·CUDA runtime에 다시 결합한 뒤
    EventHDR train 전체 40 epoch ANN 학습
 4. `calibrate`: EventHDR train의 모든 calibration sample로 `best_snn.pt` 생성
@@ -191,7 +192,11 @@ fail 조건으로 만들지 않는다.
    `literal_eq15`/`standard_if` × `T=4,8,16,32` 평가·benchmark
 
 기본 `PROFILE_TOP_DENSITY=10`은 edge 수 상위 10개 interval의 topology를 상세 기록하고,
-`PROFILE_SAMPLES=3`은 그중 3개를 실제 학습 step으로 측정한다. 이 profile은 기록된 GPU에서 선택된
+`PROFILE_SAMPLES=3`은 그중 3개를 실제 학습 step으로 측정한다. 전체 scan 개수를 3개로 줄이지 않는다.
+첫 프레임·첫 zero-event 프레임·최소 양수 node 표본도 중복을 제거해 각각 초기 모델에서 검사한다.
+새 scan은 graph 계산을 CUDA에서 수행하고 CPU는 HDF5 읽기·메타데이터 처리에 사용한다.
+`PROFILE_CPU_THREADS=4`가 CPU 보조 연산의 기본값이며 GT 픽셀의 전수 검증은 앞선 `check`가 담당한다.
+이 profile은 기록된 GPU에서 선택된
 최고 밀도 표본이 통과했다는 실측 gate이지 전체 40 epoch의 모든 미래 step에 대한 절대 VRAM 보증은
 아니다. profile artifact에도 `absolute_vram_guarantee=false`가 고정된다.
 
@@ -210,6 +215,45 @@ DRY_RUN=1 bash scripts/run.sh all
 ```
 
 ## 중단 후 재개와 결과 보호
+
+### 사전검사가 중단된 경우
+
+새 버전은 `runs/profile.scan/`에 128개 또는 30초 간격(표본 처리 경계)으로 검사 기록을 원자적으로
+저장한다. 중단한 같은 scan은 다음처럼 재개한다. 이미 통과한 최종 보고서는 덮어쓰지 않는다.
+
+```bash
+PROFILE_RESUME=1 bash scripts/run.sh profile
+```
+
+`preflight-topology` 100%는 통계 검사 완료이며, 이어지는 GPU 검증까지 성공한 뒤 최종
+`runs/profile.json`의 `status=passed`를 확인해야 학습으로 이어갈 수 있다.
+
+### 이전 버전의 첫-step AMP 오류에서 복구
+
+기존 `profile.json`은 통과했지만 첫 학습 step의 FP16 gradient overflow로 종료된 경우,
+수정된 코드로 갱신한 뒤 다음 순서로 실행한다. 기존 데이터·보고서는 삭제하지 않는다.
+
+```bash
+git pull --ff-only &&
+export PROFILE_OUTPUT=runs/profile2.json &&
+PROFILE_REUSE_REPORT=runs/profile.json bash scripts/run.sh profile &&
+RESTART_TRAIN=1 bash scripts/run.sh train &&
+bash scripts/run.sh calibrate &&
+bash scripts/run.sh eval
+```
+
+첫 명령의 갱신이 실패하면 다음 명령은 실행하지 않는다. 다른 터미널로 이어갈 때에도
+`export PROFILE_OUTPUT=runs/profile2.json`을 설정한다. 이관은 출처가 확인된 전수 topology 통계만
+재사용하고 첫/빈/희소·밀집 표본의 GPU 검증은 새로 수행한다. 이전 CPU 통계는 CPU 출처로 남으며,
+이전 GPU 수치가 새 측정으로 둔갑하지 않는다. 출처·데이터·설정이 맞지 않으면 이관을 거부한다.
+
+`RESTART_TRAIN=1`은 **이전 작업을 종료한 상태에서**, epoch checkpoint 없이 metadata만 남은
+`runs/train`을 `runs/train.failed-*/train`에 보존하고 새 학습을 시작한다. checkpoint·history·알 수 없는
+파일이 있으면 거부한다. 완료된 epoch가 없는 실행의 재시작이며, 중간 optimizer step의 복원이 아니다.
+AMP overflow는 scale을 낮춰 같은 프레임을 최대 16번 재시도하고 실패한 시도의 BatchNorm·난수 상태를
+복원한다. 프레임을 버리지 않으며, 비유한 loss나 지속되는 오류는 그대로 중단한다.
+
+### 학습 epoch 경계에서 재개
 
 학습은 매 epoch 종료 시 `last.pt`를 원자적으로 갱신한다. 중단 후 같은 run을 epoch 경계에서 재개한다.
 

@@ -227,7 +227,7 @@ tmux new-session -s asgcn -c "$PWD"
 
 1. `check_env.py --require-full-data --lock constraints/py312.txt --runtime-profile constraints/server.json`과 기본 CUDA 검사
 2. EventHDR train/eval과 EventAid-R 전체 `inspect --validate-all`
-3. EventHDR train 전체 graph topology scan과 edge 수 상위 표본 CUDA forward/backward profile
+3. EventHDR train 전체 CUDA graph topology scan, 최초·빈·희소 입력과 edge 수 상위 표본의 CUDA 학습 검사
 4. profile을 현재 config/data/source/runtime에 재검증한 뒤 ANN 40-epoch 학습 또는 resume
 5. EventHDR train 모든 frame을 이용한 `best.pt`→`best_snn.pt` 보정
 6. EventHDR/EventAid-R ANN과 `literal_eq15`/`standard_if` × `T=4,8,16,32` evaluate+benchmark
@@ -246,6 +246,11 @@ profile 기본값은 `PROFILE_TOP_DENSITY=10`, `PROFILE_SAMPLES=3`,
 `PROFILE_OUTPUT=runs/profile.json`이다. 전수 scan은 edge guard 초과 표본을 찾고, 실제 CUDA probe는
 edge 수 상위 3개 표본에서 configured loss·optimizer까지 포함한 학습 step과 peak allocated/reserved
 VRAM을 잰다. 이는 기록된 GPU와 선택 표본에 한정된 실측 gate이며 절대 VRAM 보증이 아니다.
+새 전수 scan은 events를 선택한 CUDA 장치로 옮겨 graph topology를 계산한다. CPU는 HDF5 읽기와
+좌표·메타데이터 준비를 담당한다. `PROFILE_CPU_THREADS=4`가 profile의 CPU 보조 연산 기본값이고,
+공통 wrapper는 torch/numpy import 전에 `OMP_NUM_THREADS`와 `MKL_NUM_THREADS`도 설정한다.
+첫 프레임, 첫 zero-event 프레임, 최소 양수 node 표본은 중복을 제거하고 각각 초기 모델에서 추가로
+검사한다. 밀집 표본 3개가 모든 입력의 수치 안정성을 보장한다고 해석하지 않는다.
 
 기존 training/evaluation artifact는 묵시적으로 덮어쓰지 않는다. 기존 SNN checkpoint만 의도적으로
 다시 만들 때는 `OVERWRITE_CALIBRATION=1`을 사용하며 새 checkpoint가 완성된 뒤 atomic replace된다.
@@ -267,6 +272,50 @@ summary가 유지된다.
 
 ## 4. 중단 후 epoch-boundary resume
 
+### 사전검사 중단 후 이어가기
+
+`runs/profile.scan/index.json`과 작은 구간 파일들에 전수검사 기록이 저장된다. 128개 또는 30초 간격에
+표본 경계에서 저장하며, 정상적인 interrupt/오류 시에도 완료된 표본을 저장한다. 강제 종료 시에는
+마지막 원자적 commit 이후 구간을 다시 계산한다. data SHA-256·설정·topology 구현 계약이 같아야 한다.
+
+```bash
+PROFILE_RESUME=1 bash scripts/run.sh profile
+```
+
+GPU probe만 실패했어도 완료된 scan을 재사용할 수 있다. GPU probe 결과는 이어 붙이지 않고 새로
+측정한다. 이미 통과한 최종 보고서는 이 명령으로 덮어쓰지 않는다. `all`을 다시 실행하지 않는다.
+
+### AMP 첫 step 오류와 이전 profile 이관
+
+FP16 기본 scale 65,536에서만 gradient가 비유한 값이 되고 scale 1/FP32는 유한했던 오류는 AMP
+overflow 복구 전에 clip 검사가 종료시키던 문제였다. 공통 학습 step은 같은 프레임의 scale을 낮춰
+최대 16번 재시도한다. 실패 시 가중치·optimizer를 업데이트하지 않고 BatchNorm buffer와 RNG를
+되돌린다. recurrent/temporal state는 성공한 시도만 다음 프레임에 전달한다. loss NaN/Inf,
+AMP가 꺼진 상태의 잘못된 gradient, 지속되는 overflow, 다른 CUDA/clip 오류는 숨기지 않는다.
+
+기존 검사가 통과했고 아직 학습 checkpoint가 없는 경우, 종료된 작업에 대해 사용한다.
+
+```bash
+git pull --ff-only &&
+export PROFILE_OUTPUT=runs/profile2.json &&
+PROFILE_REUSE_REPORT=runs/profile.json bash scripts/run.sh profile &&
+RESTART_TRAIN=1 bash scripts/run.sh train &&
+bash scripts/run.sh calibrate &&
+bash scripts/run.sh eval
+```
+
+Git 갱신 실패 시 아래 명령은 실행하지 않는다. 새 terminal에서는 `PROFILE_OUTPUT`도 다시 설정한다.
+원본 `runs/profile.json`은 보존된다. `PROFILE_REUSE_REPORT`는 완전한 기록·요약·data/config hash와
+검토된 source 계약을 검증한 후 topology 통계만 새 보고서로 이관한다. legacy v1 보고서는 허용 목록의
+clean commit/source hash 조합만 받고, 임의 수정된 보고서나 알 수 없는 구현은 재사용하지 않는다.
+통계의 CPU/CUDA 출처를 보존하며 새로운 코드·GPU에서 수치·밀집 probe를 다시 실행한다.
+
+metadata-only `runs/train`은 `runs/train.failed-*/train`으로 보존된다. `config.json`,
+`preflight_gate.json`, `.data_hash_cache.json` 외 파일·하위 폴더 또는 checkpoint가 있으면 자동으로
+옮기지 않는다. 기존 작업은 먼저 종료해야 한다. 이 옵션은 epoch 내부 학습을 복원하는 resume가 아니다.
+
+### 완료된 epoch부터 학습 재개
+
 직접 실행은 다음과 같다.
 
 ```bash
@@ -280,6 +329,9 @@ RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
 RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
   bash scripts/train.sh configs/train.json
 ```
+
+두 wrapper 모두 `PROFILE_OUTPUT`을 따르며, 저수준 wrapper에서 `PREFLIGHT_REPORT`를 따로 지정하면
+그 값이 우선한다. 이전 profile 이관을 사용했다면 `PROFILE_OUTPUT=runs/profile2.json`을 유지한다.
 
 `last.pt`는 각 완료 epoch 뒤에 저장되므로 종료된 epoch 내부 step은 되풀이된다. checkpoint는 같은
 configured run directory 안에 있어야 하며, source tree/Git 상태, model·optimizer·scheduler·AMP,
@@ -436,7 +488,7 @@ hostname, job ID, 절대경로를 기록한 log는 이름을 바꾸거나 scan�
 학습이 끝나면 다음 파일을 먼저 확인한다.
 
 ```bash
-ls -lh runs/profile.json
+ls -lh "${PROFILE_OUTPUT:-runs/profile.json}"
 ls -lh runs/train/{last.pt,best.pt,best_snn.pt,history.json,config.json}
 find runs -name metrics.json -o -name benchmark.json | sort
 ```
@@ -507,8 +559,10 @@ bash scripts/run.sh eval
 ```
 
 이는 완료된 데이터 검사를 되풀이하지 않는 재개 절차이며 CUDA profile을 생략하는 우회가 아니다.
-기존 `runs/profile.json`이 있으면 자동으로 덮어쓰지 않는다. 파일 내용을 확인해 별도 보존 위치로
-옮긴 뒤 다시 측정하며 삭제하지 않는다. 이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train
+기존 보고서와 `runs/profile.scan/`은 자동으로 덮어쓰지 않는다. 같은 실패·중단 스캔은 앞의
+`PROFILE_RESUME=1` 절차로 이어가고, 별도 새 검사라면 `PROFILE_OUTPUT`에 새 파일명을 지정해
+원본 보고서와 journal을 모두 보존한다. JSON만 옮기면 기존 journal 때문에 새 검사가 거부된다.
+이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train
 명령을 그대로 쓰지 말고 [epoch-boundary resume](#4-중단-후-epoch-boundary-resume)를 따른다.
 
 자주 중단되는 조건은 다음과 같다.

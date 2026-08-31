@@ -6,11 +6,37 @@
 
 ## 0. 검증 기록과 배포 판정 기준
 
+2026-08-31 서버 진단에서 첫 EventHDR 프레임의 event 수가 0이고, 기본 FP16 scale 65,536에서만
+`decoder.enc1.body.0.bias` gradient가 비유한 값이 되는 것을 확인했다. 같은 입력의 FP16 scale 1과
+FP32는 finite loss/gradient였고 norm은 약 16.83이었다. 이는 사용자 제공 단일 프레임 진단 결과이며
+수정된 코드의 GPU 전체 학습 성공 기록이 아니다.
+
+현재 수정은 training protocol **v5**, `same_sample_backoff_v1`로 AMP overflow를 처리한다. 같은
+프레임을 최대 16회 재시도하며 실패한 시도의 BN/mutable buffer와 Python/NumPy/Torch/CUDA RNG를
+복원한다. 실패 시 optimizer update나 프레임 건너뛰기는 없고, recurrent/temporal state는 성공한
+시도만 반영한다. finite gradient 확인 후 GC·clip·update를 수행하며 원래 backend 오류를 숨기지 않는다.
+epoch history의 `amp`에 retries/retried_samples/scale을 남긴다. 실제 NaN loss·AMP-off 잘못된 gradient·
+지속 overflow는 여전히 hard failure다.
+
+새 preflight는 CUDA topology와 event-only HDF5 경로, 기본 CPU helper thread 4개, 구간별 atomic
+scan journal을 사용한다. 최종 report v2는 첫 프레임·첫 zero-event·최소 양수 node 입력의 초기 모델
+검증과 상위 3개 밀집 표본 학습 검증을 분리 기록한다. 검증된 이전 전수 기록은 명시적으로 이관하되
+원래 CPU/CUDA 출처를 유지하고 GPU 측정은 전부 새로 수행한다. metadata-only 학습 실패는 명시적인
+재시작 옵션으로 directory를 보존하며 checkpoint/history/unknown file은 자동으로 옮기지 않는다.
+명령과 재사용 조건은 [서버 복구 절차](docs/SERVER.md#amp-첫-step-오류와-이전-profile-이관)를 따른다.
+
+이 AMP/scan/복구 수정의 Windows CPU 통합 회귀검사는 **997 passed, 40 skipped**다.
+Ruff와 Git diff whitespace 검사도 통과했다. skip은 CUDA 하드웨어, Linux 전용 실행,
+Windows symlink 권한 제약에 따른 것으로 해당 검사를 통과했다는 의미가 아니다. 이번 로컬 환경에는
+Bash가 없어 수정된 shell wrapper의 실제 Linux 실행은 아직 검증하지 못했다. 별도의 CUDA full-model
+zero-event 회귀검사를 추가했지만 로컬에서는 skip됐으며, 서버 실데이터로 수정본을 검증한 기록은 없다.
+
 2026-08-31 연산 최적화에서는 radius candidate 확장/compaction, Spline custom autograd의 저장
 tensor 메모리와 SNN 고정 첫 layer 계산을 개선했다. 기존 모델·config·sampling·전체 실험 범위는
 변경하지 않았다. 전체 CPU 회귀검사는 **860 passed, 35 skipped**이며 수치·시간·저장 메모리 검증과
 GPU 미검증 범위는 [PERF.md](docs/PERF.md)를 따른다. C++/CUDA extension을 새로 구현한 것은 아니다.
-새 source contract가 적용되므로 이전 profile/checkpoint의 exact-resume 보호를 우회하지 않는다.
+새 source contract가 적용되므로 이전 GPU 측정/checkpoint의 exact-resume 보호를 우회하지 않는다.
+위 860/35는 앞선 연산 최적화 시점의 기록이며 후속 AMP/scan 수정 전체의 검증 수치가 아니다.
 
 이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
 설치와 실험 절차는 README를 기준으로 하며, 배포 검증은 해당 commit의 CI와 아래 release gate로
@@ -273,7 +299,7 @@ tone mapping 또는 checkpoint를 바꾸면 기존 EventAid-R 결과를 잠긴 �
 | training | 40 epoch, batch 1, chronological, workers 4, persistent/prefetch 2 |
 | optimizer | Adam + gradient centralization, lr `1e-3`, weight decay `5e-3` |
 | scheduler | MultiStepLR epoch 20/30, gamma 0.1 |
-| stability | CUDA AMP, L2 grad clip 1.0, non-finite loss/gradient fail-fast |
+| stability | CUDA AMP same-sample backoff 최대 16회, L2 grad clip 1.0, 실제/지속 non-finite fail-fast |
 | preflight | train 전체 topology scan, edge 상위 10개 기록, 상위 3개 CUDA 학습 step |
 | validation | 마지막 epoch 1회, 전체 19 H5, recurrent context policy 기록 |
 
@@ -399,8 +425,10 @@ script가 노출하는 stage는 `check`, `profile`, `train`, `calibrate`, `eval`
 
 1. `check`: dependency/CUDA/full-data coverage 검사, `configs/train.json`으로 EventHDR train+eval 전체,
    `configs/aid.json`으로 EventAid-R 전체를 `inspect --validate-all`
-2. `profile`: EventHDR train 전체 graph topology scan, edge 수 상위 10개 기록, 상위 3개 CUDA
-   forward/backward·optimizer step과 peak allocated/reserved VRAM 측정
+2. `profile`: 정답 이미지 decode 없이 EventHDR train 전체 graph topology를 CUDA로 계산하고
+   원자적 journal에 저장한다. edge 수 상위 10개를 기록하고 상위 3개의 CUDA 학습 step과 VRAM을
+   측정한다. 별도로 최초·빈 이벤트·최소 비어 있지 않은 표본을 각각 fresh 초기화로 검사한다.
+   검증된 기존 스캔은 명시적으로 재사용할 수 있으나 GPU 학습 검사는 항상 새로 실행한다.
 3. `train`: profile을 현재 config/data/source/CUDA runtime에 다시 결합한 뒤 EventHDR ANN 40-epoch 학습
    또는 `RESUME_CHECKPOINT` exact resume
 4. `calibrate`: EventHDR train 전체를 사용한 ANN→SNN calibration
@@ -439,6 +467,7 @@ DRY_RUN=1 bash scripts/run.sh all
 ```
 
 중요 override는 `RESUME_CHECKPOINT`, `PROFILE_OUTPUT`, `PROFILE_SAMPLES`, `PROFILE_TOP_DENSITY`,
+`PROFILE_RESUME`, `PROFILE_REUSE_REPORT`, `PROFILE_CPU_THREADS`, `RESTART_TRAIN`,
 `CALIBRATION_SAMPLES`, `SIMULATION_STEPS_LIST`,
 `BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, 세 config path, ANN/SNN checkpoint path와
 `REQUIRE_CUDA`다. calibration output과 evaluation artifact는 기본적으로 덮어쓰지 않는다. fresh
@@ -497,7 +526,7 @@ config/checkpoint/output 경로는 shareable artifact에서 repository-relative 
 hostname을 출력하지 않는다.
 
 보고용 ANN 평가에는 verified CUDA preflight가 포함된 clean `ann_inference`, finite macro-SSIM selection,
-training protocol v4와 validation protocol v7이 필요하다. 보고용 SNN은 그 ANN에서 봉인된
+training protocol v5와 validation protocol v7이 필요하다. 보고용 SNN은 그 ANN에서 봉인된
 `calibration_protocol.sealed=true`를 요구한다. `metrics.json.evaluation_protocol`과
 `benchmark.json.benchmark_protocol`은 public config/model, checkpoint file·tensor와 lineage,
 현재 eval dataset의 전체 content SHA-256·transform·manifest·coverage·sampling, source,
@@ -622,7 +651,6 @@ python scripts/check_env.py --require-cuda --require-full-data \
   --lock constraints/py312.txt --runtime-profile constraints/server.json
 
 asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
-asgcn-unet inspect --config configs/hdr.json --samples 2 --validate-all
 asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 ```
 
@@ -724,6 +752,8 @@ Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native Co
 | `src/asgcn_unet/engine.py` | train/validation/calibration/evaluate/benchmark, checkpoint·resume·provenance |
 | `src/asgcn_unet/preflight.py` | 전체 train topology scan, 최고 밀도 CUDA 학습-step 측정·재검증 |
 | `src/asgcn_unet/cli.py` | inspect/profile/verify-profile/train/calibrate/evaluate/benchmark CLI |
+| `src/asgcn_unet/scan.py` | 원자적 구간 저장, hash 검증, 단일 writer lock과 전수검사 재개 |
+| `src/asgcn_unet/recovery.py` | 명시적 metadata-only 학습 실패 보존·재시작 |
 | `configs/train.json` | EventHDR 51 train + 19 final-only internal eval 학습 protocol |
 | `configs/hdr.json` | EventHDR official eval ANN/SNN 공용 설정 |
 | `configs/aid.json` | EventAid-R 14-scene ANN/SNN 공용 설정 |
@@ -893,7 +923,9 @@ GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 ## 15. 현재 한계와 교차검증 체크리스트
 
 2026-08-31까지 로컬 검증에서는 전체 데이터 CUDA 본실험과 A6000/A100 profile/benchmark를 실행하지 않았다.
-같은 날짜의 사용자 제공 서버 로그는 전체 decode 완료와 그 이후 profile 중단까지 확인한다.
+같은 날짜의 사용자 제공 서버 로그는 전체 decode, 이전 profile 뒤 학습 진입과 첫 step의 AMP 실패,
+그리고 해당 첫 샘플의 scale별 backward 진단까지 확인한다. 현재 수정된 코드의 전체 GPU 실행은
+아직 검증되지 않았다.
 다음 항목은 실제 server에서 `scripts/run.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
 
 - EventHDR/EventAid-R 전체 decode 로그와 총 frame 수를 해당 실험 기록에 보존

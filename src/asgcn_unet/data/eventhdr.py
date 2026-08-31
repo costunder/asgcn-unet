@@ -8,13 +8,13 @@ from typing import Any
 
 import h5py
 import numpy as np
+import torch
 from torch.utils.data import Dataset
 
 from .common import (
     choose_crop,
     crop_events,
     image_array_to_tensor,
-    make_sample,
     normalize_polarity,
     stratified_subsample,
     uniform_cap_ratio,
@@ -376,6 +376,48 @@ class EventHDRDataset(Dataset):
         return self._handles[path]
 
     def __getitem__(self, index: int) -> dict[str, Any]:
+        return self._get_sample(index, decode_target=True)
+
+    def get_topology_sample(self, index: int) -> dict[str, Any]:
+        """Read the exact model events without decoding unused target pixels.
+
+        Topology profiling needs the sensor dimensions and event preprocessing,
+        not a normalized target image. This access path intentionally omits the
+        ``target`` key and does not replace full target-pixel validation performed
+        by ordinary dataset inspection/training access.
+        """
+        return self._get_sample(index, decode_target=False)
+
+    def _topology_image_size(
+        self, image: h5py.Dataset, *, source: str
+    ) -> tuple[int, int]:
+        """Validate target metadata needed by the event-only access path."""
+        shape = image.shape
+        if len(shape) not in (2, 3):
+            raise ValueError(f"Expected HxW or HxWxC image, got {shape}")
+        dtype = image.dtype
+        if not np.issubdtype(dtype, np.number) or np.issubdtype(dtype, np.bool_):
+            raise TypeError(f"Target {source} must use a real numeric dtype, got {dtype}")
+        if self.target_normalization["mode"] == "integer_dtype_max" and not np.issubdtype(
+            dtype, np.integer
+        ):
+            raise ValueError(
+                f"Target {source} uses dtype {dtype}, but "
+                "target_normalization.mode='integer_dtype_max' requires an integer dtype"
+            )
+        channels = shape[2] if len(shape) == 3 else 1
+        if self.target_channels == 1 and channels != 1 and channels < 3:
+            raise ValueError(
+                f"Target {source} needs one or at least three channels for grayscale conversion"
+            )
+        if self.tone_map == "log":
+            if not np.isfinite(self.tone_map_mu) or self.tone_map_mu <= 0.0:
+                raise ValueError("tone_map_mu must be finite and positive for log tone mapping")
+        elif self.tone_map not in {"none", "linear"}:
+            raise ValueError(f"Unknown tone_map: {self.tone_map}")
+        return int(shape[0]), int(shape[1])
+
+    def _get_sample(self, index: int, *, decode_target: bool) -> dict[str, Any]:
         item = self.samples[index]
         h5 = self._get_handle(item["path"])
         start, end = item["start_idx"], item["end_idx"]
@@ -383,16 +425,21 @@ class EventHDRDataset(Dataset):
         ys = np.asarray(h5["events/ys"][start:end], dtype=np.float32)
         ts = np.asarray(h5["events/ts"][start:end], dtype=np.float64)
         raw_ps = np.asarray(h5["events/ps"][start:end])
-        image = np.asarray(h5["images"][item["image_key"]])
-        target = image_array_to_tensor(
-            image,
-            self.target_channels,
-            tone_map=self.tone_map,
-            tone_map_mu=self.tone_map_mu,
-            target_normalization=self.target_normalization,
-            source=f"{item['path']}::{item['image_key']}",
-        )
-        height, width = target.shape[-2:]
+        image_node = h5["images"][item["image_key"]]
+        source = f"{item['path']}::{item['image_key']}"
+        target = None
+        if decode_target:
+            target = image_array_to_tensor(
+                np.asarray(image_node),
+                self.target_channels,
+                tone_map=self.tone_map,
+                tone_map_mu=self.tone_map_mu,
+                target_normalization=self.target_normalization,
+                source=source,
+            )
+            height, width = target.shape[-2:]
+        else:
+            height, width = self._topology_image_size(image_node, source=source)
         _validate_event_values(
             xs,
             ys,
@@ -417,7 +464,8 @@ class EventHDRDataset(Dataset):
         crop_seed = (self.seed + zlib.crc32(crop_identity.encode("utf-8"))) % (2**32)
         rng = np.random.default_rng(crop_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
-        target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
+        if target is not None:
+            target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
         cropped_event_count = len(events)
         dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
@@ -430,12 +478,11 @@ class EventHDRDataset(Dataset):
         )
         t0 = item["t0"]
         t1 = item["timestamp"]
-        return make_sample(
-            events,
-            target,
-            sample_id,
-            (crop.height, crop.width),
-            {
+        sample = {
+            "events": torch.from_numpy(np.ascontiguousarray(events)).float(),
+            "sample_id": sample_id,
+            "sensor_size": (int(crop.height), int(crop.width)),
+            "metadata": {
                 "dataset": "EventHDR",
                 "timestamp": t1,
                 "t0": t0,
@@ -460,7 +507,10 @@ class EventHDRDataset(Dataset):
                     "height": crop.height,
                 },
             },
-        )
+        }
+        if target is not None:
+            sample["target"] = target
+        return sample
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()

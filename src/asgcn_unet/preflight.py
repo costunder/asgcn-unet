@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 import math
+import os
 import platform
+import re
+import socket
 import time
 from pathlib import Path
 from typing import Any
@@ -14,27 +18,47 @@ from tqdm import tqdm
 
 from .data import build_dataset
 from .engine import (
+    _AMP_MAX_RETRIES,
     _artifact_path_label,
     _build_optimizer,
-    _centralize_gradients,
-    _clip_and_validate_gradients,
     _current_source_contract,
     _dataset_content_fingerprint,
     _dataset_source_fingerprint,
     _dataset_transform_contract,
     _enforce_training_split_status,
-    _ensure_finite_loss,
     _file_sha256,
     _make_grad_scaler,
     _optimizer_mode,
     _public_config,
     _split_manifest_contract,
     _training_protocol,
+    _training_step,
 )
 from .graph import prepare_event_nodes, radius_graph_topology, uniformly_sample_events
 from .losses import ReconstructionLoss
 from .model import ASGCNUNet
+from .scan import ScanInUseError, ScanJournal
 from .utils import move_sample, resolve_device, save_json, set_seed, validate_experiment_config
+
+# These exact clean source trees were audited for the same event selection and
+# strict-radius topology semantics. They authorize reuse of topology counts only,
+# never reuse of previous GPU measurements or the old AMP training implementation.
+LEGACY_TOPOLOGY_SOURCES = frozenset(
+    {
+        (
+            "1f806946a8d7e2157e134f873088f5112b3c84a9d31e25816475b71beb36b4d6",
+            "0eae40f0c665f979dc0f077b366a9ff93b7d28cf",
+        ),
+        (
+            "043e3803ae817dd10355f4370a4ee8acddfb311ec7342c2f9b630fc2a8974bec",
+            "940b3b8a999a49a05535fb6c24ac5fc93a507934",
+        ),
+        (
+            "043e3803ae817dd10355f4370a4ee8acddfb311ec7342c2f9b630fc2a8974bec",
+            "11fe7f75d64f693e4aec39990de5bf4019818deb",
+        ),
+    }
+)
 
 
 def _canonical_sha256(value: Any) -> str:
@@ -89,7 +113,7 @@ def _base_report(
 ) -> dict[str, Any]:
     public_config = _public_config(config)
     return {
-        "schema": "asgcn_training_preflight_v1",
+        "schema": "asgcn_training_preflight_v2",
         "status": "running",
         "passed": False,
         "report_eligible": False,
@@ -104,8 +128,9 @@ def _base_report(
             "topology_scope": "complete_eventhdr_training_split",
             "absolute_vram_guarantee": False,
             "statement": (
-                "Empirical gate for the selected highest-edge-count samples on the "
-                "recorded GPU/runtime; it is not a proof of every future training step."
+                "Empirical gate for first/sparse/empty numerical cases and selected "
+                "highest-edge-count samples on the recorded GPU/runtime; it is not "
+                "a proof of every future training step."
             ),
         },
         "checks": {
@@ -124,11 +149,16 @@ def _base_report(
         "source_provenance": _current_source_contract(),
         "runtime_provenance": _runtime_provenance(device),
         "topology": None,
+        "topology_contract": None,
+        "scan_provenance": None,
         "training_probe": {
             "selected_samples": [],
             "completed_samples": 0,
             "steps": [],
             "failure_category": None,
+            "failure": None,
+            "numerical_probes": [],
+            "numerical_selection": [],
         },
     }
 
@@ -168,9 +198,7 @@ def _sample_topology(
         "sample_id": str(sample.get("sample_id", dataset_index)),
         "scene": str(metadata.get("scene", "unknown")),
         "sequence_index": (
-            int(metadata["sequence_index"])
-            if metadata.get("sequence_index") is not None
-            else None
+            int(metadata["sequence_index"]) if metadata.get("sequence_index") is not None else None
         ),
         "raw_events": raw_events,
         "cropped_events": cropped_events,
@@ -214,9 +242,7 @@ def _topology_summary(
         "dataset_max_events": data_max_events,
         "model_event_sampling_factor": int(model_config.get("event_sampling_factor", 1)),
         "edge_guard_limit": int(max_edges) if max_edges is not None else None,
-        "edge_guard_exceeded_samples": sum(
-            not bool(item["edge_guard_passed"]) for item in records
-        ),
+        "edge_guard_exceeded_samples": sum(not bool(item["edge_guard_passed"]) for item in records),
         "totals": {
             "raw_events": sum(int(item["raw_events"]) for item in records),
             "cropped_events": sum(int(item["cropped_events"]) for item in records),
@@ -225,9 +251,7 @@ def _topology_summary(
             "candidate_directed_edges": sum(
                 int(item["candidate_directed_edges"]) for item in records
             ),
-            "actual_directed_edges": sum(
-                int(item["actual_directed_edges"]) for item in records
-            ),
+            "actual_directed_edges": sum(int(item["actual_directed_edges"]) for item in records),
             "isolated_nodes": total_isolates,
         },
         "max_degree": max((int(item["max_degree"]) for item in records), default=0),
@@ -241,6 +265,211 @@ def _topology_summary(
         "top_density_samples": ordered[:top_density_count],
         "samples": records,
     }
+
+
+def _topology_implementation_contract(device: torch.device) -> dict[str, Any]:
+    """Bind cache reuse to executable topology dependencies, not optimizer code.
+
+    The implementation digest is deliberately conservative for dataset readers.
+    Decoder/optimizer changes do not invalidate topology counts, while changes to
+    event selection, normalization or graph predicates require a fresh scan.
+    """
+    package = Path(__file__).resolve().parent
+    graph_functions = {
+        "uniformly_sample_events",
+        "prepare_event_nodes",
+        "_radius_graph_candidate_chunks",
+        "radius_graph_topology",
+    }
+    preflight_functions = {"_sample_topology", "_topology_summary"}
+    modules: dict[str, str] = {}
+    for relative, functions in (
+        ("graph.py", graph_functions),
+        ("preflight.py", preflight_functions),
+    ):
+        tree = ast.parse((package / relative).read_text(encoding="utf-8"))
+        selected = [
+            node
+            for node in tree.body
+            if isinstance(node, (ast.Import, ast.ImportFrom))
+            or isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+            and node.name in functions
+        ]
+        found = {
+            node.name
+            for node in selected
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        }
+        if found != functions:
+            raise ValueError("A topology cache dependency could not be fingerprinted")
+        modules[relative] = _canonical_sha256(
+            [ast.dump(node, include_attributes=False) for node in selected]
+        )
+    for relative in ("data/eventhdr.py", "data/common.py", "data/factory.py", "scan.py"):
+        modules[relative] = _file_sha256(package / relative)
+    return {
+        "schema": "asgcn_topology_implementation_v1",
+        "semantics": "ordered_normalized_float32_strict_radius_v1",
+        "implementation": modules,
+        "torch": str(torch.__version__),
+        "device_type": device.type,
+    }
+
+
+def _data_provenance(dataset: Any, config: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "dataset_type": "eventhdr",
+        "split": "train",
+        "content": _dataset_content_fingerprint(dataset),
+        "source_files": _dataset_source_fingerprint(dataset),
+        "transform": _dataset_transform_contract(config),
+        "split_manifest": _split_manifest_contract(config),
+    }
+
+
+def _validate_topology_records(
+    records: Any,
+    dataset_size: int,
+    model_config: dict[str, Any],
+    *,
+    dataset: Any = None,
+    complete: bool = False,
+) -> list[dict[str, Any]]:
+    if not isinstance(records, list) or len(records) > dataset_size:
+        raise ValueError("Invalid topology record count")
+    if complete and len(records) != dataset_size:
+        raise ValueError("Reusable topology scan must contain every training sample")
+    factor = int(model_config.get("event_sampling_factor", 1))
+    guard = model_config.get("max_graph_edges", 2_000_000)
+    identities: set[str] = set()
+    items = getattr(dataset, "samples", None)
+    integer_fields = (
+        "raw_events",
+        "cropped_events",
+        "retained_events",
+        "model_sampled_events",
+        "candidate_directed_edges",
+        "actual_directed_edges",
+        "max_degree",
+        "isolated_nodes",
+    )
+    for index, record in enumerate(records):
+        if (
+            not isinstance(record, dict)
+            or isinstance(record.get("dataset_index"), bool)
+            or record.get("dataset_index") != index
+        ):
+            raise ValueError("Topology records must be a contiguous ordered prefix")
+        if any(
+            isinstance(record.get(field), bool)
+            or not isinstance(record.get(field), int)
+            or record[field] < 0
+            for field in integer_fields
+        ):
+            raise ValueError("Topology counts must be nonnegative integers")
+        sample_id = record.get("sample_id")
+        if not isinstance(sample_id, str) or not sample_id or sample_id in identities:
+            raise ValueError("Topology sample identities must be nonempty and unique")
+        identities.add(sample_id)
+        if not isinstance(record.get("scene"), str):
+            raise TypeError("Topology scene must be a string")
+        sequence = record.get("sequence_index")
+        if sequence is not None and (
+            isinstance(sequence, bool) or not isinstance(sequence, int) or sequence < 0
+        ):
+            raise ValueError("Topology sequence index is invalid")
+        raw, cropped, retained, nodes = (record[field] for field in integer_fields[:4])
+        edges, candidates = record["actual_directed_edges"], record["candidate_directed_edges"]
+        maximum, isolates = record["max_degree"], record["isolated_nodes"]
+        possible = nodes * max(0, nodes - 1)
+        expected_guard = guard is None or edges <= int(guard)
+        if (
+            not raw >= cropped >= retained >= nodes
+            or nodes != (retained + factor - 1) // factor
+            or not 0 <= edges <= candidates <= possible
+            or not 0 <= maximum <= max(nodes - 1, 0)
+            or not 0 <= isolates <= nodes
+            or edges > maximum * (nodes - isolates)
+            or (edges == 0) != (maximum == 0)
+            or (edges == 0) != (isolates == nodes)
+            or record.get("edge_guard_passed") is not expected_guard
+            or record.get("directed_edge_density") != (edges / possible if possible else 0.0)
+            or record.get("isolate_ratio") != (isolates / nodes if nodes else 0.0)
+        ):
+            raise ValueError("Topology record has inconsistent counts or graph statistics")
+        if isinstance(items, list):
+            item = items[index]
+            expected_id = (
+                f"{item['scene']}/{item['image_key']}"
+                if item["scene"] == item["source_file"]
+                else f"{item['scene']}/{item['source_file']}/{item['image_key']}"
+            )
+            if (
+                sample_id != expected_id
+                or record["scene"] != item["scene"]
+                or sequence != item["sequence_index"]
+                or raw != item["end_idx"] - item["start_idx"]
+            ):
+                raise ValueError("Cached topology identity differs from the EventHDR index")
+    return records
+
+
+def _scan_sample(dataset: Any, index: int, device: torch.device) -> dict[str, Any]:
+    reader = getattr(dataset, "get_topology_sample", None)
+    sample = reader(index) if callable(reader) else dataset[index]
+    sample = dict(sample)
+    # Transfer graph inputs only. No GT image is needed for the topology scan.
+    sample["events"] = sample["events"].to(device=device, non_blocking=True)
+    if sample["events"].device != device and not (
+        device.type == "cuda" and device.index is None and sample["events"].is_cuda
+    ):
+        raise RuntimeError("Topology input did not reach the selected execution device")
+    return sample
+
+
+def _numerical_selection(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    selections: dict[int, list[str]] = {0: ["first_chronological"]}
+    empty = next((r for r in records if r["model_sampled_events"] == 0), None)
+    sparse = min(
+        (r for r in records if r["model_sampled_events"] > 0),
+        key=lambda r: (r["model_sampled_events"], r["actual_directed_edges"], r["dataset_index"]),
+        default=None,
+    )
+    for record, reason in ((empty, "first_empty"), (sparse, "sparsest_nonempty")):
+        if record is not None:
+            selections.setdefault(record["dataset_index"], []).append(reason)
+    return [
+        {
+            "dataset_index": index,
+            "sample_id": records[index]["sample_id"],
+            "actual_directed_edges": records[index]["actual_directed_edges"],
+            "reasons": reasons,
+        }
+        for index, reasons in selections.items()
+    ]
+
+
+def _safe_failure(error: BaseException, config: dict[str, Any], output: Path) -> dict[str, str]:
+    message = str(error)
+    roots = [Path(__file__).resolve().parents[2], output.parent]
+    roots.extend(
+        Path(value).expanduser().resolve()
+        for key, value in config.get("dataset", {}).items()
+        if key in {"root", "val_root", "split_manifest", "file_manifest"} and isinstance(value, str)
+    )
+    for root in sorted(roots, key=lambda value: len(str(value)), reverse=True):
+        for variant in {str(root), root.as_posix()}:
+            message = message.replace(variant, "$PATH")
+    message = re.sub(r"(?i)(?<![A-Za-z0-9_])/(?:home|Users)/[^/\s]+", "$HOME", message)
+    message = re.sub(r"(?i)\b[A-Z]:[\\/]Users[\\/][^\\/\s]+", "$HOME", message)
+    hostnames = {
+        socket.gethostname(),
+        os.environ.get("HOSTNAME", ""),
+        os.environ.get("COMPUTERNAME", ""),
+    }
+    for hostname in sorted((value for value in hostnames if value), key=len, reverse=True):
+        message = re.sub(re.escape(hostname), "$HOST", message, flags=re.IGNORECASE)
+    return {"type": type(error).__name__, "message": message[:2000]}
 
 
 def _gpu_step(
@@ -263,7 +492,6 @@ def _gpu_step(
     amp_enabled = bool(train_config.get("amp", True)) and device.type == "cuda"
     sample = move_sample(raw_sample, device)
     sample_id = sample.get("sample_id", expected_topology["dataset_index"])
-    optimizer.zero_grad(set_to_none=True)
     if device.type == "cuda":
         torch.cuda.synchronize(device)
         torch.cuda.reset_peak_memory_stats(device)
@@ -273,47 +501,42 @@ def _gpu_step(
     else:
         start_time = time.perf_counter()
 
-    with torch.autocast(device_type=device.type, enabled=amp_enabled):
-        prediction, diagnostics = model.forward_sample(
-            sample,
-            recurrent_state=recurrent_state,
-        )
-        target = sample["target"].unsqueeze(0)
-        loss, loss_parts = criterion(prediction, target)
-        configured_loss_weights = train_config.get("loss_weights") or {}
-        temporal_weight = float(configured_loss_weights.get("temporal", 0.0))
-        temporal_applied = (
-            temporal_weight > 0
-            and previous_prediction is not None
-            and previous_target is not None
-        )
-        if temporal_applied:
-            temporal = F.l1_loss(
-                prediction - previous_prediction,
-                target - previous_target,
+    def forward_loss():
+        with torch.autocast(device_type=device.type, enabled=amp_enabled):
+            prediction, diagnostics = model.forward_sample(
+                sample,
+                recurrent_state=recurrent_state,
             )
-            loss = loss + temporal_weight * temporal
-            loss_parts["temporal"] = temporal.detach()
-    loss_values = _ensure_finite_loss(
-        loss,
-        loss_parts,
-        epoch=0,
-        step=step,
-        sample_id=sample_id,
-    )
-    scaler.scale(loss).backward()
-    scaler.unscale_(optimizer)
-    if _optimizer_mode(train_config) == "adam_gc":
-        _centralize_gradients(model)
-    gradient_norm = _clip_and_validate_gradients(
+            target = sample["target"].unsqueeze(0)
+            loss, loss_parts = criterion(prediction, target)
+            configured_loss_weights = train_config.get("loss_weights") or {}
+            temporal_weight = float(configured_loss_weights.get("temporal", 0.0))
+            temporal_applied = (
+                temporal_weight > 0
+                and previous_prediction is not None
+                and previous_target is not None
+            )
+            if temporal_applied:
+                temporal = F.l1_loss(
+                    prediction - previous_prediction,
+                    target - previous_target,
+                )
+                loss = loss + temporal_weight * temporal
+                loss_parts["temporal"] = temporal.detach()
+        return loss, loss_parts, (diagnostics, temporal_applied)
+
+    payload, loss_values, gradient_norm, amp_info = _training_step(
         model,
-        float(train_config.get("grad_clip", 1.0)),
+        optimizer,
+        scaler,
+        forward_loss,
+        optimizer_mode=_optimizer_mode(train_config),
+        max_norm=float(train_config.get("grad_clip", 1.0)),
         epoch=0,
         step=step,
         sample_id=sample_id,
     )
-    scaler.step(optimizer)
-    scaler.update()
+    diagnostics, temporal_applied = payload
 
     if int(diagnostics["edges"]) != int(expected_topology["actual_directed_edges"]):
         raise RuntimeError("Topology probe disagrees with the training forward graph")
@@ -343,6 +566,7 @@ def _gpu_step(
         "peak_allocated_mib": peak_allocated,
         "peak_reserved_mib": peak_reserved,
         "amp_enabled": amp_enabled,
+        "amp": amp_info,
         "temporal_loss_applied": temporal_applied,
         "temporal_context_sample_id": context_sample_id,
     }
@@ -358,7 +582,7 @@ def _immediate_training_context(
     device: torch.device,
 ) -> tuple[torch.Tensor | None, torch.Tensor | None, torch.Tensor | None, str | None]:
     """Replay one real predecessor so recurrent and temporal loss memory are represented."""
-    temporal_weight = float(config["train"].get("loss_weights", {}).get("temporal", 0.0))
+    temporal_weight = float((config["train"].get("loss_weights") or {}).get("temporal", 0.0))
     recurrent = bool(config["model"].get("recurrent", True))
     if temporal_weight <= 0 and not recurrent:
         return None, None, None, None
@@ -389,6 +613,91 @@ def _immediate_training_context(
     )
 
 
+def _reusable_topology(
+    path: Path,
+    config: dict[str, Any],
+    dataset: Any,
+    data_provenance: dict[str, Any],
+    implementation: dict[str, Any],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    with path.open("r", encoding="utf-8") as handle:
+        report = json.load(handle)
+    if not isinstance(report, dict):
+        raise TypeError("Reusable profile must contain a JSON object")
+    _canonical_sha256(report)
+    schema = report.get("schema")
+    if schema == "asgcn_training_preflight_v1":
+        _require_verified_report_contract(report, path, allow_legacy=True)
+        source = report.get("source_provenance")
+        if (
+            not isinstance(source, dict)
+            or source.get("git_source_dirty") is not False
+            or (source.get("source_tree_sha256"), source.get("git_commit"))
+            not in LEGACY_TOPOLOGY_SOURCES
+        ):
+            raise ValueError("Legacy topology source is not in the audited compatibility allowlist")
+        record_device = "cpu"
+    elif schema == "asgcn_training_preflight_v2":
+        if report.get("topology_contract") != implementation:
+            raise ValueError("Reusable topology implementation differs from the current code")
+        if report.get("output") != _artifact_path_label(path):
+            raise ValueError("Reusable profile output identity does not match its file")
+        source = report.get("source_provenance")
+        if (
+            not isinstance(source, dict)
+            or not isinstance(source.get("source_tree_sha256"), str)
+            or re.fullmatch(r"[0-9a-f]{64}", source["source_tree_sha256"]) is None
+        ):
+            raise ValueError("Reusable profile has no executable source provenance")
+        record_device = (
+            report.get("scan_provenance", {})
+            .get("origin", {})
+            .get("record_device", implementation["device_type"])
+        )
+    else:
+        raise ValueError("Unsupported reusable topology report schema")
+    public_config = _public_config(config)
+    config_provenance = report.get("config_provenance")
+    if (
+        not isinstance(config_provenance, dict)
+        or config_provenance.get("config") != public_config
+        or config_provenance.get("sha256") != _canonical_sha256(public_config)
+    ):
+        raise ValueError("Reusable topology config differs from the current experiment")
+    if report.get("data_provenance") != data_provenance:
+        raise ValueError("Reusable topology data differs from the current EventHDR files")
+    topology = report.get("topology")
+    if not isinstance(topology, dict):
+        raise TypeError("Reusable profile contains no topology scan")
+    records = _validate_topology_records(
+        topology.get("samples"), len(dataset), config["model"], dataset=dataset, complete=True
+    )
+    previous_top_count = report.get("request", {}).get("top_density_count")
+    if (
+        isinstance(previous_top_count, bool)
+        or not isinstance(previous_top_count, int)
+        or previous_top_count < 1
+    ):
+        raise ValueError("Reusable topology density request is invalid")
+    expected = _topology_summary(
+        records,
+        dataset_size=len(dataset),
+        data_max_events=config["dataset"].get("max_events"),
+        model_config=config["model"],
+        top_density_count=previous_top_count,
+    )
+    if topology != expected:
+        raise ValueError("Reusable topology summary does not match its complete sample records")
+    return records, {
+        "mode": "explicit_report_reuse",
+        "source_report": _artifact_path_label(path),
+        "source_report_sha256": _file_sha256(path),
+        "source_provenance": report["source_provenance"],
+        "record_device": record_device,
+        "gpu_measurements_reused": False,
+    }
+
+
 def training_preflight(
     config: dict[str, Any],
     output_path: str | Path,
@@ -396,6 +705,37 @@ def training_preflight(
     profile_samples: int = 3,
     top_density_count: int = 10,
     require_cuda: bool = True,
+    resume_scan: bool = False,
+    reuse_report: str | Path | None = None,
+) -> dict[str, Any]:
+    journals: list[ScanJournal] = []
+    try:
+        return _run_training_preflight(
+            config,
+            output_path,
+            profile_samples=profile_samples,
+            top_density_count=top_density_count,
+            require_cuda=require_cuda,
+            resume_scan=resume_scan,
+            reuse_report=reuse_report,
+            journals=journals,
+        )
+    finally:
+        # Keep the exclusive journal writer lock through final report publication.
+        for journal in journals:
+            journal.close()
+
+
+def _run_training_preflight(
+    config: dict[str, Any],
+    output_path: str | Path,
+    *,
+    profile_samples: int,
+    top_density_count: int,
+    require_cuda: bool,
+    resume_scan: bool,
+    reuse_report: str | Path | None,
+    journals: list[ScanJournal],
 ) -> dict[str, Any]:
     """Gate full training with a complete topology scan and dense-sample train steps.
 
@@ -415,11 +755,29 @@ def training_preflight(
     if top_density_count < profile_samples:
         raise ValueError("top_density_count must be greater than or equal to profile_samples")
 
+    if not isinstance(resume_scan, bool):
+        raise TypeError("resume_scan must be a boolean")
+    if resume_scan and reuse_report is not None:
+        raise ValueError("--resume-scan and --reuse-report are mutually exclusive")
     destination = Path(output_path)
+    journal_path = destination.with_suffix(".scan")
+    if reuse_report is not None and Path(reuse_report).resolve() == destination.resolve():
+        raise ValueError("Reused profile must be preserved; select a different output path")
     if destination.exists():
-        raise FileExistsError(
-            f"Preflight output already exists: {destination}. Move it or choose a new output."
-        )
+        if not resume_scan:
+            raise FileExistsError(
+                f"Preflight output already exists: {destination}. Move it or choose a new output."
+            )
+        with destination.open("r", encoding="utf-8") as handle:
+            previous = json.load(handle)
+        if (
+            not isinstance(previous, dict)
+            or previous.get("schema") != "asgcn_training_preflight_v2"
+            or previous.get("status") not in {"failed", "interrupted"}
+            or previous.get("passed") is not False
+            or previous.get("output") != _artifact_path_label(destination)
+        ):
+            raise FileExistsError("Only a failed/interrupted profile can be explicitly resumed")
     set_seed(int(config.get("seed", 2026)))
     device = resolve_device(config.get("device", "auto"))
     cuda_ready = bool(torch.cuda.is_available() and device.type == "cuda")
@@ -438,13 +796,56 @@ def training_preflight(
         return report
 
     dataset = None
+    journal = None
     try:
         _enforce_training_split_status(config)
         dataset = build_dataset(config["dataset"], split="train")
-        content_fingerprint = _dataset_content_fingerprint(dataset)
-        records: list[dict[str, Any]] = []
-        for index in tqdm(range(len(dataset)), desc="preflight-topology"):
-            records.append(_sample_topology(dataset[index], config["model"], index))
+        if len(dataset) < profile_samples:
+            raise ValueError("EventHDR training split has fewer samples than profile_samples")
+        data_provenance = _data_provenance(dataset, config)
+        implementation = _topology_implementation_contract(device)
+        report["data_provenance"] = data_provenance
+        report["topology_contract"] = implementation
+        contract = {
+            "config": _public_config(config),
+            "data": data_provenance,
+            "topology_implementation": implementation,
+            "dataset_samples": len(dataset),
+        }
+        reused: list[dict[str, Any]] = []
+        origin = {"mode": "fresh", "record_device": device.type, "gpu_measurements_reused": False}
+        if reuse_report is not None:
+            reused, origin = _reusable_topology(
+                Path(reuse_report), config, dataset, data_provenance, implementation
+            )
+        journal = ScanJournal(journal_path, contract, resume=resume_scan, origin=origin)
+        journals.append(journal)
+        _validate_topology_records(journal.records, len(dataset), config["model"], dataset=dataset)
+        for record in reused:
+            journal.append(record)
+        if reused:
+            journal.flush()
+        reused_count = len(journal.records)
+        report["scan_provenance"] = {
+            "journal": _artifact_path_label(journal_path),
+            "origin": journal.origin,
+            "resumed": resume_scan,
+            "reused_samples": reused_count,
+            "new_sample_device": device.type,
+            "new_samples": 0,
+        }
+        with torch.no_grad():
+            for index in tqdm(
+                range(reused_count, len(dataset)),
+                initial=reused_count,
+                total=len(dataset),
+                desc="preflight-topology",
+            ):
+                sample = _scan_sample(dataset, index, device)
+                journal.append(_sample_topology(sample, config["model"], index))
+        journal.flush()
+        records = journal.records
+        report["scan_provenance"]["new_samples"] = len(records) - reused_count
         topology = _topology_summary(
             records,
             dataset_size=len(dataset),
@@ -453,21 +854,11 @@ def training_preflight(
             top_density_count=top_density_count,
         )
         report["topology"] = topology
-        report["data_provenance"] = {
-            "dataset_type": "eventhdr",
-            "split": "train",
-            "content": content_fingerprint,
-            "source_files": _dataset_source_fingerprint(dataset),
-            "transform": _dataset_transform_contract(config),
-            "split_manifest": _split_manifest_contract(config),
-        }
         scan_complete = bool(topology["scan_complete"])
         edge_guard_passed = int(topology["edge_guard_exceeded_samples"]) == 0
         report["checks"]["complete_topology_scan"] = scan_complete
         report["checks"]["edge_guard"] = edge_guard_passed
 
-        if len(dataset) < profile_samples:
-            raise ValueError("EventHDR training split has fewer samples than profile_samples")
         selected = topology["top_density_samples"][: min(profile_samples, len(dataset))]
         report["training_probe"]["selected_samples"] = [
             {
@@ -477,13 +868,44 @@ def training_preflight(
             }
             for item in selected
         ]
+        numerical_selection = _numerical_selection(records)
+        report["training_probe"]["numerical_selection"] = numerical_selection
         if scan_complete and edge_guard_passed:
-            model = ASGCNUNet(**config["model"]).to(device).train()
             criterion = ReconstructionLoss(config["train"].get("loss_weights"))
-            optimizer = _build_optimizer(model, config["train"])
             amp_enabled = bool(config["train"].get("amp", True)) and device.type == "cuda"
-            scaler = _make_grad_scaler(amp_enabled)
             report["training_probe"]["training_protocol"] = _training_protocol(config, device)
+            # Each numerical case starts from the same initialization as training.
+            # Dense tests must not hide a bad first/empty/sparse backward by first
+            # changing weights, BatchNorm buffers or the GradScaler scale.
+            for selected_case in numerical_selection:
+                set_seed(int(config.get("seed", 2026)))
+                model = ASGCNUNet(**config["model"]).to(device).train()
+                optimizer = _build_optimizer(model, config["train"])
+                scaler = _make_grad_scaler(amp_enabled)
+                index = selected_case["dataset_index"]
+                measured = _gpu_step(
+                    model,
+                    criterion,
+                    optimizer,
+                    scaler,
+                    dataset[index],
+                    records[index],
+                    config,
+                    device,
+                    0,
+                    recurrent_state=None,
+                    previous_prediction=None,
+                    previous_target=None,
+                    context_sample_id=None,
+                )
+                measured["reasons"] = selected_case["reasons"]
+                measured["initialization"] = "fresh_training_seed_no_recurrent_context"
+                report["training_probe"]["numerical_probes"].append(measured)
+                del model, optimizer, scaler
+            set_seed(int(config.get("seed", 2026)))
+            model = ASGCNUNet(**config["model"]).to(device).train()
+            optimizer = _build_optimizer(model, config["train"])
+            scaler = _make_grad_scaler(amp_enabled)
             for step, selected_topology in enumerate(selected, start=1):
                 context = _immediate_training_context(
                     model,
@@ -510,13 +932,36 @@ def training_preflight(
                 )
                 report["training_probe"]["steps"].append(step_result)
                 report["training_probe"]["completed_samples"] = step
-            report["checks"]["forward_backward"] = len(
-                report["training_probe"]["steps"]
-            ) == len(selected)
+            report["checks"]["forward_backward"] = len(report["training_probe"]["steps"]) == len(
+                selected
+            ) and len(report["training_probe"]["numerical_probes"]) == len(numerical_selection)
             report["checks"]["cuda_oom_free"] = True if cuda_ready else None
         else:
             report["training_probe"]["failure_category"] = "edge_guard_exceeded"
-    except (OSError, KeyError, TypeError, ValueError, RuntimeError, ArithmeticError) as error:
+    except (ScanInUseError, FileExistsError):
+        # An overlapping invocation may share this output. Never publish its
+        # refusal over the active writer's eventual report.
+        raise
+    except KeyboardInterrupt as error:
+        if journal is not None:
+            journal.flush()
+        report["status"] = "interrupted"
+        report["training_probe"]["failure_category"] = "interrupted"
+        report["training_probe"]["failure"] = _safe_failure(error, config, destination)
+        report["scan_samples_committed"] = journal.committed if journal is not None else 0
+        save_json(destination, report)
+        raise
+    except (
+        OSError,
+        KeyError,
+        TypeError,
+        ValueError,
+        RuntimeError,
+        ArithmeticError,
+        AssertionError,
+    ) as error:
+        if journal is not None:
+            journal.flush()
         message = str(error).lower()
         if isinstance(error, torch.cuda.OutOfMemoryError) or "out of memory" in message:
             category = "cuda_out_of_memory"
@@ -527,6 +972,8 @@ def training_preflight(
         else:
             category = "unexpected_" + type(error).__name__
         report["training_probe"]["failure_category"] = category
+        report["training_probe"]["failure"] = _safe_failure(error, config, destination)
+        report["scan_samples_committed"] = journal.committed if journal is not None else 0
     finally:
         if dataset is not None and hasattr(dataset, "close"):
             dataset.close()
@@ -551,12 +998,43 @@ def training_preflight(
     return report
 
 
-def _require_verified_report_contract(report: Any, report_path: Path) -> dict[str, Any]:
+def _validate_probe_amp(measured: dict[str, Any], effective: bool, *, fresh: bool) -> None:
+    if measured.get("amp_enabled") is not effective:
+        raise ValueError("Training preflight AMP mode differs from its training protocol")
+    amp = measured.get("amp")
+    if not isinstance(amp, dict) or set(amp) != {"scale_before", "scale_after", "retries"}:
+        raise ValueError("Training preflight AMP diagnostics are incomplete")
+    for field in ("scale_before", "scale_after"):
+        value = amp[field]
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(float(value))
+            or value <= 0
+        ):
+            raise ValueError("Training preflight AMP scale must be finite and positive")
+    retries = amp["retries"]
+    if (
+        isinstance(retries, bool)
+        or not isinstance(retries, int)
+        or not 0 <= retries <= _AMP_MAX_RETRIES
+    ):
+        raise ValueError("Training preflight AMP retry count is invalid")
+    if not effective and (retries != 0 or amp["scale_before"] != 1 or amp["scale_after"] != 1):
+        raise ValueError("Training preflight reports AMP retries/scaling while AMP is disabled")
+    if fresh and amp["scale_before"] != (65536.0 if effective else 1.0):
+        raise ValueError("Training preflight numerical probe did not use the fresh GradScaler")
+
+
+def _require_verified_report_contract(
+    report: Any, report_path: Path, *, allow_legacy: bool = False
+) -> dict[str, Any]:
     if not isinstance(report, dict):
         raise TypeError("Training preflight report must contain a JSON object")
     # Serializing with allow_nan=False rejects hand-written NaN/Infinity values.
     _canonical_sha256(report)
-    if report.get("schema") != "asgcn_training_preflight_v1":
+    legacy = report.get("schema") == "asgcn_training_preflight_v1"
+    if report.get("schema") != "asgcn_training_preflight_v2" and not (allow_legacy and legacy):
         raise ValueError("Training preflight report has an unsupported schema")
     if report.get("status") != "passed" or report.get("passed") is not True:
         raise ValueError("Training preflight report did not pass")
@@ -630,6 +1108,76 @@ def _require_verified_report_contract(report: Any, report_path: Path) -> dict[st
         identity = ("dataset_index", "sample_id", "actual_directed_edges")
         if any(chosen.get(field) != expected.get(field) for field in identity):
             raise ValueError("Training preflight steps are not the top-density samples")
+    if not legacy:
+        public_config = report.get("config_provenance", {}).get("config")
+        if not isinstance(public_config, dict) or not isinstance(public_config.get("model"), dict):
+            raise ValueError("Training preflight has no topology configuration")
+        records = _validate_topology_records(
+            topology.get("samples"),
+            topology["dataset_samples"],
+            public_config["model"],
+            complete=True,
+        )
+        expected_topology = _topology_summary(
+            records,
+            dataset_size=len(records),
+            data_max_events=public_config.get("dataset", {}).get("max_events"),
+            model_config=public_config["model"],
+            top_density_count=int(request.get("top_density_count", 0)),
+        )
+        if topology != expected_topology:
+            raise ValueError("Training preflight topology summary differs from its records")
+        expected_numerical = _numerical_selection(records)
+        if probe.get("numerical_selection") != expected_numerical:
+            raise ValueError("Training preflight numerical coverage selection is incomplete")
+        numerical = probe.get("numerical_probes")
+        if not isinstance(numerical, list) or len(numerical) != len(expected_numerical):
+            raise ValueError(
+                "Training preflight did not complete first/empty/sparse numerical probes"
+            )
+        mixed = probe.get("training_protocol", {}).get("mixed_precision", {})
+        effective_amp = mixed.get("effective")
+        if not isinstance(effective_amp, bool):
+            raise ValueError("Training preflight has no effective mixed-precision protocol")
+        for measured, chosen in zip(numerical, expected_numerical, strict=True):
+            if not isinstance(measured, dict) or any(
+                measured.get(field) != chosen.get(field)
+                for field in ("dataset_index", "sample_id", "actual_directed_edges", "reasons")
+            ):
+                raise ValueError("Training preflight numerical probe identity differs")
+            if measured.get("initialization") != "fresh_training_seed_no_recurrent_context":
+                raise ValueError(
+                    "Training preflight numerical probes did not use fresh initialization"
+                )
+            _validate_probe_amp(measured, effective_amp, fresh=True)
+            for field in ("step_time_ms", "peak_allocated_mib", "peak_reserved_mib"):
+                value = measured.get(field)
+                if (
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    or float(value) <= 0
+                ):
+                    raise ValueError(f"Training preflight numerical probe has invalid {field}")
+        for measured in [*steps, *numerical]:
+            _validate_probe_amp(measured, effective_amp, fresh=False)
+            norm = measured.get("gradient_norm")
+            loss = measured.get("loss")
+            if (
+                isinstance(norm, bool)
+                or not isinstance(norm, (int, float))
+                or not math.isfinite(float(norm))
+                or norm < 0
+                or not isinstance(loss, dict)
+                or "total" not in loss
+                or any(
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    for value in loss.values()
+                )
+            ):
+                raise ValueError("Training preflight measured non-finite loss or gradients")
     return report
 
 
@@ -664,6 +1212,8 @@ def verify_training_preflight(
         raise ValueError("Executable source differs from the preflight report")
     if report.get("runtime_provenance") != _runtime_provenance(device):
         raise ValueError("CUDA/software runtime differs from the preflight report")
+    if report.get("topology_contract") != _topology_implementation_contract(device):
+        raise ValueError("Topology implementation differs from the preflight report")
     probe = report["training_probe"]
     if probe.get("training_protocol") != _training_protocol(config, device):
         raise ValueError("Training protocol differs from the preflight report")
@@ -683,6 +1233,13 @@ def verify_training_preflight(
             raise ValueError("EventHDR training data differs from the preflight report")
         if int(report["topology"]["dataset_samples"]) != len(dataset):
             raise ValueError("EventHDR sample count differs from the topology scan")
+        _validate_topology_records(
+            report["topology"]["samples"],
+            len(dataset),
+            config["model"],
+            dataset=dataset,
+            complete=True,
+        )
     finally:
         if hasattr(dataset, "close"):
             dataset.close()

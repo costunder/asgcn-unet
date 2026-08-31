@@ -10,7 +10,7 @@ Usage: bash scripts/run.sh [check|profile|train|calibrate|eval|all]
 
 Stages:
   check       Check CUDA/dependencies/full data and decode every selected sample
-  profile     Scan all train graphs and run CUDA backward on the densest samples
+  profile     Scan all train graphs on CUDA; probe dense and first/empty/sparse samples
   train       Train EventHDR ANN, or resume with RESUME_CHECKPOINT
   calibrate   Convert runs/train/best.pt to runs/train/best_snn.pt
   eval        Run the complete EventHDR/EventAid-R ANN+SNN evaluation matrix
@@ -29,6 +29,10 @@ Important environment:
   BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N
   PROFILE_SAMPLES=N / PROFILE_TOP_DENSITY=N
   PROFILE_OUTPUT=PATH                    Default: runs/profile.json
+  PROFILE_RESUME=0|1                     Resume a matching saved scan; default: 0
+  PROFILE_REUSE_REPORT=PATH              Reuse topology only; rerun GPU probes
+  PROFILE_CPU_THREADS=N                 CPU helpers for CUDA scan; default: 4
+  RESTART_TRAIN=0|1                      Archive metadata-only failed run; default: 0
   ALLOW_UNVERIFIED_PREFLIGHT=0|1         Non-reporting train bypass; default: 0
   OVERWRITE_CALIBRATION=0|1              Default: 0
   DRY_RUN=0|1                            Print commands without executing them
@@ -76,6 +80,10 @@ BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+PROFILE_RESUME="${PROFILE_RESUME:-0}"
+PROFILE_REUSE_REPORT="${PROFILE_REUSE_REPORT:-}"
+PROFILE_CPU_THREADS="${PROFILE_CPU_THREADS:-4}"
+RESTART_TRAIN="${RESTART_TRAIN:-0}"
 ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-2}"
 DRY_RUN="${DRY_RUN:-0}"
@@ -89,6 +97,8 @@ for flag_name in \
   OVERWRITE_CALIBRATION \
   DRY_RUN \
   ALLOW_UNVERIFIED_PREFLIGHT \
+  PROFILE_RESUME \
+  RESTART_TRAIN \
   INCLUDE_PRIVATE_HOST_PROVENANCE; do
   flag_value="${!flag_name}"
   if [[ "${flag_value}" != "0" && "${flag_value}" != "1" ]]; then
@@ -154,6 +164,10 @@ for profile_value in "${PROFILE_SAMPLES}" "${PROFILE_TOP_DENSITY}"; do
     exit 2
   fi
 done
+if [[ ! "${PROFILE_CPU_THREADS}" =~ ^[1-9][0-9]*$ ]]; then
+  echo "ERROR: PROFILE_CPU_THREADS must be a positive integer" >&2
+  exit 2
+fi
 if ((PROFILE_TOP_DENSITY < PROFILE_SAMPLES)); then
   echo "ERROR: PROFILE_TOP_DENSITY must be >= PROFILE_SAMPLES" >&2
   exit 2
@@ -263,13 +277,21 @@ run_check() {
 }
 
 run_profile() {
-  echo "[profile] Complete EventHDR topology scan and densest-sample CUDA training probe"
+  echo "[profile] Complete CUDA topology scan and dense/first/empty/sparse training probes"
   check_runtime_profile
-  run_cmd "${PYTHON_BIN}" -m asgcn_unet.cli profile \
+  local profile_args=("${PYTHON_BIN}" -m asgcn_unet.cli profile \
     --config "${TRAIN_CONFIG}" \
     --output "${PROFILE_OUTPUT}" \
     --samples "${PROFILE_SAMPLES}" \
-    --top-density "${PROFILE_TOP_DENSITY}"
+    --top-density "${PROFILE_TOP_DENSITY}" \
+    --cpu-threads "${PROFILE_CPU_THREADS}")
+  if [[ "${PROFILE_RESUME}" == "1" ]]; then
+    profile_args+=(--resume-scan)
+  fi
+  if [[ -n "${PROFILE_REUSE_REPORT}" ]]; then
+    profile_args+=(--reuse-report "${PROFILE_REUSE_REPORT}")
+  fi
+  run_cmd "${profile_args[@]}"
   require_file "${PROFILE_OUTPUT}" "training preflight report"
 }
 
@@ -281,6 +303,7 @@ run_train() {
     PREFLIGHT_REPORT="${PROFILE_OUTPUT}" \
     ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT}" \
     RESUME_CHECKPOINT="${RESUME_CHECKPOINT}" \
+    RESTART_TRAIN="${RESTART_TRAIN}" \
     PYTHON_BIN="${PYTHON_BIN}" \
     bash "${PROJECT_ROOT}/scripts/train.sh" "${TRAIN_CONFIG}"
   require_file "${ANN_CHECKPOINT}" "ANN checkpoint"

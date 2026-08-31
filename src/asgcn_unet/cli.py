@@ -9,11 +9,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import torch
 from tqdm import tqdm
 
 from .data import build_dataset
 from .engine import _artifact_path_label, benchmark, calibrate, evaluate, train
 from .preflight import training_preflight, verify_training_preflight
+from .recovery import archive_uncheckpointed_run
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path, save_json
 
 
@@ -245,6 +247,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="NON-REPORTING ONLY: explicitly bypass the CUDA preflight gate",
     )
+    train_cmd.add_argument(
+        "--restart-uncheckpointed",
+        action="store_true",
+        help="archive metadata-only failed training output before a fresh run; stop old jobs first",
+    )
 
     profile_cmd = subparsers.add_parser(
         "profile",
@@ -252,6 +259,18 @@ def build_parser() -> argparse.ArgumentParser:
     )
     profile_cmd.add_argument("--config", required=True)
     profile_cmd.add_argument("--output", required=True)
+    profile_cmd.add_argument(
+        "--resume-scan", action="store_true",
+        help="resume a matching interrupted scan; never overwrite a passed report",
+    )
+    profile_cmd.add_argument(
+        "--reuse-report",
+        help="reuse verified topology records from an older report; rerun all GPU probes",
+    )
+    profile_cmd.add_argument(
+        "--cpu-threads", type=_positive_integer, default=4,
+        help="CPU helper threads during the CUDA topology scan (default: 4)",
+    )
     profile_cmd.add_argument(
         "--samples",
         type=_positive_integer,
@@ -371,12 +390,15 @@ def _execute_command(args: argparse.Namespace) -> None:
             message = _redact_inspect_text(str(error), replacements)
             raise SystemExit(f"Dataset inspection failed: {message}") from None
     elif args.command == "profile":
+        torch.set_num_threads(args.cpu_threads)
         result = training_preflight(
             config,
             resolve_path(args.output, base_dir),
             profile_samples=args.samples,
             top_density_count=args.top_density,
             require_cuda=True,
+            resume_scan=args.resume_scan,
+            reuse_report=resolve_path(args.reuse_report, base_dir) if args.reuse_report else None,
         )
     elif args.command == "verify-profile":
         result = verify_training_preflight(
@@ -385,6 +407,10 @@ def _execute_command(args: argparse.Namespace) -> None:
         )
     elif args.command == "train":
         resume = resolve_path(args.resume, base_dir) if args.resume else None
+        if args.restart_uncheckpointed and args.allow_unverified_preflight:
+            raise ValueError("Restarting uncheckpointed output requires a verified CUDA profile")
+        if args.restart_uncheckpointed and (resume or config["train"].get("resume")):
+            raise ValueError("Restarting uncheckpointed output cannot be combined with resume")
         report_path = resolve_path(args.preflight_report, base_dir)
         if args.allow_unverified_preflight:
             print(
@@ -401,6 +427,10 @@ def _execute_command(args: argparse.Namespace) -> None:
             }
         else:
             preflight_gate = verify_training_preflight(config, report_path)
+        if args.restart_uncheckpointed:
+            archived = archive_uncheckpointed_run(config["output"]["run_dir"], base_dir)
+            if archived is not None:
+                print(f"Archived uncheckpointed run metadata: {_artifact_path_label(archived)}")
         config["preflight_gate"] = preflight_gate
         save_json(Path(config["output"]["run_dir"]) / "preflight_gate.json", preflight_gate)
         result = {

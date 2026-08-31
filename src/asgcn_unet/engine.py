@@ -46,6 +46,24 @@ from .utils import (
     write_frame_csv,
 )
 
+_AMP_MAX_RETRIES = 16
+
+
+def _amp_retry_policy(enabled: bool) -> dict[str, Any] | None:
+    if not enabled:
+        return None
+    return {
+        "name": "same_sample_backoff_v1",
+        "max_retries": _AMP_MAX_RETRIES,
+        "scale_backoff": "grad_scaler_backoff_factor",
+        "restore_model_buffers": True,
+        "restore_rng": True,
+        "advance_recurrent_state_on_success_only": True,
+        "skip_samples": False,
+        "nonfinite_forward_loss": "raise",
+        "persistent_overflow": "raise",
+    }
+
 
 def build_model(config: dict[str, Any]) -> ASGCNUNet:
     return ASGCNUNet(**config)
@@ -944,7 +962,7 @@ def _valid_training_protocol_contract(value: Any) -> bool:
     if not isinstance(value, dict) or set(value) != required_fields:
         return False
     if (
-        value.get("version") != 4
+        value.get("version") != 5
         or not isinstance(value.get("seed"), int)
         or isinstance(value.get("seed"), bool)
         or value.get("recurrent_state_detached_each_sample") is not True
@@ -965,6 +983,15 @@ def _valid_training_protocol_contract(value: Any) -> bool:
         return False
     if value.get("scheduler") is not None and not isinstance(
         value.get("scheduler"), dict
+    ):
+        return False
+    mixed_precision = value["mixed_precision"]
+    if (
+        set(mixed_precision)
+        != {"requested", "effective", "autocast_dtype", "gradient_scaler", "overflow_policy"}
+        or not isinstance(mixed_precision.get("effective"), bool)
+        or mixed_precision.get("overflow_policy")
+        != _amp_retry_policy(mixed_precision["effective"])
     ):
         return False
     validate_every = value.get("validate_every")
@@ -1649,7 +1676,7 @@ def _snn_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
         if not _is_sha256(protocol.get(field)):
             reasons.append(f"calibration_protocol {field} is invalid")
     source_ann_protocols: dict[str, dict[str, Any]] = {}
-    for name, expected_version in (("training", 4), ("validation", 7)):
+    for name, expected_version in (("training", 5), ("validation", 7)):
         identity = protocol.get(f"source_ann_{name}_protocol")
         flat_digest = protocol.get(f"source_ann_{name}_protocol_sha256")
         contract = identity.get("contract") if isinstance(identity, dict) else None
@@ -2447,6 +2474,7 @@ def _training_protocol_config_reasons(
         "effective",
         "autocast_dtype",
         "gradient_scaler",
+        "overflow_policy",
     }:
         reasons.append("ANN training mixed-precision protocol is invalid")
     else:
@@ -2459,6 +2487,7 @@ def _training_protocol_config_reasons(
             or mixed_precision.get("autocast_dtype")
             != ("float16" if effective_amp else None)
             or effective_amp != (requested_amp and device_type == "cuda")
+            or mixed_precision.get("overflow_policy") != _amp_retry_policy(effective_amp)
         ):
             reasons.append("ANN training mixed precision differs from config/runtime")
 
@@ -2678,7 +2707,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
         gpu_name = None
         compute_capability = None
     return {
-        "version": 4,
+        "version": 5,
         "seed": int(config.get("seed", 2026)),
         "optimizer": {
             "mode": optimizer_mode,
@@ -2715,6 +2744,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
             "effective": effective_amp,
             "autocast_dtype": "float16" if effective_amp else None,
             "gradient_scaler": effective_amp,
+            "overflow_policy": _amp_retry_policy(effective_amp),
         },
         "validate_every": validate_every,
         "checkpoint_selection": (
@@ -2859,18 +2889,21 @@ def _clip_and_validate_gradients(
     step: int,
     sample_id: Any,
 ) -> float:
-    """Clip gradients with one device synchronization for non-finite detection."""
+    """Reject invalid gradients without relabeling unrelated backend errors."""
     if not math.isfinite(max_norm) or max_norm <= 0:
         raise ValueError("train.grad_clip must be finite and greater than zero")
-    try:
-        total_norm = torch.nn.utils.clip_grad_norm_(
-            model.parameters(), max_norm, norm_type=2.0, error_if_nonfinite=True
-        )
-    except RuntimeError as error:
+    invalid = _nonfinite_gradient_names(model)
+    if invalid:
         raise FloatingPointError(
-            "Non-finite gradients after clipping validation at "
-            f"epoch={epoch}, step={step}, sample={sample_id}"
-        ) from error
+            "Non-finite gradients before clipping at "
+            f"epoch={epoch}, step={step}, sample={sample_id}; parameters={', '.join(invalid)}"
+        )
+    # error_if_nonfinite also catches overflow of the total norm even when every
+    # gradient element is finite. Preserve its actual RuntimeError and any CUDA
+    # backend exception instead of claiming all clipping failures are NaN/Inf.
+    total_norm = torch.nn.utils.clip_grad_norm_(
+        model.parameters(), max_norm, norm_type=2.0, error_if_nonfinite=True
+    )
     finite_norm = float(total_norm.detach().cpu())
     if not math.isfinite(finite_norm):
         raise FloatingPointError(
@@ -2878,6 +2911,129 @@ def _clip_and_validate_gradients(
             f"epoch={epoch}, step={step}, sample={sample_id}"
         )
     return finite_norm
+
+
+def _nonfinite_gradient_names(model: torch.nn.Module) -> list[str]:
+    """Pack finite checks per device; synchronize once, not once per parameter."""
+    by_device: dict[torch.device, list[tuple[str, torch.Tensor]]] = defaultdict(list)
+    for name, parameter in model.named_parameters():
+        if parameter.grad is not None:
+            gradient = parameter.grad
+            values = gradient.coalesce().values() if gradient.is_sparse else gradient
+            by_device[gradient.device].append((name, torch.isfinite(values).all()))
+    invalid: list[str] = []
+    for entries in by_device.values():
+        flags = torch.stack([flag for _name, flag in entries]).detach().cpu().tolist()
+        invalid.extend(name for (name, _flag), finite in zip(entries, flags) if not finite)
+    return invalid
+
+
+def _training_step(
+    model: torch.nn.Module,
+    optimizer: torch.optim.Optimizer,
+    scaler: Any,
+    forward_loss: Callable[[], tuple[torch.Tensor, dict[str, torch.Tensor], Any]],
+    *,
+    optimizer_mode: str,
+    max_norm: float,
+    epoch: int,
+    step: int,
+    sample_id: Any,
+    max_amp_retries: int = _AMP_MAX_RETRIES,
+) -> tuple[Any, dict[str, float], float, dict[str, float | int]]:
+    """Commit one sample, retrying only recoverable AMP gradient overflows.
+
+    ``forward_loss`` must use the same sample and incoming recurrent/temporal
+    state on every call. Its payload is published only after a real optimizer
+    update. Failed attempts never step the optimizer, never consume a sample,
+    and restore model buffers (including BatchNorm counters) and all RNG state.
+    """
+    if (
+        isinstance(max_amp_retries, bool)
+        or not isinstance(max_amp_retries, int)
+        or max_amp_retries < 0
+    ):
+        raise ValueError("max_amp_retries must be a nonnegative integer")
+    if not math.isfinite(max_norm) or max_norm <= 0:
+        raise ValueError("train.grad_clip must be finite and greater than zero")
+    amp_enabled = bool(scaler.is_enabled())
+    scale_before = float(scaler.get_scale())
+    if not math.isfinite(scale_before) or scale_before <= 0:
+        raise FloatingPointError(f"Invalid AMP scale before training step: {scale_before}")
+    saved_buffers = (
+        {name: value.detach().clone() for name, value in model.named_buffers()}
+        if amp_enabled
+        else {}
+    )
+    saved_rng = _capture_rng_state() if amp_enabled else None
+
+    def rollback() -> None:
+        optimizer.zero_grad(set_to_none=True)
+        model.zero_grad(set_to_none=True)
+        if saved_rng is not None:
+            with torch.no_grad():
+                buffers = dict(model.named_buffers())
+                for name, value in saved_buffers.items():
+                    buffers[name].copy_(value)
+            _restore_rng_state(saved_rng)
+
+    retries = 0
+    while True:
+        optimizer.zero_grad(set_to_none=True)
+        try:
+            loss, loss_parts, payload = forward_loss()
+            loss_values = _ensure_finite_loss(
+                loss, loss_parts, epoch=epoch, step=step, sample_id=sample_id
+            )
+            scaler.scale(loss).backward()
+            scaler.unscale_(optimizer)
+            invalid = _nonfinite_gradient_names(model)
+            if invalid:
+                attempt_scale = float(scaler.get_scale())
+                context = (
+                    f"epoch={epoch}, step={step}, sample={sample_id}, "
+                    f"scale={attempt_scale}, retries={retries}/{max_amp_retries}; "
+                    f"parameters={', '.join(invalid)}"
+                )
+                if not amp_enabled:
+                    raise FloatingPointError(f"Non-finite gradients with AMP disabled: {context}")
+                if retries >= max_amp_retries:
+                    raise FloatingPointError(f"Persistent AMP gradient overflow: {context}")
+                # unscale_ recorded the failed optimizer's inf checks. update()
+                # consumes those checks, backs off, resets the growth tracker,
+                # and clears its per-optimizer stage without stepping weights.
+                scaler.update()
+                next_scale = float(scaler.get_scale())
+                if not math.isfinite(next_scale) or not 0 < next_scale < attempt_scale:
+                    raise FloatingPointError(
+                        f"AMP scale did not safely back off ({next_scale}): {context}"
+                    )
+                rollback()
+                retries += 1
+                # Release the failed graph/payload before allocating the retry.
+                del loss, loss_parts, payload
+                continue
+            if optimizer_mode == "adam_gc":
+                _centralize_gradients(model)
+            gradient_norm = _clip_and_validate_gradients(
+                model, max_norm, epoch=epoch, step=step, sample_id=sample_id
+            )
+        except Exception as error:
+            try:
+                rollback()
+            except Exception as rollback_error:
+                # A poisoned CUDA context can also reject buffer restoration.
+                # Preserve the original failure instead of masking its cause.
+                raise error from rollback_error
+            raise
+        # Only finite, centralized and clipped gradients reach the optimizer.
+        scaler.step(optimizer)
+        scaler.update()
+        return payload, loss_values, gradient_norm, {
+            "scale_before": scale_before,
+            "scale_after": float(scaler.get_scale()),
+            "retries": retries,
+        }
 
 
 def _validation_dataset(config: dict[str, Any]):
@@ -3210,6 +3366,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         previous_prediction = None
         previous_target = None
         running_loss = 0.0
+        epoch_amp_retries = 0
+        epoch_amp_retried_samples = 0
         seen = 0
         progress = tqdm(train_loader, desc=f"train {epoch:03d}/{epochs:03d}")
         for step, batch in enumerate(progress):
@@ -3233,40 +3391,42 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             current_sequence = sequence_id
             previous_sequence_index = sequence_index
             previous_sensor_size = sensor_size
-            optimizer.zero_grad(set_to_none=True)
-            with torch.autocast(device_type=device.type, enabled=amp_enabled):
-                prediction, diagnostics = model.forward_sample(
-                    sample, recurrent_state=recurrent_state
-                )
-                target = sample["target"].unsqueeze(0)
-                loss, loss_parts = criterion(prediction, target)
-                if temporal_weight > 0 and previous_prediction is not None:
-                    temporal = F.l1_loss(
-                        prediction - previous_prediction,
-                        target - previous_target,
+            def forward_loss(
+                current_sample=sample,
+                incoming_state=recurrent_state,
+                incoming_prediction=previous_prediction,
+                incoming_target=previous_target,
+            ):
+                # Incoming state/targets remain unchanged throughout AMP retries.
+                with torch.autocast(device_type=device.type, enabled=amp_enabled):
+                    prediction, diagnostics = model.forward_sample(
+                        current_sample, recurrent_state=incoming_state
                     )
-                    loss = loss + temporal_weight * temporal
-                    loss_parts["temporal"] = temporal.detach()
-            loss_values = _ensure_finite_loss(
-                loss,
-                loss_parts,
-                epoch=epoch,
-                step=step,
-                sample_id=sample.get("sample_id", "unknown"),
-            )
-            scaler.scale(loss).backward()
-            scaler.unscale_(optimizer)
-            if optimizer_mode == "adam_gc":
-                _centralize_gradients(model)
-            _clip_and_validate_gradients(
+                    target = current_sample["target"].unsqueeze(0)
+                    loss, loss_parts = criterion(prediction, target)
+                    if temporal_weight > 0 and incoming_prediction is not None:
+                        temporal = F.l1_loss(
+                            prediction - incoming_prediction,
+                            target - incoming_target,
+                        )
+                        loss = loss + temporal_weight * temporal
+                        loss_parts["temporal"] = temporal.detach()
+                return loss, loss_parts, (prediction, diagnostics, target)
+
+            payload, loss_values, _gradient_norm, amp_info = _training_step(
                 model,
-                float(train_config.get("grad_clip", 1.0)),
+                optimizer,
+                scaler,
+                forward_loss,
+                optimizer_mode=optimizer_mode,
+                max_norm=float(train_config.get("grad_clip", 1.0)),
                 epoch=epoch,
                 step=step,
                 sample_id=sample.get("sample_id", "unknown"),
             )
-            scaler.step(optimizer)
-            scaler.update()
+            prediction, diagnostics, target = payload
+            epoch_amp_retries += int(amp_info["retries"])
+            epoch_amp_retried_samples += int(amp_info["retries"] > 0)
 
             recurrent_state = diagnostics["recurrent_state"]
             if recurrent_state is not None:
@@ -3275,9 +3435,12 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             previous_target = target.detach()
             running_loss += loss_values["total"]
             seen += 1
-            if step % int(train_config.get("log_every", 20)) == 0:
+            if step % int(train_config.get("log_every", 20)) == 0 or amp_info["retries"]:
                 progress.set_postfix(
-                    loss=f"{running_loss / max(seen, 1):.4f}", **loss_values
+                    loss=f"{running_loss / max(seen, 1):.4f}",
+                    amp_retries=epoch_amp_retries,
+                    amp_scale=amp_info["scale_after"],
+                    **loss_values,
                 )
 
         should_validate = epoch == epochs or (
@@ -3315,6 +3478,11 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 epoch_learning_rates[0] if len(epoch_learning_rates) == 1 else epoch_learning_rates
             ),
             "gpu_memory": _cuda_peak_memory(device),
+            "amp": {
+                "retries": epoch_amp_retries,
+                "retried_samples": epoch_amp_retried_samples,
+                "scale": float(scaler.get_scale()),
+            },
         }
         history.append(record)
         save_json(run_dir / "history.json", history)
@@ -4448,7 +4616,7 @@ def _sealed_calibration_protocol(
     )
     if not isinstance(training_protocol, dict):
         mismatches.append("source checkpoint has no training protocol")
-    elif training_protocol.get("version") != 4:
+    elif training_protocol.get("version") != 5:
         mismatches.append("source checkpoint has an unsupported training protocol")
     if not isinstance(expected_source, dict):
         mismatches.append("source checkpoint has no training source contract")

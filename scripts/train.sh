@@ -9,8 +9,9 @@ VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
-PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"
+PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-runs/profile.json}}"
 ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
+RESTART_TRAIN="${RESTART_TRAIN:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 
 path_log_label() {
@@ -46,6 +47,14 @@ fi
 if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" != "0" \
   && "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" ]]; then
   echo "ERROR: ALLOW_UNVERIFIED_PREFLIGHT must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RESTART_TRAIN}" != "0" && "${RESTART_TRAIN}" != "1" ]]; then
+  echo "ERROR: RESTART_TRAIN must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RESTART_TRAIN}" == "1" && -n "${RESUME_CHECKPOINT}" ]]; then
+  echo "ERROR: RESTART_TRAIN cannot be combined with RESUME_CHECKPOINT" >&2
   exit 2
 fi
 if [[ "${DRY_RUN}" != "1" && "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" && ! -f "${PREFLIGHT_REPORT}" ]]; then
@@ -92,6 +101,9 @@ TRAIN_ARGS=(
 )
 if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   TRAIN_ARGS+=(--allow-unverified-preflight)
+fi
+if [[ "${RESTART_TRAIN}" == "1" ]]; then
+  TRAIN_ARGS+=(--restart-uncheckpointed)
 fi
 if [[ -n "${RESUME_CHECKPOINT}" ]]; then
   if [[ "${DRY_RUN}" != "1" && ! -f "${RESUME_CHECKPOINT}" ]]; then

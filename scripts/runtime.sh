@@ -19,6 +19,15 @@ select_conda_python() {
   fi
   # Keep user/foreign site packages out of the selected, version-checked runtime.
   export PYTHONNOUSERSITE=1
+  # Set before any torch/numpy import, including profile/check entrypoints.
+  export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
+  export MKL_NUM_THREADS="${MKL_NUM_THREADS:-${OMP_NUM_THREADS}}"
+  for thread_setting in OMP_NUM_THREADS MKL_NUM_THREADS; do
+    if [[ ! "${!thread_setting}" =~ ^[1-9][0-9]*$ ]]; then
+      echo "ERROR: ${thread_setting} must be a positive integer." >&2
+      return 2
+    fi
+  done
   unset PYTHONPATH PYTHONHOME
   export DRY_RUN PYTHON_BIN
   export RUNTIME_PROFILE="${RUNTIME_PROFILE:-constraints/server.json}"

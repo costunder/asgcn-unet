@@ -147,6 +147,11 @@ radius cell search의 candidate pair, 실제 directed edge, 최대 incoming degr
 model/loss/optimizer/AMP를 그대로 사용한 forward+backward와 optimizer step을 수행해 CUDA step time,
 peak allocated/reserved VRAM을 측정한다. 전체 topology scan, edge guard, selected step, CUDA OOM-free가
 모두 통과해야 `report_eligible=true`다.
+새 scan은 CUDA topology를 계산하고 GT 픽셀 대신 image shape/dtype metadata만 읽는다. GT 전체
+decode 검증은 `check`에서 유지한다. 구간별 atomic journal은 data/config/topology 구현이 일치할 때만
+재개하며, 검증된 이전 보고서의 전수 통계도 명시적으로 재사용할 수 있다. 이관 보고서에는 원래 검사
+장치·source가 기록되고 GPU probe는 새로 측정된다. 첫/첫 zero-event/최소 양수 node 표본을 각기
+초기 모델로 추가 검증해, 밀집 표본만으로 초기 빈 입력의 AMP 안정성을 판단하지 않는다.
 
 학습 직전 verifier는 profile을 현재 public config, EventHDR train 전체 content SHA-256·transform·manifest,
 source tree, PyTorch/CUDA/cuDNN과 GPU에 다시 결합한다. report가 없거나 하나라도 달라지면 본학습을
@@ -164,6 +169,8 @@ profile의 `measurement_scope.absolute_vram_guarantee=false`처럼, 전체 40 ep
 - Adam + gradient centralization, learning rate `1e-3`, weight decay `5e-3`
 - MultiStepLR milestones 20/30, gamma 0.1
 - CUDA에서 AMP, gradient norm clip 1.0
+- training protocol v5: AMP gradient overflow 시 같은 표본을 scale backoff로 최대 16회 재시도;
+  실패 시 optimizer step 없음, BatchNorm/RNG 복원, 성공한 recurrent/temporal state만 commit
 - Charbonnier 1.0 + SSIM 0.2 + gradient 0.1 + temporal 0.2
 - train/validation sample cap 없음, 마지막 epoch에서만 전체 EventHDR eval 평가
 
@@ -182,6 +189,9 @@ training artifact는 `runs/train/`에 기록한다.
 
 새 학습은 위 핵심 artifact가 이미 있는 run directory를 덮어쓰지 않는다. 중단된 run은 `last.pt`로
 재개한다.
+첫 epoch checkpoint 이전에 실패해 metadata만 남았다면 명시적 `RESTART_TRAIN=1`로 이전 directory를
+보존하고 새로 시작할 수 있다. history/checkpoint/알 수 없는 파일은 자동으로 옮기지 않으며, 기존
+프로세스를 먼저 종료해야 한다. [서버 복구 절차](SERVER.md#amp-첫-step-오류와-이전-profile-이관)를 따른다.
 
 ## 5. 전체 ANN→SNN 보정
 

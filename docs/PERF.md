@@ -102,6 +102,11 @@ python -m pytest -q tests/test_graph_opt.py tests/test_spline_opt.py tests/test_
 
 ## 기존 실험과의 관계
 
-실행 명령과 config는 그대로다. 기존 profile/checkpoint의 source contract는 이전 소스를 기록하므로
+기본 실행 명령과 config는 그대로다. 기존 profile/checkpoint의 source contract는 이전 소스를 기록하므로
 새 소스에서 exact-resume를 강제하거나 검사 값을 수동 변경하지 않는다. 기존 결과는 보존하고 새
 preflight 및 실험 lineage로 측정한다. 이 최적화 검증은 전체 학습·전체 평가를 대신하지 않는다.
+
+후속 AMP/사전검사 수정은 위 CPU operator benchmark와 별도다. 새 전수검사는 CUDA topology,
+event-only HDF5 읽기, CPU helper thread 제한, 구간별 저장·재개를 사용한다. 출처·데이터·설정이
+검증되는 이전 전수 통계는 명시적으로 이관할 수 있으나 GPU probe는 새로 실행한다. 이 변경의
+서버 CUDA 처리량·전체 학습 속도는 아직 측정하지 않았으며 위 표의 수치로 대신하지 않는다.

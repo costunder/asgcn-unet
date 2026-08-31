@@ -231,7 +231,7 @@ def test_verifier_rebinds_report_to_current_data_source_config_and_runtime(
             "multiprocessors": 1,
         },
     }
-    protocol = {"version": "test-protocol"}
+    protocol = report["training_probe"]["training_protocol"]
     report["status"] = "passed"
     report["passed"] = True
     report["report_eligible"] = True
@@ -241,8 +241,11 @@ def test_verifier_rebinds_report_to_current_data_source_config_and_runtime(
     report["source_provenance"] = source
     report["runtime_provenance"] = runtime
     report["training_probe"]["training_protocol"] = protocol
-    report["training_probe"]["steps"][0]["peak_allocated_mib"] = 100.0
-    report["training_probe"]["steps"][0]["peak_reserved_mib"] = 120.0
+    for measured in (
+        report["training_probe"]["steps"] + report["training_probe"]["numerical_probes"]
+    ):
+        measured["peak_allocated_mib"] = 100.0
+        measured["peak_reserved_mib"] = 120.0
     save_json(output, report)
 
     monkeypatch.setattr(preflight_module.torch.cuda, "is_available", lambda: True)
@@ -250,6 +253,10 @@ def test_verifier_rebinds_report_to_current_data_source_config_and_runtime(
     monkeypatch.setattr(preflight_module, "_current_source_contract", lambda: source)
     monkeypatch.setattr(preflight_module, "_runtime_provenance", lambda device: runtime)
     monkeypatch.setattr(preflight_module, "_training_protocol", lambda config, device: protocol)
+    monkeypatch.setattr(
+        preflight_module, "_topology_implementation_contract",
+        lambda device: report["topology_contract"],
+    )
 
     verification = verify_training_preflight(config, output)
     assert verification["status"] == "verified"

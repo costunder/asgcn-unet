@@ -91,7 +91,7 @@ def test_all_wrappers_support_optional_validate_all_preflight() -> None:
 
 def test_training_wrapper_requires_verified_profile_or_explicit_nonreporting_bypass() -> None:
     script = _text("scripts/train.sh")
-    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"' in script
+    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-runs/profile.json}}"' in script
     assert 'ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"' in script
     assert "--preflight-report" in script
     assert "--allow-unverified-preflight" in script

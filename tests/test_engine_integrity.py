@@ -184,11 +184,12 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
         "effective": False,
         "autocast_dtype": None,
         "gradient_scaler": False,
+        "overflow_policy": None,
     }
     assert len(protocol["source"]["source_tree_sha256"]) == 64
     assert protocol["runtime"]["gpu_name"] is None
     assert protocol["runtime"]["compute_capability"] is None
-    assert protocol["version"] == 4
+    assert protocol["version"] == 5
 
     allowed = copy.deepcopy(config)
     allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})
@@ -305,7 +306,7 @@ def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
     model = torch.nn.Linear(2, 1)
     for parameter in model.parameters():
         parameter.grad = torch.full_like(parameter, float("inf"))
-    with pytest.raises(FloatingPointError, match="gradients after clipping"):
+    with pytest.raises(FloatingPointError, match="gradients before clipping"):
         _clip_and_validate_gradients(model, 1.0, epoch=1, step=2, sample_id="sample-a")
 
 

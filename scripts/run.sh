@@ -17,6 +17,7 @@ Stages:
   all         Run check, profile, train, calibrate and eval in order (default)
 
 Important environment:
+  EXPERIMENT=single|batch                Default: single; batch is a separate run
   RESUME_CHECKPOINT=PATH
   TRAIN_CONFIG / HDR_CONFIG / AID_CONFIG
   ANN_CHECKPOINT / SNN_CHECKPOINT
@@ -64,13 +65,31 @@ if [[ "$#" -gt 1 ]]; then
   exit 2
 fi
 
+EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single)
+    DEFAULT_TRAIN_CONFIG=configs/train.json
+    DEFAULT_TRAIN_RUN=runs/train
+    DEFAULT_PROFILE_OUTPUT=runs/profile.json
+    DEFAULT_STATUS_DIR=runs/status
+    DEFAULT_EVAL_ROOT=""
+    ;;
+  batch)
+    DEFAULT_TRAIN_CONFIG=configs/batch.json
+    DEFAULT_TRAIN_RUN=runs/batch
+    DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json
+    DEFAULT_STATUS_DIR=runs/batch-status
+    DEFAULT_EVAL_ROOT=runs/batch/eval
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single or batch" >&2; exit 2 ;;
+esac
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
-TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
+TRAIN_CONFIG="${TRAIN_CONFIG:-${DEFAULT_TRAIN_CONFIG}}"
 HDR_CONFIG="${HDR_CONFIG:-configs/hdr.json}"
 AID_CONFIG="${AID_CONFIG:-configs/aid.json}"
-ANN_CHECKPOINT="${ANN_CHECKPOINT:-runs/train/best.pt}"
-SNN_CHECKPOINT="${SNN_CHECKPOINT:-runs/train/best_snn.pt}"
+ANN_CHECKPOINT="${ANN_CHECKPOINT:-${DEFAULT_TRAIN_RUN}/best.pt}"
+SNN_CHECKPOINT="${SNN_CHECKPOINT:-${DEFAULT_TRAIN_RUN}/best_snn.pt}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
 CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
@@ -79,7 +98,7 @@ BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
-PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
 PROFILE_RESUME="${PROFILE_RESUME:-0}"
 PROFILE_REUSE_REPORT="${PROFILE_REUSE_REPORT:-}"
 PROFILE_CPU_THREADS="${PROFILE_CPU_THREADS:-4}"
@@ -87,7 +106,8 @@ RESTART_TRAIN="${RESTART_TRAIN:-0}"
 ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-2}"
 DRY_RUN="${DRY_RUN:-0}"
-STATUS_DIR="${STATUS_DIR:-runs/status}"
+STATUS_DIR="${STATUS_DIR:-${DEFAULT_STATUS_DIR}}"
+EVAL_OUTPUT_ROOT="${EVAL_OUTPUT_ROOT:-${DEFAULT_EVAL_ROOT}}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 
 cd "${PROJECT_ROOT}"
@@ -329,6 +349,11 @@ run_one_evaluation() {
   local mode="$3"
   local simulation_steps="$4"
   local dynamics="$5"
+  local config_name="${config_path##*/}"
+  local output_dir=""
+  if [[ -n "${EVAL_OUTPUT_ROOT}" ]]; then
+    output_dir="${EVAL_OUTPUT_ROOT}/${config_name%.json}"
+  fi
   run_cmd env \
     REQUIRE_CUDA="${REQUIRE_CUDA}" \
     VALIDATE_DATASET=0 \
@@ -338,6 +363,7 @@ run_one_evaluation() {
     INFERENCE_MODE="${mode}" \
     SIMULATION_STEPS="${simulation_steps}" \
     SNN_DYNAMICS="${dynamics}" \
+    EVAL_OUTPUT_DIR="${output_dir}" \
     PYTHON_BIN="${PYTHON_BIN}" \
     bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
 }

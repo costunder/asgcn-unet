@@ -16,7 +16,7 @@ from .data import build_dataset
 from .engine import _artifact_path_label, benchmark, calibrate, evaluate, train
 from .preflight import training_preflight, verify_training_preflight
 from .recovery import archive_uncheckpointed_run
-from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path, save_json
+from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
 
 
 def _inspect_path_labels(config: dict[str, Any]) -> list[tuple[Path, str]]:
@@ -359,6 +359,8 @@ def build_parser() -> argparse.ArgumentParser:
             "permanently marked sealed=false"
         ),
     )
+    eval_cmd.add_argument("--output-dir", help="separate evaluation artifacts from other experiments")
+    bench_cmd.add_argument("--output-dir", help="separate timing artifacts from other experiments")
     return parser
 
 
@@ -372,6 +374,8 @@ def _execute_command(args: argparse.Namespace) -> None:
         message = _redact_inspect_text(str(error), [(config_path, "$CONFIG")])
         raise SystemExit(f"Dataset inspection failed: {message}") from None
     base_dir = experiment_base_dir(config_path)
+    if args.command in {"evaluate", "benchmark"} and args.output_dir:
+        config["eval"]["output_dir"] = str(resolve_path(args.output_dir, base_dir))
     if args.command == "inspect":
         try:
             result = inspect_dataset(
@@ -432,7 +436,6 @@ def _execute_command(args: argparse.Namespace) -> None:
             if archived is not None:
                 print(f"Archived uncheckpointed run metadata: {_artifact_path_label(archived)}")
         config["preflight_gate"] = preflight_gate
-        save_json(Path(config["output"]["run_dir"]) / "preflight_gate.json", preflight_gate)
         result = {
             "best_checkpoint": _artifact_path_label(train(config, resume_from=resume))
         }
@@ -520,6 +523,7 @@ def _public_error_path_labels(args: argparse.Namespace) -> list[tuple[Path, str]
         ("checkpoint", "$CHECKPOINT"),
         ("resume", "$RESUME_CHECKPOINT"),
         ("output", "$OUTPUT"),
+        ("output_dir", "$EVAL_OUTPUT"),
         ("report", "$PREFLIGHT_REPORT"),
         ("preflight_report", "$PREFLIGHT_REPORT"),
     ):

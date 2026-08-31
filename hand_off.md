@@ -6,12 +6,45 @@
 
 ## 0. 검증 기록과 배포 판정 기준
 
+### 독립 시퀀스 미니배치 경로
+
+단일 프레임 update 반복을 줄이기 위해 `configs/batch.json`과 training protocol v6를 추가했다.
+기존 `configs/train.json`의 v5 경로는 보존한다. B=4는 프레임 간 edge가 없는 disjoint graph와
+vectorized recurrent U-Net의 실제 배치 처리이며, `forward_sample` 네 번 호출이나 gradient
+accumulation이 아니다. 시퀀스당 시간 순서, 전체 프레임, 40 epochs, 모델 크기는 유지한다.
+Pooled-node BN과 배치 평균 loss/optimizer update는 학습 프로토콜 변경이므로 별도 run으로 시작한다.
+기준선 checkpoint의 exact-resume 보호를 우회하지 않는다.
+
+`batching.py`는 최대 B개 활성 시퀀스와 해상도별 배치를 스케줄링한다. `training.py`는 시퀀스별
+detach/독립 저장소 context와 temporal loss를 관리하며, 성공한 update만 commit하고 끝난 시퀀스를
+제거한다. AMP 실패는 배치 전체를 재시도한다. `preflight.py`는 실제 최대 B 구성, 밀집/첫/빈/희소
+배치의 공유 학습 경로를 CUDA에서 검사해야 gate를 발급한다. 이전 topology 수치 재사용과 이전
+GPU 측정 통과는 구분하며 GPU 검사는 항상 다시 수행한다.
+
+`timing.py`는 실제 학습 10 warmup 뒤 50 step의 host/CUDA 단계 시간을 수집한다. `history.json`은
+validation을 제외한 epoch wall time, 처리 frame 수, optimizer update 수와 frame/s를 기록한다.
+그래프는 여전히 매 프레임·매 epoch 생성하며 전체 graph cache는 구현하지 않았다. Batch 4의
+실제 MIG 처리량·VRAM·수렴 결과는 아직 없다. 구현 계약·한계·서버 명령은 [TRAIN.md](docs/TRAIN.md)를
+기준으로 한다. 아래 997/40 기록은 이전 AMP 수정 시점이며 이번 배치 경로의 검증 수치가 아니다.
+
+이번 배치·artifact 보호 수정의 전체 Windows CPU 회귀검사는 **1167 passed, 41 skipped,
+1 warning (75.08초)**다. CUDA 하드웨어·Linux shell·Windows symlink 제약 검사는 skip이며,
+warning은 test-only quantized buffer의 PyTorch deprecated API 경고다. 일부 테스트 실행에서는
+Windows native access-violation 진단도 출력됐으나 해당 실행은 pytest 결과까지 반환됐다.
+최종 전체 재실행은 종료코드 0이며 위 1 warning 외 native 진단 출력은 없었다. Ruff와 diff 검사는
+통과했다. 이 기록은 Linux wrapper 실제 실행, 실제 MIG throughput/VRAM 또는 전체 학습 완료의 증거가 아니다.
+
+추가 artifact 회귀검사는 잘못된 fresh/resume 시도에서 기존 config·gate·hash cache·checkpoint
+바이트 보존을 확인한다. CLI는 gate를 먼저 저장하지 않고 engine의 모든 재개 검증 후에만
+run metadata를 게시한다. 기존 99,088-frame 학습에서 제공된 2시간 이상 소요/592 MiB 화면은
+문제 제기 자료이며, 새 배치 경로의 성능 측정치로 사용하지 않는다.
+
 2026-08-31 서버 진단에서 첫 EventHDR 프레임의 event 수가 0이고, 기본 FP16 scale 65,536에서만
 `decoder.enc1.body.0.bias` gradient가 비유한 값이 되는 것을 확인했다. 같은 입력의 FP16 scale 1과
 FP32는 finite loss/gradient였고 norm은 약 16.83이었다. 이는 사용자 제공 단일 프레임 진단 결과이며
 수정된 코드의 GPU 전체 학습 성공 기록이 아니다.
 
-현재 수정은 training protocol **v5**, `same_sample_backoff_v1`로 AMP overflow를 처리한다. 같은
+기존 단일 프레임 경로는 training protocol **v5**, `same_sample_backoff_v1`로 AMP overflow를 처리한다. 같은
 프레임을 최대 16회 재시도하며 실패한 시도의 BN/mutable buffer와 Python/NumPy/Torch/CUDA RNG를
 복원한다. 실패 시 optimizer update나 프레임 건너뛰기는 없고, recurrent/temporal state는 성공한
 시도만 반영한다. finite gradient 확인 후 GC·clip·update를 수행하며 원래 backend 오류를 숨기지 않는다.
@@ -526,7 +559,8 @@ config/checkpoint/output 경로는 shareable artifact에서 repository-relative 
 hostname을 출력하지 않는다.
 
 보고용 ANN 평가에는 verified CUDA preflight가 포함된 clean `ann_inference`, finite macro-SSIM selection,
-training protocol v5와 validation protocol v7이 필요하다. 보고용 SNN은 그 ANN에서 봉인된
+training protocol v5(단일 프레임) 또는 v6(독립 시퀀스 배치)와 validation protocol v7이 필요하다.
+v6는 일치하는 실제 full-batch CUDA gate도 요구한다. 보고용 SNN은 그 ANN에서 봉인된
 `calibration_protocol.sealed=true`를 요구한다. `metrics.json.evaluation_protocol`과
 `benchmark.json.benchmark_protocol`은 public config/model, checkpoint file·tensor와 lineage,
 현재 eval dataset의 전체 content SHA-256·transform·manifest·coverage·sampling, source,

@@ -16,6 +16,7 @@ import torch
 from torch.nn import functional as F
 from tqdm import tqdm
 
+from .batching import SequenceBatchSampler, sequence_key
 from .data import build_dataset
 from .engine import (
     _AMP_MAX_RETRIES,
@@ -38,6 +39,7 @@ from .graph import prepare_event_nodes, radius_graph_topology, uniformly_sample_
 from .losses import ReconstructionLoss
 from .model import ASGCNUNet
 from .scan import ScanInUseError, ScanJournal
+from .training import batching_contract, forward_training_loss
 from .utils import move_sample, resolve_device, save_json, set_seed, validate_experiment_config
 
 # These exact clean source trees were audited for the same event selection and
@@ -56,6 +58,21 @@ LEGACY_TOPOLOGY_SOURCES = frozenset(
         (
             "043e3803ae817dd10355f4370a4ee8acddfb311ec7342c2f9b630fc2a8974bec",
             "11fe7f75d64f693e4aec39990de5bf4019818deb",
+        ),
+    }
+)
+
+# Version-2 framewise reports with the already-audited CUDA topology scan. The
+# new batch gate changes imports/optimizer execution but not these graph counts.
+LEGACY_V2_TOPOLOGY_SOURCES = frozenset(
+    {
+        (
+            "57ee2e525d652d9cf60d42f56519944f58bb6b9b98eeba1e66e6798b02831306",
+            "c8b1da000ec394e210ecf148f96c61086dde74ed",
+        ),
+        (
+            "57ee2e525d652d9cf60d42f56519944f58bb6b9b98eeba1e66e6798b02831306",
+            "1e3c4652c0e451c5b2c86a7561de98004d3c2d21",
         ),
     }
 )
@@ -151,6 +168,7 @@ def _base_report(
         "topology": None,
         "topology_contract": None,
         "scan_provenance": None,
+        "batch_training_probe": None,
         "training_probe": {
             "selected_samples": [],
             "completed_samples": 0,
@@ -613,6 +631,355 @@ def _immediate_training_context(
     )
 
 
+def _make_batch_sampler(dataset: Any, config: dict[str, Any]) -> SequenceBatchSampler:
+    batch_size = int(config["train"].get("batch_size", 1))
+    if batch_size <= 1 or config["train"].get("batching") != "independent_sequences":
+        raise ValueError("Batched preflight requires independent_sequences with batch_size > 1")
+    sampler = SequenceBatchSampler(dataset, batch_size, seed=int(config.get("seed", 2026)))
+    largest = max((len(batch) for batch in sampler), default=0)
+    if sampler.sequence_count < batch_size or largest != batch_size:
+        raise ValueError(
+            f"Cannot form the requested full batch_size={batch_size}: "
+            f"independent_sequences={sampler.sequence_count}, largest_geometry_compatible_batch={largest}"
+        )
+    return sampler
+
+
+def _batch_plan(
+    dataset: Any,
+    records: list[dict[str, Any]],
+    config: dict[str, Any],
+    count: int,
+    *,
+    sampler: SequenceBatchSampler | None = None,
+) -> dict[str, Any]:
+    sampler = _make_batch_sampler(dataset, config) if sampler is None else sampler
+    batches = list(sampler)
+    if len(batches) < count:
+        raise ValueError(
+            "The actual sequence schedule contains fewer batches than requested probes"
+        )
+    sizes = sampler.sample_sensor_sizes
+    previous: dict[tuple[str, str], int] = {}
+    predecessors: list[int | None] = []
+    for index, item in enumerate(dataset.samples):
+        key = sequence_key(item)
+        predecessor = previous.get(key)
+        if predecessor is not None and (
+            item["sequence_index"] != dataset.samples[predecessor]["sequence_index"] + 1
+            or sizes[index] != sizes[predecessor]
+        ):
+            predecessor = None
+        predecessors.append(predecessor)
+        previous[key] = index
+    entries = []
+    for number, indices in enumerate(batches):
+        if len({sizes[index] for index in indices}) != 1:
+            raise ValueError("Sequence batch schedule mixes incompatible sensor shapes")
+        entries.append(
+            {
+                "batch_index": number,
+                "dataset_indices": indices,
+                "sample_ids": [records[index]["sample_id"] for index in indices],
+                "batch_size": len(indices),
+                "sensor_size": list(sizes[indices[0]]),
+                "sum_nodes": sum(records[index]["model_sampled_events"] for index in indices),
+                "sum_actual_directed_edges": sum(
+                    records[index]["actual_directed_edges"] for index in indices
+                ),
+                "sum_candidate_directed_edges": sum(
+                    records[index]["candidate_directed_edges"] for index in indices
+                ),
+                "predecessor_indices": [predecessors[index] for index in indices],
+            }
+        )
+    ranked = sorted(
+        entries,
+        key=lambda entry: (
+            -entry["sum_actual_directed_edges"],
+            -entry["sum_candidate_directed_edges"],
+            -entry["sum_nodes"],
+            entry["batch_index"],
+        ),
+    )
+    numerical: dict[int, list[str]] = {0: ["first_scheduled_batch"]}
+    empty = next(
+        (
+            entry
+            for entry in entries
+            if any(records[i]["model_sampled_events"] == 0 for i in entry["dataset_indices"])
+        ),
+        None,
+    )
+    sparsest = min(
+        (record for record in records if record["model_sampled_events"] > 0),
+        key=lambda record: (
+            record["model_sampled_events"],
+            record["actual_directed_edges"],
+            record["dataset_index"],
+        ),
+        default=None,
+    )
+    sparse = next(
+        (
+            entry
+            for entry in entries
+            if sparsest is not None and sparsest["dataset_index"] in entry["dataset_indices"]
+        ),
+        None,
+    )
+    largest = max(entry["batch_size"] for entry in entries)
+    largest_entry = next(entry for entry in entries if entry["batch_size"] == largest)
+    for entry, reason in (
+        (empty, "contains_empty_frame"),
+        (sparse, "contains_sparsest_nonempty_frame"),
+        (largest_entry, "largest_actual_batch"),
+    ):
+        if entry is not None:
+            numerical.setdefault(entry["batch_index"], []).append(reason)
+    batch_size = int(config["train"]["batch_size"])
+    return {
+        "schema": "asgcn_sequence_batch_probe_plan_v1",
+        "batching_contract": batching_contract(batch_size),
+        "requested_batch_size": batch_size,
+        "largest_actual_batch_size": largest,
+        "sequence_count": sampler.sequence_count,
+        "dataset_samples": len(records),
+        "scheduled_batches": len(batches),
+        "scheduled_frames": sum(len(batch) for batch in batches),
+        "partial_batches": sum(len(batch) < batch_size for batch in batches),
+        "schedule_sha256": _canonical_sha256(batches),
+        "rank_basis": [
+            "sum_actual_edges_desc",
+            "sum_candidate_edges_desc",
+            "sum_nodes_desc",
+            "batch_index_asc",
+        ],
+        "selected_dense": ranked[:count],
+        "selected_numerical": [
+            dict(entries[index], reasons=reasons) for index, reasons in numerical.items()
+        ],
+    }
+
+
+@torch.no_grad()
+def _batch_predecessor_contexts(
+    model: ASGCNUNet,
+    dataset: Any,
+    selected: dict[str, Any],
+    config: dict[str, Any],
+    device: torch.device,
+) -> tuple[list[tuple[Any, Any, Any]], list[int | None]]:
+    contexts: list[tuple[Any, Any, Any]] = [(None, None, None)] * selected["batch_size"]
+    used: list[int | None] = [None] * selected["batch_size"]
+    temporal_weight = float((config["train"].get("loss_weights") or {}).get("temporal", 0.0))
+    if not config["model"].get("recurrent", True) and temporal_weight <= 0:
+        return contexts, used
+    valid = [
+        (slot, index)
+        for slot, index in enumerate(selected["predecessor_indices"])
+        if index is not None
+    ]
+    if not valid:
+        return contexts, used
+    samples = [move_sample(dataset[index], device) for _, index in valid]
+    amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    # This is one actual batched predecessor replay, not B sequential forwards.
+    # It is an empirical context-memory probe, not a full-history trajectory.
+    with torch.autocast(device_type=device.type, enabled=amp):
+        prediction, diagnostics = model.forward_training_batch(samples, [None] * len(samples))
+    target = torch.stack([sample["target"] for sample in samples])
+    for local, (slot, predecessor) in enumerate(valid):
+        state = diagnostics[local]["recurrent_state"]
+        contexts[slot] = (
+            state.detach() if state is not None else None,
+            prediction[local : local + 1].detach(),
+            target[local : local + 1].detach(),
+        )
+        used[slot] = predecessor
+    return contexts, used
+
+
+def _gpu_batch_step(
+    model: ASGCNUNet,
+    criterion: ReconstructionLoss,
+    optimizer: torch.optim.Optimizer,
+    scaler: Any,
+    dataset: Any,
+    records: list[dict[str, Any]],
+    selected: dict[str, Any],
+    config: dict[str, Any],
+    device: torch.device,
+    *,
+    fresh: bool,
+) -> dict[str, Any]:
+    samples = [move_sample(dataset[index], device) for index in selected["dataset_indices"]]
+    if fresh:
+        contexts = [(None, None, None)] * len(samples)
+        predecessors: list[int | None] = [None] * len(samples)
+    else:
+        contexts, predecessors = _batch_predecessor_contexts(
+            model, dataset, selected, config, device
+        )
+    amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    temporal_weight = float((config["train"].get("loss_weights") or {}).get("temporal", 0.0))
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+        torch.cuda.reset_peak_memory_stats(device)
+        start = torch.cuda.Event(enable_timing=True)
+        end = torch.cuda.Event(enable_timing=True)
+        start.record()
+    else:
+        start_time = time.perf_counter()
+
+    def forward_loss():
+        return forward_training_loss(
+            model,
+            criterion,
+            samples,
+            contexts,
+            batch_mode=True,
+            amp_enabled=amp,
+            temporal_weight=temporal_weight,
+        )
+
+    payload, loss, gradient_norm, amp_info = _training_step(
+        model,
+        optimizer,
+        scaler,
+        forward_loss,
+        optimizer_mode=_optimizer_mode(config["train"]),
+        max_norm=float(config["train"].get("grad_clip", 1.0)),
+        epoch=0,
+        step=selected["batch_index"],
+        sample_id=" | ".join(selected["sample_ids"]),
+    )
+    prediction, diagnostics, target = payload
+    if (
+        len(diagnostics) != len(samples)
+        or prediction.shape != target.shape
+        or prediction.shape[0] != selected["batch_size"]
+        or list(prediction.shape[-2:]) != selected["sensor_size"]
+    ):
+        raise RuntimeError("Batched training probe output does not match the actual selected batch")
+    for index, detail in zip(selected["dataset_indices"], diagnostics, strict=True):
+        if (
+            int(detail["edges"]) != records[index]["actual_directed_edges"]
+            or int(detail["nodes"]) != records[index]["model_sampled_events"]
+        ):
+            raise RuntimeError("Batched training graph differs from cached per-frame topology")
+    if device.type == "cuda":
+        end.record()
+        end.synchronize()
+        elapsed = float(start.elapsed_time(end))
+        allocated = torch.cuda.max_memory_allocated(device) / 1024**2
+        reserved = torch.cuda.max_memory_reserved(device) / 1024**2
+    else:
+        elapsed = (time.perf_counter() - start_time) * 1000
+        allocated = reserved = None
+    if not math.isfinite(elapsed) or elapsed <= 0:
+        raise FloatingPointError("Batched training probe produced an invalid elapsed time")
+    return {
+        **selected,
+        "execution": "disjoint_graph_batch_and_vectorized_decoder",
+        "initialization": "fresh_training_seed" if fresh else "shared_dense_probe_model",
+        "context_policy": "none" if fresh else "one_batched_predecessor_replay_training_mode",
+        "context_indices": predecessors,
+        "loss": loss,
+        "gradient_norm": gradient_norm,
+        "amp_enabled": amp,
+        "amp": amp_info,
+        "step_time_ms": elapsed,
+        "peak_allocated_mib": allocated,
+        "peak_reserved_mib": reserved,
+    }
+
+
+def _run_batch_probe(
+    report: dict[str, Any],
+    dataset: Any,
+    records: list[dict[str, Any]],
+    config: dict[str, Any],
+    device: torch.device,
+    sampler: SequenceBatchSampler,
+    count: int,
+) -> None:
+    plan = _batch_plan(dataset, records, config, count, sampler=sampler)
+    probe: dict[str, Any] = {
+        "plan": plan,
+        "dense_steps": [],
+        "numerical_steps": [],
+        "passed": False,
+    }
+    report["batch_training_probe"] = probe
+    criterion = ReconstructionLoss(config["train"].get("loss_weights"))
+    amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    for selected in plan["selected_numerical"]:
+        set_seed(int(config.get("seed", 2026)))
+        model = ASGCNUNet(**config["model"]).to(device).train()
+        optimizer = _build_optimizer(model, config["train"])
+        scaler = _make_grad_scaler(amp)
+        probe["numerical_steps"].append(
+            _gpu_batch_step(
+                model,
+                criterion,
+                optimizer,
+                scaler,
+                dataset,
+                records,
+                selected,
+                config,
+                device,
+                fresh=True,
+            )
+        )
+        del model, optimizer, scaler
+    set_seed(int(config.get("seed", 2026)))
+    model = ASGCNUNet(**config["model"]).to(device).train()
+    optimizer = _build_optimizer(model, config["train"])
+    scaler = _make_grad_scaler(amp)
+    for selected in plan["selected_dense"]:
+        probe["dense_steps"].append(
+            _gpu_batch_step(
+                model,
+                criterion,
+                optimizer,
+                scaler,
+                dataset,
+                records,
+                selected,
+                config,
+                device,
+                fresh=False,
+            )
+        )
+    probe["passed"] = True
+
+
+def _topology_input_config(config: dict[str, Any]) -> dict[str, Any]:
+    model = config.get("model", {})
+    defaults = {
+        "event_sampling_factor": 1,
+        "graph_radius": 0.08,
+        "graph_position_dims": 3,
+        "graph_chunk_size": 512,
+        "max_graph_edges": 2_000_000,
+    }
+    return {
+        "seed": int(config.get("seed", 2026)),
+        "dataset": _public_config(config.get("dataset", {})),
+        "graph": {name: model.get(name, default) for name, default in defaults.items()},
+    }
+
+
+def _audited_source(source: Any, allowlist: frozenset[tuple[str, str]]) -> bool:
+    return (
+        isinstance(source, dict)
+        and source.get("git_source_dirty") is False
+        and (source.get("source_tree_sha256"), source.get("git_commit")) in allowlist
+    )
+
+
 def _reusable_topology(
     path: Path,
     config: dict[str, Any],
@@ -629,20 +996,25 @@ def _reusable_topology(
     if schema == "asgcn_training_preflight_v1":
         _require_verified_report_contract(report, path, allow_legacy=True)
         source = report.get("source_provenance")
-        if (
-            not isinstance(source, dict)
-            or source.get("git_source_dirty") is not False
-            or (source.get("source_tree_sha256"), source.get("git_commit"))
-            not in LEGACY_TOPOLOGY_SOURCES
-        ):
+        if not _audited_source(source, LEGACY_TOPOLOGY_SOURCES):
             raise ValueError("Legacy topology source is not in the audited compatibility allowlist")
         record_device = "cpu"
     elif schema == "asgcn_training_preflight_v2":
+        source = report.get("source_provenance")
         if report.get("topology_contract") != implementation:
-            raise ValueError("Reusable topology implementation differs from the current code")
+            if not _audited_source(source, LEGACY_V2_TOPOLOGY_SOURCES):
+                raise ValueError("Reusable topology implementation differs from the current code")
+            previous_implementation = report.get("topology_contract")
+            if not isinstance(previous_implementation, dict) or any(
+                previous_implementation.get(field) != implementation.get(field)
+                for field in ("schema", "semantics", "torch", "device_type")
+            ):
+                raise ValueError(
+                    "Audited topology reuse requires the same graph semantics and runtime"
+                )
+            _require_verified_report_contract(report, path)
         if report.get("output") != _artifact_path_label(path):
             raise ValueError("Reusable profile output identity does not match its file")
-        source = report.get("source_provenance")
         if (
             not isinstance(source, dict)
             or not isinstance(source.get("source_tree_sha256"), str)
@@ -656,14 +1028,15 @@ def _reusable_topology(
         )
     else:
         raise ValueError("Unsupported reusable topology report schema")
-    public_config = _public_config(config)
     config_provenance = report.get("config_provenance")
     if (
         not isinstance(config_provenance, dict)
-        or config_provenance.get("config") != public_config
-        or config_provenance.get("sha256") != _canonical_sha256(public_config)
+        or not isinstance(config_provenance.get("config"), dict)
+        or config_provenance.get("sha256") != _canonical_sha256(config_provenance["config"])
     ):
-        raise ValueError("Reusable topology config differs from the current experiment")
+        raise ValueError("Reusable topology original config hash is invalid")
+    if _topology_input_config(config_provenance["config"]) != _topology_input_config(config):
+        raise ValueError("Reusable topology inputs differ from the current experiment")
     if report.get("data_provenance") != data_provenance:
         raise ValueError("Reusable topology data differs from the current EventHDR files")
     topology = report.get("topology")
@@ -695,6 +1068,7 @@ def _reusable_topology(
         "source_provenance": report["source_provenance"],
         "record_device": record_device,
         "gpu_measurements_reused": False,
+        "config_reuse_scope": "seed_dataset_graph_topology_inputs_only",
     }
 
 
@@ -802,6 +1176,11 @@ def _run_training_preflight(
         dataset = build_dataset(config["dataset"], split="train")
         if len(dataset) < profile_samples:
             raise ValueError("EventHDR training split has fewer samples than profile_samples")
+        batch_sampler = (
+            _make_batch_sampler(dataset, config)
+            if int(config["train"].get("batch_size", 1)) > 1
+            else None
+        )
         data_provenance = _data_provenance(dataset, config)
         implementation = _topology_implementation_contract(device)
         report["data_provenance"] = data_provenance
@@ -932,9 +1311,18 @@ def _run_training_preflight(
                 )
                 report["training_probe"]["steps"].append(step_result)
                 report["training_probe"]["completed_samples"] = step
-            report["checks"]["forward_backward"] = len(report["training_probe"]["steps"]) == len(
-                selected
-            ) and len(report["training_probe"]["numerical_probes"]) == len(numerical_selection)
+            # Do not keep the framewise probe's model, optimizer or predecessor
+            # tensors alive while measuring the actual batched training path.
+            del model, optimizer, scaler, context
+            if batch_sampler is not None:
+                _run_batch_probe(
+                    report, dataset, records, config, device, batch_sampler, profile_samples
+                )
+            report["checks"]["forward_backward"] = (
+                len(report["training_probe"]["steps"]) == len(selected)
+                and len(report["training_probe"]["numerical_probes"]) == len(numerical_selection)
+                and (batch_sampler is None or report["batch_training_probe"]["passed"] is True)
+            )
             report["checks"]["cuda_oom_free"] = True if cuda_ready else None
         else:
             report["training_probe"]["failure_category"] = "edge_guard_exceeded"
@@ -1024,6 +1412,139 @@ def _validate_probe_amp(measured: dict[str, Any], effective: bool, *, fresh: boo
         raise ValueError("Training preflight reports AMP retries/scaling while AMP is disabled")
     if fresh and amp["scale_before"] != (65536.0 if effective else 1.0):
         raise ValueError("Training preflight numerical probe did not use the fresh GradScaler")
+
+
+def _validate_batch_probe(
+    report: dict[str, Any], expected_plan: dict[str, Any] | None = None
+) -> None:
+    config = report["config_provenance"]["config"]
+    batch_size = int(config.get("train", {}).get("batch_size", 1))
+    probe = report.get("batch_training_probe")
+    if batch_size == 1:
+        if probe is not None:
+            raise ValueError("A framewise configuration must not claim a batched training gate")
+        return
+    if config["train"].get("batching") != "independent_sequences":
+        raise ValueError("Batched training gate requires independent_sequences")
+    if not isinstance(probe, dict) or probe.get("passed") is not True:
+        raise ValueError("Batched training requires a passed actual-batch CUDA training probe")
+    plan = probe.get("plan")
+    if not isinstance(plan, dict) or plan.get("schema") != "asgcn_sequence_batch_probe_plan_v1":
+        raise ValueError("Batched training probe has no valid sequence schedule plan")
+    if (
+        plan.get("batching_contract") != batching_contract(batch_size)
+        or plan.get("requested_batch_size") != batch_size
+        or plan.get("largest_actual_batch_size") != batch_size
+        or plan.get("dataset_samples") != report["topology"]["dataset_samples"]
+        or plan.get("scheduled_frames") != report["topology"]["dataset_samples"]
+        or not isinstance(plan.get("schedule_sha256"), str)
+        or re.fullmatch(r"[0-9a-f]{64}", plan["schedule_sha256"]) is None
+    ):
+        raise ValueError("Batched training probe does not represent the requested full batch")
+    if expected_plan is not None and plan != expected_plan:
+        raise ValueError("Batched training probe differs from the actual dataset sequence schedule")
+    dense = plan.get("selected_dense")
+    numerical = plan.get("selected_numerical")
+    if (
+        not isinstance(dense, list)
+        or len(dense) != report["request"]["profile_samples"]
+        or not isinstance(numerical, list)
+        or not 1 <= len(numerical) <= 4
+    ):
+        raise ValueError("Batched training probe selection is incomplete")
+    if not any(
+        entry.get("batch_index") == 0 and "first_scheduled_batch" in entry.get("reasons", [])
+        for entry in numerical
+    ) or not any(
+        entry.get("batch_size") == batch_size and "largest_actual_batch" in entry.get("reasons", [])
+        for entry in numerical
+    ):
+        raise ValueError("Batched training numerical coverage lacks first/full-batch cases")
+    effective = report["training_probe"]["training_protocol"]["mixed_precision"]["effective"]
+    if not isinstance(effective, bool):
+        raise TypeError("Batched training gate has no mixed-precision protocol")
+    records = report["topology"]["samples"]
+    history_enabled = (
+        bool(config["model"].get("recurrent", True))
+        or float((config["train"].get("loss_weights") or {}).get("temporal", 0.0)) > 0
+    )
+    measured_full = False
+    for selection, field, fresh in (
+        (numerical, "numerical_steps", True),
+        (dense, "dense_steps", False),
+    ):
+        measurements = probe.get(field)
+        if not isinstance(measurements, list) or len(measurements) != len(selection):
+            raise ValueError("Batched training probe did not measure every selected batch")
+        for chosen, measured in zip(selection, measurements, strict=True):
+            if not isinstance(chosen, dict) or not isinstance(measured, dict):
+                raise TypeError("Batched training selections and measurements must be objects")
+            indices = chosen.get("dataset_indices")
+            if (
+                not isinstance(indices, list)
+                or not indices
+                or any(
+                    isinstance(i, bool) or not isinstance(i, int) or not 0 <= i < len(records)
+                    for i in indices
+                )
+                or len(set(indices)) != len(indices)
+                or chosen.get("batch_size") != len(indices)
+                or not 1 <= len(indices) <= batch_size
+                or chosen.get("sample_ids") != [records[i]["sample_id"] for i in indices]
+                or chosen.get("sum_nodes")
+                != sum(records[i]["model_sampled_events"] for i in indices)
+                or chosen.get("sum_actual_directed_edges")
+                != sum(records[i]["actual_directed_edges"] for i in indices)
+                or chosen.get("sum_candidate_directed_edges")
+                != sum(records[i]["candidate_directed_edges"] for i in indices)
+            ):
+                raise ValueError("Batched training selection differs from its per-frame topology")
+            if any(measured.get(key) != value for key, value in chosen.items()):
+                raise ValueError("Batched training measurement identity differs from its selection")
+            if (
+                measured.get("execution") != "disjoint_graph_batch_and_vectorized_decoder"
+                or measured.get("initialization")
+                != ("fresh_training_seed" if fresh else "shared_dense_probe_model")
+                or measured.get("context_policy")
+                != ("none" if fresh else "one_batched_predecessor_replay_training_mode")
+                or measured.get("context_indices")
+                != (
+                    chosen["predecessor_indices"]
+                    if not fresh and history_enabled
+                    else [None] * len(indices)
+                )
+            ):
+                raise ValueError("Batched training probe execution/context contract is invalid")
+            _validate_probe_amp(measured, effective, fresh=fresh)
+            for name in ("step_time_ms", "peak_allocated_mib", "peak_reserved_mib"):
+                value = measured.get(name)
+                if (
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    or value <= 0
+                ):
+                    raise ValueError(f"Batched training probe has invalid {name}")
+            loss = measured.get("loss")
+            norm = measured.get("gradient_norm")
+            if (
+                not isinstance(loss, dict)
+                or "total" not in loss
+                or any(
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    for value in loss.values()
+                )
+                or isinstance(norm, bool)
+                or not isinstance(norm, (int, float))
+                or not math.isfinite(float(norm))
+                or norm < 0
+            ):
+                raise ValueError("Batched training probe contains non-finite loss or gradients")
+            measured_full = measured_full or len(indices) == batch_size
+    if not measured_full:
+        raise ValueError("No actual full-sized batch was measured by the CUDA training gate")
 
 
 def _require_verified_report_contract(
@@ -1178,6 +1699,7 @@ def _require_verified_report_contract(
                 )
             ):
                 raise ValueError("Training preflight measured non-finite loss or gradients")
+        _validate_batch_probe(report)
     return report
 
 
@@ -1240,11 +1762,19 @@ def verify_training_preflight(
             dataset=dataset,
             complete=True,
         )
+        if int(config["train"].get("batch_size", 1)) > 1:
+            expected_plan = _batch_plan(
+                dataset,
+                report["topology"]["samples"],
+                config,
+                int(report["request"]["profile_samples"]),
+            )
+            _validate_batch_probe(report, expected_plan)
     finally:
         if hasattr(dataset, "close"):
             dataset.close()
 
-    return {
+    verification = {
         "schema": "asgcn_preflight_verification_v1",
         "status": "verified",
         "report_eligible": True,
@@ -1257,6 +1787,18 @@ def verify_training_preflight(
         "gpu": report["runtime_provenance"]["gpu"],
         "measured_steps": int(probe["completed_samples"]),
     }
+    batch_size = int(config["train"].get("batch_size", 1))
+    if batch_size > 1:
+        batched = report["batch_training_probe"]
+        plan = batched["plan"]
+        verification["batch_size"] = batch_size
+        verification["batch_preflight"] = {
+            "contract": plan["batching_contract"],
+            "schedule_sha256": plan["schedule_sha256"],
+            "measured_batches": len(batched["dense_steps"]) + len(batched["numerical_steps"]),
+            "largest_measured_batch_size": batch_size,
+        }
+    return verification
 
 
 __all__ = ["training_preflight", "verify_training_preflight"]

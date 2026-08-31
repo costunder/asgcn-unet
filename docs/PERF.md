@@ -1,5 +1,9 @@
 # Graph encoder 최적화 검증
 
+이 문서는 아래 기준 commit 대비 연산 단위 최적화 기록이다. 후속 독립 시퀀스 미니배치 학습 설계,
+실제 학습 단계별 타이밍과 별도 실험 실행은 [TRAIN.md](TRAIN.md)를 따른다. 아래 CPU 수치를
+미니배치의 GPU 가속 실측으로 해석하지 않는다.
+
 2026-08-31. 비교 기준은 변경 전 commit `0eae40f`의 graph 구현이다. 모델 구조, parameter/state-dict
 key, 두 SNN dynamics, 전체 데이터 범위, 8,192-event 제한과 40 epoch는 변경하지 않았다.
 이 문서의 CPU 연산 측정은 학습된 모델의 품질 평가, 전체 pipeline 처리량 또는 GPU 실측이 아니다.

@@ -3,6 +3,10 @@
 MobaXterm 등의 SSH client로 접속한 Linux GPU 서버 또는 scheduler compute node에서 실행한다.
 아래 명령은 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 실험 경로를 설명한다.
 
+GPU 미니배치 실험은 [TRAIN.md](TRAIN.md)를 따른다. `EXPERIMENT=batch`는 별도 `configs/batch.json`,
+`runs/batch`, batch CUDA profile과 평가 출력 경로를 선택한다. 기본 단일 프레임 실험과 checkpoint를
+공유하지 않는다. 실행 중인 기준선 checkout을 갱신하거나 같은 GPU에서 학습을 겹쳐 실행하지 않는다.
+
 ## 1. 환경 설치
 
 최초 설치는 [README의 설치 및 실행](../README.md#설치-및-실행)을 따른다.

@@ -85,6 +85,10 @@ export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
 
 DYNAMICS_ARGS=()
+OUTPUT_ARGS=()
+if [[ -n "${EVAL_OUTPUT_DIR:-}" ]]; then
+  OUTPUT_ARGS=(--output-dir "${EVAL_OUTPUT_DIR}")
+fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   DYNAMICS_ARGS=(--snn-dynamics "${SNN_DYNAMICS}")
 fi
@@ -106,6 +110,7 @@ runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
   --checkpoint "${CHECKPOINT_PATH}" \
   --inference-mode "${INFERENCE_MODE}" \
   --simulation-steps "${SIMULATION_STEPS}" \
+  "${OUTPUT_ARGS[@]}" \
   "${DYNAMICS_ARGS[@]}"
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
@@ -117,5 +122,6 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     --steps "${BENCHMARK_STEPS}" \
     --inference-mode "${INFERENCE_MODE}" \
     --simulation-steps "${SIMULATION_STEPS}" \
+    "${OUTPUT_ARGS[@]}" \
     "${DYNAMICS_ARGS[@]}"
 fi

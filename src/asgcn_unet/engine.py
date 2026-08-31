@@ -13,16 +13,16 @@ import sys
 import time
 from collections import Counter, defaultdict
 from collections.abc import Callable
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import torch
-from torch.nn import functional as F
 from torch.utils.data import DataLoader, Subset
 from tqdm import tqdm
 
+from .batching import SequenceBatchSampler
 from .data import build_dataset, collate_samples, load_eventhdr_split_manifest
 from .graph import PAPER_CORE_VERSION, PaperSplineConv
 from .losses import ReconstructionLoss
@@ -33,6 +33,8 @@ from .metrics import (
     temporal_consistency_error,
 )
 from .model import ASGCNUNet
+from .timing import StageTimer
+from .training import TrainingState, batching_contract, forward_training_loss
 from .utils import (
     atomic_torch_save,
     load_json,
@@ -959,15 +961,26 @@ def _valid_training_protocol_contract(value: Any) -> bool:
         "runtime",
         "source",
     }
+    if isinstance(value, dict) and value.get("version") == 6:
+        required_fields.add("batching")
     if not isinstance(value, dict) or set(value) != required_fields:
         return False
     if (
-        value.get("version") != 5
+        value.get("version") not in {5, 6}
         or not isinstance(value.get("seed"), int)
         or isinstance(value.get("seed"), bool)
         or value.get("recurrent_state_detached_each_sample") is not True
         or not _valid_source_contract(value.get("source"))
     ):
+        return False
+    if not isinstance(value.get("data_order"), dict):
+        return False
+    batch_size = value["data_order"].get("batch_size")
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+        return False
+    if value["version"] != (5 if batch_size == 1 else 6):
+        return False
+    if batch_size > 1 and value.get("batching") != batching_contract(batch_size):
         return False
     if any(
         not isinstance(value.get(field), dict)
@@ -1364,6 +1377,21 @@ def _valid_preflight_gate(value: Any) -> bool:
     ):
         return False
     measured_steps = value.get("measured_steps")
+    batch_size = value.get("batch_size", 1)
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+        return False
+    if batch_size > 1:
+        batch = value.get("batch_preflight")
+        if (
+            not isinstance(batch, dict)
+            or batch.get("contract") != batching_contract(batch_size)
+            or not _is_sha256(batch.get("schedule_sha256"))
+            or batch.get("largest_measured_batch_size") != batch_size
+            or isinstance(batch.get("measured_batches"), bool)
+            or not isinstance(batch.get("measured_batches"), int)
+            or batch["measured_batches"] < 1
+        ):
+            return False
     scope = value.get("measurement_scope")
     return (
         isinstance(measured_steps, int)
@@ -1409,8 +1437,14 @@ def _ann_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
 
     training = checkpoint.get("training_protocol")
     if not _valid_training_protocol_contract(training):
-        reasons.append("complete training_protocol v4 contract is missing or invalid")
+        reasons.append("complete training_protocol v5/v6 contract is missing or invalid")
         training = None
+    elif training["version"] == 6 and (
+        not isinstance(preflight_gate, dict)
+        or preflight_gate.get("batch_size") != training["data_order"]["batch_size"]
+        or not _valid_preflight_gate(preflight_gate)
+    ):
+        reasons.append("sequence-batch training requires a matching full-batch CUDA gate")
 
     validation = checkpoint.get("validation_protocol")
     if not isinstance(validation, dict) or validation.get("version") != 7:
@@ -1676,14 +1710,14 @@ def _snn_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
         if not _is_sha256(protocol.get(field)):
             reasons.append(f"calibration_protocol {field} is invalid")
     source_ann_protocols: dict[str, dict[str, Any]] = {}
-    for name, expected_version in (("training", 5), ("validation", 7)):
+    for name, expected_versions in (("training", {5, 6}), ("validation", {7})):
         identity = protocol.get(f"source_ann_{name}_protocol")
         flat_digest = protocol.get(f"source_ann_{name}_protocol_sha256")
         contract = identity.get("contract") if isinstance(identity, dict) else None
         digest = identity.get("sha256") if isinstance(identity, dict) else None
         if (
             not isinstance(contract, dict)
-            or contract.get("version") != expected_version
+            or contract.get("version") not in expected_versions
             or not _is_sha256(digest)
             or digest != _canonical_sha256(contract)
             or flat_digest != digest
@@ -2256,6 +2290,7 @@ def _data_loader(
     shuffle: bool = False,
     persistent_workers: bool | None = None,
     prefetch_factor: int | None = None,
+    batch_sampler=None,
 ):
     if num_workers < 0:
         raise ValueError("num_workers must be non-negative")
@@ -2267,6 +2302,10 @@ def _data_loader(
         "pin_memory": device.type == "cuda",
         "collate_fn": collate_samples,
     }
+    if batch_sampler is not None:
+        loader_options.pop("batch_size")
+        loader_options.pop("shuffle")
+        loader_options["batch_sampler"] = batch_sampler
     if num_workers > 0:
         loader_options["persistent_workers"] = (
             True if persistent_workers is None else bool(persistent_workers)
@@ -2378,6 +2417,7 @@ def _training_protocol_config_reasons(
     if not isinstance(train_config, dict):
         return ["public ANN training settings are missing"]
     try:
+        validate_experiment_config(config)
         optimizer_mode = _optimizer_mode(train_config)
         optimizer = {
             "mode": optimizer_mode,
@@ -2435,6 +2475,7 @@ def _training_protocol_config_reasons(
             else max(1, int(raw_validate_every))
         )
         expected_fields = {
+            "version": 5 if int(train_config.get("batch_size", 1)) == 1 else 6,
             "seed": int(config.get("seed", 2026)),
             "optimizer": optimizer,
             "scheduler": _scheduler_spec(train_config),
@@ -2459,6 +2500,8 @@ def _training_protocol_config_reasons(
                 else None
             ),
         }
+        if int(train_config.get("batch_size", 1)) > 1:
+            expected_fields["batching"] = batching_contract(int(train_config["batch_size"]))
     except (KeyError, TypeError, ValueError, OverflowError):
         return ["public ANN training config cannot reproduce its protocol"]
 
@@ -2707,7 +2750,11 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
         gpu_name = None
         compute_capability = None
     return {
-        "version": 5,
+        "version": 5 if int(train_config.get("batch_size", 1)) == 1 else 6,
+        **(
+            {"batching": batching_contract(int(train_config["batch_size"]))}
+            if int(train_config.get("batch_size", 1)) > 1 else {}
+        ),
         "seed": int(config.get("seed", 2026)),
         "optimizer": {
             "mode": optimizer_mode,
@@ -2889,27 +2936,44 @@ def _clip_and_validate_gradients(
     step: int,
     sample_id: Any,
 ) -> float:
-    """Reject invalid gradients without relabeling unrelated backend errors."""
+    """Validate the clipping norm once; collect parameter names only on failure."""
     if not math.isfinite(max_norm) or max_norm <= 0:
         raise ValueError("train.grad_clip must be finite and greater than zero")
-    invalid = _nonfinite_gradient_names(model)
-    if invalid:
-        raise FloatingPointError(
-            "Non-finite gradients before clipping at "
-            f"epoch={epoch}, step={step}, sample={sample_id}; parameters={', '.join(invalid)}"
+    parameters = list(model.parameters())
+    get_norm = getattr(torch.nn.utils, "get_total_norm", None)
+    clip_with_norm = getattr(torch.nn.utils, "clip_grads_with_norm_", None)
+    if callable(get_norm) and callable(clip_with_norm):
+        # These public functions implement the same norm and clipping operations
+        # as clip_grad_norm_. A finite L2 norm already proves its gradient
+        # elements finite, so rescanning every parameter on success is redundant.
+        gradients = [parameter.grad for parameter in parameters if parameter.grad is not None]
+        total_norm = get_norm(gradients, norm_type=2.0, error_if_nonfinite=False)
+    else:
+        # Preserve support for older PyTorch releases lacking the split public
+        # API. This compatibility path retains the original strict validation.
+        invalid = _nonfinite_gradient_names(model)
+        if invalid:
+            raise FloatingPointError(
+                "Non-finite gradients before clipping at "
+                f"epoch={epoch}, step={step}, sample={sample_id}; "
+                f"parameters={', '.join(invalid)}"
+            )
+        total_norm = torch.nn.utils.clip_grad_norm_(
+            parameters, max_norm, norm_type=2.0, error_if_nonfinite=True
         )
-    # error_if_nonfinite also catches overflow of the total norm even when every
-    # gradient element is finite. Preserve its actual RuntimeError and any CUDA
-    # backend exception instead of claiming all clipping failures are NaN/Inf.
-    total_norm = torch.nn.utils.clip_grad_norm_(
-        model.parameters(), max_norm, norm_type=2.0, error_if_nonfinite=True
-    )
     finite_norm = float(total_norm.detach().cpu())
     if not math.isfinite(finite_norm):
+        invalid = _nonfinite_gradient_names(model)
+        description = "gradients" if invalid else "gradient norm"
+        names = f"; parameters={', '.join(invalid)}" if invalid else ""
         raise FloatingPointError(
-            "Non-finite gradient norm after clipping at "
-            f"epoch={epoch}, step={step}, sample={sample_id}"
+            f"Non-finite {description} before clipping at "
+            f"epoch={epoch}, step={step}, sample={sample_id}{names}"
         )
+    if callable(get_norm) and callable(clip_with_norm):
+        # No invalid gradient is modified, and unrelated backend failures from
+        # either public operation propagate with their original exception type.
+        clip_with_norm(parameters, max_norm, total_norm)
     return finite_norm
 
 
@@ -2928,6 +2992,34 @@ def _nonfinite_gradient_names(model: torch.nn.Module) -> list[str]:
     return invalid
 
 
+@torch.no_grad()
+def _snapshot_model_buffers(model: torch.nn.Module) -> dict[str, torch.Tensor]:
+    """Pack same-shape buffers into shared storage without changing their values.
+
+    The default model has 58 buffers but only six device/dtype/shape groups. One
+    stack per group replaces one allocation/copy per buffer. Restored values are
+    views into the packs; all buffers, including non-BatchNorm state, are retained.
+    """
+    groups: dict[
+        tuple[torch.device, torch.dtype, torch.Size], list[tuple[str, torch.Tensor]]
+    ] = defaultdict(list)
+    snapshot: dict[str, torch.Tensor] = {}
+    for name, value in model.named_buffers():
+        if value.layout != torch.strided or value.is_quantized:
+            # Stacking sparse or differently quantized buffers is not generally
+            # value-preserving. Keep the existing clone behavior for these cases.
+            snapshot[name] = value.detach().clone()
+        else:
+            groups[(value.device, value.dtype, value.shape)].append((name, value))
+    for entries in groups.values():
+        packed = torch.stack([value for _name, value in entries])
+        snapshot.update(
+            (name, value)
+            for (name, _original), value in zip(entries, packed.unbind(), strict=True)
+        )
+    return snapshot
+
+
 def _training_step(
     model: torch.nn.Module,
     optimizer: torch.optim.Optimizer,
@@ -2940,6 +3032,7 @@ def _training_step(
     step: int,
     sample_id: Any,
     max_amp_retries: int = _AMP_MAX_RETRIES,
+    timing: Any = None,
 ) -> tuple[Any, dict[str, float], float, dict[str, float | int]]:
     """Commit one sample, retrying only recoverable AMP gradient overflows.
 
@@ -2960,11 +3053,7 @@ def _training_step(
     scale_before = float(scaler.get_scale())
     if not math.isfinite(scale_before) or scale_before <= 0:
         raise FloatingPointError(f"Invalid AMP scale before training step: {scale_before}")
-    saved_buffers = (
-        {name: value.detach().clone() for name, value in model.named_buffers()}
-        if amp_enabled
-        else {}
-    )
+    saved_buffers = _snapshot_model_buffers(model) if amp_enabled else {}
     saved_rng = _capture_rng_state() if amp_enabled else None
 
     def rollback() -> None:
@@ -2985,9 +3074,11 @@ def _training_step(
             loss_values = _ensure_finite_loss(
                 loss, loss_parts, epoch=epoch, step=step, sample_id=sample_id
             )
-            scaler.scale(loss).backward()
-            scaler.unscale_(optimizer)
-            invalid = _nonfinite_gradient_names(model)
+            with timing.scope("backward") if timing is not None else nullcontext():
+                scaler.scale(loss).backward()
+                scaler.unscale_(optimizer)
+            with timing.scope("gradient_check") if timing is not None else nullcontext():
+                invalid = _nonfinite_gradient_names(model)
             if invalid:
                 attempt_scale = float(scaler.get_scale())
                 context = (
@@ -3013,11 +3104,12 @@ def _training_step(
                 # Release the failed graph/payload before allocating the retry.
                 del loss, loss_parts, payload
                 continue
-            if optimizer_mode == "adam_gc":
-                _centralize_gradients(model)
-            gradient_norm = _clip_and_validate_gradients(
-                model, max_norm, epoch=epoch, step=step, sample_id=sample_id
-            )
+            with timing.scope("gradient_check") if timing is not None else nullcontext():
+                if optimizer_mode == "adam_gc":
+                    _centralize_gradients(model)
+                gradient_norm = _clip_and_validate_gradients(
+                    model, max_norm, epoch=epoch, step=step, sample_id=sample_id
+                )
         except Exception as error:
             try:
                 rollback()
@@ -3027,8 +3119,9 @@ def _training_step(
                 raise error from rollback_error
             raise
         # Only finite, centralized and clipped gradients reach the optimizer.
-        scaler.step(optimizer)
-        scaler.update()
+        with timing.scope("optimizer") if timing is not None else nullcontext():
+            scaler.step(optimizer)
+            scaler.update()
         return payload, loss_values, gradient_norm, {
             "scale_before": scale_before,
             "scale_after": float(scaler.get_scale()),
@@ -3184,14 +3277,16 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     train_dataset = build_dataset(data_config, split="train")
     val_dataset = _validation_dataset(config)
     batch_size = int(train_config.get("batch_size", 1))
-    if batch_size != 1 and config["model"].get("recurrent", True):
-        raise ValueError("The recurrent experiment uses chronological batch_size=1")
+    batch_sampler = (
+        SequenceBatchSampler(train_dataset, batch_size, seed=seed) if batch_size > 1 else None
+    )
     train_loader = _data_loader(
         train_dataset,
         batch_size,
         int(train_config.get("num_workers", 0)),
         device,
         shuffle=False,
+        batch_sampler=batch_sampler,
         **_loader_kwargs(train_config),
     )
     val_indices = _balanced_contiguous_indices(
@@ -3238,7 +3333,6 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     validation_protocol = _validation_protocol(
         config, val_sampling, train_dataset, val_dataset, digest_cache
     )
-    save_json(hash_cache_path, {"version": 1, "files": digest_cache})
     val_loader = _data_loader(
         Subset(val_dataset, val_schedule),
         1,
@@ -3303,7 +3397,6 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 "best.pt from another or inconsistent run"
             )
     public_config = _public_config(config)
-    save_json(run_dir / "config.json", public_config)
 
     best_ssim = float("-inf")
     best_model_state_sha256: str | None = None
@@ -3355,63 +3448,55 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         None if raw_validate_every is None else max(1, int(raw_validate_every))
     )
     max_train_samples = train_config.get("max_train_samples")
+    timing_steps = int(train_config.get("timing_steps", 0))
+    timing = StageTimer(
+        device, enabled=timing_steps > 0,
+        warmup_steps=int(train_config.get("timing_warmup", 10)),
+        measurement_steps=max(1, timing_steps),
+    )
+    timing_saved = False
+    # Publish run metadata only after every fresh/resume check, including
+    # optimizer/scaler/RNG restoration. Rejected attempts must preserve the
+    # previous gate, config and hash cache alongside the original checkpoints.
+    save_json(hash_cache_path, {"version": 1, "files": digest_cache})
+    save_json(run_dir / "config.json", public_config)
+    if "preflight_gate" in config:
+        save_json(run_dir / "preflight_gate.json", config["preflight_gate"])
     for epoch in range(start_epoch, epochs + 1):
         epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
         model.train()
         _reset_cuda_peak_memory(device)
-        current_sequence = None
-        previous_sequence_index = None
-        previous_sensor_size = None
-        recurrent_state = None
-        previous_prediction = None
-        previous_target = None
+        state = TrainingState(independent_sequences=batch_size > 1)
+        if batch_sampler is not None:
+            batch_sampler.set_epoch(epoch)
         running_loss = 0.0
         epoch_amp_retries = 0
         epoch_amp_retried_samples = 0
         seen = 0
-        progress = tqdm(train_loader, desc=f"train {epoch:03d}/{epochs:03d}")
-        for step, batch in enumerate(progress):
+        optimizer_steps = 0
+        epoch_start = time.perf_counter()
+        loader_iterator = iter(train_loader)
+        frame_total = len(train_dataset)
+        if max_train_samples is not None:
+            frame_total = min(frame_total, int(max_train_samples))
+        progress = tqdm(total=frame_total, desc=f"train {epoch:03d}/{epochs:03d}", unit="frame")
+        for step in range(len(train_loader)):
             if max_train_samples is not None and seen >= int(max_train_samples):
                 break
-            if len(batch) != 1:
-                raise ValueError("Stateful training currently requires batch_size=1")
-            sample = move_sample(batch[0], device)
-            sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
-            if not _continues_sequence(
-                sequence_id,
-                sequence_index,
-                sensor_size,
-                current_sequence,
-                previous_sequence_index,
-                previous_sensor_size,
-            ):
-                recurrent_state = None
-                previous_prediction = None
-                previous_target = None
-            current_sequence = sequence_id
-            previous_sequence_index = sequence_index
-            previous_sensor_size = sensor_size
-            def forward_loss(
-                current_sample=sample,
-                incoming_state=recurrent_state,
-                incoming_prediction=previous_prediction,
-                incoming_target=previous_target,
-            ):
-                # Incoming state/targets remain unchanged throughout AMP retries.
-                with torch.autocast(device_type=device.type, enabled=amp_enabled):
-                    prediction, diagnostics = model.forward_sample(
-                        current_sample, recurrent_state=incoming_state
-                    )
-                    target = current_sample["target"].unsqueeze(0)
-                    loss, loss_parts = criterion(prediction, target)
-                    if temporal_weight > 0 and incoming_prediction is not None:
-                        temporal = F.l1_loss(
-                            prediction - incoming_prediction,
-                            target - incoming_target,
-                        )
-                        loss = loss + temporal_weight * temporal
-                        loss_parts["temporal"] = temporal.detach()
-                return loss, loss_parts, (prediction, diagnostics, target)
+            with timing.scope("dataload", gpu=False):
+                batch = next(loader_iterator)
+                if max_train_samples is not None:
+                    batch = batch[: int(max_train_samples) - seen]
+            with timing.scope("transfer"):
+                samples = [move_sample(sample, device) for sample in batch]
+            contexts = state.prepare(samples)
+
+            def forward_loss(current_samples=samples, incoming_contexts=contexts):
+                return forward_training_loss(
+                    model, criterion, current_samples, incoming_contexts,
+                    batch_mode=batch_size > 1, amp_enabled=amp_enabled,
+                    temporal_weight=temporal_weight, timing=timing,
+                )
 
             payload, loss_values, _gradient_norm, amp_info = _training_step(
                 model,
@@ -3422,19 +3507,24 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 max_norm=float(train_config.get("grad_clip", 1.0)),
                 epoch=epoch,
                 step=step,
-                sample_id=sample.get("sample_id", "unknown"),
+                sample_id=[sample.get("sample_id", "unknown") for sample in samples],
+                timing=timing,
             )
             prediction, diagnostics, target = payload
             epoch_amp_retries += int(amp_info["retries"])
-            epoch_amp_retried_samples += int(amp_info["retries"] > 0)
-
-            recurrent_state = diagnostics["recurrent_state"]
-            if recurrent_state is not None:
-                recurrent_state = recurrent_state.detach()
-            previous_prediction = prediction.detach()
-            previous_target = target.detach()
-            running_loss += loss_values["total"]
-            seen += 1
+            epoch_amp_retried_samples += len(samples) * int(amp_info["retries"] > 0)
+            state.commit(samples, prediction, diagnostics, target)
+            if batch_sampler is not None:
+                state.release_finished(samples, batch_sampler.final_sequence_indices)
+                if len(state.values) > batch_size:
+                    raise RuntimeError("Sequence state storage exceeded the active batch size")
+            running_loss += loss_values["total"] * len(samples)
+            seen += len(samples)
+            optimizer_steps += 1
+            progress.update(len(samples))
+            if timing.step():
+                save_json(run_dir / "timing.json", timing.collect())
+                timing_saved = True
             if step % int(train_config.get("log_every", 20)) == 0 or amp_info["retries"]:
                 progress.set_postfix(
                     loss=f"{running_loss / max(seen, 1):.4f}",
@@ -3442,7 +3532,10 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                     amp_scale=amp_info["scale_after"],
                     **loss_values,
                 )
-
+        progress.close()
+        if device.type == "cuda":
+            torch.cuda.synchronize(device)
+        epoch_seconds = time.perf_counter() - epoch_start
         should_validate = epoch == epochs or (
             validate_every is not None and epoch % validate_every == 0
         )
@@ -3478,6 +3571,15 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 epoch_learning_rates[0] if len(epoch_learning_rates) == 1 else epoch_learning_rates
             ),
             "gpu_memory": _cuda_peak_memory(device),
+            "performance": {
+                "training_seconds": epoch_seconds,
+                "frames": seen,
+                "optimizer_steps": optimizer_steps,
+                "frames_per_second": seen / epoch_seconds if epoch_seconds > 0 else None,
+                "batch_size_limit": batch_size,
+                "includes_validation": False,
+                "timing_instrumentation_requested": timing_steps > 0,
+            },
             "amp": {
                 "retries": epoch_amp_retries,
                 "retried_samples": epoch_amp_retried_samples,
@@ -3554,6 +3656,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             atomic_torch_save(best_checkpoint, run_dir / "best.pt")
         atomic_torch_save(checkpoint, run_dir / "last.pt")
         print(record)
+    if timing_steps > 0 and not timing_saved:
+        save_json(run_dir / "timing.json", timing.collect())
     best_path = run_dir / "best.pt"
     if not best_path.is_file():
         raise RuntimeError(
@@ -4616,7 +4720,7 @@ def _sealed_calibration_protocol(
     )
     if not isinstance(training_protocol, dict):
         mismatches.append("source checkpoint has no training protocol")
-    elif training_protocol.get("version") != 5:
+    elif training_protocol.get("version") not in {5, 6}:
         mismatches.append("source checkpoint has an unsupported training protocol")
     if not isinstance(expected_source, dict):
         mismatches.append("source checkpoint has no training source contract")

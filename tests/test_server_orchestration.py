@@ -51,25 +51,52 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert "record_stage_failure" in script
 
 
-def test_only_three_configs_define_short_output_roots_and_spline_chunking() -> None:
+def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
     config_dir = ROOT / "configs"
     assert {path.name for path in config_dir.glob("*.json")} == {
         "train.json",
+        "batch.json",
         "hdr.json",
         "aid.json",
     }
 
     configs = {
         name: json.loads((config_dir / name).read_text(encoding="utf-8"))
-        for name in ("train.json", "hdr.json", "aid.json")
+        for name in ("train.json", "batch.json", "hdr.json", "aid.json")
     }
     assert configs["train.json"]["output"]["run_dir"] == "runs/train"
+    assert configs["batch.json"]["output"]["run_dir"] == "runs/batch"
+    assert configs["batch.json"]["train"]["batch_size"] == 4
+    assert configs["batch.json"]["train"]["batching"] == "independent_sequences"
+    assert configs["batch.json"]["train"]["timing_steps"] == 50
+    assert configs["batch.json"]["dataset"] == configs["train.json"]["dataset"]
+    assert configs["batch.json"]["model"] == configs["train.json"]["model"]
+    for key, value in configs["train.json"]["train"].items():
+        if key != "batch_size":
+            assert configs["batch.json"]["train"][key] == value, key
     assert configs["hdr.json"]["eval"]["output_dir"] == "runs/eval/hdr"
     assert configs["aid.json"]["eval"]["output_dir"] == "runs/eval/aid"
     assert configs["train.json"]["model"] == configs["hdr.json"]["model"]
     assert configs["train.json"]["model"] == configs["aid.json"]["model"]
     for config in configs.values():
         assert config["model"]["spline_chunk_size"] == 65536
+
+
+def test_batch_wrapper_isolates_training_profile_status_and_evaluation() -> None:
+    script = _text("scripts/run.sh")
+    assert 'EXPERIMENT="${EXPERIMENT:-single}"' in script
+    for assignment in (
+        "DEFAULT_TRAIN_CONFIG=configs/batch.json",
+        "DEFAULT_TRAIN_RUN=runs/batch",
+        "DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json",
+        "DEFAULT_STATUS_DIR=runs/batch-status",
+        "DEFAULT_EVAL_ROOT=runs/batch/eval",
+    ):
+        assert assignment in script
+    assert 'EVAL_OUTPUT_DIR="${output_dir}"' in script
+    evaluation = _text("scripts/eval.sh")
+    assert 'OUTPUT_ARGS=(--output-dir "${EVAL_OUTPUT_DIR}")' in evaluation
+    assert evaluation.count('"${OUTPUT_ARGS[@]}"') == 2
 
 
 def test_calibration_wrapper_defaults_to_all_samples_and_protects_output() -> None:

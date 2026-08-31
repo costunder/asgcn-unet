@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import random
+from contextlib import contextmanager
 from unittest.mock import patch
 
 import numpy as np
@@ -226,7 +227,10 @@ def test_nonfinite_forward_loss_is_never_retried(component) -> None:
     torch.testing.assert_close(model.state_dict(), before, rtol=0, atol=0)
 
 
-def test_unrelated_clipping_error_keeps_original_exception(monkeypatch) -> None:
+@pytest.mark.parametrize(
+    "operation", ["get_total_norm", "clip_grads_with_norm_", "clip_grad_norm_"]
+)
+def test_unrelated_clipping_error_keeps_original_exception(monkeypatch, operation) -> None:
     model = _StatefulLoss()
     optimizer = torch.optim.Adam(model.parameters())
     scaler = _scaler(32768.0)
@@ -243,7 +247,10 @@ def test_unrelated_clipping_error_keeps_original_exception(monkeypatch) -> None:
     def broken_clip(*args, **kwargs):
         raise failure
 
-    monkeypatch.setattr(torch.nn.utils, "clip_grad_norm_", broken_clip)
+    if operation == "clip_grad_norm_":
+        # Older supported PyTorch releases expose only this combined operation.
+        monkeypatch.setattr(torch.nn.utils, "get_total_norm", None)
+    monkeypatch.setattr(torch.nn.utils, operation, broken_clip)
     with pytest.raises(RuntimeError) as caught:
         _step(model, optimizer, scaler, closure)
     assert caught.value is failure
@@ -315,6 +322,181 @@ def test_disabled_amp_matches_direct_non_amp_optimizer_step() -> None:
     reference_optimizer.step()
     torch.testing.assert_close(model.state_dict(), reference.state_dict(), rtol=0, atol=0)
     assert info == {"scale_before": 1.0, "scale_after": 1.0, "retries": 0}
+
+
+def test_default_model_buffer_snapshot_packs_all_58_buffers_into_six_storages() -> None:
+    from asgcn_unet.model import ASGCNUNet
+
+    model = ASGCNUNet()
+    original = dict(model.named_buffers())
+    snapshot = engine._snapshot_model_buffers(model)
+    assert len(original) == len(snapshot) == 58
+    assert len({value.untyped_storage().data_ptr() for value in snapshot.values()}) == 6
+    assert len({value.untyped_storage().data_ptr() for value in original.values()}) == 58
+    for name, value in original.items():
+        torch.testing.assert_close(snapshot[name], value, rtol=0, atol=0)
+        assert snapshot[name].untyped_storage().data_ptr() != value.untyped_storage().data_ptr()
+
+
+def test_buffer_snapshot_preserves_all_dtypes_shapes_and_nonpersistent_state() -> None:
+    model = nn.Module()
+    model.register_buffer("float_a", torch.arange(3, dtype=torch.float32))
+    model.register_buffer("float_b", torch.arange(3, dtype=torch.float32) + 10, persistent=False)
+    model.register_buffer("float64_state", torch.arange(3, dtype=torch.float64))
+    model.register_buffer("noncontiguous", torch.arange(6, dtype=torch.float32).reshape(2, 3).T)
+    model.register_buffer("same_shape", torch.ones(3, 2, requires_grad=True))
+    model.register_buffer("counter", torch.tensor(19, dtype=torch.int64))
+    model.register_buffer("flag", torch.tensor(True))
+    model.register_buffer("byte", torch.tensor([1, 7, 255], dtype=torch.uint8))
+    model.register_buffer("complex", torch.tensor([1 + 2j, 3 + 4j]))
+    model.register_buffer("empty", torch.empty(0, 3))
+    expected = {name: value.detach().clone() for name, value in model.named_buffers()}
+    snapshot = engine._snapshot_model_buffers(model)
+    assert snapshot.keys() == expected.keys()
+    assert not model.noncontiguous.is_contiguous()
+    assert snapshot["float_a"].untyped_storage().data_ptr() == (
+        snapshot["float_b"].untyped_storage().data_ptr()
+    )
+    assert snapshot["noncontiguous"].untyped_storage().data_ptr() == (
+        snapshot["same_shape"].untyped_storage().data_ptr()
+    )
+    assert snapshot["float64_state"].untyped_storage().data_ptr() != (
+        snapshot["float_a"].untyped_storage().data_ptr()
+    )
+    with torch.no_grad():
+        for value in model.buffers():
+            value.zero_()
+        for name, value in snapshot.items():
+            assert not value.requires_grad
+            torch.testing.assert_close(value, expected[name], rtol=0, atol=0)
+        for name, value in model.named_buffers():
+            value.copy_(snapshot[name])
+    for name, value in model.named_buffers():
+        torch.testing.assert_close(value, expected[name], rtol=0, atol=0)
+
+
+def test_sparse_and_quantized_buffer_snapshots_keep_original_clone_semantics() -> None:
+    model = nn.Module()
+    model.register_buffer("sparse", torch.tensor([[0.0, 2.0], [3.0, 0.0]]).to_sparse())
+    model.register_buffer("quantized_a", torch.quantize_per_tensor(torch.arange(3.0), 0.1, 0, torch.qint8))
+    model.register_buffer("quantized_b", torch.quantize_per_tensor(torch.arange(3.0), 0.3, 2, torch.qint8))
+    snapshot = engine._snapshot_model_buffers(model)
+    torch.testing.assert_close(snapshot, dict(model.named_buffers()), rtol=0, atol=0)
+    assert snapshot["sparse"].layout == torch.sparse_coo
+    assert snapshot["sparse"].values().data_ptr() != model.sparse.values().data_ptr()
+    assert snapshot["quantized_a"].q_scale() != snapshot["quantized_b"].q_scale()
+    assert snapshot["quantized_a"].untyped_storage().data_ptr() != (
+        model.quantized_a.untyped_storage().data_ptr()
+    )
+
+
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64])
+@pytest.mark.parametrize("max_norm", [0.01, 1.0, 1e6])
+@pytest.mark.parametrize("legacy", [False, True])
+def test_clipping_matches_public_torch_operation_exactly(monkeypatch, dtype, max_norm, legacy) -> None:
+    torch.manual_seed(132)
+    model = nn.Sequential(nn.Linear(3, 4), nn.Linear(4, 2)).to(dtype=dtype)
+    for parameter in model.parameters():
+        parameter.grad = torch.randn_like(parameter)
+    model[1].weight.grad.zero_()
+    model[1].bias.grad = None
+    reference = copy.deepcopy(model)
+    for actual, expected in zip(model.parameters(), reference.parameters(), strict=True):
+        expected.grad = None if actual.grad is None else actual.grad.clone()
+    reference_norm = torch.nn.utils.clip_grad_norm_(reference.parameters(), max_norm, error_if_nonfinite=True)
+    if legacy:
+        monkeypatch.setattr(torch.nn.utils, "get_total_norm", None)
+    else:
+        monkeypatch.setattr(
+            engine,
+            "_nonfinite_gradient_names",
+            lambda _model: pytest.fail("finite clipping must not rescan every parameter"),
+        )
+    norm = engine._clip_and_validate_gradients(model, max_norm, epoch=0, step=0, sample_id="parity")
+    assert norm == float(reference_norm)
+    for actual, expected in zip(model.parameters(), reference.parameters(), strict=True):
+        if actual.grad is None:
+            assert expected.grad is None
+        else:
+            torch.testing.assert_close(actual.grad, expected.grad, rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("bad_value", [float("nan"), float("inf"), float("-inf")])
+def test_invalid_clipping_reports_only_bad_parameters_without_mutating_gradients(bad_value) -> None:
+    model = nn.Linear(3, 2)
+    model.weight.grad = torch.ones_like(model.weight)
+    model.bias.grad = torch.full_like(model.bias, bad_value)
+    with pytest.raises(FloatingPointError, match="Non-finite gradients before clipping") as caught:
+        engine._clip_and_validate_gradients(model, 1.0, epoch=4, step=8, sample_id="bad")
+    assert str(caught.value).endswith("epoch=4, step=8, sample=bad; parameters=bias")
+    torch.testing.assert_close(model.weight.grad, torch.ones_like(model.weight), rtol=0, atol=0)
+    torch.testing.assert_close(
+        model.bias.grad, torch.full_like(model.bias, bad_value), rtol=0, atol=0, equal_nan=True
+    )
+
+
+def test_finite_elements_with_overflowing_norm_fail_before_clipping() -> None:
+    model = nn.Linear(3, 2)
+    model.weight.grad = torch.full_like(model.weight, 1e38)
+    model.bias.grad = torch.ones_like(model.bias)
+    assert not engine._nonfinite_gradient_names(model)
+    with pytest.raises(FloatingPointError, match="Non-finite gradient norm before clipping") as caught:
+        engine._clip_and_validate_gradients(model, 1.0, epoch=4, step=8, sample_id="norm")
+    assert "parameters=" not in str(caught.value)
+    torch.testing.assert_close(model.weight.grad, torch.full_like(model.weight, 1e38), rtol=0, atol=0)
+    torch.testing.assert_close(model.bias.grad, torch.ones_like(model.bias), rtol=0, atol=0)
+
+
+def test_successful_training_checks_raw_gradient_elements_only_once() -> None:
+    model = nn.Linear(3, 2)
+    optimizer = torch.optim.Adam(model.parameters())
+
+    def closure():
+        return model(torch.ones(3)).square().mean(), {}, None
+
+    with patch.object(engine, "_nonfinite_gradient_names", wraps=engine._nonfinite_gradient_names) as scan:
+        _, _, _, info = _step(model, optimizer, _scaler(32768.0), closure)
+    assert info["retries"] == 0
+    assert scan.call_count == 1
+
+
+@pytest.mark.parametrize("scale", [32768.0, 65536.0])
+def test_training_timing_covers_backward_checks_and_only_successful_optimizer(scale) -> None:
+    class RecordingTimer:
+        def __init__(self):
+            self.stages = []
+            self.active = None
+
+        @contextmanager
+        def scope(self, name):
+            assert self.active is None
+            self.active = name
+            self.stages.append(name)
+            try:
+                yield
+            finally:
+                self.active = None
+
+    model = nn.Linear(1, 1, bias=False)
+    optimizer = torch.optim.Adam(model.parameters())
+    timer = RecordingTimer()
+    calls = 0
+
+    def closure():
+        nonlocal calls
+        calls += 1
+        assert timer.active is None  # The caller times its own forward stages.
+        return model.weight.half().float().sum(), {}, "same-sample"
+
+    with patch.object(optimizer, "step", wraps=optimizer.step) as optimizer_step:
+        payload, _, _, info = _step(model, optimizer, _scaler(scale), closure, timing=timer)
+    assert payload == "same-sample"
+    assert optimizer_step.call_count == 1
+    assert calls == info["retries"] + 1
+    assert timer.stages == ["backward", "gradient_check"] * info["retries"] + [
+        "backward", "gradient_check", "gradient_check", "optimizer"
+    ]
+    assert timer.active is None
 
 
 def test_protocol_binds_retry_policy_and_rejects_tampering() -> None:

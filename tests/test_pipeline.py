@@ -65,6 +65,35 @@ def test_eventhdr_loader(tmp_path):
     assert dataset[1]["metadata"]["dt_us"] == 2_000
 
 
+@pytest.mark.parametrize("command", ["evaluate", "benchmark"])
+@pytest.mark.parametrize("override", [None, "runs/batch/eval/hdr"])
+def test_cli_evaluation_output_override_is_project_relative(
+    tmp_path, monkeypatch, command, override,
+):
+    from pathlib import Path
+
+    from asgcn_unet import cli
+
+    root = Path(__file__).resolve().parents[1]
+    config_path = root / "configs/hdr.json"
+    original = config_path.read_bytes()
+    captured = {}
+
+    def record(config, checkpoint, **kwargs):
+        captured.update(config)
+        return {}
+
+    monkeypatch.setattr(cli, command, record)
+    monkeypatch.chdir(tmp_path)
+    arguments = [command, "--config", str(config_path), "--checkpoint", "runs/model.pt"]
+    if override is not None:
+        arguments += ["--output-dir", override]
+    cli.main(arguments)
+    expected = root / (override or "runs/eval/hdr")
+    assert Path(captured["eval"]["output_dir"]) == expected.resolve()
+    assert config_path.read_bytes() == original
+
+
 def test_eventhdr_stride_aggregates_intervals(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     dataset = EventHDRDataset(tmp_path / "hdr", max_events=None, frame_stride=2)

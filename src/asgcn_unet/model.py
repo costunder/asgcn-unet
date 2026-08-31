@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import math
+from contextlib import nullcontext
 from typing import Any
 
 import torch
 from torch import nn
 
+from .batching import concatenate_graphs, sequence_key
 from .graph import PAPER_CORE_VERSION, ASGCNEncoder, EventGraph, build_event_graph
 from .unet import RecurrentUNetDecoder
 
@@ -224,6 +226,109 @@ class ASGCNUNet(nn.Module):
             "recurrent_state": next_state,
         }
         return prediction, diagnostics
+
+    def forward_training_batch(
+        self,
+        samples: list[dict[str, Any]],
+        recurrent_states: list[torch.Tensor | None] | None = None,
+        *,
+        timing: Any = None,
+    ) -> tuple[torch.Tensor, list[dict[str, Any]]]:
+        """Train independent sequence frames with one encoder and decoder call.
+
+        This opt-in ANN path uses pooled-node graph BatchNorm in training mode;
+        it is a distinct minibatch protocol, not gradient accumulation or a claim
+        of equivalence to sequential batch-one parameter updates. No graph edge
+        or recurrent state crosses a sample boundary.
+        """
+        if not samples:
+            raise ValueError("Training batches must contain at least one sample")
+        sensor_size = tuple(int(value) for value in samples[0]["sensor_size"])
+        if len(sensor_size) != 2 or min(sensor_size) < 1:
+            raise ValueError("Training batches require positive height and width")
+        if any(tuple(sample["sensor_size"]) != sensor_size for sample in samples):
+            raise ValueError("A training batch must contain one shared sensor_size")
+        keys = [sequence_key(sample) for sample in samples]
+        if len(set(keys)) != len(keys):
+            raise ValueError("A training batch may contain only one frame from each sequence")
+        if recurrent_states is None:
+            recurrent_states = [None] * len(samples)
+        if len(recurrent_states) != len(samples):
+            raise ValueError("recurrent_states must contain one entry per batch sample")
+        gpu = samples[0]["events"].device.type == "cuda"
+
+        def scope(label: str):
+            return timing.scope(label, gpu=gpu) if timing is not None else nullcontext()
+
+        with scope("graph"):
+            graphs = [self._graph(sample) for sample in samples]
+            graph = concatenate_graphs(graphs)
+            node_counts = [item.node_features.shape[0] for item in graphs]
+        with scope("encoder"):
+            features, _activations = self.encoder.forward_ann(graph)
+        with scope("decoder"):
+            per_sample_features = features.split(node_counts, dim=0)
+            raster = torch.cat([
+                rasterize_features(values, item, sensor_size, self.raster_downsample)
+                for values, item in zip(per_sample_features, graphs, strict=True)
+            ], dim=0)
+            state_batch = None
+            if self.decoder.recurrent is not None:
+                # Two stride-two, padding-one downsampling convolutions each
+                # round upward, so the recurrent grid is ceil(raster_size / 4).
+                expected = (
+                    1,
+                    self.decoder.recurrent.hidden_channels,
+                    (raster.shape[-2] + 3) // 4,
+                    (raster.shape[-1] + 3) // 4,
+                )
+                valid_states = []
+                for state in recurrent_states:
+                    if state is not None and not isinstance(state, torch.Tensor):
+                        raise TypeError("A recurrent state must be a tensor or None")
+                    valid_states.append(
+                        state if state is not None and tuple(state.shape) == expected else None
+                    )
+                reference = next((state for state in valid_states if state is not None), None)
+                if reference is not None:
+                    if reference.device != raster.device or any(
+                        state is not None
+                        and (state.device != reference.device or state.dtype != reference.dtype)
+                        for state in valid_states
+                    ):
+                        raise ValueError("Batched recurrent states must share device and dtype")
+                    state_batch = torch.cat([
+                        reference.new_zeros(expected) if state is None else state
+                        for state in valid_states
+                    ], dim=0)
+            predictions, next_state = self.decoder(raster, sensor_size, state_batch)
+        diagnostics = []
+        for index, (sample, item) in enumerate(zip(samples, graphs, strict=True)):
+            nodes = int(item.node_features.shape[0])
+            assert item.in_degree is not None
+            isolated = (item.in_degree == 0).sum()
+            maximum = item.in_degree.max() if nodes else item.in_degree.new_zeros(())
+            sampling_ratio = float(sample.get("metadata", {}).get("dataset_sampling_ratio", 1.0))
+            diagnostics.append({
+                "paper_core_version": self.architecture_version,
+                "nodes": nodes,
+                "edges": int(item.edge_index.shape[1]),
+                "isolated_nodes": isolated,
+                "isolate_ratio": isolated.to(item.node_features.dtype) / float(max(1, nodes)),
+                "max_degree": maximum,
+                "edge_feature": "normalized_scalar_distance",
+                "event_sampling_factor": self.event_sampling_factor,
+                "dataset_sampling_ratio": sampling_ratio,
+                "effective_sampling_ratio": sampling_ratio * self.event_sampling_factor,
+                "snn_dynamics": None,
+                "decoder_input_lambda_applied": False,
+                "firing_rates": [],
+                "firing_rate_denominators": [],
+                "spike_counts": [],
+                "activations": [],
+                "recurrent_state": None if next_state is None else next_state[index : index + 1],
+            })
+        return predictions, diagnostics
 
     def forward(
         self,

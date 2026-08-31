@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import pytest
 import torch
@@ -282,6 +283,8 @@ def test_cli_nonreporting_bypass_is_warned_and_embedded_in_training_config(
     def fake_train(resolved_config, resume_from=None):
         captured.update(resolved_config)
         assert resume_from is None
+        assert resolved_config["preflight_gate"]["status"] == "bypassed_non_reporting"
+        assert not (Path(resolved_config["output"]["run_dir"]) / "preflight_gate.json").exists()
         return tmp_path / "best.pt"
 
     monkeypatch.setattr(cli_module, "train", fake_train)
@@ -297,7 +300,6 @@ def test_cli_nonreporting_bypass_is_warned_and_embedded_in_training_config(
     assert captured["preflight_gate"]["status"] == "bypassed_non_reporting"
     assert captured["preflight_gate"]["report_eligible"] is False
     gate_path = tmp_path / "train" / "preflight_gate.json"
-    assert json.loads(gate_path.read_text(encoding="utf-8"))["status"] == (
-        "bypassed_non_reporting"
-    )
+    # Mocked engine.train has not validated or published run metadata.
+    assert not gate_path.exists()
     assert "WARNING" in capsys.readouterr().err

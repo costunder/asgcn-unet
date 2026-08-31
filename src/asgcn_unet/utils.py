@@ -45,8 +45,18 @@ def validate_experiment_config(config: dict[str, Any]) -> None:
         if not isinstance(train, dict):
             raise TypeError("train must be an object")
         batch_size = train.get("batch_size", 1)
-        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size != 1:
-            raise ValueError("train.batch_size must be 1 for the current sample-wise pipeline")
+        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+            raise ValueError("train.batch_size must be a positive integer")
+        batching = train.get("batching", "single_frame")
+        expected_batching = "single_frame" if batch_size == 1 else "independent_sequences"
+        if batching != expected_batching:
+            raise ValueError("train.batch_size and train.batching must explicitly agree")
+        if batch_size > 1 and (dataset or {}).get("type") != "eventhdr":
+            raise ValueError("Independent sequence batches require the EventHDR index")
+        for field in ("timing_steps", "timing_warmup"):
+            value = train.get(field, 0 if field == "timing_steps" else 10)
+            if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+                raise ValueError(f"train.{field} must be a nonnegative integer")
         _validate_optional_positive_integer(
             train.get("max_train_samples"), "train.max_train_samples"
         )

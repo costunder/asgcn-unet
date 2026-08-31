@@ -8,7 +8,6 @@ import pytest
 
 import asgcn_unet.cli as cli_module
 from asgcn_unet.recovery import archive_uncheckpointed_run
-from asgcn_unet.utils import save_json
 
 
 def _metadata_directory(path: Path) -> dict[str, bytes]:
@@ -261,29 +260,21 @@ def test_cli_archives_only_after_verified_profile_and_before_new_gate(
         archives.append(result)
         return result
 
-    def write_gate(path, value):
-        calls.append("write_gate")
-        assert calls == ["verify", "archive", "write_gate"]
-        assert not run_dir.exists()
-        assert value == gate
-        save_json(path, value)
-
     def train(value, *, resume_from):
         calls.append("train")
         assert resume_from is None
         assert value["preflight_gate"] == gate
-        assert json.loads((run_dir / "preflight_gate.json").read_text()) == gate
-        assert not (run_dir / "config.json").exists()
+        # Publication belongs to engine.train after its own run/resume checks.
+        assert not run_dir.exists()
         return run_dir / "best.pt"
 
     monkeypatch.setattr(cli_module, "verify_training_preflight", verify)
     monkeypatch.setattr(cli_module, "archive_uncheckpointed_run", archive)
-    monkeypatch.setattr(cli_module, "save_json", write_gate)
     monkeypatch.setattr(cli_module, "train", train)
     cli_module._execute_command(_args(
         project, "train", "--restart-uncheckpointed", "--preflight-report", "runs/passed.json"
     ))
-    assert calls == ["verify", "archive", "write_gate", "train"]
+    assert calls == ["verify", "archive", "train"]
     _assert_payloads(archives[0], payloads)
 
 
@@ -301,7 +292,7 @@ def test_failed_profile_verification_cannot_move_or_overwrite_old_metadata(
         raise AssertionError("Unverified profile must not alter training output")
 
     monkeypatch.setattr(cli_module, "verify_training_preflight", rejected)
-    for name in ("archive_uncheckpointed_run", "save_json", "train"):
+    for name in ("archive_uncheckpointed_run", "train"):
         monkeypatch.setattr(cli_module, name, forbidden)
     with pytest.raises(RuntimeError, match="profile is stale"):
         cli_module._execute_command(_args(project, "train", "--restart-uncheckpointed"))
@@ -321,7 +312,6 @@ def test_rejected_archive_cannot_overwrite_existing_preflight_gate(tmp_path, mon
     def forbidden(*args, **kwargs):
         raise AssertionError("Rejected archive must not write a new gate or train")
 
-    monkeypatch.setattr(cli_module, "save_json", forbidden)
     monkeypatch.setattr(cli_module, "train", forbidden)
     with pytest.raises(ValueError, match="checkpoints, history, or unknown"):
         cli_module._execute_command(_args(project, "train", "--restart-uncheckpointed"))
@@ -342,7 +332,7 @@ def test_restart_and_checkpoint_resume_are_rejected_before_any_mutation(
     def forbidden(*args, **kwargs):
         raise AssertionError("Conflicting resume must fail before any work")
 
-    for name in ("verify_training_preflight", "archive_uncheckpointed_run", "save_json", "train"):
+    for name in ("verify_training_preflight", "archive_uncheckpointed_run", "train"):
         monkeypatch.setattr(cli_module, name, forbidden)
     with pytest.raises(ValueError, match="cannot be combined with resume"):
         cli_module._execute_command(_args(project, "train", *extra))
@@ -354,7 +344,7 @@ def test_restart_cannot_bypass_the_required_passed_profile(tmp_path, monkeypatch
     def forbidden(*args, **kwargs):
         raise AssertionError("Restart with a bypass must fail before any mutation")
 
-    for name in ("archive_uncheckpointed_run", "save_json", "train"):
+    for name in ("archive_uncheckpointed_run", "train"):
         monkeypatch.setattr(cli_module, name, forbidden)
     with pytest.raises(ValueError, match="preflight|profile|bypass"):
         cli_module._execute_command(_args(

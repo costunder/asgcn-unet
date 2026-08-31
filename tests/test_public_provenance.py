@@ -338,7 +338,6 @@ def test_noninspect_cli_failure_redacts_paths_and_hostname_by_default(
             "report_eligible": True,
         },
     )
-    monkeypatch.setattr(cli, "save_json", lambda *args, **kwargs: None)
 
     extra_arguments = {
         "profile": ["--output", str(profile_report)],
@@ -412,7 +411,6 @@ def test_noninspect_cli_private_error_trace_requires_environment_opt_in(
             "report_eligible": True,
         },
     )
-    monkeypatch.setattr(cli, "save_json", lambda *args, **kwargs: None)
 
     extra_arguments = {
         "profile": ["--output", str(profile_report)],

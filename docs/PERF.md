@@ -1,8 +1,106 @@
 # Graph encoder 최적화 검증
 
-이 문서는 아래 기준 commit 대비 연산 단위 최적화 기록이다. 후속 독립 시퀀스 미니배치 학습 설계,
-실제 학습 단계별 타이밍과 별도 실험 실행은 [TRAIN.md](TRAIN.md)를 따른다. 아래 CPU 수치를
-미니배치의 GPU 가속 실측으로 해석하지 않는다.
+앞부분은 GPU 병목 후속 수정과 동일 실데이터 비교 방법이고, 뒷부분은 이전 commit 대비
+CPU 연산 단위 측정 기록이다. 독립 시퀀스 미니배치 학습 설계와 별도 실험 실행은
+[TRAIN.md](TRAIN.md)를 따른다. CPU 수치를 GPU 가속 실측으로 해석하지 않는다.
+
+## 동일 실데이터 GPU 비교
+
+현재 병목 판단 자료는 사용자가 제공한 B4의 50-update CUDA stream 측정이다.
+graph 22.16 ms, encoder 47.59 ms, decoder 6.14 ms, loss 1.82 ms, backward 50.19 ms였다.
+이 값은 exclusive kernel time이나 GPU utilization이 아니며, 서로 중첩될 수 있다.
+loss의 host 41.30 ms를 CPU loss 계산 41.30 ms로 해석하지 않는다. 앞서 제출된 GPU 작업을 기다린
+시간이 포함될 수 있다. `gradient_check`는 update당 두 scope이므로 scope 평균과 step 평균도 다르다.
+PyTorch의 [동기화 설명](https://docs.pytorch.org/tutorials/recipes/recipes/tuning_guide.html#avoid-unnecessary-cpu-gpu-synchronization)을 참고한다.
+
+후속 변경은 다음과 같다.
+
+- 그래프: 여러 인접-cell 조회 청크의 allocation count를 한 번에 가져온다. candidate distance/edge는
+  기존 청크 단위로 만들며 4-million candidate 한계와 max-edge guard, strict radius, edge 정렬을 유지한다.
+  유효성 검사는 삭제하지 않고 결과 전송을 묶는다. 작은 hash 상수만 LRU 32개로 재사용하며 CUDA
+  device와 stream별로 구분한다. 이벤트별 graph나 전체 dataset을 GPU에 cache하지 않는다.
+- Temporal loss: 모든 lane의 이전 context가 있으면 전체 prediction/target tensor를 직접 사용한다.
+  일부 context만 유효한 배치에는 기존 indexing과 유효 비율을 그대로 적용한다.
+- `torch_fused`: 두 활성 spline basis 항을 묶어 청크당 gather/scatter dispatch 수를 줄인다.
+  청크 working storage는 두 basis 항을 포함하므로 기준보다 클 수 있다. backward까지 모든 edge의
+  channel message를 저장하지는 않는다.
+- `triton`: gather·basis 곱·scatter를 하나의 GPU kernel로 실행하고 projected-feature gradient도
+  융합한다. edge-channel message를 GPU 메모리에 중간 텐서로 저장하지 않는다. basis gradient와
+  고차 미분 요청도 지원하되 `create_graph=True`의 backward는 명시적으로 미분 가능한 Torch 수식을 쓴다.
+
+기준 `torch`는 유지하며 두 후보는 선택형이다. `triton`은 NVIDIA SM80 이상 CUDA와 Triton이 필요하고,
+CPU/지원하지 않는 GPU/누락된 Triton/결정론 강제 모드에서는 오류를 낸다. 다른 backend로 조용히
+바꾸지 않는다. 서버의 기존 `constraints/server.json`·`server.txt`에는 이미 Triton 3.7.1이 고정돼 있어
+별도의 최신 버전 설치를 요구하지 않는다. atomic reduction의 누적 순서가 달라질 수 있으므로 두 후보의
+bitwise 동일한 trajectory를 주장하지 않는다. 기존 AMP 재시도·유한 gradient 검사·clipping은 유지한다.
+
+### 실행
+
+**기존 학습과 같은 GPU/MIG에서 동시에 실행하지 않는다.** 실행 중인 checkout을 pull하거나 학습을
+임의 종료하지 않는다. 다음 명령은 변경된 소스를 받은 checkout에서 GPU가 다른 학습에 사용되지
+않을 때 실행한다. 완료된 기존 run/config/checkpoint는 변경하지 않는다.
+
+```bash
+conda activate asgcn
+python -m pytest -q tests/test_spline_backend.py tests/test_graph_lookup.py &&
+python scripts/bench.py --config configs/batch.json \
+  --batches 4 8 16 --backends torch torch_fused triton --output runs/bench
+```
+
+같은 실제 EventHDR 16개 독립 시퀀스의 연속 구간을 사용한다. 시퀀스당 warmup 8프레임과 측정
+32프레임으로, 각 조건은 **같은 warmup 128프레임 + 같은 측정 512프레임**을 처리한다.
+`--batches 1 4 8 16`으로 B1도 비교할 수 있다. `--frames-per-stream 128`은 조건당 측정 프레임을
+2,048개로 늘린다. batch마다 같은 step 수를 주어 서로 다른 frame 수를 비교하지 않는다.
+frame_stride·max_events·해상도·모델 크기를 줄이지 않으며 production 데이터 대체 경로는 없다.
+
+각 조건은 fresh subprocess에서 동일 seed의 모델·optimizer·scaler로 시작한다. 기본 반복 2회이고,
+비교 순서는 seed로 섞는다. 동일 batch의 첫/최소·최대 raw-event 입력에서 기준 backend 대비
+prediction·loss·gradient·BN 통계를 검사한 뒤 실제 `_training_step`과 시퀀스 context를 실행한다.
+gradient는 clipping 전 norm과 clipping 후 tensor의 성분별 오차·벡터 상대 L2 오차를 함께 검사한다.
+작아진 gradient에 큰 absolute tolerance만 적용해 방향 오류를 숨기지 않는다.
+수치 검사 대상이 모두 edge 없는 그래프이면 spline 연산 자체를 검증하지 못하므로 통과시키지 않는다.
+배치 크기가 다르면 BN pooling/update 횟수가 달라지므로 배치 크기 사이의 수치 동등성을 요구하지 않는다.
+
+출력은 별도의 `runs/bench/report.json`과 조건별 JSON이다. 기존 출력이 있으면 덮어쓰지 않으므로
+다음 측정은 `--output runs/bench2`처럼 새 경로를 지정한다. OOM·수치 불일치·backend 오류는 실패로
+기록한다. 실패 조건을 더 작은 배치로 몰래 실행하거나 CPU로 바꿔 성공 처리하지 않는다.
+
+### 해석과 후속 학습
+
+측정 wall time은 해당 구간의 실제 HDF5 decode·전송·그래프·forward/loss/backward·검사·optimizer·
+context 저장과 종료 CUDA 동기화를 포함한다. benchmark loader는 동기식이며 production의 4-worker
+prefetch와 다르다. OS file cache를 지우지 않는다. 따라서 특정 window의 비교 결과이지 전체 epoch
+처리량/수렴이나 모든 입력의 OOM 안전성을 입증하는 결과가 아니다. 준비·파일 hash·수치 비교와
+warmup 시간은 throughput에서 제외한다. 이 단계에서 처음 사용하는 kernel을 준비하지만, 새로운
+dtype/stride 등으로 측정 구간에서 추가 JIT가 발생한다면 그 비용은 포함된다. 이벤트 수 N은
+runtime 인자로 전달해 frame마다 node 수가 바뀐다는 이유로 재컴파일하지 않도록 한다.
+모든 비교 backend에 후속 graph 수정이 공통 적용되므로, 이 비교의 `torch`는 spline 기준 구현이지
+이전 commit 전체를 실행한 결과가 아니다. 이전 학습 화면과 비교한 값을 통제된 가속률로 보고하지 않는다.
+
+`--trace-steps 8`을 추가하면 throughput과 분리된 추가 pass에서 bounded PyTorch operator trace를
+저장한다. 이 trace용 실행의 시간은 가속률 계산에 사용하지 않는다. trace·보고서는 사용자별 경로와
+hostname을 가리며, source/설정/선택 프레임 identity는 hash로 기록한다.
+측정 API의 범위는 [PyTorch Profiler](https://docs.pytorch.org/docs/2.13/profiler.html)를 참고한다.
+
+메모리를 많이 쓴 조건이 아니라 **수치 검사를 통과하고 반복 측정 처리량이 좋아진 조건**을 후보로
+선택한다. benchmark는 config를 자동 변경하거나 학습을 시작하지 않는다. 선택한 batch/backend는
+새 run/config의 실제 dense/full-batch CUDA preflight를 거쳐야 한다. 새 소스에 이전 checkpoint를
+exact-resume하도록 source 검사를 우회하지 않는다. 검증되는 이전 topology 통계만 재사용할 수 있으며,
+이전 GPU probe 통과는 새 backend/B의 통과 근거가 아니다.
+
+새 GPU kernel은 로컬 CPU 환경에서 CUDA 컴파일·실행·속도를 검증하지 못했다. 이 문서는 구현과
+측정 절차이지 성능 개선 완료 선언이 아니다. 아래 과거 CPU 수치로 이 GPU 변경의 가속률을 대신하지 않는다.
+
+### 이번 변경의 로컬 검증
+
+전체 Windows CPU suite는 **1,286 passed, 82 skipped, 1 warning (73.36초), exit 0**이다.
+skip은 CUDA 장비·Linux shell·Windows symlink 제약을 포함한다. warning은 기존 test-only quantized
+buffer의 deprecated API 경고이며 이 실행에 native access-violation 출력은 없었다.
+Ruff와 diff whitespace 검사를 통과했다. CUDA 커널 테스트는 작성됐지만 실행되지 않은 항목을
+통과로 세지 않는다. CPU `torch_fused` 비교에서는 일부 조건이 기준보다 느렸으며, dispatch 감소를
+실제 속도 향상으로 환산하지 않고 선택형 후보로 유지한다.
+
+## 이전 연산 최적화 기록
 
 2026-08-31. 비교 기준은 변경 전 commit `0eae40f`의 graph 구현이다. 모델 구조, parameter/state-dict
 key, 두 SNN dynamics, 전체 데이터 범위, 8,192-event 제한과 40 epoch는 변경하지 않았다.

@@ -133,9 +133,14 @@ def forward_training_loss(
             if temporal_weight > 0 and valid:
                 previous_prediction = torch.cat([contexts[i][1] for i in valid])
                 previous_target = torch.cat([contexts[i][2] for i in valid])
+                # The steady-state batch usually has context in every lane.
+                # Reusing the whole tensors avoids two advanced-index gathers
+                # (and CUDA index construction) without changing the reduction.
+                current_prediction = prediction if len(valid) == len(samples) else prediction[valid]
+                current_target = target if len(valid) == len(samples) else target[valid]
                 temporal = F.l1_loss(
-                    prediction[valid] - previous_prediction,
-                    target[valid] - previous_target,
+                    current_prediction - previous_prediction,
+                    current_target - previous_target,
                 ) * (len(valid) / len(samples))
                 loss = loss + temporal_weight * temporal
                 parts["temporal"] = temporal.detach()

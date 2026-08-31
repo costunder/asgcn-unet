@@ -66,6 +66,16 @@ LEGACY_TOPOLOGY_SOURCES = frozenset(
 # new batch gate changes imports/optimizer execution but not these graph counts.
 LEGACY_V2_TOPOLOGY_SOURCES = frozenset(
     {
+        # B4 release before lookup batching: identical candidate/strict-radius
+        # semantics; only topology counts may be reused, never GPU probe results.
+        (
+            "e47f63d738e034cf53fe22aa8323598f28e4a243128fea42ee90cab9eed22650",
+            "ef843d8ed2fa98808e2befc3aef653de845b79a6",
+        ),
+        (
+            "e47f63d738e034cf53fe22aa8323598f28e4a243128fea42ee90cab9eed22650",
+            "8337757516592dab288c3a7df0a9fa2a2e2372bd",
+        ),
         (
             "57ee2e525d652d9cf60d42f56519944f58bb6b9b98eeba1e66e6798b02831306",
             "c8b1da000ec394e210ecf148f96c61086dde74ed",
@@ -296,6 +306,7 @@ def _topology_implementation_contract(device: torch.device) -> dict[str, Any]:
     graph_functions = {
         "uniformly_sample_events",
         "prepare_event_nodes",
+        "_spatial_hash_constants",
         "_radius_graph_candidate_chunks",
         "radius_graph_topology",
     }

@@ -4,6 +4,7 @@ import copy
 import json
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 import torch
@@ -14,6 +15,23 @@ from asgcn_unet.scan import ScanInUseError, ScanJournal, canonical_hash
 from asgcn_unet.utils import save_json
 from tests.fixtures import make_eventhdr
 from tests.test_gpu_preflight import _config
+
+
+def test_topology_identity_includes_spatial_hash_constant_factory(monkeypatch) -> None:
+    original = Path.read_text
+    before = profile._topology_implementation_contract(torch.device("cpu"))
+
+    def modified(path, *args, **kwargs):
+        content = original(path, *args, **kwargs)
+        if path.name == "graph.py":
+            assert "@lru_cache(maxsize=32)" in content
+            content = content.replace("@lru_cache(maxsize=32)", "@lru_cache(maxsize=31)")
+        return content
+
+    monkeypatch.setattr(Path, "read_text", modified)
+    after = profile._topology_implementation_contract(torch.device("cpu"))
+    assert before["implementation"]["graph.py"] != after["implementation"]["graph.py"]
+    assert before["semantics"] == after["semantics"]
 
 
 def _record(index: int) -> dict:

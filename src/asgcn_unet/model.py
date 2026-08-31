@@ -9,6 +9,7 @@ from torch import nn
 
 from .batching import concatenate_graphs, sequence_key
 from .graph import PAPER_CORE_VERSION, ASGCNEncoder, EventGraph, build_event_graph
+from .ops import SPLINE_BACKENDS, require_spline_backend
 from .unet import RecurrentUNetDecoder
 
 
@@ -71,8 +72,8 @@ class ASGCNUNet(nn.Module):
             )
         if graph_operator != "spline":
             raise ValueError("graph_operator must be 'spline' for the ASGCN paper core")
-        if spline_backend != "torch":
-            raise ValueError("Only the portable pure-PyTorch spline backend is supported")
+        if spline_backend not in SPLINE_BACKENDS:
+            raise ValueError(f"spline_backend must be one of {sorted(SPLINE_BACKENDS)}")
         if spline_pseudo != "distance_over_radius":
             raise ValueError(
                 "spline_pseudo must be 'distance_over_radius'; this explicit "
@@ -105,6 +106,7 @@ class ASGCNUNet(nn.Module):
         if int(raster_downsample) < 1:
             raise ValueError("raster_downsample must be at least 1")
         self.architecture_version = PAPER_CORE_VERSION
+        self.spline_backend = spline_backend
         self.encoder = ASGCNEncoder(
             hidden_dim,
             graph_layers,
@@ -112,6 +114,7 @@ class ASGCNUNet(nn.Module):
             spline_degree=spline_degree,
             spline_root_weight=spline_root_weight,
             spline_chunk_size=spline_chunk_size,
+            spline_backend=spline_backend,
         )
         self.decoder = RecurrentUNetDecoder(
             hidden_dim, decoder_channels, output_channels, recurrent
@@ -140,6 +143,7 @@ class ASGCNUNet(nn.Module):
         self.raster_downsample = int(raster_downsample)
 
     def _graph(self, sample: dict[str, Any]) -> EventGraph:
+        require_spline_backend(self.spline_backend, sample["events"].device)
         return build_event_graph(
             sample["events"],
             sample["sensor_size"],

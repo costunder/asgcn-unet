@@ -1,10 +1,36 @@
 # ASGCN-U-Net 프로젝트 인계서
 
 이 문서는 연구자가 현재 저장소를 교차검증하고 Linux GPU 서버에서 전체 실험을
-이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-08-31의 현재
+이어가기 위한 기준 문서다. 코드와 config가 최종 진실이며, 아래 내용은 2026-09-01의 현재
 구현과 일치하도록 다시 대조했다.
 
 ## 0. 검증 기록과 배포 판정 기준
+
+### GPU 처리량 병목 후속 수정
+
+사용자 제공 B4 서버 로그는 실제 CUDA 학습 중 약 1,216 MiB process GPU memory를 보였다.
+첫 10 warmup 이후 50개 성공 update 측정 창에서 CUDA stream 경과시간 평균은 graph 약 22.16 ms,
+encoder 47.59 ms, decoder 6.14 ms, backward 50.19 ms였다. 이는 VRAM 부족의 증거가 아니며,
+전체 GPU utilization이나 배치 크기의 최적성을 입증하지도 않는다. host/CUDA 시간을 합산하지 않는다.
+`gradient_check`는 update당 두 번 측정하므로 scope 평균을 update 평균으로 오인하지 않는다.
+
+후속 변경은 그래프의 조회/크기 전송 묶음화, 작은 hash 상수의 device/stream별 재사용,
+완전한 temporal context 배치의 indexing 생략과 선택형 spline 융합 backend다.
+`torch`는 기준 구현이며 `torch_fused`와 CUDA-only `triton`은 동일 입력 수치·속도 비교 대상이다.
+기본 배치/모델/데이터/40 epochs를 임의로 줄이지 않고 finite 검사·AMP rollback·exact-resume 보호를 유지한다.
+
+`scripts/bench.py`는 같은 실제 EventHDR 연속 프레임 집합으로 backend/배치 크기를 비교하고,
+새 subprocess마다 모델·optimizer·scaler를 초기화한다. 실제 학습 함수와 시퀀스 context를 사용하며
+데이터 대체, checkpoint 생성/수정 또는 기존 학습의 재개는 하지 않는다. 새 소스의 GPU 커널 수치·
+속도·전체 학습은 로컬 CPU 테스트로 검증됐다고 주장하지 않는다. 상세 범위와 실행은
+[PERF.md](docs/PERF.md#동일-실데이터-gpu-비교)를 따른다.
+
+이번 변경의 최종 전체 Windows CPU 검사는 **1,286 passed, 82 skipped, 1 warning (73.36초)**이며
+종료코드 0이다. skip에는 CUDA 실행 불가 항목이 포함되고, 기존 test-only quantized buffer의
+deprecated API 경고 1개가 있었다. 해당 전체 실행에서 native access-violation 출력은 없었다.
+Ruff·diff 검사와 tracked text/도달 가능한 Git history의 개인정보 검사를 통과했다.
+동일 프레임/상태 보존, gradient 방향 오류 거부, 실패/OOM의 성공 표시 방지, 익명화 전 원본 trace의
+비공개 임시 저장·실패 시 정리를 회귀검사한다. 아래 1167/41 등은 이전 단계의 기록이다.
 
 ### 독립 시퀀스 미니배치 경로
 
@@ -24,7 +50,8 @@ GPU 측정 통과는 구분하며 GPU 검사는 항상 다시 수행한다.
 `timing.py`는 실제 학습 10 warmup 뒤 50 step의 host/CUDA 단계 시간을 수집한다. `history.json`은
 validation을 제외한 epoch wall time, 처리 frame 수, optimizer update 수와 frame/s를 기록한다.
 그래프는 여전히 매 프레임·매 epoch 생성하며 전체 graph cache는 구현하지 않았다. Batch 4의
-실제 MIG 처리량·VRAM·수렴 결과는 아직 없다. 구현 계약·한계·서버 명령은 [TRAIN.md](docs/TRAIN.md)를
+동일 입력 대비 MIG 가속률·전체 peak·수렴 결과는 아직 없다. 위 초기 서버 측정과 구분한다.
+구현 계약·한계·서버 명령은 [TRAIN.md](docs/TRAIN.md)를
 기준으로 한다. 아래 997/40 기록은 이전 AMP 수정 시점이며 이번 배치 경로의 검증 수치가 아니다.
 
 이번 배치·artifact 보호 수정의 전체 Windows CPU 회귀검사는 **1167 passed, 41 skipped,

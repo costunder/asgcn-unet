@@ -323,6 +323,59 @@ def test_forward_loss_matches_explicit_per_frame_temporal_mean_and_gradients(bat
     assert model.calls == 1
 
 
+@pytest.mark.parametrize("batch_size", [1, 4, 8, 16])
+@pytest.mark.parametrize("all_context", [False, True])
+def test_temporal_full_context_avoids_index_gathers_with_equal_loss_and_gradient(
+    batch_size, all_context
+) -> None:
+    from torch.utils._python_dispatch import TorchDispatchMode
+
+    class IndexCounter(TorchDispatchMode):
+        def __init__(self):
+            super().__init__()
+            self.calls = 0
+
+        def __torch_dispatch__(self, func, types, args=(), kwargs=None):
+            if func == torch.ops.aten.index.Tensor:
+                self.calls += 1
+            return func(*args, **(kwargs or {}))
+
+    torch.manual_seed(7)
+    samples = [_sample(str(i), 1, size=(16, 16), target=i / 16) for i in range(batch_size)]
+    contexts = [
+        (None, torch.rand(1, 1, 16, 16), torch.rand(1, 1, 16, 16))
+        if all_context or i % 2 else (None, None, None)
+        for i in range(batch_size)
+    ]
+    prediction = torch.rand(batch_size, 1, 16, 16)
+    model = _FixedPrediction(prediction)
+    reference = prediction.detach().clone().requires_grad_()
+    criterion = ReconstructionLoss()
+    counter = IndexCounter()
+    with counter:
+        loss, parts, _ = forward_training_loss(
+            model, criterion, samples, contexts, batch_mode=batch_size > 1,
+            amp_enabled=False, temporal_weight=0.7,
+        )
+    valid = [i for i, context in enumerate(contexts) if context[1] is not None]
+    assert counter.calls == (2 if valid and not all_context else 0)
+    target = torch.stack([sample["target"] for sample in samples])
+    expected, _ = criterion(reference, target)
+    if valid:
+        temporal = F.l1_loss(
+            reference[valid] - torch.cat([contexts[i][1] for i in valid]),
+            target[valid] - torch.cat([contexts[i][2] for i in valid]),
+        ) * (len(valid) / len(samples))
+        expected = expected + 0.7 * temporal
+        torch.testing.assert_close(parts["temporal"], temporal, rtol=0, atol=0)
+    else:
+        assert "temporal" not in parts
+    torch.testing.assert_close(loss, expected, rtol=0, atol=0)
+    loss.backward()
+    expected.backward()
+    torch.testing.assert_close(model.prediction.grad, reference.grad, rtol=0, atol=0)
+
+
 def test_whole_batch_amp_retry_commits_once_without_advancing_other_streams() -> None:
     class BatchLoss(nn.Module):
         def __init__(self):

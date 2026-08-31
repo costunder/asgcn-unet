@@ -3,7 +3,8 @@
 `configs/train.json`은 기존 batch 1 기준선(training protocol v5)이다.
 `configs/batch.json`은 batch 상한 4의 별도 실험(training protocol v6)이며,
 ASGCN 모델의 `architecture_version=2`를 바꾸는 설정은 아니다.
-새 배치 경로의 실제 서버 GPU 속도·최대 메모리·40-epoch 수렴은 아직 검증하지 않았다.
+사용자 제공 서버 로그로 B4 CUDA 학습과 초기 측정 창은 확인됐다. 같은 입력 대비 속도 향상,
+전체 학습 최대 메모리와 40-epoch 수렴을 검증한 것은 아니다.
 
 ## 계산과 순서
 
@@ -112,4 +113,16 @@ Batch 전체 CUDA 검사를 통과한 현재 보고서가 있어야 학습을 �
 기존 spline 최적화의 중간 텐서 보관 감소와 이번 호출 배치화를 실제 GPU 속도 향상으로 환산하지 않는다.
 Batch는 동시에 처리하는 노드·edge·decoder activation이 늘어 peak VRAM이 더 커질 수 있다.
 A100 전체 GPU와 MIG 1g.10gb는 같은 실행 자원이 아니며, B=4가 해당 MIG에서 충분한지도 실제 gate로 확인해야 한다.
-4배 가속을 약속하지 않는다. 프로젝트 전용 C++/CUDA 확장을 새로 만든 것도 아니다.
+4배 가속을 약속하지 않는다. 기존 `torch` backend는 그대로 유지한다.
+
+후속 최적화는 인접 cell 조회 여러 청크의 allocation count를 한 번에 전송하고,
+device/stream별 작은 불변 hash 상수를 재사용한다. 이벤트별 graph cache는 아니다.
+학습 temporal loss에서 모든 lane의 context가 유효하면 불필요한 advanced indexing 두 번을 생략한다.
+유효 context가 일부뿐인 배치의 loss 계산은 그대로 유지한다.
+
+`model.spline_backend`에는 기준 `torch` 외에 두 basis 항을 묶는 `torch_fused`와
+GPU 커널로 gather·weight·scatter를 융합하는 명시적 `triton` 후보가 있다.
+두 후보는 부동소수점 누적 순서를 바꿀 수 있으므로 bitwise 동일한 학습을 주장하지 않는다.
+기본 config, 모델 크기, event 제한, 전체 epoch/frame 수와 AMP 안전 검사는 변경하지 않았다.
+CUDA 수치·성능 검사 없이 기본값을 바꾸거나 기존 checkpoint의 source 검사를 우회하지 않는다.
+비교 명령과 후보별 제약은 [PERF.md](PERF.md#동일-실데이터-gpu-비교)에 정리한다.

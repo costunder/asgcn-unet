@@ -3,12 +3,13 @@ from __future__ import annotations
 import math
 from collections.abc import Iterator
 from dataclasses import dataclass
+from functools import lru_cache
 
 import torch
 from torch import nn
 from torch.nn import functional as F
 
-from .ops import weighted_spline_sum
+from .ops import require_spline_backend, weighted_spline_sum
 
 PAPER_CORE_VERSION = 2
 
@@ -95,9 +96,12 @@ def prepare_event_nodes(
             torch.empty((0, 4), device=events.device, dtype=torch.float32),
         )
     events = events.float()
-    if not bool(torch.isfinite(events).all()):
+    finite, unordered = torch.stack((
+        torch.isfinite(events).all(), (events[1:, 2] < events[:-1, 2]).any()
+    )).tolist()
+    if not finite:
         raise ValueError("Event coordinates, timestamps, and polarities must be finite")
-    if bool((events[1:, 2] < events[:-1, 2]).any()):
+    if unordered:
         raise ValueError("Event timestamps must be monotonically non-decreasing")
     x = events[:, 0] / max(width - 1, 1)
     y = events[:, 1] / max(height - 1, 1)
@@ -108,6 +112,29 @@ def prepare_event_nodes(
     positions = torch.stack((x, y, t, polarity_position), dim=-1)
     node_features = torch.stack((x, y, t, polarity), dim=-1)
     return node_features, positions
+
+
+@lru_cache(maxsize=32)
+def _spatial_hash_constants(
+    cells_per_axis: int, position_dims: int, device_name: str, stream_handle: int | None
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Cache immutable, tiny hash tables, never event-dependent graph data.
+
+    The caller only caches the model's one-to-four dimensional tables. Larger
+    public radius-query dimensions use the uncached factory to avoid retaining
+    an arbitrarily large Cartesian product. The CUDA stream is part of the cache
+    key: asynchronously initialized tables are never consumed on another stream.
+    Do not mutate the returned tensors.
+    """
+    device = torch.device(device_name)
+    strides = torch.tensor(
+        [cells_per_axis**dimension for dimension in range(position_dims)],
+        device=device,
+        dtype=torch.long,
+    )
+    offset_axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
+    offsets = torch.cartesian_prod(*([offset_axis] * position_dims)).reshape(-1, position_dims)
+    return strides, offsets
 
 
 def _radius_graph_candidate_chunks(
@@ -134,61 +161,80 @@ def _radius_graph_candidate_chunks(
         return
 
     coordinates = positions[:, :position_dims]
-    if not bool(torch.isfinite(coordinates).all()):
+    finite, outside = torch.stack((
+        torch.isfinite(coordinates).all(), ((coordinates < 0) | (coordinates > 1)).any()
+    )).tolist()
+    if not finite:
         raise ValueError("Graph coordinates must be finite")
-    if bool(((coordinates < 0) | (coordinates > 1)).any()):
+    if outside:
         raise ValueError("Normalized graph coordinates must lie in [0,1]")
 
     cells_per_axis = max(2, math.ceil(1.0 / radius) + 1)
     if cells_per_axis**position_dims >= torch.iinfo(torch.long).max:
         raise ValueError("graph_radius is too small for integer spatial hashing")
-    strides = torch.tensor(
-        [cells_per_axis**dimension for dimension in range(position_dims)],
-        device=device,
-        dtype=torch.long,
-    )
+    factory = _spatial_hash_constants if position_dims <= 4 else _spatial_hash_constants.__wrapped__
+    stream_handle = torch.cuda.current_stream(device).cuda_stream if device.type == "cuda" else None
+    strides, offsets = factory(cells_per_axis, position_dims, str(device), stream_handle)
     cells = torch.floor(coordinates / radius).to(torch.long)
     cells = cells.clamp_(0, cells_per_axis - 1)
     cell_hash = (cells * strides).sum(dim=1)
     sorted_hash, sorted_nodes = torch.sort(cell_hash)
-    offset_axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
-    offsets = torch.cartesian_prod(*([offset_axis] * position_dims)).reshape(
-        -1, position_dims
-    )
-
     # Bound worst-case candidate materialization even if every event occupies one cell.
     effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
-    for start in range(0, count, effective_chunk_size):
-        stop = min(start + effective_chunk_size, count)
-        neighbor_cells = cells[start:stop, None, :] + offsets[None, :, :]
+    # Lookup several small source/cell tables together, then copy their scalar
+    # allocation counts once. Candidate distances are still materialized one
+    # original bounded chunk at a time; this does not enlarge the edge scratch.
+    lookup_chunks = max(1, min(8, 4096 // effective_chunk_size))
+    lookup_size = effective_chunk_size * lookup_chunks
+    cells_per_source = offsets.shape[0]
+    for lookup_start in range(0, count, lookup_size):
+        lookup_stop = min(lookup_start + lookup_size, count)
+        neighbor_cells = cells[lookup_start:lookup_stop, None, :] + offsets[None, :, :]
         valid_cells = ((neighbor_cells >= 0) & (neighbor_cells < cells_per_axis)).all(dim=2)
         neighbor_hashes = (neighbor_cells * strides).sum(dim=2).flatten()
-        left = torch.searchsorted(sorted_hash, neighbor_hashes, right=False)
+        left_all = torch.searchsorted(sorted_hash, neighbor_hashes, right=False)
         right = torch.searchsorted(sorted_hash, neighbor_hashes, right=True)
         # Keep a fixed-size source/cell table: repeat_interleave already accepts
         # zero counts. Compacting valid/nonempty cells first adds five boolean
         # index operations (and their CUDA synchronization) without changing any
         # candidates. Mask invalid cells because their hashes may alias valid ones.
-        counts = (right - left).masked_fill_(~valid_cells.flatten(), 0)
-        candidate_count = int(counts.sum().item())
-        starts = counts.cumsum(0) - counts
-        groups = torch.repeat_interleave(
-            torch.arange(counts.numel(), device=device), counts, output_size=candidate_count
-        )
-        expanded_sources = groups.div(offsets.shape[0], rounding_mode="floor") + start
-        # Expand the group identity once rather than repeating sources, left
-        # boundaries and cumulative counts into three candidate-sized tensors.
-        destination_offsets = (left - starts)[groups] + torch.arange(
-            candidate_count, device=device
-        )
-        candidate_destinations = sorted_nodes[destination_offsets]
-        # A generator retains its locals while the caller filters/materializes
-        # edges. Release candidate-sized integer scratch before yielding.
-        del groups, destination_offsets
-        candidate_distances = torch.linalg.vector_norm(
-            coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
-        )
-        yield expanded_sources, candidate_destinations, candidate_distances
+        counts_all = (right - left_all).masked_fill_(~valid_cells.flatten(), 0)
+        ranges = [
+            (start, min(start + effective_chunk_size, lookup_stop))
+            for start in range(lookup_start, lookup_stop, effective_chunk_size)
+        ]
+        cell_ranges = [
+            ((start - lookup_start) * cells_per_source,
+             (stop - lookup_start) * cells_per_source)
+            for start, stop in ranges
+        ]
+        candidate_counts = torch.stack([
+            counts_all[start:stop].sum() for start, stop in cell_ranges
+        ]).tolist()
+        del neighbor_cells, valid_cells, neighbor_hashes, right
+        for (start, _stop), (cell_start, cell_stop), candidate_count in zip(
+            ranges, cell_ranges, candidate_counts, strict=True
+        ):
+            left = left_all[cell_start:cell_stop]
+            counts = counts_all[cell_start:cell_stop]
+            starts = counts.cumsum(0) - counts
+            groups = torch.repeat_interleave(
+                torch.arange(counts.numel(), device=device), counts, output_size=candidate_count
+            )
+            expanded_sources = groups.div(cells_per_source, rounding_mode="floor") + start
+            # Expand the group identity once rather than repeating sources, left
+            # boundaries and cumulative counts into three candidate-sized tensors.
+            destination_offsets = (left - starts)[groups] + torch.arange(
+                candidate_count, device=device
+            )
+            candidate_destinations = sorted_nodes[destination_offsets]
+            # A generator retains its locals while the caller filters/materializes
+            # edges. Release candidate-sized integer scratch before yielding.
+            del groups, destination_offsets
+            candidate_distances = torch.linalg.vector_norm(
+                coordinates[expanded_sources] - coordinates[candidate_destinations], dim=1
+            )
+            yield expanded_sources, candidate_destinations, candidate_distances
 
 
 def build_radius_graph(
@@ -391,6 +437,7 @@ class PaperSplineConv(nn.Module):
         root_weight: bool = True,
         bias: bool = True,
         edge_chunk_size: int | None = 65_536,
+        spline_backend: str = "torch",
     ) -> None:
         super().__init__()
         if int(degree) != 1:
@@ -410,6 +457,9 @@ class PaperSplineConv(nn.Module):
                 raise ValueError("spline_chunk_size must be a positive integer or null")
             edge_chunk_size = int(edge_chunk_size)
         self.edge_chunk_size = edge_chunk_size
+        if spline_backend not in {"torch", "torch_fused", "triton"}:
+            raise ValueError("spline_backend must be torch, torch_fused, or triton")
+        self.spline_backend = spline_backend
         self.weight = nn.Parameter(
             torch.empty(self.kernel_size, self.in_channels, self.out_channels)
         )
@@ -522,6 +572,8 @@ class PaperSplineConv(nn.Module):
         basis_cache: tuple[torch.Tensor, torch.Tensor] | None = None,
         in_degree: torch.Tensor | None = None,
     ) -> torch.Tensor:
+        if self.spline_backend == "triton":
+            require_spline_backend(self.spline_backend, x.device)
         source, destination = edge_index
         output = torch.zeros((x.shape[0], self.out_channels), device=x.device, dtype=x.dtype)
         if source.numel() > 0:
@@ -536,7 +588,8 @@ class PaperSplineConv(nn.Module):
             edge_count = int(source.numel())
             chunk_size = edge_count if self.edge_chunk_size is None else self.edge_chunk_size
             output = weighted_spline_sum(
-                projected, source, destination, indices, basis, chunk_size, x.dtype
+                projected, source, destination, indices, basis, chunk_size, x.dtype,
+                backend=self.spline_backend,
             )
             if in_degree is None:
                 in_degree = torch.bincount(destination, minlength=x.shape[0])
@@ -662,6 +715,7 @@ class ASGCNEncoder(nn.Module):
         spline_degree: int = 1,
         spline_root_weight: bool = True,
         spline_chunk_size: int | None = 65_536,
+        spline_backend: str = "torch",
     ) -> None:
         super().__init__()
         hidden_dim = int(hidden_dim)
@@ -669,6 +723,7 @@ class ASGCNEncoder(nn.Module):
         if graph_layers < 1:
             raise ValueError("graph_layers must be at least 1 for ASGCN")
         self.hidden_dim = hidden_dim
+        self.spline_backend = spline_backend
         channels = [4] + [hidden_dim] * graph_layers
         self.layers = nn.ModuleList(
             [
@@ -680,6 +735,7 @@ class ASGCNEncoder(nn.Module):
                     root_weight=spline_root_weight,
                     bias=True,
                     edge_chunk_size=spline_chunk_size,
+                    spline_backend=spline_backend,
                 )
                 for index in range(graph_layers)
             ]
@@ -702,6 +758,7 @@ class ASGCNEncoder(nn.Module):
     def forward_ann(
         self, graph: EventGraph, return_activations: bool = False
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
+        require_spline_backend(self.spline_backend, graph.node_features.device)
         hidden = graph.node_features
         activations: list[torch.Tensor] = []
         basis_cache = self._basis_cache(graph)
@@ -726,6 +783,7 @@ class ASGCNEncoder(nn.Module):
         dynamics: str = "literal_eq15",
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
         """Run explicit IF timesteps using literal Eq. (15) or a standard-IF control."""
+        require_spline_backend(self.spline_backend, graph.node_features.device)
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")
         simulation_steps = int(simulation_steps)

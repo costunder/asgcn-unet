@@ -95,12 +95,18 @@ clone·환경 생성·설치를 매번 반복하지 않는다.
 독립된 시퀀스 최대 4개를 묶어 **graph encoder 한 번 + U-Net decoder 한 번**으로 처리한다.
 프레임 간 graph edge와 recurrent state는 섞지 않고, 전체 프레임·40 epochs는 유지한다.
 BN 통계와 optimizer 갱신 주기가 달라지는 별도 실험(protocol v6)이므로 기준선 checkpoint에서
-exact resume하지 않는다. 실제 MIG GPU의 속도 향상·40-epoch 수렴은 아직 측정하지 않았다.
+exact resume하지 않는다. 사용자 제공 B4 서버 로그에서는 CUDA 학습과 단계별 시간이 확인됐지만,
+동일 입력 대비 속도 향상·최적 배치 크기·40-epoch 수렴은 아직 검증되지 않았다.
 
 실행 중인 기준선 작업을 보존한다. 해당 작업이 끝나기 전에 같은 checkout에서 pull하거나
 같은 GPU에 새 학습을 겹쳐 실행하지 않는다. 기존 작업 종료 후의 새 실험 명령, 이전 topology
 보고서 재사용, 실제 batch CUDA 검사, `runs/batch/timing.json`과 epoch별 frame/s 기록은
 [배치 학습 안내](docs/TRAIN.md)를 따른다. 학습·calibration·평가 결과도 `runs/batch` 아래로 분리한다.
+
+성능 비교는 `scripts/bench.py`로 **동일한 실제 EventHDR 프레임 집합**의 배치 크기와 spline backend를
+비교한다. 별도 측정 결과만 저장하며 기존 학습·checkpoint·config를 변경하지 않는다.
+새 융합 연산은 선택형이며, CUDA 수치 검사와 처리량 비교 없이 기본값이나 "최적 설정"으로 채택하지 않는다.
+실행 조건과 측정 범위는 [성능 비교 안내](docs/PERF.md#동일-실데이터-gpu-비교)를 따른다.
 
 ## 실험 범위
 

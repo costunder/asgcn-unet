@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-31T04:06:08Z",
+    "generated_utc": "2026-08-31T09:08:03Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "940b3b8a999a49a05535fb6c24ac5fc93a507934",
-    "source_tree_at_generation": "d27d12a6bedc8569dcba318f12f3175ad5ec12c0",
+    "source_commit_at_generation": "1e3c4652c0e451c5b2c86a7561de98004d3c2d21",
+    "source_tree_at_generation": "a2d5f5712e5572031353bddc9e6679c93dbc5e94",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 26801,
+        "bytes": 29627,
         "path": "README.md",
-        "sha256": "98f04d56d037fcb9cd94ed5f7151c0df5cb53f46ca702966ba26fc816eb0b3ce"
+        "sha256": "bd1364bc19c4dc2766f9c41c738638f25c68c67373a9218086f96994bd950701"
       },
       {
         "bytes": 1339,
@@ -86,24 +86,24 @@
         "sha256": "0c4defd5e3564c7bb657ad48df6863b95ce815d15da3d4ebeb5f3687a79cbcde"
       },
       {
-        "bytes": 27607,
+        "bytes": 28809,
         "path": "docs/EXPERIMENT.md",
-        "sha256": "0e5ebc3492f732e96dd5d196ccdf7ced28835de6b315a2bf41ed75ec68c24f17"
+        "sha256": "190e91f0f15f1ff647bc8c12074737c78233741f43e21c371edef5c964b3215e"
       },
       {
-        "bytes": 7892,
+        "bytes": 8381,
         "path": "docs/PERF.md",
-        "sha256": "1b6bb8653a7e8d0ee7f28ad8d2cdc8a80599c91ddc37e9599ace3a05db3c60aa"
+        "sha256": "292bc5d501440c21230c1862a14ed234bcd21516c15c72871266f5bf9993bfe0"
       },
       {
-        "bytes": 32655,
+        "bytes": 36441,
         "path": "docs/SERVER.md",
-        "sha256": "c224e7c1a4047fd9779197a1051cc74760cad1551b912387ab133dbb5507461c"
+        "sha256": "bbb7e7f0d025da3179486994322fcf2b75d5f6e64e8b703aa48437aeadf649f2"
       },
       {
-        "bytes": 67418,
+        "bytes": 70624,
         "path": "hand_off.md",
-        "sha256": "f1c37c7f04cd3f58a5261b57420475ae55fa53fd838da1729c5dce1fa03550af"
+        "sha256": "e58f0d55df2f8bf6063fe2d7a36ae70faab4da367271e4fe304e4251e41c5e4b"
       },
       {
         "bytes": 2753,
@@ -161,14 +161,14 @@
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
-        "bytes": 11502,
+        "bytes": 12505,
         "path": "scripts/run.sh",
-        "sha256": "066bee7dd226eadf5fb2c08624bdeccaa9c6f873e12bd2a9e63817c5b861c993"
+        "sha256": "34fad02175177ba62ea1c944326d8d6bf01fed798551cebbcb1485b72c44cf71"
       },
       {
-        "bytes": 3163,
+        "bytes": 3596,
         "path": "scripts/runtime.sh",
-        "sha256": "d1adb306ecf1ccd653aa0ba8177f45c3c8e7562983b75c06b846312aceadc653"
+        "sha256": "3e5b23294e2c5b8ee2fa7f651f45deda5a6138743977db1b160c331756765028"
       },
       {
         "bytes": 21790,
@@ -181,9 +181,9 @@
         "sha256": "4131ee560f26e698c3a5b25a8da70b09b185b1ccd067a6c7a37331bb518e1ed0"
       },
       {
-        "bytes": 3630,
+        "bytes": 4059,
         "path": "scripts/train.sh",
-        "sha256": "1a52a6b5cbaf4cf941f44610b4be1b58cf3d457b92290639188ad0e987fd1344"
+        "sha256": "e02f1d342f7f9810cd34cfa5720512afe0f3b409f831827fed1cad9448c4a8d7"
       },
       {
         "bytes": 3202,
@@ -231,9 +231,9 @@
         "sha256": "f2dc65b5bcc61a0f90a890075ae84da48d115380756adb0b643839c011370c46"
       },
       {
-        "bytes": 21852,
+        "bytes": 23415,
         "path": "src/asgcn_unet/cli.py",
-        "sha256": "bcc074eec95ae14ff81928143a661af8e6d0975ea39f3a7fa7250b139544474d"
+        "sha256": "d7962a04fc9de264f7ca85e8f2825d6235b777d9c68c439f3ec29b159d77ba89"
       },
       {
         "bytes": 309,
@@ -251,9 +251,9 @@
         "sha256": "aaae5e4a4b48f73d0dbb06e9a728857d7c0cb5c1081c0a90179a03046ba1ff47"
       },
       {
-        "bytes": 21635,
+        "bytes": 24198,
         "path": "src/asgcn_unet/data/eventhdr.py",
-        "sha256": "815b41dab30b87734d0e5868e74380bea2cd5da3241f22387c055c237876a7df"
+        "sha256": "29338fe60e6ee77daa80f683d75c58c8d773a202e374252deaf888df2c503a0b"
       },
       {
         "bytes": 11088,
@@ -261,9 +261,9 @@
         "sha256": "5ef139427badf8664679002b8f5a90e728465002435998349f78735ef292104d"
       },
       {
-        "bytes": 191591,
+        "bytes": 199166,
         "path": "src/asgcn_unet/engine.py",
-        "sha256": "f24972329942b63591302a82a89fd520211c98d736aedfaddb79771b296d293d"
+        "sha256": "232614e1fe257d936370ec287ab69a37b95f32f4649f05f66669a24f5c946341"
       },
       {
         "bytes": 38274,
@@ -291,9 +291,19 @@
         "sha256": "481aa7c3875e7e29bc44b10f30f07233b32fbdeedb8e50aa345552497944bfed"
       },
       {
-        "bytes": 29740,
+        "bytes": 55013,
         "path": "src/asgcn_unet/preflight.py",
-        "sha256": "4727ffd76c4d77d11e7fadf2d56b1476302f1058d4facb1e13219b7f7edc6f16"
+        "sha256": "4924090dd25b42b4fd1c6d18b8aa1e3093c339d602900e06ffd737493bd32a2c"
+      },
+      {
+        "bytes": 2451,
+        "path": "src/asgcn_unet/recovery.py",
+        "sha256": "0a6441c268620eac1c558311ec3baff5f15543b915be1f42ae3b4c11410df744"
+      },
+      {
+        "bytes": 8555,
+        "path": "src/asgcn_unet/scan.py",
+        "sha256": "03f26f4638fae88c5b76c81d2bf17d10ab0b375f8cf9b0251719a21729a5b438"
       },
       {
         "bytes": 3720,
@@ -314,6 +324,11 @@
         "bytes": 3101,
         "path": "tests/fixtures.py",
         "sha256": "5cb5ebff9b794834a77fd38d6402aab04ce413e7f0d464789f9abbafebe30661"
+      },
+      {
+        "bytes": 17390,
+        "path": "tests/test_amp.py",
+        "sha256": "1c58cd8fbc21f25a24e61111c94b12a9f93a45688cc8c30893352581cc73bdf3"
       },
       {
         "bytes": 22519,
@@ -351,9 +366,9 @@
         "sha256": "38367499c1a1bab3acda5091ff069039bf86ca5555184dbed74b066bd97b6807"
       },
       {
-        "bytes": 18485,
+        "bytes": 18519,
         "path": "tests/test_engine_integrity.py",
-        "sha256": "8b080d7b09bf52feffb34e74fdeafd1496553404054671eca9881197ce507ac6"
+        "sha256": "593b5d8a71bc1862e7cb40665eeabde91b231db66515f4399d4afa2e2d5bc3ce"
       },
       {
         "bytes": 7171,
@@ -371,14 +386,19 @@
         "sha256": "107489296a289e188fa1f91ab67a444953deb53a6fec96942c1027c63f1f8954"
       },
       {
+        "bytes": 11200,
+        "path": "tests/test_eventhdr_topology.py",
+        "sha256": "f65dd05f67e41a598c898d26855b19131e3efc7cf51d86aeba73a7b14dbcba2a"
+      },
+      {
         "bytes": 6084,
         "path": "tests/test_get_hdr.py",
         "sha256": "3ba0339c3e0b380a07bae6a57c3e330dbb633b51f79519d3d4c7ba51789a0c97"
       },
       {
-        "bytes": 10637,
+        "bytes": 10870,
         "path": "tests/test_gpu_preflight.py",
-        "sha256": "2e0735e9c203fe5d484e9668bba2a5c86461927e9fbd1b9cadcf2b81c8fe4335"
+        "sha256": "9ce0bdd12443e53155d84b30e9fb4a62fbe984dd4faef6b301e3eef580eb375d"
       },
       {
         "bytes": 8399,
@@ -421,9 +441,19 @@
         "sha256": "572a20837c8dcdfde47915c188fd6b9a5d557bcea1d6f44434ead738b89aef52"
       },
       {
+        "bytes": 19423,
+        "path": "tests/test_profile_resume.py",
+        "sha256": "734e2ec3f26895322ef471117a799c74e9ea02e3ab1c572f28996c18ea844dc9"
+      },
+      {
         "bytes": 14834,
         "path": "tests/test_public_provenance.py",
         "sha256": "b70b26b4f4231fdc1bcaf605550a41c526aefc771b64d80169421bfbeed09d63"
+      },
+      {
+        "bytes": 16342,
+        "path": "tests/test_recovery.py",
+        "sha256": "ca7a0d57985f1ef4eb992dda1e7962981e70c21edfdec1c43122824c9d2754c4"
       },
       {
         "bytes": 19173,
@@ -446,9 +476,9 @@
         "sha256": "2f876783b6a8235885a165a66045d46bfcc0ff1dfdf48d934853bac2202e4c49"
       },
       {
-        "bytes": 12508,
+        "bytes": 12527,
         "path": "tests/test_server_orchestration.py",
-        "sha256": "0efc9d2cd0405de6b3979c88b88043c4386119c53459c2578e569ec00538d207"
+        "sha256": "b5e13637931d2c024c1352d462b98d43745a190605daddaae6bdc4a9ed281fd0"
       },
       {
         "bytes": 11827,
@@ -471,9 +501,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 91,
+    "included_file_count": 97,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "8ac37dd26cc29ae3145a6f8231859aa8cc90a39bc81dd506ea46e4e264445d1b"
+    "snapshot_sha256": "bb1014543e446fcd516321d308963acbbfce791f1701e8bc4240ae73dc820984"
   }
 }
 -->
@@ -823,7 +853,7 @@ set -o pipefail
 bash scripts/run.sh all 2>&1 | tee logs/run.log
 ```
 
-자동 순서: 전체 데이터 검사 → 최고 밀도 CUDA 사전검증 → ANN 학습 → SNN 보정 → 두 데이터셋 전체
+자동 순서: 전체 데이터 검사 → CUDA 전수 그래프 검사·수치/밀집 표본 검증 → ANN 학습 → SNN 보정 → 두 데이터셋 전체
 ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된다.
 
 연결이 끊겨도 계속 실행하려면 위 블록을 **`tmux new-session -s asgcn`으로 연 세션 안에서**
@@ -885,7 +915,8 @@ graph candidate 확장·edge compaction의 중복을 줄이고, Spline 집계에
 역전파까지 보관하지 않는 custom autograd를 적용했다. SNN의 고정 첫 계층 전류는 forward당 한 번만
 계산한다. graph·모델·sampling·학습 범위는 유지하며 기존 실행 명령도 같다. 출력·gradient 검증과
 CPU 측정, 아직 측정하지 않은 GPU 성능의 구분은 [성능 기록](docs/PERF.md)에 정리했다.
-새 source에는 새 CUDA preflight가 필요하며 기존 checkpoint의 exact-resume 검사를 우회하지 않는다.
+새 source에는 새 CUDA 학습 검증이 필요하다. 검증된 이전 전수 통계만 명시적으로 이관할 수 있으며,
+이전 GPU 측정값이나 학습 checkpoint의 exact-resume 검사를 우회하지 않는다.
 
 ## 데이터와 실험 역할
 
@@ -928,8 +959,8 @@ fail 조건으로 만들지 않는다.
 `scripts/run.sh all`은 다음 순서를 fail-fast로 실행한다.
 
 1. `check`: CUDA·locked dependency·전체 파일 coverage를 확인하고 두 데이터의 모든 sample을 decode
-2. `profile`: EventHDR train graph를 전수 조사하고 edge 수 상위 표본 3개에서 CUDA forward/backward,
-   optimizer step, peak allocated/reserved VRAM과 step time 측정
+2. `profile`: EventHDR train graph를 CUDA에서 전수 조사하고 첫 프레임·빈/희소 입력 및 edge 수 상위
+   표본 3개에서 CUDA forward/backward, optimizer step, peak allocated/reserved VRAM과 step time 측정
 3. `train`: 검증된 `runs/profile.json`을 현재 config·data·source·CUDA runtime에 다시 결합한 뒤
    EventHDR train 전체 40 epoch ANN 학습
 4. `calibrate`: EventHDR train의 모든 calibration sample로 `best_snn.pt` 생성
@@ -937,7 +968,11 @@ fail 조건으로 만들지 않는다.
    `literal_eq15`/`standard_if` × `T=4,8,16,32` 평가·benchmark
 
 기본 `PROFILE_TOP_DENSITY=10`은 edge 수 상위 10개 interval의 topology를 상세 기록하고,
-`PROFILE_SAMPLES=3`은 그중 3개를 실제 학습 step으로 측정한다. 이 profile은 기록된 GPU에서 선택된
+`PROFILE_SAMPLES=3`은 그중 3개를 실제 학습 step으로 측정한다. 전체 scan 개수를 3개로 줄이지 않는다.
+첫 프레임·첫 zero-event 프레임·최소 양수 node 표본도 중복을 제거해 각각 초기 모델에서 검사한다.
+새 scan은 graph 계산을 CUDA에서 수행하고 CPU는 HDF5 읽기·메타데이터 처리에 사용한다.
+`PROFILE_CPU_THREADS=4`가 CPU 보조 연산의 기본값이며 GT 픽셀의 전수 검증은 앞선 `check`가 담당한다.
+이 profile은 기록된 GPU에서 선택된
 최고 밀도 표본이 통과했다는 실측 gate이지 전체 40 epoch의 모든 미래 step에 대한 절대 VRAM 보증은
 아니다. profile artifact에도 `absolute_vram_guarantee=false`가 고정된다.
 
@@ -956,6 +991,45 @@ DRY_RUN=1 bash scripts/run.sh all
 ```
 
 ## 중단 후 재개와 결과 보호
+
+### 사전검사가 중단된 경우
+
+새 버전은 `runs/profile.scan/`에 128개 또는 30초 간격(표본 처리 경계)으로 검사 기록을 원자적으로
+저장한다. 중단한 같은 scan은 다음처럼 재개한다. 이미 통과한 최종 보고서는 덮어쓰지 않는다.
+
+```bash
+PROFILE_RESUME=1 bash scripts/run.sh profile
+```
+
+`preflight-topology` 100%는 통계 검사 완료이며, 이어지는 GPU 검증까지 성공한 뒤 최종
+`runs/profile.json`의 `status=passed`를 확인해야 학습으로 이어갈 수 있다.
+
+### 이전 버전의 첫-step AMP 오류에서 복구
+
+기존 `profile.json`은 통과했지만 첫 학습 step의 FP16 gradient overflow로 종료된 경우,
+수정된 코드로 갱신한 뒤 다음 순서로 실행한다. 기존 데이터·보고서는 삭제하지 않는다.
+
+```bash
+git pull --ff-only &&
+export PROFILE_OUTPUT=runs/profile2.json &&
+PROFILE_REUSE_REPORT=runs/profile.json bash scripts/run.sh profile &&
+RESTART_TRAIN=1 bash scripts/run.sh train &&
+bash scripts/run.sh calibrate &&
+bash scripts/run.sh eval
+```
+
+첫 명령의 갱신이 실패하면 다음 명령은 실행하지 않는다. 다른 터미널로 이어갈 때에도
+`export PROFILE_OUTPUT=runs/profile2.json`을 설정한다. 이관은 출처가 확인된 전수 topology 통계만
+재사용하고 첫/빈/희소·밀집 표본의 GPU 검증은 새로 수행한다. 이전 CPU 통계는 CPU 출처로 남으며,
+이전 GPU 수치가 새 측정으로 둔갑하지 않는다. 출처·데이터·설정이 맞지 않으면 이관을 거부한다.
+
+`RESTART_TRAIN=1`은 **이전 작업을 종료한 상태에서**, epoch checkpoint 없이 metadata만 남은
+`runs/train`을 `runs/train.failed-*/train`에 보존하고 새 학습을 시작한다. checkpoint·history·알 수 없는
+파일이 있으면 거부한다. 완료된 epoch가 없는 실행의 재시작이며, 중간 optimizer step의 복원이 아니다.
+AMP overflow는 scale을 낮춰 같은 프레임을 최대 16번 재시도하고 실패한 시도의 BatchNorm·난수 상태를
+복원한다. 프레임을 버리지 않으며, 비유한 loss나 지속되는 오류는 그대로 중단한다.
+
+### 학습 epoch 경계에서 재개
 
 학습은 매 epoch 종료 시 `last.pt`를 원자적으로 갱신한다. 중단 후 같은 run을 epoch 경계에서 재개한다.
 
@@ -2308,6 +2382,11 @@ radius cell search의 candidate pair, 실제 directed edge, 최대 incoming degr
 model/loss/optimizer/AMP를 그대로 사용한 forward+backward와 optimizer step을 수행해 CUDA step time,
 peak allocated/reserved VRAM을 측정한다. 전체 topology scan, edge guard, selected step, CUDA OOM-free가
 모두 통과해야 `report_eligible=true`다.
+새 scan은 CUDA topology를 계산하고 GT 픽셀 대신 image shape/dtype metadata만 읽는다. GT 전체
+decode 검증은 `check`에서 유지한다. 구간별 atomic journal은 data/config/topology 구현이 일치할 때만
+재개하며, 검증된 이전 보고서의 전수 통계도 명시적으로 재사용할 수 있다. 이관 보고서에는 원래 검사
+장치·source가 기록되고 GPU probe는 새로 측정된다. 첫/첫 zero-event/최소 양수 node 표본을 각기
+초기 모델로 추가 검증해, 밀집 표본만으로 초기 빈 입력의 AMP 안정성을 판단하지 않는다.
 
 학습 직전 verifier는 profile을 현재 public config, EventHDR train 전체 content SHA-256·transform·manifest,
 source tree, PyTorch/CUDA/cuDNN과 GPU에 다시 결합한다. report가 없거나 하나라도 달라지면 본학습을
@@ -2325,6 +2404,8 @@ profile의 `measurement_scope.absolute_vram_guarantee=false`처럼, 전체 40 ep
 - Adam + gradient centralization, learning rate `1e-3`, weight decay `5e-3`
 - MultiStepLR milestones 20/30, gamma 0.1
 - CUDA에서 AMP, gradient norm clip 1.0
+- training protocol v5: AMP gradient overflow 시 같은 표본을 scale backoff로 최대 16회 재시도;
+  실패 시 optimizer step 없음, BatchNorm/RNG 복원, 성공한 recurrent/temporal state만 commit
 - Charbonnier 1.0 + SSIM 0.2 + gradient 0.1 + temporal 0.2
 - train/validation sample cap 없음, 마지막 epoch에서만 전체 EventHDR eval 평가
 
@@ -2343,6 +2424,9 @@ training artifact는 `runs/train/`에 기록한다.
 
 새 학습은 위 핵심 artifact가 이미 있는 run directory를 덮어쓰지 않는다. 중단된 run은 `last.pt`로
 재개한다.
+첫 epoch checkpoint 이전에 실패해 metadata만 남았다면 명시적 `RESTART_TRAIN=1`로 이전 directory를
+보존하고 새로 시작할 수 있다. history/checkpoint/알 수 없는 파일은 자동으로 옮기지 않으며, 기존
+프로세스를 먼저 종료해야 한다. [서버 복구 절차](SERVER.md#amp-첫-step-오류와-이전-profile-이관)를 따른다.
 
 ## 5. 전체 ANN→SNN 보정
 
@@ -2637,9 +2721,14 @@ python -m pytest -q tests/test_graph_opt.py tests/test_spline_opt.py tests/test_
 
 ## 기존 실험과의 관계
 
-실행 명령과 config는 그대로다. 기존 profile/checkpoint의 source contract는 이전 소스를 기록하므로
+기본 실행 명령과 config는 그대로다. 기존 profile/checkpoint의 source contract는 이전 소스를 기록하므로
 새 소스에서 exact-resume를 강제하거나 검사 값을 수동 변경하지 않는다. 기존 결과는 보존하고 새
 preflight 및 실험 lineage로 측정한다. 이 최적화 검증은 전체 학습·전체 평가를 대신하지 않는다.
+
+후속 AMP/사전검사 수정은 위 CPU operator benchmark와 별도다. 새 전수검사는 CUDA topology,
+event-only HDF5 읽기, CPU helper thread 제한, 구간별 저장·재개를 사용한다. 출처·데이터·설정이
+검증되는 이전 전수 통계는 명시적으로 이관할 수 있으나 GPU probe는 새로 실행한다. 이 변경의
+서버 CUDA 처리량·전체 학습 속도는 아직 측정하지 않았으며 위 표의 수치로 대신하지 않는다.
 ~~~~~~~~
 
 # docs/SERVER.md
@@ -2874,7 +2963,7 @@ tmux new-session -s asgcn -c "$PWD"
 
 1. `check_env.py --require-full-data --lock constraints/py312.txt --runtime-profile constraints/server.json`과 기본 CUDA 검사
 2. EventHDR train/eval과 EventAid-R 전체 `inspect --validate-all`
-3. EventHDR train 전체 graph topology scan과 edge 수 상위 표본 CUDA forward/backward profile
+3. EventHDR train 전체 CUDA graph topology scan, 최초·빈·희소 입력과 edge 수 상위 표본의 CUDA 학습 검사
 4. profile을 현재 config/data/source/runtime에 재검증한 뒤 ANN 40-epoch 학습 또는 resume
 5. EventHDR train 모든 frame을 이용한 `best.pt`→`best_snn.pt` 보정
 6. EventHDR/EventAid-R ANN과 `literal_eq15`/`standard_if` × `T=4,8,16,32` evaluate+benchmark
@@ -2893,6 +2982,11 @@ profile 기본값은 `PROFILE_TOP_DENSITY=10`, `PROFILE_SAMPLES=3`,
 `PROFILE_OUTPUT=runs/profile.json`이다. 전수 scan은 edge guard 초과 표본을 찾고, 실제 CUDA probe는
 edge 수 상위 3개 표본에서 configured loss·optimizer까지 포함한 학습 step과 peak allocated/reserved
 VRAM을 잰다. 이는 기록된 GPU와 선택 표본에 한정된 실측 gate이며 절대 VRAM 보증이 아니다.
+새 전수 scan은 events를 선택한 CUDA 장치로 옮겨 graph topology를 계산한다. CPU는 HDF5 읽기와
+좌표·메타데이터 준비를 담당한다. `PROFILE_CPU_THREADS=4`가 profile의 CPU 보조 연산 기본값이고,
+공통 wrapper는 torch/numpy import 전에 `OMP_NUM_THREADS`와 `MKL_NUM_THREADS`도 설정한다.
+첫 프레임, 첫 zero-event 프레임, 최소 양수 node 표본은 중복을 제거하고 각각 초기 모델에서 추가로
+검사한다. 밀집 표본 3개가 모든 입력의 수치 안정성을 보장한다고 해석하지 않는다.
 
 기존 training/evaluation artifact는 묵시적으로 덮어쓰지 않는다. 기존 SNN checkpoint만 의도적으로
 다시 만들 때는 `OVERWRITE_CALIBRATION=1`을 사용하며 새 checkpoint가 완성된 뒤 atomic replace된다.
@@ -2914,6 +3008,50 @@ summary가 유지된다.
 
 ## 4. 중단 후 epoch-boundary resume
 
+### 사전검사 중단 후 이어가기
+
+`runs/profile.scan/index.json`과 작은 구간 파일들에 전수검사 기록이 저장된다. 128개 또는 30초 간격에
+표본 경계에서 저장하며, 정상적인 interrupt/오류 시에도 완료된 표본을 저장한다. 강제 종료 시에는
+마지막 원자적 commit 이후 구간을 다시 계산한다. data SHA-256·설정·topology 구현 계약이 같아야 한다.
+
+```bash
+PROFILE_RESUME=1 bash scripts/run.sh profile
+```
+
+GPU probe만 실패했어도 완료된 scan을 재사용할 수 있다. GPU probe 결과는 이어 붙이지 않고 새로
+측정한다. 이미 통과한 최종 보고서는 이 명령으로 덮어쓰지 않는다. `all`을 다시 실행하지 않는다.
+
+### AMP 첫 step 오류와 이전 profile 이관
+
+FP16 기본 scale 65,536에서만 gradient가 비유한 값이 되고 scale 1/FP32는 유한했던 오류는 AMP
+overflow 복구 전에 clip 검사가 종료시키던 문제였다. 공통 학습 step은 같은 프레임의 scale을 낮춰
+최대 16번 재시도한다. 실패 시 가중치·optimizer를 업데이트하지 않고 BatchNorm buffer와 RNG를
+되돌린다. recurrent/temporal state는 성공한 시도만 다음 프레임에 전달한다. loss NaN/Inf,
+AMP가 꺼진 상태의 잘못된 gradient, 지속되는 overflow, 다른 CUDA/clip 오류는 숨기지 않는다.
+
+기존 검사가 통과했고 아직 학습 checkpoint가 없는 경우, 종료된 작업에 대해 사용한다.
+
+```bash
+git pull --ff-only &&
+export PROFILE_OUTPUT=runs/profile2.json &&
+PROFILE_REUSE_REPORT=runs/profile.json bash scripts/run.sh profile &&
+RESTART_TRAIN=1 bash scripts/run.sh train &&
+bash scripts/run.sh calibrate &&
+bash scripts/run.sh eval
+```
+
+Git 갱신 실패 시 아래 명령은 실행하지 않는다. 새 terminal에서는 `PROFILE_OUTPUT`도 다시 설정한다.
+원본 `runs/profile.json`은 보존된다. `PROFILE_REUSE_REPORT`는 완전한 기록·요약·data/config hash와
+검토된 source 계약을 검증한 후 topology 통계만 새 보고서로 이관한다. legacy v1 보고서는 허용 목록의
+clean commit/source hash 조합만 받고, 임의 수정된 보고서나 알 수 없는 구현은 재사용하지 않는다.
+통계의 CPU/CUDA 출처를 보존하며 새로운 코드·GPU에서 수치·밀집 probe를 다시 실행한다.
+
+metadata-only `runs/train`은 `runs/train.failed-*/train`으로 보존된다. `config.json`,
+`preflight_gate.json`, `.data_hash_cache.json` 외 파일·하위 폴더 또는 checkpoint가 있으면 자동으로
+옮기지 않는다. 기존 작업은 먼저 종료해야 한다. 이 옵션은 epoch 내부 학습을 복원하는 resume가 아니다.
+
+### 완료된 epoch부터 학습 재개
+
 직접 실행은 다음과 같다.
 
 ```bash
@@ -2927,6 +3065,9 @@ RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
 RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
   bash scripts/train.sh configs/train.json
 ```
+
+두 wrapper 모두 `PROFILE_OUTPUT`을 따르며, 저수준 wrapper에서 `PREFLIGHT_REPORT`를 따로 지정하면
+그 값이 우선한다. 이전 profile 이관을 사용했다면 `PROFILE_OUTPUT=runs/profile2.json`을 유지한다.
 
 `last.pt`는 각 완료 epoch 뒤에 저장되므로 종료된 epoch 내부 step은 되풀이된다. checkpoint는 같은
 configured run directory 안에 있어야 하며, source tree/Git 상태, model·optimizer·scheduler·AMP,
@@ -3083,7 +3224,7 @@ hostname, job ID, 절대경로를 기록한 log는 이름을 바꾸거나 scan�
 학습이 끝나면 다음 파일을 먼저 확인한다.
 
 ```bash
-ls -lh runs/profile.json
+ls -lh "${PROFILE_OUTPUT:-runs/profile.json}"
 ls -lh runs/train/{last.pt,best.pt,best_snn.pt,history.json,config.json}
 find runs -name metrics.json -o -name benchmark.json | sort
 ```
@@ -3154,8 +3295,10 @@ bash scripts/run.sh eval
 ```
 
 이는 완료된 데이터 검사를 되풀이하지 않는 재개 절차이며 CUDA profile을 생략하는 우회가 아니다.
-기존 `runs/profile.json`이 있으면 자동으로 덮어쓰지 않는다. 파일 내용을 확인해 별도 보존 위치로
-옮긴 뒤 다시 측정하며 삭제하지 않는다. 이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train
+기존 보고서와 `runs/profile.scan/`은 자동으로 덮어쓰지 않는다. 같은 실패·중단 스캔은 앞의
+`PROFILE_RESUME=1` 절차로 이어가고, 별도 새 검사라면 `PROFILE_OUTPUT`에 새 파일명을 지정해
+원본 보고서와 journal을 모두 보존한다. JSON만 옮기면 기존 journal 때문에 새 검사가 거부된다.
+이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train
 명령을 그대로 쓰지 말고 [epoch-boundary resume](#4-중단-후-epoch-boundary-resume)를 따른다.
 
 자주 중단되는 조건은 다음과 같다.
@@ -3211,11 +3354,37 @@ bash scripts/run.sh eval
 
 ## 0. 검증 기록과 배포 판정 기준
 
+2026-08-31 서버 진단에서 첫 EventHDR 프레임의 event 수가 0이고, 기본 FP16 scale 65,536에서만
+`decoder.enc1.body.0.bias` gradient가 비유한 값이 되는 것을 확인했다. 같은 입력의 FP16 scale 1과
+FP32는 finite loss/gradient였고 norm은 약 16.83이었다. 이는 사용자 제공 단일 프레임 진단 결과이며
+수정된 코드의 GPU 전체 학습 성공 기록이 아니다.
+
+현재 수정은 training protocol **v5**, `same_sample_backoff_v1`로 AMP overflow를 처리한다. 같은
+프레임을 최대 16회 재시도하며 실패한 시도의 BN/mutable buffer와 Python/NumPy/Torch/CUDA RNG를
+복원한다. 실패 시 optimizer update나 프레임 건너뛰기는 없고, recurrent/temporal state는 성공한
+시도만 반영한다. finite gradient 확인 후 GC·clip·update를 수행하며 원래 backend 오류를 숨기지 않는다.
+epoch history의 `amp`에 retries/retried_samples/scale을 남긴다. 실제 NaN loss·AMP-off 잘못된 gradient·
+지속 overflow는 여전히 hard failure다.
+
+새 preflight는 CUDA topology와 event-only HDF5 경로, 기본 CPU helper thread 4개, 구간별 atomic
+scan journal을 사용한다. 최종 report v2는 첫 프레임·첫 zero-event·최소 양수 node 입력의 초기 모델
+검증과 상위 3개 밀집 표본 학습 검증을 분리 기록한다. 검증된 이전 전수 기록은 명시적으로 이관하되
+원래 CPU/CUDA 출처를 유지하고 GPU 측정은 전부 새로 수행한다. metadata-only 학습 실패는 명시적인
+재시작 옵션으로 directory를 보존하며 checkpoint/history/unknown file은 자동으로 옮기지 않는다.
+명령과 재사용 조건은 [서버 복구 절차](docs/SERVER.md#amp-첫-step-오류와-이전-profile-이관)를 따른다.
+
+이 AMP/scan/복구 수정의 Windows CPU 통합 회귀검사는 **997 passed, 40 skipped**다.
+Ruff와 Git diff whitespace 검사도 통과했다. skip은 CUDA 하드웨어, Linux 전용 실행,
+Windows symlink 권한 제약에 따른 것으로 해당 검사를 통과했다는 의미가 아니다. 이번 로컬 환경에는
+Bash가 없어 수정된 shell wrapper의 실제 Linux 실행은 아직 검증하지 못했다. 별도의 CUDA full-model
+zero-event 회귀검사를 추가했지만 로컬에서는 skip됐으며, 서버 실데이터로 수정본을 검증한 기록은 없다.
+
 2026-08-31 연산 최적화에서는 radius candidate 확장/compaction, Spline custom autograd의 저장
 tensor 메모리와 SNN 고정 첫 layer 계산을 개선했다. 기존 모델·config·sampling·전체 실험 범위는
 변경하지 않았다. 전체 CPU 회귀검사는 **860 passed, 35 skipped**이며 수치·시간·저장 메모리 검증과
 GPU 미검증 범위는 [PERF.md](docs/PERF.md)를 따른다. C++/CUDA extension을 새로 구현한 것은 아니다.
-새 source contract가 적용되므로 이전 profile/checkpoint의 exact-resume 보호를 우회하지 않는다.
+새 source contract가 적용되므로 이전 GPU 측정/checkpoint의 exact-resume 보호를 우회하지 않는다.
+위 860/35는 앞선 연산 최적화 시점의 기록이며 후속 AMP/scan 수정 전체의 검증 수치가 아니다.
 
 이 파일과 `README.md`, `code_summary.md`는 source snapshot의 설명이며 원격 배포 성공 확인서가 아니다.
 설치와 실험 절차는 README를 기준으로 하며, 배포 검증은 해당 commit의 CI와 아래 release gate로
@@ -3478,7 +3647,7 @@ tone mapping 또는 checkpoint를 바꾸면 기존 EventAid-R 결과를 잠긴 �
 | training | 40 epoch, batch 1, chronological, workers 4, persistent/prefetch 2 |
 | optimizer | Adam + gradient centralization, lr `1e-3`, weight decay `5e-3` |
 | scheduler | MultiStepLR epoch 20/30, gamma 0.1 |
-| stability | CUDA AMP, L2 grad clip 1.0, non-finite loss/gradient fail-fast |
+| stability | CUDA AMP same-sample backoff 최대 16회, L2 grad clip 1.0, 실제/지속 non-finite fail-fast |
 | preflight | train 전체 topology scan, edge 상위 10개 기록, 상위 3개 CUDA 학습 step |
 | validation | 마지막 epoch 1회, 전체 19 H5, recurrent context policy 기록 |
 
@@ -3604,8 +3773,10 @@ script가 노출하는 stage는 `check`, `profile`, `train`, `calibrate`, `eval`
 
 1. `check`: dependency/CUDA/full-data coverage 검사, `configs/train.json`으로 EventHDR train+eval 전체,
    `configs/aid.json`으로 EventAid-R 전체를 `inspect --validate-all`
-2. `profile`: EventHDR train 전체 graph topology scan, edge 수 상위 10개 기록, 상위 3개 CUDA
-   forward/backward·optimizer step과 peak allocated/reserved VRAM 측정
+2. `profile`: 정답 이미지 decode 없이 EventHDR train 전체 graph topology를 CUDA로 계산하고
+   원자적 journal에 저장한다. edge 수 상위 10개를 기록하고 상위 3개의 CUDA 학습 step과 VRAM을
+   측정한다. 별도로 최초·빈 이벤트·최소 비어 있지 않은 표본을 각각 fresh 초기화로 검사한다.
+   검증된 기존 스캔은 명시적으로 재사용할 수 있으나 GPU 학습 검사는 항상 새로 실행한다.
 3. `train`: profile을 현재 config/data/source/CUDA runtime에 다시 결합한 뒤 EventHDR ANN 40-epoch 학습
    또는 `RESUME_CHECKPOINT` exact resume
 4. `calibrate`: EventHDR train 전체를 사용한 ANN→SNN calibration
@@ -3644,6 +3815,7 @@ DRY_RUN=1 bash scripts/run.sh all
 ```
 
 중요 override는 `RESUME_CHECKPOINT`, `PROFILE_OUTPUT`, `PROFILE_SAMPLES`, `PROFILE_TOP_DENSITY`,
+`PROFILE_RESUME`, `PROFILE_REUSE_REPORT`, `PROFILE_CPU_THREADS`, `RESTART_TRAIN`,
 `CALIBRATION_SAMPLES`, `SIMULATION_STEPS_LIST`,
 `BENCHMARK_WARMUP`, `BENCHMARK_STEPS`, 세 config path, ANN/SNN checkpoint path와
 `REQUIRE_CUDA`다. calibration output과 evaluation artifact는 기본적으로 덮어쓰지 않는다. fresh
@@ -3702,7 +3874,7 @@ config/checkpoint/output 경로는 shareable artifact에서 repository-relative 
 hostname을 출력하지 않는다.
 
 보고용 ANN 평가에는 verified CUDA preflight가 포함된 clean `ann_inference`, finite macro-SSIM selection,
-training protocol v4와 validation protocol v7이 필요하다. 보고용 SNN은 그 ANN에서 봉인된
+training protocol v5와 validation protocol v7이 필요하다. 보고용 SNN은 그 ANN에서 봉인된
 `calibration_protocol.sealed=true`를 요구한다. `metrics.json.evaluation_protocol`과
 `benchmark.json.benchmark_protocol`은 public config/model, checkpoint file·tensor와 lineage,
 현재 eval dataset의 전체 content SHA-256·transform·manifest·coverage·sampling, source,
@@ -3827,7 +3999,6 @@ python scripts/check_env.py --require-cuda --require-full-data \
   --lock constraints/py312.txt --runtime-profile constraints/server.json
 
 asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
-asgcn-unet inspect --config configs/hdr.json --samples 2 --validate-all
 asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
 ```
 
@@ -3929,6 +4100,8 @@ Docker 경로를 제공하지 않고, MobaXterm/SSH에서 사용하는 native Co
 | `src/asgcn_unet/engine.py` | train/validation/calibration/evaluate/benchmark, checkpoint·resume·provenance |
 | `src/asgcn_unet/preflight.py` | 전체 train topology scan, 최고 밀도 CUDA 학습-step 측정·재검증 |
 | `src/asgcn_unet/cli.py` | inspect/profile/verify-profile/train/calibrate/evaluate/benchmark CLI |
+| `src/asgcn_unet/scan.py` | 원자적 구간 저장, hash 검증, 단일 writer lock과 전수검사 재개 |
+| `src/asgcn_unet/recovery.py` | 명시적 metadata-only 학습 실패 보존·재시작 |
 | `configs/train.json` | EventHDR 51 train + 19 final-only internal eval 학습 protocol |
 | `configs/hdr.json` | EventHDR official eval ANN/SNN 공용 설정 |
 | `configs/aid.json` | EventAid-R 14-scene ANN/SNN 공용 설정 |
@@ -4098,7 +4271,9 @@ GPU 품질·속도 결과가 생성됐다는 뜻이 아니다.
 ## 15. 현재 한계와 교차검증 체크리스트
 
 2026-08-31까지 로컬 검증에서는 전체 데이터 CUDA 본실험과 A6000/A100 profile/benchmark를 실행하지 않았다.
-같은 날짜의 사용자 제공 서버 로그는 전체 decode 완료와 그 이후 profile 중단까지 확인한다.
+같은 날짜의 사용자 제공 서버 로그는 전체 decode, 이전 profile 뒤 학습 진입과 첫 step의 AMP 실패,
+그리고 해당 첫 샘플의 scale별 backward 진단까지 확인한다. 현재 수정된 코드의 전체 GPU 실행은
+아직 검증되지 않았다.
 다음 항목은 실제 server에서 `scripts/run.sh`가 완료된 뒤 결과 파일로 검증해야 한다.
 
 - EventHDR/EventAid-R 전체 decode 로그와 총 frame 수를 해당 실험 기록에 보존
@@ -6558,7 +6733,7 @@ Usage: bash scripts/run.sh [check|profile|train|calibrate|eval|all]
 
 Stages:
   check       Check CUDA/dependencies/full data and decode every selected sample
-  profile     Scan all train graphs and run CUDA backward on the densest samples
+  profile     Scan all train graphs on CUDA; probe dense and first/empty/sparse samples
   train       Train EventHDR ANN, or resume with RESUME_CHECKPOINT
   calibrate   Convert runs/train/best.pt to runs/train/best_snn.pt
   eval        Run the complete EventHDR/EventAid-R ANN+SNN evaluation matrix
@@ -6577,6 +6752,10 @@ Important environment:
   BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N
   PROFILE_SAMPLES=N / PROFILE_TOP_DENSITY=N
   PROFILE_OUTPUT=PATH                    Default: runs/profile.json
+  PROFILE_RESUME=0|1                     Resume a matching saved scan; default: 0
+  PROFILE_REUSE_REPORT=PATH              Reuse topology only; rerun GPU probes
+  PROFILE_CPU_THREADS=N                 CPU helpers for CUDA scan; default: 4
+  RESTART_TRAIN=0|1                      Archive metadata-only failed run; default: 0
   ALLOW_UNVERIFIED_PREFLIGHT=0|1         Non-reporting train bypass; default: 0
   OVERWRITE_CALIBRATION=0|1              Default: 0
   DRY_RUN=0|1                            Print commands without executing them
@@ -6624,6 +6803,10 @@ BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+PROFILE_RESUME="${PROFILE_RESUME:-0}"
+PROFILE_REUSE_REPORT="${PROFILE_REUSE_REPORT:-}"
+PROFILE_CPU_THREADS="${PROFILE_CPU_THREADS:-4}"
+RESTART_TRAIN="${RESTART_TRAIN:-0}"
 ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-2}"
 DRY_RUN="${DRY_RUN:-0}"
@@ -6637,6 +6820,8 @@ for flag_name in \
   OVERWRITE_CALIBRATION \
   DRY_RUN \
   ALLOW_UNVERIFIED_PREFLIGHT \
+  PROFILE_RESUME \
+  RESTART_TRAIN \
   INCLUDE_PRIVATE_HOST_PROVENANCE; do
   flag_value="${!flag_name}"
   if [[ "${flag_value}" != "0" && "${flag_value}" != "1" ]]; then
@@ -6702,6 +6887,10 @@ for profile_value in "${PROFILE_SAMPLES}" "${PROFILE_TOP_DENSITY}"; do
     exit 2
   fi
 done
+if [[ ! "${PROFILE_CPU_THREADS}" =~ ^[1-9][0-9]*$ ]]; then
+  echo "ERROR: PROFILE_CPU_THREADS must be a positive integer" >&2
+  exit 2
+fi
 if ((PROFILE_TOP_DENSITY < PROFILE_SAMPLES)); then
   echo "ERROR: PROFILE_TOP_DENSITY must be >= PROFILE_SAMPLES" >&2
   exit 2
@@ -6811,13 +7000,21 @@ run_check() {
 }
 
 run_profile() {
-  echo "[profile] Complete EventHDR topology scan and densest-sample CUDA training probe"
+  echo "[profile] Complete CUDA topology scan and dense/first/empty/sparse training probes"
   check_runtime_profile
-  run_cmd "${PYTHON_BIN}" -m asgcn_unet.cli profile \
+  local profile_args=("${PYTHON_BIN}" -m asgcn_unet.cli profile \
     --config "${TRAIN_CONFIG}" \
     --output "${PROFILE_OUTPUT}" \
     --samples "${PROFILE_SAMPLES}" \
-    --top-density "${PROFILE_TOP_DENSITY}"
+    --top-density "${PROFILE_TOP_DENSITY}" \
+    --cpu-threads "${PROFILE_CPU_THREADS}")
+  if [[ "${PROFILE_RESUME}" == "1" ]]; then
+    profile_args+=(--resume-scan)
+  fi
+  if [[ -n "${PROFILE_REUSE_REPORT}" ]]; then
+    profile_args+=(--reuse-report "${PROFILE_REUSE_REPORT}")
+  fi
+  run_cmd "${profile_args[@]}"
   require_file "${PROFILE_OUTPUT}" "training preflight report"
 }
 
@@ -6829,6 +7026,7 @@ run_train() {
     PREFLIGHT_REPORT="${PROFILE_OUTPUT}" \
     ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT}" \
     RESUME_CHECKPOINT="${RESUME_CHECKPOINT}" \
+    RESTART_TRAIN="${RESTART_TRAIN}" \
     PYTHON_BIN="${PYTHON_BIN}" \
     bash "${PROJECT_ROOT}/scripts/train.sh" "${TRAIN_CONFIG}"
   require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
@@ -6931,6 +7129,15 @@ select_conda_python() {
   fi
   # Keep user/foreign site packages out of the selected, version-checked runtime.
   export PYTHONNOUSERSITE=1
+  # Set before any torch/numpy import, including profile/check entrypoints.
+  export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
+  export MKL_NUM_THREADS="${MKL_NUM_THREADS:-${OMP_NUM_THREADS}}"
+  for thread_setting in OMP_NUM_THREADS MKL_NUM_THREADS; do
+    if [[ ! "${!thread_setting}" =~ ^[1-9][0-9]*$ ]]; then
+      echo "ERROR: ${thread_setting} must be a positive integer." >&2
+      return 2
+    fi
+  done
   unset PYTHONPATH PYTHONHOME
   export DRY_RUN PYTHON_BIN
   export RUNTIME_PROFILE="${RUNTIME_PROFILE:-constraints/server.json}"
@@ -7769,8 +7976,9 @@ VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
-PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"
+PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-runs/profile.json}}"
 ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
+RESTART_TRAIN="${RESTART_TRAIN:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 
 path_log_label() {
@@ -7806,6 +8014,14 @@ fi
 if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" != "0" \
   && "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" ]]; then
   echo "ERROR: ALLOW_UNVERIFIED_PREFLIGHT must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RESTART_TRAIN}" != "0" && "${RESTART_TRAIN}" != "1" ]]; then
+  echo "ERROR: RESTART_TRAIN must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RESTART_TRAIN}" == "1" && -n "${RESUME_CHECKPOINT}" ]]; then
+  echo "ERROR: RESTART_TRAIN cannot be combined with RESUME_CHECKPOINT" >&2
   exit 2
 fi
 if [[ "${DRY_RUN}" != "1" && "${ALLOW_UNVERIFIED_PREFLIGHT}" != "1" && ! -f "${PREFLIGHT_REPORT}" ]]; then
@@ -7852,6 +8068,9 @@ TRAIN_ARGS=(
 )
 if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   TRAIN_ARGS+=(--allow-unverified-preflight)
+fi
+if [[ "${RESTART_TRAIN}" == "1" ]]; then
+  TRAIN_ARGS+=(--restart-uncheckpointed)
 fi
 if [[ -n "${RESUME_CHECKPOINT}" ]]; then
   if [[ "${DRY_RUN}" != "1" && ! -f "${RESUME_CHECKPOINT}" ]]; then
@@ -8570,11 +8789,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import torch
 from tqdm import tqdm
 
 from .data import build_dataset
 from .engine import _artifact_path_label, benchmark, calibrate, evaluate, train
 from .preflight import training_preflight, verify_training_preflight
+from .recovery import archive_uncheckpointed_run
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path, save_json
 
 
@@ -8806,6 +9027,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="NON-REPORTING ONLY: explicitly bypass the CUDA preflight gate",
     )
+    train_cmd.add_argument(
+        "--restart-uncheckpointed",
+        action="store_true",
+        help="archive metadata-only failed training output before a fresh run; stop old jobs first",
+    )
 
     profile_cmd = subparsers.add_parser(
         "profile",
@@ -8813,6 +9039,18 @@ def build_parser() -> argparse.ArgumentParser:
     )
     profile_cmd.add_argument("--config", required=True)
     profile_cmd.add_argument("--output", required=True)
+    profile_cmd.add_argument(
+        "--resume-scan", action="store_true",
+        help="resume a matching interrupted scan; never overwrite a passed report",
+    )
+    profile_cmd.add_argument(
+        "--reuse-report",
+        help="reuse verified topology records from an older report; rerun all GPU probes",
+    )
+    profile_cmd.add_argument(
+        "--cpu-threads", type=_positive_integer, default=4,
+        help="CPU helper threads during the CUDA topology scan (default: 4)",
+    )
     profile_cmd.add_argument(
         "--samples",
         type=_positive_integer,
@@ -8932,12 +9170,15 @@ def _execute_command(args: argparse.Namespace) -> None:
             message = _redact_inspect_text(str(error), replacements)
             raise SystemExit(f"Dataset inspection failed: {message}") from None
     elif args.command == "profile":
+        torch.set_num_threads(args.cpu_threads)
         result = training_preflight(
             config,
             resolve_path(args.output, base_dir),
             profile_samples=args.samples,
             top_density_count=args.top_density,
             require_cuda=True,
+            resume_scan=args.resume_scan,
+            reuse_report=resolve_path(args.reuse_report, base_dir) if args.reuse_report else None,
         )
     elif args.command == "verify-profile":
         result = verify_training_preflight(
@@ -8946,6 +9187,10 @@ def _execute_command(args: argparse.Namespace) -> None:
         )
     elif args.command == "train":
         resume = resolve_path(args.resume, base_dir) if args.resume else None
+        if args.restart_uncheckpointed and args.allow_unverified_preflight:
+            raise ValueError("Restarting uncheckpointed output requires a verified CUDA profile")
+        if args.restart_uncheckpointed and (resume or config["train"].get("resume")):
+            raise ValueError("Restarting uncheckpointed output cannot be combined with resume")
         report_path = resolve_path(args.preflight_report, base_dir)
         if args.allow_unverified_preflight:
             print(
@@ -8962,6 +9207,10 @@ def _execute_command(args: argparse.Namespace) -> None:
             }
         else:
             preflight_gate = verify_training_preflight(config, report_path)
+        if args.restart_uncheckpointed:
+            archived = archive_uncheckpointed_run(config["output"]["run_dir"], base_dir)
+            if archived is not None:
+                print(f"Archived uncheckpointed run metadata: {_artifact_path_label(archived)}")
         config["preflight_gate"] = preflight_gate
         save_json(Path(config["output"]["run_dir"]) / "preflight_gate.json", preflight_gate)
         result = {
@@ -9929,13 +10178,13 @@ from typing import Any
 
 import h5py
 import numpy as np
+import torch
 from torch.utils.data import Dataset
 
 from .common import (
     choose_crop,
     crop_events,
     image_array_to_tensor,
-    make_sample,
     normalize_polarity,
     stratified_subsample,
     uniform_cap_ratio,
@@ -10297,6 +10546,48 @@ class EventHDRDataset(Dataset):
         return self._handles[path]
 
     def __getitem__(self, index: int) -> dict[str, Any]:
+        return self._get_sample(index, decode_target=True)
+
+    def get_topology_sample(self, index: int) -> dict[str, Any]:
+        """Read the exact model events without decoding unused target pixels.
+
+        Topology profiling needs the sensor dimensions and event preprocessing,
+        not a normalized target image. This access path intentionally omits the
+        ``target`` key and does not replace full target-pixel validation performed
+        by ordinary dataset inspection/training access.
+        """
+        return self._get_sample(index, decode_target=False)
+
+    def _topology_image_size(
+        self, image: h5py.Dataset, *, source: str
+    ) -> tuple[int, int]:
+        """Validate target metadata needed by the event-only access path."""
+        shape = image.shape
+        if len(shape) not in (2, 3):
+            raise ValueError(f"Expected HxW or HxWxC image, got {shape}")
+        dtype = image.dtype
+        if not np.issubdtype(dtype, np.number) or np.issubdtype(dtype, np.bool_):
+            raise TypeError(f"Target {source} must use a real numeric dtype, got {dtype}")
+        if self.target_normalization["mode"] == "integer_dtype_max" and not np.issubdtype(
+            dtype, np.integer
+        ):
+            raise ValueError(
+                f"Target {source} uses dtype {dtype}, but "
+                "target_normalization.mode='integer_dtype_max' requires an integer dtype"
+            )
+        channels = shape[2] if len(shape) == 3 else 1
+        if self.target_channels == 1 and channels != 1 and channels < 3:
+            raise ValueError(
+                f"Target {source} needs one or at least three channels for grayscale conversion"
+            )
+        if self.tone_map == "log":
+            if not np.isfinite(self.tone_map_mu) or self.tone_map_mu <= 0.0:
+                raise ValueError("tone_map_mu must be finite and positive for log tone mapping")
+        elif self.tone_map not in {"none", "linear"}:
+            raise ValueError(f"Unknown tone_map: {self.tone_map}")
+        return int(shape[0]), int(shape[1])
+
+    def _get_sample(self, index: int, *, decode_target: bool) -> dict[str, Any]:
         item = self.samples[index]
         h5 = self._get_handle(item["path"])
         start, end = item["start_idx"], item["end_idx"]
@@ -10304,16 +10595,21 @@ class EventHDRDataset(Dataset):
         ys = np.asarray(h5["events/ys"][start:end], dtype=np.float32)
         ts = np.asarray(h5["events/ts"][start:end], dtype=np.float64)
         raw_ps = np.asarray(h5["events/ps"][start:end])
-        image = np.asarray(h5["images"][item["image_key"]])
-        target = image_array_to_tensor(
-            image,
-            self.target_channels,
-            tone_map=self.tone_map,
-            tone_map_mu=self.tone_map_mu,
-            target_normalization=self.target_normalization,
-            source=f"{item['path']}::{item['image_key']}",
-        )
-        height, width = target.shape[-2:]
+        image_node = h5["images"][item["image_key"]]
+        source = f"{item['path']}::{item['image_key']}"
+        target = None
+        if decode_target:
+            target = image_array_to_tensor(
+                np.asarray(image_node),
+                self.target_channels,
+                tone_map=self.tone_map,
+                tone_map_mu=self.tone_map_mu,
+                target_normalization=self.target_normalization,
+                source=source,
+            )
+            height, width = target.shape[-2:]
+        else:
+            height, width = self._topology_image_size(image_node, source=source)
         _validate_event_values(
             xs,
             ys,
@@ -10338,7 +10634,8 @@ class EventHDRDataset(Dataset):
         crop_seed = (self.seed + zlib.crc32(crop_identity.encode("utf-8"))) % (2**32)
         rng = np.random.default_rng(crop_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
-        target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
+        if target is not None:
+            target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
         events = crop_events(events, crop)
         cropped_event_count = len(events)
         dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
@@ -10351,12 +10648,11 @@ class EventHDRDataset(Dataset):
         )
         t0 = item["t0"]
         t1 = item["timestamp"]
-        return make_sample(
-            events,
-            target,
-            sample_id,
-            (crop.height, crop.width),
-            {
+        sample = {
+            "events": torch.from_numpy(np.ascontiguousarray(events)).float(),
+            "sample_id": sample_id,
+            "sensor_size": (int(crop.height), int(crop.width)),
+            "metadata": {
                 "dataset": "EventHDR",
                 "timestamp": t1,
                 "t0": t0,
@@ -10381,7 +10677,10 @@ class EventHDRDataset(Dataset):
                     "height": crop.height,
                 },
             },
-        )
+        }
+        if target is not None:
+            sample["target"] = target
+        return sample
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()
@@ -10713,6 +11012,24 @@ from .utils import (
     validate_experiment_config,
     write_frame_csv,
 )
+
+_AMP_MAX_RETRIES = 16
+
+
+def _amp_retry_policy(enabled: bool) -> dict[str, Any] | None:
+    if not enabled:
+        return None
+    return {
+        "name": "same_sample_backoff_v1",
+        "max_retries": _AMP_MAX_RETRIES,
+        "scale_backoff": "grad_scaler_backoff_factor",
+        "restore_model_buffers": True,
+        "restore_rng": True,
+        "advance_recurrent_state_on_success_only": True,
+        "skip_samples": False,
+        "nonfinite_forward_loss": "raise",
+        "persistent_overflow": "raise",
+    }
 
 
 def build_model(config: dict[str, Any]) -> ASGCNUNet:
@@ -11612,7 +11929,7 @@ def _valid_training_protocol_contract(value: Any) -> bool:
     if not isinstance(value, dict) or set(value) != required_fields:
         return False
     if (
-        value.get("version") != 4
+        value.get("version") != 5
         or not isinstance(value.get("seed"), int)
         or isinstance(value.get("seed"), bool)
         or value.get("recurrent_state_detached_each_sample") is not True
@@ -11633,6 +11950,15 @@ def _valid_training_protocol_contract(value: Any) -> bool:
         return False
     if value.get("scheduler") is not None and not isinstance(
         value.get("scheduler"), dict
+    ):
+        return False
+    mixed_precision = value["mixed_precision"]
+    if (
+        set(mixed_precision)
+        != {"requested", "effective", "autocast_dtype", "gradient_scaler", "overflow_policy"}
+        or not isinstance(mixed_precision.get("effective"), bool)
+        or mixed_precision.get("overflow_policy")
+        != _amp_retry_policy(mixed_precision["effective"])
     ):
         return False
     validate_every = value.get("validate_every")
@@ -12317,7 +12643,7 @@ def _snn_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
         if not _is_sha256(protocol.get(field)):
             reasons.append(f"calibration_protocol {field} is invalid")
     source_ann_protocols: dict[str, dict[str, Any]] = {}
-    for name, expected_version in (("training", 4), ("validation", 7)):
+    for name, expected_version in (("training", 5), ("validation", 7)):
         identity = protocol.get(f"source_ann_{name}_protocol")
         flat_digest = protocol.get(f"source_ann_{name}_protocol_sha256")
         contract = identity.get("contract") if isinstance(identity, dict) else None
@@ -13115,6 +13441,7 @@ def _training_protocol_config_reasons(
         "effective",
         "autocast_dtype",
         "gradient_scaler",
+        "overflow_policy",
     }:
         reasons.append("ANN training mixed-precision protocol is invalid")
     else:
@@ -13127,6 +13454,7 @@ def _training_protocol_config_reasons(
             or mixed_precision.get("autocast_dtype")
             != ("float16" if effective_amp else None)
             or effective_amp != (requested_amp and device_type == "cuda")
+            or mixed_precision.get("overflow_policy") != _amp_retry_policy(effective_amp)
         ):
             reasons.append("ANN training mixed precision differs from config/runtime")
 
@@ -13346,7 +13674,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
         gpu_name = None
         compute_capability = None
     return {
-        "version": 4,
+        "version": 5,
         "seed": int(config.get("seed", 2026)),
         "optimizer": {
             "mode": optimizer_mode,
@@ -13383,6 +13711,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
             "effective": effective_amp,
             "autocast_dtype": "float16" if effective_amp else None,
             "gradient_scaler": effective_amp,
+            "overflow_policy": _amp_retry_policy(effective_amp),
         },
         "validate_every": validate_every,
         "checkpoint_selection": (
@@ -13527,18 +13856,21 @@ def _clip_and_validate_gradients(
     step: int,
     sample_id: Any,
 ) -> float:
-    """Clip gradients with one device synchronization for non-finite detection."""
+    """Reject invalid gradients without relabeling unrelated backend errors."""
     if not math.isfinite(max_norm) or max_norm <= 0:
         raise ValueError("train.grad_clip must be finite and greater than zero")
-    try:
-        total_norm = torch.nn.utils.clip_grad_norm_(
-            model.parameters(), max_norm, norm_type=2.0, error_if_nonfinite=True
-        )
-    except RuntimeError as error:
+    invalid = _nonfinite_gradient_names(model)
+    if invalid:
         raise FloatingPointError(
-            "Non-finite gradients after clipping validation at "
-            f"epoch={epoch}, step={step}, sample={sample_id}"
-        ) from error
+            "Non-finite gradients before clipping at "
+            f"epoch={epoch}, step={step}, sample={sample_id}; parameters={', '.join(invalid)}"
+        )
+    # error_if_nonfinite also catches overflow of the total norm even when every
+    # gradient element is finite. Preserve its actual RuntimeError and any CUDA
+    # backend exception instead of claiming all clipping failures are NaN/Inf.
+    total_norm = torch.nn.utils.clip_grad_norm_(
+        model.parameters(), max_norm, norm_type=2.0, error_if_nonfinite=True
+    )
     finite_norm = float(total_norm.detach().cpu())
     if not math.isfinite(finite_norm):
         raise FloatingPointError(
@@ -13546,6 +13878,129 @@ def _clip_and_validate_gradients(
             f"epoch={epoch}, step={step}, sample={sample_id}"
         )
     return finite_norm
+
+
+def _nonfinite_gradient_names(model: torch.nn.Module) -> list[str]:
+    """Pack finite checks per device; synchronize once, not once per parameter."""
+    by_device: dict[torch.device, list[tuple[str, torch.Tensor]]] = defaultdict(list)
+    for name, parameter in model.named_parameters():
+        if parameter.grad is not None:
+            gradient = parameter.grad
+            values = gradient.coalesce().values() if gradient.is_sparse else gradient
+            by_device[gradient.device].append((name, torch.isfinite(values).all()))
+    invalid: list[str] = []
+    for entries in by_device.values():
+        flags = torch.stack([flag for _name, flag in entries]).detach().cpu().tolist()
+        invalid.extend(name for (name, _flag), finite in zip(entries, flags) if not finite)
+    return invalid
+
+
+def _training_step(
+    model: torch.nn.Module,
+    optimizer: torch.optim.Optimizer,
+    scaler: Any,
+    forward_loss: Callable[[], tuple[torch.Tensor, dict[str, torch.Tensor], Any]],
+    *,
+    optimizer_mode: str,
+    max_norm: float,
+    epoch: int,
+    step: int,
+    sample_id: Any,
+    max_amp_retries: int = _AMP_MAX_RETRIES,
+) -> tuple[Any, dict[str, float], float, dict[str, float | int]]:
+    """Commit one sample, retrying only recoverable AMP gradient overflows.
+
+    ``forward_loss`` must use the same sample and incoming recurrent/temporal
+    state on every call. Its payload is published only after a real optimizer
+    update. Failed attempts never step the optimizer, never consume a sample,
+    and restore model buffers (including BatchNorm counters) and all RNG state.
+    """
+    if (
+        isinstance(max_amp_retries, bool)
+        or not isinstance(max_amp_retries, int)
+        or max_amp_retries < 0
+    ):
+        raise ValueError("max_amp_retries must be a nonnegative integer")
+    if not math.isfinite(max_norm) or max_norm <= 0:
+        raise ValueError("train.grad_clip must be finite and greater than zero")
+    amp_enabled = bool(scaler.is_enabled())
+    scale_before = float(scaler.get_scale())
+    if not math.isfinite(scale_before) or scale_before <= 0:
+        raise FloatingPointError(f"Invalid AMP scale before training step: {scale_before}")
+    saved_buffers = (
+        {name: value.detach().clone() for name, value in model.named_buffers()}
+        if amp_enabled
+        else {}
+    )
+    saved_rng = _capture_rng_state() if amp_enabled else None
+
+    def rollback() -> None:
+        optimizer.zero_grad(set_to_none=True)
+        model.zero_grad(set_to_none=True)
+        if saved_rng is not None:
+            with torch.no_grad():
+                buffers = dict(model.named_buffers())
+                for name, value in saved_buffers.items():
+                    buffers[name].copy_(value)
+            _restore_rng_state(saved_rng)
+
+    retries = 0
+    while True:
+        optimizer.zero_grad(set_to_none=True)
+        try:
+            loss, loss_parts, payload = forward_loss()
+            loss_values = _ensure_finite_loss(
+                loss, loss_parts, epoch=epoch, step=step, sample_id=sample_id
+            )
+            scaler.scale(loss).backward()
+            scaler.unscale_(optimizer)
+            invalid = _nonfinite_gradient_names(model)
+            if invalid:
+                attempt_scale = float(scaler.get_scale())
+                context = (
+                    f"epoch={epoch}, step={step}, sample={sample_id}, "
+                    f"scale={attempt_scale}, retries={retries}/{max_amp_retries}; "
+                    f"parameters={', '.join(invalid)}"
+                )
+                if not amp_enabled:
+                    raise FloatingPointError(f"Non-finite gradients with AMP disabled: {context}")
+                if retries >= max_amp_retries:
+                    raise FloatingPointError(f"Persistent AMP gradient overflow: {context}")
+                # unscale_ recorded the failed optimizer's inf checks. update()
+                # consumes those checks, backs off, resets the growth tracker,
+                # and clears its per-optimizer stage without stepping weights.
+                scaler.update()
+                next_scale = float(scaler.get_scale())
+                if not math.isfinite(next_scale) or not 0 < next_scale < attempt_scale:
+                    raise FloatingPointError(
+                        f"AMP scale did not safely back off ({next_scale}): {context}"
+                    )
+                rollback()
+                retries += 1
+                # Release the failed graph/payload before allocating the retry.
+                del loss, loss_parts, payload
+                continue
+            if optimizer_mode == "adam_gc":
+                _centralize_gradients(model)
+            gradient_norm = _clip_and_validate_gradients(
+                model, max_norm, epoch=epoch, step=step, sample_id=sample_id
+            )
+        except Exception as error:
+            try:
+                rollback()
+            except Exception as rollback_error:
+                # A poisoned CUDA context can also reject buffer restoration.
+                # Preserve the original failure instead of masking its cause.
+                raise error from rollback_error
+            raise
+        # Only finite, centralized and clipped gradients reach the optimizer.
+        scaler.step(optimizer)
+        scaler.update()
+        return payload, loss_values, gradient_norm, {
+            "scale_before": scale_before,
+            "scale_after": float(scaler.get_scale()),
+            "retries": retries,
+        }
 
 
 def _validation_dataset(config: dict[str, Any]):
@@ -13878,6 +14333,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         previous_prediction = None
         previous_target = None
         running_loss = 0.0
+        epoch_amp_retries = 0
+        epoch_amp_retried_samples = 0
         seen = 0
         progress = tqdm(train_loader, desc=f"train {epoch:03d}/{epochs:03d}")
         for step, batch in enumerate(progress):
@@ -13901,40 +14358,42 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             current_sequence = sequence_id
             previous_sequence_index = sequence_index
             previous_sensor_size = sensor_size
-            optimizer.zero_grad(set_to_none=True)
-            with torch.autocast(device_type=device.type, enabled=amp_enabled):
-                prediction, diagnostics = model.forward_sample(
-                    sample, recurrent_state=recurrent_state
-                )
-                target = sample["target"].unsqueeze(0)
-                loss, loss_parts = criterion(prediction, target)
-                if temporal_weight > 0 and previous_prediction is not None:
-                    temporal = F.l1_loss(
-                        prediction - previous_prediction,
-                        target - previous_target,
+            def forward_loss(
+                current_sample=sample,
+                incoming_state=recurrent_state,
+                incoming_prediction=previous_prediction,
+                incoming_target=previous_target,
+            ):
+                # Incoming state/targets remain unchanged throughout AMP retries.
+                with torch.autocast(device_type=device.type, enabled=amp_enabled):
+                    prediction, diagnostics = model.forward_sample(
+                        current_sample, recurrent_state=incoming_state
                     )
-                    loss = loss + temporal_weight * temporal
-                    loss_parts["temporal"] = temporal.detach()
-            loss_values = _ensure_finite_loss(
-                loss,
-                loss_parts,
-                epoch=epoch,
-                step=step,
-                sample_id=sample.get("sample_id", "unknown"),
-            )
-            scaler.scale(loss).backward()
-            scaler.unscale_(optimizer)
-            if optimizer_mode == "adam_gc":
-                _centralize_gradients(model)
-            _clip_and_validate_gradients(
+                    target = current_sample["target"].unsqueeze(0)
+                    loss, loss_parts = criterion(prediction, target)
+                    if temporal_weight > 0 and incoming_prediction is not None:
+                        temporal = F.l1_loss(
+                            prediction - incoming_prediction,
+                            target - incoming_target,
+                        )
+                        loss = loss + temporal_weight * temporal
+                        loss_parts["temporal"] = temporal.detach()
+                return loss, loss_parts, (prediction, diagnostics, target)
+
+            payload, loss_values, _gradient_norm, amp_info = _training_step(
                 model,
-                float(train_config.get("grad_clip", 1.0)),
+                optimizer,
+                scaler,
+                forward_loss,
+                optimizer_mode=optimizer_mode,
+                max_norm=float(train_config.get("grad_clip", 1.0)),
                 epoch=epoch,
                 step=step,
                 sample_id=sample.get("sample_id", "unknown"),
             )
-            scaler.step(optimizer)
-            scaler.update()
+            prediction, diagnostics, target = payload
+            epoch_amp_retries += int(amp_info["retries"])
+            epoch_amp_retried_samples += int(amp_info["retries"] > 0)
 
             recurrent_state = diagnostics["recurrent_state"]
             if recurrent_state is not None:
@@ -13943,9 +14402,12 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             previous_target = target.detach()
             running_loss += loss_values["total"]
             seen += 1
-            if step % int(train_config.get("log_every", 20)) == 0:
+            if step % int(train_config.get("log_every", 20)) == 0 or amp_info["retries"]:
                 progress.set_postfix(
-                    loss=f"{running_loss / max(seen, 1):.4f}", **loss_values
+                    loss=f"{running_loss / max(seen, 1):.4f}",
+                    amp_retries=epoch_amp_retries,
+                    amp_scale=amp_info["scale_after"],
+                    **loss_values,
                 )
 
         should_validate = epoch == epochs or (
@@ -13983,6 +14445,11 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 epoch_learning_rates[0] if len(epoch_learning_rates) == 1 else epoch_learning_rates
             ),
             "gpu_memory": _cuda_peak_memory(device),
+            "amp": {
+                "retries": epoch_amp_retries,
+                "retried_samples": epoch_amp_retried_samples,
+                "scale": float(scaler.get_scale()),
+            },
         }
         history.append(record)
         save_json(run_dir / "history.json", history)
@@ -15116,7 +15583,7 @@ def _sealed_calibration_protocol(
     )
     if not isinstance(training_protocol, dict):
         mismatches.append("source checkpoint has no training protocol")
-    elif training_protocol.get("version") != 4:
+    elif training_protocol.get("version") != 5:
         mismatches.append("source checkpoint has an unsupported training protocol")
     if not isinstance(expected_source, dict):
         mismatches.append("source checkpoint has no training source contract")
@@ -16950,10 +17417,14 @@ def weighted_spline_sum(
 ~~~~~~~~python
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 import math
+import os
 import platform
+import re
+import socket
 import time
 from pathlib import Path
 from typing import Any
@@ -16964,27 +17435,47 @@ from tqdm import tqdm
 
 from .data import build_dataset
 from .engine import (
+    _AMP_MAX_RETRIES,
     _artifact_path_label,
     _build_optimizer,
-    _centralize_gradients,
-    _clip_and_validate_gradients,
     _current_source_contract,
     _dataset_content_fingerprint,
     _dataset_source_fingerprint,
     _dataset_transform_contract,
     _enforce_training_split_status,
-    _ensure_finite_loss,
     _file_sha256,
     _make_grad_scaler,
     _optimizer_mode,
     _public_config,
     _split_manifest_contract,
     _training_protocol,
+    _training_step,
 )
 from .graph import prepare_event_nodes, radius_graph_topology, uniformly_sample_events
 from .losses import ReconstructionLoss
 from .model import ASGCNUNet
+from .scan import ScanInUseError, ScanJournal
 from .utils import move_sample, resolve_device, save_json, set_seed, validate_experiment_config
+
+# These exact clean source trees were audited for the same event selection and
+# strict-radius topology semantics. They authorize reuse of topology counts only,
+# never reuse of previous GPU measurements or the old AMP training implementation.
+LEGACY_TOPOLOGY_SOURCES = frozenset(
+    {
+        (
+            "1f806946a8d7e2157e134f873088f5112b3c84a9d31e25816475b71beb36b4d6",
+            "0eae40f0c665f979dc0f077b366a9ff93b7d28cf",
+        ),
+        (
+            "043e3803ae817dd10355f4370a4ee8acddfb311ec7342c2f9b630fc2a8974bec",
+            "940b3b8a999a49a05535fb6c24ac5fc93a507934",
+        ),
+        (
+            "043e3803ae817dd10355f4370a4ee8acddfb311ec7342c2f9b630fc2a8974bec",
+            "11fe7f75d64f693e4aec39990de5bf4019818deb",
+        ),
+    }
+)
 
 
 def _canonical_sha256(value: Any) -> str:
@@ -17039,7 +17530,7 @@ def _base_report(
 ) -> dict[str, Any]:
     public_config = _public_config(config)
     return {
-        "schema": "asgcn_training_preflight_v1",
+        "schema": "asgcn_training_preflight_v2",
         "status": "running",
         "passed": False,
         "report_eligible": False,
@@ -17054,8 +17545,9 @@ def _base_report(
             "topology_scope": "complete_eventhdr_training_split",
             "absolute_vram_guarantee": False,
             "statement": (
-                "Empirical gate for the selected highest-edge-count samples on the "
-                "recorded GPU/runtime; it is not a proof of every future training step."
+                "Empirical gate for first/sparse/empty numerical cases and selected "
+                "highest-edge-count samples on the recorded GPU/runtime; it is not "
+                "a proof of every future training step."
             ),
         },
         "checks": {
@@ -17074,11 +17566,16 @@ def _base_report(
         "source_provenance": _current_source_contract(),
         "runtime_provenance": _runtime_provenance(device),
         "topology": None,
+        "topology_contract": None,
+        "scan_provenance": None,
         "training_probe": {
             "selected_samples": [],
             "completed_samples": 0,
             "steps": [],
             "failure_category": None,
+            "failure": None,
+            "numerical_probes": [],
+            "numerical_selection": [],
         },
     }
 
@@ -17118,9 +17615,7 @@ def _sample_topology(
         "sample_id": str(sample.get("sample_id", dataset_index)),
         "scene": str(metadata.get("scene", "unknown")),
         "sequence_index": (
-            int(metadata["sequence_index"])
-            if metadata.get("sequence_index") is not None
-            else None
+            int(metadata["sequence_index"]) if metadata.get("sequence_index") is not None else None
         ),
         "raw_events": raw_events,
         "cropped_events": cropped_events,
@@ -17164,9 +17659,7 @@ def _topology_summary(
         "dataset_max_events": data_max_events,
         "model_event_sampling_factor": int(model_config.get("event_sampling_factor", 1)),
         "edge_guard_limit": int(max_edges) if max_edges is not None else None,
-        "edge_guard_exceeded_samples": sum(
-            not bool(item["edge_guard_passed"]) for item in records
-        ),
+        "edge_guard_exceeded_samples": sum(not bool(item["edge_guard_passed"]) for item in records),
         "totals": {
             "raw_events": sum(int(item["raw_events"]) for item in records),
             "cropped_events": sum(int(item["cropped_events"]) for item in records),
@@ -17175,9 +17668,7 @@ def _topology_summary(
             "candidate_directed_edges": sum(
                 int(item["candidate_directed_edges"]) for item in records
             ),
-            "actual_directed_edges": sum(
-                int(item["actual_directed_edges"]) for item in records
-            ),
+            "actual_directed_edges": sum(int(item["actual_directed_edges"]) for item in records),
             "isolated_nodes": total_isolates,
         },
         "max_degree": max((int(item["max_degree"]) for item in records), default=0),
@@ -17191,6 +17682,211 @@ def _topology_summary(
         "top_density_samples": ordered[:top_density_count],
         "samples": records,
     }
+
+
+def _topology_implementation_contract(device: torch.device) -> dict[str, Any]:
+    """Bind cache reuse to executable topology dependencies, not optimizer code.
+
+    The implementation digest is deliberately conservative for dataset readers.
+    Decoder/optimizer changes do not invalidate topology counts, while changes to
+    event selection, normalization or graph predicates require a fresh scan.
+    """
+    package = Path(__file__).resolve().parent
+    graph_functions = {
+        "uniformly_sample_events",
+        "prepare_event_nodes",
+        "_radius_graph_candidate_chunks",
+        "radius_graph_topology",
+    }
+    preflight_functions = {"_sample_topology", "_topology_summary"}
+    modules: dict[str, str] = {}
+    for relative, functions in (
+        ("graph.py", graph_functions),
+        ("preflight.py", preflight_functions),
+    ):
+        tree = ast.parse((package / relative).read_text(encoding="utf-8"))
+        selected = [
+            node
+            for node in tree.body
+            if isinstance(node, (ast.Import, ast.ImportFrom))
+            or isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+            and node.name in functions
+        ]
+        found = {
+            node.name
+            for node in selected
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        }
+        if found != functions:
+            raise ValueError("A topology cache dependency could not be fingerprinted")
+        modules[relative] = _canonical_sha256(
+            [ast.dump(node, include_attributes=False) for node in selected]
+        )
+    for relative in ("data/eventhdr.py", "data/common.py", "data/factory.py", "scan.py"):
+        modules[relative] = _file_sha256(package / relative)
+    return {
+        "schema": "asgcn_topology_implementation_v1",
+        "semantics": "ordered_normalized_float32_strict_radius_v1",
+        "implementation": modules,
+        "torch": str(torch.__version__),
+        "device_type": device.type,
+    }
+
+
+def _data_provenance(dataset: Any, config: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "dataset_type": "eventhdr",
+        "split": "train",
+        "content": _dataset_content_fingerprint(dataset),
+        "source_files": _dataset_source_fingerprint(dataset),
+        "transform": _dataset_transform_contract(config),
+        "split_manifest": _split_manifest_contract(config),
+    }
+
+
+def _validate_topology_records(
+    records: Any,
+    dataset_size: int,
+    model_config: dict[str, Any],
+    *,
+    dataset: Any = None,
+    complete: bool = False,
+) -> list[dict[str, Any]]:
+    if not isinstance(records, list) or len(records) > dataset_size:
+        raise ValueError("Invalid topology record count")
+    if complete and len(records) != dataset_size:
+        raise ValueError("Reusable topology scan must contain every training sample")
+    factor = int(model_config.get("event_sampling_factor", 1))
+    guard = model_config.get("max_graph_edges", 2_000_000)
+    identities: set[str] = set()
+    items = getattr(dataset, "samples", None)
+    integer_fields = (
+        "raw_events",
+        "cropped_events",
+        "retained_events",
+        "model_sampled_events",
+        "candidate_directed_edges",
+        "actual_directed_edges",
+        "max_degree",
+        "isolated_nodes",
+    )
+    for index, record in enumerate(records):
+        if (
+            not isinstance(record, dict)
+            or isinstance(record.get("dataset_index"), bool)
+            or record.get("dataset_index") != index
+        ):
+            raise ValueError("Topology records must be a contiguous ordered prefix")
+        if any(
+            isinstance(record.get(field), bool)
+            or not isinstance(record.get(field), int)
+            or record[field] < 0
+            for field in integer_fields
+        ):
+            raise ValueError("Topology counts must be nonnegative integers")
+        sample_id = record.get("sample_id")
+        if not isinstance(sample_id, str) or not sample_id or sample_id in identities:
+            raise ValueError("Topology sample identities must be nonempty and unique")
+        identities.add(sample_id)
+        if not isinstance(record.get("scene"), str):
+            raise TypeError("Topology scene must be a string")
+        sequence = record.get("sequence_index")
+        if sequence is not None and (
+            isinstance(sequence, bool) or not isinstance(sequence, int) or sequence < 0
+        ):
+            raise ValueError("Topology sequence index is invalid")
+        raw, cropped, retained, nodes = (record[field] for field in integer_fields[:4])
+        edges, candidates = record["actual_directed_edges"], record["candidate_directed_edges"]
+        maximum, isolates = record["max_degree"], record["isolated_nodes"]
+        possible = nodes * max(0, nodes - 1)
+        expected_guard = guard is None or edges <= int(guard)
+        if (
+            not raw >= cropped >= retained >= nodes
+            or nodes != (retained + factor - 1) // factor
+            or not 0 <= edges <= candidates <= possible
+            or not 0 <= maximum <= max(nodes - 1, 0)
+            or not 0 <= isolates <= nodes
+            or edges > maximum * (nodes - isolates)
+            or (edges == 0) != (maximum == 0)
+            or (edges == 0) != (isolates == nodes)
+            or record.get("edge_guard_passed") is not expected_guard
+            or record.get("directed_edge_density") != (edges / possible if possible else 0.0)
+            or record.get("isolate_ratio") != (isolates / nodes if nodes else 0.0)
+        ):
+            raise ValueError("Topology record has inconsistent counts or graph statistics")
+        if isinstance(items, list):
+            item = items[index]
+            expected_id = (
+                f"{item['scene']}/{item['image_key']}"
+                if item["scene"] == item["source_file"]
+                else f"{item['scene']}/{item['source_file']}/{item['image_key']}"
+            )
+            if (
+                sample_id != expected_id
+                or record["scene"] != item["scene"]
+                or sequence != item["sequence_index"]
+                or raw != item["end_idx"] - item["start_idx"]
+            ):
+                raise ValueError("Cached topology identity differs from the EventHDR index")
+    return records
+
+
+def _scan_sample(dataset: Any, index: int, device: torch.device) -> dict[str, Any]:
+    reader = getattr(dataset, "get_topology_sample", None)
+    sample = reader(index) if callable(reader) else dataset[index]
+    sample = dict(sample)
+    # Transfer graph inputs only. No GT image is needed for the topology scan.
+    sample["events"] = sample["events"].to(device=device, non_blocking=True)
+    if sample["events"].device != device and not (
+        device.type == "cuda" and device.index is None and sample["events"].is_cuda
+    ):
+        raise RuntimeError("Topology input did not reach the selected execution device")
+    return sample
+
+
+def _numerical_selection(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    selections: dict[int, list[str]] = {0: ["first_chronological"]}
+    empty = next((r for r in records if r["model_sampled_events"] == 0), None)
+    sparse = min(
+        (r for r in records if r["model_sampled_events"] > 0),
+        key=lambda r: (r["model_sampled_events"], r["actual_directed_edges"], r["dataset_index"]),
+        default=None,
+    )
+    for record, reason in ((empty, "first_empty"), (sparse, "sparsest_nonempty")):
+        if record is not None:
+            selections.setdefault(record["dataset_index"], []).append(reason)
+    return [
+        {
+            "dataset_index": index,
+            "sample_id": records[index]["sample_id"],
+            "actual_directed_edges": records[index]["actual_directed_edges"],
+            "reasons": reasons,
+        }
+        for index, reasons in selections.items()
+    ]
+
+
+def _safe_failure(error: BaseException, config: dict[str, Any], output: Path) -> dict[str, str]:
+    message = str(error)
+    roots = [Path(__file__).resolve().parents[2], output.parent]
+    roots.extend(
+        Path(value).expanduser().resolve()
+        for key, value in config.get("dataset", {}).items()
+        if key in {"root", "val_root", "split_manifest", "file_manifest"} and isinstance(value, str)
+    )
+    for root in sorted(roots, key=lambda value: len(str(value)), reverse=True):
+        for variant in {str(root), root.as_posix()}:
+            message = message.replace(variant, "$PATH")
+    message = re.sub(r"(?i)(?<![A-Za-z0-9_])/(?:home|Users)/[^/\s]+", "$HOME", message)
+    message = re.sub(r"(?i)\b[A-Z]:[\\/]Users[\\/][^\\/\s]+", "$HOME", message)
+    hostnames = {
+        socket.gethostname(),
+        os.environ.get("HOSTNAME", ""),
+        os.environ.get("COMPUTERNAME", ""),
+    }
+    for hostname in sorted((value for value in hostnames if value), key=len, reverse=True):
+        message = re.sub(re.escape(hostname), "$HOST", message, flags=re.IGNORECASE)
+    return {"type": type(error).__name__, "message": message[:2000]}
 
 
 def _gpu_step(
@@ -17213,7 +17909,6 @@ def _gpu_step(
     amp_enabled = bool(train_config.get("amp", True)) and device.type == "cuda"
     sample = move_sample(raw_sample, device)
     sample_id = sample.get("sample_id", expected_topology["dataset_index"])
-    optimizer.zero_grad(set_to_none=True)
     if device.type == "cuda":
         torch.cuda.synchronize(device)
         torch.cuda.reset_peak_memory_stats(device)
@@ -17223,47 +17918,42 @@ def _gpu_step(
     else:
         start_time = time.perf_counter()
 
-    with torch.autocast(device_type=device.type, enabled=amp_enabled):
-        prediction, diagnostics = model.forward_sample(
-            sample,
-            recurrent_state=recurrent_state,
-        )
-        target = sample["target"].unsqueeze(0)
-        loss, loss_parts = criterion(prediction, target)
-        configured_loss_weights = train_config.get("loss_weights") or {}
-        temporal_weight = float(configured_loss_weights.get("temporal", 0.0))
-        temporal_applied = (
-            temporal_weight > 0
-            and previous_prediction is not None
-            and previous_target is not None
-        )
-        if temporal_applied:
-            temporal = F.l1_loss(
-                prediction - previous_prediction,
-                target - previous_target,
+    def forward_loss():
+        with torch.autocast(device_type=device.type, enabled=amp_enabled):
+            prediction, diagnostics = model.forward_sample(
+                sample,
+                recurrent_state=recurrent_state,
             )
-            loss = loss + temporal_weight * temporal
-            loss_parts["temporal"] = temporal.detach()
-    loss_values = _ensure_finite_loss(
-        loss,
-        loss_parts,
-        epoch=0,
-        step=step,
-        sample_id=sample_id,
-    )
-    scaler.scale(loss).backward()
-    scaler.unscale_(optimizer)
-    if _optimizer_mode(train_config) == "adam_gc":
-        _centralize_gradients(model)
-    gradient_norm = _clip_and_validate_gradients(
+            target = sample["target"].unsqueeze(0)
+            loss, loss_parts = criterion(prediction, target)
+            configured_loss_weights = train_config.get("loss_weights") or {}
+            temporal_weight = float(configured_loss_weights.get("temporal", 0.0))
+            temporal_applied = (
+                temporal_weight > 0
+                and previous_prediction is not None
+                and previous_target is not None
+            )
+            if temporal_applied:
+                temporal = F.l1_loss(
+                    prediction - previous_prediction,
+                    target - previous_target,
+                )
+                loss = loss + temporal_weight * temporal
+                loss_parts["temporal"] = temporal.detach()
+        return loss, loss_parts, (diagnostics, temporal_applied)
+
+    payload, loss_values, gradient_norm, amp_info = _training_step(
         model,
-        float(train_config.get("grad_clip", 1.0)),
+        optimizer,
+        scaler,
+        forward_loss,
+        optimizer_mode=_optimizer_mode(train_config),
+        max_norm=float(train_config.get("grad_clip", 1.0)),
         epoch=0,
         step=step,
         sample_id=sample_id,
     )
-    scaler.step(optimizer)
-    scaler.update()
+    diagnostics, temporal_applied = payload
 
     if int(diagnostics["edges"]) != int(expected_topology["actual_directed_edges"]):
         raise RuntimeError("Topology probe disagrees with the training forward graph")
@@ -17293,6 +17983,7 @@ def _gpu_step(
         "peak_allocated_mib": peak_allocated,
         "peak_reserved_mib": peak_reserved,
         "amp_enabled": amp_enabled,
+        "amp": amp_info,
         "temporal_loss_applied": temporal_applied,
         "temporal_context_sample_id": context_sample_id,
     }
@@ -17308,7 +17999,7 @@ def _immediate_training_context(
     device: torch.device,
 ) -> tuple[torch.Tensor | None, torch.Tensor | None, torch.Tensor | None, str | None]:
     """Replay one real predecessor so recurrent and temporal loss memory are represented."""
-    temporal_weight = float(config["train"].get("loss_weights", {}).get("temporal", 0.0))
+    temporal_weight = float((config["train"].get("loss_weights") or {}).get("temporal", 0.0))
     recurrent = bool(config["model"].get("recurrent", True))
     if temporal_weight <= 0 and not recurrent:
         return None, None, None, None
@@ -17339,6 +18030,91 @@ def _immediate_training_context(
     )
 
 
+def _reusable_topology(
+    path: Path,
+    config: dict[str, Any],
+    dataset: Any,
+    data_provenance: dict[str, Any],
+    implementation: dict[str, Any],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    with path.open("r", encoding="utf-8") as handle:
+        report = json.load(handle)
+    if not isinstance(report, dict):
+        raise TypeError("Reusable profile must contain a JSON object")
+    _canonical_sha256(report)
+    schema = report.get("schema")
+    if schema == "asgcn_training_preflight_v1":
+        _require_verified_report_contract(report, path, allow_legacy=True)
+        source = report.get("source_provenance")
+        if (
+            not isinstance(source, dict)
+            or source.get("git_source_dirty") is not False
+            or (source.get("source_tree_sha256"), source.get("git_commit"))
+            not in LEGACY_TOPOLOGY_SOURCES
+        ):
+            raise ValueError("Legacy topology source is not in the audited compatibility allowlist")
+        record_device = "cpu"
+    elif schema == "asgcn_training_preflight_v2":
+        if report.get("topology_contract") != implementation:
+            raise ValueError("Reusable topology implementation differs from the current code")
+        if report.get("output") != _artifact_path_label(path):
+            raise ValueError("Reusable profile output identity does not match its file")
+        source = report.get("source_provenance")
+        if (
+            not isinstance(source, dict)
+            or not isinstance(source.get("source_tree_sha256"), str)
+            or re.fullmatch(r"[0-9a-f]{64}", source["source_tree_sha256"]) is None
+        ):
+            raise ValueError("Reusable profile has no executable source provenance")
+        record_device = (
+            report.get("scan_provenance", {})
+            .get("origin", {})
+            .get("record_device", implementation["device_type"])
+        )
+    else:
+        raise ValueError("Unsupported reusable topology report schema")
+    public_config = _public_config(config)
+    config_provenance = report.get("config_provenance")
+    if (
+        not isinstance(config_provenance, dict)
+        or config_provenance.get("config") != public_config
+        or config_provenance.get("sha256") != _canonical_sha256(public_config)
+    ):
+        raise ValueError("Reusable topology config differs from the current experiment")
+    if report.get("data_provenance") != data_provenance:
+        raise ValueError("Reusable topology data differs from the current EventHDR files")
+    topology = report.get("topology")
+    if not isinstance(topology, dict):
+        raise TypeError("Reusable profile contains no topology scan")
+    records = _validate_topology_records(
+        topology.get("samples"), len(dataset), config["model"], dataset=dataset, complete=True
+    )
+    previous_top_count = report.get("request", {}).get("top_density_count")
+    if (
+        isinstance(previous_top_count, bool)
+        or not isinstance(previous_top_count, int)
+        or previous_top_count < 1
+    ):
+        raise ValueError("Reusable topology density request is invalid")
+    expected = _topology_summary(
+        records,
+        dataset_size=len(dataset),
+        data_max_events=config["dataset"].get("max_events"),
+        model_config=config["model"],
+        top_density_count=previous_top_count,
+    )
+    if topology != expected:
+        raise ValueError("Reusable topology summary does not match its complete sample records")
+    return records, {
+        "mode": "explicit_report_reuse",
+        "source_report": _artifact_path_label(path),
+        "source_report_sha256": _file_sha256(path),
+        "source_provenance": report["source_provenance"],
+        "record_device": record_device,
+        "gpu_measurements_reused": False,
+    }
+
+
 def training_preflight(
     config: dict[str, Any],
     output_path: str | Path,
@@ -17346,6 +18122,37 @@ def training_preflight(
     profile_samples: int = 3,
     top_density_count: int = 10,
     require_cuda: bool = True,
+    resume_scan: bool = False,
+    reuse_report: str | Path | None = None,
+) -> dict[str, Any]:
+    journals: list[ScanJournal] = []
+    try:
+        return _run_training_preflight(
+            config,
+            output_path,
+            profile_samples=profile_samples,
+            top_density_count=top_density_count,
+            require_cuda=require_cuda,
+            resume_scan=resume_scan,
+            reuse_report=reuse_report,
+            journals=journals,
+        )
+    finally:
+        # Keep the exclusive journal writer lock through final report publication.
+        for journal in journals:
+            journal.close()
+
+
+def _run_training_preflight(
+    config: dict[str, Any],
+    output_path: str | Path,
+    *,
+    profile_samples: int,
+    top_density_count: int,
+    require_cuda: bool,
+    resume_scan: bool,
+    reuse_report: str | Path | None,
+    journals: list[ScanJournal],
 ) -> dict[str, Any]:
     """Gate full training with a complete topology scan and dense-sample train steps.
 
@@ -17365,11 +18172,29 @@ def training_preflight(
     if top_density_count < profile_samples:
         raise ValueError("top_density_count must be greater than or equal to profile_samples")
 
+    if not isinstance(resume_scan, bool):
+        raise TypeError("resume_scan must be a boolean")
+    if resume_scan and reuse_report is not None:
+        raise ValueError("--resume-scan and --reuse-report are mutually exclusive")
     destination = Path(output_path)
+    journal_path = destination.with_suffix(".scan")
+    if reuse_report is not None and Path(reuse_report).resolve() == destination.resolve():
+        raise ValueError("Reused profile must be preserved; select a different output path")
     if destination.exists():
-        raise FileExistsError(
-            f"Preflight output already exists: {destination}. Move it or choose a new output."
-        )
+        if not resume_scan:
+            raise FileExistsError(
+                f"Preflight output already exists: {destination}. Move it or choose a new output."
+            )
+        with destination.open("r", encoding="utf-8") as handle:
+            previous = json.load(handle)
+        if (
+            not isinstance(previous, dict)
+            or previous.get("schema") != "asgcn_training_preflight_v2"
+            or previous.get("status") not in {"failed", "interrupted"}
+            or previous.get("passed") is not False
+            or previous.get("output") != _artifact_path_label(destination)
+        ):
+            raise FileExistsError("Only a failed/interrupted profile can be explicitly resumed")
     set_seed(int(config.get("seed", 2026)))
     device = resolve_device(config.get("device", "auto"))
     cuda_ready = bool(torch.cuda.is_available() and device.type == "cuda")
@@ -17388,13 +18213,56 @@ def training_preflight(
         return report
 
     dataset = None
+    journal = None
     try:
         _enforce_training_split_status(config)
         dataset = build_dataset(config["dataset"], split="train")
-        content_fingerprint = _dataset_content_fingerprint(dataset)
-        records: list[dict[str, Any]] = []
-        for index in tqdm(range(len(dataset)), desc="preflight-topology"):
-            records.append(_sample_topology(dataset[index], config["model"], index))
+        if len(dataset) < profile_samples:
+            raise ValueError("EventHDR training split has fewer samples than profile_samples")
+        data_provenance = _data_provenance(dataset, config)
+        implementation = _topology_implementation_contract(device)
+        report["data_provenance"] = data_provenance
+        report["topology_contract"] = implementation
+        contract = {
+            "config": _public_config(config),
+            "data": data_provenance,
+            "topology_implementation": implementation,
+            "dataset_samples": len(dataset),
+        }
+        reused: list[dict[str, Any]] = []
+        origin = {"mode": "fresh", "record_device": device.type, "gpu_measurements_reused": False}
+        if reuse_report is not None:
+            reused, origin = _reusable_topology(
+                Path(reuse_report), config, dataset, data_provenance, implementation
+            )
+        journal = ScanJournal(journal_path, contract, resume=resume_scan, origin=origin)
+        journals.append(journal)
+        _validate_topology_records(journal.records, len(dataset), config["model"], dataset=dataset)
+        for record in reused:
+            journal.append(record)
+        if reused:
+            journal.flush()
+        reused_count = len(journal.records)
+        report["scan_provenance"] = {
+            "journal": _artifact_path_label(journal_path),
+            "origin": journal.origin,
+            "resumed": resume_scan,
+            "reused_samples": reused_count,
+            "new_sample_device": device.type,
+            "new_samples": 0,
+        }
+        with torch.no_grad():
+            for index in tqdm(
+                range(reused_count, len(dataset)),
+                initial=reused_count,
+                total=len(dataset),
+                desc="preflight-topology",
+            ):
+                sample = _scan_sample(dataset, index, device)
+                journal.append(_sample_topology(sample, config["model"], index))
+        journal.flush()
+        records = journal.records
+        report["scan_provenance"]["new_samples"] = len(records) - reused_count
         topology = _topology_summary(
             records,
             dataset_size=len(dataset),
@@ -17403,21 +18271,11 @@ def training_preflight(
             top_density_count=top_density_count,
         )
         report["topology"] = topology
-        report["data_provenance"] = {
-            "dataset_type": "eventhdr",
-            "split": "train",
-            "content": content_fingerprint,
-            "source_files": _dataset_source_fingerprint(dataset),
-            "transform": _dataset_transform_contract(config),
-            "split_manifest": _split_manifest_contract(config),
-        }
         scan_complete = bool(topology["scan_complete"])
         edge_guard_passed = int(topology["edge_guard_exceeded_samples"]) == 0
         report["checks"]["complete_topology_scan"] = scan_complete
         report["checks"]["edge_guard"] = edge_guard_passed
 
-        if len(dataset) < profile_samples:
-            raise ValueError("EventHDR training split has fewer samples than profile_samples")
         selected = topology["top_density_samples"][: min(profile_samples, len(dataset))]
         report["training_probe"]["selected_samples"] = [
             {
@@ -17427,13 +18285,44 @@ def training_preflight(
             }
             for item in selected
         ]
+        numerical_selection = _numerical_selection(records)
+        report["training_probe"]["numerical_selection"] = numerical_selection
         if scan_complete and edge_guard_passed:
-            model = ASGCNUNet(**config["model"]).to(device).train()
             criterion = ReconstructionLoss(config["train"].get("loss_weights"))
-            optimizer = _build_optimizer(model, config["train"])
             amp_enabled = bool(config["train"].get("amp", True)) and device.type == "cuda"
-            scaler = _make_grad_scaler(amp_enabled)
             report["training_probe"]["training_protocol"] = _training_protocol(config, device)
+            # Each numerical case starts from the same initialization as training.
+            # Dense tests must not hide a bad first/empty/sparse backward by first
+            # changing weights, BatchNorm buffers or the GradScaler scale.
+            for selected_case in numerical_selection:
+                set_seed(int(config.get("seed", 2026)))
+                model = ASGCNUNet(**config["model"]).to(device).train()
+                optimizer = _build_optimizer(model, config["train"])
+                scaler = _make_grad_scaler(amp_enabled)
+                index = selected_case["dataset_index"]
+                measured = _gpu_step(
+                    model,
+                    criterion,
+                    optimizer,
+                    scaler,
+                    dataset[index],
+                    records[index],
+                    config,
+                    device,
+                    0,
+                    recurrent_state=None,
+                    previous_prediction=None,
+                    previous_target=None,
+                    context_sample_id=None,
+                )
+                measured["reasons"] = selected_case["reasons"]
+                measured["initialization"] = "fresh_training_seed_no_recurrent_context"
+                report["training_probe"]["numerical_probes"].append(measured)
+                del model, optimizer, scaler
+            set_seed(int(config.get("seed", 2026)))
+            model = ASGCNUNet(**config["model"]).to(device).train()
+            optimizer = _build_optimizer(model, config["train"])
+            scaler = _make_grad_scaler(amp_enabled)
             for step, selected_topology in enumerate(selected, start=1):
                 context = _immediate_training_context(
                     model,
@@ -17460,13 +18349,36 @@ def training_preflight(
                 )
                 report["training_probe"]["steps"].append(step_result)
                 report["training_probe"]["completed_samples"] = step
-            report["checks"]["forward_backward"] = len(
-                report["training_probe"]["steps"]
-            ) == len(selected)
+            report["checks"]["forward_backward"] = len(report["training_probe"]["steps"]) == len(
+                selected
+            ) and len(report["training_probe"]["numerical_probes"]) == len(numerical_selection)
             report["checks"]["cuda_oom_free"] = True if cuda_ready else None
         else:
             report["training_probe"]["failure_category"] = "edge_guard_exceeded"
-    except (OSError, KeyError, TypeError, ValueError, RuntimeError, ArithmeticError) as error:
+    except (ScanInUseError, FileExistsError):
+        # An overlapping invocation may share this output. Never publish its
+        # refusal over the active writer's eventual report.
+        raise
+    except KeyboardInterrupt as error:
+        if journal is not None:
+            journal.flush()
+        report["status"] = "interrupted"
+        report["training_probe"]["failure_category"] = "interrupted"
+        report["training_probe"]["failure"] = _safe_failure(error, config, destination)
+        report["scan_samples_committed"] = journal.committed if journal is not None else 0
+        save_json(destination, report)
+        raise
+    except (
+        OSError,
+        KeyError,
+        TypeError,
+        ValueError,
+        RuntimeError,
+        ArithmeticError,
+        AssertionError,
+    ) as error:
+        if journal is not None:
+            journal.flush()
         message = str(error).lower()
         if isinstance(error, torch.cuda.OutOfMemoryError) or "out of memory" in message:
             category = "cuda_out_of_memory"
@@ -17477,6 +18389,8 @@ def training_preflight(
         else:
             category = "unexpected_" + type(error).__name__
         report["training_probe"]["failure_category"] = category
+        report["training_probe"]["failure"] = _safe_failure(error, config, destination)
+        report["scan_samples_committed"] = journal.committed if journal is not None else 0
     finally:
         if dataset is not None and hasattr(dataset, "close"):
             dataset.close()
@@ -17501,12 +18415,43 @@ def training_preflight(
     return report
 
 
-def _require_verified_report_contract(report: Any, report_path: Path) -> dict[str, Any]:
+def _validate_probe_amp(measured: dict[str, Any], effective: bool, *, fresh: bool) -> None:
+    if measured.get("amp_enabled") is not effective:
+        raise ValueError("Training preflight AMP mode differs from its training protocol")
+    amp = measured.get("amp")
+    if not isinstance(amp, dict) or set(amp) != {"scale_before", "scale_after", "retries"}:
+        raise ValueError("Training preflight AMP diagnostics are incomplete")
+    for field in ("scale_before", "scale_after"):
+        value = amp[field]
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, (int, float))
+            or not math.isfinite(float(value))
+            or value <= 0
+        ):
+            raise ValueError("Training preflight AMP scale must be finite and positive")
+    retries = amp["retries"]
+    if (
+        isinstance(retries, bool)
+        or not isinstance(retries, int)
+        or not 0 <= retries <= _AMP_MAX_RETRIES
+    ):
+        raise ValueError("Training preflight AMP retry count is invalid")
+    if not effective and (retries != 0 or amp["scale_before"] != 1 or amp["scale_after"] != 1):
+        raise ValueError("Training preflight reports AMP retries/scaling while AMP is disabled")
+    if fresh and amp["scale_before"] != (65536.0 if effective else 1.0):
+        raise ValueError("Training preflight numerical probe did not use the fresh GradScaler")
+
+
+def _require_verified_report_contract(
+    report: Any, report_path: Path, *, allow_legacy: bool = False
+) -> dict[str, Any]:
     if not isinstance(report, dict):
         raise TypeError("Training preflight report must contain a JSON object")
     # Serializing with allow_nan=False rejects hand-written NaN/Infinity values.
     _canonical_sha256(report)
-    if report.get("schema") != "asgcn_training_preflight_v1":
+    legacy = report.get("schema") == "asgcn_training_preflight_v1"
+    if report.get("schema") != "asgcn_training_preflight_v2" and not (allow_legacy and legacy):
         raise ValueError("Training preflight report has an unsupported schema")
     if report.get("status") != "passed" or report.get("passed") is not True:
         raise ValueError("Training preflight report did not pass")
@@ -17580,6 +18525,76 @@ def _require_verified_report_contract(report: Any, report_path: Path) -> dict[st
         identity = ("dataset_index", "sample_id", "actual_directed_edges")
         if any(chosen.get(field) != expected.get(field) for field in identity):
             raise ValueError("Training preflight steps are not the top-density samples")
+    if not legacy:
+        public_config = report.get("config_provenance", {}).get("config")
+        if not isinstance(public_config, dict) or not isinstance(public_config.get("model"), dict):
+            raise ValueError("Training preflight has no topology configuration")
+        records = _validate_topology_records(
+            topology.get("samples"),
+            topology["dataset_samples"],
+            public_config["model"],
+            complete=True,
+        )
+        expected_topology = _topology_summary(
+            records,
+            dataset_size=len(records),
+            data_max_events=public_config.get("dataset", {}).get("max_events"),
+            model_config=public_config["model"],
+            top_density_count=int(request.get("top_density_count", 0)),
+        )
+        if topology != expected_topology:
+            raise ValueError("Training preflight topology summary differs from its records")
+        expected_numerical = _numerical_selection(records)
+        if probe.get("numerical_selection") != expected_numerical:
+            raise ValueError("Training preflight numerical coverage selection is incomplete")
+        numerical = probe.get("numerical_probes")
+        if not isinstance(numerical, list) or len(numerical) != len(expected_numerical):
+            raise ValueError(
+                "Training preflight did not complete first/empty/sparse numerical probes"
+            )
+        mixed = probe.get("training_protocol", {}).get("mixed_precision", {})
+        effective_amp = mixed.get("effective")
+        if not isinstance(effective_amp, bool):
+            raise ValueError("Training preflight has no effective mixed-precision protocol")
+        for measured, chosen in zip(numerical, expected_numerical, strict=True):
+            if not isinstance(measured, dict) or any(
+                measured.get(field) != chosen.get(field)
+                for field in ("dataset_index", "sample_id", "actual_directed_edges", "reasons")
+            ):
+                raise ValueError("Training preflight numerical probe identity differs")
+            if measured.get("initialization") != "fresh_training_seed_no_recurrent_context":
+                raise ValueError(
+                    "Training preflight numerical probes did not use fresh initialization"
+                )
+            _validate_probe_amp(measured, effective_amp, fresh=True)
+            for field in ("step_time_ms", "peak_allocated_mib", "peak_reserved_mib"):
+                value = measured.get(field)
+                if (
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    or float(value) <= 0
+                ):
+                    raise ValueError(f"Training preflight numerical probe has invalid {field}")
+        for measured in [*steps, *numerical]:
+            _validate_probe_amp(measured, effective_amp, fresh=False)
+            norm = measured.get("gradient_norm")
+            loss = measured.get("loss")
+            if (
+                isinstance(norm, bool)
+                or not isinstance(norm, (int, float))
+                or not math.isfinite(float(norm))
+                or norm < 0
+                or not isinstance(loss, dict)
+                or "total" not in loss
+                or any(
+                    isinstance(value, bool)
+                    or not isinstance(value, (int, float))
+                    or not math.isfinite(float(value))
+                    for value in loss.values()
+                )
+            ):
+                raise ValueError("Training preflight measured non-finite loss or gradients")
     return report
 
 
@@ -17614,6 +18629,8 @@ def verify_training_preflight(
         raise ValueError("Executable source differs from the preflight report")
     if report.get("runtime_provenance") != _runtime_provenance(device):
         raise ValueError("CUDA/software runtime differs from the preflight report")
+    if report.get("topology_contract") != _topology_implementation_contract(device):
+        raise ValueError("Topology implementation differs from the preflight report")
     probe = report["training_probe"]
     if probe.get("training_protocol") != _training_protocol(config, device):
         raise ValueError("Training protocol differs from the preflight report")
@@ -17633,6 +18650,13 @@ def verify_training_preflight(
             raise ValueError("EventHDR training data differs from the preflight report")
         if int(report["topology"]["dataset_samples"]) != len(dataset):
             raise ValueError("EventHDR sample count differs from the topology scan")
+        _validate_topology_records(
+            report["topology"]["samples"],
+            len(dataset),
+            config["model"],
+            dataset=dataset,
+            complete=True,
+        )
     finally:
         if hasattr(dataset, "close"):
             dataset.close()
@@ -17653,6 +18677,290 @@ def verify_training_preflight(
 
 
 __all__ = ["training_preflight", "verify_training_preflight"]
+~~~~~~~~
+
+# src/asgcn_unet/recovery.py
+
+~~~~~~~~python
+"""Explicit, recoverable handling of a failed run without an epoch checkpoint."""
+
+from __future__ import annotations
+
+import json
+import tempfile
+from pathlib import Path
+
+
+def archive_uncheckpointed_run(
+    run_dir: str | Path, project_root: str | Path
+) -> Path | None:
+    """Preserve metadata-only output before an explicitly requested fresh start.
+
+    The caller must stop the old job first. A metadata-only directory proves that
+    no epoch checkpoint is present, not that no optimizer updates ever occurred.
+    No data, report, checkpoint, unknown file, or directory is removed.
+    """
+    original = Path(run_dir).expanduser()
+    if original.is_symlink() or getattr(original, "is_junction", lambda: False)():
+        raise ValueError("Refusing to archive a linked training directory")
+    target = original.resolve()
+    project = Path(project_root).resolve()
+    if target in {Path(target.anchor), Path.home().resolve(), project} or target in project.parents:
+        raise ValueError("Refusing to archive a broad directory as training output")
+    if not target.exists():
+        return None
+    if not target.is_dir():
+        raise ValueError("Training output is not a directory")
+    allowed = {"config.json", "preflight_gate.json", ".data_hash_cache.json"}
+    entries = list(target.iterdir())
+    if not entries:
+        return None
+    for entry in entries:
+        if entry.name not in allowed or entry.is_symlink() or not entry.is_file():
+            raise ValueError(
+                "Training output contains checkpoints, history, or unknown entries; "
+                "use checkpoint resume or inspect it manually, not a fresh restart"
+            )
+    config_path = target / "config.json"
+    if config_path.exists():
+        with config_path.open(encoding="utf-8") as handle:
+            saved = json.load(handle)
+        if not isinstance(saved, dict) or any(
+            not isinstance(saved.get(section), dict) for section in ("model", "dataset", "train")
+        ):
+            raise ValueError("Training metadata does not contain a recognizable run configuration")
+    # A unique sibling container prevents POSIX rename from replacing an existing
+    # destination. The original directory and every byte inside it are retained.
+    container = Path(tempfile.mkdtemp(prefix=f"{target.name}.failed-", dir=target.parent))
+    destination = container / target.name
+    target.rename(destination)
+    return destination
+~~~~~~~~
+
+# src/asgcn_unet/scan.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import time
+from pathlib import Path
+from typing import Any
+
+from .utils import save_json
+
+
+class ScanInUseError(RuntimeError):
+    """A second writer must not modify either the journal or its final report."""
+
+
+def canonical_hash(value: Any) -> str:
+    encoded = json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+class ScanJournal:
+    """Atomically commit bounded blocks without rewriting the entire topology scan.
+
+    A block is durable before its reference is published in ``index.json``. An
+    interrupted write can therefore leave an unreferenced block, but never a
+    partially committed sample. Explicit resume ignores and may replace such an
+    orphan at the next block boundary. Previously committed blocks are immutable.
+    """
+
+    def __init__(
+        self,
+        directory: Path,
+        contract: dict[str, Any],
+        *,
+        resume: bool,
+        origin: dict[str, Any] | None = None,
+        block_size: int = 128,
+        interval_seconds: float = 30.0,
+    ) -> None:
+        if block_size < 1 or interval_seconds <= 0:
+            raise ValueError("Scan checkpoint cadence must be positive")
+        self.directory = directory
+        self.index_path = directory / "index.json"
+        self.contract = contract
+        self.origin = {} if origin is None else origin
+        self.block_size = block_size
+        self.interval_seconds = interval_seconds
+        self.records: list[dict[str, Any]] = []
+        self.blocks: list[dict[str, Any]] = []
+        self.committed = 0
+        self.last_commit = time.monotonic()
+        self._lock_handle = None
+        existed = directory.exists()
+        if directory.is_symlink():
+            raise ValueError("Topology scan journal directory must not be a symlink")
+        if existed and not resume:
+            raise FileExistsError(
+                "Topology scan journal already exists; use --resume-scan explicitly"
+            )
+        if not existed and resume:
+            raise FileNotFoundError("No topology scan journal exists for --resume-scan")
+        if not existed:
+            directory.mkdir(parents=True)
+        try:
+            self._lock()
+            if existed:
+                self._read()
+            else:
+                self._write_index()
+        except BaseException:
+            self.close()
+            raise
+
+    def _lock(self) -> None:
+        lock_path = self.directory / "writer.lock"
+        if lock_path.is_symlink():
+            raise ValueError("Topology scan journal lock must not be a symlink")
+        handle = lock_path.open("a+b")
+        try:
+            # Windows byte-range locks also reject reading the locked byte. Use
+            # descriptor metadata rather than reading before trying the lock.
+            if os.fstat(handle.fileno()).st_size == 0:
+                handle.write(b"\0")
+                handle.flush()
+            handle.seek(0)
+            if os.name == "nt":
+                import msvcrt
+
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            self._lock_handle = handle
+        except OSError as error:
+            handle.close()
+            self._lock_handle = None
+            raise ScanInUseError("Another process is writing this topology scan journal") from error
+        except BaseException:
+            handle.close()
+            self._lock_handle = None
+            raise
+
+    def close(self) -> None:
+        handle = self._lock_handle
+        if handle is not None:
+            self._lock_handle = None
+            try:
+                handle.seek(0)
+                if os.name == "nt":
+                    import msvcrt
+
+                    msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+                else:
+                    import fcntl
+
+                    fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+            finally:
+                handle.close()
+
+    def _write_index(self) -> None:
+        save_json(
+            self.index_path,
+            {
+                "schema": "asgcn_topology_journal_v1",
+                "contract": self.contract,
+                "contract_sha256": canonical_hash(self.contract),
+                "origin": self.origin,
+                "origin_sha256": canonical_hash(self.origin),
+                "samples_committed": self.committed,
+                "blocks": self.blocks,
+            },
+        )
+
+    def _read(self) -> None:
+        if self.index_path.is_symlink() or not self.index_path.is_file():
+            raise ValueError("Topology scan journal index must be a regular non-symlink file")
+        with self.index_path.open("r", encoding="utf-8") as handle:
+            index = json.load(handle)
+        if not isinstance(index, dict) or index.get("schema") != "asgcn_topology_journal_v1":
+            raise ValueError("Unsupported topology scan journal")
+        if index.get("contract") != self.contract or index.get("contract_sha256") != canonical_hash(
+            self.contract
+        ):
+            raise ValueError("Topology scan journal data/config/implementation differs")
+        blocks = index.get("blocks")
+        origin = index.get("origin")
+        if not isinstance(origin, dict) or index.get("origin_sha256") != canonical_hash(origin):
+            raise ValueError("Topology scan journal origin is invalid")
+        if not isinstance(blocks, list):
+            raise TypeError("Topology scan journal blocks must be a list")
+        for number, entry in enumerate(blocks):
+            expected_name = f"{number:06d}.json"
+            if (
+                not isinstance(entry, dict)
+                or entry.get("file") != expected_name
+                or isinstance(entry.get("start"), bool)
+                or not isinstance(entry.get("start"), int)
+                or entry.get("start") != len(self.records)
+                or isinstance(entry.get("count"), bool)
+                or not isinstance(entry.get("count"), int)
+                or entry["count"] < 1
+            ):
+                raise ValueError("Topology scan journal block ordering is invalid")
+            block_path = self.directory / expected_name
+            if block_path.is_symlink() or not block_path.is_file():
+                raise ValueError("Topology scan journal block must be a regular non-symlink file")
+            with block_path.open("r", encoding="utf-8") as handle:
+                records = json.load(handle)
+            if (
+                not isinstance(records, list)
+                or len(records) != entry["count"]
+                or canonical_hash(records) != entry.get("sha256")
+            ):
+                raise ValueError("Topology scan journal block integrity check failed")
+            self.records.extend(records)
+        committed = index.get("samples_committed")
+        if (
+            isinstance(committed, bool)
+            or not isinstance(committed, int)
+            or committed != len(self.records)
+        ):
+            raise ValueError("Topology scan journal committed sample count is invalid")
+        self.blocks = blocks
+        self.origin = origin
+        self.committed = len(self.records)
+
+    def append(self, record: dict[str, Any]) -> None:
+        self.records.append(record)
+        if (
+            len(self.records) - self.committed >= self.block_size
+            or time.monotonic() - self.last_commit >= self.interval_seconds
+        ):
+            self.flush()
+
+    def flush(self) -> None:
+        while self.committed < len(self.records):
+            stop = min(self.committed + self.block_size, len(self.records))
+            records = self.records[self.committed : stop]
+            name = f"{len(self.blocks):06d}.json"
+            save_json(self.directory / name, records)
+            self.blocks.append(
+                {
+                    "file": name,
+                    "start": self.committed,
+                    "count": len(records),
+                    "sha256": canonical_hash(records),
+                }
+            )
+            previous = self.committed
+            self.committed = stop
+            try:
+                self._write_index()
+            except BaseException:
+                self.committed = previous
+                self.blocks.pop()
+                raise
+        self.last_commit = time.monotonic()
 ~~~~~~~~
 
 # src/asgcn_unet/unet.py
@@ -18071,6 +19379,450 @@ def make_eventaid(root: Path, frames: int = 4) -> Path:
             ]
             zf.writestr(f"event/{index:06d}.txt", "\n".join(rows) + "\n")
     return path
+~~~~~~~~
+
+# tests/test_amp.py
+
+~~~~~~~~python
+"""Same-sample AMP overflow recovery without skipped optimizer updates."""
+
+from __future__ import annotations
+
+import copy
+import random
+from unittest.mock import patch
+
+import numpy as np
+import pytest
+import torch
+from torch import nn
+
+from asgcn_unet import engine
+
+
+class _StatefulLoss(nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+        self.scalar = nn.Parameter(torch.tensor(0.25))
+        self.bn = nn.BatchNorm1d(3)
+        self.dropout = nn.Dropout(0.4)
+        self.linear = nn.Linear(3, 1)
+        self.register_buffer("forward_count", torch.zeros((), dtype=torch.long))
+
+    def forward(self, values: torch.Tensor, multiplier: float = 1.0):
+        self.forward_count.add_(1)
+        hidden = self.dropout(self.bn(values))
+        # Cast-backward overflows at a 65536 scale despite a finite loss and
+        # finite unscaled derivative. This uses real fp16 arithmetic/GradScaler.
+        loss = self.scalar.to(torch.float16).float() * multiplier
+        loss = loss + self.linear(hidden).square().mean() * 0.001
+        return loss, hidden
+
+
+def _scaler(scale: float = 65536.0, *, enabled: bool = True):
+    return torch.amp.GradScaler("cpu", init_scale=scale, enabled=enabled)
+
+
+def _step(model, optimizer, scaler, closure, **overrides):
+    return engine._training_step(
+        model,
+        optimizer,
+        scaler,
+        closure,
+        optimizer_mode=overrides.pop("optimizer_mode", "adamw"),
+        max_norm=1.0,
+        epoch=3,
+        step=7,
+        sample_id="test-sequence/image000000000",
+        **overrides,
+    )
+
+
+def _rng_equal(actual, expected) -> None:
+    assert actual["python"] == expected["python"]
+    assert actual["numpy"][0] == expected["numpy"][0]
+    np.testing.assert_array_equal(actual["numpy"][1], expected["numpy"][1])
+    assert actual["numpy"][2:] == expected["numpy"][2:]
+    torch.testing.assert_close(actual["torch"], expected["torch"], rtol=0, atol=0)
+    if "cuda" in expected:
+        torch.testing.assert_close(actual["cuda"], expected["cuda"], rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("optimizer_mode", ["adamw", "adam_gc"])
+def test_retry_matches_one_safe_scale_update_and_restores_buffers_rng(optimizer_mode) -> None:
+    torch.manual_seed(461)
+    model = _StatefulLoss().train()
+    reference = copy.deepcopy(model)
+    optimizer_class = torch.optim.Adam if optimizer_mode == "adam_gc" else torch.optim.AdamW
+    optimizer = optimizer_class(model.parameters(), lr=0.001)
+    reference_optimizer = optimizer_class(reference.parameters(), lr=0.001)
+    scaler = _scaler()
+    reference_scaler = _scaler(32768.0)
+    values = torch.arange(24, dtype=torch.float32).reshape(8, 3) / 24
+    incoming_state = torch.tensor([0.1, 0.2])
+    initial_parameters = {name: value.detach().clone() for name, value in model.named_parameters()}
+    initial_rng = engine._capture_rng_state()
+    attempts = []
+
+    def forward_loss():
+        # A failed attempt has not initialized Adam state or changed weights.
+        assert not optimizer.state
+        for name, value in model.named_parameters():
+            torch.testing.assert_close(value, initial_parameters[name], rtol=0, atol=0)
+        loss, hidden = model(values)
+        payload = {
+            "hidden": hidden.detach().clone(),
+            "state": incoming_state + 1,
+            "python": random.random(),
+            "numpy": np.random.random(),
+        }
+        attempts.append(payload)
+        return loss, {"reconstruction": loss.detach()}, payload
+
+    with patch.object(optimizer, "step", wraps=optimizer.step) as optimizer_step:
+        payload, loss_values, gradient_norm, info = _step(
+            model, optimizer, scaler, forward_loss, optimizer_mode=optimizer_mode
+        )
+    final_rng = engine._capture_rng_state()
+    assert optimizer_step.call_count == 1
+    assert len(attempts) == 2
+    assert payload is attempts[-1]
+    torch.testing.assert_close(attempts[0], attempts[1], rtol=0, atol=0)
+    assert info == {"scale_before": 65536.0, "scale_after": 32768.0, "retries": 1}
+    assert model.forward_count.item() == model.bn.num_batches_tracked.item() == 1
+    assert gradient_norm > 0
+    assert loss_values["total"] == loss_values["reconstruction"]
+    torch.testing.assert_close(incoming_state, torch.tensor([0.1, 0.2]))
+
+    engine._restore_rng_state(initial_rng)
+
+    def reference_forward():
+        loss, hidden = reference(values)
+        result = {
+            "hidden": hidden.detach().clone(),
+            "state": incoming_state + 1,
+            "python": random.random(),
+            "numpy": np.random.random(),
+        }
+        return loss, {"reconstruction": loss.detach()}, result
+
+    expected_payload, _, _, expected_info = _step(
+        reference,
+        reference_optimizer,
+        reference_scaler,
+        reference_forward,
+        optimizer_mode=optimizer_mode,
+    )
+    assert expected_info["retries"] == 0
+    torch.testing.assert_close(payload, expected_payload, rtol=0, atol=0)
+    torch.testing.assert_close(model.state_dict(), reference.state_dict(), rtol=0, atol=0)
+    torch.testing.assert_close(optimizer.state_dict(), reference_optimizer.state_dict(), rtol=0, atol=0)
+    assert scaler.state_dict() == reference_scaler.state_dict()
+    _rng_equal(engine._capture_rng_state(), final_rng)
+
+
+def test_default_bound_can_retry_all_the_way_to_scale_one() -> None:
+    model = nn.Linear(1, 1, bias=False)
+    optimizer = torch.optim.Adam(model.parameters())
+    attempts = 0
+
+    def closure():
+        nonlocal attempts
+        attempts += 1
+        loss = model.weight.to(torch.float16).float().sum() * 32768.0
+        return loss, {}, "same-sample"
+
+    payload, _, _, info = _step(model, optimizer, _scaler(), closure)
+    assert attempts == 17
+    assert payload == "same-sample"
+    assert info == {"scale_before": 65536.0, "scale_after": 1.0, "retries": 16}
+    assert optimizer.state[model.weight]["step"].item() == 1
+
+
+class _BadBackward(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, value):
+        return value.clone()
+
+    @staticmethod
+    def backward(ctx, gradient):
+        return torch.full_like(gradient, float("nan"))
+
+
+@pytest.mark.parametrize("enabled", [False, True])
+def test_persistent_nonfinite_is_fatal_without_weight_or_buffer_updates(enabled) -> None:
+    model = _StatefulLoss()
+    optimizer = torch.optim.Adam(model.parameters())
+    before = copy.deepcopy(model.state_dict())
+    rng = engine._capture_rng_state()
+    attempts = 0
+
+    def closure():
+        nonlocal attempts
+        attempts += 1
+        loss, _ = model(torch.arange(24, dtype=torch.float32).reshape(8, 3))
+        loss = _BadBackward.apply(loss)
+        random.random()
+        np.random.random()
+        return loss, {}, None
+
+    with (
+        patch.object(optimizer, "step", wraps=optimizer.step) as optimizer_step,
+        pytest.raises(FloatingPointError) as error,
+    ):
+        _step(model, optimizer, _scaler(enabled=enabled), closure, max_amp_retries=2)
+    assert "epoch=3, step=7, sample=test-sequence/image000000000" in str(error.value)
+    assert "scale=" in str(error.value)
+    assert "parameters=scalar" in str(error.value)
+    assert attempts == (3 if enabled else 1)
+    assert optimizer_step.call_count == 0
+    assert not optimizer.state
+    assert all(parameter.grad is None for parameter in model.parameters())
+    for name, parameter in model.named_parameters():
+        torch.testing.assert_close(parameter, before[name], rtol=0, atol=0)
+    if enabled:
+        torch.testing.assert_close(model.state_dict(), before, rtol=0, atol=0)
+        _rng_equal(engine._capture_rng_state(), rng)
+
+
+@pytest.mark.parametrize("component", [False, True])
+def test_nonfinite_forward_loss_is_never_retried(component) -> None:
+    model = _StatefulLoss()
+    optimizer = torch.optim.Adam(model.parameters())
+    scaler = _scaler()
+    attempts = 0
+    before = copy.deepcopy(model.state_dict())
+
+    def closure():
+        nonlocal attempts
+        attempts += 1
+        loss, _ = model(torch.arange(24, dtype=torch.float32).reshape(8, 3))
+        if component:
+            parts = {"bad-component": torch.tensor(float("inf"))}
+        else:
+            loss = loss * float("nan")
+            parts = {}
+        return loss, parts, None
+
+    with pytest.raises(FloatingPointError, match="bad-component" if component else "total loss"):
+        _step(model, optimizer, scaler, closure)
+    assert attempts == 1
+    assert scaler.get_scale() == 65536.0
+    assert not optimizer.state
+    torch.testing.assert_close(model.state_dict(), before, rtol=0, atol=0)
+
+
+def test_unrelated_clipping_error_keeps_original_exception(monkeypatch) -> None:
+    model = _StatefulLoss()
+    optimizer = torch.optim.Adam(model.parameters())
+    scaler = _scaler(32768.0)
+    before = copy.deepcopy(model.state_dict())
+    failure = RuntimeError("diagnostic backend launch failure")
+    calls = 0
+
+    def closure():
+        nonlocal calls
+        calls += 1
+        loss, _ = model(torch.arange(24, dtype=torch.float32).reshape(8, 3))
+        return loss, {}, None
+
+    def broken_clip(*args, **kwargs):
+        raise failure
+
+    monkeypatch.setattr(torch.nn.utils, "clip_grad_norm_", broken_clip)
+    with pytest.raises(RuntimeError) as caught:
+        _step(model, optimizer, scaler, closure)
+    assert caught.value is failure
+    assert calls == 1
+    assert not optimizer.state
+    assert scaler.get_scale() == 32768.0
+    torch.testing.assert_close(model.state_dict(), before, rtol=0, atol=0)
+
+
+def test_post_centralization_nonfinite_does_not_trigger_amp_backoff(monkeypatch) -> None:
+    model = nn.Linear(2, 1)
+    optimizer = torch.optim.Adam(model.parameters())
+    scaler = _scaler(32768.0)
+
+    def corrupt_gradients(_model):
+        _model.weight.grad.fill_(float("nan"))
+
+    def closure():
+        loss = model(torch.ones(2)).sum()
+        return loss, {}, None
+
+    monkeypatch.setattr(engine, "_centralize_gradients", corrupt_gradients)
+    with pytest.raises(FloatingPointError, match="before clipping"):
+        _step(model, optimizer, scaler, closure, optimizer_mode="adam_gc")
+    assert scaler.get_scale() == 32768.0
+    assert not optimizer.state
+
+
+def test_overflow_outside_optimizer_does_not_accidentally_step_weights() -> None:
+    model = nn.ParameterDict(
+        {"included": nn.Parameter(torch.tensor(0.2)), "excluded": nn.Parameter(torch.tensor(0.3))}
+    )
+    optimizer = torch.optim.Adam([model["included"]])
+
+    def closure():
+        loss = model["included"] * 0 + model["excluded"].half().float()
+        return loss, {}, None
+
+    with pytest.raises(FloatingPointError, match="did not safely back off"):
+        _step(model, optimizer, _scaler(), closure)
+    assert not optimizer.state
+    assert model["included"].item() == pytest.approx(0.2)
+
+
+@pytest.mark.parametrize("limit", [-1, True, 1.5])
+def test_invalid_retry_limits_fail_before_forward(limit) -> None:
+    model = nn.Linear(1, 1)
+    optimizer = torch.optim.Adam(model.parameters())
+    with pytest.raises(ValueError, match="nonnegative integer"):
+        _step(model, optimizer, _scaler(), lambda: pytest.fail("must not run"), max_amp_retries=limit)
+
+
+def test_disabled_amp_matches_direct_non_amp_optimizer_step() -> None:
+    torch.manual_seed(641)
+    model = nn.Linear(3, 2)
+    reference = copy.deepcopy(model)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)
+    reference_optimizer = torch.optim.AdamW(reference.parameters(), lr=0.001)
+    values = torch.randn(4, 3)
+
+    def closure():
+        loss = model(values).square().mean()
+        return loss, {}, "payload"
+
+    _, _, _, info = _step(model, optimizer, _scaler(enabled=False), closure)
+    reference_optimizer.zero_grad(set_to_none=True)
+    reference(values).square().mean().backward()
+    torch.nn.utils.clip_grad_norm_(reference.parameters(), 1.0, error_if_nonfinite=True)
+    reference_optimizer.step()
+    torch.testing.assert_close(model.state_dict(), reference.state_dict(), rtol=0, atol=0)
+    assert info == {"scale_before": 1.0, "scale_after": 1.0, "retries": 0}
+
+
+def test_protocol_binds_retry_policy_and_rejects_tampering() -> None:
+    config = {"train": {"amp": True}}
+    protocol = engine._training_protocol(config, torch.device("cpu"))
+    assert protocol["version"] == 5
+    assert engine._valid_training_protocol_contract(protocol)
+    assert protocol["mixed_precision"]["overflow_policy"] is None
+    policy = engine._amp_retry_policy(True)
+    assert policy["max_retries"] == 16
+    assert policy["skip_samples"] is False
+    assert policy["restore_model_buffers"] is True
+    protocol["mixed_precision"]["effective"] = True
+    protocol["mixed_precision"]["overflow_policy"] = policy
+    assert engine._valid_training_protocol_contract(protocol)
+    protocol["mixed_precision"]["overflow_policy"]["skip_samples"] = True
+    assert not engine._valid_training_protocol_contract(protocol)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA device not available")
+def test_cuda_fp16_overflow_retries_same_sample_once() -> None:
+    model = nn.Linear(1, 1, bias=False).cuda()
+    optimizer = torch.optim.Adam(model.parameters())
+    scaler = torch.amp.GradScaler("cuda")
+    calls = 0
+
+    def closure():
+        nonlocal calls
+        calls += 1
+        with torch.autocast("cuda", dtype=torch.float16):
+            output = model(torch.ones((1, 1), device="cuda"))
+            loss = output.float().sum()
+        return loss, {}, output
+
+    output, _, _, info = _step(model, optimizer, scaler, closure)
+    assert calls == 2
+    assert info["retries"] == 1
+    assert info["scale_after"] == 32768.0
+    assert torch.isfinite(output).all()
+    assert optimizer.state[model.weight]["step"].item() == 1
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA device not available")
+def test_cuda_full_model_empty_frame_retry_preserves_sample_buffers_and_rng() -> None:
+    """Full-size synthetic regression input, never experiment/dataset evidence."""
+    from asgcn_unet.losses import ReconstructionLoss
+    from asgcn_unet.model import ASGCNUNet
+
+    torch.manual_seed(2026)
+    model = ASGCNUNet().cuda().train()
+    model.register_buffer("retry_test_counter", torch.zeros((), dtype=torch.long, device="cuda"))
+    optimizer = engine._build_optimizer(model, {"optimizer": "adam_gc"})
+    scaler = torch.amp.GradScaler("cuda")
+    criterion = ReconstructionLoss()
+    sample = {
+        "events": torch.empty((0, 4), device="cuda"),
+        "target": torch.linspace(0.1, 0.95, 240 * 320, device="cuda").reshape(1, 240, 320),
+        "sensor_size": (240, 320),
+        "sample_id": "synthetic-regression/empty-frame",
+        "metadata": {},
+    }
+    before_buffers = {name: value.clone() for name, value in model.named_buffers()}
+    before_bias = model.decoder.head.bias.detach().clone()
+    before_rng = engine._capture_rng_state()
+    draws = []
+    frame_ids = []
+    attempts = 0
+
+    def controlled_overflow(gradient):
+        # Ensure this regression exercises retry even on hardware where the
+        # initial scale happens to be safe. Subsequent backward passes are real.
+        return torch.full_like(gradient, float("inf")) if attempts == 1 else gradient
+
+    overflow_hook = model.decoder.head.bias.register_hook(controlled_overflow)
+
+    def forward_loss():
+        nonlocal attempts
+        attempts += 1
+        assert not optimizer.state
+        torch.testing.assert_close(model.decoder.head.bias, before_bias, rtol=0, atol=0)
+        model.retry_test_counter.add_(1)
+        frame_ids.append(sample["sample_id"])
+        draws.append((torch.rand(8, device="cuda").cpu(), random.random(), np.random.random()))
+        with torch.autocast("cuda", dtype=torch.float16):
+            prediction, diagnostics = model.forward_sample(sample, recurrent_state=None)
+            loss, parts = criterion(prediction, sample["target"].unsqueeze(0))
+        return loss, parts, (prediction, diagnostics)
+
+    try:
+        with patch.object(optimizer, "step", wraps=optimizer.step) as optimizer_step:
+            payload, loss_values, gradient_norm, info = _step(
+                model, optimizer, scaler, forward_loss, optimizer_mode="adam_gc"
+            )
+    finally:
+        overflow_hook.remove()
+
+    prediction, diagnostics = payload
+    assert optimizer_step.call_count == 1
+    assert attempts == info["retries"] + 1
+    assert 1 <= info["retries"] <= 16
+    assert frame_ids == [sample["sample_id"]] * attempts
+    for draw in draws[1:]:
+        torch.testing.assert_close(draw, draws[0], rtol=0, atol=0)
+    assert diagnostics["nodes"] == diagnostics["edges"] == 0
+    assert torch.isfinite(prediction).all()
+    assert np.isfinite(loss_values["total"])
+    assert np.isfinite(gradient_norm)
+    assert not engine._nonfinite_gradient_names(model)
+    assert model.retry_test_counter.item() == 1
+    for name, value in model.named_buffers():
+        if name != "retry_test_counter":
+            torch.testing.assert_close(value, before_buffers[name], rtol=0, atol=0)
+    assert all(state["step"].item() == 1 for state in optimizer.state.values())
+
+    after_rng = engine._capture_rng_state()
+    engine._restore_rng_state(before_rng)
+    torch.rand(8, device="cuda")
+    random.random()
+    np.random.random()
+    expected_rng = engine._capture_rng_state()
+    engine._restore_rng_state(after_rng)
+    _rng_equal(after_rng, expected_rng)
 ~~~~~~~~
 
 # tests/test_asgcn_paper_core.py
@@ -20975,11 +22727,12 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
         "effective": False,
         "autocast_dtype": None,
         "gradient_scaler": False,
+        "overflow_policy": None,
     }
     assert len(protocol["source"]["source_tree_sha256"]) == 64
     assert protocol["runtime"]["gpu_name"] is None
     assert protocol["runtime"]["compute_capability"] is None
-    assert protocol["version"] == 4
+    assert protocol["version"] == 5
 
     allowed = copy.deepcopy(config)
     allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})
@@ -21096,7 +22849,7 @@ def test_nonfinite_loss_components_and_gradients_fail_fast() -> None:
     model = torch.nn.Linear(2, 1)
     for parameter in model.parameters():
         parameter.grad = torch.full_like(parameter, float("inf"))
-    with pytest.raises(FloatingPointError, match="gradients after clipping"):
+    with pytest.raises(FloatingPointError, match="gradients before clipping"):
         _clip_and_validate_gradients(model, 1.0, epoch=1, step=2, sample_id="sample-a")
 
 
@@ -22137,6 +23890,297 @@ def test_missing_frame_timestamp_cannot_be_recovered_from_root_metadata(tmp_path
         EventHDRDataset(path.parent)
 ~~~~~~~~
 
+# tests/test_eventhdr_topology.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+from pathlib import Path
+
+import h5py
+import numpy as np
+import pytest
+import torch
+
+import asgcn_unet.data.eventhdr as eventhdr_module
+from asgcn_unet.data.eventhdr import EventHDRDataset
+
+
+def _make_hdr(root: Path, *, channels: int | None = None) -> Path:
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / "1.h5"
+    height, width = 24, 32
+    total = 72
+    indices = np.arange(total)
+    with h5py.File(path, "w") as h5:
+        events = h5.create_group("events")
+        events.create_dataset("xs", data=(indices * 7 % width).astype(np.int16))
+        events.create_dataset("ys", data=(indices * 5 % height).astype(np.int16))
+        events.create_dataset("ts", data=np.linspace(0.0, 0.005, total))
+        events.create_dataset("ps", data=np.resize(np.array([-1, 0, 1], np.int8), total))
+        images = h5.create_group("images")
+        shape = (height, width) if channels is None else (height, width, channels)
+        array = np.arange(np.prod(shape), dtype=np.uint16).reshape(shape)
+        for index, event_end in enumerate((0, 20, 20, 60, 72)):
+            image = images.create_dataset(
+                f"image{index:09d}", data=array, compression="gzip"
+            )
+            image.attrs["event_idx"] = event_end
+            image.attrs["timestamp"] = 0.001 * (index + 1)
+    return path
+
+
+def _dataset(root: Path, **kwargs) -> EventHDRDataset:
+    return EventHDRDataset(
+        root,
+        target_normalization={"mode": "integer_dtype_max"},
+        file_to_scene={"1.h5": "shared-scene"},
+        **kwargs,
+    )
+
+
+def _assert_same_sample(full: dict, topology: dict) -> None:
+    assert set(topology) == {"events", "sample_id", "sensor_size", "metadata"}
+    assert torch.equal(topology["events"], full["events"])
+    assert topology["events"].dtype == torch.float32
+    assert topology["events"].is_contiguous()
+    assert topology["sample_id"] == full["sample_id"]
+    assert topology["sensor_size"] == full["sensor_size"] == tuple(full["target"].shape[-2:])
+    assert topology["metadata"] == full["metadata"]
+
+
+@pytest.mark.parametrize("channels", [None, 1, 3, 4])
+@pytest.mark.parametrize("target_channels", [1, 3])
+@pytest.mark.parametrize("crop", [None, "center", "random"])
+def test_topology_access_matches_full_sample_without_preprocessing_drift(
+    tmp_path, channels: int | None, target_channels: int, crop: str | None
+) -> None:
+    _make_hdr(tmp_path, channels=channels)
+    dataset = _dataset(
+        tmp_path,
+        target_channels=target_channels,
+        max_events=7,
+        crop_size=[11, 17] if crop else None,
+        random_crop=crop == "random",
+        seed=197,
+    )
+    try:
+        for index in range(len(dataset)):
+            full = dataset[index]
+            topology = dataset.get_topology_sample(index)
+            _assert_same_sample(full, topology)
+            assert len(topology["events"]) <= 7
+            assert topology["sample_id"].startswith("shared-scene/1.h5/image")
+        # Both naturally empty intervals are retained, never dropped by profiling.
+        assert len(dataset.get_topology_sample(0)["events"]) == 0
+        assert len(dataset.get_topology_sample(2)["events"]) == 0
+        assert dataset.get_topology_sample(2)["metadata"]["zero_event_interval"] is True
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("frame_stride", [1, 2, 3])
+@pytest.mark.parametrize("recover_indices", [False, True])
+def test_topology_preserves_frame_stride_event_indices_and_timestamps(
+    tmp_path, frame_stride: int, recover_indices: bool
+) -> None:
+    path = _make_hdr(tmp_path)
+    if recover_indices:
+        with h5py.File(path, "r+") as h5:
+            for image in h5["images"].values():
+                del image.attrs["event_idx"]
+    dataset = _dataset(tmp_path, frame_stride=frame_stride, max_events=None)
+    try:
+        for index in range(len(dataset)):
+            _assert_same_sample(dataset[index], dataset.get_topology_sample(index))
+        source = dataset.get_topology_sample(-1)["metadata"]["event_idx_source"]
+        assert source == ("timestamp_predecessor_v1" if recover_indices else "stored")
+    finally:
+        dataset.close()
+
+
+def test_topology_never_reads_image_arrays_or_runs_target_normalization(
+    tmp_path, monkeypatch
+) -> None:
+    _make_hdr(tmp_path, channels=3)
+    dataset = _dataset(tmp_path, max_events=11, crop_size=[12, 16], random_crop=True)
+    reference = dataset[3]
+    array_reads: list[str] = []
+    original_getitem = h5py.Dataset.__getitem__
+    original_array = h5py.Dataset.__array__
+    original_read_direct = h5py.Dataset.read_direct
+
+    def check_not_image(node) -> None:
+        if node.name.startswith("/images/"):
+            raise AssertionError(f"Topology access decoded GT pixels: {node.name}")
+        array_reads.append(node.name)
+
+    def guarded_getitem(node, *args, **kwargs):
+        check_not_image(node)
+        return original_getitem(node, *args, **kwargs)
+
+    def guarded_array(node, *args, **kwargs):
+        check_not_image(node)
+        return original_array(node, *args, **kwargs)
+
+    def guarded_read_direct(node, *args, **kwargs):
+        check_not_image(node)
+        return original_read_direct(node, *args, **kwargs)
+
+    def no_target_conversion(*_args, **_kwargs):
+        raise AssertionError("Topology access called target normalization/tone mapping")
+
+    monkeypatch.setattr(h5py.Dataset, "__getitem__", guarded_getitem)
+    monkeypatch.setattr(h5py.Dataset, "__array__", guarded_array)
+    monkeypatch.setattr(h5py.Dataset, "read_direct", guarded_read_direct)
+    monkeypatch.setattr(eventhdr_module, "image_array_to_tensor", no_target_conversion)
+    try:
+        _assert_same_sample(reference, dataset.get_topology_sample(3))
+        assert set(array_reads) == {"/events/xs", "/events/ys", "/events/ts", "/events/ps"}
+        with pytest.raises(AssertionError, match="decoded GT pixels"):
+            dataset[3]
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("field,value,message", [
+    ("xs", 100, "coordinates must lie within"),
+    ("ps", 5, "polarity values"),
+    ("ts", np.nan, "timestamps must be finite"),
+    ("ts", -1.0, "monotonically non-decreasing"),
+])
+def test_topology_still_validates_every_original_event_value(
+    tmp_path, field: str, value: float, message: str
+) -> None:
+    path = _make_hdr(tmp_path)
+    with h5py.File(path, "r+") as h5:
+        h5[f"events/{field}"][1] = value
+    dataset = _dataset(tmp_path)
+    try:
+        for getter in (dataset.__getitem__, dataset.get_topology_sample):
+            with pytest.raises(ValueError, match=message):
+                getter(1)
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("shape", [(10,), (2, 3, 4, 1)])
+def test_topology_rejects_invalid_image_dimensions_using_metadata(tmp_path, shape) -> None:
+    path = _make_hdr(tmp_path)
+    with h5py.File(path, "r+") as h5:
+        group = h5["images"]
+        attrs = dict(group["image000000001"].attrs)
+        del group["image000000001"]
+        image = group.create_dataset("image000000001", shape=shape, dtype=np.uint16)
+        image.attrs.update(attrs)
+    dataset = _dataset(tmp_path)
+    try:
+        for getter in (dataset.__getitem__, dataset.get_topology_sample):
+            with pytest.raises(ValueError, match="Expected HxW or HxWxC"):
+                getter(1)
+    finally:
+        dataset.close()
+
+
+def test_topology_rejects_insufficient_color_channels(tmp_path) -> None:
+    _make_hdr(tmp_path, channels=2)
+    dataset = _dataset(tmp_path, target_channels=1)
+    try:
+        with pytest.raises(IndexError):
+            dataset[1]
+        with pytest.raises(ValueError, match="at least three channels"):
+            dataset.get_topology_sample(1)
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("dtype", [np.bool_, np.float32])
+def test_topology_checks_target_dtype_metadata_without_reading_pixels(tmp_path, dtype) -> None:
+    path = _make_hdr(tmp_path)
+    with h5py.File(path, "r+") as h5:
+        group = h5["images"]
+        attrs = dict(group["image000000001"].attrs)
+        del group["image000000001"]
+        image = group.create_dataset("image000000001", shape=(24, 32), dtype=dtype)
+        image.attrs.update(attrs)
+    dataset = _dataset(tmp_path)
+    try:
+        error = TypeError if dtype == np.bool_ else ValueError
+        for getter in (dataset.__getitem__, dataset.get_topology_sample):
+            with pytest.raises(error, match="dtype"):
+                getter(1)
+    finally:
+        dataset.close()
+
+
+def test_topology_uses_each_image_shape_not_optional_sensor_attributes(tmp_path) -> None:
+    path = _make_hdr(tmp_path)
+    with h5py.File(path, "r+") as h5:
+        h5.attrs["sensor_resolution"] = [999, 999]
+        group = h5["images"]
+        attrs = dict(group["image000000001"].attrs)
+        del group["image000000001"]
+        image = group.create_dataset("image000000001", shape=(48, 64), dtype=np.uint16)
+        image.attrs.update(attrs)
+    dataset = _dataset(tmp_path)
+    try:
+        _assert_same_sample(dataset[0], dataset.get_topology_sample(0))
+        _assert_same_sample(dataset[1], dataset.get_topology_sample(1))
+        assert dataset.get_topology_sample(0)["sensor_size"] == (24, 32)
+        assert dataset.get_topology_sample(1)["sensor_size"] == (48, 64)
+    finally:
+        dataset.close()
+
+
+def test_topology_preserves_existing_integer_crop_size_coercion(tmp_path) -> None:
+    _make_hdr(tmp_path)
+    dataset = _dataset(tmp_path, crop_size=[11.5, 17])
+    try:
+        _assert_same_sample(dataset[1], dataset.get_topology_sample(1))
+        assert dataset.get_topology_sample(1)["sensor_size"] == (11, 17)
+    finally:
+        dataset.close()
+
+
+def test_topology_is_not_misrepresented_as_target_pixel_validation(tmp_path) -> None:
+    path = _make_hdr(tmp_path)
+    with h5py.File(path, "r+") as h5:
+        group = h5["images"]
+        attrs = dict(group["image000000001"].attrs)
+        del group["image000000001"]
+        image = group.create_dataset(
+            "image000000001", data=np.full((24, 32), np.nan, dtype=np.float32)
+        )
+        image.attrs.update(attrs)
+    dataset = EventHDRDataset(tmp_path, target_normalization={"mode": "already_normalized"})
+    try:
+        topology = dataset.get_topology_sample(1)
+        assert topology["sensor_size"] == (24, 32)
+        assert len(topology["events"]) == 20
+        with pytest.raises(ValueError, match="NaN or Inf"):
+            dataset[1]
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("tone_map,tone_map_mu,message", [
+    ("log", 0, "tone_map_mu must be finite and positive"),
+    ("log", float("inf"), "tone_map_mu must be finite and positive"),
+    ("invalid", 5000, "Unknown tone_map"),
+])
+def test_topology_rejects_invalid_target_metadata_configuration(
+    tmp_path, tone_map: str, tone_map_mu: float, message: str
+) -> None:
+    _make_hdr(tmp_path)
+    dataset = _dataset(tmp_path, tone_map=tone_map, tone_map_mu=tone_map_mu)
+    try:
+        for getter in (dataset.__getitem__, dataset.get_topology_sample):
+            with pytest.raises(ValueError, match=message):
+                getter(1)
+    finally:
+        dataset.close()
+~~~~~~~~
+
 # tests/test_get_hdr.py
 
 ~~~~~~~~python
@@ -22540,7 +24584,7 @@ def test_verifier_rebinds_report_to_current_data_source_config_and_runtime(
             "multiprocessors": 1,
         },
     }
-    protocol = {"version": "test-protocol"}
+    protocol = report["training_probe"]["training_protocol"]
     report["status"] = "passed"
     report["passed"] = True
     report["report_eligible"] = True
@@ -22550,8 +24594,11 @@ def test_verifier_rebinds_report_to_current_data_source_config_and_runtime(
     report["source_provenance"] = source
     report["runtime_provenance"] = runtime
     report["training_probe"]["training_protocol"] = protocol
-    report["training_probe"]["steps"][0]["peak_allocated_mib"] = 100.0
-    report["training_probe"]["steps"][0]["peak_reserved_mib"] = 120.0
+    for measured in (
+        report["training_probe"]["steps"] + report["training_probe"]["numerical_probes"]
+    ):
+        measured["peak_allocated_mib"] = 100.0
+        measured["peak_reserved_mib"] = 120.0
     save_json(output, report)
 
     monkeypatch.setattr(preflight_module.torch.cuda, "is_available", lambda: True)
@@ -22559,6 +24606,10 @@ def test_verifier_rebinds_report_to_current_data_source_config_and_runtime(
     monkeypatch.setattr(preflight_module, "_current_source_contract", lambda: source)
     monkeypatch.setattr(preflight_module, "_runtime_provenance", lambda device: runtime)
     monkeypatch.setattr(preflight_module, "_training_protocol", lambda config, device: protocol)
+    monkeypatch.setattr(
+        preflight_module, "_topology_implementation_contract",
+        lambda device: report["topology_contract"],
+    )
 
     verification = verify_training_preflight(config, output)
     assert verification["status"] == "verified"
@@ -26079,6 +28130,521 @@ def test_hdf5_and_zip_loaders_are_multiprocess_safe(tmp_path):
         assert sample["events"].shape == (8, 4)
 ~~~~~~~~
 
+# tests/test_profile_resume.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import copy
+import json
+import subprocess
+import sys
+
+import pytest
+import torch
+
+import asgcn_unet.preflight as profile
+from asgcn_unet.data import build_dataset
+from asgcn_unet.scan import ScanInUseError, ScanJournal, canonical_hash
+from asgcn_unet.utils import save_json
+from tests.fixtures import make_eventhdr
+from tests.test_gpu_preflight import _config
+
+
+def _record(index: int) -> dict:
+    return {"dataset_index": index, "sample_id": f"sample-{index}"}
+
+
+def test_scan_journal_commits_bounded_blocks_and_resumes(tmp_path) -> None:
+    directory = tmp_path / "profile.scan"
+    contract = {"config": 1}
+    journal = ScanJournal(directory, contract, resume=False, block_size=2)
+    journal.append(_record(0))
+    assert json.loads((directory / "index.json").read_text())["samples_committed"] == 0
+    journal.append(_record(1))
+    first_bytes = (directory / "000000.json").read_bytes()
+    journal.append(_record(2))
+    journal.flush()
+    journal.close()
+    resumed = ScanJournal(directory, contract, resume=True, block_size=2)
+    try:
+        assert resumed.records == [_record(0), _record(1), _record(2)]
+        resumed.append(_record(3))
+        resumed.flush()
+        assert (directory / "000000.json").read_bytes() == first_bytes
+        assert resumed.committed == 4
+    finally:
+        resumed.close()
+
+
+def test_scan_journal_rejects_concurrent_writer_and_releases_lock(tmp_path) -> None:
+    directory = tmp_path / "profile.scan"
+    first = ScanJournal(directory, {}, resume=False)
+    try:
+        with pytest.raises(ScanInUseError, match="Another process"):
+            ScanJournal(directory, {}, resume=True)
+    finally:
+        first.close()
+    second = ScanJournal(directory, {}, resume=True)
+    second.close()
+
+
+def test_scan_journal_lock_is_released_after_process_exits_without_cleanup(tmp_path) -> None:
+    directory = tmp_path / "profile.scan"
+    code = (
+        "import os,sys; from pathlib import Path; "
+        "from asgcn_unet.scan import ScanJournal; "
+        "journal=ScanJournal(Path(sys.argv[1]),{},resume=False,block_size=1); "
+        "journal.append({'dataset_index':0}); os._exit(0)"
+    )
+    subprocess.run(
+        [sys.executable, "-c", code, str(directory)],
+        check=True,
+        capture_output=True,
+        timeout=30,
+    )
+    reopened = ScanJournal(directory, {}, resume=True)
+    try:
+        assert reopened.records == [{"dataset_index": 0}]
+    finally:
+        reopened.close()
+
+
+def test_scan_journal_ignores_uncommitted_orphan_block(tmp_path) -> None:
+    directory = tmp_path / "profile.scan"
+    first = ScanJournal(directory, {}, resume=False, block_size=1)
+    first.append(_record(0))
+    first.close()
+    save_json(directory / "000001.json", [_record(999)])
+    resumed = ScanJournal(directory, {}, resume=True, block_size=1)
+    try:
+        assert resumed.records == [_record(0)]
+        resumed.append(_record(1))
+    finally:
+        resumed.close()
+    final = ScanJournal(directory, {}, resume=True)
+    try:
+        assert final.records == [_record(0), _record(1)]
+    finally:
+        final.close()
+
+
+@pytest.mark.parametrize("change", ["contract", "block_hash", "count", "path", "start"])
+def test_scan_journal_rejects_mismatches_and_releases_failed_constructor_lock(
+    tmp_path, change
+) -> None:
+    directory = tmp_path / "profile.scan"
+    journal = ScanJournal(directory, {"data": "sealed"}, resume=False, block_size=1)
+    journal.append(_record(0))
+    journal.close()
+    index_path = directory / "index.json"
+    valid = json.loads(index_path.read_text())
+    invalid = copy.deepcopy(valid)
+    if change == "contract":
+        invalid["contract"]["data"] = "changed"
+    elif change == "block_hash":
+        invalid["blocks"][0]["sha256"] = "0" * 64
+    elif change == "count":
+        invalid["samples_committed"] = 2
+    elif change == "path":
+        invalid["blocks"][0]["file"] = "../outside.json"
+    else:
+        invalid["blocks"][0]["start"] = 1
+    save_json(index_path, invalid)
+    with pytest.raises(ValueError, match="journal"):
+        ScanJournal(directory, {"data": "sealed"}, resume=True)
+    save_json(index_path, valid)
+    reopened = ScanJournal(directory, {"data": "sealed"}, resume=True)
+    reopened.close()
+
+
+@pytest.fixture
+def fast_profile(monkeypatch):
+    calls: list[int] = []
+
+    def measured(model, criterion, optimizer, scaler, raw, topology, config, device, step, **kw):
+        calls.append(topology["dataset_index"])
+        return {
+            "dataset_index": topology["dataset_index"],
+            "sample_id": topology["sample_id"],
+            "nodes": topology["model_sampled_events"],
+            "actual_directed_edges": topology["actual_directed_edges"],
+            "loss": {"total": 1.0},
+            "gradient_norm": 0.1,
+            "step_time_ms": 1.0,
+            "peak_allocated_mib": 100.0,
+            "peak_reserved_mib": 120.0,
+            "amp_enabled": False,
+            "amp": {"scale_before": 1.0, "scale_after": 1.0, "retries": 0},
+            "temporal_loss_applied": False,
+            "temporal_context_sample_id": None,
+        }
+
+    monkeypatch.setattr(profile, "_gpu_step", measured)
+    # Cache mechanics are independent of concurrent edits by other test workers.
+    monkeypatch.setattr(
+        profile,
+        "_topology_implementation_contract",
+        lambda device: {"implementation": "test-sealed", "device_type": device.type},
+    )
+    return calls
+
+
+def _run(config, output, **kwargs):
+    return profile.training_preflight(
+        config,
+        output,
+        profile_samples=1,
+        top_density_count=2,
+        require_cuda=False,
+        **kwargs,
+    )
+
+
+def test_interrupted_scan_commits_prefix_then_resumes_without_rescanning(
+    tmp_path, monkeypatch, fast_profile
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    output = tmp_path / "profile.json"
+    original = profile._sample_topology
+    scans = []
+    interrupted = False
+
+    def interrupt_once(sample, model_config, index):
+        nonlocal interrupted
+        scans.append(index)
+        if index == 2 and not interrupted:
+            interrupted = True
+            raise KeyboardInterrupt
+        return original(sample, model_config, index)
+
+    monkeypatch.setattr(profile, "_sample_topology", interrupt_once)
+    with pytest.raises(KeyboardInterrupt):
+        _run(config, output)
+    failed = json.loads(output.read_text())
+    assert failed["status"] == "interrupted"
+    assert failed["scan_samples_committed"] == 2
+    assert fast_profile == []
+    report = _run(config, output, resume_scan=True)
+    assert report["passed"] is True
+    assert scans == [0, 1, 2, 2, 3]
+    assert report["scan_provenance"]["reused_samples"] == 2
+    assert report["scan_provenance"]["new_samples"] == 2
+
+
+def test_gpu_probe_failure_retains_complete_scan_for_explicit_resume(
+    tmp_path, monkeypatch, fast_profile
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    output = tmp_path / "profile.json"
+    measured = profile._gpu_step
+
+    def failure(*args, **kwargs):
+        raise FloatingPointError("Non-finite gradient in first sample")
+
+    monkeypatch.setattr(profile, "_gpu_step", failure)
+    failed = _run(config, output)
+    assert failed["passed"] is False
+    assert failed["topology"]["scan_complete"] is True
+    assert failed["scan_samples_committed"] == 4
+    assert "first sample" in failed["training_probe"]["failure"]["message"]
+    monkeypatch.setattr(profile, "_gpu_step", measured)
+    monkeypatch.setattr(
+        profile,
+        "_sample_topology",
+        lambda *args: pytest.fail("Completed topology must not be scanned twice"),
+    )
+    resumed = _run(config, output, resume_scan=True)
+    assert resumed["passed"] is True
+    assert resumed["scan_provenance"]["new_samples"] == 0
+    assert fast_profile[0] == 0
+
+
+def test_concurrent_resume_refusal_preserves_existing_failure_report(
+    tmp_path, monkeypatch, fast_profile
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    output = tmp_path / "profile.json"
+
+    def failure(*args, **kwargs):
+        raise FloatingPointError("first sample backward failed")
+
+    monkeypatch.setattr(profile, "_gpu_step", failure)
+    _run(config, output)
+    before = output.read_bytes()
+    directory = output.with_suffix(".scan")
+    index = json.loads((directory / "index.json").read_text())
+    owner = ScanJournal(directory, index["contract"], resume=True)
+    try:
+        with pytest.raises(ScanInUseError, match="Another process"):
+            _run(config, output, resume_scan=True)
+        assert output.read_bytes() == before
+    finally:
+        owner.close()
+
+
+def test_explicit_reuse_preserves_report_and_reruns_numerical_and_dense_probes(
+    tmp_path, monkeypatch, fast_profile
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    original_path = tmp_path / "original.json"
+    original = _run(config, original_path)
+    original_bytes = original_path.read_bytes()
+    fast_profile.clear()
+    monkeypatch.setattr(
+        profile, "_sample_topology", lambda *args: pytest.fail("Explicit reuse must not rescan")
+    )
+    report = _run(config, tmp_path / "new.json", reuse_report=original_path)
+    assert report["passed"] is True
+    assert report["topology"] == original["topology"]
+    assert report["scan_provenance"]["reused_samples"] == 4
+    assert report["scan_provenance"]["origin"]["gpu_measurements_reused"] is False
+    assert original_path.read_bytes() == original_bytes
+    assert fast_profile[0] == 0
+    assert len(fast_profile) == 1 + len(report["training_probe"]["numerical_probes"])
+    with pytest.raises(ValueError, match="different output"):
+        _run(config, original_path, reuse_report=original_path)
+    with pytest.raises(ValueError, match="mutually exclusive"):
+        _run(config, tmp_path / "other.json", resume_scan=True, reuse_report=original_path)
+
+
+def _legacy(report, path):
+    legacy = copy.deepcopy(report)
+    source_hash, commit = min(profile.LEGACY_TOPOLOGY_SOURCES)
+    legacy["schema"] = "asgcn_training_preflight_v1"
+    legacy["status"] = "passed"
+    legacy["passed"] = legacy["report_eligible"] = True
+    legacy["request"]["require_cuda"] = True
+    legacy["checks"]["cuda_available"] = legacy["checks"]["cuda_oom_free"] = True
+    legacy["source_provenance"] = {
+        "source_tree_sha256": source_hash,
+        "git_commit": commit,
+        "git_source_dirty": False,
+    }
+    legacy["output"] = profile._artifact_path_label(path)
+    legacy.pop("topology_contract", None)
+    legacy.pop("scan_provenance", None)
+    legacy["training_probe"].pop("numerical_selection", None)
+    legacy["training_probe"].pop("numerical_probes", None)
+    return legacy
+
+
+def test_audited_legacy_report_migrates_only_topology_with_cpu_origin(
+    tmp_path, monkeypatch, fast_profile
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    generated = _run(config, tmp_path / "generated.json")
+    path = tmp_path / "legacy.json"
+    legacy = _legacy(generated, path)
+    save_json(path, legacy)
+    before = path.read_bytes()
+    fast_profile.clear()
+    monkeypatch.setattr(
+        profile, "_sample_topology", lambda *args: pytest.fail("Legacy topology must be preserved")
+    )
+    migrated = _run(config, tmp_path / "migrated.json", reuse_report=path)
+    assert migrated["passed"] is True
+    assert migrated["schema"] == "asgcn_training_preflight_v2"
+    assert migrated["scan_provenance"]["origin"]["record_device"] == "cpu"
+    assert migrated["scan_provenance"]["new_samples"] == 0
+    assert fast_profile[0] == 0
+    assert path.read_bytes() == before
+
+
+@pytest.mark.parametrize("change", ["source", "dirty", "summary", "data", "config", "identity"])
+def test_legacy_reuse_rejects_untrusted_or_inconsistent_inputs(
+    tmp_path, fast_profile, change
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    generated = _run(config, tmp_path / "generated.json")
+    path = tmp_path / "legacy.json"
+    legacy = _legacy(generated, path)
+    if change == "source":
+        legacy["source_provenance"]["source_tree_sha256"] = "0" * 64
+    elif change == "dirty":
+        legacy["source_provenance"]["git_source_dirty"] = True
+    elif change == "summary":
+        legacy["topology"]["totals"]["raw_events"] += 1
+    elif change == "data":
+        legacy["data_provenance"]["content"]["sha256"] = "0" * 64
+    elif change == "config":
+        legacy["config_provenance"]["config"]["seed"] += 1
+    else:
+        legacy["topology"]["samples"][0]["scene"] = "wrong-source"
+    save_json(path, legacy)
+    fast_profile.clear()
+    rejected = _run(config, tmp_path / "rejected.json", reuse_report=path)
+    assert rejected["passed"] is False
+    assert rejected["scan_samples_committed"] == 0
+    assert fast_profile == []
+
+
+def test_topology_transfer_uses_selected_cuda_and_never_silent_cpu_fallback() -> None:
+    transfers = []
+
+    class Events:
+        device = torch.device("cuda:0")
+        is_cuda = True
+
+        def to(self, *, device, non_blocking):
+            transfers.append((device, non_blocking))
+            return self
+
+    class Dataset:
+        def get_topology_sample(self, index):
+            assert index == 7
+            return {"events": Events(), "sample_id": "test"}
+
+        def __getitem__(self, index):
+            pytest.fail("Topology scan must not request a target image")
+
+    profile._scan_sample(Dataset(), 7, torch.device("cuda"))
+    assert transfers == [(torch.device("cuda"), True)]
+    Events.device = torch.device("cpu")
+    Events.is_cuda = False
+    with pytest.raises(RuntimeError, match="selected execution device"):
+        profile._scan_sample(Dataset(), 7, torch.device("cuda"))
+
+
+def test_numerical_selection_covers_first_empty_and_sparse_without_duplicates() -> None:
+    records = [
+        {
+            "dataset_index": i,
+            "sample_id": str(i),
+            "model_sampled_events": n,
+            "actual_directed_edges": e,
+        }
+        for i, n, e in ((0, 0, 0), (1, 8, 24), (2, 1, 0), (3, 0, 0))
+    ]
+    chosen = profile._numerical_selection(records)
+    assert [entry["dataset_index"] for entry in chosen] == [0, 2]
+    assert chosen[0]["reasons"] == ["first_chronological", "first_empty"]
+    assert chosen[1]["reasons"] == ["sparsest_nonempty"]
+
+
+def test_record_identity_must_match_real_dataset_even_if_summaries_are_self_consistent(
+    tmp_path, fast_profile
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    report = _run(config, tmp_path / "profile.json")
+    records = copy.deepcopy(report["topology"]["samples"])
+    records[0]["sample_id"] = "invented-but-unique"
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        with pytest.raises(ValueError, match="identity differs"):
+            profile._validate_topology_records(
+                records, len(dataset), config["model"], dataset=dataset, complete=True
+            )
+    finally:
+        dataset.close()
+
+
+def test_verifier_rejects_jointly_rewritten_sample_identity_summary_and_probes(
+    tmp_path, monkeypatch, fast_profile
+) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    output = tmp_path / "profile.json"
+    report = _run(config, output)
+    report["status"] = "passed"
+    report["passed"] = report["report_eligible"] = True
+    report["request"]["require_cuda"] = True
+    report["checks"]["cuda_available"] = report["checks"]["cuda_oom_free"] = True
+    records = report["topology"]["samples"]
+    records[0]["sample_id"] = "self-consistent-but-not-the-real-sample"
+    report["topology"] = profile._topology_summary(
+        records,
+        dataset_size=len(records),
+        data_max_events=config["dataset"]["max_events"],
+        model_config=config["model"],
+        top_density_count=2,
+    )
+    probe = report["training_probe"]
+    for key in ("selected_samples", "steps", "numerical_selection", "numerical_probes"):
+        for item in probe[key]:
+            if item["dataset_index"] == 0:
+                item["sample_id"] = records[0]["sample_id"]
+    save_json(output, report)
+    assert profile._require_verified_report_contract(report, output) is report
+    monkeypatch.setattr(profile.torch.cuda, "is_available", lambda: True)
+    monkeypatch.setattr(profile, "resolve_device", lambda value: torch.device("cuda"))
+    monkeypatch.setattr(profile, "_current_source_contract", lambda: report["source_provenance"])
+    monkeypatch.setattr(profile, "_runtime_provenance", lambda device: report["runtime_provenance"])
+    monkeypatch.setattr(
+        profile, "_topology_implementation_contract", lambda device: report["topology_contract"]
+    )
+    monkeypatch.setattr(
+        profile, "_training_protocol", lambda config, device: probe["training_protocol"]
+    )
+    with pytest.raises(ValueError, match="identity differs"):
+        profile.verify_training_preflight(config, output)
+
+
+@pytest.mark.parametrize(
+    ("effective", "fresh", "amp", "mode"),
+    [
+        (True, True, {"scale_before": 65536.0, "scale_after": 32768.0, "retries": 1}, True),
+        (False, True, {"scale_before": 1.0, "scale_after": 1.0, "retries": 0}, False),
+        (True, False, {"scale_before": 128.0, "scale_after": 256.0, "retries": 0}, True),
+    ],
+)
+def test_probe_amp_contract_accepts_valid_finite_scale_history(effective, fresh, amp, mode) -> None:
+    profile._validate_probe_amp({"amp_enabled": mode, "amp": amp}, effective, fresh=fresh)
+
+
+@pytest.mark.parametrize(
+    ("effective", "fresh", "amp", "mode"),
+    [
+        (True, True, {"scale_before": 2.0, "scale_after": 2.0, "retries": 0}, True),
+        (True, False, {"scale_before": 2.0, "scale_after": 0.0, "retries": 0}, True),
+        (True, False, {"scale_before": float("inf"), "scale_after": 1.0, "retries": 1}, True),
+        (True, False, {"scale_before": 2.0, "scale_after": 1.0, "retries": 17}, True),
+        (True, False, {"scale_before": 2.0, "scale_after": 1.0, "retries": True}, True),
+        (False, False, {"scale_before": 1.0, "scale_after": 1.0, "retries": 1}, False),
+        (False, False, {"scale_before": 2.0, "scale_after": 2.0, "retries": 0}, False),
+        (False, False, {"scale_before": 1.0, "scale_after": 1.0, "retries": 0}, True),
+    ],
+)
+def test_probe_amp_contract_rejects_false_or_unbounded_diagnostics(
+    effective, fresh, amp, mode
+) -> None:
+    with pytest.raises(ValueError, match="AMP|GradScaler"):
+        profile._validate_probe_amp({"amp_enabled": mode, "amp": amp}, effective, fresh=fresh)
+
+
+def test_successful_profile_cannot_be_overwritten_by_resume(tmp_path, fast_profile) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    output = tmp_path / "profile.json"
+    _run(config, output)
+    original = output.read_bytes()
+    with pytest.raises(FileExistsError, match="failed/interrupted"):
+        _run(config, output, resume_scan=True)
+    assert output.read_bytes() == original
+
+
+def test_journal_contract_digest_is_canonical_and_does_not_accept_nonfinite_values() -> None:
+    assert canonical_hash({"a": 1, "b": 2}) == canonical_hash({"b": 2, "a": 1})
+    with pytest.raises(ValueError):
+        canonical_hash({"value": float("nan")})
+~~~~~~~~
+
 # tests/test_public_provenance.py
 
 ~~~~~~~~python
@@ -26554,6 +29120,416 @@ def test_noninspect_cli_redaction_failure_suppresses_details_and_traceback(
     )
     assert str(tmp_path.resolve()) not in message
     assert error.value.__suppress_context__ is True
+~~~~~~~~
+
+# tests/test_recovery.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import copy
+import json
+from pathlib import Path
+
+import pytest
+
+import asgcn_unet.cli as cli_module
+from asgcn_unet.recovery import archive_uncheckpointed_run
+from asgcn_unet.utils import save_json
+
+
+def _metadata_directory(path: Path) -> dict[str, bytes]:
+    path.mkdir(parents=True)
+    payloads = {
+        "config.json": json.dumps({"model": {}, "dataset": {}, "train": {}}).encode(),
+        "preflight_gate.json": b'{"status":"prior-gate"}\r\n',
+        ".data_hash_cache.json": b'{"cached":"bytes must remain identical"}\n',
+    }
+    for name, value in payloads.items():
+        (path / name).write_bytes(value)
+    return payloads
+
+
+def _assert_payloads(path: Path, payloads: dict[str, bytes]) -> None:
+    assert {entry.name for entry in path.iterdir()} == set(payloads)
+    for name, value in payloads.items():
+        assert (path / name).read_bytes() == value
+
+
+def test_archive_preserves_every_metadata_byte_in_unique_sibling_container(tmp_path) -> None:
+    project = tmp_path / "project"
+    run_dir = project / "runs" / "train"
+    payloads = _metadata_directory(run_dir)
+    archived = archive_uncheckpointed_run(run_dir, project)
+    assert archived is not None
+    assert not run_dir.exists()
+    assert archived.name == "train"
+    assert archived.parent.parent == run_dir.parent
+    assert archived.parent.name.startswith("train.failed-")
+    _assert_payloads(archived, payloads)
+
+
+def test_repeated_explicit_restarts_never_overwrite_an_older_archive(tmp_path) -> None:
+    project = tmp_path / "project"
+    run_dir = project / "runs" / "train"
+    original = _metadata_directory(run_dir)
+    first = archive_uncheckpointed_run(run_dir, project)
+    replacement = _metadata_directory(run_dir)
+    replacement["preflight_gate.json"] = b'{"status":"different-failed-run"}\n'
+    (run_dir / "preflight_gate.json").write_bytes(replacement["preflight_gate.json"])
+    second = archive_uncheckpointed_run(run_dir, project)
+    assert first is not None and second is not None and first != second
+    _assert_payloads(first, original)
+    _assert_payloads(second, replacement)
+
+
+@pytest.mark.parametrize("exists", [False, True])
+def test_missing_or_empty_run_directory_is_an_unchanged_noop(tmp_path, exists: bool) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    run_dir = project / "train"
+    if exists:
+        run_dir.mkdir()
+    before = set(project.iterdir())
+    assert archive_uncheckpointed_run(run_dir, project) is None
+    assert set(project.iterdir()) == before
+    assert run_dir.exists() == exists
+
+
+@pytest.mark.parametrize("name", [
+    "best.pt", "last.pt", "checkpoint.pt", "history.json", "history.csv",
+    "metrics.json", "notes.txt", "profile.json", ".unexpected",
+])
+def test_checkpoint_history_and_unknown_entries_are_never_moved(tmp_path, name: str) -> None:
+    project = tmp_path / "project"
+    run_dir = project / "runs" / "train"
+    payloads = _metadata_directory(run_dir)
+    payloads[name] = b"irreplaceable-existing-output"
+    (run_dir / name).write_bytes(payloads[name])
+    with pytest.raises(ValueError, match="checkpoints, history, or unknown"):
+        archive_uncheckpointed_run(run_dir, project)
+    _assert_payloads(run_dir, payloads)
+    assert list(run_dir.parent.iterdir()) == [run_dir]
+
+
+@pytest.mark.parametrize("name", ["checkpoints", "config.json"])
+def test_nested_directory_is_not_treated_as_metadata(tmp_path, name: str) -> None:
+    project = tmp_path / "project"
+    run_dir = project / "runs" / "train"
+    run_dir.mkdir(parents=True)
+    child = run_dir / name
+    child.mkdir()
+    marker = child / "keep.bin"
+    marker.write_bytes(b"retain nested data")
+    with pytest.raises(ValueError, match="checkpoints, history, or unknown"):
+        archive_uncheckpointed_run(run_dir, project)
+    assert marker.read_bytes() == b"retain nested data"
+    assert list(run_dir.parent.iterdir()) == [run_dir]
+
+
+@pytest.mark.parametrize("bad_config", [
+    b"not json", b"[]", b"null", b"{}", b'{"model":{},"train":{}}',
+    b'{"model":null,"dataset":[],"train":1}',
+])
+def test_malformed_config_cannot_authorize_an_archive(tmp_path, bad_config: bytes) -> None:
+    project = tmp_path / "project"
+    run_dir = project / "runs" / "train"
+    payloads = _metadata_directory(run_dir)
+    payloads["config.json"] = bad_config
+    (run_dir / "config.json").write_bytes(bad_config)
+    with pytest.raises(ValueError):
+        archive_uncheckpointed_run(run_dir, project)
+    _assert_payloads(run_dir, payloads)
+    assert list(run_dir.parent.iterdir()) == [run_dir]
+
+
+@pytest.mark.parametrize("scope", ["project", "parent", "root", "home"])
+def test_broad_directories_are_rejected_before_any_entry_inspection(
+    tmp_path, monkeypatch, scope: str
+) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    fake_home = tmp_path / "user-home"
+    fake_home.mkdir()
+    monkeypatch.setattr(Path, "home", classmethod(lambda cls: fake_home))
+    targets = {
+        "project": project, "parent": project.parent,
+        "root": Path(project.anchor), "home": fake_home,
+    }
+    with pytest.raises(ValueError, match="broad directory"):
+        archive_uncheckpointed_run(targets[scope], project)
+    assert sorted(entry.name for entry in tmp_path.iterdir()) == ["project", "user-home"]
+
+
+def test_regular_file_is_not_a_training_directory(tmp_path) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    run_dir = project / "train"
+    run_dir.write_bytes(b"not a directory")
+    with pytest.raises(ValueError, match="not a directory"):
+        archive_uncheckpointed_run(run_dir, project)
+    assert run_dir.read_bytes() == b"not a directory"
+
+
+def _symlink_or_skip(link: Path, target: Path, *, directory: bool = False) -> None:
+    try:
+        link.symlink_to(target, target_is_directory=directory)
+    except (OSError, NotImplementedError) as error:
+        pytest.skip(f"Host cannot create test symlinks: {error}")
+
+
+def test_linked_run_directory_is_rejected_without_moving_its_target(tmp_path) -> None:
+    project = tmp_path / "project"
+    project.mkdir()
+    original = tmp_path / "original"
+    payloads = _metadata_directory(original)
+    link = project / "train"
+    _symlink_or_skip(link, original, directory=True)
+    with pytest.raises(ValueError, match="linked training directory"):
+        archive_uncheckpointed_run(link, project)
+    assert link.is_symlink()
+    _assert_payloads(original, payloads)
+
+
+def test_linked_metadata_file_is_rejected_without_moving_either_directory(tmp_path) -> None:
+    project = tmp_path / "project"
+    run_dir = project / "train"
+    run_dir.mkdir(parents=True)
+    original = tmp_path / "outside.json"
+    original.write_text('{"model":{},"dataset":{},"train":{}}', encoding="utf-8")
+    linked = run_dir / "config.json"
+    _symlink_or_skip(linked, original)
+    with pytest.raises(ValueError, match="checkpoints, history, or unknown"):
+        archive_uncheckpointed_run(run_dir, project)
+    assert linked.is_symlink()
+    assert original.is_file()
+    assert list(project.iterdir()) == [run_dir]
+
+
+def test_linked_parent_alias_cannot_bypass_the_broad_project_guard(tmp_path) -> None:
+    project = tmp_path / "projects" / "checkout"
+    payloads = _metadata_directory(project)
+    alias = tmp_path / "alias"
+    _symlink_or_skip(alias, project.parent, directory=True)
+    # The final component is not a symlink, but resolving its parent reaches the
+    # protected project directory. Never trust textual path-prefix comparisons.
+    with pytest.raises(ValueError, match="broad directory"):
+        archive_uncheckpointed_run(alias / project.name, project)
+    _assert_payloads(project, payloads)
+    assert list(project.parent.iterdir()) == [project]
+
+
+def test_failed_rename_preserves_original_bytes_and_existing_archives(tmp_path, monkeypatch) -> None:
+    project = tmp_path / "project"
+    run_dir = project / "runs" / "train"
+    payloads = _metadata_directory(run_dir)
+    older = run_dir.parent / "train.failed-existing"
+    older.mkdir()
+    (older / "keep.bin").write_bytes(b"older archive")
+    destinations: list[Path] = []
+
+    def fail_rename(source, destination):
+        assert source == run_dir.resolve()
+        destinations.append(Path(destination))
+        raise PermissionError("simulated rename failure")
+
+    monkeypatch.setattr(Path, "rename", fail_rename)
+    with pytest.raises(PermissionError, match="simulated rename failure"):
+        archive_uncheckpointed_run(run_dir, project)
+    _assert_payloads(run_dir, payloads)
+    assert (older / "keep.bin").read_bytes() == b"older archive"
+    assert len(destinations) == 1
+    assert destinations[0].parent != older
+    assert destinations[0].parent.is_dir()
+    assert list(destinations[0].parent.iterdir()) == []
+
+
+def _cli_fixture(tmp_path: Path, monkeypatch) -> tuple[Path, dict]:
+    project = tmp_path / "project"
+    project.mkdir()
+    config = {
+        "model": {}, "dataset": {}, "train": {},
+        "output": {"run_dir": str(project / "runs" / "train")},
+    }
+    monkeypatch.setattr(cli_module, "load_json", lambda path: copy.deepcopy(config))
+    monkeypatch.setattr(cli_module, "resolve_experiment_paths", lambda value, path: value)
+    monkeypatch.setattr(cli_module, "experiment_base_dir", lambda path: project)
+    return project, config
+
+
+def _args(project: Path, command: str, *extra: str):
+    return cli_module.build_parser().parse_args([
+        command, "--config", str(project / "config.json"), *extra,
+    ])
+
+
+def test_cli_archives_only_after_verified_profile_and_before_new_gate(
+    tmp_path, monkeypatch
+) -> None:
+    project, config = _cli_fixture(tmp_path, monkeypatch)
+    run_dir = Path(config["output"]["run_dir"])
+    payloads = _metadata_directory(run_dir)
+    calls: list[str] = []
+    archives: list[Path] = []
+    gate = {"status": "passed", "report_eligible": True}
+
+    def verify(value, report):
+        calls.append("verify")
+        assert value["output"] == config["output"]
+        assert report == project / "runs" / "passed.json"
+        _assert_payloads(run_dir, payloads)
+        return gate
+
+    def archive(path, root):
+        calls.append("archive")
+        assert calls == ["verify", "archive"]
+        result = archive_uncheckpointed_run(path, root)
+        assert result is not None
+        archives.append(result)
+        return result
+
+    def write_gate(path, value):
+        calls.append("write_gate")
+        assert calls == ["verify", "archive", "write_gate"]
+        assert not run_dir.exists()
+        assert value == gate
+        save_json(path, value)
+
+    def train(value, *, resume_from):
+        calls.append("train")
+        assert resume_from is None
+        assert value["preflight_gate"] == gate
+        assert json.loads((run_dir / "preflight_gate.json").read_text()) == gate
+        assert not (run_dir / "config.json").exists()
+        return run_dir / "best.pt"
+
+    monkeypatch.setattr(cli_module, "verify_training_preflight", verify)
+    monkeypatch.setattr(cli_module, "archive_uncheckpointed_run", archive)
+    monkeypatch.setattr(cli_module, "save_json", write_gate)
+    monkeypatch.setattr(cli_module, "train", train)
+    cli_module._execute_command(_args(
+        project, "train", "--restart-uncheckpointed", "--preflight-report", "runs/passed.json"
+    ))
+    assert calls == ["verify", "archive", "write_gate", "train"]
+    _assert_payloads(archives[0], payloads)
+
+
+def test_failed_profile_verification_cannot_move_or_overwrite_old_metadata(
+    tmp_path, monkeypatch
+) -> None:
+    project, config = _cli_fixture(tmp_path, monkeypatch)
+    run_dir = Path(config["output"]["run_dir"])
+    payloads = _metadata_directory(run_dir)
+
+    def rejected(*args, **kwargs):
+        raise RuntimeError("profile is stale")
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Unverified profile must not alter training output")
+
+    monkeypatch.setattr(cli_module, "verify_training_preflight", rejected)
+    for name in ("archive_uncheckpointed_run", "save_json", "train"):
+        monkeypatch.setattr(cli_module, name, forbidden)
+    with pytest.raises(RuntimeError, match="profile is stale"):
+        cli_module._execute_command(_args(project, "train", "--restart-uncheckpointed"))
+    _assert_payloads(run_dir, payloads)
+
+
+def test_rejected_archive_cannot_overwrite_existing_preflight_gate(tmp_path, monkeypatch) -> None:
+    project, config = _cli_fixture(tmp_path, monkeypatch)
+    run_dir = Path(config["output"]["run_dir"])
+    payloads = _metadata_directory(run_dir)
+    payloads["last.pt"] = b"existing checkpoint"
+    (run_dir / "last.pt").write_bytes(payloads["last.pt"])
+    monkeypatch.setattr(
+        cli_module, "verify_training_preflight", lambda *args: {"status": "passed"}
+    )
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Rejected archive must not write a new gate or train")
+
+    monkeypatch.setattr(cli_module, "save_json", forbidden)
+    monkeypatch.setattr(cli_module, "train", forbidden)
+    with pytest.raises(ValueError, match="checkpoints, history, or unknown"):
+        cli_module._execute_command(_args(project, "train", "--restart-uncheckpointed"))
+    _assert_payloads(run_dir, payloads)
+
+
+@pytest.mark.parametrize("resume_source", ["argument", "config"])
+def test_restart_and_checkpoint_resume_are_rejected_before_any_mutation(
+    tmp_path, monkeypatch, resume_source: str
+) -> None:
+    project, config = _cli_fixture(tmp_path, monkeypatch)
+    extra = ["--restart-uncheckpointed"]
+    if resume_source == "argument":
+        extra.extend(["--resume", "runs/last.pt"])
+    else:
+        config["train"]["resume"] = "runs/last.pt"
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Conflicting resume must fail before any work")
+
+    for name in ("verify_training_preflight", "archive_uncheckpointed_run", "save_json", "train"):
+        monkeypatch.setattr(cli_module, name, forbidden)
+    with pytest.raises(ValueError, match="cannot be combined with resume"):
+        cli_module._execute_command(_args(project, "train", *extra))
+
+
+def test_restart_cannot_bypass_the_required_passed_profile(tmp_path, monkeypatch) -> None:
+    project, _config = _cli_fixture(tmp_path, monkeypatch)
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Restart with a bypass must fail before any mutation")
+
+    for name in ("archive_uncheckpointed_run", "save_json", "train"):
+        monkeypatch.setattr(cli_module, name, forbidden)
+    with pytest.raises(ValueError, match="preflight|profile|bypass"):
+        cli_module._execute_command(_args(
+            project, "train", "--restart-uncheckpointed", "--allow-unverified-preflight"
+        ))
+
+
+@pytest.mark.parametrize("explicit", [False, True])
+def test_profile_cli_forwards_resume_reuse_and_cpu_thread_arguments(
+    tmp_path, monkeypatch, explicit: bool
+) -> None:
+    project, config = _cli_fixture(tmp_path, monkeypatch)
+    calls: list[tuple] = []
+    monkeypatch.setattr(cli_module.torch, "set_num_threads", lambda value: calls.append(("cpu", value)))
+
+    def profile(value, output, **kwargs):
+        calls.append(("profile", output, kwargs))
+        assert value == config
+        return {"passed": True}
+
+    monkeypatch.setattr(cli_module, "training_preflight", profile)
+    extra = ["--output", "runs/new.json"]
+    if explicit:
+        extra.extend([
+            "--resume-scan", "--reuse-report", "runs/old.json", "--cpu-threads", "2",
+            "--samples", "5", "--top-density", "12",
+        ])
+    cli_module._execute_command(_args(project, "profile", *extra))
+    assert calls == [
+        ("cpu", 2 if explicit else 4),
+        ("profile", project / "runs" / "new.json", {
+            "profile_samples": 5 if explicit else 3,
+            "top_density_count": 12 if explicit else 10,
+            "require_cuda": True,
+            "resume_scan": explicit,
+            "reuse_report": project / "runs" / "old.json" if explicit else None,
+        }),
+    ]
+
+
+@pytest.mark.parametrize("value", ["0", "-1", "1.5", "many"])
+def test_profile_rejects_invalid_cpu_thread_count(value: str) -> None:
+    with pytest.raises(SystemExit) as caught:
+        cli_module.build_parser().parse_args([
+            "profile", "--config", "config.json", "--output", "out.json",
+            "--cpu-threads", value,
+        ])
+    assert caught.value.code == 2
 ~~~~~~~~
 
 # tests/test_repo_hygiene.py
@@ -27909,7 +30885,7 @@ def test_all_wrappers_support_optional_validate_all_preflight() -> None:
 
 def test_training_wrapper_requires_verified_profile_or_explicit_nonreporting_bypass() -> None:
     script = _text("scripts/train.sh")
-    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"' in script
+    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-runs/profile.json}}"' in script
     assert 'ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"' in script
     assert "--preflight-report" in script
     assert "--allow-unverified-preflight" in script

@@ -3,9 +3,10 @@
 MobaXterm 등의 SSH client로 접속한 Linux GPU 서버 또는 scheduler compute node에서 실행한다.
 아래 명령은 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 실험 경로를 설명한다.
 
-GPU 미니배치 실험은 [TRAIN.md](TRAIN.md)를 따른다. `EXPERIMENT=batch`는 별도 `configs/batch.json`,
-`runs/batch`, batch CUDA profile과 평가 출력 경로를 선택한다. 기본 단일 프레임 실험과 checkpoint를
-공유하지 않는다. 실행 중인 기준선 checkout을 갱신하거나 같은 GPU에서 학습을 겹쳐 실행하지 않는다.
+GPU 미니배치 실험은 [TRAIN.md](TRAIN.md)를 따른다. `EXPERIMENT=batch`는 B4+Torch,
+`EXPERIMENT=fast`는 서버 비교에서 선택된 B16+Triton과 각각의 config, CUDA profile, `runs/batch` 또는
+`runs/fast` 출력 경로를 선택한다. 기본 단일 프레임 실험과 checkpoint를 공유하지 않는다. 실행 중인
+학습 checkout을 갱신하거나 같은 GPU에서 학습을 겹쳐 실행하지 않는다.
 
 ## 1. 환경 설치
 
@@ -274,7 +275,7 @@ summary가 유지된다.
 `--allow-unsealed-calibration`을 직접 지정한 실행은 전체 sample이어도 override 자체가 기록돼
 `sealed=false`이며 보고용 표에 사용할 수 없다.
 
-## 4. 중단 후 epoch-boundary resume
+## 4. 중단 후 profile 및 batch-boundary resume
 
 ### 사전검사 중단 후 이어가기
 
@@ -318,7 +319,7 @@ metadata-only `runs/train`은 `runs/train.failed-*/train`으로 보존된다. `c
 `preflight_gate.json`, `.data_hash_cache.json` 외 파일·하위 폴더 또는 checkpoint가 있으면 자동으로
 옮기지 않는다. 기존 작업은 먼저 종료해야 한다. 이 옵션은 epoch 내부 학습을 복원하는 resume가 아니다.
 
-### 완료된 epoch부터 학습 재개
+### epoch 중간의 확인된 batch부터 학습 재개
 
 직접 실행은 다음과 같다.
 
@@ -337,12 +338,37 @@ RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
 두 wrapper 모두 `PROFILE_OUTPUT`을 따르며, 저수준 wrapper에서 `PREFLIGHT_REPORT`를 따로 지정하면
 그 값이 우선한다. 이전 profile 이관을 사용했다면 `PROFILE_OUTPUT=runs/profile2.json`을 유지한다.
 
-`last.pt`는 각 완료 epoch 뒤에 저장되므로 종료된 epoch 내부 step은 되풀이된다. checkpoint는 같은
-configured run directory 안에 있어야 하며, source tree/Git 상태, model·optimizer·scheduler·AMP,
-validation/data full SHA-256과 PyTorch/CUDA/cuDNN·GPU 이름/compute capability·visible CUDA RNG state가
-일치해야 한다. `runs/profile.json`도 현재 config·전체 train data·source·동일 CUDA runtime에 다시
-결합되어야 한다. 다른 GPU나 source checkout으로 옮기는 것은 일반 weight load가 아니라 exact resume
-요청이므로 거부될 수 있다. 상세 계약은 [EXPERIMENT.md](EXPERIMENT.md)의 resume 절을 따른다.
+현재 checkpoint는 기본 300초 간격, 각 epoch 끝, `Ctrl+C`/`SIGTERM` 또는 `MAX_HOURS` 요청 뒤의
+**성공한 optimizer update 경계**에서 `last.pt`를 원자적으로 갱신한다. model·optimizer·scheduler·AMP
+scaler·Python/NumPy/Torch/CUDA RNG뿐 아니라 현재 epoch의 다음 batch cursor, 처리 frame 수, 누적 loss,
+AMP 재시도 수, 누적 학습 시간과 활성 sequence별 recurrent state·이전 prediction/target을 저장한다.
+DataLoader가 미리 decode한 batch가 아니라 실제 optimizer update와 context commit이 끝나 확인된 batch만
+cursor에 반영한다. 재개 시 저장된 schedule SHA-256과 cursor/frame 수/context identity를 dataset index와
+대조한 뒤 다음 batch부터 읽으므로 완료 update를 중복하지 않는다.
+
+시간을 나눠 실행하려면 scheduler walltime보다 짧은 예산을 지정한다. 예시는 fast run을 6시간 단위로
+실행하는 경우다.
+
+```bash
+EXPERIMENT=fast MAX_HOURS=6 bash scripts/run.sh train
+EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
+  bash scripts/run.sh train
+```
+
+정상 일시정지는 종료코드 75이며 상위 `run.sh`은 train 상태를 `PAUSED`로 기록하고 calibration/eval을
+실행하지 않는다. 주기는 `CHECKPOINT_SECONDS=120`처럼 바꿀 수 있다. `SIGKILL`, 전원 차단 또는 scheduler
+hard kill은 handler가 실행되지 않으므로 마지막 주기 checkpoint 뒤의 batch는 다시 계산될 수 있다.
+checkpoint는 같은 configured run directory 안에 있어야 하며, source tree/Git 상태,
+model·optimizer·scheduler·AMP, validation/data full SHA-256과 PyTorch/CUDA/cuDNN·GPU 이름/compute
+capability·visible CUDA RNG state가 일치해야 한다. profile도 현재 config·전체 train data·source·동일
+CUDA runtime에 다시 결합되어야 한다. 중단 중 `git pull`하거나 config/runtime을 바꾸지 않는다.
+
+현재 새 학습은 batch 1에서 training protocol v7, sequence batch에서 v8을 기록한다. 기존 v5/v6
+checkpoint의 reporting metadata는 calibration/evaluation에서 읽을 수 있지만, isolated epoch loader RNG와
+mid-epoch schedule 계약이 없는 v5/v6 checkpoint를 v7/v8 실행에 exact training resume로 승격하지 않는다.
+그 checkpoint는 작성 당시 source에서 epoch 경계 재개하거나, 현재 source에서는 새 output의 새 run을
+시작한다. 다른 GPU나 source checkout으로 옮기는 것도 일반 weight load가 아니라 exact resume 요청이므로
+거부될 수 있다. 상세 계약은 [EXPERIMENT.md](EXPERIMENT.md)의 resume 절을 따른다.
 
 상위 runner는 `check`, `profile`, `train`, `calibrate`, `eval`, `all` stage를 제공한다. 학습 재개가 끝난 뒤에는
 `bash scripts/run.sh calibrate`, 그다음 `bash scripts/run.sh eval`을 실행한다. 기존 training,
@@ -567,7 +593,7 @@ bash scripts/run.sh eval
 `PROFILE_RESUME=1` 절차로 이어가고, 별도 새 검사라면 `PROFILE_OUTPUT`에 새 파일명을 지정해
 원본 보고서와 journal을 모두 보존한다. JSON만 옮기면 기존 journal 때문에 새 검사가 거부된다.
 이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train
-명령을 그대로 쓰지 말고 [epoch-boundary resume](#4-중단-후-epoch-boundary-resume)를 따른다.
+명령을 그대로 쓰지 말고 [batch-boundary resume](#4-중단-후-profile-및-batch-boundary-resume)를 따른다.
 
 자주 중단되는 조건은 다음과 같다.
 

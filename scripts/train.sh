@@ -3,13 +3,29 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/train.json}}"
+EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single)
+    DEFAULT_TRAIN_CONFIG=configs/train.json
+    DEFAULT_PROFILE_OUTPUT=runs/profile.json
+    ;;
+  batch)
+    DEFAULT_TRAIN_CONFIG=configs/batch.json
+    DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json
+    ;;
+  fast)
+    DEFAULT_TRAIN_CONFIG=configs/fast.json
+    DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+CONFIG_PATH="${1:-${CONFIG_PATH:-${DEFAULT_TRAIN_CONFIG}}}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
-PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-runs/profile.json}}"
+PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}}"
 ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 RESTART_TRAIN="${RESTART_TRAIN:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
@@ -99,6 +115,12 @@ TRAIN_ARGS=(
   --config "${CONFIG_PATH}"
   --preflight-report "${PREFLIGHT_REPORT}"
 )
+if [[ -n "${MAX_HOURS:-}" ]]; then
+  TRAIN_ARGS+=(--max-hours "${MAX_HOURS}")
+fi
+if [[ -n "${CHECKPOINT_SECONDS:-}" ]]; then
+  TRAIN_ARGS+=(--checkpoint-seconds "${CHECKPOINT_SECONDS}")
+fi
 if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   TRAIN_ARGS+=(--allow-unverified-preflight)
 fi

@@ -189,7 +189,7 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
     assert len(protocol["source"]["source_tree_sha256"]) == 64
     assert protocol["runtime"]["gpu_name"] is None
     assert protocol["runtime"]["compute_capability"] is None
-    assert protocol["version"] == 5
+    assert protocol["version"] == 7
 
     allowed = copy.deepcopy(config)
     allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})

@@ -7,6 +7,7 @@ import json
 import math
 import random
 import re
+import signal
 import statistics
 import subprocess
 import sys
@@ -19,10 +20,16 @@ from typing import Any
 
 import numpy as np
 import torch
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import BatchSampler, DataLoader, SequentialSampler, Subset
 from tqdm import tqdm
 
 from .batching import SequenceBatchSampler
+from .checkpoint import (
+    CursorBatchSampler,
+    StopRequest,
+    capture_training_state,
+    restore_training_state,
+)
 from .data import build_dataset, collate_samples, load_eventhdr_split_manifest
 from .graph import PAPER_CORE_VERSION, PaperSplineConv
 from .losses import ReconstructionLoss
@@ -961,12 +968,12 @@ def _valid_training_protocol_contract(value: Any) -> bool:
         "runtime",
         "source",
     }
-    if isinstance(value, dict) and value.get("version") == 6:
+    if isinstance(value, dict) and value.get("version") in {6, 8}:
         required_fields.add("batching")
     if not isinstance(value, dict) or set(value) != required_fields:
         return False
     if (
-        value.get("version") not in {5, 6}
+        value.get("version") not in {5, 6, 7, 8}
         or not isinstance(value.get("seed"), int)
         or isinstance(value.get("seed"), bool)
         or value.get("recurrent_state_detached_each_sample") is not True
@@ -978,7 +985,8 @@ def _valid_training_protocol_contract(value: Any) -> bool:
     batch_size = value["data_order"].get("batch_size")
     if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
         return False
-    if value["version"] != (5 if batch_size == 1 else 6):
+    expected_versions = {1: {5, 7}}
+    if value["version"] not in expected_versions.get(batch_size, {6, 8}):
         return False
     if batch_size > 1 and value.get("batching") != batching_contract(batch_size):
         return False
@@ -1437,9 +1445,9 @@ def _ann_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
 
     training = checkpoint.get("training_protocol")
     if not _valid_training_protocol_contract(training):
-        reasons.append("complete training_protocol v5/v6 contract is missing or invalid")
+        reasons.append("complete training_protocol v5-v8 contract is missing or invalid")
         training = None
-    elif training["version"] == 6 and (
+    elif training["version"] in {6, 8} and (
         not isinstance(preflight_gate, dict)
         or preflight_gate.get("batch_size") != training["data_order"]["batch_size"]
         or not _valid_preflight_gate(preflight_gate)
@@ -1710,7 +1718,7 @@ def _snn_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
         if not _is_sha256(protocol.get(field)):
             reasons.append(f"calibration_protocol {field} is invalid")
     source_ann_protocols: dict[str, dict[str, Any]] = {}
-    for name, expected_versions in (("training", {5, 6}), ("validation", {7})):
+    for name, expected_versions in (("training", {5, 6, 7, 8}), ("validation", {7})):
         identity = protocol.get(f"source_ann_{name}_protocol")
         flat_digest = protocol.get(f"source_ann_{name}_protocol_sha256")
         contract = identity.get("contract") if isinstance(identity, dict) else None
@@ -2277,6 +2285,11 @@ def _inference_precision_context(
 
 def _seed_worker(worker_id: int) -> None:
     del worker_id
+    # Ctrl+C targets the foreground process group. Only the parent may decide
+    # the committed checkpoint boundary; a worker must not die halfway through it.
+    if torch.utils.data.get_worker_info() is not None:
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
     worker_seed = torch.initial_seed() % (2**32)
     random.seed(worker_seed)
     np.random.seed(worker_seed)
@@ -2291,6 +2304,7 @@ def _data_loader(
     persistent_workers: bool | None = None,
     prefetch_factor: int | None = None,
     batch_sampler=None,
+    generator=None,
 ):
     if num_workers < 0:
         raise ValueError("num_workers must be non-negative")
@@ -2301,6 +2315,7 @@ def _data_loader(
         "num_workers": num_workers,
         "pin_memory": device.type == "cuda",
         "collate_fn": collate_samples,
+        "generator": generator,
     }
     if batch_sampler is not None:
         loader_options.pop("batch_size")
@@ -2468,6 +2483,9 @@ def _training_protocol_config_reasons(
                 else int(prefetch_factor)
             ),
         }
+        protocol_version = protocol.get("version")
+        if protocol_version in {7, 8}:
+            data_order["loader_rng"] = "isolated_epoch_seed_v1"
         raw_validate_every = train_config.get("validate_every", 1)
         validate_every = (
             None
@@ -2475,7 +2493,11 @@ def _training_protocol_config_reasons(
             else max(1, int(raw_validate_every))
         )
         expected_fields = {
-            "version": 5 if int(train_config.get("batch_size", 1)) == 1 else 6,
+            "version": (
+                (7 if protocol_version in {7, 8} else 5)
+                if int(train_config.get("batch_size", 1)) == 1
+                else (8 if protocol_version in {7, 8} else 6)
+            ),
             "seed": int(config.get("seed", 2026)),
             "optimizer": optimizer,
             "scheduler": _scheduler_spec(train_config),
@@ -2750,7 +2772,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
         gpu_name = None
         compute_capability = None
     return {
-        "version": 5 if int(train_config.get("batch_size", 1)) == 1 else 6,
+        "version": 7 if int(train_config.get("batch_size", 1)) == 1 else 8,
         **(
             {"batching": batching_contract(int(train_config["batch_size"]))}
             if int(train_config.get("batch_size", 1)) > 1 else {}
@@ -2779,6 +2801,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
             "norm_type": 2.0,
         },
         "data_order": {
+            "loader_rng": "isolated_epoch_seed_v1",
             "batch_size": int(train_config.get("batch_size", 1)),
             "max_train_samples": (None if max_train_samples is None else int(max_train_samples)),
             "shuffle": False,
@@ -3203,6 +3226,7 @@ def validate(
     device: torch.device,
     max_samples: int | None = None,
     score_positions: set[int] | None = None,
+    check_pause: Callable[[], None] | None = None,
 ) -> dict[str, Any]:
     model.eval()
     accumulator = MetricAccumulator()
@@ -3211,6 +3235,8 @@ def validate(
     previous_sensor_size = None
     recurrent_state = None
     for index, batch in enumerate(loader):
+        if check_pause is not None:
+            check_pause()
         if max_samples is not None and index >= max_samples:
             break
         if len(batch) != 1:
@@ -3243,7 +3269,103 @@ def validate(
     return accumulator.summary()
 
 
-def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path:
+class TrainingPaused(Exception):
+    """A requested stop with a durable checkpoint, not a completed experiment."""
+
+    def __init__(self, checkpoint_path: Path, reason: str) -> None:
+        self.checkpoint_path = checkpoint_path
+        self.reason = reason
+        super().__init__(f"Training paused ({reason}); resume from {checkpoint_path}")
+
+
+def _schedule_digest(batches) -> str:
+    return hashlib.sha256(json.dumps(list(batches), separators=(",", ":")).encode()).hexdigest()
+
+
+def _validate_epoch_progress(checkpoint, batches, frame_total, batch_size, device, dataset,
+                             final_indices=None):
+    progress = checkpoint.get("epoch_progress")
+    if progress is None:
+        return None, None
+    fields = {
+        "version", "epoch", "next_batch", "seen", "optimizer_steps", "running_loss",
+        "amp_retries", "amp_retried_samples", "training_seconds", "schedule_sha256",
+        "training_state",
+    }
+    if (not isinstance(progress, dict) or set(progress) != fields
+            or type(progress["version"]) is not int or progress["version"] != 1):
+        raise ValueError("Invalid epoch_progress checkpoint schema")
+    for name in ("epoch", "next_batch", "seen", "optimizer_steps", "amp_retries",
+                 "amp_retried_samples"):
+        value = progress[name]
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError(f"Invalid epoch_progress {name}")
+    cursor = progress["next_batch"]
+    if (progress["epoch"] != checkpoint["epoch"] + 1
+            or cursor > len(batches) or progress["optimizer_steps"] != cursor):
+        raise ValueError("Inconsistent epoch_progress epoch/batch cursor")
+    expected_seen = min(sum(len(batch) for batch in batches[:cursor]), frame_total)
+    if (progress["seen"] != expected_seen
+            or (cursor and sum(len(batch) for batch in batches[:cursor - 1]) >= frame_total)
+            or progress["schedule_sha256"] != _schedule_digest(batches)):
+        raise ValueError("epoch_progress differs from the acknowledged training schedule")
+    for name in ("running_loss", "training_seconds"):
+        value = progress[name]
+        if (isinstance(value, bool) or not isinstance(value, (int, float))
+                or not math.isfinite(value) or value < 0):
+            raise ValueError(f"Invalid epoch_progress {name}")
+    if progress["amp_retried_samples"] > expected_seen:
+        raise ValueError("Invalid epoch_progress retried sample count")
+    state = restore_training_state(
+        progress["training_state"], independent_sequences=batch_size > 1, device=device,
+    )
+    if len(state.values) > batch_size or (cursor == 0 and state.values):
+        raise ValueError("epoch_progress contains inconsistent recurrent contexts")
+    # Recover only acknowledged context identities from the index, never by
+    # replaying __getitem__ or decoding discarded worker-prefetch samples.
+    records = getattr(dataset, "samples", None)
+    if not isinstance(records, list):
+        raise TypeError("Mid-epoch resume requires indexed deterministic training data")
+    expected_contexts = {}
+    expected_last_key = None
+    acknowledged = 0
+    for batch_indices in batches[:cursor]:
+        for sample_index in batch_indices:
+            if acknowledged >= frame_total:
+                break
+            record = records[sample_index]
+            key = (str(record.get("sequence_id") or record.get("scene", "unknown")),
+                   record.get("source_file", "") if batch_size > 1 else "")
+            index = record.get("sequence_index")
+            if batch_size == 1:
+                expected_contexts.clear()
+            expected_contexts[key] = index
+            expected_last_key = key
+            if final_indices is not None and index == final_indices.get(key):
+                expected_contexts.pop(key)
+            acknowledged += 1
+    if ({key: value[0] for key, value in state.values.items()} != expected_contexts
+            or state.last_key != expected_last_key):
+        raise ValueError("epoch_progress recurrent contexts differ from acknowledged frames")
+    history = checkpoint.get("history")
+    if (not isinstance(history, list) or len(history) != checkpoint["epoch"]
+            or [entry.get("epoch") for entry in history] != list(range(1, checkpoint["epoch"] + 1))):
+        raise ValueError("epoch_progress history must contain only completed epochs")
+    return progress, state
+
+
+def train(
+    config: dict[str, Any], resume_from: str | Path | None = None, *,
+    checkpoint_seconds: float = 300.0, max_seconds: float | None = None,
+) -> Path:
+    if (isinstance(checkpoint_seconds, bool) or not math.isfinite(checkpoint_seconds)
+            or checkpoint_seconds <= 0):
+        raise ValueError("checkpoint_seconds must be finite and positive")
+    with StopRequest(time_limit_seconds=max_seconds) as stop:
+        return _train(config, resume_from, stop, float(checkpoint_seconds))
+
+
+def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
     validate_experiment_config(config)
     seed = int(config.get("seed", 2026))
     set_seed(seed)
@@ -3280,13 +3402,18 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     batch_sampler = (
         SequenceBatchSampler(train_dataset, batch_size, seed=seed) if batch_size > 1 else None
     )
+    index_sampler = batch_sampler or BatchSampler(SequentialSampler(train_dataset), 1, False)
+    cursor_sampler = CursorBatchSampler(index_sampler)
+    train_generator = torch.Generator().manual_seed(seed)
+    val_generator = torch.Generator().manual_seed(seed + 1)
     train_loader = _data_loader(
         train_dataset,
         batch_size,
         int(train_config.get("num_workers", 0)),
         device,
         shuffle=False,
-        batch_sampler=batch_sampler,
+        batch_sampler=cursor_sampler,
+        generator=train_generator,
         **_loader_kwargs(train_config),
     )
     val_indices = _balanced_contiguous_indices(
@@ -3338,6 +3465,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         1,
         int(train_config.get("num_workers", 0)),
         device,
+        generator=val_generator,
         **_loader_kwargs(train_config),
     )
 
@@ -3408,8 +3536,16 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 f"Checkpoint {resume_path} has model weights but no optimizer state; "
                 "it cannot be used for exact training resume"
             )
+        optimizer_had_steps = (
+            int(resume_checkpoint.get("epoch", 0)) > 0
+            or int((resume_checkpoint.get("epoch_progress") or {}).get("optimizer_steps", 0)) > 0
+        )
         optimizer.load_state_dict(resume_checkpoint.pop("optimizer"))
         _optimizer_to(optimizer, device)
+        if optimizer_had_steps:
+            # MultiStepLR's call-order guard is process-local and is not part of
+            # optimizer.state_dict(); restore it for validation-pending resumes.
+            optimizer.__dict__["_opt_called"] = True
         if "scheduler" not in resume_checkpoint:
             raise ValueError(
                 f"Checkpoint {resume_path} has no scheduler state/schema and cannot "
@@ -3455,6 +3591,46 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         measurement_steps=max(1, timing_steps),
     )
     timing_saved = False
+    frame_total = len(train_dataset)
+    if max_train_samples is not None:
+        frame_total = min(frame_total, int(max_train_samples))
+    resume_progress = None
+    resume_state = None
+    if resume_checkpoint is not None:
+        if batch_sampler is not None:
+            batch_sampler.set_epoch(start_epoch)
+        resume_progress, resume_state = _validate_epoch_progress(
+            resume_checkpoint, list(index_sampler), frame_total, batch_size, device,
+            train_dataset, batch_sampler.final_sequence_indices if batch_sampler is not None else None,
+        )
+        if resume_progress is not None and start_epoch > epochs:
+            raise ValueError("Incomplete epoch exceeds the configured training horizon")
+
+    def make_checkpoint(completed_epoch, val_metrics, terminal_complete=False):
+        model_state = model.state_dict()
+        return {
+            "checkpoint_type": "training", "epoch": completed_epoch,
+            "epoch_progress": None,
+            "model": model_state, "model_state_sha256": _model_state_sha256(model_state),
+            "optimizer": optimizer.state_dict(),
+            "scheduler": scheduler.state_dict() if scheduler is not None else None,
+            "scaler": scaler.state_dict(), "model_config": config["model"],
+            "config": public_config, "val": val_metrics, "val_sampling": val_sampling_counts,
+            "best_ssim": best_ssim, "best_model_state_sha256": best_model_state_sha256,
+            "best_metric": "macro_ssim",
+            "checkpoint_selection": (
+                "single_final_epoch" if validate_every is None else "best_validation_macro_ssim"
+            ),
+            "paper_core_version": PAPER_CORE_VERSION,
+            "preflight_gate": copy.deepcopy(config.get("preflight_gate")),
+            "validation_protocol": validation_protocol, "training_protocol": training_protocol,
+            "terminal_validation_state": (
+                {"planned_epoch": epochs, "completed": terminal_complete,
+                 "completed_epoch": completed_epoch if terminal_complete else None}
+                if validate_every is None else None
+            ),
+            "history": history, "rng_state": _capture_rng_state(),
+        }
     # Publish run metadata only after every fresh/resume check, including
     # optimizer/scaler/RNG restoration. Rejected attempts must preserve the
     # previous gate, config and hash cache alongside the original checkpoints.
@@ -3462,6 +3638,31 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     save_json(run_dir / "config.json", public_config)
     if "preflight_gate" in config:
         save_json(run_dir / "preflight_gate.json", config["preflight_gate"])
+
+    # These synchronous helpers read only the live acknowledged counters below,
+    # never a DataLoader's prefetched/dispatched cursor. They do not escape train().
+    def save_progress(training_seconds=None):
+        checkpoint = make_checkpoint(epoch - 1, {})
+        checkpoint["epoch_progress"] = {
+            "version": 1, "epoch": epoch, "next_batch": next_batch,
+            "seen": seen, "optimizer_steps": optimizer_steps, "running_loss": running_loss,
+            "amp_retries": epoch_amp_retries,
+            "amp_retried_samples": epoch_amp_retried_samples,
+            "training_seconds": (
+                elapsed_before_resume + time.perf_counter() - epoch_start
+                if training_seconds is None else training_seconds
+            ),
+            "schedule_sha256": schedule_sha256,
+            "training_state": capture_training_state(state),
+        }
+        atomic_torch_save(checkpoint, run_dir / "last.pt")
+
+    def pause_if_requested(*, saved=False):
+        if stop.poll():
+            if not saved:
+                save_progress()
+            raise TrainingPaused(run_dir / "last.pt", stop.reason or "requested")
+
     for epoch in range(start_epoch, epochs + 1):
         epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
         model.train()
@@ -3469,22 +3670,53 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         state = TrainingState(independent_sequences=batch_size > 1)
         if batch_sampler is not None:
             batch_sampler.set_epoch(epoch)
+        epoch_batches = list(index_sampler)
+        schedule_sha256 = _schedule_digest(epoch_batches)
+        cursor_sampler.set_start(0)
+        train_generator.manual_seed(seed + 2 * epoch)
+        val_generator.manual_seed(seed + 2 * epoch + 1)
         running_loss = 0.0
         epoch_amp_retries = 0
         epoch_amp_retried_samples = 0
         seen = 0
         optimizer_steps = 0
+        next_batch = 0
+        elapsed_before_resume = 0.0
+        if resume_progress is not None:
+            state = resume_state
+            next_batch = resume_progress["next_batch"]
+            cursor_sampler.set_start(next_batch)
+            running_loss = resume_progress["running_loss"]
+            epoch_amp_retries = resume_progress["amp_retries"]
+            epoch_amp_retried_samples = resume_progress["amp_retried_samples"]
+            seen = resume_progress["seen"]
+            optimizer_steps = resume_progress["optimizer_steps"]
+            elapsed_before_resume = resume_progress["training_seconds"]
+            resume_progress = resume_state = None
         epoch_start = time.perf_counter()
-        loader_iterator = iter(train_loader)
-        frame_total = len(train_dataset)
-        if max_train_samples is not None:
-            frame_total = min(frame_total, int(max_train_samples))
-        progress = tqdm(total=frame_total, desc=f"train {epoch:03d}/{epochs:03d}", unit="frame")
-        for step in range(len(train_loader)):
+        last_save = epoch_start
+
+        if resume_path is None and epoch == start_epoch:
+            save_progress()
+            last_save = time.perf_counter()
+        pause_if_requested()
+        loader_iterator = iter(train_loader) if seen < frame_total else iter(())
+        progress = tqdm(total=frame_total, initial=seen,
+                        desc=f"train {epoch:03d}/{epochs:03d}", unit="frame")
+        for step in range(next_batch, len(epoch_batches)):
             if max_train_samples is not None and seen >= int(max_train_samples):
                 break
+            pause_if_requested()
             with timing.scope("dataload", gpu=False):
-                batch = next(loader_iterator)
+                try:
+                    batch = next(loader_iterator)
+                except Exception:
+                    # Schedulers can signal the entire worker process group.
+                    # No optimizer update has begun, so this boundary is safe.
+                    if stop.poll():
+                        progress.close()
+                        pause_if_requested()
+                    raise
                 if max_train_samples is not None:
                     batch = batch[: int(max_train_samples) - seen]
             with timing.scope("transfer"):
@@ -3521,6 +3753,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             running_loss += loss_values["total"] * len(samples)
             seen += len(samples)
             optimizer_steps += 1
+            next_batch = step + 1
             progress.update(len(samples))
             if timing.step():
                 save_json(run_dir / "timing.json", timing.collect())
@@ -3532,13 +3765,23 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                     amp_scale=amp_info["scale_after"],
                     **loss_values,
                 )
+            if stop.poll() or time.perf_counter() - last_save >= checkpoint_seconds:
+                save_progress()
+                last_save = time.perf_counter()
+                if stop.poll():
+                    progress.close()
+                    pause_if_requested(saved=True)
         progress.close()
         if device.type == "cuda":
             torch.cuda.synchronize(device)
-        epoch_seconds = time.perf_counter() - epoch_start
+        epoch_seconds = elapsed_before_resume + time.perf_counter() - epoch_start
         should_validate = epoch == epochs or (
             validate_every is not None and epoch % validate_every == 0
         )
+        # A stop/error during validation resumes validation, not the training epoch.
+        # The scheduler and history have not advanced at this boundary.
+        save_progress(training_seconds=epoch_seconds)
+        pause_if_requested(saved=True)
         val_metrics = (
             validate(
                 model,
@@ -3546,6 +3789,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 device,
                 max_samples=None,
                 score_positions=val_score_positions,
+                check_pause=lambda: pause_if_requested(saved=True),
             )
             if should_validate
             else {}
@@ -3588,48 +3832,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         }
         history.append(record)
         save_json(run_dir / "history.json", history)
-        model_state = model.state_dict()
-        model_state_sha256 = _model_state_sha256(model_state)
-        checkpoint = {
-            "checkpoint_type": "training",
-            "epoch": epoch,
-            "model": model_state,
-            "model_state_sha256": model_state_sha256,
-            "optimizer": optimizer.state_dict(),
-            "scheduler": scheduler.state_dict() if scheduler is not None else None,
-            "scaler": scaler.state_dict(),
-            "model_config": (
-                resume_checkpoint.get("model_config", config["model"])
-                if resume_checkpoint is not None
-                else config["model"]
-            ),
-            "config": public_config,
-            "val": val_metrics,
-            "val_sampling": val_sampling_counts,
-            "best_ssim": best_ssim,
-            "best_model_state_sha256": best_model_state_sha256,
-            "best_metric": "macro_ssim",
-            "checkpoint_selection": (
-                "single_final_epoch"
-                if validate_every is None
-                else "best_validation_macro_ssim"
-            ),
-            "paper_core_version": PAPER_CORE_VERSION,
-            "preflight_gate": copy.deepcopy(config.get("preflight_gate")),
-            "validation_protocol": validation_protocol,
-            "training_protocol": training_protocol,
-            "terminal_validation_state": (
-                {
-                    "planned_epoch": epochs,
-                    "completed": bool(should_validate and epoch == epochs),
-                    "completed_epoch": epoch if should_validate and epoch == epochs else None,
-                }
-                if validate_every is None
-                else None
-            ),
-            "history": history,
-            "rng_state": _capture_rng_state(),
-        }
+        checkpoint = make_checkpoint(epoch, val_metrics, bool(should_validate and epoch == epochs))
+        model_state_sha256 = checkpoint["model_state_sha256"]
         if validation_ssim > best_ssim:
             best_ssim = validation_ssim
             best_model_state_sha256 = model_state_sha256
@@ -3656,6 +3860,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             atomic_torch_save(best_checkpoint, run_dir / "best.pt")
         atomic_torch_save(checkpoint, run_dir / "last.pt")
         print(record)
+        if epoch < epochs and stop.poll():
+            raise TrainingPaused(run_dir / "last.pt", stop.reason or "requested")
     if timing_steps > 0 and not timing_saved:
         save_json(run_dir / "timing.json", timing.collect())
     best_path = run_dir / "best.pt"
@@ -4720,7 +4926,7 @@ def _sealed_calibration_protocol(
     )
     if not isinstance(training_protocol, dict):
         mismatches.append("source checkpoint has no training protocol")
-    elif training_protocol.get("version") not in {5, 6}:
+    elif training_protocol.get("version") not in {5, 6, 7, 8}:
         mismatches.append("source checkpoint has an unsupported training protocol")
     if not isinstance(expected_source, dict):
         mismatches.append("source checkpoint has no training source contract")

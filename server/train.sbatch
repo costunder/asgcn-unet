@@ -21,7 +21,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]]; then
 fi
 if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
-  || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
+  || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
   echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/train.sbatch" >&2
@@ -40,7 +40,29 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single)
+    DEFAULT_CONFIG_PATH=configs/train.json
+    DEFAULT_PREFLIGHT_REPORT=runs/profile.json
+    ;;
+  batch)
+    DEFAULT_CONFIG_PATH=configs/batch.json
+    DEFAULT_PREFLIGHT_REPORT=runs/batch-profile.json
+    ;;
+  fast)
+    DEFAULT_CONFIG_PATH=configs/fast.json
+    DEFAULT_PREFLIGHT_REPORT=runs/fast-profile.json
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+if [[ -n "${CONFIG_PATH:-}" && -n "${TRAIN_CONFIG:-}" \
+  && "${CONFIG_PATH}" != "${TRAIN_CONFIG}" ]]; then
+  echo "ERROR: CONFIG_PATH and TRAIN_CONFIG must refer to the same training config" >&2
+  exit 2
+fi
+export TRAIN_CONFIG="${TRAIN_CONFIG:-${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}}"
+export CONFIG_PATH="${TRAIN_CONFIG}"
 # shellcheck source=scripts/runtime.sh
 source "${PROJECT_ROOT}/scripts/runtime.sh"
 select_conda_python
@@ -48,7 +70,11 @@ export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
-export PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"
+export PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${DEFAULT_PREFLIGHT_REPORT}}"
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-${PREFLIGHT_REPORT}}"
+export MAX_HOURS="${MAX_HOURS:-47}"
+export CHECKPOINT_SECONDS="${CHECKPOINT_SECONDS:-300}"
+export RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
 export ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
@@ -81,4 +107,4 @@ if [[ "${DRY_RUN}" != "1" ]]; then
   nvidia-smi || true
 fi
 
-runtime_command srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
+runtime_command srun bash "${PROJECT_ROOT}/scripts/run.sh" train

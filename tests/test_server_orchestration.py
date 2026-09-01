@@ -56,13 +56,19 @@ def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
     assert {path.name for path in config_dir.glob("*.json")} == {
         "train.json",
         "batch.json",
+        "fast.json",
         "hdr.json",
+        "hdr-fast.json",
         "aid.json",
+        "aid-fast.json",
     }
 
     configs = {
         name: json.loads((config_dir / name).read_text(encoding="utf-8"))
-        for name in ("train.json", "batch.json", "hdr.json", "aid.json")
+        for name in (
+            "train.json", "batch.json", "fast.json", "hdr.json", "hdr-fast.json",
+            "aid.json", "aid-fast.json",
+        )
     }
     assert configs["train.json"]["output"]["run_dir"] == "runs/train"
     assert configs["batch.json"]["output"]["run_dir"] == "runs/batch"
@@ -74,10 +80,19 @@ def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
     for key, value in configs["train.json"]["train"].items():
         if key != "batch_size":
             assert configs["batch.json"]["train"][key] == value, key
+    expected_fast = json.loads(json.dumps(configs["batch.json"]))
+    expected_fast["train"]["batch_size"] = 16
+    expected_fast["model"]["spline_backend"] = "triton"
+    expected_fast["output"]["run_dir"] = "runs/fast"
+    assert configs["fast.json"] == expected_fast
     assert configs["hdr.json"]["eval"]["output_dir"] == "runs/eval/hdr"
     assert configs["aid.json"]["eval"]["output_dir"] == "runs/eval/aid"
     assert configs["train.json"]["model"] == configs["hdr.json"]["model"]
     assert configs["train.json"]["model"] == configs["aid.json"]["model"]
+    assert configs["fast.json"]["model"] == configs["hdr-fast.json"]["model"]
+    assert configs["fast.json"]["model"] == configs["aid-fast.json"]["model"]
+    assert configs["hdr-fast.json"]["eval"]["output_dir"] == "runs/fast/eval/hdr"
+    assert configs["aid-fast.json"]["eval"]["output_dir"] == "runs/fast/eval/aid"
     for config in configs.values():
         assert config["model"]["spline_chunk_size"] == 65536
 
@@ -99,6 +114,25 @@ def test_batch_wrapper_isolates_training_profile_status_and_evaluation() -> None
     assert evaluation.count('"${OUTPUT_ARGS[@]}"') == 2
 
 
+def test_fast_wrapper_isolates_measured_training_and_safe_pause() -> None:
+    script = _text("scripts/run.sh")
+    for assignment in (
+        "DEFAULT_TRAIN_CONFIG=configs/fast.json",
+        "DEFAULT_TRAIN_RUN=runs/fast",
+        "DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json",
+        "DEFAULT_STATUS_DIR=runs/fast-status",
+        "DEFAULT_EVAL_ROOT=runs/fast/eval",
+        "DEFAULT_HDR_CONFIG=configs/hdr-fast.json",
+        "DEFAULT_AID_CONFIG=configs/aid-fast.json",
+    ):
+        assert assignment in script
+    assert '[[ "${ACTIVE_STAGE}" == "train" && "${exit_code}" == "75" ]]' in script
+    assert 'write_stage_status "${ACTIVE_STAGE}" PAUSED' in script
+    training = _text("scripts/train.sh")
+    assert 'TRAIN_ARGS+=(--max-hours "${MAX_HOURS}")' in training
+    assert 'TRAIN_ARGS+=(--checkpoint-seconds "${CHECKPOINT_SECONDS}")' in training
+
+
 def test_calibration_wrapper_defaults_to_all_samples_and_protects_output() -> None:
     script = _text("scripts/calibrate.sh")
     assert 'CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"' in script
@@ -118,7 +152,7 @@ def test_all_wrappers_support_optional_validate_all_preflight() -> None:
 
 def test_training_wrapper_requires_verified_profile_or_explicit_nonreporting_bypass() -> None:
     script = _text("scripts/train.sh")
-    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-runs/profile.json}}"' in script
+    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}}"' in script
     assert 'ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"' in script
     assert "--preflight-report" in script
     assert "--allow-unverified-preflight" in script
@@ -154,6 +188,20 @@ def test_all_scheduler_entrypoints_use_short_paths_and_optional_cuda_module() ->
             assert "hdr_train.json" not in script
             assert "hdr_ann.json" not in script
             assert "hdr_snn.json" not in script
+
+
+def test_scheduler_fast_routing_keeps_profile_checkpoints_and_eval_isolated() -> None:
+    for scheduler in ("sbatch", "pbs"):
+        for stage in ("profile", "train", "calibrate", "eval"):
+            script = _text(f"server/{stage}.{scheduler}")
+            assert 'EXPERIMENT="${EXPERIMENT:-single}"' in script
+            assert "configs/fast.json" in script or "configs/hdr-fast.json" in script
+        training = _text(f"server/train.{scheduler}")
+        assert 'MAX_HOURS="${MAX_HOURS:-47}"' in training
+        assert 'CHECKPOINT_SECONDS="${CHECKPOINT_SECONDS:-300}"' in training
+        evaluation = _text(f"server/eval.{scheduler}")
+        assert "DEFAULT_EVAL_ROOT=runs/batch/eval" in evaluation
+        assert 'EVAL_OUTPUT_DIR="${EVAL_OUTPUT_DIR:-${DEFAULT_EVAL_ROOT}/${DEFAULT_DATASET}}"' in evaluation
 
 
 def test_scheduler_logs_require_explicit_opt_in_for_private_provenance() -> None:

@@ -89,24 +89,37 @@ SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`만 실행한다.
 clone·환경 생성·설치를 매번 반복하지 않는다.
 
-## GPU 미니배치 학습
+## 측정 기반 GPU 학습 설정
 
-위 기본 명령은 기존 `configs/train.json`의 batch 1 기준선이다. 새 `configs/batch.json`은
-독립된 시퀀스 최대 4개를 묶어 **graph encoder 한 번 + U-Net decoder 한 번**으로 처리한다.
-프레임 간 graph edge와 recurrent state는 섞지 않고, 전체 프레임·40 epochs는 유지한다.
-BN 통계와 optimizer 갱신 주기가 달라지는 별도 실험(protocol v6)이므로 기준선 checkpoint에서
-exact resume하지 않는다. 사용자 제공 B4 서버 로그에서는 CUDA 학습과 단계별 시간이 확인됐지만,
-동일 입력 대비 속도 향상·최적 배치 크기·40-epoch 수렴은 아직 검증되지 않았다.
+`configs/train.json`의 B1·`configs/batch.json`의 B4 기준선은 보존한다. 실제 서버에서 CUDA 관련
+검사 **123개**가 통과했고, 같은 실제 EventHDR 측정 프레임 512개를 쓰는 18회 비교에서 B16+Triton은
+`36.38/36.51 frame/s`, B16+Torch는 `9.07/9.02 frame/s`였다. 이 결과를 반영한 별도
+`configs/fast.json`은 **B16 + Triton**, 전체 프레임, 40 epochs와 기존 모델 크기를 유지하고
+`runs/fast`에만 기록한다. 이는 해당 512-frame window의 약 4.03배 처리량 결과이며 전체 epoch 시간,
+모든 입력의 OOM 안전성 또는 40-epoch 수렴을 입증하지 않는다.
 
-실행 중인 기준선 작업을 보존한다. 해당 작업이 끝나기 전에 같은 checkout에서 pull하거나
-같은 GPU에 새 학습을 겹쳐 실행하지 않는다. 기존 작업 종료 후의 새 실험 명령, 이전 topology
-보고서 재사용, 실제 batch CUDA 검사, `runs/batch/timing.json`과 epoch별 frame/s 기록은
-[배치 학습 안내](docs/TRAIN.md)를 따른다. 학습·calibration·평가 결과도 `runs/batch` 아래로 분리한다.
+새 설정은 BN 통계와 optimizer 갱신 주기가 다른 별도 protocol이므로 B1/B4 checkpoint에서 이어 붙이지
+않는다. 학습 전에 B16 실제 full-batch와 밀집/첫/빈/희소 입력의 CUDA gate를 새로 만든다.
 
-성능 비교는 `scripts/bench.py`로 **동일한 실제 EventHDR 프레임 집합**의 배치 크기와 spline backend를
-비교한다. 별도 측정 결과만 저장하며 기존 학습·checkpoint·config를 변경하지 않는다.
-새 융합 연산은 선택형이며, CUDA 수치 검사와 처리량 비교 없이 기본값이나 "최적 설정"으로 채택하지 않는다.
-실행 조건과 측정 범위는 [성능 비교 안내](docs/PERF.md#동일-실데이터-gpu-비교)를 따른다.
+```bash
+conda activate asgcn
+EXPERIMENT=fast bash scripts/run.sh profile
+EXPERIMENT=fast MAX_HOURS=6 bash scripts/run.sh train
+```
+
+두 번째 명령은 최대 6시간 뒤 안전한 batch 경계에 `runs/fast/last.pt`를 저장하고 종료코드 75로
+일시정지한다. 다음 작업 시간에는 같은 checkout·Conda 환경·data·profile을 유지한 채 이어간다.
+
+```bash
+conda activate asgcn
+EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
+  bash scripts/run.sh train
+```
+
+완료 후에는 같은 `EXPERIMENT=fast`로 `calibrate`, `eval`을 실행한다. 호환되는 이전 profile이 있으면
+topology 통계만 명시적으로 재사용할 수 있지만 GPU probe는 항상 새로 수행한다. 상세 측정 범위와
+실행·재개 계약은 [성능 안내](docs/PERF.md#동일-실데이터-gpu-비교)와
+[학습 안내](docs/TRAIN.md)를 따른다.
 
 ## 실험 범위
 
@@ -272,9 +285,16 @@ bash scripts/run.sh eval
 AMP overflow는 scale을 낮춰 같은 프레임을 최대 16번 재시도하고 실패한 시도의 BatchNorm·난수 상태를
 복원한다. 프레임을 버리지 않으며, 비유한 loss나 지속되는 오류는 그대로 중단한다.
 
-### 학습 epoch 경계에서 재개
+### 학습 중간 checkpoint와 재개
 
-학습은 매 epoch 종료 시 `last.pt`를 원자적으로 갱신한다. 중단 후 같은 run을 epoch 경계에서 재개한다.
+학습은 기본 300초 간격과 매 epoch 종료 시, **성공한 optimizer update 뒤의 안전한 batch 경계**에서
+`last.pt`를 원자적으로 갱신한다. checkpoint에는 model, optimizer, scheduler, AMP scaler, RNG,
+현재 epoch의 다음 batch cursor·누적 metric과 시퀀스별 recurrent/temporal context가 들어간다.
+따라서 epoch 중간 checkpoint에서도 이미 반영한 batch를 다시 update하지 않고 이어간다.
+`Ctrl+C`, `SIGTERM` 또는 `MAX_HOURS`는 다음 안전 경계에서 저장한 뒤 종료코드 75로 끝난다.
+`run.sh all`도 이때 train 상태를 `PAUSED`로 기록하고 calibration/eval로 넘어가지 않는다.
+
+기본 B1 run을 재개하는 명령은 다음과 같다.
 
 ```bash
 RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
@@ -290,7 +310,11 @@ runtime에 다시 결합한다. 학습 재개가 끝나면 `bash scripts/run.sh 
 wrapper에서는 허용되지 않는다.
 
 resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
-전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다. `validate_every: null`인 run은
+현재 epoch cursor/context, 전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다.
+같은 중단·재개 cycle의 source를 바꾸거나 `git pull`하지 않는다. `SIGKILL`, 전원 차단 또는 scheduler의
+hard kill은 handler가 실행되지 않으므로 마지막 300초 주기 checkpoint 이후의 성공 batch는 다시 처리될
+수 있다. scheduler walltime보다 짧게 `MAX_HOURS`를 잡아 정상 일시정지 시간을 남긴다.
+주기를 바꾸려면 예를 들어 `CHECKPOINT_SECONDS=120`을 지정한다. `validate_every: null`인 run은
 계획한 terminal epoch도 protocol에 봉인하므로 마지막 평가를 마친 뒤 epochs만 늘려 같은 run을
 재개할 수 없다. 연장 학습은 새 output directory의 새 protocol로 시작한다. 계약이 일치하지 않으면
 조용히 다른 실험을 이어 붙이지 않고 중단한다.
@@ -379,33 +403,33 @@ latency나 에너지로 해석하면 안 된다.
 
 ## SLURM/PBS scheduler
 
-클러스터 batch job은 저장소 root에서 제출한다. SLURM에서 profile→학습→전체 calibration 의존성은 다음과
-같이 건다.
+클러스터 batch job은 저장소 root에서 제출한다. 아래는 실측 선택인 `EXPERIMENT=fast`를 6시간
+학습 구간으로 실행하는 SLURM profile→학습→전체 calibration 의존성이다.
 
 ```bash
 conda activate asgcn
 profile_id=$(sbatch --parsable \
-  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/profile.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast server/profile.sbatch)
 train_id=$(sbatch --parsable --dependency=afterok:${profile_id} \
-  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/train.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast,MAX_HOURS=6,CHECKPOINT_SECONDS=300 server/train.sbatch)
 cal_id=$(sbatch --parsable --dependency=afterok:${train_id} \
-  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/calibrate.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast server/calibrate.sbatch)
 ```
 
 ANN 두 평가와 SNN 전체 행렬을 dependency로 제출한다.
 
 ```bash
-for config in configs/hdr.json configs/aid.json; do
+for config in configs/hdr-fast.json configs/aid-fast.json; do
   sbatch --dependency=afterok:${train_id} \
-    --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
+    --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast,CONFIG_PATH="$config",CHECKPOINT_PATH=runs/fast/best.pt,INFERENCE_MODE=ann \
     server/eval.sbatch
 done
 
-for config in configs/hdr.json configs/aid.json; do
+for config in configs/hdr-fast.json configs/aid-fast.json; do
   for dynamics in literal_eq15 standard_if; do
     for timestep in 4 8 16 32; do
       sbatch --dependency=afterok:${cal_id} \
-        --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
+        --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast,CONFIG_PATH="$config",CHECKPOINT_PATH=runs/fast/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
         server/eval.sbatch
     done
   done
@@ -414,7 +438,9 @@ done
 
 SLURM `--export`에는 각 job이 실제로 쓰는 변수만 명시한다. login shell 전체를 전달하면 token, proxy,
 credential 같은 무관한 환경변수도 compute node와 job 환경에 복제될 수 있으므로 `ALL`은 사용하지 않는다.
-학습 resume job에는 `RESUME_CHECKPOINT="$PWD/runs/train/last.pt"`를 `--export`에 추가한다.
+학습 resume job에는 `EXPERIMENT=fast`, `MAX_HOURS=6`과
+`RESUME_CHECKPOINT="$PWD/runs/fast/last.pt"`를 `--export`에 추가한다. 기존 B4 결과를 계속할 때만
+`EXPERIMENT=batch`와 `runs/batch` 경로를 사용한다.
 각 job은 전달받은 `CONDA_PREFIX`의 Python을 사용한다. 같은 환경의 Python을 `PYTHON_BIN`으로
 명시할 수도 있다. PBS/Torque에도 `-v CONDA_PREFIX="$CONDA_PREFIX"`를 전달한다.
 PBS/Torque용 동등 wrapper는 `server/profile.pbs`, `server/train.pbs`, `server/calibrate.pbs`,
@@ -454,8 +480,9 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
   scene-disjoint 주장을 하지 않는다.
 - 원 논문의 동적 asynchronous K-hop update, pooling/classifier, energy model은 포함하지 않는다.
 - 반도체 RTL/FPGA/ASIC, event compression/transport, 실제 전력·에너지 측정은 후속 과제 범위다.
-- recurrent batch size는 1이고 resume granularity는 epoch 단위다. 전체 실행 시간과 저장 공간은
-  서버 GPU, filesystem, dataset decode 속도에 따라 달라진다.
+- B16+Triton의 실측은 조건당 측정 512프레임 범위이며 전체 epoch/수렴 결과는 아직 없다. 재개 단위는
+  기본 300초마다 저장된 성공 batch 경계다. 전체 실행 시간과 저장 공간은 서버 GPU, filesystem,
+  dataset decode 속도에 따라 달라진다.
 
 코드 전체 스냅샷은 [code_summary.md](code_summary.md), 인수인계와 연구상 주의점은
 [hand_off.md](hand_off.md)를 참조한다.

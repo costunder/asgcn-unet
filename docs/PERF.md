@@ -65,6 +65,22 @@ gradient는 clipping 전 norm과 clipping 후 tensor의 성분별 오차·벡터
 다음 측정은 `--output runs/bench2`처럼 새 경로를 지정한다. OOM·수치 불일치·backend 오류는 실패로
 기록한다. 실패 조건을 더 작은 배치로 몰래 실행하거나 CPU로 바꿔 성공 처리하지 않는다.
 
+### 서버에서 완료된 비교
+
+사용자 제공 서버 출력에서는 CUDA 관련 pytest **123개가 24.88초에 통과**했고, 위 명령의
+B4/B8/B16 × 3 backend × 2회, 총 18개 trial이 완료됐다. 조건별 측정 프레임은 512개다.
+
+| batch | Torch | Torch-fused | Triton | Triton peak allocated/reserved |
+|---:|---:|---:|---:|---:|
+| 4 | 8.83 / 8.85 | 8.80 / 8.85 | 32.80 / 32.98 | 416.5 / 490 MiB |
+| 8 | 8.99 / 9.03 | 8.95 / 8.95 | 34.96 / 35.45 | 743.9 / 822 MiB |
+| 16 | 9.07 / 9.02 | 9.02 / 9.01 | **36.38 / 36.51** | 1244.0 / 1426 MiB |
+
+B16의 두 반복 평균은 Triton 36.445 frame/s, Torch 9.045 frame/s로 약 **4.03배**다.
+B16 Triton은 B8 Triton 평균보다 약 3.5% 빠르다. Torch-fused는 이 장비/입력에서 Torch보다 유의하게
+빠르지 않았으므로 선택하지 않았다. 이 결과를 반영한 `configs/fast.json`은 B16+Triton을 사용하고
+`runs/fast`에 별도 저장한다. 기존 B1/B4 config와 checkpoint는 변경하지 않는다.
+
 ### 해석과 후속 학습
 
 측정 wall time은 해당 구간의 실제 HDF5 decode·전송·그래프·forward/loss/backward·검사·optimizer·
@@ -88,8 +104,9 @@ hostname을 가리며, source/설정/선택 프레임 identity는 hash로 기록
 exact-resume하도록 source 검사를 우회하지 않는다. 검증되는 이전 topology 통계만 재사용할 수 있으며,
 이전 GPU probe 통과는 새 backend/B의 통과 근거가 아니다.
 
-새 GPU kernel은 로컬 CPU 환경에서 CUDA 컴파일·실행·속도를 검증하지 못했다. 이 문서는 구현과
-측정 절차이지 성능 개선 완료 선언이 아니다. 아래 과거 CPU 수치로 이 GPU 변경의 가속률을 대신하지 않는다.
+서버의 123개 CUDA 검사와 위 18개 trial은 해당 환경에서 실제 실행됐다. 다만 전체 EventHDR epoch,
+40-epoch convergence와 전체 평가 행렬은 아직 완료된 결과가 아니다. 로컬 Windows CPU 환경에서는
+CUDA 컴파일·실행을 재검증할 수 없었으며, 아래 과거 CPU 수치로 서버 결과의 범위를 확대하지 않는다.
 
 ### 이번 변경의 로컬 검증
 

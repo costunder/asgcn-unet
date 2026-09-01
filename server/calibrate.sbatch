@@ -45,9 +45,16 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
-export OUTPUT_PATH="${OUTPUT_PATH:-runs/train/best_snn.pt}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_CONFIG_PATH=configs/train.json; DEFAULT_RUN_DIR=runs/train ;;
+  batch) DEFAULT_CONFIG_PATH=configs/batch.json; DEFAULT_RUN_DIR=runs/batch ;;
+  fast) DEFAULT_CONFIG_PATH=configs/fast.json; DEFAULT_RUN_DIR=runs/fast ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export CONFIG_PATH="${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-${DEFAULT_RUN_DIR}/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-${DEFAULT_RUN_DIR}/best_snn.pt}"
 export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"

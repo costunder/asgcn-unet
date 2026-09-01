@@ -36,12 +36,19 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_TRAIN_CONFIG=configs/train.json; DEFAULT_PROFILE_OUTPUT=runs/profile.json ;;
+  batch) DEFAULT_TRAIN_CONFIG=configs/batch.json; DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json ;;
+  fast) DEFAULT_TRAIN_CONFIG=configs/fast.json; DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export TRAIN_CONFIG="${TRAIN_CONFIG:-${DEFAULT_TRAIN_CONFIG}}"
 # shellcheck source=scripts/runtime.sh
 source "${PROJECT_ROOT}/scripts/runtime.sh"
 select_conda_python
 export REQUIRE_CUDA=1
-export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
 export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 export PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"

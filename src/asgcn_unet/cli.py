@@ -13,7 +13,7 @@ import torch
 from tqdm import tqdm
 
 from .data import build_dataset
-from .engine import _artifact_path_label, benchmark, calibrate, evaluate, train
+from .engine import TrainingPaused, _artifact_path_label, benchmark, calibrate, evaluate, train
 from .preflight import training_preflight, verify_training_preflight
 from .recovery import archive_uncheckpointed_run
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
@@ -234,6 +234,14 @@ def build_parser() -> argparse.ArgumentParser:
     train_cmd = subparsers.add_parser("train", help="train on EventHDR")
     train_cmd.add_argument("--config", required=True)
     train_cmd.add_argument(
+        "--max-hours", type=float,
+        help="save and pause at a safe batch boundary after this invocation's time budget",
+    )
+    train_cmd.add_argument(
+        "--checkpoint-seconds", type=float, default=300.0,
+        help="periodic checkpoint interval at successful batch boundaries (default: 300)",
+    )
+    train_cmd.add_argument(
         "--resume",
         help="resume from a checkpoint (relative paths are resolved from the repository root)",
     )
@@ -436,8 +444,13 @@ def _execute_command(args: argparse.Namespace) -> None:
             if archived is not None:
                 print(f"Archived uncheckpointed run metadata: {_artifact_path_label(archived)}")
         config["preflight_gate"] = preflight_gate
+        run_options = {}
+        if args.max_hours is not None:
+            run_options["max_seconds"] = args.max_hours * 3600
+        if args.checkpoint_seconds != 300.0:
+            run_options["checkpoint_seconds"] = args.checkpoint_seconds
         result = {
-            "best_checkpoint": _artifact_path_label(train(config, resume_from=resume))
+            "best_checkpoint": _artifact_path_label(train(config, resume_from=resume, **run_options))
         }
     elif args.command == "evaluate":
         if args.allow_unsealed_checkpoint_for_non_reporting:
@@ -556,6 +569,13 @@ def main(argv: list[str] | None = None) -> None:
     )
     try:
         _execute_command(args)
+    except TrainingPaused as paused:
+        print(json.dumps({
+            "status": "paused", "reason": paused.reason,
+            "resume_checkpoint": _artifact_path_label(paused.checkpoint_path),
+            "message": "Saved successfully; resume with the same config and --resume. Training is not complete.",
+        }, ensure_ascii=False, indent=2))
+        raise SystemExit(75) from None
     except Exception as error:
         if private_provenance:
             raise

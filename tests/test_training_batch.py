@@ -150,7 +150,7 @@ def test_real_hdf5_batch_training_covers_every_frame_and_keeps_partial_tail(
     assert sorted(sequence_order.values()) == [[0, 1], [0, 1], [0, 1, 2]]
     assert [item[0] for item in single_calls] == [0, 1]
     assert single_calls[0][1] is None and single_calls[1][1] is not None
-    assert checkpoint["training_protocol"]["version"] == 6
+    assert checkpoint["training_protocol"]["version"] == 8
     assert checkpoint["training_protocol"]["batching"] == batching_contract(2)
     performance = checkpoint["history"][0]["performance"]
     assert performance["frames"] == 7
@@ -437,7 +437,7 @@ def test_batched_epoch_resume_reproduces_uninterrupted_model_optimizer_and_rng(t
     config["output"]["run_dir"] = str(tmp_path / "resumed")
     engine.train(config)
     first = _checkpoint(tmp_path / "resumed")
-    assert first["training_protocol"]["version"] == 6
+    assert first["training_protocol"]["version"] == 8
     config["train"]["epochs"] = 2
     engine.train(config, resume_from=tmp_path / "resumed" / "last.pt")
     resumed = _checkpoint(tmp_path / "resumed")
@@ -456,14 +456,14 @@ def test_batched_epoch_resume_reproduces_uninterrupted_model_optimizer_and_rng(t
 def test_batch_resume_rejects_baseline_different_batch_source_or_contract(changed) -> None:
     config = {"seed": 17, "train": {"batch_size": 2, "batching": "independent_sequences", "amp": False}}
     protocol = engine._training_protocol(config, torch.device("cpu"))
-    assert protocol["version"] == 6
+    assert protocol["version"] == 8
     assert engine._valid_training_protocol_contract(protocol)
     altered = copy.deepcopy(protocol)
     if changed in {"batch_one", "batch_three"}:
         config["train"]["batch_size"] = 1 if changed == "batch_one" else 3
         config["train"]["batching"] = "single_frame" if changed == "batch_one" else "independent_sequences"
         altered = engine._training_protocol(config, torch.device("cpu"))
-        assert altered["version"] == (5 if changed == "batch_one" else 6)
+        assert altered["version"] == (7 if changed == "batch_one" else 8)
     elif changed == "source":
         altered["source"]["source_tree_sha256"] = "0" * 64
     else:

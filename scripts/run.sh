@@ -17,8 +17,9 @@ Stages:
   all         Run check, profile, train, calibrate and eval in order (default)
 
 Important environment:
-  EXPERIMENT=single|batch                Default: single; batch is a separate run
+  EXPERIMENT=single|batch|fast           Default: single; fast is B16 + Triton
   RESUME_CHECKPOINT=PATH
+  MAX_HOURS=N / CHECKPOINT_SECONDS=N     Optional safe pause / checkpoint interval
   TRAIN_CONFIG / HDR_CONFIG / AID_CONFIG
   ANN_CHECKPOINT / SNN_CHECKPOINT
   PYTHON_BIN=PATH                         Default: CONDA_PREFIX/bin/python
@@ -66,6 +67,8 @@ if [[ "$#" -gt 1 ]]; then
 fi
 
 EXPERIMENT="${EXPERIMENT:-single}"
+DEFAULT_HDR_CONFIG=configs/hdr.json
+DEFAULT_AID_CONFIG=configs/aid.json
 case "${EXPERIMENT}" in
   single)
     DEFAULT_TRAIN_CONFIG=configs/train.json
@@ -81,13 +84,22 @@ case "${EXPERIMENT}" in
     DEFAULT_STATUS_DIR=runs/batch-status
     DEFAULT_EVAL_ROOT=runs/batch/eval
     ;;
-  *) echo "ERROR: EXPERIMENT must be single or batch" >&2; exit 2 ;;
+  fast)
+    DEFAULT_TRAIN_CONFIG=configs/fast.json
+    DEFAULT_TRAIN_RUN=runs/fast
+    DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json
+    DEFAULT_STATUS_DIR=runs/fast-status
+    DEFAULT_EVAL_ROOT=runs/fast/eval
+    DEFAULT_HDR_CONFIG=configs/hdr-fast.json
+    DEFAULT_AID_CONFIG=configs/aid-fast.json
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
 esac
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
 TRAIN_CONFIG="${TRAIN_CONFIG:-${DEFAULT_TRAIN_CONFIG}}"
-HDR_CONFIG="${HDR_CONFIG:-configs/hdr.json}"
-AID_CONFIG="${AID_CONFIG:-configs/aid.json}"
+HDR_CONFIG="${HDR_CONFIG:-${DEFAULT_HDR_CONFIG}}"
+AID_CONFIG="${AID_CONFIG:-${DEFAULT_AID_CONFIG}}"
 ANN_CHECKPOINT="${ANN_CHECKPOINT:-${DEFAULT_TRAIN_RUN}/best.pt}"
 SNN_CHECKPOINT="${SNN_CHECKPOINT:-${DEFAULT_TRAIN_RUN}/best_snn.pt}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
@@ -240,7 +252,11 @@ record_stage_failure() {
   local exit_code="$?"
   trap - ERR
   if [[ -n "${ACTIVE_STAGE}" ]]; then
-    write_stage_status "${ACTIVE_STAGE}" FAILED "${exit_code}"
+    if [[ "${ACTIVE_STAGE}" == "train" && "${exit_code}" == "75" ]]; then
+      write_stage_status "${ACTIVE_STAGE}" PAUSED "${exit_code}"
+    else
+      write_stage_status "${ACTIVE_STAGE}" FAILED "${exit_code}"
+    fi
   fi
   exit "${exit_code}"
 }
@@ -324,6 +340,8 @@ run_train() {
     ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT}" \
     RESUME_CHECKPOINT="${RESUME_CHECKPOINT}" \
     RESTART_TRAIN="${RESTART_TRAIN}" \
+    MAX_HOURS="${MAX_HOURS:-}" \
+    CHECKPOINT_SECONDS="${CHECKPOINT_SECONDS:-}" \
     PYTHON_BIN="${PYTHON_BIN}" \
     bash "${PROJECT_ROOT}/scripts/train.sh" "${TRAIN_CONFIG}"
   require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
@@ -350,9 +368,13 @@ run_one_evaluation() {
   local simulation_steps="$4"
   local dynamics="$5"
   local config_name="${config_path##*/}"
+  local dataset_name="${config_name%.json}"
+  if [[ "${EXPERIMENT}" == "fast" ]]; then
+    dataset_name="${dataset_name%-fast}"
+  fi
   local output_dir=""
   if [[ -n "${EVAL_OUTPUT_ROOT}" ]]; then
-    output_dir="${EVAL_OUTPUT_ROOT}/${config_name%.json}"
+    output_dir="${EVAL_OUTPUT_ROOT}/${dataset_name}"
   fi
   run_cmd env \
     REQUIRE_CUDA="${REQUIRE_CUDA}" \

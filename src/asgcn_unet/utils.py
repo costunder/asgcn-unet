@@ -245,7 +245,10 @@ def atomic_torch_save(value: Any, path: str | Path) -> None:
     os.close(descriptor)
     temporary = Path(temporary_name)
     try:
-        torch.save(value, temporary)
+        with temporary.open("wb") as stream:
+            torch.save(value, stream)
+            stream.flush()
+            os.fsync(stream.fileno())
         os.replace(temporary, path)
     except BaseException:
         temporary.unlink(missing_ok=True)

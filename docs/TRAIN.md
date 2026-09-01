@@ -3,8 +3,25 @@
 `configs/train.json`은 기존 batch 1 기준선(training protocol v5)이다.
 `configs/batch.json`은 batch 상한 4의 별도 실험(training protocol v6)이며,
 ASGCN 모델의 `architecture_version=2`를 바꾸는 설정은 아니다.
-사용자 제공 서버 로그로 B4 CUDA 학습과 초기 측정 창은 확인됐다. 같은 입력 대비 속도 향상,
-전체 학습 최대 메모리와 40-epoch 수렴을 검증한 것은 아니다.
+`configs/fast.json`은 실제 비교에서 선택된 batch 상한 16 + `spline_backend=triton`의 별도
+training protocol이며 출력은 `runs/fast`다. 세 설정 사이 checkpoint는 공유하지 않는다.
+
+## 서버 비교 결과와 선택 근거
+
+사용자 제공 서버 실행에서 CUDA 관련 검사 **123개가 24.88초에 통과**했고,
+B4/B8/B16 × Torch/Torch-fused/Triton × 2회인 18개 처리량 trial이 모두 완료됐다.
+각 trial은 같은 실제 EventHDR 16개 stream에서 warmup 128프레임 뒤 같은 512프레임을 측정했다.
+
+| batch/backend | 반복 1 | 반복 2 | peak allocated/reserved |
+|---|---:|---:|---:|
+| B16 + Torch | 9.07 frame/s | 9.02 frame/s | 1245.6/1422 MiB |
+| B16 + Triton | 36.38 frame/s | 36.51 frame/s | 1244.0/1426 MiB |
+
+두 반복 평균의 비는 약 **4.03배**다. B16+Triton은 B8+Triton 평균보다 약 3.5% 빨랐다.
+이는 동기식 benchmark의 해당 512-frame window 결과이며 production DataLoader를 포함한 전체 epoch 시간,
+모든 밀도 입력의 OOM 안전성 또는 40-epoch 수렴/품질을 뜻하지 않는다. 그래서 `fast.json`은 기존
+기본값을 덮어쓰지 않고 별도 run으로 두며, 학습 전 현재 source/config/data/runtime의 새 CUDA preflight를
+요구한다.
 
 ## 계산과 순서
 
@@ -79,6 +96,38 @@ Conda `asgcn`과 할당된 GPU를 사용하며 기존 학습이 실행 중이지
 기존 run을 가리키는 `TRAIN_CONFIG`, `ANN_CHECKPOINT`, `SNN_CHECKPOINT`, `RESUME_CHECKPOINT` 등의
 수동 override가 남아 있지 않은 terminal을 사용한다.
 
+측정 결과를 반영한 B16+Triton run의 새 profile과 시간 분할 학습은 다음 두 명령으로 시작한다.
+
+```bash
+EXPERIMENT=fast bash scripts/run.sh profile
+EXPERIMENT=fast MAX_HOURS=6 bash scripts/run.sh train
+```
+
+두 번째 명령은 6시간을 hard kill deadline으로 쓰지 않는다. 시간이 되면 다음 성공 batch 경계에서
+원자적 checkpoint를 남기고 종료코드 75로 일시정지한다. `runs/fast-status/train.json`은 `PAUSED`이고
+`run.sh all`로 시작했더라도 calibration/eval은 실행되지 않는다. 이어갈 때는 같은 commit, Conda,
+data와 `runs/fast-profile.json`을 유지한다.
+
+```bash
+EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
+  bash scripts/run.sh train
+```
+
+학습이 완료된 뒤에만 다음을 실행한다.
+
+```bash
+EXPERIMENT=fast bash scripts/run.sh calibrate
+EXPERIMENT=fast bash scripts/run.sh eval
+```
+
+`last.pt`는 기본 300초 간격, epoch 끝, `Ctrl+C`/`SIGTERM`/`MAX_HOURS` 요청 시 안전한 성공 batch
+경계에서 저장한다. 현재 epoch의 next-batch cursor, 누적 metric, model/optimizer/scheduler/AMP/RNG와
+각 활성 sequence의 recurrent/temporal context를 복원하므로 epoch 중간에서도 이미 완료한 update를
+중복하지 않는다. interval은 `CHECKPOINT_SECONDS=120`처럼 바꿀 수 있다. `SIGKILL`, 전원 차단, scheduler
+hard kill에는 마지막 주기 저장 이후 작업이 남지 않으므로 일부 batch를 다시 계산할 수 있다.
+`MAX_HOURS`는 scheduler walltime보다 짧게 지정한다. source/config/data/runtime/preflight가 바뀌면 exact
+resume은 거부되며, 중단 중 `git pull`로 source를 바꾸지 않는다.
+
 완료된 호환 topology 보고서 `runs/profile2.json`이 있는 경우:
 
 ```bash
@@ -110,10 +159,10 @@ Batch 전체 CUDA 검사를 통과한 현재 보고서가 있어야 학습을 �
 전체 edge/index/attribute cache는 설정과 이벤트 밀도에 따라 100 GB를 넘을 수 있다.
 실제 topology 크기와 I/O 시간을 측정한 뒤 명시적인 저장 공간 예산으로 판단할 다음 작업이다.
 
-기존 spline 최적화의 중간 텐서 보관 감소와 이번 호출 배치화를 실제 GPU 속도 향상으로 환산하지 않는다.
-Batch는 동시에 처리하는 노드·edge·decoder activation이 늘어 peak VRAM이 더 커질 수 있다.
-A100 전체 GPU와 MIG 1g.10gb는 같은 실행 자원이 아니며, B=4가 해당 MIG에서 충분한지도 실제 gate로 확인해야 한다.
-4배 가속을 약속하지 않는다. 기존 `torch` backend는 그대로 유지한다.
+실제 512-frame 비교에서는 B16+Triton이 B16+Torch보다 약 4.03배 빨랐지만 이를 99,088-frame epoch나
+40 epochs에 그대로 외삽하지 않는다. Batch는 동시에 처리하는 노드·edge·decoder activation이 늘어
+입력 밀도에 따라 peak VRAM이 달라질 수 있다. 현재 fast run도 새 full-batch CUDA gate를 통과해야 한다.
+기존 `torch` backend와 B1/B4 설정은 그대로 유지한다.
 
 후속 최적화는 인접 cell 조회 여러 청크의 allocation count를 한 번에 전송하고,
 device/stream별 작은 불변 hash 상수를 재사용한다. 이벤트별 graph cache는 아니다.
@@ -124,5 +173,6 @@ device/stream별 작은 불변 hash 상수를 재사용한다. 이벤트별 grap
 GPU 커널로 gather·weight·scatter를 융합하는 명시적 `triton` 후보가 있다.
 두 후보는 부동소수점 누적 순서를 바꿀 수 있으므로 bitwise 동일한 학습을 주장하지 않는다.
 기본 config, 모델 크기, event 제한, 전체 epoch/frame 수와 AMP 안전 검사는 변경하지 않았다.
-CUDA 수치·성능 검사 없이 기본값을 바꾸거나 기존 checkpoint의 source 검사를 우회하지 않는다.
+서버 비교를 통과한 B16+Triton은 별도 `fast.json`으로만 채택했으며 기존 checkpoint의 source 검사를
+우회하지 않는다.
 비교 명령과 후보별 제약은 [PERF.md](PERF.md#동일-실데이터-gpu-비교)에 정리한다.

@@ -325,16 +325,26 @@ checkpoint lineage뿐 아니라 실제 inference mode, SNN simulation step T와 
 있게 하지만 결과에 `report_eligible=false`와 이유를 영구 기록한다. 이 옵션은 public shell/scheduler
 wrapper에서 사용하지 않으며 해당 산출물을 표에 포함하면 안 된다.
 
-## 8. epoch-boundary exact resume
+## 8. 확인된 batch 경계의 exact resume
 
 ```bash
-RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
   bash scripts/run.sh train
 ```
 
-`last.pt`는 완료된 epoch 뒤에만 저장된다. 따라서 중간에 종료된 epoch의 일부 step부터 이어가는 것이
-아니라 마지막으로 완료된 epoch 다음부터 동일 trajectory를 재개한다. resume checkpoint는 configured
-`run_dir` 안에 있어야 하고, 검증 score가 이미 있으면 같은 run의 historical `best.pt`도 필요하다.
+`last.pt`는 기본 300초 간격과 epoch 끝에 갱신된다. `Ctrl+C`, `SIGTERM`, `MAX_HOURS` 요청은 현재
+optimizer update와 recurrent context commit이 끝난 안전 경계까지 수행한 뒤 checkpoint를 저장하고
+종료코드 75로 일시정지한다. model·optimizer·scheduler·AMP scaler·RNG 외에도 현재 epoch, 다음 batch
+cursor, 누적 loss/frame/update/AMP retry/시간 및 활성 sequence별 recurrent state와 이전 prediction/target을
+저장한다. DataLoader가 미리 읽은 batch는 완료로 세지 않으며, 재개 시 schedule SHA-256, frame 수와
+context key/index를 dataset index에 대조한 후 다음 미확인 batch부터 읽는다. 학습을 끝내고 validation 중
+멈춘 경우에는 그 epoch의 update를 반복하지 않고 validation을 처음부터 다시 수행한다.
+
+`SIGKILL`, 전원 차단 또는 scheduler hard kill은 정상 handler를 실행할 수 없으므로 마지막 원자적
+checkpoint 뒤의 최대 한 주기만 다시 계산될 수 있다. resume checkpoint는 configured `run_dir` 안에
+있어야 하고, 검증 score가 이미 있으면 같은 run의 historical `best.pt`도 필요하다. 새 run은 protocol
+v7(batch 1) 또는 v8(sequence batch)을 기록한다. 기존 v5/v6 reporting metadata는 계속 판독하지만,
+mid-epoch cursor와 isolated loader RNG가 없는 v5/v6를 v7/v8 exact resume로 승격하지 않는다.
 
 exact resume은 다음 항목의 일치를 강제한다.
 
@@ -346,6 +356,7 @@ exact resume은 다음 항목의 일치를 강제한다.
 - CUDA RNG state 수와 현재 visible CUDA device 수
 - 검증된 CUDA preflight report와 현재 config/data/source/runtime의 동일성
 - final-only validation의 처음 계획한 terminal epoch와 완료 상태
+- 확인된 batch schedule digest, cursor/누적 통계와 causal recurrent context identity
 
 따라서 다른 GPU 종류, CUDA/PyTorch 조합, source checkout, worker protocol이나 dataset byte로 옮긴
 checkpoint는 “exact” 재개로 허용되지 않는다. 절대 data mount path와 mtime/ctime 자체는 checkpoint

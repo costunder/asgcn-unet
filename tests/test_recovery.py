@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 import asgcn_unet.cli as cli_module
+from asgcn_unet.engine import TrainingPaused
 from asgcn_unet.recovery import archive_uncheckpointed_run
 
 
@@ -276,6 +277,53 @@ def test_cli_archives_only_after_verified_profile_and_before_new_gate(
     ))
     assert calls == ["verify", "archive", "train"]
     _assert_payloads(archives[0], payloads)
+
+
+def test_cli_forwards_segment_time_and_checkpoint_interval(tmp_path, monkeypatch) -> None:
+    project, _config = _cli_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        cli_module, "verify_training_preflight", lambda *args: {"status": "verified"}
+    )
+    calls = []
+
+    def train(value, *, resume_from, max_seconds, checkpoint_seconds):
+        calls.append((value, resume_from, max_seconds, checkpoint_seconds))
+        return project / "runs" / "train" / "best.pt"
+
+    monkeypatch.setattr(cli_module, "train", train)
+    cli_module._execute_command(_args(
+        project, "train", "--max-hours", "6", "--checkpoint-seconds", "120"
+    ))
+    assert calls[0][1:] == (None, 21600.0, 120.0)
+
+
+def test_cli_reports_durable_pause_with_exit_75(tmp_path, monkeypatch, capsys) -> None:
+    project, _config = _cli_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        cli_module, "verify_training_preflight", lambda *args: {"status": "verified"}
+    )
+    checkpoint = project / "runs" / "train" / "last.pt"
+
+    def paused(*args, **kwargs):
+        raise TrainingPaused(checkpoint, "time_limit")
+
+    monkeypatch.setattr(cli_module, "train", paused)
+    with pytest.raises(SystemExit) as stopped:
+        cli_module.main([
+            "train", "--config", str(project / "config.json"),
+            "--preflight-report", "runs/profile.json",
+        ])
+    assert stopped.value.code == 75
+    message = json.loads(capsys.readouterr().out)
+    assert message == {
+        "status": "paused",
+        "reason": "time_limit",
+        "resume_checkpoint": "$EXTERNAL/last.pt",
+        "message": (
+            "Saved successfully; resume with the same config and --resume. "
+            "Training is not complete."
+        ),
+    }
 
 
 def test_failed_profile_verification_cannot_move_or_overwrite_old_metadata(

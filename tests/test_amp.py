@@ -502,7 +502,7 @@ def test_training_timing_covers_backward_checks_and_only_successful_optimizer(sc
 def test_protocol_binds_retry_policy_and_rejects_tampering() -> None:
     config = {"train": {"amp": True}}
     protocol = engine._training_protocol(config, torch.device("cpu"))
-    assert protocol["version"] == 5
+    assert protocol["version"] == 7
     assert engine._valid_training_protocol_contract(protocol)
     assert protocol["mixed_precision"]["overflow_policy"] is None
     policy = engine._amp_retry_policy(True)

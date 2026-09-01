@@ -38,8 +38,17 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_CONFIG_PATH=configs/hdr.json; DEFAULT_CHECKPOINT_PATH=runs/train/best.pt; DEFAULT_EVAL_ROOT=runs/eval ;;
+  batch) DEFAULT_CONFIG_PATH=configs/hdr.json; DEFAULT_CHECKPOINT_PATH=runs/batch/best.pt; DEFAULT_EVAL_ROOT=runs/batch/eval ;;
+  fast) DEFAULT_CONFIG_PATH=configs/hdr-fast.json; DEFAULT_CHECKPOINT_PATH=runs/fast/best.pt; DEFAULT_EVAL_ROOT=runs/fast/eval ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export CONFIG_PATH="${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-${DEFAULT_CHECKPOINT_PATH}}"
+case "${CONFIG_PATH##*/}" in aid*) DEFAULT_DATASET=aid ;; *) DEFAULT_DATASET=hdr ;; esac
+export EVAL_OUTPUT_DIR="${EVAL_OUTPUT_DIR:-${DEFAULT_EVAL_ROOT}/${DEFAULT_DATASET}}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 export SNN_DYNAMICS="${SNN_DYNAMICS:-}"

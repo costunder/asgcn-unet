@@ -6,6 +6,22 @@
 
 ## 0. 검증 기록과 배포 판정 기준
 
+### B16 + Triton 실측 선택과 분할 학습
+
+사용자가 A100 MIG 1g.10gb에서 실행한 동일 실제 EventHDR 비교는 CUDA 회귀검사 123개를 통과했고,
+18개 trial이 모두 완료됐다. B16 Triton은 반복당 36.38/36.51 frames/s, B16 Torch는 9.07/9.02
+frames/s로 이 512-frame 측정 창에서 약 4.03배였다. B8 Triton 대비 B16 증가는 약 3.5%이므로 이 값은
+전체 epoch 시간이나 수렴 품질의 측정이 아니다. 선택 결과는 기존 B4 `runs/batch`를 덮지 않는
+`configs/fast.json`(B16+Triton)과 `runs/fast`에 반영했고, HDR/EventAid 평가도 동일 model backend의
+`hdr-fast.json`/`aid-fast.json`으로 분리했다.
+
+새 training protocol v7(batch 1)/v8(sequence batch)은 기본 300초와 정상 stop 요청 시 성공한 update
+경계에서 `last.pt`를 원자 저장한다. optimizer/scheduler/AMP/RNG와 다음 batch cursor, 누적 epoch 통계,
+sequence별 recurrent/temporal context를 함께 복원한다. `MAX_HOURS`로 scheduler walltime보다 짧은
+실행 구간을 지정하며 종료코드 75는 완료가 아니라 `PAUSED`다. 기존 v5/v6 결과는 reporting metadata로
+읽되 새 mid-epoch exact-resume로 위장하지 않는다. 상세 명령과 제약은 README와 `docs/TRAIN.md`,
+`docs/SERVER.md`, `docs/EXPERIMENT.md`가 기준이다.
+
 ### GPU 처리량 병목 후속 수정
 
 사용자 제공 B4 서버 로그는 실제 CUDA 학습 중 약 1,216 MiB process GPU memory를 보였다.
@@ -25,7 +41,7 @@ encoder 47.59 ms, decoder 6.14 ms, backward 50.19 ms였다. 이는 VRAM 부족�
 속도·전체 학습은 로컬 CPU 테스트로 검증됐다고 주장하지 않는다. 상세 범위와 실행은
 [PERF.md](docs/PERF.md#동일-실데이터-gpu-비교)를 따른다.
 
-이번 변경의 최종 전체 Windows CPU 검사는 **1,286 passed, 82 skipped, 1 warning (73.36초)**이며
+이번 변경의 최종 전체 Windows CPU 검사는 **1,355 passed, 82 skipped, 1 warning (88.61초)**이며
 종료코드 0이다. skip에는 CUDA 실행 불가 항목이 포함되고, 기존 test-only quantized buffer의
 deprecated API 경고 1개가 있었다. 해당 전체 실행에서 native access-violation 출력은 없었다.
 Ruff·diff 검사와 tracked text/도달 가능한 Git history의 개인정보 검사를 통과했다.
@@ -41,6 +57,8 @@ accumulation이 아니다. 시퀀스당 시간 순서, 전체 프레임, 40 epoc
 Pooled-node BN과 배치 평균 loss/optimizer update는 학습 프로토콜 변경이므로 별도 run으로 시작한다.
 기준선 checkpoint의 exact-resume 보호를 우회하지 않는다.
 
+현재 새 checkpoint는 단일 프레임 v7, 독립 시퀀스 배치 v8을 사용한다. v5/v6은 기존 결과의
+판독 호환성을 위해 유지하는 legacy protocol이며 mid-epoch resume를 지원한다고 해석하지 않는다.
 `batching.py`는 최대 B개 활성 시퀀스와 해상도별 배치를 스케줄링한다. `training.py`는 시퀀스별
 detach/독립 저장소 context와 temporal loss를 관리하며, 성공한 update만 commit하고 끝난 시퀀스를
 제거한다. AMP 실패는 배치 전체를 재시도한다. `preflight.py`는 실제 최대 B 구성, 밀집/첫/빈/희소
@@ -586,7 +604,7 @@ config/checkpoint/output 경로는 shareable artifact에서 repository-relative 
 hostname을 출력하지 않는다.
 
 보고용 ANN 평가에는 verified CUDA preflight가 포함된 clean `ann_inference`, finite macro-SSIM selection,
-training protocol v5(단일 프레임) 또는 v6(독립 시퀀스 배치)와 validation protocol v7이 필요하다.
+legacy training protocol v5/v6 또는 새 v7/v8과 validation protocol v7이 필요하다.
 v6는 일치하는 실제 full-batch CUDA gate도 요구한다. 보고용 SNN은 그 ANN에서 봉인된
 `calibration_protocol.sealed=true`를 요구한다. `metrics.json.evaluation_protocol`과
 `benchmark.json.benchmark_protocol`은 public config/model, checkpoint file·tensor와 lineage,

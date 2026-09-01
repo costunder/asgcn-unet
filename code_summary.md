@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-08-31T15:06:02Z",
+    "generated_utc": "2026-09-01T02:36:15Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "736ef9485f2c2c1cebb07d08f0d0c691aa7c28f3",
-    "source_tree_at_generation": "961416543a9121c67993ad702eee540e9f578225",
+    "source_commit_at_generation": "13dd5e99ad3a9ed3acf94bc96ed29f7d7427e567",
+    "source_tree_at_generation": "e49bbcbccbb8fdd05aefd6ca8f16efcfb37f5957",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,14 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 31298,
+        "bytes": 32949,
         "path": "README.md",
-        "sha256": "7f22485cbda6b28f50d66abe2d6fe256f22727d84707052bcdba6499e7086f91"
+        "sha256": "9925f9fc303b76d760fd126fe0576f1f8e3409449ce6bd5b695291fd784f801c"
+      },
+      {
+        "bytes": 1333,
+        "path": "configs/aid-fast.json",
+        "sha256": "a1938f6d0a7a6cc4886f2205665c1356828733cdcf8172b2372853b538dd18ab"
       },
       {
         "bytes": 1339,
@@ -54,6 +59,16 @@
         "bytes": 1770,
         "path": "configs/batch.json",
         "sha256": "30209819d88eebc7c29b722c0ec465256cf0173ac2e39f8159d8207013772fcf"
+      },
+      {
+        "bytes": 1771,
+        "path": "configs/fast.json",
+        "sha256": "0bf9fb42025e872887f0b4d15a332f853010e41d6b5262ffaa84a3ec72868287"
+      },
+      {
+        "bytes": 1334,
+        "path": "configs/hdr-fast.json",
+        "sha256": "6723adc477e240af85d0c2fce924aa34cb5613a0919012f3824e0fa661b8cc0d"
       },
       {
         "bytes": 1340,
@@ -91,29 +106,29 @@
         "sha256": "0c4defd5e3564c7bb657ad48df6863b95ce815d15da3d4ebeb5f3687a79cbcde"
       },
       {
-        "bytes": 28809,
+        "bytes": 29971,
         "path": "docs/EXPERIMENT.md",
-        "sha256": "190e91f0f15f1ff647bc8c12074737c78233741f43e21c371edef5c964b3215e"
+        "sha256": "a8f8569a8d1a9745a385a9c3385e67d70b8b03dbb26d6754d84e5259d4e5554b"
       },
       {
-        "bytes": 16947,
+        "bytes": 18062,
         "path": "docs/PERF.md",
-        "sha256": "3d6f7a5a5d88c6edba6fca209f53e292cf21226bfa3267aa83601437a9fb1962"
+        "sha256": "1d0650f25b33e5e88e424e9f2ab7b6ed962161940bfd963f39c429bca5f43606"
       },
       {
-        "bytes": 36811,
+        "bytes": 38843,
         "path": "docs/SERVER.md",
-        "sha256": "a03d02c8b0539471e080a5a4ee969b3531b167133799047e4cb75ad462c45647"
+        "sha256": "7f4957d6a1413d21076a7ebb3efb35b02ceff7afbfdb02bc4cc1e3524e5f0b3f"
       },
       {
-        "bytes": 10373,
+        "bytes": 13112,
         "path": "docs/TRAIN.md",
-        "sha256": "2163eaaf3e6458c1ce8b7c3335477d227779ceac568829b5162893fdd3c2ec57"
+        "sha256": "0802f7c9bd96f4cfd382af3b46e52fb2420860cd12270c77fe3a6f2908bb3c62"
       },
       {
-        "bytes": 76101,
+        "bytes": 77637,
         "path": "hand_off.md",
-        "sha256": "18f261fd0c953ec01b66456c1f6bb383e512b0ec3493f72020b8924ef991212b"
+        "sha256": "599acb0026957c421dd386b56ed821b0184fac2980a50c9fffcc63b2e1c51dc4"
       },
       {
         "bytes": 2753,
@@ -176,9 +191,9 @@
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
-        "bytes": 13452,
+        "bytes": 14296,
         "path": "scripts/run.sh",
-        "sha256": "fc3d10b2dc046a55090f9586694116804c33f18320438b5dc8e5679ce132e234"
+        "sha256": "8fa80e4bc2387efd96b41bc4bb8d26139db10b9389159354f1bcc55e6110f2d8"
       },
       {
         "bytes": 3596,
@@ -196,49 +211,49 @@
         "sha256": "4131ee560f26e698c3a5b25a8da70b09b185b1ccd067a6c7a37331bb518e1ed0"
       },
       {
-        "bytes": 4059,
+        "bytes": 4725,
         "path": "scripts/train.sh",
-        "sha256": "e02f1d342f7f9810cd34cfa5720512afe0f3b409f831827fed1cad9448c4a8d7"
+        "sha256": "849a515a3093d5bc60e9e736e3610a4a51e7e641e5ad2672836f3a8c772a7c3f"
       },
       {
-        "bytes": 3202,
+        "bytes": 3603,
         "path": "server/calibrate.pbs",
-        "sha256": "4fbf02b12e161d4eb75d114897201badd365c857bb830100d4ca5cf709780ad8"
+        "sha256": "5acd5176fc1e0cbec36edd0b918adda6205e49a2fab7f5f6a4d112a02affec1c"
       },
       {
-        "bytes": 3594,
+        "bytes": 3995,
         "path": "server/calibrate.sbatch",
-        "sha256": "93d0b9d068257daa4a235c02428065896d50efd0f2381f05e72ca513fefa8cc1"
+        "sha256": "f75109deb48fb225ef617238b9c2306a8a7a7f5598b86dfa38d285c8448642de"
       },
       {
-        "bytes": 2722,
+        "bytes": 3437,
         "path": "server/eval.pbs",
-        "sha256": "1be08df7c9a88d99ee7fadf85683a585cf68bdf03dc9b8ecbc4917bd454497fe"
+        "sha256": "72d42324545667d8b5bc6f7b7132c596d727fb234a5b44ad6f651d8de227c8d2"
       },
       {
-        "bytes": 3028,
+        "bytes": 3743,
         "path": "server/eval.sbatch",
-        "sha256": "6798e66208a95ccfff005dd12db407a898d91a102ca187959ed1c8abc2616647"
+        "sha256": "4da390c18664b0c2801b0278559351e8de89273af1dd02754dddbffd260f82e8"
       },
       {
-        "bytes": 2425,
+        "bytes": 2876,
         "path": "server/profile.pbs",
-        "sha256": "43c386320b111ca3ba66c5fb053a79036d3b83d21268bea22c552ded062476b2"
+        "sha256": "0963571e7fba654741ea877fef16d003dc466a47286864cc7ef72e0c0f567b93"
       },
       {
-        "bytes": 2754,
+        "bytes": 3205,
         "path": "server/profile.sbatch",
-        "sha256": "53c2c8d78b44fae435575715014bb1077c1694d84f533e33d965effa5e35a416"
+        "sha256": "5f20f5185002fb742100e312fc15733e70280b6ac75d504c0837c1571fae9b15"
       },
       {
-        "bytes": 2516,
+        "bytes": 3456,
         "path": "server/train.pbs",
-        "sha256": "76b24118e72dd1f2f0389360dc5ca704e9cc502bf96f8f623e9a048b95c45c3b"
+        "sha256": "7b744254e2d6af2e668af90b3947ff6b4a598f842f502ce3cec392916ac6a3df"
       },
       {
-        "bytes": 2959,
+        "bytes": 3899,
         "path": "server/train.sbatch",
-        "sha256": "032d8d498de24959435a907395822f18e979956f43bc53d997792691db580929"
+        "sha256": "64883ba0874e3ce23c36c190571082cc4f15e468c534f9339abbcf1dd67d0ced"
       },
       {
         "bytes": 49,
@@ -251,9 +266,14 @@
         "sha256": "b12a71508d0ca5e0b597ce8a577901641cf62615225dcffcd5cc7462195e20cf"
       },
       {
-        "bytes": 23708,
+        "bytes": 11137,
+        "path": "src/asgcn_unet/checkpoint.py",
+        "sha256": "cf76163fad59f1734c59b810b86bde2812f9ce26965ed8686a35fcc3e51a49f1"
+      },
+      {
+        "bytes": 24723,
         "path": "src/asgcn_unet/cli.py",
-        "sha256": "314987f0939f3ee7178b7a1e2e441027e1d4854a275cc3806edb02ed0a1c8ce4"
+        "sha256": "af3831be4f9b8ee4850d1932ee56d914f93ec84e30a5bc91976a3648392a6519"
       },
       {
         "bytes": 309,
@@ -281,9 +301,9 @@
         "sha256": "5ef139427badf8664679002b8f5a90e728465002435998349f78735ef292104d"
       },
       {
-        "bytes": 205002,
+        "bytes": 215768,
         "path": "src/asgcn_unet/engine.py",
-        "sha256": "80ee5ee5e1de87c64b9233985086ab2f41ae544cc5401bd1678bbfd19d157526"
+        "sha256": "e85a1552559a868871685d765b311646970374063274680ae894f6bb6fb040eb"
       },
       {
         "bytes": 41380,
@@ -346,9 +366,9 @@
         "sha256": "fec44e04051e57dbd8adb098c92cbc50db5a28a6755cd89a3aa0f41b400519bf"
       },
       {
-        "bytes": 9412,
+        "bytes": 9523,
         "path": "src/asgcn_unet/utils.py",
-        "sha256": "3ccd7f915ee9a6b60a39e96ac103f53261ee80da41d587430d11b441a0afdc31"
+        "sha256": "1ecd638444d3f662b91238cfe8073c3b7b03c8c767c357ef4fa404260666b61e"
       },
       {
         "bytes": 58,
@@ -363,7 +383,7 @@
       {
         "bytes": 26238,
         "path": "tests/test_amp.py",
-        "sha256": "41fcd06cf067c082acdc5147eed4874cb7603adddb14cc5f59fad754bb66ee6a"
+        "sha256": "d9c307a622627d0ca6a752638fc27f5fb94147727d9bf67263c931b42cfbcfba"
       },
       {
         "bytes": 22519,
@@ -384,6 +404,11 @@
         "bytes": 16394,
         "path": "tests/test_bench.py",
         "sha256": "a3d5fc90c2d9680c44a08e0d04b7b4ceee336b69a63009b4bab6641b9c049226"
+      },
+      {
+        "bytes": 10927,
+        "path": "tests/test_checkpoint.py",
+        "sha256": "06e4ecebfe91ca686f837ef15d2f55b84825be7c86a7442661655d5b99ee2e36"
       },
       {
         "bytes": 7846,
@@ -418,7 +443,7 @@
       {
         "bytes": 18519,
         "path": "tests/test_engine_integrity.py",
-        "sha256": "593b5d8a71bc1862e7cb40665eeabde91b231db66515f4399d4afa2e2d5bc3ce"
+        "sha256": "26f8c04bdaa15fb66869c5d1d27a0d773542a337ee24d62e674de216fe5b38f4"
       },
       {
         "bytes": 7171,
@@ -506,9 +531,9 @@
         "sha256": "86a6554e8e5b7a483bc11492843de74f1155aa4b2c5da9fc59bab4b904980451"
       },
       {
-        "bytes": 15884,
+        "bytes": 17682,
         "path": "tests/test_recovery.py",
-        "sha256": "abf7d802c48615fc3addfbaf1ccba1e9886a5fd65ce784949e16d1e75c1ce5ba"
+        "sha256": "074807cb802d41edff6d2286cf12a6e6bcc59b4e631cc2a46b4eb9fa56578212"
       },
       {
         "bytes": 19173,
@@ -536,9 +561,9 @@
         "sha256": "2f876783b6a8235885a165a66045d46bfcc0ff1dfdf48d934853bac2202e4c49"
       },
       {
-        "bytes": 13869,
+        "bytes": 16305,
         "path": "tests/test_server_orchestration.py",
-        "sha256": "92c864f39a226646838308aef4a50c0e9293fc9998b273d7966a5c0f216f6706"
+        "sha256": "72f8fdd6806e31702235a3d80564b01705284162d7c4723703bf16d5d8e6e38b"
       },
       {
         "bytes": 11827,
@@ -566,9 +591,14 @@
         "sha256": "457768baee11e6bb8a7b655ab30068f3fd0c1eb2553531e4af494b3fdd943812"
       },
       {
+        "bytes": 11984,
+        "path": "tests/test_train_resume.py",
+        "sha256": "ea4c03d21dc2f744e60e7e8fc12695a1bb371a256662184e71dfd0b981694d6e"
+      },
+      {
         "bytes": 23123,
         "path": "tests/test_training_batch.py",
-        "sha256": "9b2b2088b9f60f052e629688006e7eb5676203007a484cee64c16c0428b66610"
+        "sha256": "5b6811ad2fd57a06027ad9bb5fc0ed90660ae080a8cb52d847dc99a4031329fb"
       },
       {
         "bytes": 2742,
@@ -576,9 +606,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 112,
+    "included_file_count": 118,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "8197edf0686ff5d5ab6febee6c45d43570e538653d0b5eb401db2cf463e4585e"
+    "snapshot_sha256": "30472fa564cbd8dad11e62686a38778ee672a8d30e72aadfd0f243970c19d392"
   }
 }
 -->
@@ -940,24 +970,37 @@ SLURM/PBS 서버는 [scheduler 안내](#slurmpbs-scheduler)를 따른다.
 서버 재접속 후에는 기존 저장소로 이동하고 `conda activate asgcn`만 실행한다.
 clone·환경 생성·설치를 매번 반복하지 않는다.
 
-## GPU 미니배치 학습
+## 측정 기반 GPU 학습 설정
 
-위 기본 명령은 기존 `configs/train.json`의 batch 1 기준선이다. 새 `configs/batch.json`은
-독립된 시퀀스 최대 4개를 묶어 **graph encoder 한 번 + U-Net decoder 한 번**으로 처리한다.
-프레임 간 graph edge와 recurrent state는 섞지 않고, 전체 프레임·40 epochs는 유지한다.
-BN 통계와 optimizer 갱신 주기가 달라지는 별도 실험(protocol v6)이므로 기준선 checkpoint에서
-exact resume하지 않는다. 사용자 제공 B4 서버 로그에서는 CUDA 학습과 단계별 시간이 확인됐지만,
-동일 입력 대비 속도 향상·최적 배치 크기·40-epoch 수렴은 아직 검증되지 않았다.
+`configs/train.json`의 B1·`configs/batch.json`의 B4 기준선은 보존한다. 실제 서버에서 CUDA 관련
+검사 **123개**가 통과했고, 같은 실제 EventHDR 측정 프레임 512개를 쓰는 18회 비교에서 B16+Triton은
+`36.38/36.51 frame/s`, B16+Torch는 `9.07/9.02 frame/s`였다. 이 결과를 반영한 별도
+`configs/fast.json`은 **B16 + Triton**, 전체 프레임, 40 epochs와 기존 모델 크기를 유지하고
+`runs/fast`에만 기록한다. 이는 해당 512-frame window의 약 4.03배 처리량 결과이며 전체 epoch 시간,
+모든 입력의 OOM 안전성 또는 40-epoch 수렴을 입증하지 않는다.
 
-실행 중인 기준선 작업을 보존한다. 해당 작업이 끝나기 전에 같은 checkout에서 pull하거나
-같은 GPU에 새 학습을 겹쳐 실행하지 않는다. 기존 작업 종료 후의 새 실험 명령, 이전 topology
-보고서 재사용, 실제 batch CUDA 검사, `runs/batch/timing.json`과 epoch별 frame/s 기록은
-[배치 학습 안내](docs/TRAIN.md)를 따른다. 학습·calibration·평가 결과도 `runs/batch` 아래로 분리한다.
+새 설정은 BN 통계와 optimizer 갱신 주기가 다른 별도 protocol이므로 B1/B4 checkpoint에서 이어 붙이지
+않는다. 학습 전에 B16 실제 full-batch와 밀집/첫/빈/희소 입력의 CUDA gate를 새로 만든다.
 
-성능 비교는 `scripts/bench.py`로 **동일한 실제 EventHDR 프레임 집합**의 배치 크기와 spline backend를
-비교한다. 별도 측정 결과만 저장하며 기존 학습·checkpoint·config를 변경하지 않는다.
-새 융합 연산은 선택형이며, CUDA 수치 검사와 처리량 비교 없이 기본값이나 "최적 설정"으로 채택하지 않는다.
-실행 조건과 측정 범위는 [성능 비교 안내](docs/PERF.md#동일-실데이터-gpu-비교)를 따른다.
+```bash
+conda activate asgcn
+EXPERIMENT=fast bash scripts/run.sh profile
+EXPERIMENT=fast MAX_HOURS=6 bash scripts/run.sh train
+```
+
+두 번째 명령은 최대 6시간 뒤 안전한 batch 경계에 `runs/fast/last.pt`를 저장하고 종료코드 75로
+일시정지한다. 다음 작업 시간에는 같은 checkout·Conda 환경·data·profile을 유지한 채 이어간다.
+
+```bash
+conda activate asgcn
+EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
+  bash scripts/run.sh train
+```
+
+완료 후에는 같은 `EXPERIMENT=fast`로 `calibrate`, `eval`을 실행한다. 호환되는 이전 profile이 있으면
+topology 통계만 명시적으로 재사용할 수 있지만 GPU probe는 항상 새로 수행한다. 상세 측정 범위와
+실행·재개 계약은 [성능 안내](docs/PERF.md#동일-실데이터-gpu-비교)와
+[학습 안내](docs/TRAIN.md)를 따른다.
 
 ## 실험 범위
 
@@ -1123,9 +1166,16 @@ bash scripts/run.sh eval
 AMP overflow는 scale을 낮춰 같은 프레임을 최대 16번 재시도하고 실패한 시도의 BatchNorm·난수 상태를
 복원한다. 프레임을 버리지 않으며, 비유한 loss나 지속되는 오류는 그대로 중단한다.
 
-### 학습 epoch 경계에서 재개
+### 학습 중간 checkpoint와 재개
 
-학습은 매 epoch 종료 시 `last.pt`를 원자적으로 갱신한다. 중단 후 같은 run을 epoch 경계에서 재개한다.
+학습은 기본 300초 간격과 매 epoch 종료 시, **성공한 optimizer update 뒤의 안전한 batch 경계**에서
+`last.pt`를 원자적으로 갱신한다. checkpoint에는 model, optimizer, scheduler, AMP scaler, RNG,
+현재 epoch의 다음 batch cursor·누적 metric과 시퀀스별 recurrent/temporal context가 들어간다.
+따라서 epoch 중간 checkpoint에서도 이미 반영한 batch를 다시 update하지 않고 이어간다.
+`Ctrl+C`, `SIGTERM` 또는 `MAX_HOURS`는 다음 안전 경계에서 저장한 뒤 종료코드 75로 끝난다.
+`run.sh all`도 이때 train 상태를 `PAUSED`로 기록하고 calibration/eval로 넘어가지 않는다.
+
+기본 B1 run을 재개하는 명령은 다음과 같다.
 
 ```bash
 RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
@@ -1141,7 +1191,11 @@ runtime에 다시 결합한다. 학습 재개가 끝나면 `bash scripts/run.sh 
 wrapper에서는 허용되지 않는다.
 
 resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
-전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다. `validate_every: null`인 run은
+현재 epoch cursor/context, 전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다.
+같은 중단·재개 cycle의 source를 바꾸거나 `git pull`하지 않는다. `SIGKILL`, 전원 차단 또는 scheduler의
+hard kill은 handler가 실행되지 않으므로 마지막 300초 주기 checkpoint 이후의 성공 batch는 다시 처리될
+수 있다. scheduler walltime보다 짧게 `MAX_HOURS`를 잡아 정상 일시정지 시간을 남긴다.
+주기를 바꾸려면 예를 들어 `CHECKPOINT_SECONDS=120`을 지정한다. `validate_every: null`인 run은
 계획한 terminal epoch도 protocol에 봉인하므로 마지막 평가를 마친 뒤 epochs만 늘려 같은 run을
 재개할 수 없다. 연장 학습은 새 output directory의 새 protocol로 시작한다. 계약이 일치하지 않으면
 조용히 다른 실험을 이어 붙이지 않고 중단한다.
@@ -1230,33 +1284,33 @@ latency나 에너지로 해석하면 안 된다.
 
 ## SLURM/PBS scheduler
 
-클러스터 batch job은 저장소 root에서 제출한다. SLURM에서 profile→학습→전체 calibration 의존성은 다음과
-같이 건다.
+클러스터 batch job은 저장소 root에서 제출한다. 아래는 실측 선택인 `EXPERIMENT=fast`를 6시간
+학습 구간으로 실행하는 SLURM profile→학습→전체 calibration 의존성이다.
 
 ```bash
 conda activate asgcn
 profile_id=$(sbatch --parsable \
-  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/profile.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast server/profile.sbatch)
 train_id=$(sbatch --parsable --dependency=afterok:${profile_id} \
-  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/train.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast,MAX_HOURS=6,CHECKPOINT_SECONDS=300 server/train.sbatch)
 cal_id=$(sbatch --parsable --dependency=afterok:${train_id} \
-  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX" server/calibrate.sbatch)
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast server/calibrate.sbatch)
 ```
 
 ANN 두 평가와 SNN 전체 행렬을 dependency로 제출한다.
 
 ```bash
-for config in configs/hdr.json configs/aid.json; do
+for config in configs/hdr-fast.json configs/aid-fast.json; do
   sbatch --dependency=afterok:${train_id} \
-    --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
+    --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast,CONFIG_PATH="$config",CHECKPOINT_PATH=runs/fast/best.pt,INFERENCE_MODE=ann \
     server/eval.sbatch
 done
 
-for config in configs/hdr.json configs/aid.json; do
+for config in configs/hdr-fast.json configs/aid-fast.json; do
   for dynamics in literal_eq15 standard_if; do
     for timestep in 4 8 16 32; do
       sbatch --dependency=afterok:${cal_id} \
-        --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",CONFIG_PATH="$config",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
+        --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",EXPERIMENT=fast,CONFIG_PATH="$config",CHECKPOINT_PATH=runs/fast/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="$dynamics",SIMULATION_STEPS="$timestep" \
         server/eval.sbatch
     done
   done
@@ -1265,7 +1319,9 @@ done
 
 SLURM `--export`에는 각 job이 실제로 쓰는 변수만 명시한다. login shell 전체를 전달하면 token, proxy,
 credential 같은 무관한 환경변수도 compute node와 job 환경에 복제될 수 있으므로 `ALL`은 사용하지 않는다.
-학습 resume job에는 `RESUME_CHECKPOINT="$PWD/runs/train/last.pt"`를 `--export`에 추가한다.
+학습 resume job에는 `EXPERIMENT=fast`, `MAX_HOURS=6`과
+`RESUME_CHECKPOINT="$PWD/runs/fast/last.pt"`를 `--export`에 추가한다. 기존 B4 결과를 계속할 때만
+`EXPERIMENT=batch`와 `runs/batch` 경로를 사용한다.
 각 job은 전달받은 `CONDA_PREFIX`의 Python을 사용한다. 같은 환경의 Python을 `PYTHON_BIN`으로
 명시할 수도 있다. PBS/Torque에도 `-v CONDA_PREFIX="$CONDA_PREFIX"`를 전달한다.
 PBS/Torque용 동등 wrapper는 `server/profile.pbs`, `server/train.pbs`, `server/calibrate.pbs`,
@@ -1305,11 +1361,69 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
   scene-disjoint 주장을 하지 않는다.
 - 원 논문의 동적 asynchronous K-hop update, pooling/classifier, energy model은 포함하지 않는다.
 - 반도체 RTL/FPGA/ASIC, event compression/transport, 실제 전력·에너지 측정은 후속 과제 범위다.
-- recurrent batch size는 1이고 resume granularity는 epoch 단위다. 전체 실행 시간과 저장 공간은
-  서버 GPU, filesystem, dataset decode 속도에 따라 달라진다.
+- B16+Triton의 실측은 조건당 측정 512프레임 범위이며 전체 epoch/수렴 결과는 아직 없다. 재개 단위는
+  기본 300초마다 저장된 성공 batch 경계다. 전체 실행 시간과 저장 공간은 서버 GPU, filesystem,
+  dataset decode 속도에 따라 달라진다.
 
 코드 전체 스냅샷은 [code_summary.md](code_summary.md), 인수인계와 연구상 주의점은
 [hand_off.md](hand_off.md)를 참조한다.
+~~~~~~~~
+
+# configs/aid-fast.json
+
+~~~~~~~~json
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventaid_r_zip",
+    "root": "data/EventAid-R",
+    "file_manifest": "manifests/eventaid_r.json",
+    "expected_file_count": 14,
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "target_offset": 1,
+    "target_normalization": {"mode": "integer_dtype_max"},
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
+  },
+  "model": {
+    "architecture_version": 2,
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "graph_operator": "spline",
+    "spline_backend": "triton",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "spline_chunk_size": 65536,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "eval": {
+    "batch_size": 1,
+    "precision": "fp32",
+    "tf32": false,
+    "num_workers": 2,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "recurrent_context_frames": 32,
+    "max_samples": null,
+    "save_predictions": 20,
+    "output_dir": "runs/fast/eval/aid"
+  }
+}
 ~~~~~~~~
 
 # configs/aid.json
@@ -1439,6 +1553,134 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
     "loss_weights": {"charbonnier": 1.0, "ssim": 0.2, "gradient": 0.1, "temporal": 0.2}
   },
   "output": {"run_dir": "runs/batch"}
+}
+~~~~~~~~
+
+# configs/fast.json
+
+~~~~~~~~json
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventhdr",
+    "root": "data/EventHDR/train",
+    "val_root": "data/EventHDR/eval",
+    "split_manifest": "manifests/eventhdr_split.json",
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "frame_stride": 1,
+    "target_normalization": {"mode": "integer_dtype_max"},
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
+  },
+  "model": {
+    "architecture_version": 2,
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "graph_operator": "spline",
+    "spline_backend": "triton",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "spline_chunk_size": 65536,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "train": {
+    "epochs": 40,
+    "batch_size": 16,
+    "batching": "independent_sequences",
+    "num_workers": 4,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "optimizer": "adam_gc",
+    "learning_rate": 0.001,
+    "weight_decay": 0.005,
+    "lr_milestones": [20, 30],
+    "lr_gamma": 0.1,
+    "grad_clip": 1.0,
+    "amp": true,
+    "log_every": 20,
+    "timing_steps": 50,
+    "timing_warmup": 10,
+    "validate_every": null,
+    "resume": null,
+    "max_train_samples": null,
+    "max_val_samples": null,
+    "validation_context_frames": 64,
+    "rehash_data": true,
+    "loss_weights": {"charbonnier": 1.0, "ssim": 0.2, "gradient": 0.1, "temporal": 0.2}
+  },
+  "output": {"run_dir": "runs/fast"}
+}
+~~~~~~~~
+
+# configs/hdr-fast.json
+
+~~~~~~~~json
+{
+  "seed": 2026,
+  "device": "auto",
+  "dataset": {
+    "type": "eventhdr",
+    "root": "data/EventHDR/eval",
+    "split_manifest": "manifests/eventhdr_split.json",
+    "expected_file_count": 19,
+    "target_channels": 1,
+    "max_events": 8192,
+    "crop_size": null,
+    "frame_stride": 1,
+    "target_normalization": {"mode": "integer_dtype_max"},
+    "tone_map": "log",
+    "tone_map_mu": 5000.0
+  },
+  "model": {
+    "architecture_version": 2,
+    "hidden_dim": 64,
+    "graph_layers": 6,
+    "graph_operator": "spline",
+    "spline_backend": "triton",
+    "spline_pseudo": "distance_over_radius",
+    "spline_is_open": true,
+    "event_sampling_factor": 1,
+    "graph_radius": 0.08,
+    "graph_position_dims": 3,
+    "graph_chunk_size": 512,
+    "spline_chunk_size": 65536,
+    "max_graph_edges": 2000000,
+    "spline_kernel_size": 5,
+    "spline_degree": 1,
+    "spline_root_weight": true,
+    "snn_dynamics": "literal_eq15",
+    "raster_downsample": 4,
+    "decoder_channels": 48,
+    "output_channels": 1,
+    "recurrent": true
+  },
+  "eval": {
+    "batch_size": 1,
+    "precision": "fp32",
+    "tf32": false,
+    "num_workers": 2,
+    "persistent_workers": true,
+    "prefetch_factor": 2,
+    "recurrent_context_frames": 32,
+    "max_samples": null,
+    "save_predictions": 20,
+    "output_dir": "runs/fast/eval/hdr"
+  }
 }
 ~~~~~~~~
 
@@ -2725,16 +2967,26 @@ checkpoint lineage뿐 아니라 실제 inference mode, SNN simulation step T와 
 있게 하지만 결과에 `report_eligible=false`와 이유를 영구 기록한다. 이 옵션은 public shell/scheduler
 wrapper에서 사용하지 않으며 해당 산출물을 표에 포함하면 안 된다.
 
-## 8. epoch-boundary exact resume
+## 8. 확인된 batch 경계의 exact resume
 
 ```bash
-RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
   bash scripts/run.sh train
 ```
 
-`last.pt`는 완료된 epoch 뒤에만 저장된다. 따라서 중간에 종료된 epoch의 일부 step부터 이어가는 것이
-아니라 마지막으로 완료된 epoch 다음부터 동일 trajectory를 재개한다. resume checkpoint는 configured
-`run_dir` 안에 있어야 하고, 검증 score가 이미 있으면 같은 run의 historical `best.pt`도 필요하다.
+`last.pt`는 기본 300초 간격과 epoch 끝에 갱신된다. `Ctrl+C`, `SIGTERM`, `MAX_HOURS` 요청은 현재
+optimizer update와 recurrent context commit이 끝난 안전 경계까지 수행한 뒤 checkpoint를 저장하고
+종료코드 75로 일시정지한다. model·optimizer·scheduler·AMP scaler·RNG 외에도 현재 epoch, 다음 batch
+cursor, 누적 loss/frame/update/AMP retry/시간 및 활성 sequence별 recurrent state와 이전 prediction/target을
+저장한다. DataLoader가 미리 읽은 batch는 완료로 세지 않으며, 재개 시 schedule SHA-256, frame 수와
+context key/index를 dataset index에 대조한 후 다음 미확인 batch부터 읽는다. 학습을 끝내고 validation 중
+멈춘 경우에는 그 epoch의 update를 반복하지 않고 validation을 처음부터 다시 수행한다.
+
+`SIGKILL`, 전원 차단 또는 scheduler hard kill은 정상 handler를 실행할 수 없으므로 마지막 원자적
+checkpoint 뒤의 최대 한 주기만 다시 계산될 수 있다. resume checkpoint는 configured `run_dir` 안에
+있어야 하고, 검증 score가 이미 있으면 같은 run의 historical `best.pt`도 필요하다. 새 run은 protocol
+v7(batch 1) 또는 v8(sequence batch)을 기록한다. 기존 v5/v6 reporting metadata는 계속 판독하지만,
+mid-epoch cursor와 isolated loader RNG가 없는 v5/v6를 v7/v8 exact resume로 승격하지 않는다.
 
 exact resume은 다음 항목의 일치를 강제한다.
 
@@ -2746,6 +2998,7 @@ exact resume은 다음 항목의 일치를 강제한다.
 - CUDA RNG state 수와 현재 visible CUDA device 수
 - 검증된 CUDA preflight report와 현재 config/data/source/runtime의 동일성
 - final-only validation의 처음 계획한 terminal epoch와 완료 상태
+- 확인된 batch schedule digest, cursor/누적 통계와 causal recurrent context identity
 
 따라서 다른 GPU 종류, CUDA/PyTorch 조합, source checkout, worker protocol이나 dataset byte로 옮긴
 checkpoint는 “exact” 재개로 허용되지 않는다. 절대 data mount path와 mtime/ctime 자체는 checkpoint
@@ -2849,6 +3102,22 @@ gradient는 clipping 전 norm과 clipping 후 tensor의 성분별 오차·벡터
 다음 측정은 `--output runs/bench2`처럼 새 경로를 지정한다. OOM·수치 불일치·backend 오류는 실패로
 기록한다. 실패 조건을 더 작은 배치로 몰래 실행하거나 CPU로 바꿔 성공 처리하지 않는다.
 
+### 서버에서 완료된 비교
+
+사용자 제공 서버 출력에서는 CUDA 관련 pytest **123개가 24.88초에 통과**했고, 위 명령의
+B4/B8/B16 × 3 backend × 2회, 총 18개 trial이 완료됐다. 조건별 측정 프레임은 512개다.
+
+| batch | Torch | Torch-fused | Triton | Triton peak allocated/reserved |
+|---:|---:|---:|---:|---:|
+| 4 | 8.83 / 8.85 | 8.80 / 8.85 | 32.80 / 32.98 | 416.5 / 490 MiB |
+| 8 | 8.99 / 9.03 | 8.95 / 8.95 | 34.96 / 35.45 | 743.9 / 822 MiB |
+| 16 | 9.07 / 9.02 | 9.02 / 9.01 | **36.38 / 36.51** | 1244.0 / 1426 MiB |
+
+B16의 두 반복 평균은 Triton 36.445 frame/s, Torch 9.045 frame/s로 약 **4.03배**다.
+B16 Triton은 B8 Triton 평균보다 약 3.5% 빠르다. Torch-fused는 이 장비/입력에서 Torch보다 유의하게
+빠르지 않았으므로 선택하지 않았다. 이 결과를 반영한 `configs/fast.json`은 B16+Triton을 사용하고
+`runs/fast`에 별도 저장한다. 기존 B1/B4 config와 checkpoint는 변경하지 않는다.
+
 ### 해석과 후속 학습
 
 측정 wall time은 해당 구간의 실제 HDF5 decode·전송·그래프·forward/loss/backward·검사·optimizer·
@@ -2872,8 +3141,9 @@ hostname을 가리며, source/설정/선택 프레임 identity는 hash로 기록
 exact-resume하도록 source 검사를 우회하지 않는다. 검증되는 이전 topology 통계만 재사용할 수 있으며,
 이전 GPU probe 통과는 새 backend/B의 통과 근거가 아니다.
 
-새 GPU kernel은 로컬 CPU 환경에서 CUDA 컴파일·실행·속도를 검증하지 못했다. 이 문서는 구현과
-측정 절차이지 성능 개선 완료 선언이 아니다. 아래 과거 CPU 수치로 이 GPU 변경의 가속률을 대신하지 않는다.
+서버의 123개 CUDA 검사와 위 18개 trial은 해당 환경에서 실제 실행됐다. 다만 전체 EventHDR epoch,
+40-epoch convergence와 전체 평가 행렬은 아직 완료된 결과가 아니다. 로컬 Windows CPU 환경에서는
+CUDA 컴파일·실행을 재검증할 수 없었으며, 아래 과거 CPU 수치로 서버 결과의 범위를 확대하지 않는다.
 
 ### 이번 변경의 로컬 검증
 
@@ -3006,9 +3276,10 @@ event-only HDF5 읽기, CPU helper thread 제한, 구간별 저장·재개를 �
 MobaXterm 등의 SSH client로 접속한 Linux GPU 서버 또는 scheduler compute node에서 실행한다.
 아래 명령은 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 실험 경로를 설명한다.
 
-GPU 미니배치 실험은 [TRAIN.md](TRAIN.md)를 따른다. `EXPERIMENT=batch`는 별도 `configs/batch.json`,
-`runs/batch`, batch CUDA profile과 평가 출력 경로를 선택한다. 기본 단일 프레임 실험과 checkpoint를
-공유하지 않는다. 실행 중인 기준선 checkout을 갱신하거나 같은 GPU에서 학습을 겹쳐 실행하지 않는다.
+GPU 미니배치 실험은 [TRAIN.md](TRAIN.md)를 따른다. `EXPERIMENT=batch`는 B4+Torch,
+`EXPERIMENT=fast`는 서버 비교에서 선택된 B16+Triton과 각각의 config, CUDA profile, `runs/batch` 또는
+`runs/fast` 출력 경로를 선택한다. 기본 단일 프레임 실험과 checkpoint를 공유하지 않는다. 실행 중인
+학습 checkout을 갱신하거나 같은 GPU에서 학습을 겹쳐 실행하지 않는다.
 
 ## 1. 환경 설치
 
@@ -3277,7 +3548,7 @@ summary가 유지된다.
 `--allow-unsealed-calibration`을 직접 지정한 실행은 전체 sample이어도 override 자체가 기록돼
 `sealed=false`이며 보고용 표에 사용할 수 없다.
 
-## 4. 중단 후 epoch-boundary resume
+## 4. 중단 후 profile 및 batch-boundary resume
 
 ### 사전검사 중단 후 이어가기
 
@@ -3321,7 +3592,7 @@ metadata-only `runs/train`은 `runs/train.failed-*/train`으로 보존된다. `c
 `preflight_gate.json`, `.data_hash_cache.json` 외 파일·하위 폴더 또는 checkpoint가 있으면 자동으로
 옮기지 않는다. 기존 작업은 먼저 종료해야 한다. 이 옵션은 epoch 내부 학습을 복원하는 resume가 아니다.
 
-### 완료된 epoch부터 학습 재개
+### epoch 중간의 확인된 batch부터 학습 재개
 
 직접 실행은 다음과 같다.
 
@@ -3340,12 +3611,37 @@ RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
 두 wrapper 모두 `PROFILE_OUTPUT`을 따르며, 저수준 wrapper에서 `PREFLIGHT_REPORT`를 따로 지정하면
 그 값이 우선한다. 이전 profile 이관을 사용했다면 `PROFILE_OUTPUT=runs/profile2.json`을 유지한다.
 
-`last.pt`는 각 완료 epoch 뒤에 저장되므로 종료된 epoch 내부 step은 되풀이된다. checkpoint는 같은
-configured run directory 안에 있어야 하며, source tree/Git 상태, model·optimizer·scheduler·AMP,
-validation/data full SHA-256과 PyTorch/CUDA/cuDNN·GPU 이름/compute capability·visible CUDA RNG state가
-일치해야 한다. `runs/profile.json`도 현재 config·전체 train data·source·동일 CUDA runtime에 다시
-결합되어야 한다. 다른 GPU나 source checkout으로 옮기는 것은 일반 weight load가 아니라 exact resume
-요청이므로 거부될 수 있다. 상세 계약은 [EXPERIMENT.md](EXPERIMENT.md)의 resume 절을 따른다.
+현재 checkpoint는 기본 300초 간격, 각 epoch 끝, `Ctrl+C`/`SIGTERM` 또는 `MAX_HOURS` 요청 뒤의
+**성공한 optimizer update 경계**에서 `last.pt`를 원자적으로 갱신한다. model·optimizer·scheduler·AMP
+scaler·Python/NumPy/Torch/CUDA RNG뿐 아니라 현재 epoch의 다음 batch cursor, 처리 frame 수, 누적 loss,
+AMP 재시도 수, 누적 학습 시간과 활성 sequence별 recurrent state·이전 prediction/target을 저장한다.
+DataLoader가 미리 decode한 batch가 아니라 실제 optimizer update와 context commit이 끝나 확인된 batch만
+cursor에 반영한다. 재개 시 저장된 schedule SHA-256과 cursor/frame 수/context identity를 dataset index와
+대조한 뒤 다음 batch부터 읽으므로 완료 update를 중복하지 않는다.
+
+시간을 나눠 실행하려면 scheduler walltime보다 짧은 예산을 지정한다. 예시는 fast run을 6시간 단위로
+실행하는 경우다.
+
+```bash
+EXPERIMENT=fast MAX_HOURS=6 bash scripts/run.sh train
+EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
+  bash scripts/run.sh train
+```
+
+정상 일시정지는 종료코드 75이며 상위 `run.sh`은 train 상태를 `PAUSED`로 기록하고 calibration/eval을
+실행하지 않는다. 주기는 `CHECKPOINT_SECONDS=120`처럼 바꿀 수 있다. `SIGKILL`, 전원 차단 또는 scheduler
+hard kill은 handler가 실행되지 않으므로 마지막 주기 checkpoint 뒤의 batch는 다시 계산될 수 있다.
+checkpoint는 같은 configured run directory 안에 있어야 하며, source tree/Git 상태,
+model·optimizer·scheduler·AMP, validation/data full SHA-256과 PyTorch/CUDA/cuDNN·GPU 이름/compute
+capability·visible CUDA RNG state가 일치해야 한다. profile도 현재 config·전체 train data·source·동일
+CUDA runtime에 다시 결합되어야 한다. 중단 중 `git pull`하거나 config/runtime을 바꾸지 않는다.
+
+현재 새 학습은 batch 1에서 training protocol v7, sequence batch에서 v8을 기록한다. 기존 v5/v6
+checkpoint의 reporting metadata는 calibration/evaluation에서 읽을 수 있지만, isolated epoch loader RNG와
+mid-epoch schedule 계약이 없는 v5/v6 checkpoint를 v7/v8 실행에 exact training resume로 승격하지 않는다.
+그 checkpoint는 작성 당시 source에서 epoch 경계 재개하거나, 현재 source에서는 새 output의 새 run을
+시작한다. 다른 GPU나 source checkout으로 옮기는 것도 일반 weight load가 아니라 exact resume 요청이므로
+거부될 수 있다. 상세 계약은 [EXPERIMENT.md](EXPERIMENT.md)의 resume 절을 따른다.
 
 상위 runner는 `check`, `profile`, `train`, `calibrate`, `eval`, `all` stage를 제공한다. 학습 재개가 끝난 뒤에는
 `bash scripts/run.sh calibrate`, 그다음 `bash scripts/run.sh eval`을 실행한다. 기존 training,
@@ -3570,7 +3866,7 @@ bash scripts/run.sh eval
 `PROFILE_RESUME=1` 절차로 이어가고, 별도 새 검사라면 `PROFILE_OUTPUT`에 새 파일명을 지정해
 원본 보고서와 journal을 모두 보존한다. JSON만 옮기면 기존 journal 때문에 새 검사가 거부된다.
 이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train
-명령을 그대로 쓰지 말고 [epoch-boundary resume](#4-중단-후-epoch-boundary-resume)를 따른다.
+명령을 그대로 쓰지 말고 [batch-boundary resume](#4-중단-후-profile-및-batch-boundary-resume)를 따른다.
 
 자주 중단되는 조건은 다음과 같다.
 
@@ -3622,8 +3918,25 @@ bash scripts/run.sh eval
 `configs/train.json`은 기존 batch 1 기준선(training protocol v5)이다.
 `configs/batch.json`은 batch 상한 4의 별도 실험(training protocol v6)이며,
 ASGCN 모델의 `architecture_version=2`를 바꾸는 설정은 아니다.
-사용자 제공 서버 로그로 B4 CUDA 학습과 초기 측정 창은 확인됐다. 같은 입력 대비 속도 향상,
-전체 학습 최대 메모리와 40-epoch 수렴을 검증한 것은 아니다.
+`configs/fast.json`은 실제 비교에서 선택된 batch 상한 16 + `spline_backend=triton`의 별도
+training protocol이며 출력은 `runs/fast`다. 세 설정 사이 checkpoint는 공유하지 않는다.
+
+## 서버 비교 결과와 선택 근거
+
+사용자 제공 서버 실행에서 CUDA 관련 검사 **123개가 24.88초에 통과**했고,
+B4/B8/B16 × Torch/Torch-fused/Triton × 2회인 18개 처리량 trial이 모두 완료됐다.
+각 trial은 같은 실제 EventHDR 16개 stream에서 warmup 128프레임 뒤 같은 512프레임을 측정했다.
+
+| batch/backend | 반복 1 | 반복 2 | peak allocated/reserved |
+|---|---:|---:|---:|
+| B16 + Torch | 9.07 frame/s | 9.02 frame/s | 1245.6/1422 MiB |
+| B16 + Triton | 36.38 frame/s | 36.51 frame/s | 1244.0/1426 MiB |
+
+두 반복 평균의 비는 약 **4.03배**다. B16+Triton은 B8+Triton 평균보다 약 3.5% 빨랐다.
+이는 동기식 benchmark의 해당 512-frame window 결과이며 production DataLoader를 포함한 전체 epoch 시간,
+모든 밀도 입력의 OOM 안전성 또는 40-epoch 수렴/품질을 뜻하지 않는다. 그래서 `fast.json`은 기존
+기본값을 덮어쓰지 않고 별도 run으로 두며, 학습 전 현재 source/config/data/runtime의 새 CUDA preflight를
+요구한다.
 
 ## 계산과 순서
 
@@ -3698,6 +4011,38 @@ Conda `asgcn`과 할당된 GPU를 사용하며 기존 학습이 실행 중이지
 기존 run을 가리키는 `TRAIN_CONFIG`, `ANN_CHECKPOINT`, `SNN_CHECKPOINT`, `RESUME_CHECKPOINT` 등의
 수동 override가 남아 있지 않은 terminal을 사용한다.
 
+측정 결과를 반영한 B16+Triton run의 새 profile과 시간 분할 학습은 다음 두 명령으로 시작한다.
+
+```bash
+EXPERIMENT=fast bash scripts/run.sh profile
+EXPERIMENT=fast MAX_HOURS=6 bash scripts/run.sh train
+```
+
+두 번째 명령은 6시간을 hard kill deadline으로 쓰지 않는다. 시간이 되면 다음 성공 batch 경계에서
+원자적 checkpoint를 남기고 종료코드 75로 일시정지한다. `runs/fast-status/train.json`은 `PAUSED`이고
+`run.sh all`로 시작했더라도 calibration/eval은 실행되지 않는다. 이어갈 때는 같은 commit, Conda,
+data와 `runs/fast-profile.json`을 유지한다.
+
+```bash
+EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
+  bash scripts/run.sh train
+```
+
+학습이 완료된 뒤에만 다음을 실행한다.
+
+```bash
+EXPERIMENT=fast bash scripts/run.sh calibrate
+EXPERIMENT=fast bash scripts/run.sh eval
+```
+
+`last.pt`는 기본 300초 간격, epoch 끝, `Ctrl+C`/`SIGTERM`/`MAX_HOURS` 요청 시 안전한 성공 batch
+경계에서 저장한다. 현재 epoch의 next-batch cursor, 누적 metric, model/optimizer/scheduler/AMP/RNG와
+각 활성 sequence의 recurrent/temporal context를 복원하므로 epoch 중간에서도 이미 완료한 update를
+중복하지 않는다. interval은 `CHECKPOINT_SECONDS=120`처럼 바꿀 수 있다. `SIGKILL`, 전원 차단, scheduler
+hard kill에는 마지막 주기 저장 이후 작업이 남지 않으므로 일부 batch를 다시 계산할 수 있다.
+`MAX_HOURS`는 scheduler walltime보다 짧게 지정한다. source/config/data/runtime/preflight가 바뀌면 exact
+resume은 거부되며, 중단 중 `git pull`로 source를 바꾸지 않는다.
+
 완료된 호환 topology 보고서 `runs/profile2.json`이 있는 경우:
 
 ```bash
@@ -3729,10 +4074,10 @@ Batch 전체 CUDA 검사를 통과한 현재 보고서가 있어야 학습을 �
 전체 edge/index/attribute cache는 설정과 이벤트 밀도에 따라 100 GB를 넘을 수 있다.
 실제 topology 크기와 I/O 시간을 측정한 뒤 명시적인 저장 공간 예산으로 판단할 다음 작업이다.
 
-기존 spline 최적화의 중간 텐서 보관 감소와 이번 호출 배치화를 실제 GPU 속도 향상으로 환산하지 않는다.
-Batch는 동시에 처리하는 노드·edge·decoder activation이 늘어 peak VRAM이 더 커질 수 있다.
-A100 전체 GPU와 MIG 1g.10gb는 같은 실행 자원이 아니며, B=4가 해당 MIG에서 충분한지도 실제 gate로 확인해야 한다.
-4배 가속을 약속하지 않는다. 기존 `torch` backend는 그대로 유지한다.
+실제 512-frame 비교에서는 B16+Triton이 B16+Torch보다 약 4.03배 빨랐지만 이를 99,088-frame epoch나
+40 epochs에 그대로 외삽하지 않는다. Batch는 동시에 처리하는 노드·edge·decoder activation이 늘어
+입력 밀도에 따라 peak VRAM이 달라질 수 있다. 현재 fast run도 새 full-batch CUDA gate를 통과해야 한다.
+기존 `torch` backend와 B1/B4 설정은 그대로 유지한다.
 
 후속 최적화는 인접 cell 조회 여러 청크의 allocation count를 한 번에 전송하고,
 device/stream별 작은 불변 hash 상수를 재사용한다. 이벤트별 graph cache는 아니다.
@@ -3743,7 +4088,8 @@ device/stream별 작은 불변 hash 상수를 재사용한다. 이벤트별 grap
 GPU 커널로 gather·weight·scatter를 융합하는 명시적 `triton` 후보가 있다.
 두 후보는 부동소수점 누적 순서를 바꿀 수 있으므로 bitwise 동일한 학습을 주장하지 않는다.
 기본 config, 모델 크기, event 제한, 전체 epoch/frame 수와 AMP 안전 검사는 변경하지 않았다.
-CUDA 수치·성능 검사 없이 기본값을 바꾸거나 기존 checkpoint의 source 검사를 우회하지 않는다.
+서버 비교를 통과한 B16+Triton은 별도 `fast.json`으로만 채택했으며 기존 checkpoint의 source 검사를
+우회하지 않는다.
 비교 명령과 후보별 제약은 [PERF.md](PERF.md#동일-실데이터-gpu-비교)에 정리한다.
 ~~~~~~~~
 
@@ -3757,6 +4103,22 @@ CUDA 수치·성능 검사 없이 기본값을 바꾸거나 기존 checkpoint의
 구현과 일치하도록 다시 대조했다.
 
 ## 0. 검증 기록과 배포 판정 기준
+
+### B16 + Triton 실측 선택과 분할 학습
+
+사용자가 A100 MIG 1g.10gb에서 실행한 동일 실제 EventHDR 비교는 CUDA 회귀검사 123개를 통과했고,
+18개 trial이 모두 완료됐다. B16 Triton은 반복당 36.38/36.51 frames/s, B16 Torch는 9.07/9.02
+frames/s로 이 512-frame 측정 창에서 약 4.03배였다. B8 Triton 대비 B16 증가는 약 3.5%이므로 이 값은
+전체 epoch 시간이나 수렴 품질의 측정이 아니다. 선택 결과는 기존 B4 `runs/batch`를 덮지 않는
+`configs/fast.json`(B16+Triton)과 `runs/fast`에 반영했고, HDR/EventAid 평가도 동일 model backend의
+`hdr-fast.json`/`aid-fast.json`으로 분리했다.
+
+새 training protocol v7(batch 1)/v8(sequence batch)은 기본 300초와 정상 stop 요청 시 성공한 update
+경계에서 `last.pt`를 원자 저장한다. optimizer/scheduler/AMP/RNG와 다음 batch cursor, 누적 epoch 통계,
+sequence별 recurrent/temporal context를 함께 복원한다. `MAX_HOURS`로 scheduler walltime보다 짧은
+실행 구간을 지정하며 종료코드 75는 완료가 아니라 `PAUSED`다. 기존 v5/v6 결과는 reporting metadata로
+읽되 새 mid-epoch exact-resume로 위장하지 않는다. 상세 명령과 제약은 README와 `docs/TRAIN.md`,
+`docs/SERVER.md`, `docs/EXPERIMENT.md`가 기준이다.
 
 ### GPU 처리량 병목 후속 수정
 
@@ -3777,7 +4139,7 @@ encoder 47.59 ms, decoder 6.14 ms, backward 50.19 ms였다. 이는 VRAM 부족�
 속도·전체 학습은 로컬 CPU 테스트로 검증됐다고 주장하지 않는다. 상세 범위와 실행은
 [PERF.md](docs/PERF.md#동일-실데이터-gpu-비교)를 따른다.
 
-이번 변경의 최종 전체 Windows CPU 검사는 **1,286 passed, 82 skipped, 1 warning (73.36초)**이며
+이번 변경의 최종 전체 Windows CPU 검사는 **1,355 passed, 82 skipped, 1 warning (88.61초)**이며
 종료코드 0이다. skip에는 CUDA 실행 불가 항목이 포함되고, 기존 test-only quantized buffer의
 deprecated API 경고 1개가 있었다. 해당 전체 실행에서 native access-violation 출력은 없었다.
 Ruff·diff 검사와 tracked text/도달 가능한 Git history의 개인정보 검사를 통과했다.
@@ -3793,6 +4155,8 @@ accumulation이 아니다. 시퀀스당 시간 순서, 전체 프레임, 40 epoc
 Pooled-node BN과 배치 평균 loss/optimizer update는 학습 프로토콜 변경이므로 별도 run으로 시작한다.
 기준선 checkpoint의 exact-resume 보호를 우회하지 않는다.
 
+현재 새 checkpoint는 단일 프레임 v7, 독립 시퀀스 배치 v8을 사용한다. v5/v6은 기존 결과의
+판독 호환성을 위해 유지하는 legacy protocol이며 mid-epoch resume를 지원한다고 해석하지 않는다.
 `batching.py`는 최대 B개 활성 시퀀스와 해상도별 배치를 스케줄링한다. `training.py`는 시퀀스별
 detach/독립 저장소 context와 temporal loss를 관리하며, 성공한 update만 commit하고 끝난 시퀀스를
 제거한다. AMP 실패는 배치 전체를 재시도한다. `preflight.py`는 실제 최대 B 구성, 밀집/첫/빈/희소
@@ -4338,7 +4702,7 @@ config/checkpoint/output 경로는 shareable artifact에서 repository-relative 
 hostname을 출력하지 않는다.
 
 보고용 ANN 평가에는 verified CUDA preflight가 포함된 clean `ann_inference`, finite macro-SSIM selection,
-training protocol v5(단일 프레임) 또는 v6(독립 시퀀스 배치)와 validation protocol v7이 필요하다.
+legacy training protocol v5/v6 또는 새 v7/v8과 validation protocol v7이 필요하다.
 v6는 일치하는 실제 full-batch CUDA gate도 요구한다. 보고용 SNN은 그 ANN에서 봉인된
 `calibration_protocol.sealed=true`를 요구한다. `metrics.json.evaluation_protocol`과
 `benchmark.json.benchmark_protocol`은 public config/model, checkpoint file·tensor와 lineage,
@@ -8233,8 +8597,9 @@ Stages:
   all         Run check, profile, train, calibrate and eval in order (default)
 
 Important environment:
-  EXPERIMENT=single|batch                Default: single; batch is a separate run
+  EXPERIMENT=single|batch|fast           Default: single; fast is B16 + Triton
   RESUME_CHECKPOINT=PATH
+  MAX_HOURS=N / CHECKPOINT_SECONDS=N     Optional safe pause / checkpoint interval
   TRAIN_CONFIG / HDR_CONFIG / AID_CONFIG
   ANN_CHECKPOINT / SNN_CHECKPOINT
   PYTHON_BIN=PATH                         Default: CONDA_PREFIX/bin/python
@@ -8282,6 +8647,8 @@ if [[ "$#" -gt 1 ]]; then
 fi
 
 EXPERIMENT="${EXPERIMENT:-single}"
+DEFAULT_HDR_CONFIG=configs/hdr.json
+DEFAULT_AID_CONFIG=configs/aid.json
 case "${EXPERIMENT}" in
   single)
     DEFAULT_TRAIN_CONFIG=configs/train.json
@@ -8297,13 +8664,22 @@ case "${EXPERIMENT}" in
     DEFAULT_STATUS_DIR=runs/batch-status
     DEFAULT_EVAL_ROOT=runs/batch/eval
     ;;
-  *) echo "ERROR: EXPERIMENT must be single or batch" >&2; exit 2 ;;
+  fast)
+    DEFAULT_TRAIN_CONFIG=configs/fast.json
+    DEFAULT_TRAIN_RUN=runs/fast
+    DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json
+    DEFAULT_STATUS_DIR=runs/fast-status
+    DEFAULT_EVAL_ROOT=runs/fast/eval
+    DEFAULT_HDR_CONFIG=configs/hdr-fast.json
+    DEFAULT_AID_CONFIG=configs/aid-fast.json
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
 esac
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
 TRAIN_CONFIG="${TRAIN_CONFIG:-${DEFAULT_TRAIN_CONFIG}}"
-HDR_CONFIG="${HDR_CONFIG:-configs/hdr.json}"
-AID_CONFIG="${AID_CONFIG:-configs/aid.json}"
+HDR_CONFIG="${HDR_CONFIG:-${DEFAULT_HDR_CONFIG}}"
+AID_CONFIG="${AID_CONFIG:-${DEFAULT_AID_CONFIG}}"
 ANN_CHECKPOINT="${ANN_CHECKPOINT:-${DEFAULT_TRAIN_RUN}/best.pt}"
 SNN_CHECKPOINT="${SNN_CHECKPOINT:-${DEFAULT_TRAIN_RUN}/best_snn.pt}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
@@ -8456,7 +8832,11 @@ record_stage_failure() {
   local exit_code="$?"
   trap - ERR
   if [[ -n "${ACTIVE_STAGE}" ]]; then
-    write_stage_status "${ACTIVE_STAGE}" FAILED "${exit_code}"
+    if [[ "${ACTIVE_STAGE}" == "train" && "${exit_code}" == "75" ]]; then
+      write_stage_status "${ACTIVE_STAGE}" PAUSED "${exit_code}"
+    else
+      write_stage_status "${ACTIVE_STAGE}" FAILED "${exit_code}"
+    fi
   fi
   exit "${exit_code}"
 }
@@ -8540,6 +8920,8 @@ run_train() {
     ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT}" \
     RESUME_CHECKPOINT="${RESUME_CHECKPOINT}" \
     RESTART_TRAIN="${RESTART_TRAIN}" \
+    MAX_HOURS="${MAX_HOURS:-}" \
+    CHECKPOINT_SECONDS="${CHECKPOINT_SECONDS:-}" \
     PYTHON_BIN="${PYTHON_BIN}" \
     bash "${PROJECT_ROOT}/scripts/train.sh" "${TRAIN_CONFIG}"
   require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
@@ -8566,9 +8948,13 @@ run_one_evaluation() {
   local simulation_steps="$4"
   local dynamics="$5"
   local config_name="${config_path##*/}"
+  local dataset_name="${config_name%.json}"
+  if [[ "${EXPERIMENT}" == "fast" ]]; then
+    dataset_name="${dataset_name%-fast}"
+  fi
   local output_dir=""
   if [[ -n "${EVAL_OUTPUT_ROOT}" ]]; then
-    output_dir="${EVAL_OUTPUT_ROOT}/${config_name%.json}"
+    output_dir="${EVAL_OUTPUT_ROOT}/${dataset_name}"
   fi
   run_cmd env \
     REQUIRE_CUDA="${REQUIRE_CUDA}" \
@@ -9489,13 +9875,29 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/train.json}}"
+EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single)
+    DEFAULT_TRAIN_CONFIG=configs/train.json
+    DEFAULT_PROFILE_OUTPUT=runs/profile.json
+    ;;
+  batch)
+    DEFAULT_TRAIN_CONFIG=configs/batch.json
+    DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json
+    ;;
+  fast)
+    DEFAULT_TRAIN_CONFIG=configs/fast.json
+    DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+CONFIG_PATH="${1:-${CONFIG_PATH:-${DEFAULT_TRAIN_CONFIG}}}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
 RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
-PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-runs/profile.json}}"
+PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}}"
 ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 RESTART_TRAIN="${RESTART_TRAIN:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
@@ -9585,6 +9987,12 @@ TRAIN_ARGS=(
   --config "${CONFIG_PATH}"
   --preflight-report "${PREFLIGHT_REPORT}"
 )
+if [[ -n "${MAX_HOURS:-}" ]]; then
+  TRAIN_ARGS+=(--max-hours "${MAX_HOURS}")
+fi
+if [[ -n "${CHECKPOINT_SECONDS:-}" ]]; then
+  TRAIN_ARGS+=(--checkpoint-seconds "${CHECKPOINT_SECONDS}")
+fi
 if [[ "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   TRAIN_ARGS+=(--allow-unverified-preflight)
 fi
@@ -9647,9 +10055,16 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
-export OUTPUT_PATH="${OUTPUT_PATH:-runs/train/best_snn.pt}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_CONFIG_PATH=configs/train.json; DEFAULT_RUN_DIR=runs/train ;;
+  batch) DEFAULT_CONFIG_PATH=configs/batch.json; DEFAULT_RUN_DIR=runs/batch ;;
+  fast) DEFAULT_CONFIG_PATH=configs/fast.json; DEFAULT_RUN_DIR=runs/fast ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export CONFIG_PATH="${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-${DEFAULT_RUN_DIR}/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-${DEFAULT_RUN_DIR}/best_snn.pt}"
 export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
@@ -9740,9 +10155,16 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
-export OUTPUT_PATH="${OUTPUT_PATH:-runs/train/best_snn.pt}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_CONFIG_PATH=configs/train.json; DEFAULT_RUN_DIR=runs/train ;;
+  batch) DEFAULT_CONFIG_PATH=configs/batch.json; DEFAULT_RUN_DIR=runs/batch ;;
+  fast) DEFAULT_CONFIG_PATH=configs/fast.json; DEFAULT_RUN_DIR=runs/fast ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export CONFIG_PATH="${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-${DEFAULT_RUN_DIR}/best.pt}"
+export OUTPUT_PATH="${OUTPUT_PATH:-${DEFAULT_RUN_DIR}/best_snn.pt}"
 export CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"
 export OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
@@ -9824,8 +10246,17 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_CONFIG_PATH=configs/hdr.json; DEFAULT_CHECKPOINT_PATH=runs/train/best.pt; DEFAULT_EVAL_ROOT=runs/eval ;;
+  batch) DEFAULT_CONFIG_PATH=configs/hdr.json; DEFAULT_CHECKPOINT_PATH=runs/batch/best.pt; DEFAULT_EVAL_ROOT=runs/batch/eval ;;
+  fast) DEFAULT_CONFIG_PATH=configs/hdr-fast.json; DEFAULT_CHECKPOINT_PATH=runs/fast/best.pt; DEFAULT_EVAL_ROOT=runs/fast/eval ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export CONFIG_PATH="${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-${DEFAULT_CHECKPOINT_PATH}}"
+case "${CONFIG_PATH##*/}" in aid*) DEFAULT_DATASET=aid ;; *) DEFAULT_DATASET=hdr ;; esac
+export EVAL_OUTPUT_DIR="${EVAL_OUTPUT_DIR:-${DEFAULT_EVAL_ROOT}/${DEFAULT_DATASET}}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
@@ -9913,8 +10344,17 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/hdr.json}"
-export CHECKPOINT_PATH="${CHECKPOINT_PATH:-runs/train/best.pt}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_CONFIG_PATH=configs/hdr.json; DEFAULT_CHECKPOINT_PATH=runs/train/best.pt; DEFAULT_EVAL_ROOT=runs/eval ;;
+  batch) DEFAULT_CONFIG_PATH=configs/hdr.json; DEFAULT_CHECKPOINT_PATH=runs/batch/best.pt; DEFAULT_EVAL_ROOT=runs/batch/eval ;;
+  fast) DEFAULT_CONFIG_PATH=configs/hdr-fast.json; DEFAULT_CHECKPOINT_PATH=runs/fast/best.pt; DEFAULT_EVAL_ROOT=runs/fast/eval ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export CONFIG_PATH="${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}"
+export CHECKPOINT_PATH="${CHECKPOINT_PATH:-${DEFAULT_CHECKPOINT_PATH}}"
+case "${CONFIG_PATH##*/}" in aid*) DEFAULT_DATASET=aid ;; *) DEFAULT_DATASET=hdr ;; esac
+export EVAL_OUTPUT_DIR="${EVAL_OUTPUT_DIR:-${DEFAULT_EVAL_ROOT}/${DEFAULT_DATASET}}"
 export INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 export SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 export SNN_DYNAMICS="${SNN_DYNAMICS:-}"
@@ -10003,12 +10443,19 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_TRAIN_CONFIG=configs/train.json; DEFAULT_PROFILE_OUTPUT=runs/profile.json ;;
+  batch) DEFAULT_TRAIN_CONFIG=configs/batch.json; DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json ;;
+  fast) DEFAULT_TRAIN_CONFIG=configs/fast.json; DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export TRAIN_CONFIG="${TRAIN_CONFIG:-${DEFAULT_TRAIN_CONFIG}}"
 # shellcheck source=scripts/runtime.sh
 source "${PROJECT_ROOT}/scripts/runtime.sh"
 select_conda_python
 export REQUIRE_CUDA=1
-export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
 export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 export PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
@@ -10083,12 +10530,19 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export TRAIN_CONFIG="${TRAIN_CONFIG:-configs/train.json}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_TRAIN_CONFIG=configs/train.json; DEFAULT_PROFILE_OUTPUT=runs/profile.json ;;
+  batch) DEFAULT_TRAIN_CONFIG=configs/batch.json; DEFAULT_PROFILE_OUTPUT=runs/batch-profile.json ;;
+  fast) DEFAULT_TRAIN_CONFIG=configs/fast.json; DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+export TRAIN_CONFIG="${TRAIN_CONFIG:-${DEFAULT_TRAIN_CONFIG}}"
 # shellcheck source=scripts/runtime.sh
 source "${PROJECT_ROOT}/scripts/runtime.sh"
 select_conda_python
 export REQUIRE_CUDA=1
-export PROFILE_OUTPUT="${PROFILE_OUTPUT:-runs/profile.json}"
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
 export PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 export PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
@@ -10141,7 +10595,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]]; then
 fi
 if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
-  || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
+  || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run qsub from the repository root or use:" >&2
   echo "  qsub -v PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/train.pbs" >&2
@@ -10158,7 +10612,29 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single)
+    DEFAULT_CONFIG_PATH=configs/train.json
+    DEFAULT_PREFLIGHT_REPORT=runs/profile.json
+    ;;
+  batch)
+    DEFAULT_CONFIG_PATH=configs/batch.json
+    DEFAULT_PREFLIGHT_REPORT=runs/batch-profile.json
+    ;;
+  fast)
+    DEFAULT_CONFIG_PATH=configs/fast.json
+    DEFAULT_PREFLIGHT_REPORT=runs/fast-profile.json
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+if [[ -n "${CONFIG_PATH:-}" && -n "${TRAIN_CONFIG:-}" \
+  && "${CONFIG_PATH}" != "${TRAIN_CONFIG}" ]]; then
+  echo "ERROR: CONFIG_PATH and TRAIN_CONFIG must refer to the same training config" >&2
+  exit 2
+fi
+export TRAIN_CONFIG="${TRAIN_CONFIG:-${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}}"
+export CONFIG_PATH="${TRAIN_CONFIG}"
 # shellcheck source=scripts/runtime.sh
 source "${PROJECT_ROOT}/scripts/runtime.sh"
 select_conda_python
@@ -10166,7 +10642,11 @@ export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
-export PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"
+export PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${DEFAULT_PREFLIGHT_REPORT}}"
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-${PREFLIGHT_REPORT}}"
+export MAX_HOURS="${MAX_HOURS:-47}"
+export CHECKPOINT_SECONDS="${CHECKPOINT_SECONDS:-300}"
+export RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
 export ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${NCPUS:-8}}"
@@ -10196,7 +10676,7 @@ if [[ "${DRY_RUN}" != "1" ]]; then
   nvidia-smi || true
 fi
 
-runtime_command bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
+runtime_command bash "${PROJECT_ROOT}/scripts/run.sh" train
 ~~~~~~~~
 
 # server/train.sbatch
@@ -10225,7 +10705,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]]; then
 fi
 if [[ -z "${PROJECT_ROOT:-}" ]] \
   || [[ ! -f "${PROJECT_ROOT}/pyproject.toml" ]] \
-  || [[ ! -f "${PROJECT_ROOT}/scripts/train.sh" ]]; then
+  || [[ ! -f "${PROJECT_ROOT}/scripts/run.sh" ]]; then
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
   echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/train.sbatch" >&2
@@ -10244,7 +10724,29 @@ if [[ -n "${CUDA_MODULE:-}" ]]; then
   module load "${CUDA_MODULE}"
 fi
 
-export CONFIG_PATH="${CONFIG_PATH:-configs/train.json}"
+export EXPERIMENT="${EXPERIMENT:-single}"
+case "${EXPERIMENT}" in
+  single)
+    DEFAULT_CONFIG_PATH=configs/train.json
+    DEFAULT_PREFLIGHT_REPORT=runs/profile.json
+    ;;
+  batch)
+    DEFAULT_CONFIG_PATH=configs/batch.json
+    DEFAULT_PREFLIGHT_REPORT=runs/batch-profile.json
+    ;;
+  fast)
+    DEFAULT_CONFIG_PATH=configs/fast.json
+    DEFAULT_PREFLIGHT_REPORT=runs/fast-profile.json
+    ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+esac
+if [[ -n "${CONFIG_PATH:-}" && -n "${TRAIN_CONFIG:-}" \
+  && "${CONFIG_PATH}" != "${TRAIN_CONFIG}" ]]; then
+  echo "ERROR: CONFIG_PATH and TRAIN_CONFIG must refer to the same training config" >&2
+  exit 2
+fi
+export TRAIN_CONFIG="${TRAIN_CONFIG:-${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}}"
+export CONFIG_PATH="${TRAIN_CONFIG}"
 # shellcheck source=scripts/runtime.sh
 source "${PROJECT_ROOT}/scripts/runtime.sh"
 select_conda_python
@@ -10252,7 +10754,11 @@ export REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 export VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 export INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
 export INSPECT_VALIDATE_ALL="${INSPECT_VALIDATE_ALL:-0}"
-export PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-runs/profile.json}"
+export PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${DEFAULT_PREFLIGHT_REPORT}}"
+export PROFILE_OUTPUT="${PROFILE_OUTPUT:-${PREFLIGHT_REPORT}}"
+export MAX_HOURS="${MAX_HOURS:-47}"
+export CHECKPOINT_SECONDS="${CHECKPOINT_SECONDS:-300}"
+export RESUME_CHECKPOINT="${RESUME_CHECKPOINT:-}"
 export ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"
 export INCLUDE_PRIVATE_HOST_PROVENANCE="${INCLUDE_PRIVATE_HOST_PROVENANCE:-0}"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-8}}"
@@ -10285,7 +10791,7 @@ if [[ "${DRY_RUN}" != "1" ]]; then
   nvidia-smi || true
 fi
 
-runtime_command srun bash "${PROJECT_ROOT}/scripts/train.sh" "${CONFIG_PATH}"
+runtime_command srun bash "${PROJECT_ROOT}/scripts/run.sh" train
 ~~~~~~~~
 
 # src/asgcn_unet/__init__.py
@@ -10494,6 +11000,269 @@ class SequenceBatchSampler(Sampler[list[int]]):
         return len(self._batches)
 ~~~~~~~~
 
+# src/asgcn_unet/checkpoint.py
+
+~~~~~~~~python
+"""Safe training-boundary interruption, index cursors and causal-state snapshots."""
+
+from __future__ import annotations
+
+import math
+import signal
+import threading
+import time
+from collections.abc import Iterable, Iterator, Sized
+from itertools import islice
+from numbers import Real
+from types import TracebackType
+from typing import Any, Self
+
+import torch
+from torch.utils.data import Sampler
+
+from .training import TrainingState
+
+
+class CursorBatchSampler(Sampler[list[int]]):
+    """Resume a deterministic batch schedule without decoding skipped samples.
+
+    The underlying sampler must reproduce its complete epoch schedule on every
+    iteration. Only index batches are skipped; a DataLoader receives the remaining
+    indices and therefore neither reads nor prefetches the completed prefix.
+    """
+
+    def __init__(self, sampler: Iterable[list[int]], start: int = 0) -> None:
+        if not isinstance(sampler, Sized) or not isinstance(sampler, Iterable):
+            raise TypeError("A cursor requires an iterable, sized batch sampler")
+        self.sampler = sampler
+        self.start = 0
+        self.set_start(start)
+
+    @property
+    def total_batches(self) -> int:
+        return len(self.sampler)
+
+    def set_start(self, start: int) -> None:
+        if isinstance(start, bool) or not isinstance(start, int):
+            raise TypeError("Batch cursor must be a nonnegative integer")
+        if not 0 <= start <= self.total_batches:
+            raise ValueError("Batch cursor is outside the complete epoch schedule")
+        self.start = start
+
+    def set_epoch(self, epoch: int) -> None:
+        if isinstance(epoch, bool) or not isinstance(epoch, int) or epoch < 0:
+            raise ValueError("Sampler epoch must be a nonnegative integer")
+        set_epoch = getattr(self.sampler, "set_epoch", None)
+        if set_epoch is not None:
+            set_epoch(epoch)
+        self.set_start(0)
+
+    def __len__(self) -> int:
+        self.set_start(self.start)
+        return self.total_batches - self.start
+
+    def __iter__(self) -> Iterator[list[int]]:
+        self.set_start(self.start)
+        return islice(iter(self.sampler), self.start, None)
+
+
+def _context_key(value: Any, name: str) -> tuple[str, str]:
+    if (not isinstance(value, (tuple, list)) or len(value) != 2
+            or not all(isinstance(part, str) for part in value) or not value[0]):
+        raise ValueError(f"{name} must contain a nonempty sequence identity and source string")
+    return tuple(value)
+
+
+def _context_index(value: Any) -> int | None:
+    if value is not None and (
+        isinstance(value, bool) or not isinstance(value, int) or value < 0
+    ):
+        raise ValueError("Training context sequence_index must be nonnegative or None")
+    return value
+
+
+def _context_size(value: Any) -> tuple[int, int]:
+    if (not isinstance(value, (tuple, list)) or len(value) != 2
+            or any(isinstance(part, bool) or not isinstance(part, int) or part < 1
+                   for part in value)):
+        raise ValueError("Training context sensor_size must contain two positive integers")
+    return tuple(value)
+
+
+def _context_tensor(value: Any, name: str, *, optional: bool = False) -> torch.Tensor | None:
+    if optional and value is None:
+        return None
+    if (not isinstance(value, torch.Tensor) or value.layout != torch.strided
+            or not value.is_floating_point() or value.ndim != 4
+            or value.shape[0] != 1 or any(size < 1 for size in value.shape)):
+        raise ValueError(f"Training context {name} must be a floating 1xCxHxW tensor")
+    if not bool(torch.isfinite(value).all().item()):
+        raise ValueError(f"Training context {name} contains non-finite values")
+    return value
+
+
+def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[str, Any]]:
+    if not isinstance(independent_sequences, bool):
+        raise TypeError("independent_sequences must be a boolean")
+    expected = {"version", "independent_sequences", "last_key", "entries"}
+    if not isinstance(payload, dict) or set(payload) != expected:
+        raise ValueError("Training context checkpoint has an invalid schema")
+    if type(payload["version"]) is not int or payload["version"] != 1:
+        raise ValueError("Unsupported training context checkpoint version")
+    if (not isinstance(payload["independent_sequences"], bool)
+            or payload["independent_sequences"] != independent_sequences):
+        raise ValueError("Training context batching mode does not match the training configuration")
+    last_key = payload["last_key"]
+    if last_key is not None:
+        last_key = _context_key(last_key, "Training context last_key")
+    entries = payload["entries"]
+    if not isinstance(entries, list):
+        raise TypeError("Training context entries must be a list")
+    if not independent_sequences and len(entries) > 1:
+        raise ValueError("Single-frame training cannot retain multiple sequence contexts")
+    seen = set()
+    validated = []
+    for entry in entries:
+        fields = {"key", "sequence_index", "sensor_size", "recurrent", "prediction", "target"}
+        if not isinstance(entry, dict) or set(entry) != fields:
+            raise ValueError("Training context entry has an invalid schema")
+        key = _context_key(entry["key"], "Training context key")
+        if key in seen:
+            raise ValueError("Training context contains duplicate sequence keys")
+        seen.add(key)
+        index = _context_index(entry["sequence_index"])
+        size = _context_size(entry["sensor_size"])
+        recurrent = _context_tensor(entry["recurrent"], "recurrent", optional=True)
+        prediction = _context_tensor(entry["prediction"], "prediction")
+        target = _context_tensor(entry["target"], "target")
+        if prediction.shape != target.shape or tuple(prediction.shape[-2:]) != size:
+            raise ValueError("Training context prediction/target shape differs from sensor_size")
+        if not independent_sequences and (key[1] or last_key != key):
+            raise ValueError("Single-frame training context key and last_key disagree")
+        validated.append({
+            "key": key, "sequence_index": index, "sensor_size": size,
+            "recurrent": recurrent, "prediction": prediction, "target": target,
+        })
+    if entries and last_key is None:
+        raise ValueError("Retained training contexts require a last_key")
+    # release_finished deliberately leaves last_key intact, even if its value
+    # was evicted. Requiring membership would reject valid boundary snapshots.
+    return validated
+
+
+def capture_training_state(state: TrainingState) -> dict[str, Any]:
+    """Capture independent CPU-owned, detached tensors at a successful boundary."""
+    if not isinstance(state, TrainingState):
+        raise TypeError("A checkpoint requires TrainingState")
+    entries = []
+    for key, value in state.values.items():
+        if not isinstance(value, tuple) or len(value) != 5:
+            raise ValueError("Training context value must contain five fields")
+        entries.append({
+            "key": key, "sequence_index": value[0], "sensor_size": value[1],
+            "recurrent": value[2], "prediction": value[3], "target": value[4],
+        })
+    payload = {
+        "version": 1, "independent_sequences": state.independent_sequences,
+        "last_key": state.last_key, "entries": entries,
+    }
+    validated = _validated_context(payload, state.independent_sequences)
+    for entry in validated:
+        for name in ("recurrent", "prediction", "target"):
+            if entry[name] is not None:
+                entry[name] = entry[name].detach().to(device="cpu", copy=True)
+    payload["entries"] = validated
+    return payload
+
+
+def restore_training_state(
+    payload: dict[str, Any], *, independent_sequences: bool, device: torch.device | str
+) -> TrainingState:
+    """Validate before transfer; never share storage with a loaded checkpoint."""
+    entries = _validated_context(payload, independent_sequences)
+    state = TrainingState(independent_sequences=independent_sequences)
+    for entry in entries:
+        tensors = tuple(
+            None if entry[name] is None else entry[name].detach().to(device=device, copy=True)
+            for name in ("recurrent", "prediction", "target")
+        )
+        state.values[entry["key"]] = (entry["sequence_index"], entry["sensor_size"], *tensors)
+    state.last_key = (
+        None if payload["last_key"] is None else tuple(payload["last_key"])
+    )
+    return state
+
+
+class StopRequest:
+    """Defer SIGINT/SIGTERM to a caller-controlled, consistent training boundary.
+
+    A handler only records the first signal. Checkpoint writing, CUDA completion
+    and exceptions belong to the training loop, never to this asynchronous hook.
+    This cannot intercept SIGKILL, loss of power or a scheduler's hard deadline.
+    """
+
+    def __init__(self, time_limit_seconds: float | None = None) -> None:
+        if time_limit_seconds is not None and (
+            isinstance(time_limit_seconds, bool) or not isinstance(time_limit_seconds, Real)
+            or not math.isfinite(time_limit_seconds) or time_limit_seconds <= 0
+        ):
+            raise ValueError("Training time limit must be a finite positive number")
+        self.time_limit_seconds = time_limit_seconds
+        self._reason: str | None = None
+        self._started: float | None = None
+        self._active = False
+        self._handlers: dict[int, Any] = {}
+
+    def _handle_signal(self, signum: int, frame: Any) -> None:
+        del frame
+        if self._reason is None:
+            self._reason = signal.Signals(signum).name
+
+    def __enter__(self) -> Self:
+        if self._active:
+            raise RuntimeError("A StopRequest context cannot be entered twice")
+        self._active = True
+        self._reason = None
+        self._started = time.monotonic()
+        try:
+            if threading.current_thread() is threading.main_thread():
+                for signum in (signal.SIGINT, signal.SIGTERM):
+                    previous = signal.getsignal(signum)
+                    signal.signal(signum, self._handle_signal)
+                    self._handlers[signum] = previous
+        except BaseException:
+            self.__exit__(None, None, None)
+            raise
+        return self
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        try:
+            for signum, previous in self._handlers.items():
+                signal.signal(signum, previous)
+        finally:
+            self._handlers.clear()
+            self._active = False
+
+    @property
+    def reason(self) -> str | None:
+        return self._reason
+
+    @property
+    def pause_requested(self) -> bool:
+        return self.poll()
+
+    def poll(self) -> bool:
+        if (self._reason is None and self._active and self.time_limit_seconds is not None
+                and time.monotonic() - self._started >= self.time_limit_seconds):
+            self._reason = "time_limit"
+        return self._reason is not None
+~~~~~~~~
+
 # src/asgcn_unet/cli.py
 
 ~~~~~~~~python
@@ -10512,7 +11281,7 @@ import torch
 from tqdm import tqdm
 
 from .data import build_dataset
-from .engine import _artifact_path_label, benchmark, calibrate, evaluate, train
+from .engine import TrainingPaused, _artifact_path_label, benchmark, calibrate, evaluate, train
 from .preflight import training_preflight, verify_training_preflight
 from .recovery import archive_uncheckpointed_run
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
@@ -10733,6 +11502,14 @@ def build_parser() -> argparse.ArgumentParser:
     train_cmd = subparsers.add_parser("train", help="train on EventHDR")
     train_cmd.add_argument("--config", required=True)
     train_cmd.add_argument(
+        "--max-hours", type=float,
+        help="save and pause at a safe batch boundary after this invocation's time budget",
+    )
+    train_cmd.add_argument(
+        "--checkpoint-seconds", type=float, default=300.0,
+        help="periodic checkpoint interval at successful batch boundaries (default: 300)",
+    )
+    train_cmd.add_argument(
         "--resume",
         help="resume from a checkpoint (relative paths are resolved from the repository root)",
     )
@@ -10935,8 +11712,13 @@ def _execute_command(args: argparse.Namespace) -> None:
             if archived is not None:
                 print(f"Archived uncheckpointed run metadata: {_artifact_path_label(archived)}")
         config["preflight_gate"] = preflight_gate
+        run_options = {}
+        if args.max_hours is not None:
+            run_options["max_seconds"] = args.max_hours * 3600
+        if args.checkpoint_seconds != 300.0:
+            run_options["checkpoint_seconds"] = args.checkpoint_seconds
         result = {
-            "best_checkpoint": _artifact_path_label(train(config, resume_from=resume))
+            "best_checkpoint": _artifact_path_label(train(config, resume_from=resume, **run_options))
         }
     elif args.command == "evaluate":
         if args.allow_unsealed_checkpoint_for_non_reporting:
@@ -11055,6 +11837,13 @@ def main(argv: list[str] | None = None) -> None:
     )
     try:
         _execute_command(args)
+    except TrainingPaused as paused:
+        print(json.dumps({
+            "status": "paused", "reason": paused.reason,
+            "resume_checkpoint": _artifact_path_label(paused.checkpoint_path),
+            "message": "Saved successfully; resume with the same config and --resume. Training is not complete.",
+        }, ensure_ascii=False, indent=2))
+        raise SystemExit(75) from None
     except Exception as error:
         if private_provenance:
             raise
@@ -12697,6 +13486,7 @@ import json
 import math
 import random
 import re
+import signal
 import statistics
 import subprocess
 import sys
@@ -12709,10 +13499,16 @@ from typing import Any
 
 import numpy as np
 import torch
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import BatchSampler, DataLoader, SequentialSampler, Subset
 from tqdm import tqdm
 
 from .batching import SequenceBatchSampler
+from .checkpoint import (
+    CursorBatchSampler,
+    StopRequest,
+    capture_training_state,
+    restore_training_state,
+)
 from .data import build_dataset, collate_samples, load_eventhdr_split_manifest
 from .graph import PAPER_CORE_VERSION, PaperSplineConv
 from .losses import ReconstructionLoss
@@ -13651,12 +14447,12 @@ def _valid_training_protocol_contract(value: Any) -> bool:
         "runtime",
         "source",
     }
-    if isinstance(value, dict) and value.get("version") == 6:
+    if isinstance(value, dict) and value.get("version") in {6, 8}:
         required_fields.add("batching")
     if not isinstance(value, dict) or set(value) != required_fields:
         return False
     if (
-        value.get("version") not in {5, 6}
+        value.get("version") not in {5, 6, 7, 8}
         or not isinstance(value.get("seed"), int)
         or isinstance(value.get("seed"), bool)
         or value.get("recurrent_state_detached_each_sample") is not True
@@ -13668,7 +14464,8 @@ def _valid_training_protocol_contract(value: Any) -> bool:
     batch_size = value["data_order"].get("batch_size")
     if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
         return False
-    if value["version"] != (5 if batch_size == 1 else 6):
+    expected_versions = {1: {5, 7}}
+    if value["version"] not in expected_versions.get(batch_size, {6, 8}):
         return False
     if batch_size > 1 and value.get("batching") != batching_contract(batch_size):
         return False
@@ -14127,9 +14924,9 @@ def _ann_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
 
     training = checkpoint.get("training_protocol")
     if not _valid_training_protocol_contract(training):
-        reasons.append("complete training_protocol v5/v6 contract is missing or invalid")
+        reasons.append("complete training_protocol v5-v8 contract is missing or invalid")
         training = None
-    elif training["version"] == 6 and (
+    elif training["version"] in {6, 8} and (
         not isinstance(preflight_gate, dict)
         or preflight_gate.get("batch_size") != training["data_order"]["batch_size"]
         or not _valid_preflight_gate(preflight_gate)
@@ -14400,7 +15197,7 @@ def _snn_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
         if not _is_sha256(protocol.get(field)):
             reasons.append(f"calibration_protocol {field} is invalid")
     source_ann_protocols: dict[str, dict[str, Any]] = {}
-    for name, expected_versions in (("training", {5, 6}), ("validation", {7})):
+    for name, expected_versions in (("training", {5, 6, 7, 8}), ("validation", {7})):
         identity = protocol.get(f"source_ann_{name}_protocol")
         flat_digest = protocol.get(f"source_ann_{name}_protocol_sha256")
         contract = identity.get("contract") if isinstance(identity, dict) else None
@@ -14967,6 +15764,11 @@ def _inference_precision_context(
 
 def _seed_worker(worker_id: int) -> None:
     del worker_id
+    # Ctrl+C targets the foreground process group. Only the parent may decide
+    # the committed checkpoint boundary; a worker must not die halfway through it.
+    if torch.utils.data.get_worker_info() is not None:
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
     worker_seed = torch.initial_seed() % (2**32)
     random.seed(worker_seed)
     np.random.seed(worker_seed)
@@ -14981,6 +15783,7 @@ def _data_loader(
     persistent_workers: bool | None = None,
     prefetch_factor: int | None = None,
     batch_sampler=None,
+    generator=None,
 ):
     if num_workers < 0:
         raise ValueError("num_workers must be non-negative")
@@ -14991,6 +15794,7 @@ def _data_loader(
         "num_workers": num_workers,
         "pin_memory": device.type == "cuda",
         "collate_fn": collate_samples,
+        "generator": generator,
     }
     if batch_sampler is not None:
         loader_options.pop("batch_size")
@@ -15158,6 +15962,9 @@ def _training_protocol_config_reasons(
                 else int(prefetch_factor)
             ),
         }
+        protocol_version = protocol.get("version")
+        if protocol_version in {7, 8}:
+            data_order["loader_rng"] = "isolated_epoch_seed_v1"
         raw_validate_every = train_config.get("validate_every", 1)
         validate_every = (
             None
@@ -15165,7 +15972,11 @@ def _training_protocol_config_reasons(
             else max(1, int(raw_validate_every))
         )
         expected_fields = {
-            "version": 5 if int(train_config.get("batch_size", 1)) == 1 else 6,
+            "version": (
+                (7 if protocol_version in {7, 8} else 5)
+                if int(train_config.get("batch_size", 1)) == 1
+                else (8 if protocol_version in {7, 8} else 6)
+            ),
             "seed": int(config.get("seed", 2026)),
             "optimizer": optimizer,
             "scheduler": _scheduler_spec(train_config),
@@ -15440,7 +16251,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
         gpu_name = None
         compute_capability = None
     return {
-        "version": 5 if int(train_config.get("batch_size", 1)) == 1 else 6,
+        "version": 7 if int(train_config.get("batch_size", 1)) == 1 else 8,
         **(
             {"batching": batching_contract(int(train_config["batch_size"]))}
             if int(train_config.get("batch_size", 1)) > 1 else {}
@@ -15469,6 +16280,7 @@ def _training_protocol(config: dict[str, Any], device: torch.device) -> dict[str
             "norm_type": 2.0,
         },
         "data_order": {
+            "loader_rng": "isolated_epoch_seed_v1",
             "batch_size": int(train_config.get("batch_size", 1)),
             "max_train_samples": (None if max_train_samples is None else int(max_train_samples)),
             "shuffle": False,
@@ -15893,6 +16705,7 @@ def validate(
     device: torch.device,
     max_samples: int | None = None,
     score_positions: set[int] | None = None,
+    check_pause: Callable[[], None] | None = None,
 ) -> dict[str, Any]:
     model.eval()
     accumulator = MetricAccumulator()
@@ -15901,6 +16714,8 @@ def validate(
     previous_sensor_size = None
     recurrent_state = None
     for index, batch in enumerate(loader):
+        if check_pause is not None:
+            check_pause()
         if max_samples is not None and index >= max_samples:
             break
         if len(batch) != 1:
@@ -15933,7 +16748,103 @@ def validate(
     return accumulator.summary()
 
 
-def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path:
+class TrainingPaused(Exception):
+    """A requested stop with a durable checkpoint, not a completed experiment."""
+
+    def __init__(self, checkpoint_path: Path, reason: str) -> None:
+        self.checkpoint_path = checkpoint_path
+        self.reason = reason
+        super().__init__(f"Training paused ({reason}); resume from {checkpoint_path}")
+
+
+def _schedule_digest(batches) -> str:
+    return hashlib.sha256(json.dumps(list(batches), separators=(",", ":")).encode()).hexdigest()
+
+
+def _validate_epoch_progress(checkpoint, batches, frame_total, batch_size, device, dataset,
+                             final_indices=None):
+    progress = checkpoint.get("epoch_progress")
+    if progress is None:
+        return None, None
+    fields = {
+        "version", "epoch", "next_batch", "seen", "optimizer_steps", "running_loss",
+        "amp_retries", "amp_retried_samples", "training_seconds", "schedule_sha256",
+        "training_state",
+    }
+    if (not isinstance(progress, dict) or set(progress) != fields
+            or type(progress["version"]) is not int or progress["version"] != 1):
+        raise ValueError("Invalid epoch_progress checkpoint schema")
+    for name in ("epoch", "next_batch", "seen", "optimizer_steps", "amp_retries",
+                 "amp_retried_samples"):
+        value = progress[name]
+        if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+            raise ValueError(f"Invalid epoch_progress {name}")
+    cursor = progress["next_batch"]
+    if (progress["epoch"] != checkpoint["epoch"] + 1
+            or cursor > len(batches) or progress["optimizer_steps"] != cursor):
+        raise ValueError("Inconsistent epoch_progress epoch/batch cursor")
+    expected_seen = min(sum(len(batch) for batch in batches[:cursor]), frame_total)
+    if (progress["seen"] != expected_seen
+            or (cursor and sum(len(batch) for batch in batches[:cursor - 1]) >= frame_total)
+            or progress["schedule_sha256"] != _schedule_digest(batches)):
+        raise ValueError("epoch_progress differs from the acknowledged training schedule")
+    for name in ("running_loss", "training_seconds"):
+        value = progress[name]
+        if (isinstance(value, bool) or not isinstance(value, (int, float))
+                or not math.isfinite(value) or value < 0):
+            raise ValueError(f"Invalid epoch_progress {name}")
+    if progress["amp_retried_samples"] > expected_seen:
+        raise ValueError("Invalid epoch_progress retried sample count")
+    state = restore_training_state(
+        progress["training_state"], independent_sequences=batch_size > 1, device=device,
+    )
+    if len(state.values) > batch_size or (cursor == 0 and state.values):
+        raise ValueError("epoch_progress contains inconsistent recurrent contexts")
+    # Recover only acknowledged context identities from the index, never by
+    # replaying __getitem__ or decoding discarded worker-prefetch samples.
+    records = getattr(dataset, "samples", None)
+    if not isinstance(records, list):
+        raise TypeError("Mid-epoch resume requires indexed deterministic training data")
+    expected_contexts = {}
+    expected_last_key = None
+    acknowledged = 0
+    for batch_indices in batches[:cursor]:
+        for sample_index in batch_indices:
+            if acknowledged >= frame_total:
+                break
+            record = records[sample_index]
+            key = (str(record.get("sequence_id") or record.get("scene", "unknown")),
+                   record.get("source_file", "") if batch_size > 1 else "")
+            index = record.get("sequence_index")
+            if batch_size == 1:
+                expected_contexts.clear()
+            expected_contexts[key] = index
+            expected_last_key = key
+            if final_indices is not None and index == final_indices.get(key):
+                expected_contexts.pop(key)
+            acknowledged += 1
+    if ({key: value[0] for key, value in state.values.items()} != expected_contexts
+            or state.last_key != expected_last_key):
+        raise ValueError("epoch_progress recurrent contexts differ from acknowledged frames")
+    history = checkpoint.get("history")
+    if (not isinstance(history, list) or len(history) != checkpoint["epoch"]
+            or [entry.get("epoch") for entry in history] != list(range(1, checkpoint["epoch"] + 1))):
+        raise ValueError("epoch_progress history must contain only completed epochs")
+    return progress, state
+
+
+def train(
+    config: dict[str, Any], resume_from: str | Path | None = None, *,
+    checkpoint_seconds: float = 300.0, max_seconds: float | None = None,
+) -> Path:
+    if (isinstance(checkpoint_seconds, bool) or not math.isfinite(checkpoint_seconds)
+            or checkpoint_seconds <= 0):
+        raise ValueError("checkpoint_seconds must be finite and positive")
+    with StopRequest(time_limit_seconds=max_seconds) as stop:
+        return _train(config, resume_from, stop, float(checkpoint_seconds))
+
+
+def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
     validate_experiment_config(config)
     seed = int(config.get("seed", 2026))
     set_seed(seed)
@@ -15970,13 +16881,18 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     batch_sampler = (
         SequenceBatchSampler(train_dataset, batch_size, seed=seed) if batch_size > 1 else None
     )
+    index_sampler = batch_sampler or BatchSampler(SequentialSampler(train_dataset), 1, False)
+    cursor_sampler = CursorBatchSampler(index_sampler)
+    train_generator = torch.Generator().manual_seed(seed)
+    val_generator = torch.Generator().manual_seed(seed + 1)
     train_loader = _data_loader(
         train_dataset,
         batch_size,
         int(train_config.get("num_workers", 0)),
         device,
         shuffle=False,
-        batch_sampler=batch_sampler,
+        batch_sampler=cursor_sampler,
+        generator=train_generator,
         **_loader_kwargs(train_config),
     )
     val_indices = _balanced_contiguous_indices(
@@ -16028,6 +16944,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         1,
         int(train_config.get("num_workers", 0)),
         device,
+        generator=val_generator,
         **_loader_kwargs(train_config),
     )
 
@@ -16098,8 +17015,16 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 f"Checkpoint {resume_path} has model weights but no optimizer state; "
                 "it cannot be used for exact training resume"
             )
+        optimizer_had_steps = (
+            int(resume_checkpoint.get("epoch", 0)) > 0
+            or int((resume_checkpoint.get("epoch_progress") or {}).get("optimizer_steps", 0)) > 0
+        )
         optimizer.load_state_dict(resume_checkpoint.pop("optimizer"))
         _optimizer_to(optimizer, device)
+        if optimizer_had_steps:
+            # MultiStepLR's call-order guard is process-local and is not part of
+            # optimizer.state_dict(); restore it for validation-pending resumes.
+            optimizer.__dict__["_opt_called"] = True
         if "scheduler" not in resume_checkpoint:
             raise ValueError(
                 f"Checkpoint {resume_path} has no scheduler state/schema and cannot "
@@ -16145,6 +17070,46 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         measurement_steps=max(1, timing_steps),
     )
     timing_saved = False
+    frame_total = len(train_dataset)
+    if max_train_samples is not None:
+        frame_total = min(frame_total, int(max_train_samples))
+    resume_progress = None
+    resume_state = None
+    if resume_checkpoint is not None:
+        if batch_sampler is not None:
+            batch_sampler.set_epoch(start_epoch)
+        resume_progress, resume_state = _validate_epoch_progress(
+            resume_checkpoint, list(index_sampler), frame_total, batch_size, device,
+            train_dataset, batch_sampler.final_sequence_indices if batch_sampler is not None else None,
+        )
+        if resume_progress is not None and start_epoch > epochs:
+            raise ValueError("Incomplete epoch exceeds the configured training horizon")
+
+    def make_checkpoint(completed_epoch, val_metrics, terminal_complete=False):
+        model_state = model.state_dict()
+        return {
+            "checkpoint_type": "training", "epoch": completed_epoch,
+            "epoch_progress": None,
+            "model": model_state, "model_state_sha256": _model_state_sha256(model_state),
+            "optimizer": optimizer.state_dict(),
+            "scheduler": scheduler.state_dict() if scheduler is not None else None,
+            "scaler": scaler.state_dict(), "model_config": config["model"],
+            "config": public_config, "val": val_metrics, "val_sampling": val_sampling_counts,
+            "best_ssim": best_ssim, "best_model_state_sha256": best_model_state_sha256,
+            "best_metric": "macro_ssim",
+            "checkpoint_selection": (
+                "single_final_epoch" if validate_every is None else "best_validation_macro_ssim"
+            ),
+            "paper_core_version": PAPER_CORE_VERSION,
+            "preflight_gate": copy.deepcopy(config.get("preflight_gate")),
+            "validation_protocol": validation_protocol, "training_protocol": training_protocol,
+            "terminal_validation_state": (
+                {"planned_epoch": epochs, "completed": terminal_complete,
+                 "completed_epoch": completed_epoch if terminal_complete else None}
+                if validate_every is None else None
+            ),
+            "history": history, "rng_state": _capture_rng_state(),
+        }
     # Publish run metadata only after every fresh/resume check, including
     # optimizer/scaler/RNG restoration. Rejected attempts must preserve the
     # previous gate, config and hash cache alongside the original checkpoints.
@@ -16152,6 +17117,31 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
     save_json(run_dir / "config.json", public_config)
     if "preflight_gate" in config:
         save_json(run_dir / "preflight_gate.json", config["preflight_gate"])
+
+    # These synchronous helpers read only the live acknowledged counters below,
+    # never a DataLoader's prefetched/dispatched cursor. They do not escape train().
+    def save_progress(training_seconds=None):
+        checkpoint = make_checkpoint(epoch - 1, {})
+        checkpoint["epoch_progress"] = {
+            "version": 1, "epoch": epoch, "next_batch": next_batch,
+            "seen": seen, "optimizer_steps": optimizer_steps, "running_loss": running_loss,
+            "amp_retries": epoch_amp_retries,
+            "amp_retried_samples": epoch_amp_retried_samples,
+            "training_seconds": (
+                elapsed_before_resume + time.perf_counter() - epoch_start
+                if training_seconds is None else training_seconds
+            ),
+            "schedule_sha256": schedule_sha256,
+            "training_state": capture_training_state(state),
+        }
+        atomic_torch_save(checkpoint, run_dir / "last.pt")
+
+    def pause_if_requested(*, saved=False):
+        if stop.poll():
+            if not saved:
+                save_progress()
+            raise TrainingPaused(run_dir / "last.pt", stop.reason or "requested")
+
     for epoch in range(start_epoch, epochs + 1):
         epoch_learning_rates = [float(group["lr"]) for group in optimizer.param_groups]
         model.train()
@@ -16159,22 +17149,53 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         state = TrainingState(independent_sequences=batch_size > 1)
         if batch_sampler is not None:
             batch_sampler.set_epoch(epoch)
+        epoch_batches = list(index_sampler)
+        schedule_sha256 = _schedule_digest(epoch_batches)
+        cursor_sampler.set_start(0)
+        train_generator.manual_seed(seed + 2 * epoch)
+        val_generator.manual_seed(seed + 2 * epoch + 1)
         running_loss = 0.0
         epoch_amp_retries = 0
         epoch_amp_retried_samples = 0
         seen = 0
         optimizer_steps = 0
+        next_batch = 0
+        elapsed_before_resume = 0.0
+        if resume_progress is not None:
+            state = resume_state
+            next_batch = resume_progress["next_batch"]
+            cursor_sampler.set_start(next_batch)
+            running_loss = resume_progress["running_loss"]
+            epoch_amp_retries = resume_progress["amp_retries"]
+            epoch_amp_retried_samples = resume_progress["amp_retried_samples"]
+            seen = resume_progress["seen"]
+            optimizer_steps = resume_progress["optimizer_steps"]
+            elapsed_before_resume = resume_progress["training_seconds"]
+            resume_progress = resume_state = None
         epoch_start = time.perf_counter()
-        loader_iterator = iter(train_loader)
-        frame_total = len(train_dataset)
-        if max_train_samples is not None:
-            frame_total = min(frame_total, int(max_train_samples))
-        progress = tqdm(total=frame_total, desc=f"train {epoch:03d}/{epochs:03d}", unit="frame")
-        for step in range(len(train_loader)):
+        last_save = epoch_start
+
+        if resume_path is None and epoch == start_epoch:
+            save_progress()
+            last_save = time.perf_counter()
+        pause_if_requested()
+        loader_iterator = iter(train_loader) if seen < frame_total else iter(())
+        progress = tqdm(total=frame_total, initial=seen,
+                        desc=f"train {epoch:03d}/{epochs:03d}", unit="frame")
+        for step in range(next_batch, len(epoch_batches)):
             if max_train_samples is not None and seen >= int(max_train_samples):
                 break
+            pause_if_requested()
             with timing.scope("dataload", gpu=False):
-                batch = next(loader_iterator)
+                try:
+                    batch = next(loader_iterator)
+                except Exception:
+                    # Schedulers can signal the entire worker process group.
+                    # No optimizer update has begun, so this boundary is safe.
+                    if stop.poll():
+                        progress.close()
+                        pause_if_requested()
+                    raise
                 if max_train_samples is not None:
                     batch = batch[: int(max_train_samples) - seen]
             with timing.scope("transfer"):
@@ -16211,6 +17232,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             running_loss += loss_values["total"] * len(samples)
             seen += len(samples)
             optimizer_steps += 1
+            next_batch = step + 1
             progress.update(len(samples))
             if timing.step():
                 save_json(run_dir / "timing.json", timing.collect())
@@ -16222,13 +17244,23 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                     amp_scale=amp_info["scale_after"],
                     **loss_values,
                 )
+            if stop.poll() or time.perf_counter() - last_save >= checkpoint_seconds:
+                save_progress()
+                last_save = time.perf_counter()
+                if stop.poll():
+                    progress.close()
+                    pause_if_requested(saved=True)
         progress.close()
         if device.type == "cuda":
             torch.cuda.synchronize(device)
-        epoch_seconds = time.perf_counter() - epoch_start
+        epoch_seconds = elapsed_before_resume + time.perf_counter() - epoch_start
         should_validate = epoch == epochs or (
             validate_every is not None and epoch % validate_every == 0
         )
+        # A stop/error during validation resumes validation, not the training epoch.
+        # The scheduler and history have not advanced at this boundary.
+        save_progress(training_seconds=epoch_seconds)
+        pause_if_requested(saved=True)
         val_metrics = (
             validate(
                 model,
@@ -16236,6 +17268,7 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
                 device,
                 max_samples=None,
                 score_positions=val_score_positions,
+                check_pause=lambda: pause_if_requested(saved=True),
             )
             if should_validate
             else {}
@@ -16278,48 +17311,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
         }
         history.append(record)
         save_json(run_dir / "history.json", history)
-        model_state = model.state_dict()
-        model_state_sha256 = _model_state_sha256(model_state)
-        checkpoint = {
-            "checkpoint_type": "training",
-            "epoch": epoch,
-            "model": model_state,
-            "model_state_sha256": model_state_sha256,
-            "optimizer": optimizer.state_dict(),
-            "scheduler": scheduler.state_dict() if scheduler is not None else None,
-            "scaler": scaler.state_dict(),
-            "model_config": (
-                resume_checkpoint.get("model_config", config["model"])
-                if resume_checkpoint is not None
-                else config["model"]
-            ),
-            "config": public_config,
-            "val": val_metrics,
-            "val_sampling": val_sampling_counts,
-            "best_ssim": best_ssim,
-            "best_model_state_sha256": best_model_state_sha256,
-            "best_metric": "macro_ssim",
-            "checkpoint_selection": (
-                "single_final_epoch"
-                if validate_every is None
-                else "best_validation_macro_ssim"
-            ),
-            "paper_core_version": PAPER_CORE_VERSION,
-            "preflight_gate": copy.deepcopy(config.get("preflight_gate")),
-            "validation_protocol": validation_protocol,
-            "training_protocol": training_protocol,
-            "terminal_validation_state": (
-                {
-                    "planned_epoch": epochs,
-                    "completed": bool(should_validate and epoch == epochs),
-                    "completed_epoch": epoch if should_validate and epoch == epochs else None,
-                }
-                if validate_every is None
-                else None
-            ),
-            "history": history,
-            "rng_state": _capture_rng_state(),
-        }
+        checkpoint = make_checkpoint(epoch, val_metrics, bool(should_validate and epoch == epochs))
+        model_state_sha256 = checkpoint["model_state_sha256"]
         if validation_ssim > best_ssim:
             best_ssim = validation_ssim
             best_model_state_sha256 = model_state_sha256
@@ -16346,6 +17339,8 @@ def train(config: dict[str, Any], resume_from: str | Path | None = None) -> Path
             atomic_torch_save(best_checkpoint, run_dir / "best.pt")
         atomic_torch_save(checkpoint, run_dir / "last.pt")
         print(record)
+        if epoch < epochs and stop.poll():
+            raise TrainingPaused(run_dir / "last.pt", stop.reason or "requested")
     if timing_steps > 0 and not timing_saved:
         save_json(run_dir / "timing.json", timing.collect())
     best_path = run_dir / "best.pt"
@@ -17410,7 +18405,7 @@ def _sealed_calibration_protocol(
     )
     if not isinstance(training_protocol, dict):
         mismatches.append("source checkpoint has no training protocol")
-    elif training_protocol.get("version") not in {5, 6}:
+    elif training_protocol.get("version") not in {5, 6, 7, 8}:
         mismatches.append("source checkpoint has an unsupported training protocol")
     if not isinstance(expected_source, dict):
         mismatches.append("source checkpoint has no training source contract")
@@ -22551,7 +23546,10 @@ def atomic_torch_save(value: Any, path: str | Path) -> None:
     os.close(descriptor)
     temporary = Path(temporary_name)
     try:
-        torch.save(value, temporary)
+        with temporary.open("wb") as stream:
+            torch.save(value, stream)
+            stream.flush()
+            os.fsync(stream.fileno())
         os.replace(temporary, path)
     except BaseException:
         temporary.unlink(missing_ok=True)
@@ -23149,7 +24147,7 @@ def test_training_timing_covers_backward_checks_and_only_successful_optimizer(sc
 def test_protocol_binds_retry_policy_and_rejects_tampering() -> None:
     config = {"train": {"amp": True}}
     protocol = engine._training_protocol(config, torch.device("cpu"))
-    assert protocol["version"] == 5
+    assert protocol["version"] == 7
     assert engine._valid_training_protocol_contract(protocol)
     assert protocol["mixed_precision"]["overflow_policy"] is None
     policy = engine._amp_retry_policy(True)
@@ -25064,6 +26062,296 @@ def test_raw_profiler_metadata_is_never_published_and_temporary_is_removed(tmp_p
         assert "research-node-user" not in final.read_text()
     assert temporary[0] != final
     assert not temporary[0].exists()
+~~~~~~~~
+
+# tests/test_checkpoint.py
+
+~~~~~~~~python
+"""Boundary utilities; generated contexts exist only in test memory."""
+
+from __future__ import annotations
+
+import copy
+import signal
+import threading
+
+import pytest
+import torch
+from torch.utils.data import BatchSampler, DataLoader, SequentialSampler
+
+from asgcn_unet import checkpoint
+from asgcn_unet.checkpoint import (
+    CursorBatchSampler,
+    StopRequest,
+    capture_training_state,
+    restore_training_state,
+)
+from asgcn_unet.training import TrainingState
+
+
+class _DecodeTracked:
+    def __init__(self):
+        self.decoded = []
+
+    def __len__(self):
+        return 7
+
+    def __getitem__(self, index):
+        self.decoded.append(index)
+        return index
+
+
+def test_cursor_does_not_decode_completed_prefix_and_keeps_partial_tail():
+    dataset = _DecodeTracked()
+    schedule = BatchSampler(SequentialSampler(dataset), batch_size=3, drop_last=False)
+    cursor = CursorBatchSampler(schedule, start=1)
+    loader = DataLoader(dataset, batch_sampler=cursor, num_workers=0)
+    assert len(cursor) == 2 and cursor.total_batches == 3
+    assert [batch.tolist() for batch in loader] == [[3, 4, 5], [6]]
+    assert dataset.decoded == [3, 4, 5, 6]
+    cursor.set_start(3)
+    assert len(cursor) == 0 and list(cursor) == []
+    cursor.set_start(0)
+    assert list(cursor) == [[0, 1, 2], [3, 4, 5], [6]]
+
+
+@pytest.mark.parametrize("start", [-1, 4, True, 1.5, "1", None])
+def test_cursor_rejects_invalid_start(start):
+    with pytest.raises((TypeError, ValueError), match="cursor"):
+        CursorBatchSampler([[1], [2], [3]], start=start)
+
+
+def test_cursor_requires_sized_iterable_and_revalidates_schedule_changes():
+    with pytest.raises(TypeError, match="sized"):
+        CursorBatchSampler(iter([[0]]))
+    schedule = [[0], [1]]
+    cursor = CursorBatchSampler(schedule, start=2)
+    schedule.pop()
+    with pytest.raises(ValueError, match="outside"):
+        len(cursor)
+    with pytest.raises(ValueError, match="outside"):
+        iter(cursor)
+
+
+def test_cursor_set_epoch_delegates_and_resets():
+    class Schedule:
+        epoch = 0
+
+        def __len__(self):
+            return 2
+
+        def __iter__(self):
+            return iter([[self.epoch], [self.epoch + 1]])
+
+        def set_epoch(self, epoch):
+            self.epoch = epoch
+
+    schedule = Schedule()
+    cursor = CursorBatchSampler(schedule, start=1)
+    cursor.set_epoch(4)
+    assert cursor.start == 0 and list(cursor) == [[4], [5]]
+    plain = CursorBatchSampler([[2]], start=1)
+    plain.set_epoch(2)
+    assert list(plain) == [[2]]
+    for invalid in (-1, 1.5, True):
+        with pytest.raises(ValueError, match="epoch"):
+            cursor.set_epoch(invalid)
+
+
+def _state(*, independent=True):
+    state = TrainingState(independent_sequences=independent)
+    key = ("sequence-a", "sample.h5" if independent else "")
+    state.values[key] = (
+        7, (8, 10), torch.randn(1, 4, 2, 3, requires_grad=True),
+        torch.randn(1, 1, 8, 10, requires_grad=True), torch.randn(1, 1, 8, 10),
+    )
+    state.last_key = key
+    return state
+
+
+@pytest.mark.parametrize("independent", [False, True])
+def test_context_round_trip_detaches_and_copies_all_tensor_storage(independent):
+    original = _state(independent=independent)
+    payload = capture_training_state(original)
+    restored = restore_training_state(payload, independent_sequences=independent, device="cpu")
+    assert restored.last_key == original.last_key
+    assert restored.independent_sequences is independent
+    key = original.last_key
+    assert restored.values[key][:2] == original.values[key][:2]
+    for offset, name in enumerate(("recurrent", "prediction", "target"), start=2):
+        source = original.values[key][offset]
+        saved = payload["entries"][0][name]
+        loaded = restored.values[key][offset]
+        torch.testing.assert_close(source, saved, rtol=0, atol=0)
+        torch.testing.assert_close(source, loaded, rtol=0, atol=0)
+        assert len({source.data_ptr(), saved.data_ptr(), loaded.data_ptr()}) == 3
+        assert saved.device.type == loaded.device.type == "cpu"
+        assert not saved.requires_grad and not loaded.requires_grad
+    restored.values[key][3].fill_(42)
+    assert not torch.equal(restored.values[key][3], payload["entries"][0]["prediction"])
+
+
+def test_empty_context_and_evicted_last_key_round_trip():
+    state = TrainingState(independent_sequences=True)
+    assert restore_training_state(
+        capture_training_state(state), independent_sequences=True, device="cpu"
+    ).values == {}
+    state.last_key = ("finished-sequence", "sample.h5")
+    restored = restore_training_state(
+        capture_training_state(state), independent_sequences=True, device="cpu"
+    )
+    assert restored.values == {} and restored.last_key == state.last_key
+
+
+def test_none_recurrent_and_missing_sequence_index_are_preserved():
+    state = _state()
+    value = state.values[state.last_key]
+    state.values[state.last_key] = (None, value[1], None, value[3], value[4])
+    restored = restore_training_state(
+        capture_training_state(state), independent_sequences=True, device="cpu"
+    )
+    assert restored.values[state.last_key][:3] == (None, (8, 10), None)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("version", 2), ("version", True), ("entries", ()),
+    ("last_key", "sequence"), ("last_key", ("", "sample.h5")),
+    ("last_key", None), ("independent_sequences", False), ("independent_sequences", 1),
+])
+def test_context_rejects_corrupt_top_level_fields(field, value):
+    payload = capture_training_state(_state())
+    payload[field] = value
+    with pytest.raises((TypeError, ValueError)):
+        restore_training_state(payload, independent_sequences=True, device="cpu")
+
+
+@pytest.mark.parametrize("field,value", [
+    ("key", ("sequence", 3)), ("sequence_index", -1),
+    ("sequence_index", True), ("sequence_index", 3.5),
+    ("sensor_size", (0, 10)), ("sensor_size", (8, True)), ("sensor_size", (8, 11)),
+    ("recurrent", torch.zeros(4, 2, 3)), ("prediction", None),
+    ("prediction", torch.zeros(1, 1, 8, 10, dtype=torch.int64)),
+    ("target", torch.zeros(2, 1, 8, 10)),
+    ("recurrent", torch.full((1, 4, 2, 3), float("nan"))),
+    ("prediction", torch.full((1, 1, 8, 10), float("inf"))),
+    ("target", torch.full((1, 1, 8, 10), float("-inf"))),
+])
+def test_context_rejects_corrupt_entries_before_copy(field, value, monkeypatch):
+    payload = capture_training_state(_state())
+    payload["entries"][0][field] = value
+
+    def forbidden_transfer(*args, **kwargs):
+        raise AssertionError("Invalid checkpoints must be rejected before any device transfer")
+
+    monkeypatch.setattr(torch.Tensor, "to", forbidden_transfer)
+    with pytest.raises((TypeError, ValueError)):
+        restore_training_state(payload, independent_sequences=True, device="cpu")
+
+
+def test_context_rejects_unknown_missing_duplicate_and_incompatible_keys():
+    original = capture_training_state(_state())
+    candidates = []
+    payload = copy.deepcopy(original)
+    payload["unknown"] = 1
+    candidates.append(payload)
+    payload = copy.deepcopy(original)
+    del payload["entries"][0]["target"]
+    candidates.append(payload)
+    payload = copy.deepcopy(original)
+    payload["entries"].append(copy.deepcopy(payload["entries"][0]))
+    candidates.append(payload)
+    for payload in candidates:
+        with pytest.raises(ValueError):
+            restore_training_state(payload, independent_sequences=True, device="cpu")
+    single = capture_training_state(_state(independent=False))
+    single["last_key"] = ("different-sequence", "")
+    with pytest.raises(ValueError, match="disagree"):
+        restore_training_state(single, independent_sequences=False, device="cpu")
+
+
+@pytest.mark.parametrize("limit", [0, -1, float("nan"), float("inf"), True, "3"])
+def test_stop_request_rejects_invalid_time_limit(limit):
+    with pytest.raises(ValueError, match="positive"):
+        StopRequest(limit)
+
+
+def _fake_handlers(monkeypatch):
+    original = {signal.SIGINT: object(), signal.SIGTERM: object()}
+    installed = original.copy()
+    monkeypatch.setattr(signal, "getsignal", lambda signum: installed[signum])
+    monkeypatch.setattr(signal, "signal", lambda signum, fn: installed.update({signum: fn}))
+    return original, installed
+
+
+def test_signal_only_requests_pause_and_handlers_restore_even_on_failure(monkeypatch):
+    original, installed = _fake_handlers(monkeypatch)
+    stop = StopRequest()
+    with pytest.raises(RuntimeError, match="training error"), stop:
+        assert not stop.pause_requested
+        installed[signal.SIGTERM](signal.SIGTERM, None)
+        assert stop.poll() is True and stop.reason == "SIGTERM"
+        installed[signal.SIGINT](signal.SIGINT, None)
+        assert stop.reason == "SIGTERM", "The first request must not be overwritten"
+        raise RuntimeError("training error")
+    assert installed == original
+
+
+def test_time_limit_starts_on_entry_and_stays_latched(monkeypatch):
+    _fake_handlers(monkeypatch)
+    clock = [10.0]
+    monkeypatch.setattr(checkpoint.time, "monotonic", lambda: clock[0])
+    stop = StopRequest(5)
+    clock[0] = 500.0
+    assert not stop.poll()
+    with stop:
+        clock[0] = 504.99
+        assert not stop.pause_requested
+        clock[0] = 505.0
+        assert stop.pause_requested and stop.reason == "time_limit"
+        clock[0] = 504.0
+        assert stop.poll(), "Once requested a pause stays latched"
+    with stop:
+        assert not stop.poll(), "A new context resets the timer and previous reasons"
+
+
+def test_stop_request_does_not_install_process_signal_handlers_on_worker_thread(monkeypatch):
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Only the main thread can install process signal handlers")
+
+    monkeypatch.setattr(signal, "signal", forbidden)
+    monkeypatch.setattr(signal, "getsignal", forbidden)
+    errors = []
+
+    def worker():
+        try:
+            with StopRequest() as stop:
+                assert not stop.poll()
+        except BaseException as error:  # noqa: BLE001 - propagate worker-thread failures.
+            errors.append(error)
+
+    thread = threading.Thread(target=worker)
+    thread.start()
+    thread.join()
+    assert errors == []
+
+
+def test_stop_request_rejects_nested_reentry_and_restores_partial_install(monkeypatch):
+    original, installed = _fake_handlers(monkeypatch)
+    with StopRequest() as stop, pytest.raises(RuntimeError, match="twice"):
+        stop.__enter__()
+    assert installed == original
+
+    def partial_failure(signum, callback):
+        if signum == signal.SIGTERM:
+            raise RuntimeError("handler install rejected")
+        installed[signum] = callback
+
+    monkeypatch.setattr(signal, "signal", partial_failure)
+    stop = StopRequest()
+    with pytest.raises(RuntimeError, match="install rejected"), stop:
+        raise AssertionError("The context must not start after handler installation failure")
+    assert installed == original
+    assert not stop._active
 ~~~~~~~~
 
 # tests/test_conda_runtime.py
@@ -27379,7 +28667,7 @@ def test_training_protocol_captures_trajectory_but_allows_run_control_changes() 
     assert len(protocol["source"]["source_tree_sha256"]) == 64
     assert protocol["runtime"]["gpu_name"] is None
     assert protocol["runtime"]["compute_capability"] is None
-    assert protocol["version"] == 5
+    assert protocol["version"] == 7
 
     allowed = copy.deepcopy(config)
     allowed["train"].update({"epochs": 99, "log_every": 1, "resume": "/another/last.pt"})
@@ -34051,6 +35339,7 @@ from pathlib import Path
 import pytest
 
 import asgcn_unet.cli as cli_module
+from asgcn_unet.engine import TrainingPaused
 from asgcn_unet.recovery import archive_uncheckpointed_run
 
 
@@ -34320,6 +35609,53 @@ def test_cli_archives_only_after_verified_profile_and_before_new_gate(
     ))
     assert calls == ["verify", "archive", "train"]
     _assert_payloads(archives[0], payloads)
+
+
+def test_cli_forwards_segment_time_and_checkpoint_interval(tmp_path, monkeypatch) -> None:
+    project, _config = _cli_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        cli_module, "verify_training_preflight", lambda *args: {"status": "verified"}
+    )
+    calls = []
+
+    def train(value, *, resume_from, max_seconds, checkpoint_seconds):
+        calls.append((value, resume_from, max_seconds, checkpoint_seconds))
+        return project / "runs" / "train" / "best.pt"
+
+    monkeypatch.setattr(cli_module, "train", train)
+    cli_module._execute_command(_args(
+        project, "train", "--max-hours", "6", "--checkpoint-seconds", "120"
+    ))
+    assert calls[0][1:] == (None, 21600.0, 120.0)
+
+
+def test_cli_reports_durable_pause_with_exit_75(tmp_path, monkeypatch, capsys) -> None:
+    project, _config = _cli_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(
+        cli_module, "verify_training_preflight", lambda *args: {"status": "verified"}
+    )
+    checkpoint = project / "runs" / "train" / "last.pt"
+
+    def paused(*args, **kwargs):
+        raise TrainingPaused(checkpoint, "time_limit")
+
+    monkeypatch.setattr(cli_module, "train", paused)
+    with pytest.raises(SystemExit) as stopped:
+        cli_module.main([
+            "train", "--config", str(project / "config.json"),
+            "--preflight-report", "runs/profile.json",
+        ])
+    assert stopped.value.code == 75
+    message = json.loads(capsys.readouterr().out)
+    assert message == {
+        "status": "paused",
+        "reason": "time_limit",
+        "resume_checkpoint": "$EXTERNAL/last.pt",
+        "message": (
+            "Saved successfully; resume with the same config and --resume. "
+            "Training is not complete."
+        ),
+    }
 
 
 def test_failed_profile_verification_cannot_move_or_overwrite_old_metadata(
@@ -35914,13 +37250,19 @@ def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
     assert {path.name for path in config_dir.glob("*.json")} == {
         "train.json",
         "batch.json",
+        "fast.json",
         "hdr.json",
+        "hdr-fast.json",
         "aid.json",
+        "aid-fast.json",
     }
 
     configs = {
         name: json.loads((config_dir / name).read_text(encoding="utf-8"))
-        for name in ("train.json", "batch.json", "hdr.json", "aid.json")
+        for name in (
+            "train.json", "batch.json", "fast.json", "hdr.json", "hdr-fast.json",
+            "aid.json", "aid-fast.json",
+        )
     }
     assert configs["train.json"]["output"]["run_dir"] == "runs/train"
     assert configs["batch.json"]["output"]["run_dir"] == "runs/batch"
@@ -35932,10 +37274,19 @@ def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
     for key, value in configs["train.json"]["train"].items():
         if key != "batch_size":
             assert configs["batch.json"]["train"][key] == value, key
+    expected_fast = json.loads(json.dumps(configs["batch.json"]))
+    expected_fast["train"]["batch_size"] = 16
+    expected_fast["model"]["spline_backend"] = "triton"
+    expected_fast["output"]["run_dir"] = "runs/fast"
+    assert configs["fast.json"] == expected_fast
     assert configs["hdr.json"]["eval"]["output_dir"] == "runs/eval/hdr"
     assert configs["aid.json"]["eval"]["output_dir"] == "runs/eval/aid"
     assert configs["train.json"]["model"] == configs["hdr.json"]["model"]
     assert configs["train.json"]["model"] == configs["aid.json"]["model"]
+    assert configs["fast.json"]["model"] == configs["hdr-fast.json"]["model"]
+    assert configs["fast.json"]["model"] == configs["aid-fast.json"]["model"]
+    assert configs["hdr-fast.json"]["eval"]["output_dir"] == "runs/fast/eval/hdr"
+    assert configs["aid-fast.json"]["eval"]["output_dir"] == "runs/fast/eval/aid"
     for config in configs.values():
         assert config["model"]["spline_chunk_size"] == 65536
 
@@ -35957,6 +37308,25 @@ def test_batch_wrapper_isolates_training_profile_status_and_evaluation() -> None
     assert evaluation.count('"${OUTPUT_ARGS[@]}"') == 2
 
 
+def test_fast_wrapper_isolates_measured_training_and_safe_pause() -> None:
+    script = _text("scripts/run.sh")
+    for assignment in (
+        "DEFAULT_TRAIN_CONFIG=configs/fast.json",
+        "DEFAULT_TRAIN_RUN=runs/fast",
+        "DEFAULT_PROFILE_OUTPUT=runs/fast-profile.json",
+        "DEFAULT_STATUS_DIR=runs/fast-status",
+        "DEFAULT_EVAL_ROOT=runs/fast/eval",
+        "DEFAULT_HDR_CONFIG=configs/hdr-fast.json",
+        "DEFAULT_AID_CONFIG=configs/aid-fast.json",
+    ):
+        assert assignment in script
+    assert '[[ "${ACTIVE_STAGE}" == "train" && "${exit_code}" == "75" ]]' in script
+    assert 'write_stage_status "${ACTIVE_STAGE}" PAUSED' in script
+    training = _text("scripts/train.sh")
+    assert 'TRAIN_ARGS+=(--max-hours "${MAX_HOURS}")' in training
+    assert 'TRAIN_ARGS+=(--checkpoint-seconds "${CHECKPOINT_SECONDS}")' in training
+
+
 def test_calibration_wrapper_defaults_to_all_samples_and_protects_output() -> None:
     script = _text("scripts/calibrate.sh")
     assert 'CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"' in script
@@ -35976,7 +37346,7 @@ def test_all_wrappers_support_optional_validate_all_preflight() -> None:
 
 def test_training_wrapper_requires_verified_profile_or_explicit_nonreporting_bypass() -> None:
     script = _text("scripts/train.sh")
-    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-runs/profile.json}}"' in script
+    assert 'PREFLIGHT_REPORT="${PREFLIGHT_REPORT:-${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}}"' in script
     assert 'ALLOW_UNVERIFIED_PREFLIGHT="${ALLOW_UNVERIFIED_PREFLIGHT:-0}"' in script
     assert "--preflight-report" in script
     assert "--allow-unverified-preflight" in script
@@ -36012,6 +37382,20 @@ def test_all_scheduler_entrypoints_use_short_paths_and_optional_cuda_module() ->
             assert "hdr_train.json" not in script
             assert "hdr_ann.json" not in script
             assert "hdr_snn.json" not in script
+
+
+def test_scheduler_fast_routing_keeps_profile_checkpoints_and_eval_isolated() -> None:
+    for scheduler in ("sbatch", "pbs"):
+        for stage in ("profile", "train", "calibrate", "eval"):
+            script = _text(f"server/{stage}.{scheduler}")
+            assert 'EXPERIMENT="${EXPERIMENT:-single}"' in script
+            assert "configs/fast.json" in script or "configs/hdr-fast.json" in script
+        training = _text(f"server/train.{scheduler}")
+        assert 'MAX_HOURS="${MAX_HOURS:-47}"' in training
+        assert 'CHECKPOINT_SECONDS="${CHECKPOINT_SECONDS:-300}"' in training
+        evaluation = _text(f"server/eval.{scheduler}")
+        assert "DEFAULT_EVAL_ROOT=runs/batch/eval" in evaluation
+        assert 'EVAL_OUTPUT_DIR="${EVAL_OUTPUT_DIR:-${DEFAULT_EVAL_ROOT}/${DEFAULT_DATASET}}"' in evaluation
 
 
 def test_scheduler_logs_require_explicit_opt_in_for_private_provenance() -> None:
@@ -37535,6 +38919,306 @@ def test_real_cuda_events_measure_an_actual_training_operation():
         assert stats["mean_ms"] >= 0
 ~~~~~~~~
 
+# tests/test_train_resume.py
+
+~~~~~~~~python
+"""Committed minibatch resume on temporary real-format HDF5 fixtures."""
+
+from __future__ import annotations
+
+import copy
+from pathlib import Path
+
+import numpy as np
+import pytest
+import torch
+
+from asgcn_unet import engine
+from asgcn_unet.batching import SequenceBatchSampler
+from asgcn_unet.data import EventHDRDataset, build_dataset
+from tests.test_training_batch import _checkpoint, _config
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _pause_after_updates(monkeypatch, count: int) -> dict[str, int]:
+    """Request a stop only after a successful real optimizer update returns."""
+    completed = {"updates": 0}
+    original = engine._training_step
+
+    def training_step(*args, **kwargs):
+        result = original(*args, **kwargs)
+        completed["updates"] += 1
+        return result
+
+    class StopAfterUpdates:
+        def __init__(self, time_limit_seconds=None):
+            self.time_limit_seconds = time_limit_seconds
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+        def poll(self):
+            return completed["updates"] >= count
+
+        @property
+        def pause_requested(self):
+            return self.poll()
+
+        @property
+        def reason(self):
+            return "test_pause" if self.poll() else None
+
+    monkeypatch.setattr(engine, "StopRequest", StopAfterUpdates)
+    monkeypatch.setattr(engine, "_training_step", training_step)
+    return completed
+
+
+def _assert_training_equal(actual: dict, expected: dict) -> None:
+    for key in ("model", "optimizer", "scheduler", "scaler", "val"):
+        torch.testing.assert_close(actual[key], expected[key], rtol=0, atol=0)
+    assert actual["best_model_state_sha256"] == expected["best_model_state_sha256"]
+    assert actual["rng_state"]["python"] == expected["rng_state"]["python"]
+    actual_np = actual["rng_state"]["numpy"]
+    expected_np = expected["rng_state"]["numpy"]
+    assert actual_np[0] == expected_np[0]
+    np.testing.assert_array_equal(actual_np[1], expected_np[1])
+    assert actual_np[2:] == expected_np[2:]
+    torch.testing.assert_close(
+        actual["rng_state"]["torch"], expected["rng_state"]["torch"], rtol=0, atol=0
+    )
+    assert len(actual["history"]) == len(expected["history"])
+    for actual_epoch, expected_epoch in zip(actual["history"], expected["history"], strict=True):
+        for key in ("epoch", "train_loss", "val", "val_sampling", "learning_rate", "amp"):
+            assert actual_epoch[key] == expected_epoch[key]
+        for key in ("frames", "optimizer_steps", "batch_size_limit"):
+            assert actual_epoch["performance"][key] == expected_epoch["performance"][key]
+
+
+@pytest.mark.parametrize("batch_size,stop_after", [(1, 2), (2, 1), (2, 2), (2, 5)])
+def test_mid_epoch_resume_matches_uninterrupted_training(
+    tmp_path, monkeypatch, batch_size, stop_after
+) -> None:
+    config = _config(tmp_path, batch_size=batch_size)
+    config["train"]["epochs"] = 2
+    config["output"]["run_dir"] = str(tmp_path / "continuous")
+    engine.train(config)
+    expected = _checkpoint(tmp_path / "continuous")
+
+    config["output"]["run_dir"] = str(tmp_path / "resumed")
+    with monkeypatch.context() as paused_patch:
+        completed = _pause_after_updates(paused_patch, stop_after)
+        with pytest.raises(engine.TrainingPaused) as stopped:
+            engine.train(config)
+    assert completed["updates"] == stop_after
+    assert Path(stopped.value.checkpoint_path) == tmp_path / "resumed" / "last.pt"
+    assert stopped.value.reason == "test_pause"
+    partial = _checkpoint(tmp_path / "resumed")
+    progress = partial["epoch_progress"]
+    assert progress["version"] == 1
+    assert progress["epoch"] == partial["epoch"] + 1
+    assert progress["seen"] > 0
+    assert progress["next_batch"] > 0
+    assert progress["training_state"]
+    assert len(partial["history"]) == partial["epoch"]
+
+    engine.train(config, resume_from=tmp_path / "resumed" / "last.pt")
+    _assert_training_equal(_checkpoint(tmp_path / "resumed"), expected)
+
+
+@pytest.mark.parametrize("batch_size", [1, 2])
+def test_resume_does_not_decode_or_train_committed_prefix(
+    tmp_path, monkeypatch, batch_size
+) -> None:
+    config = _config(tmp_path, batch_size=batch_size)
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        batches = (
+            list(SequenceBatchSampler(dataset, batch_size, seed=config["seed"]))
+            if batch_size > 1
+            else [[index] for index in range(len(dataset))]
+        )
+    finally:
+        dataset.close()
+    with monkeypatch.context() as paused_patch:
+        _pause_after_updates(paused_patch, 1)
+        with pytest.raises(engine.TrainingPaused):
+            engine.train(config)
+    checkpoint_path = Path(config["output"]["run_dir"]) / "last.pt"
+    before = _checkpoint(checkpoint_path.parent)
+    assert before["epoch_progress"]["next_batch"] == 1
+    assert before["epoch_progress"]["seen"] == len(batches[0])
+
+    decoded = []
+    original = EventHDRDataset.__getitem__
+
+    def observed_getitem(dataset, index):
+        if dataset.root == Path(config["dataset"]["root"]):
+            decoded.append(index)
+        return original(dataset, index)
+
+    monkeypatch.setattr(EventHDRDataset, "__getitem__", observed_getitem)
+    engine.train(config, resume_from=checkpoint_path)
+    assert decoded == [index for batch in batches[1:] for index in batch]
+    result = _checkpoint(checkpoint_path.parent)
+    assert result["history"][0]["performance"]["frames"] == 7
+    assert result["history"][0]["performance"]["optimizer_steps"] == len(batches)
+
+
+def test_partial_resume_with_persistent_prefetch_workers_matches_rng_and_weights(
+    tmp_path, monkeypatch
+) -> None:
+    config = _config(tmp_path)
+    config["train"].update({
+        "epochs": 2, "num_workers": 2, "persistent_workers": True, "prefetch_factor": 2,
+    })
+    config["output"]["run_dir"] = str(tmp_path / "continuous")
+    engine.train(config)
+    expected = _checkpoint(tmp_path / "continuous")
+    config["output"]["run_dir"] = str(tmp_path / "resumed")
+    with monkeypatch.context() as paused_patch:
+        _pause_after_updates(paused_patch, 2)
+        with pytest.raises(engine.TrainingPaused):
+            engine.train(config)
+    engine.train(config, resume_from=tmp_path / "resumed" / "last.pt")
+    _assert_training_equal(_checkpoint(tmp_path / "resumed"), expected)
+
+
+def test_repeated_partial_pauses_preserve_cumulative_cursor_and_epoch_metrics(
+    tmp_path, monkeypatch
+) -> None:
+    config = _config(tmp_path)
+    config["output"]["run_dir"] = str(tmp_path / "continuous")
+    engine.train(config)
+    expected = _checkpoint(tmp_path / "continuous")
+    config["output"]["run_dir"] = str(tmp_path / "resumed")
+    resume_path = tmp_path / "resumed" / "last.pt"
+    for expected_cursor in (1, 2, 3):
+        with monkeypatch.context() as paused_patch:
+            _pause_after_updates(paused_patch, 1)
+            with pytest.raises(engine.TrainingPaused):
+                engine.train(config, resume_from=resume_path if expected_cursor > 1 else None)
+        partial = _checkpoint(resume_path.parent)
+        assert partial["epoch_progress"]["next_batch"] == expected_cursor
+        assert partial["epoch"] == 0
+        assert not partial["history"]
+    engine.train(config, resume_from=resume_path)
+    _assert_training_equal(_checkpoint(resume_path.parent), expected)
+
+
+def test_periodic_checkpoint_recovers_after_failure_before_next_update(
+    tmp_path, monkeypatch
+) -> None:
+    config = _config(tmp_path)
+    config["output"]["run_dir"] = str(tmp_path / "continuous")
+    engine.train(config)
+    expected = _checkpoint(tmp_path / "continuous")
+    config["output"]["run_dir"] = str(tmp_path / "resumed")
+    completed = 0
+    original = engine._training_step
+
+    def fail_after_saved_batch(*args, **kwargs):
+        nonlocal completed
+        if completed == 1:
+            raise RuntimeError("injected failure before next update")
+        result = original(*args, **kwargs)
+        completed += 1
+        return result
+
+    with monkeypatch.context() as failing_patch:
+        failing_patch.setattr(engine, "_training_step", fail_after_saved_batch)
+        with pytest.raises(RuntimeError, match="injected failure"):
+            engine.train(config, checkpoint_seconds=1e-9)
+    partial = _checkpoint(tmp_path / "resumed")
+    assert partial["epoch"] == 0
+    assert partial["epoch_progress"]["next_batch"] == 1
+    assert partial["epoch_progress"]["seen"] == 2
+    engine.train(config, resume_from=tmp_path / "resumed" / "last.pt")
+    _assert_training_equal(_checkpoint(tmp_path / "resumed"), expected)
+
+
+@pytest.mark.parametrize("corruption", [
+    "cursor", "bool_cursor", "bool_version", "seen", "epoch", "state",
+    "empty_context", "wrong_context_index", "wrong_context_key",
+])
+def test_corrupt_partial_progress_is_rejected_without_rewriting_run(
+    tmp_path, monkeypatch, corruption
+) -> None:
+    config = _config(tmp_path)
+    with monkeypatch.context() as paused_patch:
+        _pause_after_updates(paused_patch, 1)
+        with pytest.raises(engine.TrainingPaused):
+            engine.train(config)
+    run_dir = Path(config["output"]["run_dir"])
+    checkpoint = _checkpoint(run_dir)
+    progress = copy.deepcopy(checkpoint["epoch_progress"])
+    if corruption == "cursor":
+        progress["next_batch"] = 99999
+    elif corruption == "bool_cursor":
+        progress["next_batch"] = True
+    elif corruption == "bool_version":
+        progress["version"] = True
+    elif corruption == "seen":
+        progress["seen"] += 1
+    elif corruption == "epoch":
+        progress["epoch"] += 1
+    elif corruption == "state":
+        progress.pop("training_state")
+    elif corruption == "empty_context":
+        progress["training_state"]["entries"] = []
+    elif corruption == "wrong_context_index":
+        progress["training_state"]["entries"][0]["sequence_index"] += 1
+    else:
+        entry = progress["training_state"]["entries"][0]
+        entry["key"] = ("unseen-sequence", entry["key"][1])
+    checkpoint["epoch_progress"] = progress
+    torch.save(checkpoint, run_dir / "last.pt")
+    before = {path.name: path.read_bytes() for path in run_dir.iterdir() if path.is_file()}
+    with pytest.raises((TypeError, ValueError), match="(?i)progress|resume|state|cursor|batch|epoch|seen"):
+        engine.train(config, resume_from=run_dir / "last.pt")
+    after = {path.name: path.read_bytes() for path in run_dir.iterdir() if path.is_file()}
+    assert after == before
+
+
+def test_stop_after_last_training_batch_resumes_validation_without_retraining(
+    tmp_path, monkeypatch
+) -> None:
+    config = _config(tmp_path)
+    config["train"]["validate_every"] = None
+    config["output"]["run_dir"] = str(tmp_path / "continuous")
+    engine.train(config)
+    expected = _checkpoint(tmp_path / "continuous")
+    config["output"]["run_dir"] = str(tmp_path / "resumed")
+    with monkeypatch.context() as paused_patch:
+        _pause_after_updates(paused_patch, 4)
+        with pytest.raises(engine.TrainingPaused):
+            engine.train(config)
+    before = _checkpoint(tmp_path / "resumed")
+    assert before["epoch"] == 0
+    assert before["epoch_progress"]["next_batch"] == 4
+    assert before["epoch_progress"]["seen"] == 7
+    assert not before["terminal_validation_state"]["completed"]
+    assert not (tmp_path / "resumed" / "best.pt").exists()
+
+    def already_trained(*args, **kwargs):
+        raise AssertionError("Completed training frames must not be replayed for validation resume")
+
+    monkeypatch.setattr(engine, "_training_step", already_trained)
+    engine.train(config, resume_from=tmp_path / "resumed" / "last.pt")
+    result = _checkpoint(tmp_path / "resumed")
+    _assert_training_equal(result, expected)
+    assert result["terminal_validation_state"]["completed"]
+~~~~~~~~
+
 # tests/test_training_batch.py
 
 ~~~~~~~~python
@@ -37690,7 +39374,7 @@ def test_real_hdf5_batch_training_covers_every_frame_and_keeps_partial_tail(
     assert sorted(sequence_order.values()) == [[0, 1], [0, 1], [0, 1, 2]]
     assert [item[0] for item in single_calls] == [0, 1]
     assert single_calls[0][1] is None and single_calls[1][1] is not None
-    assert checkpoint["training_protocol"]["version"] == 6
+    assert checkpoint["training_protocol"]["version"] == 8
     assert checkpoint["training_protocol"]["batching"] == batching_contract(2)
     performance = checkpoint["history"][0]["performance"]
     assert performance["frames"] == 7
@@ -37977,7 +39661,7 @@ def test_batched_epoch_resume_reproduces_uninterrupted_model_optimizer_and_rng(t
     config["output"]["run_dir"] = str(tmp_path / "resumed")
     engine.train(config)
     first = _checkpoint(tmp_path / "resumed")
-    assert first["training_protocol"]["version"] == 6
+    assert first["training_protocol"]["version"] == 8
     config["train"]["epochs"] = 2
     engine.train(config, resume_from=tmp_path / "resumed" / "last.pt")
     resumed = _checkpoint(tmp_path / "resumed")
@@ -37996,14 +39680,14 @@ def test_batched_epoch_resume_reproduces_uninterrupted_model_optimizer_and_rng(t
 def test_batch_resume_rejects_baseline_different_batch_source_or_contract(changed) -> None:
     config = {"seed": 17, "train": {"batch_size": 2, "batching": "independent_sequences", "amp": False}}
     protocol = engine._training_protocol(config, torch.device("cpu"))
-    assert protocol["version"] == 6
+    assert protocol["version"] == 8
     assert engine._valid_training_protocol_contract(protocol)
     altered = copy.deepcopy(protocol)
     if changed in {"batch_one", "batch_three"}:
         config["train"]["batch_size"] = 1 if changed == "batch_one" else 3
         config["train"]["batching"] = "single_frame" if changed == "batch_one" else "independent_sequences"
         altered = engine._training_protocol(config, torch.device("cpu"))
-        assert altered["version"] == (5 if changed == "batch_one" else 6)
+        assert altered["version"] == (7 if changed == "batch_one" else 8)
     elif changed == "source":
         altered["source"]["source_tree_sha256"] = "0" * 64
     else:

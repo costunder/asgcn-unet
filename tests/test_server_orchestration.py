@@ -18,13 +18,17 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert "[train]" in script
     assert "[calibrate]" in script
     assert "[eval]" in script
+    assert "[eval-hdr]" in script
+    assert "[eval-aid]" in script
     all_stage = script.split('  all)\n', maxsplit=1)[1]
     assert all_stage.index("run_check") < all_stage.index("run_profile")
     assert all_stage.index("run_profile") < all_stage.index("run_train")
     assert all_stage.index("run_train") < all_stage.index("run_calibrate")
     assert all_stage.index("run_calibrate") < all_stage.index("run_eval")
 
-    for stage in ("check", "profile", "train", "calibrate", "eval", "all"):
+    for stage in (
+        "check", "profile", "train", "calibrate", "eval", "eval-hdr", "eval-aid", "all"
+    ):
         assert stage in script
     for config in ("configs/train.json", "configs/hdr.json", "configs/aid.json"):
         assert config in script
@@ -41,7 +45,8 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert "including PROFILE_OUTPUT" in script
     assert "\\$PROJECT_ROOT" in script
     assert 'for config_path in "${TRAIN_CONFIG}" "${AID_CONFIG}"' in script
-    assert 'for config_path in "${HDR_CONFIG}" "${AID_CONFIG}"' in script
+    assert 'run_eval_config "${HDR_CONFIG}"' in script
+    assert 'run_eval_config "${AID_CONFIG}"' in script
     assert "silently skipped" in script
     assert "rm -f" not in script
     assert "write_stage_status" in script
@@ -49,6 +54,8 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert "COMPLETED" in script
     assert "FAILED" in script
     assert "record_stage_failure" in script
+    assert "execute_stage eval-hdr run_eval_hdr" in script
+    assert "execute_stage eval-aid run_eval_aid" in script
 
 
 def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
@@ -112,6 +119,22 @@ def test_batch_wrapper_isolates_training_profile_status_and_evaluation() -> None
     evaluation = _text("scripts/eval.sh")
     assert 'OUTPUT_ARGS=(--output-dir "${EVAL_OUTPUT_DIR}")' in evaluation
     assert evaluation.count('"${OUTPUT_ARGS[@]}"') == 2
+
+
+def test_evaluation_recovery_routes_one_dataset_and_forwards_edge_guard() -> None:
+    runner = _text("scripts/run.sh")
+    evaluation = _text("scripts/eval.sh")
+
+    assert 'EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"' in runner
+    assert 'EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES}"' in runner
+    assert 'run_eval_config "${HDR_CONFIG}"' in runner
+    assert 'run_eval_config "${AID_CONFIG}"' in runner
+    assert '${STATUS_DIR}/${stage_name}.json' in runner
+
+    assert 'EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"' in evaluation
+    assert 'EVAL_MAX_GRAPH_EDGES must be a positive integer' in evaluation
+    assert 'GRAPH_EDGE_ARGS=(--max-graph-edges-override "${EVAL_MAX_GRAPH_EDGES}")' in evaluation
+    assert evaluation.count('"${GRAPH_EDGE_ARGS[@]}"') == 2
 
 
 def test_fast_wrapper_isolates_measured_training_and_safe_pause() -> None:

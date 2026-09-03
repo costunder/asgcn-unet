@@ -24,6 +24,7 @@ from asgcn_unet.engine import (
     _resume_best_macro_ssim,
     _sample_event_counts,
     _sampling_summary,
+    _set_inference_max_graph_edges,
     _validate_resume_best_pair,
     _validate_snn_request,
     benchmark,
@@ -401,6 +402,33 @@ def test_ann_request_rejects_parameter_normalized_snn_checkpoint() -> None:
         _validate_snn_request("ann", 16, {"parameter_normalized": True}, "snn.pt")
 
 
+def test_inference_edge_guard_override_only_raises_runtime_limit() -> None:
+    model = ASGCNUNet(**_model_config())
+    assert _set_inference_max_graph_edges(model, None) == {
+        "configured_max_graph_edges": 2_000_000,
+        "requested_max_graph_edges_override": None,
+        "effective_max_graph_edges": 2_000_000,
+    }
+    assert _set_inference_max_graph_edges(model, 3_000_000) == {
+        "configured_max_graph_edges": 2_000_000,
+        "requested_max_graph_edges_override": 3_000_000,
+        "effective_max_graph_edges": 3_000_000,
+    }
+    assert model.max_graph_edges == 3_000_000
+
+    for invalid in (True, 0, -1, 2_000_000.0):
+        fresh = ASGCNUNet(**_model_config())
+        with pytest.raises(ValueError, match="positive integer"):
+            _set_inference_max_graph_edges(fresh, invalid)  # type: ignore[arg-type]
+    with pytest.raises(ValueError, match="greater than or equal"):
+        _set_inference_max_graph_edges(ASGCNUNet(**_model_config()), 1_999_999)
+
+    unbounded_config = _model_config()
+    unbounded_config["max_graph_edges"] = None
+    with pytest.raises(ValueError, match="unbounded configured guard"):
+        _set_inference_max_graph_edges(ASGCNUNet(**unbounded_config), 3_000_000)
+
+
 def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
     tmp_path, monkeypatch
 ) -> None:
@@ -562,11 +590,21 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
         steps=2,
         inference_mode="snn",
         simulation_steps=2,
+        max_graph_edges_override=3_000_000,
         allow_unsealed_checkpoint_for_non_reporting=True,
     )
     assert timing["snn_dynamics"] == "literal_eq15"
     assert len(timing["layer_firing_rates"]) == 1
     assert timing["mean_firing_rate"] == pytest.approx(timing["layer_firing_rates"][0])
+    benchmark_guard = timing["benchmark_protocol"]["execution"]["contract"][
+        "graph_edge_guard"
+    ]
+    assert benchmark_guard == {
+        "configured_max_graph_edges": 2_000_000,
+        "requested_max_graph_edges_override": 3_000_000,
+        "effective_max_graph_edges": 3_000_000,
+    }
+    assert timing["graph_edge_guard"] == benchmark_guard
     standard_timing = benchmark(
         config,
         output,
@@ -639,6 +677,7 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
 
 def test_calibration_seals_ann_training_data_transform_manifest_and_source(
     tmp_path,
+    monkeypatch,
 ) -> None:
     root = tmp_path / "hdr"
     make_eventhdr(root)
@@ -960,13 +999,20 @@ def test_calibration_seals_ann_training_data_transform_manifest_and_source(
         for reason in partial_quality_result["report_ineligible_reasons"]
     )
 
+    evaluation_source = copy.deepcopy(engine_module._current_source_contract())
+    evaluation_source["source_tree_sha256"] = "e" * 64
+    monkeypatch.setattr(
+        engine_module, "_current_source_contract", lambda: evaluation_source
+    )
     reporting_result = evaluate(
         config,
         output,
         inference_mode="snn",
         simulation_steps=2,
+        max_graph_edges_override=3_000_000,
     )
     assert reporting_result["report_eligible"] is True
+    assert reporting_result["evaluation_protocol"]["source"]["contract"] == evaluation_source
     lineage = reporting_result["evaluation_protocol"]["checkpoint"]
     assert lineage["calibration_protocol"]["sha256"] == engine_module._canonical_sha256(
         sealed
@@ -977,8 +1023,14 @@ def test_calibration_seals_ann_training_data_transform_manifest_and_source(
         "inference_mode": "snn",
         "simulation_steps": 2,
         "snn_dynamics": "literal_eq15",
+        "graph_edge_guard": {
+            "configured_max_graph_edges": 2_000_000,
+            "requested_max_graph_edges_override": 3_000_000,
+            "effective_max_graph_edges": 3_000_000,
+        },
         "scope": "full_dataset_quality_evaluation",
     }
+    assert reporting_result["graph_edge_guard"] == execution["graph_edge_guard"]
 
     for field, message in (
         ("dataset_transform", "calibration dataset transform"),

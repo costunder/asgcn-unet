@@ -2134,6 +2134,32 @@ def _set_inference_snn_dynamics(
     model.snn_dynamics = override
 
 
+def _set_inference_max_graph_edges(
+    model: ASGCNUNet,
+    override: int | None,
+) -> dict[str, int | None]:
+    """Raise the runtime-only edge guard without changing checkpoint identity."""
+    configured = model.max_graph_edges
+    if override is not None:
+        if isinstance(override, bool) or not isinstance(override, int) or override < 1:
+            raise ValueError("max_graph_edges_override must be a positive integer")
+        if configured is None:
+            raise ValueError(
+                "max_graph_edges_override cannot raise an unbounded configured guard"
+            )
+        if override < configured:
+            raise ValueError(
+                "max_graph_edges_override must be greater than or equal to "
+                f"configured max_graph_edges={configured:,}"
+            )
+        model.max_graph_edges = override
+    return {
+        "configured_max_graph_edges": configured,
+        "requested_max_graph_edges_override": override,
+        "effective_max_graph_edges": model.max_graph_edges,
+    }
+
+
 def _inference_run_label(
     inference_mode: str,
     simulation_steps: int,
@@ -3891,6 +3917,7 @@ def evaluate(
     simulation_steps: int = 16,
     snn_dynamics: str | None = None,
     *,
+    max_graph_edges_override: int | None = None,
     allow_unsealed_checkpoint_for_non_reporting: bool = False,
 ) -> dict[str, Any]:
     _validate_snn_request(inference_mode, simulation_steps)
@@ -3907,6 +3934,7 @@ def evaluate(
             inference_mode,
             simulation_steps,
             snn_dynamics,
+            max_graph_edges_override=max_graph_edges_override,
             allow_unsealed_checkpoint_for_non_reporting=(
                 allow_unsealed_checkpoint_for_non_reporting
             ),
@@ -3925,6 +3953,7 @@ def _evaluate_dataset(
     simulation_steps: int,
     snn_dynamics: str | None,
     *,
+    max_graph_edges_override: int | None,
     allow_unsealed_checkpoint_for_non_reporting: bool,
 ) -> dict[str, Any]:
     eval_config = config.get("eval", {})
@@ -3940,6 +3969,9 @@ def _evaluate_dataset(
         **_loader_kwargs(eval_config),
     )
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
+    graph_edge_guard = _set_inference_max_graph_edges(
+        model, max_graph_edges_override
+    )
     _validate_snn_request(inference_mode, simulation_steps, checkpoint, checkpoint_path)
     checkpoint_contract, report_eligible, report_ineligible_reasons = (
         _reporting_checkpoint_contract(
@@ -4034,6 +4066,7 @@ def _evaluate_dataset(
             "snn_dynamics": (
                 model.snn_dynamics if inference_mode == "snn" else None
             ),
+            "graph_edge_guard": graph_edge_guard,
             "scope": "full_dataset_quality_evaluation",
         },
         evaluation_dataset=evaluation_dataset,
@@ -4168,6 +4201,7 @@ def _evaluate_dataset(
         "inference_mode": inference_mode,
         "simulation_steps": simulation_steps if inference_mode == "snn" else None,
         "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
+        "graph_edge_guard": graph_edge_guard,
         "graph_topology": {
             "isolate_ratio": (
                 sum(row["isolated_nodes"] for row in frame_rows)
@@ -4501,6 +4535,7 @@ def benchmark(
     simulation_steps: int = 16,
     snn_dynamics: str | None = None,
     *,
+    max_graph_edges_override: int | None = None,
     allow_unsealed_checkpoint_for_non_reporting: bool = False,
 ) -> dict[str, Any]:
     if warmup < 0:
@@ -4522,6 +4557,7 @@ def benchmark(
             inference_mode,
             simulation_steps,
             snn_dynamics,
+            max_graph_edges_override=max_graph_edges_override,
             allow_unsealed_checkpoint_for_non_reporting=(
                 allow_unsealed_checkpoint_for_non_reporting
             ),
@@ -4542,9 +4578,13 @@ def _benchmark_dataset(
     simulation_steps: int,
     snn_dynamics: str | None,
     *,
+    max_graph_edges_override: int | None,
     allow_unsealed_checkpoint_for_non_reporting: bool,
 ) -> dict[str, Any]:
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
+    graph_edge_guard = _set_inference_max_graph_edges(
+        model, max_graph_edges_override
+    )
     _validate_snn_request(inference_mode, simulation_steps, checkpoint, checkpoint_path)
     checkpoint_contract, report_eligible, report_ineligible_reasons = (
         _reporting_checkpoint_contract(
@@ -4691,6 +4731,7 @@ def _benchmark_dataset(
             "snn_dynamics": (
                 model.snn_dynamics if inference_mode == "snn" else None
             ),
+            "graph_edge_guard": graph_edge_guard,
             "warmup_steps": warmup,
             "measured_steps": steps,
             "timer_scope": "model_forward_including_graph_excluding_data_and_h2d",
@@ -4805,6 +4846,7 @@ def _benchmark_dataset(
         "report_eligible": report_eligible,
         "report_ineligible_reasons": report_ineligible_reasons,
         "benchmark_protocol": benchmark_protocol,
+        "graph_edge_guard": graph_edge_guard,
         **_latency_summary(latencies),
         "raw_events_per_second": raw_events_per_second,
         "retained_events_per_second": retained_events_per_second,

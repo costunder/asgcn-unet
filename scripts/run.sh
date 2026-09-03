@@ -6,7 +6,7 @@ PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 
 usage() {
   cat <<'EOF'
-Usage: bash scripts/run.sh [check|profile|train|calibrate|eval|all]
+Usage: bash scripts/run.sh [check|profile|train|calibrate|eval|eval-hdr|eval-aid|all]
 
 Stages:
   check       Check CUDA/dependencies/full data and decode every selected sample
@@ -14,6 +14,8 @@ Stages:
   train       Train EventHDR ANN, or resume with RESUME_CHECKPOINT
   calibrate   Convert runs/train/best.pt to runs/train/best_snn.pt
   eval        Run the complete EventHDR/EventAid-R ANN+SNN evaluation matrix
+  eval-hdr    Run only the EventHDR ANN+SNN evaluation matrix
+  eval-aid    Run only the EventAid-R ANN+SNN evaluation matrix
   all         Run check, profile, train, calibrate and eval in order (default)
 
 Important environment:
@@ -29,6 +31,7 @@ Important environment:
   CALIBRATION_SAMPLES=all|N              Default: all; partial N cannot be reporting
   SIMULATION_STEPS_LIST='4 8 16 32'
   BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N
+  EVAL_MAX_GRAPH_EDGES=N                 Eval-only guard raise; recorded in outputs
   PROFILE_SAMPLES=N / PROFILE_TOP_DENSITY=N
   PROFILE_OUTPUT=PATH                    Default: runs/profile.json
   PROFILE_RESUME=0|1                     Resume a matching saved scan; default: 0
@@ -53,7 +56,7 @@ fi
 
 STAGE="${1:-all}"
 case "${STAGE}" in
-  check|profile|train|calibrate|eval|all) ;;
+  check|profile|train|calibrate|eval|eval-hdr|eval-aid|all) ;;
   *)
     echo "ERROR: unknown stage '${STAGE}'" >&2
     usage >&2
@@ -108,6 +111,7 @@ OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
+EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"
 PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
@@ -382,6 +386,7 @@ run_one_evaluation() {
     RUN_BENCHMARK=1 \
     BENCHMARK_WARMUP="${BENCHMARK_WARMUP}" \
     BENCHMARK_STEPS="${BENCHMARK_STEPS}" \
+    EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES}" \
     INFERENCE_MODE="${mode}" \
     SIMULATION_STEPS="${simulation_steps}" \
     SNN_DYNAMICS="${dynamics}" \
@@ -390,23 +395,43 @@ run_one_evaluation() {
     bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
 }
 
-run_eval() {
-  echo "[eval] Complete EventHDR and EventAid-R ANN+SNN matrix"
-  require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
-  require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
-  for config_path in "${HDR_CONFIG}" "${AID_CONFIG}"; do
-    run_one_evaluation "${config_path}" "${ANN_CHECKPOINT}" ann 16 ""
-    for dynamics in literal_eq15 standard_if; do
-      for simulation_steps in "${SIMULATION_STEPS[@]}"; do
-        run_one_evaluation \
-          "${config_path}" \
-          "${SNN_CHECKPOINT}" \
-          snn \
-          "${simulation_steps}" \
-          "${dynamics}"
-      done
+run_eval_config() {
+  local config_path="$1"
+  run_one_evaluation "${config_path}" "${ANN_CHECKPOINT}" ann 16 ""
+  for dynamics in literal_eq15 standard_if; do
+    for simulation_steps in "${SIMULATION_STEPS[@]}"; do
+      run_one_evaluation \
+        "${config_path}" \
+        "${SNN_CHECKPOINT}" \
+        snn \
+        "${simulation_steps}" \
+        "${dynamics}"
     done
   done
+}
+
+require_eval_checkpoints() {
+  require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
+  require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
+}
+
+run_eval() {
+  echo "[eval] Complete EventHDR and EventAid-R ANN+SNN matrix"
+  require_eval_checkpoints
+  run_eval_config "${HDR_CONFIG}"
+  run_eval_config "${AID_CONFIG}"
+}
+
+run_eval_hdr() {
+  echo "[eval-hdr] EventHDR ANN+SNN matrix"
+  require_eval_checkpoints
+  run_eval_config "${HDR_CONFIG}"
+}
+
+run_eval_aid() {
+  echo "[eval-aid] EventAid-R ANN+SNN matrix"
+  require_eval_checkpoints
+  run_eval_config "${AID_CONFIG}"
 }
 
 case "${STAGE}" in
@@ -415,6 +440,8 @@ case "${STAGE}" in
   train) execute_stage train run_train ;;
   calibrate) execute_stage calibrate run_calibrate ;;
   eval) execute_stage eval run_eval ;;
+  eval-hdr) execute_stage eval-hdr run_eval_hdr ;;
+  eval-aid) execute_stage eval-aid run_eval_aid ;;
   all)
     execute_stage check run_check
     execute_stage profile run_profile

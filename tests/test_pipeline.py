@@ -94,6 +94,46 @@ def test_cli_evaluation_output_override_is_project_relative(
     assert config_path.read_bytes() == original
 
 
+@pytest.mark.parametrize("command", ["evaluate", "benchmark"])
+def test_cli_forwards_runtime_graph_edge_guard_override(
+    tmp_path, monkeypatch, command,
+):
+    from pathlib import Path
+
+    from asgcn_unet import cli
+
+    root = Path(__file__).resolve().parents[1]
+    config_path = root / "configs/hdr.json"
+    original = config_path.read_bytes()
+    captured = {}
+
+    def record(config, checkpoint, **kwargs):
+        captured["config"] = config
+        captured["kwargs"] = kwargs
+        return {}
+
+    monkeypatch.setattr(cli, command, record)
+    monkeypatch.chdir(tmp_path)
+    cli.main([
+        command,
+        "--config", str(config_path),
+        "--checkpoint", "runs/model.pt",
+        "--max-graph-edges-override", "3000000",
+    ])
+
+    assert captured["kwargs"]["max_graph_edges_override"] == 3_000_000
+    assert captured["config"]["model"]["max_graph_edges"] == 2_000_000
+    assert config_path.read_bytes() == original
+
+    with pytest.raises(SystemExit):
+        cli.build_parser().parse_args([
+            command,
+            "--config", str(config_path),
+            "--checkpoint", "runs/model.pt",
+            "--max-graph-edges-override", "0",
+        ])
+
+
 def test_eventhdr_stride_aggregates_intervals(tmp_path):
     make_eventhdr(tmp_path / "hdr")
     dataset = EventHDRDataset(tmp_path / "hdr", max_events=None, frame_stride=2)

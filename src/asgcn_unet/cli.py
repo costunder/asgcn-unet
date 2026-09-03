@@ -311,6 +311,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="inference-only override; the checkpoint architecture remains unchanged",
     )
     eval_cmd.add_argument(
+        "--max-graph-edges-override",
+        type=_positive_integer,
+        default=None,
+        help="evaluation-only edge guard; must not lower config.model.max_graph_edges",
+    )
+    eval_cmd.add_argument(
         "--allow-unsealed-checkpoint-for-non-reporting",
         action="store_true",
         help=(
@@ -330,6 +336,12 @@ def build_parser() -> argparse.ArgumentParser:
         "--snn-dynamics",
         choices=["literal_eq15", "standard_if"],
         default=None,
+    )
+    bench_cmd.add_argument(
+        "--max-graph-edges-override",
+        type=_positive_integer,
+        default=None,
+        help="benchmark-only edge guard; must not lower config.model.max_graph_edges",
     )
     bench_cmd.add_argument(
         "--allow-unsealed-checkpoint-for-non-reporting",
@@ -465,6 +477,7 @@ def _execute_command(args: argparse.Namespace) -> None:
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
             snn_dynamics=args.snn_dynamics,
+            max_graph_edges_override=args.max_graph_edges_override,
             allow_unsealed_checkpoint_for_non_reporting=(
                 args.allow_unsealed_checkpoint_for_non_reporting
             ),
@@ -484,6 +497,7 @@ def _execute_command(args: argparse.Namespace) -> None:
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
             snn_dynamics=args.snn_dynamics,
+            max_graph_edges_override=args.max_graph_edges_override,
             allow_unsealed_checkpoint_for_non_reporting=(
                 args.allow_unsealed_checkpoint_for_non_reporting
             ),

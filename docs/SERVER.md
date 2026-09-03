@@ -376,6 +376,23 @@ profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어
 완료된 stage를 묵시적으로 재사용하지 않는다. CUDA profile 우회는 합성 비보고용 직접 CLI에서만
 명시적으로 가능하고 scheduler wrapper 및 `all`에서는 차단된다.
 
+한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. frame-level resume은
+지원하지 않으므로 해당 dataset 행렬은 처음부터 다시 실행되며, 완료된 다른 dataset과 실패한 partial
+directory를 보존하도록 매 시도마다 새 `EVAL_OUTPUT_ROOT`를 지정한다. 예를 들어 별도 topology 및 VRAM
+측정으로 4,000,000-edge guard가 안전하다고 확인한 EventAid-R 복구는 다음과 같다.
+
+```bash
+EXPERIMENT=fast \
+EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-4m" \
+EVAL_MAX_GRAPH_EDGES=4000000 \
+  bash scripts/run.sh eval-aid
+```
+
+`EVAL_MAX_GRAPH_EDGES`는 quality와 benchmark 양쪽의 inference-only guard이며 각 결과 protocol에
+요청값과 effective 값을 기록한다. 위 숫자는 예시일 뿐이고 특정 MIG/GPU에서 안전하거나 모든 frame에
+충분하다는 보장이 없다. 실측 없이 guard를 올리지 않으며 기존 output을 삭제하거나 같은 root로
+덮어쓰지 않는다. dataset별 상태 파일은 `eval-hdr.json`, `eval-aid.json`이다.
+
 ## 5. Slurm: profile → train → calibrate → evaluation matrix
 
 header의 partition/account/GPU type/walltime은 cluster 정책에 맞춰 수정한다. 기본 요청은 GPU 1개,

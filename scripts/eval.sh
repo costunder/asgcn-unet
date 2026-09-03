@@ -11,6 +11,7 @@ SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
+EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -56,6 +57,10 @@ if [[ "${INFERENCE_MODE}" != "ann" && "${INFERENCE_MODE}" != "snn" ]]; then
   echo "ERROR: INFERENCE_MODE must be ann or snn" >&2
   exit 2
 fi
+if [[ -n "${EVAL_MAX_GRAPH_EDGES}" && ! "${EVAL_MAX_GRAPH_EDGES}" =~ ^[1-9][0-9]*$ ]]; then
+  echo "ERROR: EVAL_MAX_GRAPH_EDGES must be a positive integer" >&2
+  exit 2
+fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   if [[ "${INFERENCE_MODE}" != "snn" ]]; then
     echo "ERROR: SNN_DYNAMICS is only valid when INFERENCE_MODE=snn" >&2
@@ -86,11 +91,15 @@ export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
 
 DYNAMICS_ARGS=()
 OUTPUT_ARGS=()
+GRAPH_EDGE_ARGS=()
 if [[ -n "${EVAL_OUTPUT_DIR:-}" ]]; then
   OUTPUT_ARGS=(--output-dir "${EVAL_OUTPUT_DIR}")
 fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   DYNAMICS_ARGS=(--snn-dynamics "${SNN_DYNAMICS}")
+fi
+if [[ -n "${EVAL_MAX_GRAPH_EDGES}" ]]; then
+  GRAPH_EDGE_ARGS=(--max-graph-edges-override "${EVAL_MAX_GRAPH_EDGES}")
 fi
 
 if [[ "${VALIDATE_DATASET}" == "1" ]]; then
@@ -111,7 +120,8 @@ runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
   --inference-mode "${INFERENCE_MODE}" \
   --simulation-steps "${SIMULATION_STEPS}" \
   "${OUTPUT_ARGS[@]}" \
-  "${DYNAMICS_ARGS[@]}"
+  "${DYNAMICS_ARGS[@]}" \
+  "${GRAPH_EDGE_ARGS[@]}"
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"
@@ -123,5 +133,6 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     --inference-mode "${INFERENCE_MODE}" \
     --simulation-steps "${SIMULATION_STEPS}" \
     "${OUTPUT_ARGS[@]}" \
-    "${DYNAMICS_ARGS[@]}"
+    "${DYNAMICS_ARGS[@]}" \
+    "${GRAPH_EDGE_ARGS[@]}"
 fi

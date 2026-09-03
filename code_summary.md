@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-03T06:38:00Z",
+    "generated_utc": "2026-09-03T09:05:35Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "b1e9d1524a79dace5d4ccaf73bca9c6b27f91028",
-    "source_tree_at_generation": "9113a0aacf2ea6c82434dc191c683352cabcf1f6",
+    "source_commit_at_generation": "d108815fbbc12cb3ad3b92cf688bebdd2edce97d",
+    "source_tree_at_generation": "1743900f5ec6da4839c4a81ae40a877468bd7ea9",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -116,9 +116,9 @@
         "sha256": "1d0650f25b33e5e88e424e9f2ab7b6ed962161940bfd963f39c429bca5f43606"
       },
       {
-        "bytes": 39919,
+        "bytes": 43137,
         "path": "docs/SERVER.md",
-        "sha256": "74168815a60e45810efc9f21d89fc118b0fa819d5efbc4d15a803f0af7895407"
+        "sha256": "1cd27bb8f915260342729158336cc31e376ce7ade47bcf220d9c1f767d33cb6c"
       },
       {
         "bytes": 13112,
@@ -189,6 +189,11 @@
         "bytes": 20459,
         "path": "scripts/hdr_http.py",
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
+      },
+      {
+        "bytes": 3141,
+        "path": "scripts/probe_eval_sample.py",
+        "sha256": "f49036b3f6a87a1a8b54ed0a98629d27dc79b393a1c03bb2da771a474f2f6195"
       },
       {
         "bytes": 15087,
@@ -271,9 +276,9 @@
         "sha256": "cf76163fad59f1734c59b810b86bde2812f9ce26965ed8686a35fcc3e51a49f1"
       },
       {
-        "bytes": 25285,
+        "bytes": 27045,
         "path": "src/asgcn_unet/cli.py",
-        "sha256": "dffced619b34956e4880d6bd59ac9d6937e9e9f63f7bfeac0c6e75871d89794c"
+        "sha256": "3949f6f3d5d49b6c5fd2a03b86d53aa217da8ce5b766d55fce77e31879409b00"
       },
       {
         "bytes": 309,
@@ -346,6 +351,11 @@
         "sha256": "0a6441c268620eac1c558311ec3baff5f15543b915be1f42ae3b4c11410df744"
       },
       {
+        "bytes": 8152,
+        "path": "src/asgcn_unet/sample_probe.py",
+        "sha256": "373148364823ca1d1e21cd81a1a93aba93e09d65d9ea36d2df67917ffe35fafb"
+      },
+      {
         "bytes": 8555,
         "path": "src/asgcn_unet/scan.py",
         "sha256": "03f26f4638fae88c5b76c81d2bf17d10ab0b375f8cf9b0251719a21729a5b438"
@@ -354,6 +364,11 @@
         "bytes": 8826,
         "path": "src/asgcn_unet/timing.py",
         "sha256": "5f0babbb3a1753e2e0bbb07dc701ed3962a656f99ceca38baf1f0b09d09ff585"
+      },
+      {
+        "bytes": 11231,
+        "path": "src/asgcn_unet/topology_scan.py",
+        "sha256": "fda3fc2e1c7e61a20c1b318a9212a51f498375f66033d23cd00fecfa1648cf38"
       },
       {
         "bytes": 6398,
@@ -551,6 +566,11 @@
         "sha256": "deb430542cb8e8448d63b831b7dd798af56e55364938d4f3420866a6aa4cf524"
       },
       {
+        "bytes": 4290,
+        "path": "tests/test_sample_probe.py",
+        "sha256": "14739bf662a88960770d07d7f11abc5858be4f5fffddf2c231b57cee9a572616"
+      },
+      {
         "bytes": 7457,
         "path": "tests/test_sequence_parts.py",
         "sha256": "dc677e2591b80e9bdcaccb364ee9eb04a3a9b10127f5157c13e348cb05c3ed4d"
@@ -591,6 +611,11 @@
         "sha256": "457768baee11e6bb8a7b655ab30068f3fd0c1eb2553531e4af494b3fdd943812"
       },
       {
+        "bytes": 6684,
+        "path": "tests/test_topology_scan.py",
+        "sha256": "0dcb35bdbf2123fb82c0cb9d21f97a8a39d2a32a03f4b8a11d0af00228800db2"
+      },
+      {
         "bytes": 11984,
         "path": "tests/test_train_resume.py",
         "sha256": "ea4c03d21dc2f744e60e7e8fc12695a1bb371a256662184e71dfd0b981694d6e"
@@ -606,9 +631,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 118,
+    "included_file_count": 123,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "7f5f087dda15bc040670c6e63ebff6ecd92a37e72e25164a9a3c4c2bb263fb00"
+    "snapshot_sha256": "b8215a8ea33216a3966586b42a1d78dee24a4b6d808b2e59ef10ad75e7b58aa3"
   }
 }
 -->
@@ -3668,13 +3693,67 @@ profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어
 
 한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. frame-level resume은
 지원하지 않으므로 해당 dataset 행렬은 처음부터 다시 실행되며, 완료된 다른 dataset과 실패한 partial
-directory를 보존하도록 매 시도마다 새 `EVAL_OUTPUT_ROOT`를 지정한다. 예를 들어 별도 topology 및 VRAM
-측정으로 4,000,000-edge guard가 안전하다고 확인한 EventAid-R 복구는 다음과 같다.
+directory를 보존하도록 매 시도마다 새 `EVAL_OUTPUT_ROOT`를 지정한다.
+
+edge guard에서 중단됐다면 숫자를 추측해 전체 평가를 반복하지 않는다. 예를 들어 진행률
+`32843/51512`에서 4,000,000-edge guard가 중단된 경우, 완료된 `[0,32843)` 구간의 상한과 나머지 구간의
+정확한 topology scan을 결합한다. 이 명령은 edge 목록이나 모델 forward를 만들지 않으며 128 sample 또는
+30초마다 `runs/fast/aid-topology-tail.scan/`에 원자적으로 기록한다.
 
 ```bash
+printf 'CUDA_VISIBLE_DEVICES=%s\n' "${CUDA_VISIBLE_DEVICES-<unset>}"
+python scripts/check_env.py --require-cuda --lock constraints/py312.txt \
+  --runtime-profile constraints/server.json
+
+# 선택 사항: 실패한 평가가 만든 검증 가능 hash cache를 첫 scan 전에 재사용한다.
+cp -- runs/fast/eval-recovery-4m/aid/.data_hash_cache.json \
+  runs/fast/aid-topology-tail.data_hash_cache.json
+
+python -m asgcn_unet.cli scan-eval-topology \
+  --config configs/aid-fast.json \
+  --output runs/fast/aid-topology-tail.json \
+  --start-index 32843 \
+  --known-prefix-max-edges 4000000 \
+  --cpu-threads 4
+```
+
+중단된 동일 scan은 다른 인자를 바꾸지 않고 위 명령 끝에 `--resume`을 붙인다. 출력의
+`global_max_is_exact=true`를 확인하고 `global_max_actual_directed_edges`, `global_max_sample.dataset_index`와
+`global_edge_guard_upper_bound`를 사용한다. `--start-index` 앞의 모든 frame이 지정 상한 이하였다라는 실제 성공
+기록이 없으면 tail scan을 사용하지 말고 `--start-index 0`으로 전체를 조사한다. topology 최대값은 필요한
+guard를 정할 뿐 그 edge 수의 모델 forward가 해당 GPU VRAM에서 안전함을 증명하지 않는다.
+
+따라서 전체 평가 전에 최대-edge sample을 같은 할당 GPU에서 ANN과 가장 긴 SNN 설정으로 실제 실행한다.
+아래 두 placeholder에는 scan JSON의 값을 넣고, 각 출력의 `graph_topology.actual_directed_edges`,
+`gpu_memory.peak_allocated_mib`, `gpu_memory.peak_reserved_mib`, `runtime.cuda_visible_devices`를 확인한다.
+probe가 OOM이면 guard를 더 올려 평가하지 말고 더 큰 GPU allocation을 받는다.
+
+```bash
+DENSE_INDEX=<global_max_sample.dataset_index>
+EDGE_GUARD=<global_edge_guard_upper_bound>
+
+python scripts/probe_eval_sample.py \
+  --config configs/aid-fast.json --checkpoint runs/fast/best.pt \
+  --sample-index "$DENSE_INDEX" --max-graph-edges "$EDGE_GUARD" \
+  --inference-mode ann --output runs/fast/aid-ann-dense-probe.json
+
+python scripts/probe_eval_sample.py \
+  --config configs/aid-fast.json --checkpoint runs/fast/best_snn.pt \
+  --sample-index "$DENSE_INDEX" --max-graph-edges "$EDGE_GUARD" \
+  --inference-mode snn --simulation-steps 32 --snn-dynamics literal_eq15 \
+  --output runs/fast/aid-snn-t32-dense-probe.json
+```
+
+`CUDA_VISIBLE_DEVICES`가 비어 있고 PyTorch에 MIG 하나만 보인다는 사실만으로는 그 장치가 scheduler가
+할당한 것인지 인증할 수 없다. scheduler가 제공한 allocation shell, job 환경 또는 MIG UUID로 identity를
+확인한다. cluster가 visible-device token을 제공하면 그 값을 그대로 설정하며 물리 번호를 추측하지 않는다.
+위 probe가 동일한 확인된 allocation에서 여유를 두고 통과한 뒤 새 평가 root로 EventAid-R 전체를 실행한다.
+
+```bash
+EDGE_GUARD=<global_edge_guard_upper_bound>
 EXPERIMENT=fast \
-EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-4m" \
-EVAL_MAX_GRAPH_EDGES=4000000 \
+EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-measured" \
+EVAL_MAX_GRAPH_EDGES="$EDGE_GUARD" \
   bash scripts/run.sh eval-aid
 ```
 
@@ -8620,6 +8699,95 @@ def download_dataset(
         return counts
 ~~~~~~~~
 
+# scripts/probe_eval_sample.py
+
+~~~~~~~~python
+"""Probe one evaluation sample without creating normal evaluation artifacts."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / "src"))
+
+from asgcn_unet.sample_probe import probe_evaluation_sample, save_probe_result
+from asgcn_unet.utils import load_json, resolve_experiment_paths, resolve_path
+
+
+def _positive_integer(value: str) -> int:
+    try:
+        result = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("value must be a positive integer") from error
+    if result < 1:
+        raise argparse.ArgumentTypeError("value must be a positive integer")
+    return result
+
+
+def _nonnegative_integer(value: str) -> int:
+    try:
+        result = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("value must be a nonnegative integer") from error
+    if result < 0:
+        raise argparse.ArgumentTypeError("value must be a nonnegative integer")
+    return result
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", required=True, help="evaluation dataset configuration")
+    parser.add_argument("--checkpoint", required=True, help="ANN or calibrated SNN checkpoint")
+    parser.add_argument("--sample-index", required=True, type=_nonnegative_integer)
+    parser.add_argument(
+        "--max-graph-edges",
+        required=True,
+        type=_positive_integer,
+        help="runtime-only edge guard; cannot be below config.model.max_graph_edges",
+    )
+    parser.add_argument("--inference-mode", choices=("ann", "snn"), default="ann")
+    parser.add_argument("--simulation-steps", type=_positive_integer, default=16)
+    parser.add_argument(
+        "--snn-dynamics",
+        choices=("literal_eq15", "standard_if"),
+        default=None,
+    )
+    parser.add_argument("--output", required=True, help="new diagnostic JSON path")
+    return parser
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = build_parser().parse_args(argv)
+    config_path = Path(args.config).expanduser().resolve()
+    config = resolve_experiment_paths(load_json(config_path), config_path)
+    checkpoint = resolve_path(args.checkpoint, PROJECT)
+    output = resolve_path(args.output, PROJECT)
+    if output.exists():
+        raise SystemExit(f"probe failed: Probe output already exists: {output}")
+    try:
+        result = probe_evaluation_sample(
+            config,
+            checkpoint,
+            sample_index=args.sample_index,
+            max_graph_edges=args.max_graph_edges,
+            inference_mode=args.inference_mode,
+            simulation_steps=args.simulation_steps,
+            snn_dynamics=args.snn_dynamics,
+        )
+        save_probe_result(output, result)
+    except (FileNotFoundError, IndexError, OSError, RuntimeError, TypeError, ValueError) as error:
+        raise SystemExit(f"probe failed: {error}") from None
+    print(json.dumps(result, indent=2, ensure_ascii=False, allow_nan=False))
+
+
+if __name__ == "__main__":
+    main()
+~~~~~~~~
+
 # scripts/run.sh
 
 ~~~~~~~~bash
@@ -11356,6 +11524,7 @@ from .data import build_dataset
 from .engine import TrainingPaused, _artifact_path_label, benchmark, calibrate, evaluate, train
 from .preflight import training_preflight, verify_training_preflight
 from .recovery import archive_uncheckpointed_run
+from .topology_scan import scan_evaluation_topology
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
 
 
@@ -11503,6 +11672,16 @@ def _positive_integer(value: str) -> int:
     return parsed
 
 
+def _nonnegative_integer(value: str) -> int:
+    try:
+        parsed = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("value must be a non-negative integer") from error
+    if parsed < 0:
+        raise argparse.ArgumentTypeError("value must be a non-negative integer")
+    return parsed
+
+
 def inspect_dataset(
     config: dict[str, Any],
     samples: int = 3,
@@ -11630,6 +11809,34 @@ def build_parser() -> argparse.ArgumentParser:
         type=_positive_integer,
         default=10,
         help="number of highest-edge-count samples recorded (default: 10)",
+    )
+
+    topology_cmd = subparsers.add_parser(
+        "scan-eval-topology",
+        help="count exact edges for every graph in an evaluation range without model forward",
+    )
+    topology_cmd.add_argument("--config", required=True)
+    topology_cmd.add_argument("--output", required=True)
+    topology_cmd.add_argument(
+        "--start-index",
+        type=_nonnegative_integer,
+        default=0,
+        help="first evaluation dataset index to scan (default: 0)",
+    )
+    topology_cmd.add_argument(
+        "--known-prefix-max-edges",
+        type=_positive_integer,
+        help=(
+            "proven upper bound for indices before --start-index; required for a tail scan"
+        ),
+    )
+    topology_cmd.add_argument(
+        "--resume", "--resume-scan", dest="resume", action="store_true",
+        help="resume the matching atomic scan journal",
+    )
+    topology_cmd.add_argument(
+        "--cpu-threads", type=_positive_integer, default=4,
+        help="CPU helper threads used during the scan (default: 4)",
     )
 
     verify_cmd = subparsers.add_parser(
@@ -11763,6 +11970,15 @@ def _execute_command(args: argparse.Namespace) -> None:
             require_cuda=True,
             resume_scan=args.resume_scan,
             reuse_report=resolve_path(args.reuse_report, base_dir) if args.reuse_report else None,
+        )
+    elif args.command == "scan-eval-topology":
+        torch.set_num_threads(args.cpu_threads)
+        result = scan_evaluation_topology(
+            config,
+            resolve_path(args.output, base_dir),
+            start_index=args.start_index,
+            known_prefix_max_edges=args.known_prefix_max_edges,
+            resume=args.resume,
         )
     elif args.command == "verify-profile":
         result = verify_training_preflight(
@@ -22728,6 +22944,218 @@ def archive_uncheckpointed_run(
     return destination
 ~~~~~~~~
 
+# src/asgcn_unet/sample_probe.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+import math
+import os
+import tempfile
+import time
+from pathlib import Path
+from typing import Any
+
+import torch
+
+from .data import build_dataset
+from .engine import (
+    _artifact_path_label,
+    _canonical_sha256,
+    _cuda_peak_memory,
+    _dataset_sample_identity,
+    _file_sha256,
+    _inference_precision,
+    _inference_precision_context,
+    _public_config,
+    _require_finite_structure,
+    _require_finite_tensor,
+    _reset_cuda_peak_memory,
+    _set_inference_max_graph_edges,
+    _set_inference_snn_dynamics,
+    _validate_snn_request,
+    load_model_checkpoint,
+)
+from .utils import move_sample, resolve_device, set_seed, validate_experiment_config
+
+
+def _strict_positive_integer(value: Any, name: str) -> int:
+    if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+        raise ValueError(f"{name} must be a positive integer")
+    return value
+
+
+def _scalar_list(values: list[torch.Tensor]) -> list[float]:
+    return [float(value.detach().float().cpu()) for value in values]
+
+
+def _device_summary(device: torch.device) -> dict[str, Any]:
+    summary: dict[str, Any] = {
+        "device": str(device),
+        "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
+    }
+    if device.type == "cuda":
+        properties = torch.cuda.get_device_properties(device)
+        summary.update(
+            {
+                "gpu_name": properties.name,
+                "gpu_total_memory_mib": properties.total_memory / (1024**2),
+            }
+        )
+    else:
+        summary.update({"gpu_name": None, "gpu_total_memory_mib": None})
+    return summary
+
+
+@torch.no_grad()
+def probe_evaluation_sample(
+    config: dict[str, Any],
+    checkpoint_path: str | Path,
+    *,
+    sample_index: int,
+    max_graph_edges: int,
+    inference_mode: str = "ann",
+    simulation_steps: int = 16,
+    snn_dynamics: str | None = None,
+) -> dict[str, Any]:
+    """Run exactly one eval sample as a non-reporting memory/topology diagnostic."""
+    if isinstance(sample_index, bool) or not isinstance(sample_index, int) or sample_index < 0:
+        raise ValueError("sample_index must be a nonnegative integer")
+    max_graph_edges = _strict_positive_integer(max_graph_edges, "max_graph_edges")
+    _validate_snn_request(inference_mode, simulation_steps)
+    validate_experiment_config(config)
+    set_seed(int(config.get("seed", 2026)))
+    device = resolve_device(config.get("device", "auto"))
+    checkpoint_path = Path(checkpoint_path)
+    dataset = build_dataset(config["dataset"], split="eval")
+    try:
+        if sample_index >= len(dataset):
+            raise IndexError(
+                f"sample_index={sample_index} is outside evaluation dataset size {len(dataset)}"
+            )
+        model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
+        _validate_snn_request(
+            inference_mode,
+            simulation_steps,
+            checkpoint,
+            checkpoint_path,
+        )
+        graph_edge_guard = _set_inference_max_graph_edges(model, max_graph_edges)
+        _set_inference_snn_dynamics(model, inference_mode, snn_dynamics)
+        model.eval()
+        precision, autocast_dtype = _inference_precision(config.get("eval", {}), device, model)
+        sample = move_sample(dataset[sample_index], device)
+        sample_id = sample.get("sample_id", sample_index)
+        _require_finite_tensor(sample["target"], "target", sample_id)
+
+        _reset_cuda_peak_memory(device)
+        if device.type == "cuda":
+            torch.cuda.synchronize(device)
+        started = time.perf_counter()
+        with _inference_precision_context(device, precision, autocast_dtype):
+            prediction, diagnostics = model.forward_sample(
+                sample,
+                inference_mode=inference_mode,
+                simulation_steps=simulation_steps,
+                recurrent_state=None,
+            )
+        if device.type == "cuda":
+            torch.cuda.synchronize(device)
+        latency_ms = (time.perf_counter() - started) * 1000.0
+        if not math.isfinite(latency_ms) or latency_ms <= 0:
+            raise FloatingPointError(f"Invalid latency: sample={sample_id}")
+        _require_finite_tensor(prediction, "prediction", sample_id)
+        _require_finite_structure(diagnostics, "diagnostics", sample_id)
+
+        metadata = sample.get("metadata", {})
+        result = {
+            "schema": "asgcn_eval_sample_probe_v1",
+            "report_eligible": False,
+            "report_ineligible_reasons": [
+                "single-sample diagnostic with recurrent state reset; not a quality evaluation"
+            ],
+            "dataset": config["dataset"]["type"],
+            "dataset_size": len(dataset),
+            "sample": {
+                **_public_config(_dataset_sample_identity(dataset, sample_index)),
+                "sample_id": str(sample_id),
+                "raw_events": int(metadata.get("raw_event_count", sample["events"].shape[0])),
+                "cropped_events": int(
+                    metadata.get("cropped_event_count", sample["events"].shape[0])
+                ),
+                "retained_events": int(sample["events"].shape[0]),
+                "sensor_size": [int(value) for value in sample["sensor_size"]],
+            },
+            "checkpoint": {
+                "path": _artifact_path_label(checkpoint_path),
+                "file_sha256": _file_sha256(checkpoint_path),
+                "model_state_sha256": checkpoint.get("model_state_sha256"),
+                "checkpoint_type": checkpoint.get("checkpoint_type"),
+                "epoch": checkpoint.get("epoch"),
+            },
+            "model_config_sha256": _canonical_sha256(_public_config(config["model"])),
+            "inference": {
+                "mode": inference_mode,
+                "simulation_steps": simulation_steps if inference_mode == "snn" else None,
+                "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
+                "recurrent_state": "reset",
+            },
+            "graph_edge_guard": graph_edge_guard,
+            "graph_topology": {
+                "exact": True,
+                "nodes": int(diagnostics["nodes"]),
+                "actual_directed_edges": int(diagnostics["edges"]),
+                "isolated_nodes": int(diagnostics["isolated_nodes"]),
+                "isolate_ratio": float(diagnostics["isolate_ratio"]),
+                "max_in_degree": int(diagnostics["max_degree"]),
+            },
+            "snn": {
+                "firing_rates": _scalar_list(diagnostics["firing_rates"]),
+                "spike_counts": _scalar_list(diagnostics["spike_counts"]),
+            }
+            if inference_mode == "snn"
+            else None,
+            "prediction_shape": list(prediction.shape),
+            "latency_ms": latency_ms,
+            "gpu_memory": _cuda_peak_memory(device),
+            "precision": precision,
+            "runtime": _device_summary(device),
+        }
+        _require_finite_structure(result, "sample_probe", sample_id)
+        return result
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
+
+
+def save_probe_result(path: str | Path, result: dict[str, Any]) -> None:
+    """Write one JSON result without replacing an existing path."""
+    path = Path(path)
+    if path.exists():
+        raise FileExistsError(f"Probe output already exists: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as handle:
+            json.dump(result, handle, indent=2, ensure_ascii=False, allow_nan=False)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        try:
+            os.link(temporary, path)
+        except FileExistsError:
+            raise FileExistsError(f"Probe output already exists: {path}") from None
+    finally:
+        temporary.unlink(missing_ok=True)
+
+~~~~~~~~
+
 # src/asgcn_unet/scan.py
 
 ~~~~~~~~python
@@ -23183,6 +23611,277 @@ class StageTimer:
         }
         self._records.clear()
         return copy.deepcopy(self._report)
+~~~~~~~~
+
+# src/asgcn_unet/topology_scan.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import time
+from pathlib import Path
+from typing import Any
+
+import torch
+from tqdm import tqdm
+
+from .data import build_dataset
+from .engine import (
+    _artifact_path_label,
+    _canonical_sha256,
+    _dataset_content_fingerprint,
+    _dataset_coverage_summary,
+    _dataset_index_contract,
+    _evaluation_dataset_transform_contract,
+    _evaluation_manifest_contract,
+    _file_sha256,
+    _load_data_hash_cache,
+)
+from .graph import prepare_event_nodes, radius_graph_topology, uniformly_sample_events
+from .scan import ScanJournal, canonical_hash
+from .utils import resolve_device, save_json, set_seed, validate_experiment_config
+
+
+def _topology_contract(config: dict[str, Any], device: torch.device) -> dict[str, Any]:
+    model = config["model"]
+    package = Path(__file__).resolve().parent
+    dataset_module = {
+        "eventhdr": "data/eventhdr.py",
+        "eventaid_r_zip": "data/eventaid_r.py",
+    }.get(config["dataset"]["type"])
+    implementation_files = [
+        "topology_scan.py",
+        "graph.py",
+        "data/common.py",
+        "data/factory.py",
+    ]
+    if dataset_module is not None:
+        implementation_files.append(dataset_module)
+    return {
+        "schema": "asgcn_eval_topology_v1",
+        "semantics": "ordered_normalized_float32_strict_radius_v1",
+        "event_sampling_factor": int(model.get("event_sampling_factor", 1)),
+        "graph_radius": float(model.get("graph_radius", 0.08)),
+        "graph_position_dims": int(model.get("graph_position_dims", 3)),
+        "graph_chunk_size": int(model.get("graph_chunk_size", 512)),
+        "implementation": {
+            relative: _file_sha256(package / relative) for relative in implementation_files
+        },
+        "torch": str(torch.__version__),
+        "device_type": device.type,
+    }
+
+
+def _sample_record(
+    sample: dict[str, Any], model: dict[str, Any], dataset_index: int
+) -> dict[str, Any]:
+    retained = int(sample["events"].shape[0])
+    metadata = sample.get("metadata", {})
+    if not isinstance(metadata, dict):
+        metadata = {}
+    raw = int(metadata.get("raw_event_count", retained))
+    cropped = int(metadata.get("cropped_event_count", retained))
+    if raw < cropped or cropped < retained:
+        raise ValueError(f"Invalid event-count provenance for sample {dataset_index}")
+    sampled = uniformly_sample_events(
+        sample["events"], int(model.get("event_sampling_factor", 1))
+    )
+    _, positions = prepare_event_nodes(sampled, sample["sensor_size"])
+    topology = radius_graph_topology(
+        positions,
+        float(model.get("graph_radius", 0.08)),
+        position_dims=int(model.get("graph_position_dims", 3)),
+        chunk_size=int(model.get("graph_chunk_size", 512)),
+    )
+    nodes = int(topology["nodes"])
+    possible = nodes * max(nodes - 1, 0)
+    edges = int(topology["actual_directed_edges"])
+    return {
+        "dataset_index": dataset_index,
+        "sample_id": str(sample.get("sample_id", dataset_index)),
+        "scene": str(metadata.get("scene", "unknown")),
+        "sequence_index": (
+            int(metadata["sequence_index"])
+            if metadata.get("sequence_index") is not None
+            else None
+        ),
+        "raw_events": raw,
+        "cropped_events": cropped,
+        "retained_events": retained,
+        "model_sampled_events": nodes,
+        "candidate_directed_edges": int(topology["candidate_directed_edges"]),
+        "actual_directed_edges": edges,
+        "directed_edge_density": edges / possible if possible else 0.0,
+        "max_degree": int(topology["max_degree"]),
+        "isolated_nodes": int(topology["isolated_nodes"]),
+        "isolate_ratio": float(topology["isolate_ratio"]),
+    }
+
+
+def _validate_records(
+    records: list[dict[str, Any]], *, start_index: int, dataset_size: int
+) -> None:
+    if len(records) > dataset_size - start_index:
+        raise ValueError("Topology journal contains too many records")
+    identities: set[str] = set()
+    for offset, record in enumerate(records):
+        expected_index = start_index + offset
+        if not isinstance(record, dict) or record.get("dataset_index") != expected_index:
+            raise ValueError("Topology journal records are not a contiguous dataset range")
+        sample_id = record.get("sample_id")
+        if not isinstance(sample_id, str) or not sample_id or sample_id in identities:
+            raise ValueError("Topology journal sample identities are invalid")
+        identities.add(sample_id)
+        for field in (
+            "raw_events",
+            "cropped_events",
+            "retained_events",
+            "model_sampled_events",
+            "candidate_directed_edges",
+            "actual_directed_edges",
+            "max_degree",
+            "isolated_nodes",
+        ):
+            value = record.get(field)
+            if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+                raise ValueError("Topology journal contains an invalid graph count")
+
+
+def scan_evaluation_topology(
+    config: dict[str, Any],
+    output_path: str | Path,
+    *,
+    start_index: int = 0,
+    known_prefix_max_edges: int | None = None,
+    resume: bool = False,
+) -> dict[str, Any]:
+    """Count exact evaluation graph edges without building a model or edge list."""
+    validate_experiment_config(config)
+    if isinstance(start_index, bool) or not isinstance(start_index, int) or start_index < 0:
+        raise ValueError("start_index must be a non-negative integer")
+    if known_prefix_max_edges is not None and (
+        isinstance(known_prefix_max_edges, bool)
+        or not isinstance(known_prefix_max_edges, int)
+        or known_prefix_max_edges < 1
+    ):
+        raise ValueError("known_prefix_max_edges must be a positive integer")
+    if start_index and known_prefix_max_edges is None:
+        raise ValueError("A nonzero start_index requires known_prefix_max_edges")
+    if not start_index and known_prefix_max_edges is not None:
+        raise ValueError("known_prefix_max_edges is valid only with a nonzero start_index")
+    if not isinstance(resume, bool):
+        raise TypeError("resume must be a boolean")
+
+    destination = Path(output_path)
+    journal_path = destination.with_suffix(".scan")
+    cache_path = destination.with_suffix(".data_hash_cache.json")
+    if destination.exists():
+        raise FileExistsError(
+            f"Topology scan output already exists: {destination}. Choose a new output."
+        )
+    if resume and not journal_path.exists():
+        raise FileNotFoundError("No topology scan journal exists for --resume")
+    if not resume and journal_path.exists():
+        raise FileExistsError("Topology scan journal already exists; use --resume explicitly")
+
+    set_seed(int(config.get("seed", 2026)))
+    device = resolve_device(config.get("device", "auto"))
+    dataset = build_dataset(config["dataset"], split="eval")
+    journal: ScanJournal | None = None
+    started = time.perf_counter()
+    try:
+        dataset_size = len(dataset)
+        if start_index >= dataset_size:
+            raise ValueError(
+                f"start_index={start_index} must be smaller than dataset size {dataset_size}"
+            )
+        cache = _load_data_hash_cache(cache_path, rehash=False)
+        content = _dataset_content_fingerprint(dataset, cache)
+        save_json(cache_path, {"version": 1, "files": cache})
+        dataset_contract = {
+            "content": content,
+            "index": _dataset_index_contract(dataset),
+            "transform": _evaluation_dataset_transform_contract(config),
+            "manifest": _evaluation_manifest_contract(config),
+            "coverage": _dataset_coverage_summary(dataset, config["dataset"]),
+        }
+        contract = {
+            "schema": "asgcn_eval_topology_scan_contract_v1",
+            "seed": int(config.get("seed", 2026)),
+            "dataset": dataset_contract,
+            "topology": _topology_contract(config, device),
+            "range": {
+                "start_index": start_index,
+                "stop_index_exclusive": dataset_size,
+                "known_prefix_max_edges": known_prefix_max_edges,
+            },
+        }
+        journal = ScanJournal(journal_path, contract, resume=resume)
+        _validate_records(journal.records, start_index=start_index, dataset_size=dataset_size)
+        completed = len(journal.records)
+        try:
+            with torch.no_grad():
+                for index in tqdm(
+                    range(start_index + completed, dataset_size),
+                    initial=completed,
+                    total=dataset_size - start_index,
+                    desc="scan-eval-topology",
+                ):
+                    sample = dataset[index]
+                    sample = dict(sample)
+                    sample["events"] = sample["events"].to(device=device, non_blocking=True)
+                    journal.append(_sample_record(sample, config["model"], index))
+        finally:
+            journal.flush()
+
+        records = journal.records
+        _validate_records(records, start_index=start_index, dataset_size=dataset_size)
+        if len(records) != dataset_size - start_index:
+            raise RuntimeError("Topology tail scan did not cover its complete requested range")
+        tail_max = max(
+            records,
+            key=lambda item: (
+                int(item["actual_directed_edges"]),
+                int(item["candidate_directed_edges"]),
+                -int(item["dataset_index"]),
+            ),
+        )
+        tail_edges = int(tail_max["actual_directed_edges"])
+        global_exact = start_index == 0 or tail_edges >= int(known_prefix_max_edges or 0)
+        guard_upper_bound = max(tail_edges, int(known_prefix_max_edges or 0))
+        global_sample = tail_max if global_exact else None
+        result = {
+            "schema": "asgcn_eval_topology_scan_v1",
+            "status": "passed",
+            "output": _artifact_path_label(destination),
+            "journal": _artifact_path_label(journal_path),
+            "contract": contract,
+            "contract_sha256": canonical_hash(contract),
+            "dataset_samples": dataset_size,
+            "start_index": start_index,
+            "stop_index_exclusive": dataset_size,
+            "scanned_samples": len(records),
+            "known_prefix_samples": start_index,
+            "known_prefix_max_edges": known_prefix_max_edges,
+            "tail_max_sample": tail_max,
+            "global_max_sample": global_sample,
+            "global_max_actual_directed_edges": tail_edges if global_exact else None,
+            "global_max_is_exact": global_exact,
+            "global_max_edges_lower_bound": tail_edges,
+            "global_max_edges_upper_bound": guard_upper_bound,
+            "global_edge_guard_upper_bound": guard_upper_bound,
+            "elapsed_seconds": time.perf_counter() - started,
+        }
+        result["sha256"] = _canonical_sha256(
+            {key: value for key, value in result.items() if key != "sha256"}
+        )
+        save_json(destination, result)
+        return result
+    finally:
+        if journal is not None:
+            journal.close()
+        if hasattr(dataset, "close"):
+            dataset.close()
 ~~~~~~~~
 
 # src/asgcn_unet/training.py
@@ -37129,6 +37828,153 @@ def test_runtime_profile_rejects_malformed_or_ambiguous_package_pins(
     assert str(tmp_path) not in str(error.value) + output.err
 ~~~~~~~~
 
+# tests/test_sample_probe.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+
+import pytest
+import torch
+
+from asgcn_unet.engine import _model_state_sha256
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.sample_probe import probe_evaluation_sample, save_probe_result
+from tests.fixtures import make_eventhdr
+
+
+def _model_config() -> dict:
+    return {
+        "architecture_version": 2,
+        "graph_operator": "spline",
+        "spline_backend": "torch",
+        "spline_pseudo": "distance_over_radius",
+        "spline_is_open": True,
+        "hidden_dim": 4,
+        "graph_layers": 1,
+        "event_sampling_factor": 1,
+        "graph_radius": 0.4,
+        "graph_position_dims": 3,
+        "graph_chunk_size": 16,
+        "max_graph_edges": 10_000,
+        "spline_kernel_size": 3,
+        "spline_degree": 1,
+        "spline_root_weight": True,
+        "raster_downsample": 4,
+        "decoder_channels": 4,
+        "output_channels": 1,
+        "recurrent": True,
+    }
+
+
+def _config(root) -> dict:
+    return {
+        "seed": 7,
+        "device": "cpu",
+        "dataset": {
+            "type": "eventhdr",
+            "root": str(root),
+            "target_channels": 1,
+            "max_events": 32,
+            "crop_size": None,
+            "tone_map": "log",
+        },
+        "model": _model_config(),
+        "eval": {"batch_size": 1, "precision": "fp32", "tf32": False},
+    }
+
+
+def _checkpoint(path, model_config: dict) -> None:
+    model = ASGCNUNet(**model_config)
+    state = model.state_dict()
+    torch.save(
+        {
+            "model_config": model_config,
+            "model": state,
+            "model_state_sha256": _model_state_sha256(state),
+            "checkpoint_type": "ann_inference",
+            "epoch": 3,
+        },
+        path,
+    )
+
+
+def test_probe_runs_exactly_one_sample_and_reports_topology(tmp_path) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    checkpoint = tmp_path / "best.pt"
+    _checkpoint(checkpoint, config["model"])
+
+    result = probe_evaluation_sample(
+        config,
+        checkpoint,
+        sample_index=1,
+        max_graph_edges=20_000,
+    )
+
+    assert result["schema"] == "asgcn_eval_sample_probe_v1"
+    assert result["report_eligible"] is False
+    assert result["sample"]["dataset_index"] == 1
+    assert result["sample"]["retained_events"] == 32
+    assert result["graph_topology"]["exact"] is True
+    assert result["graph_topology"]["nodes"] == 32
+    assert result["graph_topology"]["actual_directed_edges"] >= 0
+    assert result["graph_edge_guard"] == {
+        "configured_max_graph_edges": 10_000,
+        "requested_max_graph_edges_override": 20_000,
+        "effective_max_graph_edges": 20_000,
+    }
+    assert result["gpu_memory"] == {
+        "peak_allocated_mib": None,
+        "peak_reserved_mib": None,
+    }
+    assert result["inference"]["recurrent_state"] == "reset"
+
+
+def test_probe_rejects_index_guard_and_checkpoint_config_mismatch(tmp_path) -> None:
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _config(root)
+    checkpoint = tmp_path / "best.pt"
+    _checkpoint(checkpoint, config["model"])
+
+    with pytest.raises(IndexError, match="outside evaluation dataset size"):
+        probe_evaluation_sample(
+            config,
+            checkpoint,
+            sample_index=99,
+            max_graph_edges=20_000,
+        )
+    with pytest.raises(ValueError, match="greater than or equal"):
+        probe_evaluation_sample(
+            config,
+            checkpoint,
+            sample_index=0,
+            max_graph_edges=9_999,
+        )
+    mismatched = _config(root)
+    mismatched["model"]["graph_radius"] = 0.3
+    with pytest.raises(ValueError, match="model_config differs"):
+        probe_evaluation_sample(
+            mismatched,
+            checkpoint,
+            sample_index=0,
+            max_graph_edges=20_000,
+        )
+
+
+def test_save_probe_result_never_overwrites(tmp_path) -> None:
+    output = tmp_path / "probe.json"
+    save_probe_result(output, {"value": 1})
+    assert json.loads(output.read_text(encoding="utf-8")) == {"value": 1}
+
+    with pytest.raises(FileExistsError, match="already exists"):
+        save_probe_result(output, {"value": 2})
+    assert json.loads(output.read_text(encoding="utf-8")) == {"value": 1}
+~~~~~~~~
+
 # tests/test_sequence_parts.py
 
 ~~~~~~~~python
@@ -39160,6 +40006,212 @@ def test_real_cuda_events_measure_an_actual_training_operation():
         stats = report["stages"][label]["cuda_elapsed"]
         assert stats["count"] == 1
         assert stats["mean_ms"] >= 0
+~~~~~~~~
+
+# tests/test_topology_scan.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+import pytest
+import torch
+
+import asgcn_unet.topology_scan as scan_module
+from asgcn_unet.cli import build_parser
+
+
+class _Dataset:
+    def __init__(self, size: int = 5) -> None:
+        self.size = size
+        self.closed = False
+
+    def __len__(self) -> int:
+        return self.size
+
+    def __getitem__(self, index: int) -> dict[str, Any]:
+        return {
+            "events": torch.zeros((index + 1, 4)),
+            "target": torch.zeros((1, 2, 2)),
+            "sensor_size": (2, 2),
+            "sample_id": f"sample-{index}",
+            "metadata": {"scene": "scene", "sequence_index": index},
+        }
+
+    def close(self) -> None:
+        self.closed = True
+
+
+def _config() -> dict[str, Any]:
+    return {
+        "seed": 2026,
+        "device": "cpu",
+        "dataset": {
+            "type": "eventaid_r_zip",
+            "root": "unused",
+            "target_normalization": {"mode": "integer_dtype_max"},
+        },
+        "model": {
+            "event_sampling_factor": 1,
+            "graph_radius": 0.08,
+            "graph_position_dims": 3,
+            "graph_chunk_size": 512,
+            "max_graph_edges": 2_000_000,
+        },
+    }
+
+
+def _record(index: int, edges: int) -> dict[str, Any]:
+    nodes = index + 1
+    return {
+        "dataset_index": index,
+        "sample_id": f"sample-{index}",
+        "scene": "scene",
+        "sequence_index": index,
+        "raw_events": nodes,
+        "cropped_events": nodes,
+        "retained_events": nodes,
+        "model_sampled_events": nodes,
+        "candidate_directed_edges": edges,
+        "actual_directed_edges": edges,
+        "directed_edge_density": 0.0,
+        "max_degree": 0,
+        "isolated_nodes": nodes,
+        "isolate_ratio": 1.0,
+    }
+
+
+@pytest.fixture
+def isolated_scan(monkeypatch: pytest.MonkeyPatch):
+    datasets: list[_Dataset] = []
+
+    def build(*args, **kwargs):
+        dataset = _Dataset()
+        datasets.append(dataset)
+        return dataset
+
+    monkeypatch.setattr(scan_module, "build_dataset", build)
+    monkeypatch.setattr(scan_module, "resolve_device", lambda value: torch.device("cpu"))
+    monkeypatch.setattr(scan_module, "_dataset_content_fingerprint", lambda dataset, cache: {})
+    monkeypatch.setattr(scan_module, "_dataset_index_contract", lambda dataset: {"samples": 5})
+    monkeypatch.setattr(scan_module, "_evaluation_dataset_transform_contract", lambda config: {})
+    monkeypatch.setattr(scan_module, "_evaluation_manifest_contract", lambda config: {})
+    monkeypatch.setattr(scan_module, "_dataset_coverage_summary", lambda dataset, config: {})
+    monkeypatch.setattr(scan_module, "_topology_contract", lambda config, device: {"v": 1})
+    return datasets
+
+
+def test_cli_accepts_tail_scan_and_resume_options() -> None:
+    args = build_parser().parse_args(
+        [
+            "scan-eval-topology",
+            "--config", "configs/aid-fast.json",
+            "--output", "runs/aid-topology.json",
+            "--start-index", "32843",
+            "--known-prefix-max-edges", "4000000",
+            "--resume",
+        ]
+    )
+    assert args.start_index == 32_843
+    assert args.known_prefix_max_edges == 4_000_000
+    assert args.resume is True
+
+
+def test_tail_scan_combines_exact_max_with_known_prefix(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, isolated_scan
+) -> None:
+    edges = {2: 3_000_000, 3: 5_250_000, 4: 4_500_000}
+    monkeypatch.setattr(
+        scan_module,
+        "_sample_record",
+        lambda sample, model, index: _record(index, edges[index]),
+    )
+    output = tmp_path / "topology.json"
+    result = scan_module.scan_evaluation_topology(
+        _config(), output, start_index=2, known_prefix_max_edges=4_000_000
+    )
+    assert result["tail_max_sample"]["dataset_index"] == 3
+    assert result["global_max_sample"]["dataset_index"] == 3
+    assert result["global_max_actual_directed_edges"] == 5_250_000
+    assert result["global_max_is_exact"] is True
+    assert result["global_edge_guard_upper_bound"] == 5_250_000
+    assert json.loads(output.read_text(encoding="utf-8"))["status"] == "passed"
+    assert isolated_scan[-1].closed is True
+
+
+def test_tail_below_prefix_bound_reports_only_a_safe_global_bound(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, isolated_scan
+) -> None:
+    monkeypatch.setattr(
+        scan_module,
+        "_sample_record",
+        lambda sample, model, index: _record(index, 3_000_000 + index),
+    )
+    result = scan_module.scan_evaluation_topology(
+        _config(), tmp_path / "bounded.json",
+        start_index=2, known_prefix_max_edges=4_000_000,
+    )
+    assert result["global_max_is_exact"] is False
+    assert result["global_max_sample"] is None
+    assert result["global_max_actual_directed_edges"] is None
+    assert result["global_edge_guard_upper_bound"] == 4_000_000
+
+
+def test_interrupted_scan_resumes_only_with_identical_contract(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, isolated_scan
+) -> None:
+    output = tmp_path / "resume.json"
+    calls: list[int] = []
+
+    def interrupt(sample, model, index):
+        calls.append(index)
+        if index == 3:
+            raise KeyboardInterrupt
+        return _record(index, index * 100)
+
+    monkeypatch.setattr(scan_module, "_sample_record", interrupt)
+    with pytest.raises(KeyboardInterrupt):
+        scan_module.scan_evaluation_topology(
+            _config(), output, start_index=2, known_prefix_max_edges=200
+        )
+    assert not output.exists()
+    assert calls == [2, 3]
+
+    monkeypatch.setattr(
+        scan_module,
+        "_sample_record",
+        lambda sample, model, index: _record(index, index * 100),
+    )
+    result = scan_module.scan_evaluation_topology(
+        _config(), output, start_index=2, known_prefix_max_edges=200, resume=True
+    )
+    assert result["scanned_samples"] == 3
+    assert result["tail_max_sample"]["dataset_index"] == 4
+
+    with pytest.raises(FileExistsError, match="output already exists"):
+        scan_module.scan_evaluation_topology(
+            _config(), output, start_index=2, known_prefix_max_edges=200, resume=True
+        )
+
+
+@pytest.mark.parametrize(
+    ("start", "bound", "message"),
+    [
+        (1, None, "requires known_prefix"),
+        (0, 4_000_000, "only with a nonzero"),
+    ],
+)
+def test_prefix_bound_contract_is_explicit(
+    tmp_path: Path, start: int, bound: int | None, message: str
+) -> None:
+    with pytest.raises(ValueError, match=message):
+        scan_module.scan_evaluation_topology(
+            _config(), tmp_path / "invalid.json",
+            start_index=start, known_prefix_max_edges=bound,
+        )
 ~~~~~~~~
 
 # tests/test_train_resume.py

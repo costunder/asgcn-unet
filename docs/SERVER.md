@@ -378,13 +378,67 @@ profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어
 
 한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. frame-level resume은
 지원하지 않으므로 해당 dataset 행렬은 처음부터 다시 실행되며, 완료된 다른 dataset과 실패한 partial
-directory를 보존하도록 매 시도마다 새 `EVAL_OUTPUT_ROOT`를 지정한다. 예를 들어 별도 topology 및 VRAM
-측정으로 4,000,000-edge guard가 안전하다고 확인한 EventAid-R 복구는 다음과 같다.
+directory를 보존하도록 매 시도마다 새 `EVAL_OUTPUT_ROOT`를 지정한다.
+
+edge guard에서 중단됐다면 숫자를 추측해 전체 평가를 반복하지 않는다. 예를 들어 진행률
+`32843/51512`에서 4,000,000-edge guard가 중단된 경우, 완료된 `[0,32843)` 구간의 상한과 나머지 구간의
+정확한 topology scan을 결합한다. 이 명령은 edge 목록이나 모델 forward를 만들지 않으며 128 sample 또는
+30초마다 `runs/fast/aid-topology-tail.scan/`에 원자적으로 기록한다.
 
 ```bash
+printf 'CUDA_VISIBLE_DEVICES=%s\n' "${CUDA_VISIBLE_DEVICES-<unset>}"
+python scripts/check_env.py --require-cuda --lock constraints/py312.txt \
+  --runtime-profile constraints/server.json
+
+# 선택 사항: 실패한 평가가 만든 검증 가능 hash cache를 첫 scan 전에 재사용한다.
+cp -- runs/fast/eval-recovery-4m/aid/.data_hash_cache.json \
+  runs/fast/aid-topology-tail.data_hash_cache.json
+
+python -m asgcn_unet.cli scan-eval-topology \
+  --config configs/aid-fast.json \
+  --output runs/fast/aid-topology-tail.json \
+  --start-index 32843 \
+  --known-prefix-max-edges 4000000 \
+  --cpu-threads 4
+```
+
+중단된 동일 scan은 다른 인자를 바꾸지 않고 위 명령 끝에 `--resume`을 붙인다. 출력의
+`global_max_is_exact=true`를 확인하고 `global_max_actual_directed_edges`, `global_max_sample.dataset_index`와
+`global_edge_guard_upper_bound`를 사용한다. `--start-index` 앞의 모든 frame이 지정 상한 이하였다라는 실제 성공
+기록이 없으면 tail scan을 사용하지 말고 `--start-index 0`으로 전체를 조사한다. topology 최대값은 필요한
+guard를 정할 뿐 그 edge 수의 모델 forward가 해당 GPU VRAM에서 안전함을 증명하지 않는다.
+
+따라서 전체 평가 전에 최대-edge sample을 같은 할당 GPU에서 ANN과 가장 긴 SNN 설정으로 실제 실행한다.
+아래 두 placeholder에는 scan JSON의 값을 넣고, 각 출력의 `graph_topology.actual_directed_edges`,
+`gpu_memory.peak_allocated_mib`, `gpu_memory.peak_reserved_mib`, `runtime.cuda_visible_devices`를 확인한다.
+probe가 OOM이면 guard를 더 올려 평가하지 말고 더 큰 GPU allocation을 받는다.
+
+```bash
+DENSE_INDEX=<global_max_sample.dataset_index>
+EDGE_GUARD=<global_edge_guard_upper_bound>
+
+python scripts/probe_eval_sample.py \
+  --config configs/aid-fast.json --checkpoint runs/fast/best.pt \
+  --sample-index "$DENSE_INDEX" --max-graph-edges "$EDGE_GUARD" \
+  --inference-mode ann --output runs/fast/aid-ann-dense-probe.json
+
+python scripts/probe_eval_sample.py \
+  --config configs/aid-fast.json --checkpoint runs/fast/best_snn.pt \
+  --sample-index "$DENSE_INDEX" --max-graph-edges "$EDGE_GUARD" \
+  --inference-mode snn --simulation-steps 32 --snn-dynamics literal_eq15 \
+  --output runs/fast/aid-snn-t32-dense-probe.json
+```
+
+`CUDA_VISIBLE_DEVICES`가 비어 있고 PyTorch에 MIG 하나만 보인다는 사실만으로는 그 장치가 scheduler가
+할당한 것인지 인증할 수 없다. scheduler가 제공한 allocation shell, job 환경 또는 MIG UUID로 identity를
+확인한다. cluster가 visible-device token을 제공하면 그 값을 그대로 설정하며 물리 번호를 추측하지 않는다.
+위 probe가 동일한 확인된 allocation에서 여유를 두고 통과한 뒤 새 평가 root로 EventAid-R 전체를 실행한다.
+
+```bash
+EDGE_GUARD=<global_edge_guard_upper_bound>
 EXPERIMENT=fast \
-EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-4m" \
-EVAL_MAX_GRAPH_EDGES=4000000 \
+EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-measured" \
+EVAL_MAX_GRAPH_EDGES="$EDGE_GUARD" \
   bash scripts/run.sh eval-aid
 ```
 

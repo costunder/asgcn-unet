@@ -16,6 +16,7 @@ from .data import build_dataset
 from .engine import TrainingPaused, _artifact_path_label, benchmark, calibrate, evaluate, train
 from .preflight import training_preflight, verify_training_preflight
 from .recovery import archive_uncheckpointed_run
+from .topology_scan import scan_evaluation_topology
 from .utils import experiment_base_dir, load_json, resolve_experiment_paths, resolve_path
 
 
@@ -163,6 +164,16 @@ def _positive_integer(value: str) -> int:
     return parsed
 
 
+def _nonnegative_integer(value: str) -> int:
+    try:
+        parsed = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("value must be a non-negative integer") from error
+    if parsed < 0:
+        raise argparse.ArgumentTypeError("value must be a non-negative integer")
+    return parsed
+
+
 def inspect_dataset(
     config: dict[str, Any],
     samples: int = 3,
@@ -290,6 +301,34 @@ def build_parser() -> argparse.ArgumentParser:
         type=_positive_integer,
         default=10,
         help="number of highest-edge-count samples recorded (default: 10)",
+    )
+
+    topology_cmd = subparsers.add_parser(
+        "scan-eval-topology",
+        help="count exact edges for every graph in an evaluation range without model forward",
+    )
+    topology_cmd.add_argument("--config", required=True)
+    topology_cmd.add_argument("--output", required=True)
+    topology_cmd.add_argument(
+        "--start-index",
+        type=_nonnegative_integer,
+        default=0,
+        help="first evaluation dataset index to scan (default: 0)",
+    )
+    topology_cmd.add_argument(
+        "--known-prefix-max-edges",
+        type=_positive_integer,
+        help=(
+            "proven upper bound for indices before --start-index; required for a tail scan"
+        ),
+    )
+    topology_cmd.add_argument(
+        "--resume", "--resume-scan", dest="resume", action="store_true",
+        help="resume the matching atomic scan journal",
+    )
+    topology_cmd.add_argument(
+        "--cpu-threads", type=_positive_integer, default=4,
+        help="CPU helper threads used during the scan (default: 4)",
     )
 
     verify_cmd = subparsers.add_parser(
@@ -423,6 +462,15 @@ def _execute_command(args: argparse.Namespace) -> None:
             require_cuda=True,
             resume_scan=args.resume_scan,
             reuse_report=resolve_path(args.reuse_report, base_dir) if args.reuse_report else None,
+        )
+    elif args.command == "scan-eval-topology":
+        torch.set_num_threads(args.cpu_threads)
+        result = scan_evaluation_topology(
+            config,
+            resolve_path(args.output, base_dir),
+            start_index=args.start_index,
+            known_prefix_max_edges=args.known_prefix_max_edges,
+            resume=args.resume,
         )
     elif args.command == "verify-profile":
         result = verify_training_preflight(

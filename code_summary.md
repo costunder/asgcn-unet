@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-01T02:36:15Z",
+    "generated_utc": "2026-09-03T06:38:00Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "13dd5e99ad3a9ed3acf94bc96ed29f7d7427e567",
-    "source_tree_at_generation": "e49bbcbccbb8fdd05aefd6ca8f16efcfb37f5957",
+    "source_commit_at_generation": "b1e9d1524a79dace5d4ccaf73bca9c6b27f91028",
+    "source_tree_at_generation": "9113a0aacf2ea6c82434dc191c683352cabcf1f6",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 32949,
+        "bytes": 34033,
         "path": "README.md",
-        "sha256": "9925f9fc303b76d760fd126fe0576f1f8e3409449ce6bd5b695291fd784f801c"
+        "sha256": "d38695adef137b5ea8e58d308f87f4a241f2b5dc908c718e798a82ee6d7fdb9d"
       },
       {
         "bytes": 1333,
@@ -116,9 +116,9 @@
         "sha256": "1d0650f25b33e5e88e424e9f2ab7b6ed962161940bfd963f39c429bca5f43606"
       },
       {
-        "bytes": 38843,
+        "bytes": 39919,
         "path": "docs/SERVER.md",
-        "sha256": "7f4957d6a1413d21076a7ebb3efb35b02ceff7afbfdb02bc4cc1e3524e5f0b3f"
+        "sha256": "74168815a60e45810efc9f21d89fc118b0fa819d5efbc4d15a803f0af7895407"
       },
       {
         "bytes": 13112,
@@ -166,9 +166,9 @@
         "sha256": "7bdf8d95346ef0a2991c7f55fc5068100c83bb331c185950a01ba06432f69729"
       },
       {
-        "bytes": 4192,
+        "bytes": 4610,
         "path": "scripts/eval.sh",
-        "sha256": "2a94ccc3583667b77db9477a646c7098bd370a4c1612b0db0724a223bb5db044"
+        "sha256": "9d3aa92388daf229668599756fdaf4e3481f276d28adcff6787d269d4ebdeabb"
       },
       {
         "bytes": 3783,
@@ -191,9 +191,9 @@
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
-        "bytes": 14296,
+        "bytes": 15087,
         "path": "scripts/run.sh",
-        "sha256": "8fa80e4bc2387efd96b41bc4bb8d26139db10b9389159354f1bcc55e6110f2d8"
+        "sha256": "8b57fd8948c865bfe5a041544055e9ccef300208cd42cc73f8d2e77d9af77506"
       },
       {
         "bytes": 3596,
@@ -271,9 +271,9 @@
         "sha256": "cf76163fad59f1734c59b810b86bde2812f9ce26965ed8686a35fcc3e51a49f1"
       },
       {
-        "bytes": 24723,
+        "bytes": 25285,
         "path": "src/asgcn_unet/cli.py",
-        "sha256": "af3831be4f9b8ee4850d1932ee56d914f93ec84e30a5bc91976a3648392a6519"
+        "sha256": "dffced619b34956e4880d6bd59ac9d6937e9e9f63f7bfeac0c6e75871d89794c"
       },
       {
         "bytes": 309,
@@ -301,9 +301,9 @@
         "sha256": "5ef139427badf8664679002b8f5a90e728465002435998349f78735ef292104d"
       },
       {
-        "bytes": 215768,
+        "bytes": 217509,
         "path": "src/asgcn_unet/engine.py",
-        "sha256": "e85a1552559a868871685d765b311646970374063274680ae894f6bb6fb040eb"
+        "sha256": "3260a8a37b360ffd08b208baadafa52b7a862226b86829c2707733037d9be163"
       },
       {
         "bytes": 41380,
@@ -511,14 +511,14 @@
         "sha256": "64032077b02d42e679a9eb085407a5bd1dd31e7b214aa3a82f531afe18a8589b"
       },
       {
-        "bytes": 45514,
+        "bytes": 47875,
         "path": "tests/test_p0_engine.py",
-        "sha256": "d00916678082cf669352ab679400721ce01f1a39cb8ad22fdc6a238f7e6ae174"
+        "sha256": "d43f5b869277ab39167f96651a3285a74975a76ba899fea3ca64b66228e9f9d2"
       },
       {
-        "bytes": 23806,
+        "bytes": 24995,
         "path": "tests/test_pipeline.py",
-        "sha256": "2fcf9064556afc93041d3179cbf758c6bc4d8330d5952c06ae4b8c24280d3b11"
+        "sha256": "ec9e8f4637c2ee4746d66072ef8605df96c41f98657ef8d268b47b3edd9e032f"
       },
       {
         "bytes": 20209,
@@ -561,9 +561,9 @@
         "sha256": "2f876783b6a8235885a165a66045d46bfcc0ff1dfdf48d934853bac2202e4c49"
       },
       {
-        "bytes": 16305,
+        "bytes": 17348,
         "path": "tests/test_server_orchestration.py",
-        "sha256": "72f8fdd6806e31702235a3d80564b01705284162d7c4723703bf16d5d8e6e38b"
+        "sha256": "8173dab823caa11d50be81c5a20ba8629ddb7be536173108010ab8e400e3204c"
       },
       {
         "bytes": 11827,
@@ -608,7 +608,7 @@
     ],
     "included_file_count": 118,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "30472fa564cbd8dad11e62686a38778ee672a8d30e72aadfd0f243970c19d392"
+    "snapshot_sha256": "7f5f087dda15bc040670c6e63ebff6ecd92a37e72e25164a9a3c4c2bb263fb00"
   }
 }
 -->
@@ -1189,6 +1189,23 @@ runtime에 다시 결합한다. 학습 재개가 끝나면 `bash scripts/run.sh 
 부분 실행을 복구할 때 완료된 stage를 임의로 다시 실행하지 않는다. 합성 fixture용
 `--allow-unverified-preflight` 우회는 checkpoint에 비보고용으로 영구 기록되고 `all` 및 scheduler
 wrapper에서는 허용되지 않는다.
+
+dataset 하나의 평가만 복구할 때는 `eval-hdr` 또는 `eval-aid`를 사용한다. 예를 들어 EventAid-R가
+configured edge guard에서 중단됐고, 별도 topology 및 VRAM 측정으로 4,000,000 edges가 안전하다고
+확인한 경우 다음처럼 **새** 출력 root에서 그 dataset의 전체 ANN+SNN 행렬을 처음부터 실행한다.
+
+```bash
+EXPERIMENT=fast \
+EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-4m" \
+EVAL_MAX_GRAPH_EDGES=4000000 \
+  bash scripts/run.sh eval-aid
+```
+
+`EVAL_MAX_GRAPH_EDGES`는 quality와 benchmark에 같은 inference-only guard override를 전달하며 결과
+protocol에 기록된다. 이 예시 값은 9.5 GiB를 포함한 임의의 GPU에서 안전하거나 충분하다는 보장이
+아니므로 실측 없이 사용하지 않는다. quality evaluation은 frame-level resume을 지원하지 않는다.
+실패한 기존 directory나 완료된 다른 dataset 결과를 삭제·덮어쓰지 말고 매 복구 시 고유한
+`EVAL_OUTPUT_ROOT`를 선택한다. 상태는 각각 `eval-hdr.json`과 `eval-aid.json`에 기록된다.
 
 resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
 현재 epoch cursor/context, 전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다.
@@ -3648,6 +3665,23 @@ mid-epoch schedule 계약이 없는 v5/v6 checkpoint를 v7/v8 실행에 exact tr
 profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어쓰지 않으므로, 부분 실패 복구 시
 완료된 stage를 묵시적으로 재사용하지 않는다. CUDA profile 우회는 합성 비보고용 직접 CLI에서만
 명시적으로 가능하고 scheduler wrapper 및 `all`에서는 차단된다.
+
+한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. frame-level resume은
+지원하지 않으므로 해당 dataset 행렬은 처음부터 다시 실행되며, 완료된 다른 dataset과 실패한 partial
+directory를 보존하도록 매 시도마다 새 `EVAL_OUTPUT_ROOT`를 지정한다. 예를 들어 별도 topology 및 VRAM
+측정으로 4,000,000-edge guard가 안전하다고 확인한 EventAid-R 복구는 다음과 같다.
+
+```bash
+EXPERIMENT=fast \
+EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-4m" \
+EVAL_MAX_GRAPH_EDGES=4000000 \
+  bash scripts/run.sh eval-aid
+```
+
+`EVAL_MAX_GRAPH_EDGES`는 quality와 benchmark 양쪽의 inference-only guard이며 각 결과 protocol에
+요청값과 effective 값을 기록한다. 위 숫자는 예시일 뿐이고 특정 MIG/GPU에서 안전하거나 모든 frame에
+충분하다는 보장이 없다. 실측 없이 guard를 올리지 않으며 기존 output을 삭제하거나 같은 root로
+덮어쓰지 않는다. dataset별 상태 파일은 `eval-hdr.json`, `eval-aid.json`이다.
 
 ## 5. Slurm: profile → train → calibrate → evaluation matrix
 
@@ -7328,6 +7362,7 @@ SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
+EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 VALIDATE_DATASET="${VALIDATE_DATASET:-1}"
 INSPECT_SAMPLES="${INSPECT_SAMPLES:-1}"
@@ -7373,6 +7408,10 @@ if [[ "${INFERENCE_MODE}" != "ann" && "${INFERENCE_MODE}" != "snn" ]]; then
   echo "ERROR: INFERENCE_MODE must be ann or snn" >&2
   exit 2
 fi
+if [[ -n "${EVAL_MAX_GRAPH_EDGES}" && ! "${EVAL_MAX_GRAPH_EDGES}" =~ ^[1-9][0-9]*$ ]]; then
+  echo "ERROR: EVAL_MAX_GRAPH_EDGES must be a positive integer" >&2
+  exit 2
+fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   if [[ "${INFERENCE_MODE}" != "snn" ]]; then
     echo "ERROR: SNN_DYNAMICS is only valid when INFERENCE_MODE=snn" >&2
@@ -7403,11 +7442,15 @@ export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
 
 DYNAMICS_ARGS=()
 OUTPUT_ARGS=()
+GRAPH_EDGE_ARGS=()
 if [[ -n "${EVAL_OUTPUT_DIR:-}" ]]; then
   OUTPUT_ARGS=(--output-dir "${EVAL_OUTPUT_DIR}")
 fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   DYNAMICS_ARGS=(--snn-dynamics "${SNN_DYNAMICS}")
+fi
+if [[ -n "${EVAL_MAX_GRAPH_EDGES}" ]]; then
+  GRAPH_EDGE_ARGS=(--max-graph-edges-override "${EVAL_MAX_GRAPH_EDGES}")
 fi
 
 if [[ "${VALIDATE_DATASET}" == "1" ]]; then
@@ -7428,7 +7471,8 @@ runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
   --inference-mode "${INFERENCE_MODE}" \
   --simulation-steps "${SIMULATION_STEPS}" \
   "${OUTPUT_ARGS[@]}" \
-  "${DYNAMICS_ARGS[@]}"
+  "${DYNAMICS_ARGS[@]}" \
+  "${GRAPH_EDGE_ARGS[@]}"
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"
@@ -7440,7 +7484,8 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     --inference-mode "${INFERENCE_MODE}" \
     --simulation-steps "${SIMULATION_STEPS}" \
     "${OUTPUT_ARGS[@]}" \
-    "${DYNAMICS_ARGS[@]}"
+    "${DYNAMICS_ARGS[@]}" \
+    "${GRAPH_EDGE_ARGS[@]}"
 fi
 ~~~~~~~~
 
@@ -8586,7 +8631,7 @@ PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 
 usage() {
   cat <<'EOF'
-Usage: bash scripts/run.sh [check|profile|train|calibrate|eval|all]
+Usage: bash scripts/run.sh [check|profile|train|calibrate|eval|eval-hdr|eval-aid|all]
 
 Stages:
   check       Check CUDA/dependencies/full data and decode every selected sample
@@ -8594,6 +8639,8 @@ Stages:
   train       Train EventHDR ANN, or resume with RESUME_CHECKPOINT
   calibrate   Convert runs/train/best.pt to runs/train/best_snn.pt
   eval        Run the complete EventHDR/EventAid-R ANN+SNN evaluation matrix
+  eval-hdr    Run only the EventHDR ANN+SNN evaluation matrix
+  eval-aid    Run only the EventAid-R ANN+SNN evaluation matrix
   all         Run check, profile, train, calibrate and eval in order (default)
 
 Important environment:
@@ -8609,6 +8656,7 @@ Important environment:
   CALIBRATION_SAMPLES=all|N              Default: all; partial N cannot be reporting
   SIMULATION_STEPS_LIST='4 8 16 32'
   BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N
+  EVAL_MAX_GRAPH_EDGES=N                 Eval-only guard raise; recorded in outputs
   PROFILE_SAMPLES=N / PROFILE_TOP_DENSITY=N
   PROFILE_OUTPUT=PATH                    Default: runs/profile.json
   PROFILE_RESUME=0|1                     Resume a matching saved scan; default: 0
@@ -8633,7 +8681,7 @@ fi
 
 STAGE="${1:-all}"
 case "${STAGE}" in
-  check|profile|train|calibrate|eval|all) ;;
+  check|profile|train|calibrate|eval|eval-hdr|eval-aid|all) ;;
   *)
     echo "ERROR: unknown stage '${STAGE}'" >&2
     usage >&2
@@ -8688,6 +8736,7 @@ OVERWRITE_CALIBRATION="${OVERWRITE_CALIBRATION:-0}"
 SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
+EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"
 PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
@@ -8962,6 +9011,7 @@ run_one_evaluation() {
     RUN_BENCHMARK=1 \
     BENCHMARK_WARMUP="${BENCHMARK_WARMUP}" \
     BENCHMARK_STEPS="${BENCHMARK_STEPS}" \
+    EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES}" \
     INFERENCE_MODE="${mode}" \
     SIMULATION_STEPS="${simulation_steps}" \
     SNN_DYNAMICS="${dynamics}" \
@@ -8970,23 +9020,43 @@ run_one_evaluation() {
     bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
 }
 
-run_eval() {
-  echo "[eval] Complete EventHDR and EventAid-R ANN+SNN matrix"
-  require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
-  require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
-  for config_path in "${HDR_CONFIG}" "${AID_CONFIG}"; do
-    run_one_evaluation "${config_path}" "${ANN_CHECKPOINT}" ann 16 ""
-    for dynamics in literal_eq15 standard_if; do
-      for simulation_steps in "${SIMULATION_STEPS[@]}"; do
-        run_one_evaluation \
-          "${config_path}" \
-          "${SNN_CHECKPOINT}" \
-          snn \
-          "${simulation_steps}" \
-          "${dynamics}"
-      done
+run_eval_config() {
+  local config_path="$1"
+  run_one_evaluation "${config_path}" "${ANN_CHECKPOINT}" ann 16 ""
+  for dynamics in literal_eq15 standard_if; do
+    for simulation_steps in "${SIMULATION_STEPS[@]}"; do
+      run_one_evaluation \
+        "${config_path}" \
+        "${SNN_CHECKPOINT}" \
+        snn \
+        "${simulation_steps}" \
+        "${dynamics}"
     done
   done
+}
+
+require_eval_checkpoints() {
+  require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
+  require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
+}
+
+run_eval() {
+  echo "[eval] Complete EventHDR and EventAid-R ANN+SNN matrix"
+  require_eval_checkpoints
+  run_eval_config "${HDR_CONFIG}"
+  run_eval_config "${AID_CONFIG}"
+}
+
+run_eval_hdr() {
+  echo "[eval-hdr] EventHDR ANN+SNN matrix"
+  require_eval_checkpoints
+  run_eval_config "${HDR_CONFIG}"
+}
+
+run_eval_aid() {
+  echo "[eval-aid] EventAid-R ANN+SNN matrix"
+  require_eval_checkpoints
+  run_eval_config "${AID_CONFIG}"
 }
 
 case "${STAGE}" in
@@ -8995,6 +9065,8 @@ case "${STAGE}" in
   train) execute_stage train run_train ;;
   calibrate) execute_stage calibrate run_calibrate ;;
   eval) execute_stage eval run_eval ;;
+  eval-hdr) execute_stage eval-hdr run_eval_hdr ;;
+  eval-aid) execute_stage eval-aid run_eval_aid ;;
   all)
     execute_stage check run_check
     execute_stage profile run_profile
@@ -11579,6 +11651,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="inference-only override; the checkpoint architecture remains unchanged",
     )
     eval_cmd.add_argument(
+        "--max-graph-edges-override",
+        type=_positive_integer,
+        default=None,
+        help="evaluation-only edge guard; must not lower config.model.max_graph_edges",
+    )
+    eval_cmd.add_argument(
         "--allow-unsealed-checkpoint-for-non-reporting",
         action="store_true",
         help=(
@@ -11598,6 +11676,12 @@ def build_parser() -> argparse.ArgumentParser:
         "--snn-dynamics",
         choices=["literal_eq15", "standard_if"],
         default=None,
+    )
+    bench_cmd.add_argument(
+        "--max-graph-edges-override",
+        type=_positive_integer,
+        default=None,
+        help="benchmark-only edge guard; must not lower config.model.max_graph_edges",
     )
     bench_cmd.add_argument(
         "--allow-unsealed-checkpoint-for-non-reporting",
@@ -11733,6 +11817,7 @@ def _execute_command(args: argparse.Namespace) -> None:
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
             snn_dynamics=args.snn_dynamics,
+            max_graph_edges_override=args.max_graph_edges_override,
             allow_unsealed_checkpoint_for_non_reporting=(
                 args.allow_unsealed_checkpoint_for_non_reporting
             ),
@@ -11752,6 +11837,7 @@ def _execute_command(args: argparse.Namespace) -> None:
             inference_mode=args.inference_mode,
             simulation_steps=args.simulation_steps,
             snn_dynamics=args.snn_dynamics,
+            max_graph_edges_override=args.max_graph_edges_override,
             allow_unsealed_checkpoint_for_non_reporting=(
                 args.allow_unsealed_checkpoint_for_non_reporting
             ),
@@ -15613,6 +15699,32 @@ def _set_inference_snn_dynamics(
     model.snn_dynamics = override
 
 
+def _set_inference_max_graph_edges(
+    model: ASGCNUNet,
+    override: int | None,
+) -> dict[str, int | None]:
+    """Raise the runtime-only edge guard without changing checkpoint identity."""
+    configured = model.max_graph_edges
+    if override is not None:
+        if isinstance(override, bool) or not isinstance(override, int) or override < 1:
+            raise ValueError("max_graph_edges_override must be a positive integer")
+        if configured is None:
+            raise ValueError(
+                "max_graph_edges_override cannot raise an unbounded configured guard"
+            )
+        if override < configured:
+            raise ValueError(
+                "max_graph_edges_override must be greater than or equal to "
+                f"configured max_graph_edges={configured:,}"
+            )
+        model.max_graph_edges = override
+    return {
+        "configured_max_graph_edges": configured,
+        "requested_max_graph_edges_override": override,
+        "effective_max_graph_edges": model.max_graph_edges,
+    }
+
+
 def _inference_run_label(
     inference_mode: str,
     simulation_steps: int,
@@ -17370,6 +17482,7 @@ def evaluate(
     simulation_steps: int = 16,
     snn_dynamics: str | None = None,
     *,
+    max_graph_edges_override: int | None = None,
     allow_unsealed_checkpoint_for_non_reporting: bool = False,
 ) -> dict[str, Any]:
     _validate_snn_request(inference_mode, simulation_steps)
@@ -17386,6 +17499,7 @@ def evaluate(
             inference_mode,
             simulation_steps,
             snn_dynamics,
+            max_graph_edges_override=max_graph_edges_override,
             allow_unsealed_checkpoint_for_non_reporting=(
                 allow_unsealed_checkpoint_for_non_reporting
             ),
@@ -17404,6 +17518,7 @@ def _evaluate_dataset(
     simulation_steps: int,
     snn_dynamics: str | None,
     *,
+    max_graph_edges_override: int | None,
     allow_unsealed_checkpoint_for_non_reporting: bool,
 ) -> dict[str, Any]:
     eval_config = config.get("eval", {})
@@ -17419,6 +17534,9 @@ def _evaluate_dataset(
         **_loader_kwargs(eval_config),
     )
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
+    graph_edge_guard = _set_inference_max_graph_edges(
+        model, max_graph_edges_override
+    )
     _validate_snn_request(inference_mode, simulation_steps, checkpoint, checkpoint_path)
     checkpoint_contract, report_eligible, report_ineligible_reasons = (
         _reporting_checkpoint_contract(
@@ -17513,6 +17631,7 @@ def _evaluate_dataset(
             "snn_dynamics": (
                 model.snn_dynamics if inference_mode == "snn" else None
             ),
+            "graph_edge_guard": graph_edge_guard,
             "scope": "full_dataset_quality_evaluation",
         },
         evaluation_dataset=evaluation_dataset,
@@ -17647,6 +17766,7 @@ def _evaluate_dataset(
         "inference_mode": inference_mode,
         "simulation_steps": simulation_steps if inference_mode == "snn" else None,
         "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
+        "graph_edge_guard": graph_edge_guard,
         "graph_topology": {
             "isolate_ratio": (
                 sum(row["isolated_nodes"] for row in frame_rows)
@@ -17980,6 +18100,7 @@ def benchmark(
     simulation_steps: int = 16,
     snn_dynamics: str | None = None,
     *,
+    max_graph_edges_override: int | None = None,
     allow_unsealed_checkpoint_for_non_reporting: bool = False,
 ) -> dict[str, Any]:
     if warmup < 0:
@@ -18001,6 +18122,7 @@ def benchmark(
             inference_mode,
             simulation_steps,
             snn_dynamics,
+            max_graph_edges_override=max_graph_edges_override,
             allow_unsealed_checkpoint_for_non_reporting=(
                 allow_unsealed_checkpoint_for_non_reporting
             ),
@@ -18021,9 +18143,13 @@ def _benchmark_dataset(
     simulation_steps: int,
     snn_dynamics: str | None,
     *,
+    max_graph_edges_override: int | None,
     allow_unsealed_checkpoint_for_non_reporting: bool,
 ) -> dict[str, Any]:
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
+    graph_edge_guard = _set_inference_max_graph_edges(
+        model, max_graph_edges_override
+    )
     _validate_snn_request(inference_mode, simulation_steps, checkpoint, checkpoint_path)
     checkpoint_contract, report_eligible, report_ineligible_reasons = (
         _reporting_checkpoint_contract(
@@ -18170,6 +18296,7 @@ def _benchmark_dataset(
             "snn_dynamics": (
                 model.snn_dynamics if inference_mode == "snn" else None
             ),
+            "graph_edge_guard": graph_edge_guard,
             "warmup_steps": warmup,
             "measured_steps": steps,
             "timer_scope": "model_forward_including_graph_excluding_data_and_h2d",
@@ -18284,6 +18411,7 @@ def _benchmark_dataset(
         "report_eligible": report_eligible,
         "report_ineligible_reasons": report_ineligible_reasons,
         "benchmark_protocol": benchmark_protocol,
+        "graph_edge_guard": graph_edge_guard,
         **_latency_summary(latencies),
         "raw_events_per_second": raw_events_per_second,
         "retained_events_per_second": retained_events_per_second,
@@ -32581,6 +32709,7 @@ from asgcn_unet.engine import (
     _resume_best_macro_ssim,
     _sample_event_counts,
     _sampling_summary,
+    _set_inference_max_graph_edges,
     _validate_resume_best_pair,
     _validate_snn_request,
     benchmark,
@@ -32958,6 +33087,33 @@ def test_ann_request_rejects_parameter_normalized_snn_checkpoint() -> None:
         _validate_snn_request("ann", 16, {"parameter_normalized": True}, "snn.pt")
 
 
+def test_inference_edge_guard_override_only_raises_runtime_limit() -> None:
+    model = ASGCNUNet(**_model_config())
+    assert _set_inference_max_graph_edges(model, None) == {
+        "configured_max_graph_edges": 2_000_000,
+        "requested_max_graph_edges_override": None,
+        "effective_max_graph_edges": 2_000_000,
+    }
+    assert _set_inference_max_graph_edges(model, 3_000_000) == {
+        "configured_max_graph_edges": 2_000_000,
+        "requested_max_graph_edges_override": 3_000_000,
+        "effective_max_graph_edges": 3_000_000,
+    }
+    assert model.max_graph_edges == 3_000_000
+
+    for invalid in (True, 0, -1, 2_000_000.0):
+        fresh = ASGCNUNet(**_model_config())
+        with pytest.raises(ValueError, match="positive integer"):
+            _set_inference_max_graph_edges(fresh, invalid)  # type: ignore[arg-type]
+    with pytest.raises(ValueError, match="greater than or equal"):
+        _set_inference_max_graph_edges(ASGCNUNet(**_model_config()), 1_999_999)
+
+    unbounded_config = _model_config()
+    unbounded_config["max_graph_edges"] = None
+    with pytest.raises(ValueError, match="unbounded configured guard"):
+        _set_inference_max_graph_edges(ASGCNUNet(**unbounded_config), 3_000_000)
+
+
 def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
     tmp_path, monkeypatch
 ) -> None:
@@ -33119,11 +33275,21 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
         steps=2,
         inference_mode="snn",
         simulation_steps=2,
+        max_graph_edges_override=3_000_000,
         allow_unsealed_checkpoint_for_non_reporting=True,
     )
     assert timing["snn_dynamics"] == "literal_eq15"
     assert len(timing["layer_firing_rates"]) == 1
     assert timing["mean_firing_rate"] == pytest.approx(timing["layer_firing_rates"][0])
+    benchmark_guard = timing["benchmark_protocol"]["execution"]["contract"][
+        "graph_edge_guard"
+    ]
+    assert benchmark_guard == {
+        "configured_max_graph_edges": 2_000_000,
+        "requested_max_graph_edges_override": 3_000_000,
+        "effective_max_graph_edges": 3_000_000,
+    }
+    assert timing["graph_edge_guard"] == benchmark_guard
     standard_timing = benchmark(
         config,
         output,
@@ -33196,6 +33362,7 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
 
 def test_calibration_seals_ann_training_data_transform_manifest_and_source(
     tmp_path,
+    monkeypatch,
 ) -> None:
     root = tmp_path / "hdr"
     make_eventhdr(root)
@@ -33517,13 +33684,20 @@ def test_calibration_seals_ann_training_data_transform_manifest_and_source(
         for reason in partial_quality_result["report_ineligible_reasons"]
     )
 
+    evaluation_source = copy.deepcopy(engine_module._current_source_contract())
+    evaluation_source["source_tree_sha256"] = "e" * 64
+    monkeypatch.setattr(
+        engine_module, "_current_source_contract", lambda: evaluation_source
+    )
     reporting_result = evaluate(
         config,
         output,
         inference_mode="snn",
         simulation_steps=2,
+        max_graph_edges_override=3_000_000,
     )
     assert reporting_result["report_eligible"] is True
+    assert reporting_result["evaluation_protocol"]["source"]["contract"] == evaluation_source
     lineage = reporting_result["evaluation_protocol"]["checkpoint"]
     assert lineage["calibration_protocol"]["sha256"] == engine_module._canonical_sha256(
         sealed
@@ -33534,8 +33708,14 @@ def test_calibration_seals_ann_training_data_transform_manifest_and_source(
         "inference_mode": "snn",
         "simulation_steps": 2,
         "snn_dynamics": "literal_eq15",
+        "graph_edge_guard": {
+            "configured_max_graph_edges": 2_000_000,
+            "requested_max_graph_edges_override": 3_000_000,
+            "effective_max_graph_edges": 3_000_000,
+        },
         "scope": "full_dataset_quality_evaluation",
     }
+    assert reporting_result["graph_edge_guard"] == execution["graph_edge_guard"]
 
     for field, message in (
         ("dataset_transform", "calibration dataset transform"),
@@ -33779,6 +33959,46 @@ def test_cli_evaluation_output_override_is_project_relative(
     expected = root / (override or "runs/eval/hdr")
     assert Path(captured["eval"]["output_dir"]) == expected.resolve()
     assert config_path.read_bytes() == original
+
+
+@pytest.mark.parametrize("command", ["evaluate", "benchmark"])
+def test_cli_forwards_runtime_graph_edge_guard_override(
+    tmp_path, monkeypatch, command,
+):
+    from pathlib import Path
+
+    from asgcn_unet import cli
+
+    root = Path(__file__).resolve().parents[1]
+    config_path = root / "configs/hdr.json"
+    original = config_path.read_bytes()
+    captured = {}
+
+    def record(config, checkpoint, **kwargs):
+        captured["config"] = config
+        captured["kwargs"] = kwargs
+        return {}
+
+    monkeypatch.setattr(cli, command, record)
+    monkeypatch.chdir(tmp_path)
+    cli.main([
+        command,
+        "--config", str(config_path),
+        "--checkpoint", "runs/model.pt",
+        "--max-graph-edges-override", "3000000",
+    ])
+
+    assert captured["kwargs"]["max_graph_edges_override"] == 3_000_000
+    assert captured["config"]["model"]["max_graph_edges"] == 2_000_000
+    assert config_path.read_bytes() == original
+
+    with pytest.raises(SystemExit):
+        cli.build_parser().parse_args([
+            command,
+            "--config", str(config_path),
+            "--checkpoint", "runs/model.pt",
+            "--max-graph-edges-override", "0",
+        ])
 
 
 def test_eventhdr_stride_aggregates_intervals(tmp_path):
@@ -37212,13 +37432,17 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert "[train]" in script
     assert "[calibrate]" in script
     assert "[eval]" in script
+    assert "[eval-hdr]" in script
+    assert "[eval-aid]" in script
     all_stage = script.split('  all)\n', maxsplit=1)[1]
     assert all_stage.index("run_check") < all_stage.index("run_profile")
     assert all_stage.index("run_profile") < all_stage.index("run_train")
     assert all_stage.index("run_train") < all_stage.index("run_calibrate")
     assert all_stage.index("run_calibrate") < all_stage.index("run_eval")
 
-    for stage in ("check", "profile", "train", "calibrate", "eval", "all"):
+    for stage in (
+        "check", "profile", "train", "calibrate", "eval", "eval-hdr", "eval-aid", "all"
+    ):
         assert stage in script
     for config in ("configs/train.json", "configs/hdr.json", "configs/aid.json"):
         assert config in script
@@ -37235,7 +37459,8 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert "including PROFILE_OUTPUT" in script
     assert "\\$PROJECT_ROOT" in script
     assert 'for config_path in "${TRAIN_CONFIG}" "${AID_CONFIG}"' in script
-    assert 'for config_path in "${HDR_CONFIG}" "${AID_CONFIG}"' in script
+    assert 'run_eval_config "${HDR_CONFIG}"' in script
+    assert 'run_eval_config "${AID_CONFIG}"' in script
     assert "silently skipped" in script
     assert "rm -f" not in script
     assert "write_stage_status" in script
@@ -37243,6 +37468,8 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert "COMPLETED" in script
     assert "FAILED" in script
     assert "record_stage_failure" in script
+    assert "execute_stage eval-hdr run_eval_hdr" in script
+    assert "execute_stage eval-aid run_eval_aid" in script
 
 
 def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
@@ -37306,6 +37533,22 @@ def test_batch_wrapper_isolates_training_profile_status_and_evaluation() -> None
     evaluation = _text("scripts/eval.sh")
     assert 'OUTPUT_ARGS=(--output-dir "${EVAL_OUTPUT_DIR}")' in evaluation
     assert evaluation.count('"${OUTPUT_ARGS[@]}"') == 2
+
+
+def test_evaluation_recovery_routes_one_dataset_and_forwards_edge_guard() -> None:
+    runner = _text("scripts/run.sh")
+    evaluation = _text("scripts/eval.sh")
+
+    assert 'EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"' in runner
+    assert 'EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES}"' in runner
+    assert 'run_eval_config "${HDR_CONFIG}"' in runner
+    assert 'run_eval_config "${AID_CONFIG}"' in runner
+    assert '${STATUS_DIR}/${stage_name}.json' in runner
+
+    assert 'EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"' in evaluation
+    assert 'EVAL_MAX_GRAPH_EDGES must be a positive integer' in evaluation
+    assert 'GRAPH_EDGE_ARGS=(--max-graph-edges-override "${EVAL_MAX_GRAPH_EDGES}")' in evaluation
+    assert evaluation.count('"${GRAPH_EDGE_ARGS[@]}"') == 2
 
 
 def test_fast_wrapper_isolates_measured_training_and_safe_pause() -> None:

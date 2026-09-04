@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-03T09:05:35Z",
+    "generated_utc": "2026-09-04T07:02:26Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "d108815fbbc12cb3ad3b92cf688bebdd2edce97d",
-    "source_tree_at_generation": "1743900f5ec6da4839c4a81ae40a877468bd7ea9",
+    "source_commit_at_generation": "b789498eece78bb839e77eedfc3fb693ffcc8dee",
+    "source_tree_at_generation": "d96edd3292f9bd6e9e0a9119195c15fef5c8c685",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 34033,
+        "bytes": 34494,
         "path": "README.md",
-        "sha256": "d38695adef137b5ea8e58d308f87f4a241f2b5dc908c718e798a82ee6d7fdb9d"
+        "sha256": "801238f589cfb5fa51a5d2c936d11b13486ad5bbeb6426cc249d91248b50a0d6"
       },
       {
         "bytes": 1333,
@@ -106,9 +106,9 @@
         "sha256": "0c4defd5e3564c7bb657ad48df6863b95ce815d15da3d4ebeb5f3687a79cbcde"
       },
       {
-        "bytes": 29971,
+        "bytes": 30628,
         "path": "docs/EXPERIMENT.md",
-        "sha256": "a8f8569a8d1a9745a385a9c3385e67d70b8b03dbb26d6754d84e5259d4e5554b"
+        "sha256": "37fd353fe5840854b0aaeb6164be8becaa3b6d25fbedab051da07cf9727acf7a"
       },
       {
         "bytes": 18062,
@@ -116,9 +116,9 @@
         "sha256": "1d0650f25b33e5e88e424e9f2ab7b6ed962161940bfd963f39c429bca5f43606"
       },
       {
-        "bytes": 43137,
+        "bytes": 43460,
         "path": "docs/SERVER.md",
-        "sha256": "1cd27bb8f915260342729158336cc31e376ce7ade47bcf220d9c1f767d33cb6c"
+        "sha256": "d8d64827ba0ad281cfce0083837f7a872923a77011f4b5fc5170d0cf085b4ec2"
       },
       {
         "bytes": 13112,
@@ -166,9 +166,14 @@
         "sha256": "7bdf8d95346ef0a2991c7f55fc5068100c83bb331c185950a01ba06432f69729"
       },
       {
-        "bytes": 4610,
+        "bytes": 5201,
         "path": "scripts/eval.sh",
-        "sha256": "9d3aa92388daf229668599756fdaf4e3481f276d28adcff6787d269d4ebdeabb"
+        "sha256": "46a19c007da612ba844f1287378b970348dedf455e3517efe4e2a94fc5beb193"
+      },
+      {
+        "bytes": 14103,
+        "path": "scripts/eval_resume.py",
+        "sha256": "cbf8ec18fdcac293b9f5bcda0c50756b440921f2d903dec151a5e34da95cb8ea"
       },
       {
         "bytes": 3783,
@@ -196,9 +201,9 @@
         "sha256": "f49036b3f6a87a1a8b54ed0a98629d27dc79b393a1c03bb2da771a474f2f6195"
       },
       {
-        "bytes": 15087,
+        "bytes": 19305,
         "path": "scripts/run.sh",
-        "sha256": "8b57fd8948c865bfe5a041544055e9ccef300208cd42cc73f8d2e77d9af77506"
+        "sha256": "b39c74cee3e7c6af0d905512b752545651dc01b2259ec284d9b95324f64060b2"
       },
       {
         "bytes": 3596,
@@ -426,9 +431,9 @@
         "sha256": "06e4ecebfe91ca686f837ef15d2f55b84825be7c86a7442661655d5b99ee2e36"
       },
       {
-        "bytes": 7846,
+        "bytes": 9186,
         "path": "tests/test_conda_runtime.py",
-        "sha256": "935fa96b2b46dbd4a2179d21007cc887eea0d336149670e820b09e4a92ee440c"
+        "sha256": "3109447730dd1c45e7b4ddcfc6683c5506951bb27068f39dedf77158c7351db6"
       },
       {
         "bytes": 13772,
@@ -451,14 +456,19 @@
         "sha256": "11ef80df4106e856dceb7e9065275278aa6ad99c16df5c6adeaba9e2cfa93764"
       },
       {
-        "bytes": 17401,
+        "bytes": 17985,
         "path": "tests/test_e2e.py",
-        "sha256": "38367499c1a1bab3acda5091ff069039bf86ca5555184dbed74b066bd97b6807"
+        "sha256": "b6457d0fd13f78f78c243a5565450bb2e422c3681e4eff7d1635233c654b5157"
       },
       {
         "bytes": 18519,
         "path": "tests/test_engine_integrity.py",
         "sha256": "26f8c04bdaa15fb66869c5d1d27a0d773542a337ee24d62e674de216fe5b38f4"
+      },
+      {
+        "bytes": 9238,
+        "path": "tests/test_eval_resume.py",
+        "sha256": "f8cfa3e82f242f9ed213748f908bdd4b3c7bcb91319d59cb2bd7d3991305ff0c"
       },
       {
         "bytes": 7171,
@@ -581,9 +591,9 @@
         "sha256": "2f876783b6a8235885a165a66045d46bfcc0ff1dfdf48d934853bac2202e4c49"
       },
       {
-        "bytes": 17348,
+        "bytes": 18452,
         "path": "tests/test_server_orchestration.py",
-        "sha256": "8173dab823caa11d50be81c5a20ba8629ddb7be536173108010ab8e400e3204c"
+        "sha256": "70665197aaf5a8e5162bdd27c5a2cc077c2d26a6f1dbcd4cf88a74a356d0bfd7"
       },
       {
         "bytes": 11827,
@@ -631,9 +641,9 @@
         "sha256": "b98fd77664c35871548354ff7e54098d019b9aa9056713f80ea03ee47ef184c7"
       }
     ],
-    "included_file_count": 123,
+    "included_file_count": 125,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "b8215a8ea33216a3966586b42a1d78dee24a4b6d808b2e59ef10ad75e7b58aa3"
+    "snapshot_sha256": "39b96e2102d777e98e057a6e78ed6ede82693367dbc52fcac95d592562632fe0"
   }
 }
 -->
@@ -1215,22 +1225,27 @@ runtime에 다시 결합한다. 학습 재개가 끝나면 `bash scripts/run.sh 
 `--allow-unverified-preflight` 우회는 checkpoint에 비보고용으로 영구 기록되고 `all` 및 scheduler
 wrapper에서는 허용되지 않는다.
 
-dataset 하나의 평가만 복구할 때는 `eval-hdr` 또는 `eval-aid`를 사용한다. 예를 들어 EventAid-R가
-configured edge guard에서 중단됐고, 별도 topology 및 VRAM 측정으로 4,000,000 edges가 안전하다고
-확인한 경우 다음처럼 **새** 출력 root에서 그 dataset의 전체 ANN+SNN 행렬을 처음부터 실행한다.
+dataset 하나의 평가만 복구할 때는 `eval-hdr` 또는 `eval-aid`를 사용한다. 같은 출력 root에서
+`EVAL_RESUME=1`을 지정하면 완료된 mode는 건너뛴다. 중단된 mode는 frame 상태를 이어 붙이지 않고
+그 mode의 partial artifact를 `.incomplete-<UTC>-<PID>`로 보존한 뒤 해당 mode만 처음부터 다시 실행한다.
+예를 들어 EventAid-R가 configured edge guard에서 중단됐고, 별도 topology 및 VRAM 측정으로
+4,000,000 edges가 안전하다고 확인한 경우 다음처럼 실행한다.
 
 ```bash
 EXPERIMENT=fast \
 EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-4m" \
 EVAL_MAX_GRAPH_EDGES=4000000 \
+EVAL_RESUME=1 \
   bash scripts/run.sh eval-aid
 ```
 
 `EVAL_MAX_GRAPH_EDGES`는 quality와 benchmark에 같은 inference-only guard override를 전달하며 결과
 protocol에 기록된다. 이 예시 값은 9.5 GiB를 포함한 임의의 GPU에서 안전하거나 충분하다는 보장이
-아니므로 실측 없이 사용하지 않는다. quality evaluation은 frame-level resume을 지원하지 않는다.
-실패한 기존 directory나 완료된 다른 dataset 결과를 삭제·덮어쓰지 말고 매 복구 시 고유한
-`EVAL_OUTPUT_ROOT`를 선택한다. 상태는 각각 `eval-hdr.json`과 `eval-aid.json`에 기록된다.
+아니므로 실측 없이 사용하지 않는다. `EVAL_RESUME=1`은 mode-level recovery이며 quality evaluation의
+frame-level resume은 아니다. `metrics.json`과 `frames.csv`가 모두 있으면 quality를, 여기에
+`benchmark.json`까지 있으면 mode 전체를 완료로 본다. 완료 artifact는 덮어쓰지 않고 partial artifact도
+자동 백업한다. 이 옵션은 같은 config/checkpoint/guard의 중단 복구에만 사용하고, 조건을 바꾸는 새 실험은
+새 `EVAL_OUTPUT_ROOT`를 선택한다. 상태는 각각 `eval-hdr.json`과 `eval-aid.json`에 기록된다.
 
 resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
 현재 epoch cursor/context, 전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다.
@@ -2982,8 +2997,14 @@ runs/eval/aid/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
 
 각 directory의 `metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고
 `benchmark.json`은 benchmark가 만든다. prediction은 config 기본값에 따라 처음 20 frame의 pred/GT
-PNG를 저장한다. 같은 mode/dynamics/T artifact가 있으면 묵시적으로 덮어쓰지 않고 실패하므로 재실행
-전 기존 결과를 보존 위치로 옮기거나 별도 `eval.output_dir` config를 사용한다.
+PNG를 저장한다. 같은 mode/dynamics/T artifact가 있으면 묵시적으로 덮어쓰지 않는다. 동일한
+config/checkpoint/edge guard로 중단된 행렬은 명시적 `EVAL_RESUME=1`로 mode 경계에서 복구할 수 있다.
+이때 완료 artifact의 public config, checkpoint file SHA-256, executable Python source SHA-256,
+runtime/GPU, mode/dynamics/T, graph guard와 benchmark sampling 계약을 검증한다. mode별 process lock으로
+동시 복구도 차단한다. 불일치하면 아무것도 옮기지 않고
+거부한다. 일치하는 완료 단계는 건너뛰고 partial artifact는 보존 이름으로 옮긴 뒤 해당 단계만 다시
+실행한다. frame별 metric accumulator와 recurrent state는 저장하지 않으므로 quality 내부 frame
+단위 resume은 지원하지 않는다. 조건이 달라진 실행은 별도 `eval.output_dir`를 사용한다.
 
 보고용 ANN 평가에는 검증된 preflight gate를 가진 clean `ann_inference`, finite final selection과
 training/validation protocol이 필요하다. 보고용 SNN에는 `calibration_protocol.sealed=true`인
@@ -3691,9 +3712,11 @@ profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어
 완료된 stage를 묵시적으로 재사용하지 않는다. CUDA profile 우회는 합성 비보고용 직접 CLI에서만
 명시적으로 가능하고 scheduler wrapper 및 `all`에서는 차단된다.
 
-한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. frame-level resume은
-지원하지 않으므로 해당 dataset 행렬은 처음부터 다시 실행되며, 완료된 다른 dataset과 실패한 partial
-directory를 보존하도록 매 시도마다 새 `EVAL_OUTPUT_ROOT`를 지정한다.
+한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. 같은 출력 root에
+`EVAL_RESUME=1`을 지정하면 완료된 mode는 건너뛰고, 실패한 partial artifact를
+`.incomplete-<UTC>-<PID>`로 보존한 뒤 그 mode만 처음부터 다시 실행한다. frame-level resume은
+지원하지 않으므로 중단된 mode 내부의 처리 완료 frame부터 이어 붙이지는 않는다. 이 복구는 같은
+config/checkpoint/edge guard에만 사용한다.
 
 edge guard에서 중단됐다면 숫자를 추측해 전체 평가를 반복하지 않는다. 예를 들어 진행률
 `32843/51512`에서 4,000,000-edge guard가 중단된 경우, 완료된 `[0,32843)` 구간의 상한과 나머지 구간의
@@ -3754,13 +3777,16 @@ EDGE_GUARD=<global_edge_guard_upper_bound>
 EXPERIMENT=fast \
 EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-measured" \
 EVAL_MAX_GRAPH_EDGES="$EDGE_GUARD" \
+EVAL_RESUME=1 \
   bash scripts/run.sh eval-aid
 ```
 
 `EVAL_MAX_GRAPH_EDGES`는 quality와 benchmark 양쪽의 inference-only guard이며 각 결과 protocol에
 요청값과 effective 값을 기록한다. 위 숫자는 예시일 뿐이고 특정 MIG/GPU에서 안전하거나 모든 frame에
 충분하다는 보장이 없다. 실측 없이 guard를 올리지 않으며 기존 output을 삭제하거나 같은 root로
-덮어쓰지 않는다. dataset별 상태 파일은 `eval-hdr.json`, `eval-aid.json`이다.
+덮어쓰지 않는다. `EVAL_RESUME=1`은 `metrics.json`과 `frames.csv`를 quality 완료 표식으로,
+`benchmark.json`을 mode 완료 표식으로 사용한다. dataset별 상태 파일은 `eval-hdr.json`,
+`eval-aid.json`이다.
 
 ## 5. Slurm: profile → train → calibrate → evaluation matrix
 
@@ -7439,6 +7465,7 @@ INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
+RUN_EVALUATION="${RUN_EVALUATION:-1}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"
@@ -7477,6 +7504,18 @@ if [[ "${DRY_RUN}" != "1" && ! -f "${CHECKPOINT_PATH}" ]]; then
 fi
 if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
   echo "ERROR: VALIDATE_DATASET must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RUN_EVALUATION}" != "0" && "${RUN_EVALUATION}" != "1" ]]; then
+  echo "ERROR: RUN_EVALUATION must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RUN_BENCHMARK}" != "0" && "${RUN_BENCHMARK}" != "1" ]]; then
+  echo "ERROR: RUN_BENCHMARK must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RUN_EVALUATION}" == "0" && "${RUN_BENCHMARK}" == "0" ]]; then
+  echo "ERROR: RUN_EVALUATION and RUN_BENCHMARK cannot both be 0" >&2
   exit 2
 fi
 if [[ "${INSPECT_VALIDATE_ALL}" != "0" && "${INSPECT_VALIDATE_ALL}" != "1" ]]; then
@@ -7543,15 +7582,19 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
-echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${CONFIG_PATH}") (${INFERENCE_MODE})"
-runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
-  --config "${CONFIG_PATH}" \
-  --checkpoint "${CHECKPOINT_PATH}" \
-  --inference-mode "${INFERENCE_MODE}" \
-  --simulation-steps "${SIMULATION_STEPS}" \
-  "${OUTPUT_ARGS[@]}" \
-  "${DYNAMICS_ARGS[@]}" \
-  "${GRAPH_EDGE_ARGS[@]}"
+if [[ "${RUN_EVALUATION}" == "1" ]]; then
+  echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${CONFIG_PATH}") (${INFERENCE_MODE})"
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
+    --config "${CONFIG_PATH}" \
+    --checkpoint "${CHECKPOINT_PATH}" \
+    --inference-mode "${INFERENCE_MODE}" \
+    --simulation-steps "${SIMULATION_STEPS}" \
+    "${OUTPUT_ARGS[@]}" \
+    "${DYNAMICS_ARGS[@]}" \
+    "${GRAPH_EDGE_ARGS[@]}"
+else
+  echo "Skipping completed quality evaluation (${INFERENCE_MODE})"
+fi
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"
@@ -7566,6 +7609,381 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     "${DYNAMICS_ARGS[@]}" \
     "${GRAPH_EDGE_ARGS[@]}"
 fi
+~~~~~~~~
+
+# scripts/eval_resume.py
+
+~~~~~~~~python
+#!/usr/bin/env python3
+"""Validate whether both halves of one evaluation mode are safe to reuse."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+from pathlib import Path
+from typing import Any
+
+import torch
+
+from asgcn_unet.data.factory import build_dataset
+from asgcn_unet.engine import (
+    _canonical_sha256,
+    _current_source_contract,
+    _dataset_content_fingerprint,
+    _dataset_coverage_summary,
+    _evaluation_dataset_transform_contract,
+    _evaluation_manifest_contract,
+    _evaluation_runtime_contract,
+    _hashed_contract,
+    _inference_precision,
+    _load_data_hash_cache,
+    _public_config,
+    _reporting_checkpoint_contract,
+    load_model_checkpoint,
+)
+from asgcn_unet.utils import (
+    experiment_base_dir,
+    load_json,
+    resolve_device,
+    resolve_experiment_paths,
+    resolve_path,
+)
+
+
+class ArtifactMismatch(ValueError):
+    """A completed-looking artifact does not match the requested recovery contract."""
+
+
+def _regular_nonempty(path: Path) -> bool:
+    return path.is_file() and not path.is_symlink() and path.stat().st_size > 0
+
+
+def _load_object(path: Path) -> dict[str, Any]:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        raise ArtifactMismatch(f"{path.name} is not valid JSON") from error
+    if not isinstance(value, dict):
+        raise ArtifactMismatch(f"{path.name} must contain a JSON object")
+    return value
+
+
+def _require_equal(name: str, actual: Any, expected: Any) -> None:
+    if actual != expected:
+        raise ArtifactMismatch(
+            f"{name} mismatch: existing={actual!r}, requested={expected!r}"
+        )
+
+
+def _validate_hashed_contract(name: str, value: Any) -> dict[str, Any]:
+    if not isinstance(value, dict) or not isinstance(value.get("contract"), dict):
+        raise ArtifactMismatch(f"{name} is not a hashed contract")
+    try:
+        expected_sha256 = _canonical_sha256(value["contract"])
+    except (TypeError, ValueError, OverflowError) as error:
+        raise ArtifactMismatch(f"{name} contract is invalid") from error
+    _require_equal(f"{name}.sha256", value.get("sha256"), expected_sha256)
+    return value["contract"]
+
+
+def _validate_protocol_commitments(name: str, protocol: dict[str, Any]) -> None:
+    committed = dict(protocol)
+    recorded_sha256 = committed.pop("protocol_sha256", None)
+    try:
+        expected_sha256 = _canonical_sha256(committed)
+    except (TypeError, ValueError, OverflowError) as error:
+        raise ArtifactMismatch(f"{name} is not canonical JSON") from error
+    _require_equal(f"{name}.protocol_sha256", recorded_sha256, expected_sha256)
+    for field in ("public_config", "model_config", "execution", "source", "runtime", "precision"):
+        _validate_hashed_contract(f"{name}.{field}", protocol.get(field))
+    _validate_hashed_contract(
+        f"{name}.evaluation_dataset", protocol.get("evaluation_dataset")
+    )
+
+
+def _current_dataset_common(config: dict[str, Any]) -> dict[str, Any]:
+    dataset = build_dataset(config["dataset"], split="eval")
+    try:
+        eval_config = config.get("eval", {})
+        output_base = Path(eval_config.get("output_dir", "runs/evaluation"))
+        digest_cache = _load_data_hash_cache(
+            output_base / ".data_hash_cache.json",
+            bool(eval_config.get("rehash_data", False)),
+        )
+        return {
+            "content": _dataset_content_fingerprint(dataset, digest_cache),
+            "transform": _evaluation_dataset_transform_contract(config),
+            "manifest": _evaluation_manifest_contract(config),
+            "coverage": _dataset_coverage_summary(dataset, config["dataset"]),
+        }
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
+
+
+def _current_runtime_contract(config: dict[str, Any], model: torch.nn.Module) -> dict[str, Any]:
+    device = resolve_device(config.get("device", "auto"))
+    precision, _ = _inference_precision(config.get("eval", {}), device, model)
+    return _evaluation_runtime_contract(device, precision)
+
+
+def _validate_common(
+    value: dict[str, Any],
+    *,
+    protocol_key: str,
+    protocol_kind: str,
+    public_config: dict[str, Any],
+    checkpoint_sha256: str,
+    source_tree_sha256: str,
+    current_runtime: dict[str, Any],
+    mode: str,
+    simulation_steps: int,
+    dynamics: str | None,
+    configured_guard: int | None,
+    requested_guard: int | None,
+    dataset_common: dict[str, Any],
+) -> dict[str, Any]:
+    _require_equal("report_eligible", value.get("report_eligible"), True)
+    _require_equal("report_ineligible_reasons", value.get("report_ineligible_reasons"), [])
+    protocol = value.get(protocol_key)
+    if not isinstance(protocol, dict):
+        raise ArtifactMismatch(f"missing {protocol_key}")
+    _validate_protocol_commitments(protocol_key, protocol)
+    _require_equal(f"{protocol_key}.kind", protocol.get("kind"), protocol_kind)
+    _require_equal(f"{protocol_key}.report_eligible", protocol.get("report_eligible"), True)
+    _require_equal(
+        f"{protocol_key}.report_ineligible_reasons",
+        protocol.get("report_ineligible_reasons"),
+        [],
+    )
+    _require_equal(
+        f"{protocol_key}.public_config",
+        protocol.get("public_config"),
+        public_config,
+    )
+    checkpoint = protocol.get("checkpoint")
+    if not isinstance(checkpoint, dict):
+        raise ArtifactMismatch(f"missing {protocol_key}.checkpoint")
+    _require_equal(
+        f"{protocol_key}.checkpoint.checkpoint_file_sha256",
+        checkpoint.get("checkpoint_file_sha256"),
+        checkpoint_sha256,
+    )
+    source = protocol.get("source", {}).get("contract", {})
+    _require_equal(
+        f"{protocol_key}.source.source_tree_sha256",
+        source.get("source_tree_sha256"),
+        source_tree_sha256,
+    )
+    _require_equal(
+        f"{protocol_key}.runtime",
+        protocol["runtime"]["contract"],
+        current_runtime,
+    )
+    execution = protocol.get("execution", {}).get("contract")
+    if not isinstance(execution, dict):
+        raise ArtifactMismatch(f"missing {protocol_key}.execution contract")
+    expected_steps = simulation_steps if mode == "snn" else None
+    expected_dynamics = dynamics if mode == "snn" else None
+    _require_equal(f"{protocol_key}.inference_mode", execution.get("inference_mode"), mode)
+    _require_equal(
+        f"{protocol_key}.simulation_steps",
+        execution.get("simulation_steps"),
+        expected_steps,
+    )
+    _require_equal(
+        f"{protocol_key}.snn_dynamics",
+        execution.get("snn_dynamics"),
+        expected_dynamics,
+    )
+    expected_guard = {
+        "configured_max_graph_edges": configured_guard,
+        "requested_max_graph_edges_override": requested_guard,
+        "effective_max_graph_edges": (
+            requested_guard if requested_guard is not None else configured_guard
+        ),
+    }
+    _require_equal(
+        f"{protocol_key}.graph_edge_guard",
+        execution.get("graph_edge_guard"),
+        expected_guard,
+    )
+    evaluation_dataset = protocol["evaluation_dataset"]["contract"]
+    for field, expected_value in dataset_common.items():
+        _require_equal(
+            f"{protocol_key}.evaluation_dataset.{field}",
+            evaluation_dataset.get(field),
+            expected_value,
+        )
+    return execution
+
+
+def _validate_quality(
+    metrics_path: Path,
+    frames_path: Path,
+    **expected: Any,
+) -> None:
+    metrics = _load_object(metrics_path)
+    _validate_common(
+        metrics,
+        protocol_key="evaluation_protocol",
+        protocol_kind="quality_evaluation",
+        **expected,
+    )
+    quality = metrics.get("quality")
+    if not isinstance(quality, dict):
+        raise ArtifactMismatch("metrics.json is missing quality")
+    frames = quality.get("frames")
+    if isinstance(frames, bool) or not isinstance(frames, int) or frames < 1:
+        raise ArtifactMismatch("metrics.json has an invalid quality frame count")
+    try:
+        with frames_path.open("r", encoding="utf-8", newline="") as handle:
+            csv_frames = sum(1 for _ in csv.DictReader(handle))
+    except (OSError, UnicodeError, csv.Error) as error:
+        raise ArtifactMismatch("frames.csv is not a valid readable CSV") from error
+    _require_equal("frames.csv row count", csv_frames, frames)
+
+
+def _validate_benchmark(
+    benchmark_path: Path,
+    *,
+    benchmark_warmup: int,
+    benchmark_steps: int,
+    **expected: Any,
+) -> None:
+    benchmark = _load_object(benchmark_path)
+    execution = _validate_common(
+        benchmark,
+        protocol_key="benchmark_protocol",
+        protocol_kind="compute_benchmark",
+        **expected,
+    )
+    _require_equal("benchmark warmup", execution.get("warmup_steps"), benchmark_warmup)
+    _require_equal("benchmark measured steps", execution.get("measured_steps"), benchmark_steps)
+    _require_equal("benchmark frame count", benchmark.get("frames"), benchmark_steps)
+
+
+def _parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", required=True)
+    parser.add_argument("--checkpoint", required=True)
+    parser.add_argument("--output-dir", required=True)
+    parser.add_argument("--inference-mode", choices=("ann", "snn"), required=True)
+    parser.add_argument("--simulation-steps", type=int, required=True)
+    parser.add_argument("--snn-dynamics", choices=("literal_eq15", "standard_if"))
+    parser.add_argument("--max-graph-edges", type=int)
+    parser.add_argument("--benchmark-warmup", type=int, required=True)
+    parser.add_argument("--benchmark-steps", type=int, required=True)
+    parser.add_argument("--require-cuda", action="store_true")
+    return parser
+
+
+def inspect_mode(args: argparse.Namespace) -> tuple[int, int]:
+    if args.simulation_steps < 1:
+        raise ArtifactMismatch("simulation steps must be positive")
+    if args.max_graph_edges is not None and args.max_graph_edges < 1:
+        raise ArtifactMismatch("max graph edges must be positive")
+    if args.benchmark_warmup < 0 or args.benchmark_steps < 1:
+        raise ArtifactMismatch("benchmark warmup/steps are invalid")
+    config_path = resolve_path(args.config, Path.cwd())
+    base_dir = experiment_base_dir(config_path)
+    config = resolve_experiment_paths(load_json(config_path), config_path)
+    output_dir = resolve_path(args.output_dir, base_dir)
+    config["eval"]["output_dir"] = str(output_dir)
+    checkpoint_path = resolve_path(args.checkpoint, base_dir)
+    if not checkpoint_path.is_file() or checkpoint_path.is_symlink():
+        raise ArtifactMismatch("checkpoint is not a regular file")
+
+    if args.inference_mode == "snn" and args.snn_dynamics is None:
+        raise ArtifactMismatch("SNN recovery requires --snn-dynamics")
+    dynamics = args.snn_dynamics if args.inference_mode == "snn" else None
+    run_label = (
+        "ann"
+        if args.inference_mode == "ann"
+        else f"snn_{dynamics}_T{args.simulation_steps}"
+    )
+    run_dir = output_dir / run_label
+    mode_dir_is_symlink = run_dir.is_symlink()
+    metrics_path = run_dir / "metrics.json"
+    frames_path = run_dir / "frames.csv"
+    benchmark_path = run_dir / "benchmark.json"
+
+    quality_complete = (
+        not mode_dir_is_symlink
+        and _regular_nonempty(metrics_path)
+        and _regular_nonempty(frames_path)
+    )
+    benchmark_complete = not mode_dir_is_symlink and _regular_nonempty(benchmark_path)
+    try:
+        model, checkpoint = load_model_checkpoint(
+            checkpoint_path,
+            torch.device("cpu"),
+            config["model"],
+        )
+        checkpoint_contract, report_eligible, report_ineligible_reasons = (
+            _reporting_checkpoint_contract(
+                checkpoint,
+                checkpoint_path,
+                args.inference_mode,
+                allow_unsealed_checkpoint_for_non_reporting=False,
+            )
+        )
+    except Exception as error:
+        raise ArtifactMismatch("checkpoint validation failed") from error
+    configured_guard = model.max_graph_edges
+    if args.max_graph_edges is not None and (
+        configured_guard is None or args.max_graph_edges < configured_guard
+    ):
+        raise ArtifactMismatch(
+            "max graph edges must not lower the configured finite guard"
+        )
+    _require_equal("checkpoint report eligibility", report_eligible, True)
+    _require_equal("checkpoint report ineligibility reasons", report_ineligible_reasons, [])
+    current_runtime = _current_runtime_contract(config, model)
+    if args.require_cuda and current_runtime.get("device_type") != "cuda":
+        raise ArtifactMismatch("recovery requires a CUDA runtime")
+    dataset_common = (
+        _current_dataset_common(config)
+        if quality_complete or benchmark_complete
+        else {}
+    )
+    expected = {
+        "public_config": _hashed_contract(_public_config(config)),
+        "checkpoint_sha256": checkpoint_contract["checkpoint_file_sha256"],
+        "source_tree_sha256": _current_source_contract()["source_tree_sha256"],
+        "current_runtime": current_runtime,
+        "mode": args.inference_mode,
+        "simulation_steps": args.simulation_steps,
+        "dynamics": dynamics,
+        "configured_guard": configured_guard,
+        "requested_guard": args.max_graph_edges,
+        "dataset_common": dataset_common,
+    }
+    if quality_complete:
+        _validate_quality(metrics_path, frames_path, **expected)
+    if benchmark_complete:
+        _validate_benchmark(
+            benchmark_path,
+            benchmark_warmup=args.benchmark_warmup,
+            benchmark_steps=args.benchmark_steps,
+            **expected,
+        )
+    return int(quality_complete), int(benchmark_complete)
+
+
+def main() -> int:
+    quality_complete, benchmark_complete = inspect_mode(_parser().parse_args())
+    print(f"{quality_complete} {benchmark_complete}")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except ArtifactMismatch as error:
+        raise SystemExit(f"evaluation resume refused: {error}") from None
 ~~~~~~~~
 
 # scripts/get_aid.sh
@@ -8825,6 +9243,7 @@ Important environment:
   SIMULATION_STEPS_LIST='4 8 16 32'
   BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N
   EVAL_MAX_GRAPH_EDGES=N                 Eval-only guard raise; recorded in outputs
+  EVAL_RESUME=0|1                        Resume at mode boundaries; default: 0
   PROFILE_SAMPLES=N / PROFILE_TOP_DENSITY=N
   PROFILE_OUTPUT=PATH                    Default: runs/profile.json
   PROFILE_RESUME=0|1                     Resume a matching saved scan; default: 0
@@ -8836,9 +9255,9 @@ Important environment:
   DRY_RUN=0|1                            Print commands without executing them
   INCLUDE_PRIVATE_HOST_PROVENANCE=0|1    Default: 0; exact host paths are private
 
-Existing artifacts, including PROFILE_OUTPUT, are never silently skipped. Select
-a stage explicitly when recovering a partial run; wrappers fail rather than
-overwrite protected output.
+Existing artifacts, including PROFILE_OUTPUT, are never silently overwritten.
+Evaluation modes are skipped only with explicit EVAL_RESUME=1; incomplete artifacts
+are preserved before that mode is restarted.
 EOF
 }
 
@@ -8905,6 +9324,7 @@ SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"
+EVAL_RESUME="${EVAL_RESUME:-0}"
 PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
@@ -8927,6 +9347,7 @@ for flag_name in \
   DRY_RUN \
   ALLOW_UNVERIFIED_PREFLIGHT \
   PROFILE_RESUME \
+  EVAL_RESUME \
   RESTART_TRAIN \
   INCLUDE_PRIVATE_HOST_PROVENANCE; do
   flag_value="${!flag_name}"
@@ -9158,7 +9579,21 @@ run_calibrate() {
   require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
 }
 
-run_one_evaluation() {
+preserve_incomplete_eval_path() {
+  local path="$1"
+  if [[ ! -e "${path}" && ! -L "${path}" ]]; then
+    return
+  fi
+  local backup="${path}.incomplete-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+  if [[ -e "${backup}" || -L "${backup}" ]]; then
+    echo "ERROR: evaluation recovery backup already exists: $(path_log_label "${backup}")" >&2
+    exit 1
+  fi
+  mv -- "${path}" "${backup}"
+  echo "[eval-resume] preserved incomplete artifact: $(path_log_label "${backup}")"
+}
+
+run_one_evaluation() (
   local config_path="$1"
   local checkpoint_path="$2"
   local mode="$3"
@@ -9173,10 +9608,94 @@ run_one_evaluation() {
   if [[ -n "${EVAL_OUTPUT_ROOT}" ]]; then
     output_dir="${EVAL_OUTPUT_ROOT}/${dataset_name}"
   fi
+  local run_evaluation=1
+  local run_benchmark=1
+  if [[ "${EVAL_RESUME}" == "1" ]]; then
+    if [[ -z "${output_dir}" ]]; then
+      echo "ERROR: EVAL_RESUME=1 requires an explicit EVAL_OUTPUT_ROOT." >&2
+      exit 2
+    fi
+    local run_label="ann"
+    if [[ "${mode}" == "snn" ]]; then
+      run_label="snn_${dynamics}_T${simulation_steps}"
+    fi
+    local run_dir="${output_dir}/${run_label}"
+    local metrics_path="${run_dir}/metrics.json"
+    local frames_path="${run_dir}/frames.csv"
+    local predictions_path="${run_dir}/predictions"
+    local benchmark_path="${run_dir}/benchmark.json"
+    local quality_complete=0
+    local benchmark_complete=0
+    if [[ "${DRY_RUN}" != "1" ]]; then
+      if ! command -v flock >/dev/null 2>&1; then
+        echo "ERROR: EVAL_RESUME=1 requires the flock command." >&2
+        exit 1
+      fi
+      mkdir -p -- "${output_dir}"
+      local resume_lock="${run_dir}.resume.lock"
+      local resume_lock_fd
+      exec {resume_lock_fd}>"${resume_lock}"
+      if ! flock --nonblock "${resume_lock_fd}"; then
+        echo "ERROR: another recovery process owns $(path_log_label "${resume_lock}")" >&2
+        exit 1
+      fi
+      local resume_args=(
+        --config "${config_path}"
+        --checkpoint "${checkpoint_path}"
+        --output-dir "${output_dir}"
+        --inference-mode "${mode}"
+        --simulation-steps "${simulation_steps}"
+        --benchmark-warmup "${BENCHMARK_WARMUP}"
+        --benchmark-steps "${BENCHMARK_STEPS}"
+      )
+      if [[ -n "${dynamics}" ]]; then
+        resume_args+=(--snn-dynamics "${dynamics}")
+      fi
+      if [[ -n "${EVAL_MAX_GRAPH_EDGES}" ]]; then
+        resume_args+=(--max-graph-edges "${EVAL_MAX_GRAPH_EDGES}")
+      fi
+      if [[ "${REQUIRE_CUDA}" == "1" ]]; then
+        resume_args+=(--require-cuda)
+      fi
+      local resume_state
+      if ! resume_state="$(
+        "${PYTHON_BIN}" "${PROJECT_ROOT}/scripts/eval_resume.py" "${resume_args[@]}"
+      )"; then
+        echo "ERROR: existing evaluation artifacts do not match this recovery request." >&2
+        echo "Choose a new EVAL_OUTPUT_ROOT; no existing artifact was moved." >&2
+        exit 1
+      fi
+      read -r quality_complete benchmark_complete <<< "${resume_state}"
+      if [[ ! "${quality_complete}" =~ ^[01]$ || ! "${benchmark_complete}" =~ ^[01]$ ]]; then
+        echo "ERROR: invalid evaluation recovery state" >&2
+        exit 1
+      fi
+    fi
+
+    if [[ "${quality_complete}" == "1" && "${benchmark_complete}" == "1" ]]; then
+      echo "[eval-resume] ${dataset_name}/${run_label}: complete; skipping"
+      return
+    elif [[ "${quality_complete}" == "1" ]]; then
+      run_evaluation=0
+      preserve_incomplete_eval_path "${benchmark_path}"
+      echo "[eval-resume] ${dataset_name}/${run_label}: quality complete; running benchmark only"
+    elif [[ "${benchmark_complete}" == "1" ]]; then
+      run_benchmark=0
+      preserve_incomplete_eval_path "${metrics_path}"
+      preserve_incomplete_eval_path "${frames_path}"
+      preserve_incomplete_eval_path "${predictions_path}"
+      echo "[eval-resume] ${dataset_name}/${run_label}: benchmark complete; restarting quality only"
+    elif [[ "${DRY_RUN}" != "1" \
+      && ( -e "${run_dir}" || -L "${run_dir}" ) ]]; then
+      preserve_incomplete_eval_path "${run_dir}"
+      echo "[eval-resume] ${dataset_name}/${run_label}: restarting incomplete mode"
+    fi
+  fi
   run_cmd env \
     REQUIRE_CUDA="${REQUIRE_CUDA}" \
     VALIDATE_DATASET=0 \
-    RUN_BENCHMARK=1 \
+    RUN_EVALUATION="${run_evaluation}" \
+    RUN_BENCHMARK="${run_benchmark}" \
     BENCHMARK_WARMUP="${BENCHMARK_WARMUP}" \
     BENCHMARK_STEPS="${BENCHMARK_STEPS}" \
     EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES}" \
@@ -9186,7 +9705,7 @@ run_one_evaluation() {
     EVAL_OUTPUT_DIR="${output_dir}" \
     PYTHON_BIN="${PYTHON_BIN}" \
     bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
-}
+)
 
 run_eval_config() {
   local config_path="$1"
@@ -9206,6 +9725,10 @@ run_eval_config() {
 require_eval_checkpoints() {
   require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
   require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
+  if [[ "${EVAL_RESUME}" == "1" ]]; then
+    # Validate CUDA, the lock and runtime profile before moving any partial artifact.
+    check_runtime_profile
+  fi
 }
 
 run_eval() {
@@ -27366,6 +27889,47 @@ def test_dry_run_redacts_external_interpreter_path() -> None:
     assert "EXTERNAL/python" in result.stdout
 
 
+def test_eval_wrapper_can_run_only_the_missing_half_of_a_mode() -> None:
+    benchmark_only = _shell(
+        "scripts/eval.sh",
+        RUN_EVALUATION="0",
+        RUN_BENCHMARK="1",
+    )
+    assert benchmark_only.returncode == 0, benchmark_only.stderr
+    assert "Skipping completed quality evaluation" in benchmark_only.stdout
+    assert "asgcn_unet.cli evaluate" not in benchmark_only.stdout
+    assert "asgcn_unet.cli benchmark" in benchmark_only.stdout
+
+    quality_only = _shell(
+        "scripts/eval.sh",
+        RUN_EVALUATION="1",
+        RUN_BENCHMARK="0",
+    )
+    assert quality_only.returncode == 0, quality_only.stderr
+    assert "asgcn_unet.cli evaluate" in quality_only.stdout
+    assert "asgcn_unet.cli benchmark" not in quality_only.stdout
+
+
+@pytest.mark.parametrize(
+    ("run_evaluation", "run_benchmark", "message"),
+    [
+        ("invalid", "1", "RUN_EVALUATION must be 0 or 1"),
+        ("1", "invalid", "RUN_BENCHMARK must be 0 or 1"),
+        ("0", "0", "cannot both be 0"),
+    ],
+)
+def test_eval_wrapper_rejects_invalid_work_selection(
+    run_evaluation: str, run_benchmark: str, message: str,
+) -> None:
+    result = _shell(
+        "scripts/eval.sh",
+        RUN_EVALUATION=run_evaluation,
+        RUN_BENCHMARK=run_benchmark,
+    )
+    assert result.returncode == 2
+    assert message in result.stderr
+
+
 def test_download_wrappers_do_not_add_a_cuda_or_package_profile_gate() -> None:
     for name in ("get_hdr", "get_aid"):
         source = (ROOT / f"scripts/{name}.sh").read_text(encoding="utf-8")
@@ -28834,6 +29398,7 @@ from asgcn_unet.engine import (
 from asgcn_unet.losses import ReconstructionLoss
 from asgcn_unet.model import ASGCNUNet
 from asgcn_unet.utils import atomic_torch_save
+from scripts import eval_resume
 from tests.fixtures import make_eventaid, make_eventhdr
 
 
@@ -29185,6 +29750,21 @@ def test_sealed_ann_reporting_protocol_is_complete_redacted_and_reuses_data_hash
     )
     result = evaluate(config, checkpoint)
     timing = benchmark(config, checkpoint, warmup=0, steps=1)
+
+    resume_config = tmp_path / "resume-eval-config.json"
+    resume_config.write_text(json.dumps(config), encoding="utf-8")
+    resume_args = eval_resume._parser().parse_args(
+        [
+            "--config", str(resume_config),
+            "--checkpoint", str(checkpoint),
+            "--output-dir", str(output_dir),
+            "--inference-mode", "ann",
+            "--simulation-steps", "16",
+            "--benchmark-warmup", "0",
+            "--benchmark-steps", "1",
+        ]
+    )
+    assert eval_resume.inspect_mode(resume_args) == (1, 1)
 
     assert result["report_eligible"] is True
     assert timing["report_eligible"] is True
@@ -29871,6 +30451,254 @@ def test_check_env_accepts_exact_official_eventhdr_names(tmp_path, monkeypatch) 
     )
 
     check_env.main()
+~~~~~~~~
+
+# tests/test_eval_resume.py
+
+~~~~~~~~python
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
+
+import scripts.eval_resume as resume
+from asgcn_unet.engine import (
+    _canonical_sha256,
+    _current_source_contract,
+    _hashed_contract,
+    _public_config,
+)
+from asgcn_unet.utils import load_json, resolve_experiment_paths
+
+ROOT = Path(__file__).resolve().parents[1]
+CONFIG_PATH = ROOT / "configs/aid-fast.json"
+DATASET_COMMON = {
+    "content": {"algorithm": "sha256-full-files-v1", "files": 14, "bytes": 1, "sha256": "a" * 64},
+    "transform": {"type": "eventaid_r_zip", "fixture": True},
+    "manifest": {"fixture": True},
+    "coverage": {"samples": 1, "fixture": True},
+}
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _args(output: Path, checkpoint: Path):
+    return resume._parser().parse_args(
+        [
+            "--config", str(CONFIG_PATH),
+            "--checkpoint", str(checkpoint),
+            "--output-dir", str(output),
+            "--inference-mode", "snn",
+            "--simulation-steps", "4",
+            "--snn-dynamics", "literal_eq15",
+            "--max-graph-edges", "7475202",
+            "--benchmark-warmup", "10",
+            "--benchmark-steps", "100",
+        ]
+    )
+
+
+def _protocol(output: Path, checkpoint: Path, kind: str) -> dict:
+    config = resolve_experiment_paths(load_json(CONFIG_PATH), CONFIG_PATH)
+    config["eval"]["output_dir"] = str(output.resolve())
+    execution = {
+        "inference_mode": "snn",
+        "simulation_steps": 4,
+        "snn_dynamics": "literal_eq15",
+        "graph_edge_guard": {
+            "configured_max_graph_edges": 2_000_000,
+            "requested_max_graph_edges_override": 7_475_202,
+            "effective_max_graph_edges": 7_475_202,
+        },
+    }
+    if kind == "compute_benchmark":
+        execution.update(warmup_steps=10, measured_steps=100)
+    protocol = {
+        "schema": "asgcn_reporting_protocol_v1",
+        "kind": kind,
+        "report_eligible": True,
+        "report_ineligible_reasons": [],
+        "public_config": _hashed_contract(_public_config(config)),
+        "model_config": _hashed_contract(config["model"]),
+        "checkpoint": {"checkpoint_file_sha256": _sha256(checkpoint)},
+        "evaluation_dataset": _hashed_contract({**DATASET_COMMON, "sampling": {"fixture": True}}),
+        "execution": _hashed_contract(execution),
+        "source": _hashed_contract(_current_source_contract()),
+        "runtime": _hashed_contract({"fixture": True}),
+        "precision": _hashed_contract({"fixture": True}),
+    }
+    protocol["protocol_sha256"] = _canonical_sha256(protocol)
+    return protocol
+
+
+def _write_complete_mode(output: Path, checkpoint: Path) -> Path:
+    run_dir = output / "snn_literal_eq15_T4"
+    run_dir.mkdir(parents=True)
+    metrics = {
+        "report_eligible": True,
+        "report_ineligible_reasons": [],
+        "evaluation_protocol": _protocol(output, checkpoint, "quality_evaluation"),
+        "quality": {"frames": 1},
+    }
+    (run_dir / "metrics.json").write_text(json.dumps(metrics), encoding="utf-8")
+    (run_dir / "frames.csv").write_text("sample_id\nfixture\n", encoding="utf-8")
+    benchmark = {
+        "report_eligible": True,
+        "report_ineligible_reasons": [],
+        "benchmark_protocol": _protocol(output, checkpoint, "compute_benchmark"),
+        "frames": 100,
+    }
+    (run_dir / "benchmark.json").write_text(json.dumps(benchmark), encoding="utf-8")
+    return run_dir
+
+
+def _stub_request_validation(monkeypatch: pytest.MonkeyPatch, checkpoint: Path) -> None:
+    monkeypatch.setattr(
+        resume,
+        "load_model_checkpoint",
+        lambda *args, **kwargs: (SimpleNamespace(max_graph_edges=2_000_000), {}),
+    )
+    monkeypatch.setattr(
+        resume,
+        "_reporting_checkpoint_contract",
+        lambda *args, **kwargs: ({"checkpoint_file_sha256": _sha256(checkpoint)}, True, []),
+    )
+    monkeypatch.setattr(resume, "_current_dataset_common", lambda config: DATASET_COMMON)
+    monkeypatch.setattr(
+        resume,
+        "_current_runtime_contract",
+        lambda config, model: {"fixture": True},
+    )
+
+
+def test_resume_validator_accepts_matching_complete_mode(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    _write_complete_mode(output, checkpoint)
+    _stub_request_validation(monkeypatch, checkpoint)
+
+    assert resume.inspect_mode(_args(output, checkpoint)) == (1, 1)
+
+
+def test_resume_validator_reports_each_completed_half_independently(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    _stub_request_validation(monkeypatch, checkpoint)
+
+    quality_output = tmp_path / "quality/aid"
+    quality_dir = _write_complete_mode(quality_output, checkpoint)
+    (quality_dir / "benchmark.json").unlink()
+    assert resume.inspect_mode(_args(quality_output, checkpoint)) == (1, 0)
+
+    benchmark_output = tmp_path / "benchmark/aid"
+    benchmark_dir = _write_complete_mode(benchmark_output, checkpoint)
+    (benchmark_dir / "metrics.json").unlink()
+    (benchmark_dir / "frames.csv").unlink()
+    assert resume.inspect_mode(_args(benchmark_output, checkpoint)) == (0, 1)
+
+
+def test_resume_validator_reports_partial_mode_without_reusing_it(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    (output / "snn_literal_eq15_T4/predictions").mkdir(parents=True)
+    _stub_request_validation(monkeypatch, checkpoint)
+
+    assert resume.inspect_mode(_args(output, checkpoint)) == (0, 0)
+
+
+def test_resume_validator_treats_symlinked_mode_directory_as_partial(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    target = tmp_path / "external-mode"
+    target.mkdir()
+    output.mkdir()
+    try:
+        (output / "snn_literal_eq15_T4").symlink_to(target, target_is_directory=True)
+    except OSError:
+        pytest.skip("directory symlinks are unavailable")
+    _stub_request_validation(monkeypatch, checkpoint)
+
+    assert resume.inspect_mode(_args(output, checkpoint)) == (0, 0)
+
+
+def test_resume_validator_refuses_a_different_runtime(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    _write_complete_mode(output, checkpoint)
+    _stub_request_validation(monkeypatch, checkpoint)
+    monkeypatch.setattr(
+        resume,
+        "_current_runtime_contract",
+        lambda config, model: {"fixture": False},
+    )
+
+    with pytest.raises(resume.ArtifactMismatch, match="runtime mismatch"):
+        resume.inspect_mode(_args(output, checkpoint))
+
+
+def test_resume_validator_refuses_mismatched_complete_artifact(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    run_dir = _write_complete_mode(output, checkpoint)
+    _stub_request_validation(monkeypatch, checkpoint)
+    metrics = json.loads((run_dir / "metrics.json").read_text(encoding="utf-8"))
+    protocol = metrics["evaluation_protocol"]
+    protocol["execution"]["contract"]["simulation_steps"] = 8
+    protocol["execution"]["sha256"] = _canonical_sha256(protocol["execution"]["contract"])
+    unsigned = dict(protocol)
+    unsigned.pop("protocol_sha256")
+    protocol["protocol_sha256"] = _canonical_sha256(unsigned)
+    (run_dir / "metrics.json").write_text(json.dumps(metrics), encoding="utf-8")
+
+    with pytest.raises(resume.ArtifactMismatch, match="simulation_steps mismatch"):
+        resume.inspect_mode(_args(output, checkpoint))
+
+
+def test_resume_validator_refuses_changed_data_or_nonreporting_result(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    run_dir = _write_complete_mode(output, checkpoint)
+    _stub_request_validation(monkeypatch, checkpoint)
+    monkeypatch.setattr(
+        resume,
+        "_current_dataset_common",
+        lambda config: {**DATASET_COMMON, "content": {"sha256": "b" * 64}},
+    )
+    with pytest.raises(resume.ArtifactMismatch, match="evaluation_dataset.content"):
+        resume.inspect_mode(_args(output, checkpoint))
+
+    monkeypatch.setattr(resume, "_current_dataset_common", lambda config: DATASET_COMMON)
+    metrics = json.loads((run_dir / "metrics.json").read_text(encoding="utf-8"))
+    metrics["report_eligible"] = False
+    (run_dir / "metrics.json").write_text(json.dumps(metrics), encoding="utf-8")
+    with pytest.raises(resume.ArtifactMismatch, match="report_eligible mismatch"):
+        resume.inspect_mode(_args(output, checkpoint))
 ~~~~~~~~
 
 # tests/test_eventaid_images.py
@@ -38294,7 +39122,7 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
         assert config in script
     assert 'SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"' in script
     assert "for dynamics in literal_eq15 standard_if" in script
-    assert "RUN_BENCHMARK=1" in script
+    assert 'RUN_BENCHMARK="${run_benchmark}"' in script
     assert 'CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"' in script
     assert 'PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"' in script
     assert 'PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"' in script
@@ -38307,7 +39135,7 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert 'for config_path in "${TRAIN_CONFIG}" "${AID_CONFIG}"' in script
     assert 'run_eval_config "${HDR_CONFIG}"' in script
     assert 'run_eval_config "${AID_CONFIG}"' in script
-    assert "silently skipped" in script
+    assert "only with explicit EVAL_RESUME=1" in script
     assert "rm -f" not in script
     assert "write_stage_status" in script
     assert "RUNNING" in script
@@ -38395,6 +39223,28 @@ def test_evaluation_recovery_routes_one_dataset_and_forwards_edge_guard() -> Non
     assert 'EVAL_MAX_GRAPH_EDGES must be a positive integer' in evaluation
     assert 'GRAPH_EDGE_ARGS=(--max-graph-edges-override "${EVAL_MAX_GRAPH_EDGES}")' in evaluation
     assert evaluation.count('"${GRAPH_EDGE_ARGS[@]}"') == 2
+
+
+def test_evaluation_mode_resume_is_explicit_and_preserves_partial_artifacts() -> None:
+    runner = _text("scripts/run.sh")
+    evaluation = _text("scripts/eval.sh")
+
+    assert 'EVAL_RESUME="${EVAL_RESUME:-0}"' in runner
+    assert "EVAL_RESUME=1 requires an explicit EVAL_OUTPUT_ROOT" in runner
+    assert "quality complete; running benchmark only" in runner
+    assert "benchmark complete; restarting quality only" in runner
+    assert "restarting incomplete mode" in runner
+    assert 'RUN_EVALUATION="${run_evaluation}"' in runner
+    assert 'RUN_BENCHMARK="${run_benchmark}"' in runner
+    assert 'mv -- "${path}" "${backup}"' in runner
+    assert 'flock --nonblock "${resume_lock_fd}"' in runner
+    assert '( -e "${run_dir}" || -L "${run_dir}" )' in runner
+    assert "rm -f" not in runner
+
+    assert 'RUN_EVALUATION="${RUN_EVALUATION:-1}"' in evaluation
+    assert "RUN_EVALUATION and RUN_BENCHMARK cannot both be 0" in evaluation
+    assert 'if [[ "${RUN_EVALUATION}" == "1" ]]' in evaluation
+    assert "Skipping completed quality evaluation" in evaluation
 
 
 def test_fast_wrapper_isolates_measured_training_and_safe_pause() -> None:

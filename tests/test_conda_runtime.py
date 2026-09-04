@@ -180,6 +180,47 @@ def test_dry_run_redacts_external_interpreter_path() -> None:
     assert "EXTERNAL/python" in result.stdout
 
 
+def test_eval_wrapper_can_run_only_the_missing_half_of_a_mode() -> None:
+    benchmark_only = _shell(
+        "scripts/eval.sh",
+        RUN_EVALUATION="0",
+        RUN_BENCHMARK="1",
+    )
+    assert benchmark_only.returncode == 0, benchmark_only.stderr
+    assert "Skipping completed quality evaluation" in benchmark_only.stdout
+    assert "asgcn_unet.cli evaluate" not in benchmark_only.stdout
+    assert "asgcn_unet.cli benchmark" in benchmark_only.stdout
+
+    quality_only = _shell(
+        "scripts/eval.sh",
+        RUN_EVALUATION="1",
+        RUN_BENCHMARK="0",
+    )
+    assert quality_only.returncode == 0, quality_only.stderr
+    assert "asgcn_unet.cli evaluate" in quality_only.stdout
+    assert "asgcn_unet.cli benchmark" not in quality_only.stdout
+
+
+@pytest.mark.parametrize(
+    ("run_evaluation", "run_benchmark", "message"),
+    [
+        ("invalid", "1", "RUN_EVALUATION must be 0 or 1"),
+        ("1", "invalid", "RUN_BENCHMARK must be 0 or 1"),
+        ("0", "0", "cannot both be 0"),
+    ],
+)
+def test_eval_wrapper_rejects_invalid_work_selection(
+    run_evaluation: str, run_benchmark: str, message: str,
+) -> None:
+    result = _shell(
+        "scripts/eval.sh",
+        RUN_EVALUATION=run_evaluation,
+        RUN_BENCHMARK=run_benchmark,
+    )
+    assert result.returncode == 2
+    assert message in result.stderr
+
+
 def test_download_wrappers_do_not_add_a_cuda_or_package_profile_gate() -> None:
     for name in ("get_hdr", "get_aid"):
         source = (ROOT / f"scripts/{name}.sh").read_text(encoding="utf-8")

@@ -23,6 +23,7 @@ from asgcn_unet.engine import (
 from asgcn_unet.losses import ReconstructionLoss
 from asgcn_unet.model import ASGCNUNet
 from asgcn_unet.utils import atomic_torch_save
+from scripts import eval_resume
 from tests.fixtures import make_eventaid, make_eventhdr
 
 
@@ -374,6 +375,21 @@ def test_sealed_ann_reporting_protocol_is_complete_redacted_and_reuses_data_hash
     )
     result = evaluate(config, checkpoint)
     timing = benchmark(config, checkpoint, warmup=0, steps=1)
+
+    resume_config = tmp_path / "resume-eval-config.json"
+    resume_config.write_text(json.dumps(config), encoding="utf-8")
+    resume_args = eval_resume._parser().parse_args(
+        [
+            "--config", str(resume_config),
+            "--checkpoint", str(checkpoint),
+            "--output-dir", str(output_dir),
+            "--inference-mode", "ann",
+            "--simulation-steps", "16",
+            "--benchmark-warmup", "0",
+            "--benchmark-steps", "1",
+        ]
+    )
+    assert eval_resume.inspect_mode(resume_args) == (1, 1)
 
     assert result["report_eligible"] is True
     assert timing["report_eligible"] is True

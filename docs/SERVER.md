@@ -376,9 +376,11 @@ profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어
 완료된 stage를 묵시적으로 재사용하지 않는다. CUDA profile 우회는 합성 비보고용 직접 CLI에서만
 명시적으로 가능하고 scheduler wrapper 및 `all`에서는 차단된다.
 
-한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. frame-level resume은
-지원하지 않으므로 해당 dataset 행렬은 처음부터 다시 실행되며, 완료된 다른 dataset과 실패한 partial
-directory를 보존하도록 매 시도마다 새 `EVAL_OUTPUT_ROOT`를 지정한다.
+한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. 같은 출력 root에
+`EVAL_RESUME=1`을 지정하면 완료된 mode는 건너뛰고, 실패한 partial artifact를
+`.incomplete-<UTC>-<PID>`로 보존한 뒤 그 mode만 처음부터 다시 실행한다. frame-level resume은
+지원하지 않으므로 중단된 mode 내부의 처리 완료 frame부터 이어 붙이지는 않는다. 이 복구는 같은
+config/checkpoint/edge guard에만 사용한다.
 
 edge guard에서 중단됐다면 숫자를 추측해 전체 평가를 반복하지 않는다. 예를 들어 진행률
 `32843/51512`에서 4,000,000-edge guard가 중단된 경우, 완료된 `[0,32843)` 구간의 상한과 나머지 구간의
@@ -439,13 +441,16 @@ EDGE_GUARD=<global_edge_guard_upper_bound>
 EXPERIMENT=fast \
 EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-measured" \
 EVAL_MAX_GRAPH_EDGES="$EDGE_GUARD" \
+EVAL_RESUME=1 \
   bash scripts/run.sh eval-aid
 ```
 
 `EVAL_MAX_GRAPH_EDGES`는 quality와 benchmark 양쪽의 inference-only guard이며 각 결과 protocol에
 요청값과 effective 값을 기록한다. 위 숫자는 예시일 뿐이고 특정 MIG/GPU에서 안전하거나 모든 frame에
 충분하다는 보장이 없다. 실측 없이 guard를 올리지 않으며 기존 output을 삭제하거나 같은 root로
-덮어쓰지 않는다. dataset별 상태 파일은 `eval-hdr.json`, `eval-aid.json`이다.
+덮어쓰지 않는다. `EVAL_RESUME=1`은 `metrics.json`과 `frames.csv`를 quality 완료 표식으로,
+`benchmark.json`을 mode 완료 표식으로 사용한다. dataset별 상태 파일은 `eval-hdr.json`,
+`eval-aid.json`이다.
 
 ## 5. Slurm: profile → train → calibrate → evaluation matrix
 

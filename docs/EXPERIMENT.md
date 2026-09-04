@@ -298,8 +298,14 @@ runs/eval/aid/snn_<literal_eq15|standard_if>_T<4|8|16|32>/
 
 각 directory의 `metrics.json`, `frames.csv`, `predictions/`는 evaluate가 만들고
 `benchmark.json`은 benchmark가 만든다. prediction은 config 기본값에 따라 처음 20 frame의 pred/GT
-PNG를 저장한다. 같은 mode/dynamics/T artifact가 있으면 묵시적으로 덮어쓰지 않고 실패하므로 재실행
-전 기존 결과를 보존 위치로 옮기거나 별도 `eval.output_dir` config를 사용한다.
+PNG를 저장한다. 같은 mode/dynamics/T artifact가 있으면 묵시적으로 덮어쓰지 않는다. 동일한
+config/checkpoint/edge guard로 중단된 행렬은 명시적 `EVAL_RESUME=1`로 mode 경계에서 복구할 수 있다.
+이때 완료 artifact의 public config, checkpoint file SHA-256, executable Python source SHA-256,
+runtime/GPU, mode/dynamics/T, graph guard와 benchmark sampling 계약을 검증한다. mode별 process lock으로
+동시 복구도 차단한다. 불일치하면 아무것도 옮기지 않고
+거부한다. 일치하는 완료 단계는 건너뛰고 partial artifact는 보존 이름으로 옮긴 뒤 해당 단계만 다시
+실행한다. frame별 metric accumulator와 recurrent state는 저장하지 않으므로 quality 내부 frame
+단위 resume은 지원하지 않는다. 조건이 달라진 실행은 별도 `eval.output_dir`를 사용한다.
 
 보고용 ANN 평가에는 검증된 preflight gate를 가진 clean `ann_inference`, finite final selection과
 training/validation protocol이 필요하다. 보고용 SNN에는 `calibration_protocol.sealed=true`인

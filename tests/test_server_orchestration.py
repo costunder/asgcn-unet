@@ -34,7 +34,7 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
         assert config in script
     assert 'SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"' in script
     assert "for dynamics in literal_eq15 standard_if" in script
-    assert "RUN_BENCHMARK=1" in script
+    assert 'RUN_BENCHMARK="${run_benchmark}"' in script
     assert 'CALIBRATION_SAMPLES="${CALIBRATION_SAMPLES:-all}"' in script
     assert 'PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"' in script
     assert 'PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"' in script
@@ -47,7 +47,7 @@ def test_run_script_exposes_restartable_ordered_stages() -> None:
     assert 'for config_path in "${TRAIN_CONFIG}" "${AID_CONFIG}"' in script
     assert 'run_eval_config "${HDR_CONFIG}"' in script
     assert 'run_eval_config "${AID_CONFIG}"' in script
-    assert "silently skipped" in script
+    assert "only with explicit EVAL_RESUME=1" in script
     assert "rm -f" not in script
     assert "write_stage_status" in script
     assert "RUNNING" in script
@@ -135,6 +135,28 @@ def test_evaluation_recovery_routes_one_dataset_and_forwards_edge_guard() -> Non
     assert 'EVAL_MAX_GRAPH_EDGES must be a positive integer' in evaluation
     assert 'GRAPH_EDGE_ARGS=(--max-graph-edges-override "${EVAL_MAX_GRAPH_EDGES}")' in evaluation
     assert evaluation.count('"${GRAPH_EDGE_ARGS[@]}"') == 2
+
+
+def test_evaluation_mode_resume_is_explicit_and_preserves_partial_artifacts() -> None:
+    runner = _text("scripts/run.sh")
+    evaluation = _text("scripts/eval.sh")
+
+    assert 'EVAL_RESUME="${EVAL_RESUME:-0}"' in runner
+    assert "EVAL_RESUME=1 requires an explicit EVAL_OUTPUT_ROOT" in runner
+    assert "quality complete; running benchmark only" in runner
+    assert "benchmark complete; restarting quality only" in runner
+    assert "restarting incomplete mode" in runner
+    assert 'RUN_EVALUATION="${run_evaluation}"' in runner
+    assert 'RUN_BENCHMARK="${run_benchmark}"' in runner
+    assert 'mv -- "${path}" "${backup}"' in runner
+    assert 'flock --nonblock "${resume_lock_fd}"' in runner
+    assert '( -e "${run_dir}" || -L "${run_dir}" )' in runner
+    assert "rm -f" not in runner
+
+    assert 'RUN_EVALUATION="${RUN_EVALUATION:-1}"' in evaluation
+    assert "RUN_EVALUATION and RUN_BENCHMARK cannot both be 0" in evaluation
+    assert 'if [[ "${RUN_EVALUATION}" == "1" ]]' in evaluation
+    assert "Skipping completed quality evaluation" in evaluation
 
 
 def test_fast_wrapper_isolates_measured_training_and_safe_pause() -> None:

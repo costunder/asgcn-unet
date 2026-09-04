@@ -309,22 +309,27 @@ runtime에 다시 결합한다. 학습 재개가 끝나면 `bash scripts/run.sh 
 `--allow-unverified-preflight` 우회는 checkpoint에 비보고용으로 영구 기록되고 `all` 및 scheduler
 wrapper에서는 허용되지 않는다.
 
-dataset 하나의 평가만 복구할 때는 `eval-hdr` 또는 `eval-aid`를 사용한다. 예를 들어 EventAid-R가
-configured edge guard에서 중단됐고, 별도 topology 및 VRAM 측정으로 4,000,000 edges가 안전하다고
-확인한 경우 다음처럼 **새** 출력 root에서 그 dataset의 전체 ANN+SNN 행렬을 처음부터 실행한다.
+dataset 하나의 평가만 복구할 때는 `eval-hdr` 또는 `eval-aid`를 사용한다. 같은 출력 root에서
+`EVAL_RESUME=1`을 지정하면 완료된 mode는 건너뛴다. 중단된 mode는 frame 상태를 이어 붙이지 않고
+그 mode의 partial artifact를 `.incomplete-<UTC>-<PID>`로 보존한 뒤 해당 mode만 처음부터 다시 실행한다.
+예를 들어 EventAid-R가 configured edge guard에서 중단됐고, 별도 topology 및 VRAM 측정으로
+4,000,000 edges가 안전하다고 확인한 경우 다음처럼 실행한다.
 
 ```bash
 EXPERIMENT=fast \
 EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-4m" \
 EVAL_MAX_GRAPH_EDGES=4000000 \
+EVAL_RESUME=1 \
   bash scripts/run.sh eval-aid
 ```
 
 `EVAL_MAX_GRAPH_EDGES`는 quality와 benchmark에 같은 inference-only guard override를 전달하며 결과
 protocol에 기록된다. 이 예시 값은 9.5 GiB를 포함한 임의의 GPU에서 안전하거나 충분하다는 보장이
-아니므로 실측 없이 사용하지 않는다. quality evaluation은 frame-level resume을 지원하지 않는다.
-실패한 기존 directory나 완료된 다른 dataset 결과를 삭제·덮어쓰지 말고 매 복구 시 고유한
-`EVAL_OUTPUT_ROOT`를 선택한다. 상태는 각각 `eval-hdr.json`과 `eval-aid.json`에 기록된다.
+아니므로 실측 없이 사용하지 않는다. `EVAL_RESUME=1`은 mode-level recovery이며 quality evaluation의
+frame-level resume은 아니다. `metrics.json`과 `frames.csv`가 모두 있으면 quality를, 여기에
+`benchmark.json`까지 있으면 mode 전체를 완료로 본다. 완료 artifact는 덮어쓰지 않고 partial artifact도
+자동 백업한다. 이 옵션은 같은 config/checkpoint/guard의 중단 복구에만 사용하고, 조건을 바꾸는 새 실험은
+새 `EVAL_OUTPUT_ROOT`를 선택한다. 상태는 각각 `eval-hdr.json`과 `eval-aid.json`에 기록된다.
 
 resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
 현재 epoch cursor/context, 전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다.

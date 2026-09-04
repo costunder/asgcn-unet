@@ -9,6 +9,7 @@ INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 SNN_DYNAMICS="${SNN_DYNAMICS:-}"
 RUN_BENCHMARK="${RUN_BENCHMARK:-1}"
+RUN_EVALUATION="${RUN_EVALUATION:-1}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"
@@ -47,6 +48,18 @@ if [[ "${DRY_RUN}" != "1" && ! -f "${CHECKPOINT_PATH}" ]]; then
 fi
 if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
   echo "ERROR: VALIDATE_DATASET must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RUN_EVALUATION}" != "0" && "${RUN_EVALUATION}" != "1" ]]; then
+  echo "ERROR: RUN_EVALUATION must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RUN_BENCHMARK}" != "0" && "${RUN_BENCHMARK}" != "1" ]]; then
+  echo "ERROR: RUN_BENCHMARK must be 0 or 1" >&2
+  exit 2
+fi
+if [[ "${RUN_EVALUATION}" == "0" && "${RUN_BENCHMARK}" == "0" ]]; then
+  echo "ERROR: RUN_EVALUATION and RUN_BENCHMARK cannot both be 0" >&2
   exit 2
 fi
 if [[ "${INSPECT_VALIDATE_ALL}" != "0" && "${INSPECT_VALIDATE_ALL}" != "1" ]]; then
@@ -113,15 +126,19 @@ if [[ "${VALIDATE_DATASET}" == "1" ]]; then
   runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli inspect "${INSPECT_ARGS[@]}"
 fi
 
-echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${CONFIG_PATH}") (${INFERENCE_MODE})"
-runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
-  --config "${CONFIG_PATH}" \
-  --checkpoint "${CHECKPOINT_PATH}" \
-  --inference-mode "${INFERENCE_MODE}" \
-  --simulation-steps "${SIMULATION_STEPS}" \
-  "${OUTPUT_ARGS[@]}" \
-  "${DYNAMICS_ARGS[@]}" \
-  "${GRAPH_EDGE_ARGS[@]}"
+if [[ "${RUN_EVALUATION}" == "1" ]]; then
+  echo "Evaluating $(path_log_label "${CHECKPOINT_PATH}") on $(path_log_label "${CONFIG_PATH}") (${INFERENCE_MODE})"
+  runtime_command "${PYTHON_BIN}" -m asgcn_unet.cli evaluate \
+    --config "${CONFIG_PATH}" \
+    --checkpoint "${CHECKPOINT_PATH}" \
+    --inference-mode "${INFERENCE_MODE}" \
+    --simulation-steps "${SIMULATION_STEPS}" \
+    "${OUTPUT_ARGS[@]}" \
+    "${DYNAMICS_ARGS[@]}" \
+    "${GRAPH_EDGE_ARGS[@]}"
+else
+  echo "Skipping completed quality evaluation (${INFERENCE_MODE})"
+fi
 
 if [[ "${RUN_BENCHMARK}" == "1" ]]; then
   echo "Running latency benchmark"

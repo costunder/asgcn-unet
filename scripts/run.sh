@@ -32,6 +32,7 @@ Important environment:
   SIMULATION_STEPS_LIST='4 8 16 32'
   BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N
   EVAL_MAX_GRAPH_EDGES=N                 Eval-only guard raise; recorded in outputs
+  EVAL_RESUME=0|1                        Resume at mode boundaries; default: 0
   PROFILE_SAMPLES=N / PROFILE_TOP_DENSITY=N
   PROFILE_OUTPUT=PATH                    Default: runs/profile.json
   PROFILE_RESUME=0|1                     Resume a matching saved scan; default: 0
@@ -43,9 +44,9 @@ Important environment:
   DRY_RUN=0|1                            Print commands without executing them
   INCLUDE_PRIVATE_HOST_PROVENANCE=0|1    Default: 0; exact host paths are private
 
-Existing artifacts, including PROFILE_OUTPUT, are never silently skipped. Select
-a stage explicitly when recovering a partial run; wrappers fail rather than
-overwrite protected output.
+Existing artifacts, including PROFILE_OUTPUT, are never silently overwritten.
+Evaluation modes are skipped only with explicit EVAL_RESUME=1; incomplete artifacts
+are preserved before that mode is restarted.
 EOF
 }
 
@@ -112,6 +113,7 @@ SIMULATION_STEPS_LIST="${SIMULATION_STEPS_LIST:-4 8 16 32}"
 BENCHMARK_WARMUP="${BENCHMARK_WARMUP:-10}"
 BENCHMARK_STEPS="${BENCHMARK_STEPS:-100}"
 EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"
+EVAL_RESUME="${EVAL_RESUME:-0}"
 PROFILE_SAMPLES="${PROFILE_SAMPLES:-3}"
 PROFILE_TOP_DENSITY="${PROFILE_TOP_DENSITY:-10}"
 PROFILE_OUTPUT="${PROFILE_OUTPUT:-${DEFAULT_PROFILE_OUTPUT}}"
@@ -134,6 +136,7 @@ for flag_name in \
   DRY_RUN \
   ALLOW_UNVERIFIED_PREFLIGHT \
   PROFILE_RESUME \
+  EVAL_RESUME \
   RESTART_TRAIN \
   INCLUDE_PRIVATE_HOST_PROVENANCE; do
   flag_value="${!flag_name}"
@@ -365,7 +368,21 @@ run_calibrate() {
   require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
 }
 
-run_one_evaluation() {
+preserve_incomplete_eval_path() {
+  local path="$1"
+  if [[ ! -e "${path}" && ! -L "${path}" ]]; then
+    return
+  fi
+  local backup="${path}.incomplete-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+  if [[ -e "${backup}" || -L "${backup}" ]]; then
+    echo "ERROR: evaluation recovery backup already exists: $(path_log_label "${backup}")" >&2
+    exit 1
+  fi
+  mv -- "${path}" "${backup}"
+  echo "[eval-resume] preserved incomplete artifact: $(path_log_label "${backup}")"
+}
+
+run_one_evaluation() (
   local config_path="$1"
   local checkpoint_path="$2"
   local mode="$3"
@@ -380,10 +397,94 @@ run_one_evaluation() {
   if [[ -n "${EVAL_OUTPUT_ROOT}" ]]; then
     output_dir="${EVAL_OUTPUT_ROOT}/${dataset_name}"
   fi
+  local run_evaluation=1
+  local run_benchmark=1
+  if [[ "${EVAL_RESUME}" == "1" ]]; then
+    if [[ -z "${output_dir}" ]]; then
+      echo "ERROR: EVAL_RESUME=1 requires an explicit EVAL_OUTPUT_ROOT." >&2
+      exit 2
+    fi
+    local run_label="ann"
+    if [[ "${mode}" == "snn" ]]; then
+      run_label="snn_${dynamics}_T${simulation_steps}"
+    fi
+    local run_dir="${output_dir}/${run_label}"
+    local metrics_path="${run_dir}/metrics.json"
+    local frames_path="${run_dir}/frames.csv"
+    local predictions_path="${run_dir}/predictions"
+    local benchmark_path="${run_dir}/benchmark.json"
+    local quality_complete=0
+    local benchmark_complete=0
+    if [[ "${DRY_RUN}" != "1" ]]; then
+      if ! command -v flock >/dev/null 2>&1; then
+        echo "ERROR: EVAL_RESUME=1 requires the flock command." >&2
+        exit 1
+      fi
+      mkdir -p -- "${output_dir}"
+      local resume_lock="${run_dir}.resume.lock"
+      local resume_lock_fd
+      exec {resume_lock_fd}>"${resume_lock}"
+      if ! flock --nonblock "${resume_lock_fd}"; then
+        echo "ERROR: another recovery process owns $(path_log_label "${resume_lock}")" >&2
+        exit 1
+      fi
+      local resume_args=(
+        --config "${config_path}"
+        --checkpoint "${checkpoint_path}"
+        --output-dir "${output_dir}"
+        --inference-mode "${mode}"
+        --simulation-steps "${simulation_steps}"
+        --benchmark-warmup "${BENCHMARK_WARMUP}"
+        --benchmark-steps "${BENCHMARK_STEPS}"
+      )
+      if [[ -n "${dynamics}" ]]; then
+        resume_args+=(--snn-dynamics "${dynamics}")
+      fi
+      if [[ -n "${EVAL_MAX_GRAPH_EDGES}" ]]; then
+        resume_args+=(--max-graph-edges "${EVAL_MAX_GRAPH_EDGES}")
+      fi
+      if [[ "${REQUIRE_CUDA}" == "1" ]]; then
+        resume_args+=(--require-cuda)
+      fi
+      local resume_state
+      if ! resume_state="$(
+        "${PYTHON_BIN}" "${PROJECT_ROOT}/scripts/eval_resume.py" "${resume_args[@]}"
+      )"; then
+        echo "ERROR: existing evaluation artifacts do not match this recovery request." >&2
+        echo "Choose a new EVAL_OUTPUT_ROOT; no existing artifact was moved." >&2
+        exit 1
+      fi
+      read -r quality_complete benchmark_complete <<< "${resume_state}"
+      if [[ ! "${quality_complete}" =~ ^[01]$ || ! "${benchmark_complete}" =~ ^[01]$ ]]; then
+        echo "ERROR: invalid evaluation recovery state" >&2
+        exit 1
+      fi
+    fi
+
+    if [[ "${quality_complete}" == "1" && "${benchmark_complete}" == "1" ]]; then
+      echo "[eval-resume] ${dataset_name}/${run_label}: complete; skipping"
+      return
+    elif [[ "${quality_complete}" == "1" ]]; then
+      run_evaluation=0
+      preserve_incomplete_eval_path "${benchmark_path}"
+      echo "[eval-resume] ${dataset_name}/${run_label}: quality complete; running benchmark only"
+    elif [[ "${benchmark_complete}" == "1" ]]; then
+      run_benchmark=0
+      preserve_incomplete_eval_path "${metrics_path}"
+      preserve_incomplete_eval_path "${frames_path}"
+      preserve_incomplete_eval_path "${predictions_path}"
+      echo "[eval-resume] ${dataset_name}/${run_label}: benchmark complete; restarting quality only"
+    elif [[ "${DRY_RUN}" != "1" \
+      && ( -e "${run_dir}" || -L "${run_dir}" ) ]]; then
+      preserve_incomplete_eval_path "${run_dir}"
+      echo "[eval-resume] ${dataset_name}/${run_label}: restarting incomplete mode"
+    fi
+  fi
   run_cmd env \
     REQUIRE_CUDA="${REQUIRE_CUDA}" \
     VALIDATE_DATASET=0 \
-    RUN_BENCHMARK=1 \
+    RUN_EVALUATION="${run_evaluation}" \
+    RUN_BENCHMARK="${run_benchmark}" \
     BENCHMARK_WARMUP="${BENCHMARK_WARMUP}" \
     BENCHMARK_STEPS="${BENCHMARK_STEPS}" \
     EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES}" \
@@ -393,7 +494,7 @@ run_one_evaluation() {
     EVAL_OUTPUT_DIR="${output_dir}" \
     PYTHON_BIN="${PYTHON_BIN}" \
     bash "${PROJECT_ROOT}/scripts/eval.sh" "${config_path}" "${checkpoint_path}"
-}
+)
 
 run_eval_config() {
   local config_path="$1"
@@ -413,6 +514,10 @@ run_eval_config() {
 require_eval_checkpoints() {
   require_file "${ANN_CHECKPOINT}" "ANN checkpoint"
   require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
+  if [[ "${EVAL_RESUME}" == "1" ]]; then
+    # Validate CUDA, the lock and runtime profile before moving any partial artifact.
+    check_runtime_profile
+  fi
 }
 
 run_eval() {

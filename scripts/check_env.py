@@ -14,7 +14,9 @@ from pathlib import Path
 import torch
 from torch.cuda import DeferredCudaCallError
 
+from asgcn_unet.allocation import inspect_gpu_allocation, require_gpu_allocation
 from asgcn_unet.data import load_eventhdr_split_manifest
+from asgcn_unet.resources import collect_runtime_resources
 
 _OFFICIAL_EVENTHDR_TRAIN = {f"{index}.h5" for index in range(1, 52)}
 _OFFICIAL_EVENTHDR_EVAL = {f"{index}.h5" for index in range(1, 20)}
@@ -201,6 +203,7 @@ def _version_tuple(value: str) -> tuple[int, ...]:
 
 
 def _cuda_inventory() -> tuple[bool, list[str], list[float]]:
+    require_gpu_allocation()
     if not torch.cuda.is_available():
         return False, [], []
 
@@ -243,6 +246,13 @@ def main() -> None:
         ),
     )
     args = parser.parse_args()
+
+    allocation_evidence = inspect_gpu_allocation()
+    if args.require_cuda and not allocation_evidence["verified"]:
+        try:
+            require_gpu_allocation()
+        except RuntimeError as error:
+            raise SystemExit(str(error)) from None
 
     project_root = Path(__file__).resolve().parents[1]
     data_root = (args.data_root or project_root / "data").resolve()
@@ -292,7 +302,15 @@ def main() -> None:
             ) from None
 
     try:
-        cuda_available, devices, gpu_memory_gib = _cuda_inventory()
+        if allocation_evidence["verified"]:
+            cuda_available, devices, gpu_memory_gib = _cuda_inventory()
+        elif torch.version.cuda is None:
+            # A CPU-only build can be identified without a CUDA runtime probe.
+            cuda_available, devices, gpu_memory_gib = False, [], []
+        else:
+            # General environment diagnostics are allowed without an allocation,
+            # but GPU availability must remain unknown instead of being guessed.
+            cuda_available, devices, gpu_memory_gib = None, None, None
     except (AssertionError, RuntimeError, OSError, DeferredCudaCallError) as error:
         # Deferred CUDA failures can embed an original traceback containing
         # private paths. Routine reports expose the exception type, not its text.
@@ -349,6 +367,10 @@ def main() -> None:
         "gpu_devices": devices,
         "gpu_memory_gib": gpu_memory_gib,
         "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
+        "gpu_allocation": allocation_evidence,
+        "cuda_probe_skipped_reason": (
+            None if allocation_evidence["verified"] else allocation_evidence["reason"]
+        ),
         "data_root": "$DATA_ROOT",
         "eventhdr_train_h5": len(train_files),
         "eventhdr_eval_h5": len(eval_files),
@@ -365,6 +387,10 @@ def main() -> None:
         "runtime_profile_match": not runtime_mismatches if runtime_mismatches is not None else None,
         "runtime_profile_mismatches": runtime_mismatches,
         "runtime_environment": runtime_environment,
+        # The CUDA inventory above is already initialized and MIG-aware. This
+        # snapshot adds CPU/affinity/cgroup/RAM counters without another probe.
+        "resources": collect_runtime_resources(include_cuda=False),
+        "gpu_mig": [True if "MIG" in name else None for name in devices] if devices is not None else None,
     }
     if args.include_private_host_provenance:
         report["private_host_provenance"] = {

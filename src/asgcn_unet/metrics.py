@@ -35,6 +35,8 @@ def structural_similarity(
     target: torch.Tensor,
     data_range: float = 1.0,
     window_size: int = 11,
+    *,
+    reduction: str = "mean",
 ) -> torch.Tensor:
     """Compute mean SSIM with the standard Gaussian local-statistics window.
 
@@ -56,6 +58,8 @@ def structural_similarity(
         raise ValueError("data_range must be positive")
     if window_size < 1:
         raise ValueError("window_size must be positive")
+    if reduction not in {"mean", "none"}:
+        raise ValueError("SSIM reduction must be 'mean' or 'none'")
 
     min_side = min(prediction.shape[-2:])
     if min_side < 1:
@@ -94,7 +98,10 @@ def structural_similarity(
         numerator = (2 * mu_x * mu_y + c1) * (2 * sigma_xy + c2)
         denominator = (mu_x.square() + mu_y.square() + c1) * (sigma_x + sigma_y + c2)
         minimum = torch.finfo(denominator.dtype).tiny
-        return (numerator / denominator.clamp_min(minimum)).mean().clamp(-1.0, 1.0)
+        similarity = numerator / denominator.clamp_min(minimum)
+        if reduction == "none":
+            return similarity.flatten(1).mean(1).clamp(-1.0, 1.0)
+        return similarity.mean().clamp(-1.0, 1.0)
 
 
 def _psnr_from_mse(mse: torch.Tensor, data_range: float) -> torch.Tensor:
@@ -159,6 +166,35 @@ def frame_metrics(
     values = torch.stack([metric_tensors[name].reshape(()) for name in names])
     cpu_values = values.detach().to(device="cpu", dtype=torch.float64).tolist()
     return dict(zip(names, (float(value) for value in cpu_values), strict=True))
+
+
+@torch.no_grad()
+def batch_frame_metrics(
+    prediction: torch.Tensor,
+    target: torch.Tensor,
+    lpips_model: torch.nn.Module | None = None,
+    extra_metrics: dict[str, torch.Tensor] | None = None,
+) -> list[dict[str, float]]:
+    """Per-frame reductions, one SSIM convolution batch and one metrics transfer."""
+    if prediction.ndim != 4 or prediction.shape != target.shape or not prediction.shape[0]:
+        raise ValueError("Batch metrics require matching nonempty BCHW tensors")
+    mse = (prediction - target).square().flatten(1).mean(1)
+    values = {
+        "psnr": _psnr_from_mse(mse, 1.0),
+        "ssim": structural_similarity(prediction, target, reduction="none"),
+        "rmse": mse.sqrt(),
+    }
+    if lpips_model is not None:
+        pred3 = prediction.repeat(1, 3, 1, 1) if prediction.shape[1] == 1 else prediction
+        target3 = target.repeat(1, 3, 1, 1) if target.shape[1] == 1 else target
+        values["lpips"] = lpips_model(pred3 * 2 - 1, target3 * 2 - 1).flatten(1).mean(1)
+    for name, tensor in (extra_metrics or {}).items():
+        if name in values or tensor.shape != (prediction.shape[0],):
+            raise ValueError(f"Invalid per-frame extra metric: {name}")
+        values[name] = tensor
+    names = list(values)
+    rows = torch.stack([values[name] for name in names], dim=1).double().cpu().tolist()
+    return [dict(zip(names, row, strict=True)) for row in rows]
 
 
 class MetricAccumulator:

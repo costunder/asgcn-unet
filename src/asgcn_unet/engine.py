@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import gc
 import hashlib
+import inspect
 import json
 import math
 import random
@@ -14,7 +15,8 @@ import sys
 import time
 from collections import Counter, defaultdict
 from collections.abc import Callable
-from contextlib import contextmanager, nullcontext
+from contextlib import ExitStack, contextmanager, nullcontext
+from functools import wraps
 from pathlib import Path
 from typing import Any
 
@@ -23,7 +25,14 @@ import torch
 from torch.utils.data import BatchSampler, DataLoader, SequentialSampler, Subset
 from tqdm import tqdm
 
-from .batching import SequenceBatchSampler
+from .artifact_lock import exclusive_artifact_writer
+from .batching import (
+    SequenceBatchSampler,
+    ShapeBatchSampler,
+    move_batch,
+    pack_calibration_samples,
+    pack_samples,
+)
 from .checkpoint import (
     CursorBatchSampler,
     StopRequest,
@@ -31,15 +40,21 @@ from .checkpoint import (
     restore_training_state,
 )
 from .data import build_dataset, collate_samples, load_eventhdr_split_manifest
+from .evaluation_batches import evaluation_frames
 from .graph import PAPER_CORE_VERSION, PaperSplineConv
+from .inference_profile import profile_inference_batches
 from .losses import ReconstructionLoss
 from .metrics import (
     MetricAccumulator,
     frame_metrics,
     percentile,
-    temporal_consistency_error,
 )
 from .model import ASGCNUNet
+from .resources import (
+    build_execution_report,
+    collect_runtime_resources,
+    summarize_resource_interval,
+)
 from .timing import StageTimer
 from .training import TrainingState, batching_contract, forward_training_loss
 from .utils import (
@@ -2331,16 +2346,23 @@ def _data_loader(
     prefetch_factor: int | None = None,
     batch_sampler=None,
     generator=None,
+    packed: bool = False,
+    include_targets: bool = True,
 ):
     if num_workers < 0:
         raise ValueError("num_workers must be non-negative")
+    if not include_targets and not packed:
+        raise ValueError("Event-only calibration collation requires packed=True")
     loader_options: dict[str, Any] = {
         "dataset": dataset,
         "batch_size": batch_size,
         "shuffle": shuffle,
         "num_workers": num_workers,
         "pin_memory": device.type == "cuda",
-        "collate_fn": collate_samples,
+        "collate_fn": (
+            pack_calibration_samples if not include_targets
+            else pack_samples if packed else collate_samples
+        ),
         "generator": generator,
     }
     if batch_sampler is not None:
@@ -3253,8 +3275,16 @@ def validate(
     max_samples: int | None = None,
     score_positions: set[int] | None = None,
     check_pause: Callable[[], None] | None = None,
+    batching_section: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     model.eval()
+    if batching_section is not None:
+        return _validate_batched(
+            model, loader, device, max_samples, score_positions, check_pause,
+            batching_section,
+        )
+    # Preserve the explicit historical B=1 reference protocol. Production fast
+    # validation supplies a measured batching section and uses the packed path.
     accumulator = MetricAccumulator()
     current_sequence = None
     previous_sequence_index = None
@@ -3293,6 +3323,87 @@ def validate(
                 frame_metrics(prediction, target),
             )
     return accumulator.summary()
+
+
+def _validate_batched(model, loader, device, max_samples, score_positions, check_pause, section):
+    dataset = loader.dataset
+    count = len(dataset) if max_samples is None else min(len(dataset), int(max_samples))
+    selected = dataset if count == len(dataset) else Subset(dataset, list(range(count)))
+    requested = section.get("batch_size")
+    if requested != "auto" and (type(requested) is not int or requested < 1):
+        raise ValueError("train.validation.batch_size must be a positive integer or 'auto'")
+    workers = section.get("num_workers", loader.num_workers)
+    precision, autocast_dtype = _inference_precision({"precision": "fp32", "tf32": False}, device, model)
+
+    def run_forward(samples, contexts, timing):
+        if check_pause is not None:
+            check_pause()
+        with _inference_precision_context(device, precision, autocast_dtype):
+            return model.forward_batch(samples, [context[0] for context in contexts], timing=timing)
+
+    def make_loader(data, batches, worker_count):
+        return _data_loader(
+            data, 1, worker_count, device, batch_sampler=batches, packed=True,
+            generator=loader.generator, **_loader_kwargs(section),
+        )
+
+    profile_report = None
+    if requested == "auto" or workers == "auto":
+        probe_state = TrainingState(independent_sequences=True)
+
+        def probe_forward(samples):
+            contexts = probe_state.prepare(samples)
+            prediction, details = run_forward(samples, contexts, None)
+            probe_state.commit(samples, prediction.float(), details, samples.targets.float())
+
+        profile_config = copy.deepcopy(section)
+        if requested != "auto":
+            profile_config["batch_candidates"] = [requested]
+        selection = profile_inference_batches(
+            selected, model, device, section=profile_config,
+            run_batch=probe_forward, loader_factory=make_loader,
+        )
+        batch_size, workers = selection["batch_size"], selection["num_workers"]
+        profile_report = selection["report"]
+        profile_report["precision"] = precision
+        probe_state.values.clear()
+    else:
+        batch_size = requested
+    if type(workers) is not int or workers < 0:
+        raise ValueError("train.validation.num_workers must be a non-negative integer or 'auto'")
+    sampler = SequenceBatchSampler(selected, batch_size)
+    plan = list(sampler)
+    if sorted(index for batch in plan for index in batch) != list(range(count)):
+        raise RuntimeError("Validation batch plan must cover every declared frame exactly once")
+    packed_loader = make_loader(selected, plan, workers)
+    stats: dict[str, Any] = {}
+    scored_rows = []
+    observed = []
+    for index, sample, _, _, metrics, _, _ in evaluation_frames(
+        packed_loader, plan, device=device, run_forward=run_forward,
+        independent_sequences=True, final_sequence_indices=sampler.final_sequence_indices,
+        statistics=stats, timing_steps=int(section.get("timing_steps", 50)),
+        timing_warmup=int(section.get("timing_warmup", 10)),
+    ):
+        observed.append(index)
+        if score_positions is None or index in score_positions:
+            # Store CPU metadata only; keeping sample dictionaries would retain
+            # every GPU input and target for the whole validation dataset.
+            metrics.pop("temporal_l1", None)
+            scored_rows.append((index, _sample_metric_scene(sample), sample["sample_id"], metrics))
+    if sorted(observed) != list(range(count)):
+        raise RuntimeError("Validation did not consume every declared frame exactly once")
+    accumulator = MetricAccumulator()
+    for _, scene, sample_id, metrics in sorted(scored_rows, key=lambda row: row[0]):
+        accumulator.update(scene, sample_id, metrics)
+    result = accumulator.summary()
+    result["execution"] = {
+        "physical_batch_size_limit": batch_size, "num_workers": workers,
+        "frames": count, "scored_frames": len(scored_rows), "precision": precision,
+        "policy": "independent_sequence_shape_lanes", "batch_profile": profile_report,
+        "performance": stats,
+    }
+    return result
 
 
 class TrainingPaused(Exception):
@@ -3387,7 +3498,11 @@ def train(
     if (isinstance(checkpoint_seconds, bool) or not math.isfinite(checkpoint_seconds)
             or checkpoint_seconds <= 0):
         raise ValueError("checkpoint_seconds must be finite and positive")
-    with StopRequest(time_limit_seconds=max_seconds) as stop:
+    validate_experiment_config(config)
+    with (
+        exclusive_artifact_writer(Path(config["output"]["run_dir"])),
+        StopRequest(time_limit_seconds=max_seconds) as stop,
+    ):
         return _train(config, resume_from, stop, float(checkpoint_seconds))
 
 
@@ -3440,6 +3555,7 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
         shuffle=False,
         batch_sampler=cursor_sampler,
         generator=train_generator,
+        packed=True,
         **_loader_kwargs(train_config),
     )
     val_indices = _balanced_contiguous_indices(
@@ -3507,6 +3623,12 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
     training_protocol = _training_protocol(config, device)
     scaler = _make_grad_scaler(amp_enabled)
     criterion = ReconstructionLoss(train_config.get("loss_weights"))
+    execution_report = build_execution_report(
+        model, _public_config(config), phase="train", device=device, physical_batch_size=batch_size,
+        dataset_size=len(train_dataset),
+        used_samples=min(len(train_dataset), int(train_config.get("max_train_samples") or len(train_dataset))),
+        optimization_steps=int(train_config["epochs"]) * len(index_sampler), loader=train_loader,
+    )
     configured_loss_weights = train_config.get("loss_weights") or {}
     temporal_weight = float(configured_loss_weights.get("temporal", 0.0))
 
@@ -3660,6 +3782,9 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
     # Publish run metadata only after every fresh/resume check, including
     # optimizer/scaler/RNG restoration. Rejected attempts must preserve the
     # previous gate, config and hash cache alongside the original checkpoints.
+    # Record a new execution only after all resume checks have succeeded.
+    save_json(run_dir / f"execution-{time.time_ns()}.json", execution_report)
+    print({"execution": execution_report})
     save_json(hash_cache_path, {"version": 1, "files": digest_cache})
     save_json(run_dir / "config.json", public_config)
     if "preflight_gate" in config:
@@ -3720,6 +3845,7 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
             elapsed_before_resume = resume_progress["training_seconds"]
             resume_progress = resume_state = None
         epoch_start = time.perf_counter()
+        epoch_resources = collect_runtime_resources(device=device, include_cuda=device.type == "cuda")
         last_save = epoch_start
 
         if resume_path is None and epoch == start_epoch:
@@ -3746,7 +3872,7 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
                 if max_train_samples is not None:
                     batch = batch[: int(max_train_samples) - seen]
             with timing.scope("transfer"):
-                samples = [move_sample(sample, device) for sample in batch]
+                samples = move_batch(batch, device)
             contexts = state.prepare(samples)
 
             def forward_loss(current_samples=samples, incoming_contexts=contexts):
@@ -3816,6 +3942,8 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
                 max_samples=None,
                 score_positions=val_score_positions,
                 check_pause=lambda: pause_if_requested(saved=True),
+                **({"batching_section": train_config["validation"]}
+                   if train_config.get("validation") is not None else {}),
             )
             if should_validate
             else {}
@@ -3841,6 +3969,10 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
                 epoch_learning_rates[0] if len(epoch_learning_rates) == 1 else epoch_learning_rates
             ),
             "gpu_memory": _cuda_peak_memory(device),
+            "resource_usage": summarize_resource_interval(
+                epoch_resources,
+                collect_runtime_resources(device=device, include_cuda=device.type == "cuda"),
+            ),
             "performance": {
                 "training_seconds": epoch_seconds,
                 "frames": seen,
@@ -3944,6 +4076,27 @@ def evaluate(
             dataset.close()
 
 
+def _exclusive_inference_outputs(function):
+    signature = inspect.signature(function)
+
+    @wraps(function)
+    def guarded(*args, **kwargs):
+        arguments = signature.bind(*args, **kwargs).arguments
+        config = arguments["config"]
+        mode = arguments["inference_mode"]
+        steps = arguments["simulation_steps"]
+        _validate_snn_request(mode, steps)
+        dynamics = arguments["snn_dynamics"] or config["model"].get("snn_dynamics", "literal_eq15")
+        if dynamics not in {"literal_eq15", "standard_if"}:
+            raise ValueError("snn_dynamics must be 'literal_eq15' or 'standard_if'")
+        output = Path(config.get("eval", {}).get("output_dir", "runs/evaluation"))
+        with exclusive_artifact_writer(output / _inference_run_label(mode, steps, dynamics)):
+            return function(*args, **kwargs)
+
+    return guarded
+
+
+@_exclusive_inference_outputs
 def _evaluate_dataset(
     config: dict[str, Any],
     checkpoint_path: str | Path,
@@ -3958,16 +4111,9 @@ def _evaluate_dataset(
 ) -> dict[str, Any]:
     eval_config = config.get("eval", {})
     max_samples = eval_config.get("max_samples")
-    eval_batch_size = int(eval_config.get("batch_size", 1))
-    if eval_batch_size != 1:
-        raise ValueError("Stateful evaluation requires eval.batch_size=1")
-    loader = _data_loader(
-        dataset,
-        eval_batch_size,
-        int(eval_config.get("num_workers", 0)),
-        device,
-        **_loader_kwargs(eval_config),
-    )
+    requested_batch_size = eval_config.get("batch_size", 1)
+    if max_graph_edges_override is None:
+        max_graph_edges_override = eval_config.get("max_graph_edges_override")
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
     graph_edge_guard = _set_inference_max_graph_edges(
         model, max_graph_edges_override
@@ -4005,12 +4151,6 @@ def _evaluate_dataset(
     frame_rows: list[dict[str, Any]] = []
     latencies: list[float] = []
     realtime_factors: list[float] = []
-    current_sequence = None
-    previous_sequence_index = None
-    previous_sensor_size = None
-    recurrent_state = None
-    previous_prediction = None
-    previous_target = None
     output_base = Path(eval_config.get("output_dir", "runs/evaluation"))
     run_label = _inference_run_label(
         inference_mode,
@@ -4034,6 +4174,84 @@ def _evaluate_dataset(
         len(dataset),
         len(dataset) if max_samples is None else int(max_samples),
     )
+    evaluation_dataset_view = (
+        dataset if evaluation_count == len(dataset)
+        else Subset(dataset, list(range(evaluation_count)))
+    )
+    profile_report = None
+    workers = eval_config.get("num_workers", 0)
+    reference_single = requested_batch_size == 1
+
+    def run_forward(samples, contexts, timing):
+        with _inference_precision_context(device, precision, autocast_dtype):
+            if reference_single:
+                with timing.scope("model") if timing is not None else nullcontext():
+                    prediction, detail = model.forward_sample(
+                        samples[0], inference_mode=inference_mode,
+                        simulation_steps=simulation_steps, recurrent_state=contexts[0][0],
+                    )
+                return prediction, [detail]
+            return model.forward_batch(
+                samples, [context[0] for context in contexts],
+                inference_mode=inference_mode, simulation_steps=simulation_steps,
+                timing=timing,
+            )
+
+    if requested_batch_size == "auto" or workers == "auto":
+        probe_state = TrainingState(independent_sequences=True)
+
+        def probe_forward(samples):
+            contexts = probe_state.prepare(samples)
+            prediction, detail = run_forward(samples, contexts, None)
+            # Retain per-sequence recurrent images as the real evaluation does;
+            # measuring a stateless one-frame call would understate residency.
+            probe_state.commit(samples, prediction.float(), detail, samples.targets.float())
+
+        profile_config = copy.deepcopy(eval_config)
+        if requested_batch_size != "auto":
+            profile_config["batch_candidates"] = [requested_batch_size]
+        selection = profile_inference_batches(
+            evaluation_dataset_view, model, device, section=profile_config,
+            run_batch=probe_forward,
+            loader_factory=lambda data, batches, workers: _data_loader(
+                data, 1, workers, device, batch_sampler=batches, packed=True,
+                **_loader_kwargs(eval_config),
+            ),
+        )
+        eval_batch_size, workers = selection["batch_size"], selection["num_workers"]
+        profile_report = selection["report"]
+        profile_report["precision"] = precision
+        profile_report["recurrent_residency"] = "diagnostic_per_sequence_prediction_target_and_state"
+        probe_state.values.clear()
+        del probe_state
+    else:
+        eval_batch_size = int(requested_batch_size)
+    if type(workers) is not int or workers < 0:
+        raise ValueError("eval.num_workers must be a non-negative integer or 'auto'")
+    sequence_sampler = (
+        SequenceBatchSampler(evaluation_dataset_view, eval_batch_size)
+        if not reference_single else None
+    )
+    batch_plan = (
+        list(sequence_sampler) if sequence_sampler is not None
+        else list(BatchSampler(SequentialSampler(evaluation_dataset_view), 1, drop_last=False))
+    )
+    declared_indices = [index for batch_indices in batch_plan for index in batch_indices]
+    if sorted(declared_indices) != list(range(evaluation_count)):
+        raise RuntimeError("Evaluation batch plan must contain every declared frame exactly once")
+    loader = _data_loader(
+        evaluation_dataset_view, eval_batch_size, workers, device,
+        batch_sampler=batch_plan, packed=True, **_loader_kwargs(eval_config),
+    )
+    _reset_cuda_peak_memory(device)
+    execution_report = build_execution_report(
+        model, _public_config(config), phase="evaluate", device=device,
+        physical_batch_size=eval_batch_size, dataset_size=len(dataset),
+        used_samples=evaluation_count, loader=loader,
+    )
+    resources_before = collect_runtime_resources(device=device, include_cuda=device.type == "cuda")
+    batch_statistics: dict[str, Any] = {}
+    print({"evaluation_execution": execution_report, "batch_selection": "measured" if profile_report else "explicit"})
     evaluation_sampling = _sampling_summary(dataset, list(range(evaluation_count)))
     evaluation_dataset = _evaluation_dataset_provenance(
         config, dataset, evaluation_sampling
@@ -4068,74 +4286,33 @@ def _evaluate_dataset(
             ),
             "graph_edge_guard": graph_edge_guard,
             "scope": "full_dataset_quality_evaluation",
+            "batching": {
+                "physical_batch_size_limit": eval_batch_size,
+                "num_workers": workers,
+                "policy": "single_sequence_reference" if reference_single else "independent_sequence_shape_lanes",
+                "full_coverage": True,
+                "latency_scope": "physical_batch_completion_not_amortized",
+            },
         },
         evaluation_dataset=evaluation_dataset,
     )
-    saved = 0
+    observed_indices: list[int] = []
     prediction_stems: set[str] = set()
-    for index, batch in enumerate(tqdm(loader, desc=f"evaluate-{inference_mode}")):
-        if max_samples is not None and index >= int(max_samples):
-            break
-        sample = move_sample(batch[0], device)
+    frames = evaluation_frames(
+        loader, batch_plan, device=device, run_forward=run_forward,
+        independent_sequences=not reference_single,
+        final_sequence_indices=(sequence_sampler.final_sequence_indices if sequence_sampler else None),
+        lpips_model=lpips_model, statistics=batch_statistics,
+        timing_steps=int(eval_config.get("timing_steps", 50)),
+        timing_warmup=int(eval_config.get("timing_warmup_steps", 10)),
+    )
+    for index, sample, prediction, target, metrics, diagnostics, latency_ms in tqdm(
+        frames, total=evaluation_count, desc=f"evaluate-{inference_mode}"
+    ):
+        observed_indices.append(index)
         sample_id = sample.get("sample_id", index)
-        _require_finite_tensor(sample["target"], "target", sample_id)
-        sequence_id, sequence_index, sensor_size = _sample_sequence_info(sample)
-        if not _continues_sequence(
-            sequence_id,
-            sequence_index,
-            sensor_size,
-            current_sequence,
-            previous_sequence_index,
-            previous_sensor_size,
-        ):
-            recurrent_state = None
-            previous_prediction = None
-            previous_target = None
-        current_sequence = sequence_id
-        previous_sequence_index = sequence_index
-        previous_sensor_size = sensor_size
-        if device.type == "cuda":
-            torch.cuda.synchronize(device)
-        with _inference_precision_context(device, precision, autocast_dtype):
-            start = time.perf_counter()
-            prediction, diagnostics = model.forward_sample(
-                sample,
-                inference_mode=inference_mode,
-                simulation_steps=simulation_steps,
-                recurrent_state=recurrent_state,
-            )
-            if device.type == "cuda":
-                torch.cuda.synchronize(device)
-            latency_ms = (time.perf_counter() - start) * 1000.0
-        if not math.isfinite(latency_ms) or latency_ms <= 0:
-            raise FloatingPointError(f"Invalid latency: sample={sample_id}")
-        _require_finite_tensor(prediction, "prediction", sample_id)
-        _require_finite_structure(diagnostics, "diagnostics", sample_id)
-        recurrent_state = diagnostics["recurrent_state"]
-        if recurrent_state is not None:
-            recurrent_state = recurrent_state.detach()
-        target = sample["target"].unsqueeze(0).float()
-        metric_prediction = prediction.float()
-        temporal_tensor = None
-        if previous_prediction is not None and previous_target is not None:
-            temporal_tensor = temporal_consistency_error(
-                metric_prediction,
-                previous_prediction,
-                target,
-                previous_target,
-            )
-        metrics = frame_metrics(
-            metric_prediction,
-            target,
-            lpips_model,
-            extra_metrics=(
-                {"temporal_l1": temporal_tensor} if temporal_tensor is not None else None
-            ),
-        )
         _require_finite_structure(metrics, "metrics", sample_id)
         temporal_l1 = metrics.get("temporal_l1")
-        previous_prediction = metric_prediction.detach()
-        previous_target = target.detach()
         metric_scene = _sample_metric_scene(sample)
         accumulator.update(metric_scene, sample["sample_id"], metrics)
         dt_us = _positive_interval_us(sample["metadata"].get("dt_us"), sample_id)
@@ -4166,22 +4343,34 @@ def _evaluate_dataset(
         }
         frame_rows.append(row)
         latencies.append(latency_ms)
-        if saved < save_limit:
+        if index < save_limit:
             safe_name = _prediction_artifact_stem(sample["sample_id"], index)
             if safe_name in prediction_stems:
                 raise RuntimeError(f"Duplicate prediction artifact stem: {safe_name}")
             prediction_stems.add(safe_name)
             save_image(output_dir / "predictions" / f"{safe_name}_pred.png", prediction)
             save_image(output_dir / "predictions" / f"{safe_name}_gt.png", target)
-            saved += 1
 
-    if len(frame_rows) != evaluation_count:
+    if sorted(observed_indices) != list(range(evaluation_count)):
         raise RuntimeError(
             "Quality evaluation did not process its complete declared sampling: "
             f"expected {evaluation_count}, observed {len(frame_rows)}"
         )
+    # Stable dataset order makes frame artifacts and aggregate summation
+    # comparable across physical batching schedules.
+    order = sorted(range(len(observed_indices)), key=observed_indices.__getitem__)
+    frame_rows = [frame_rows[index] for index in order]
+    accumulator.frames = [accumulator.frames[index] for index in order]
+    execution_report["data"]["input_shapes"] = batch_statistics["input_shapes"]
+    execution_report["data"]["graph_statistics"] = batch_statistics["graph_statistics"]
+    execution_report["batching"]["observed_physical_batch_histogram"] = batch_statistics["physical_batch_histogram"]
     quality = accumulator.summary()
     latency = _latency_summary(latencies)
+    # Batch completion latency is not divided by B. Throughput counts the
+    # frames actually processed, including short tails, over model wall time.
+    latency["fps"] = batch_statistics["throughput_frames_per_second"]
+    latency["fps_scope"] = batch_statistics["throughput_scope"]
+    latency["latency_scope"] = batch_statistics["latency_scope"]
     latency["deadline_miss_ratio"] = (
         sum(value > 1.0 for value in realtime_factors) / len(realtime_factors)
         if realtime_factors
@@ -4215,6 +4404,13 @@ def _evaluate_dataset(
         "latency": latency,
         "gpu_memory": _cuda_peak_memory(device),
         "precision": precision,
+        "execution": execution_report,
+        "batch_profile": profile_report,
+        "performance": batch_statistics,
+        "resource_usage": summarize_resource_interval(
+            resources_before,
+            collect_runtime_resources(device=device, include_cuda=device.type == "cuda"),
+        ),
     }
     _require_finite_structure(result, "evaluation", "summary")
     save_json(output_dir / "metrics.json", result)
@@ -4567,6 +4763,7 @@ def benchmark(
             dataset.close()
 
 
+@_exclusive_inference_outputs
 def _benchmark_dataset(
     config: dict[str, Any],
     checkpoint_path: str | Path,
@@ -4581,6 +4778,8 @@ def _benchmark_dataset(
     max_graph_edges_override: int | None,
     allow_unsealed_checkpoint_for_non_reporting: bool,
 ) -> dict[str, Any]:
+    if max_graph_edges_override is None:
+        max_graph_edges_override = config.get("eval", {}).get("max_graph_edges_override")
     model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
     graph_edge_guard = _set_inference_max_graph_edges(
         model, max_graph_edges_override
@@ -4619,6 +4818,14 @@ def _benchmark_dataset(
             f"Benchmark output already exists: {benchmark_path}. Move/remove the prior "
             "artifact or choose a new eval.output_dir."
         )
+    benchmark_execution = build_execution_report(
+        model, _public_config(config), phase="benchmark", device=device,
+        physical_batch_size=1, dataset_size=len(dataset),
+    )
+    benchmark_execution["batching"]["purpose"] = "single_frame_compute_latency_reference_not_maximum_throughput"
+    benchmark_execution["precision"] = precision
+    benchmark_resources = collect_runtime_resources(device=device, include_cuda=device.type == "cuda")
+    print({"benchmark_execution": benchmark_execution})
     cuda_start = torch.cuda.Event(enable_timing=True) if device.type == "cuda" else None
     cuda_end = torch.cuda.Event(enable_timing=True) if device.type == "cuda" else None
     latencies: list[float] = []
@@ -4908,6 +5115,17 @@ def _benchmark_dataset(
         "state_resets": measured_state_resets,
         "state_reset_ratio": measured_state_resets / len(measured_indices),
     }
+    benchmark_execution["data"]["used_samples"] = len(set(measured_indices))
+    benchmark_execution["data"]["used_ratio"] = len(set(measured_indices)) / len(dataset)
+    benchmark_execution["data"]["graph_statistics"] = {
+        "nodes": {"min": min(node_counts), "max": max(node_counts), "mean": statistics.fmean(node_counts)},
+        "edges": {"min": min(edge_counts), "max": max(edge_counts), "mean": statistics.fmean(edge_counts)},
+    }
+    result["execution"] = benchmark_execution
+    result["resource_usage"] = summarize_resource_interval(
+        benchmark_resources,
+        collect_runtime_resources(device=device, include_cuda=device.type == "cuda"),
+    )
     result["output_path"] = _artifact_path_label(benchmark_path)
     _require_finite_structure(result, "benchmark", "summary")
     save_json(benchmark_path, result)
@@ -5065,7 +5283,20 @@ def _sealed_calibration_protocol(
     }
 
 
+def _exclusive_calibration_output(function):
+    signature = inspect.signature(function)
+
+    @wraps(function)
+    def guarded(*args, **kwargs):
+        output = signature.bind(*args, **kwargs).arguments["output_path"]
+        with exclusive_artifact_writer(output):
+            return function(*args, **kwargs)
+
+    return guarded
+
+
 @torch.no_grad()
+@_exclusive_calibration_output
 def calibrate(
     config: dict[str, Any],
     checkpoint_path: str | Path,
@@ -5094,9 +5325,14 @@ def calibrate(
         raise ValueError("SNN calibration must use EventHDR training data")
     dataset = build_dataset(data_config, split="calibration")
     calibration_loader = None
+    precision_scope = ExitStack()
     try:
         model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
         model.eval()
+        precision, autocast_dtype = _inference_precision(
+            {"precision": "fp32", "tf32": False}, device, model,
+        )
+        precision_scope.enter_context(_inference_precision_context(device, precision, autocast_dtype))
         model.fold_batch_norm()
         model.reset_activation_maxima()
         calibration_limit = len(dataset) if samples is None else min(int(samples), len(dataset))
@@ -5112,25 +5348,165 @@ def calibrate(
             device,
             allow_unsealed=allow_unsealed_calibration,
         )
-        loader_config = config.get("train") or config.get("eval") or {}
+        loader_config = copy.deepcopy(
+            config.get("calibration") or config.get("train") or config.get("eval") or {}
+        )
+        selected_dataset = Subset(dataset, calibration_indices)
+        requested_batch_size = loader_config.get("batch_size")
+        requested_workers = loader_config.get("num_workers", 0)
+        automatic_batching = requested_batch_size == "auto" or requested_workers == "auto"
+
+        def calibration_profile_loader(source, batch_lists, num_workers):
+            return _data_loader(
+                source,
+                batch_size=max(len(indices) for indices in batch_lists),
+                num_workers=num_workers,
+                device=device,
+                shuffle=False,
+                batch_sampler=batch_lists,
+                packed=True,
+                include_targets=False,
+                **_loader_kwargs(loader_config),
+            )
+
+        if automatic_batching:
+            profile_config = copy.deepcopy(loader_config)
+            if requested_batch_size != "auto":
+                profile_config["batch_candidates"] = [requested_batch_size]
+            if requested_workers != "auto":
+                profile_config["worker_candidates"] = [requested_workers]
+            selection = profile_inference_batches(
+                selected_dataset,
+                model,
+                device,
+                section=profile_config,
+                run_batch=model.calibrate_batch,
+                loader_factory=calibration_profile_loader,
+                calibration=True,
+            )
+            batch_size = selection["batch_size"]
+            num_workers = selection["num_workers"]
+            calibration_batch_profile = selection["report"]
+        else:
+            batch_size = requested_batch_size
+            num_workers = requested_workers
+            calibration_batch_profile = {
+                "report_eligible": False,
+                "report_ineligible_reasons": ["execution settings, not a quality evaluation or a measured batch sweep"],
+                "selection": "explicit_configuration",
+                "batch_size": batch_size,
+                "num_workers": num_workers,
+                "cuda_measured": False,
+                "measurement_note": "No calibration batch sweep was requested; this is not a new throughput measurement.",
+            }
+        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+            raise ValueError("calibration.batch_size must be a positive integer or 'auto'")
+        if isinstance(num_workers, bool) or not isinstance(num_workers, int) or num_workers < 0:
+            raise ValueError("calibration.num_workers must be a non-negative integer or 'auto'")
+        # Diagnostic callbacks observe real activations, but only the full pass
+        # below is permitted to contribute to the sealed calibration commitment.
+        model.reset_activation_maxima()
+        calibration_sampler = ShapeBatchSampler(selected_dataset, batch_size=batch_size)
         calibration_loader = _data_loader(
-            Subset(dataset, calibration_indices),
-            batch_size=1,
-            num_workers=int(loader_config.get("num_workers", 0)),
+            selected_dataset,
+            batch_size=batch_size,
+            num_workers=num_workers,
             device=device,
             shuffle=False,
+            batch_sampler=calibration_sampler,
+            packed=True,
+            include_targets=False,
             **_loader_kwargs(loader_config),
         )
         calibration_sampling = _sampling_summary(dataset, calibration_indices)
-        for batch in tqdm(
-            calibration_loader,
-            total=len(calibration_indices),
-            desc="calibrate-SNN",
-        ):
-            if len(batch) != 1:
-                raise ValueError("SNN calibration requires batch_size=1")
-            sample = move_sample(batch[0], device)
-            model.calibrate_sample(sample, momentum=-1.0)
+        if device.type == "cuda":
+            torch.cuda.synchronize(device)
+            torch.cuda.reset_peak_memory_stats(device)
+        execution_report = build_execution_report(
+            model,
+            _public_config(config),
+            phase="calibration",
+            device=device,
+            physical_batch_size=batch_size,
+            dataset_size=len(dataset),
+            used_samples=len(calibration_indices),
+            loader=calibration_loader,
+        )
+        resources_before = execution_report["resources"]
+        execution_report["precision"] = precision
+        calibration_batch_profile["precision"] = precision
+        processed_samples = processed_batches = nodes_total = 0
+        nodes_min = nodes_max = None
+        edges_reduction = None
+        sensor_sizes = set()
+        event_feature_counts = set()
+        observed_batch_sizes = set()
+        print("Calibration execution: " + json.dumps(execution_report, sort_keys=True))
+        with tqdm(total=len(calibration_indices), desc="calibrate-SNN", unit="frame") as progress:
+            for batch in calibration_loader:
+                packed = move_batch(batch, device)
+                diagnostics = model.calibrate_batch(packed)
+                if not isinstance(diagnostics, dict):
+                    raise TypeError("Batched calibration did not report its graph topology")
+                node_counts = diagnostics["nodes"]
+                edge_counts = diagnostics["edges"]
+                if len(node_counts) != len(packed) or edge_counts.numel() != len(packed):
+                    raise RuntimeError("Calibration graph statistics do not match the physical batch")
+                reduction = torch.stack((edge_counts.sum(), edge_counts.min(), edge_counts.max()))
+                if edges_reduction is None:
+                    edges_reduction = reduction
+                else:
+                    edges_reduction = torch.stack((
+                        edges_reduction[0] + reduction[0],
+                        torch.minimum(edges_reduction[1], reduction[1]),
+                        torch.maximum(edges_reduction[2], reduction[2]),
+                    ))
+                nodes_total += sum(node_counts)
+                nodes_min = min(node_counts) if nodes_min is None else min(nodes_min, min(node_counts))
+                nodes_max = max(node_counts) if nodes_max is None else max(nodes_max, max(node_counts))
+                processed_samples += len(packed)
+                processed_batches += 1
+                observed_batch_sizes.add(len(packed))
+                sensor_sizes.add(tuple(packed.sensor_size))
+                event_feature_counts.add(int(packed.events.shape[-1]))
+                progress.update(len(packed))
+        if processed_samples != len(calibration_indices):
+            raise RuntimeError(
+                f"Calibration consumed {processed_samples} frames; expected {len(calibration_indices)}"
+            )
+        if device.type == "cuda":
+            torch.cuda.synchronize(device)
+        resources_after = collect_runtime_resources(device=device, include_cuda=device.type == "cuda")
+        interval = summarize_resource_interval(resources_before, resources_after)
+        if edges_reduction is None:
+            raise RuntimeError("Calibration produced no graph statistics")
+        # One host synchronization for the aggregate, never one per frame/batch.
+        edge_total, edge_min, edge_max = edges_reduction.detach().cpu().tolist()
+        execution_report["data"]["input_shapes"] = {
+            "sensor_sizes": [list(shape) for shape in sorted(sensor_sizes)],
+            "event_feature_counts": sorted(event_feature_counts),
+            "events_layout": "packed [sum(events_per_frame), event_features]",
+        }
+        execution_report["data"]["graph_statistics"] = {
+            "frames": processed_samples,
+            "nodes": {"total": nodes_total, "min": nodes_min, "max": nodes_max, "mean": nodes_total / processed_samples},
+            "edges": {"total": edge_total, "min": edge_min, "max": edge_max, "mean": edge_total / processed_samples},
+        }
+        execution_report["batching"]["observed_physical_batch_sizes"] = sorted(observed_batch_sizes)
+        execution_report["batching"]["strategy"] = "shape_buckets_of_independent_encoder_frames"
+        calibration_performance = {
+            **interval,
+            "frames": processed_samples,
+            "batches": processed_batches,
+            "frames_per_second": (
+                processed_samples / interval["wall_seconds"]
+                if interval["wall_seconds"] > 0 else None
+            ),
+            "timing_scope": "full calibration pass including data loading, transfer, graph construction and activation collection",
+            "parameter_normalization_included": False,
+            "worker_startup_included": True,
+            "resources_after": resources_after,
+        }
         summary_core = _calibration_summary_commitment_core(
             model.calibration_summary()
         )
@@ -5162,11 +5538,15 @@ def calibrate(
             "snn_calibration_summary": calibration_summary,
             "snn_calibration_sampling": calibration_sampling,
             "calibration_protocol": calibration_protocol,
+            "execution_report": execution_report,
+            "calibration_batch_profile": calibration_batch_profile,
+            "calibration_performance": calibration_performance,
             "preflight_gate": _public_config(checkpoint.get("preflight_gate")),
             "report_eligible": bool(calibration_protocol["sealed"]),
             "report_ineligible_reasons": list(calibration_protocol["unsealed_reasons"]),
         }
     finally:
+        precision_scope.close()
         calibration_loader = None
         if hasattr(dataset, "close"):
             dataset.close()

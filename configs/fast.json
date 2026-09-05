@@ -59,8 +59,29 @@
     "max_train_samples": null,
     "max_val_samples": null,
     "validation_context_frames": 64,
+    "validation": {
+      "batch_size": "auto",
+      "batch_candidates": [1, 2, 4, 8, 16],
+      "worker_candidates": [0, 2, 4],
+      "profile_warmup": 1,
+      "profile_steps": 3,
+      "profile_memory_fraction": 0.8,
+      "persistent_workers": true,
+      "prefetch_factor": 2
+    },
     "rehash_data": true,
     "loss_weights": {"charbonnier": 1.0, "ssim": 0.2, "gradient": 0.1, "temporal": 0.2}
+  },
+  "calibration": {
+    "batch_size": "auto",
+    "num_workers": "auto",
+    "batch_candidates": [1, 2, 4, 8, 16],
+    "worker_candidates": [0, 2, 4],
+    "profile_warmup": 1,
+    "profile_steps": 3,
+    "profile_memory_fraction": 0.8,
+    "persistent_workers": true,
+    "prefetch_factor": 2
   },
   "output": {"run_dir": "runs/fast"}
 }

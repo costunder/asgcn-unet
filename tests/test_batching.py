@@ -276,7 +276,13 @@ def test_batch_eval_matches_independent_samples_and_diagnostics(recurrent, count
     for actual, (_, expected) in zip(diagnostics, individual, strict=True):
         assert actual.keys() == expected.keys()
         for key in actual:
-            if isinstance(actual[key], torch.Tensor):
+            if key == "edges":
+                # Packed topology retains device counts; compare exact integer
+                # values without requiring a per-frame device-to-host conversion.
+                torch.testing.assert_close(
+                    torch.as_tensor(actual[key]), torch.as_tensor(expected[key]), rtol=0, atol=0
+                )
+            elif isinstance(actual[key], torch.Tensor):
                 torch.testing.assert_close(actual[key], expected[key], rtol=2e-5, atol=2e-6)
             else:
                 assert actual[key] == expected[key]
@@ -439,5 +445,69 @@ def test_batch_timing_scopes_are_nonoverlapping_operator_stages():
             visits.append((label, "end"))
 
     _model().eval().forward_training_batch([_sample("a"), _sample("b")], timing=Timer())
+    assert visits == [(stage, event) for stage in ("graph", "encoder", "decoder")
+                      for event in ("start", "end")]
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+@pytest.mark.parametrize("steps", [4, 8, 16, 32])
+def test_public_snn_batch_matches_independent_predictions_and_statistics(dynamics, steps):
+    model = _model().eval()
+    model.snn_dynamics = dynamics
+    samples = [_sample("a", count=5), _sample("empty", count=0), _sample("b", count=8)]
+    model.reset_activation_maxima()
+    model.calibrate_batch(samples)
+    model.fold_batch_norm()
+    model.apply_parameter_normalization()
+    with torch.no_grad():
+        expected = [model.forward_sample(sample, "snn", steps) for sample in samples]
+        predictions, diagnostics = model(samples, "snn", steps)
+    assert len(predictions) == len(samples)
+    for actual, detail, (reference, reference_detail) in zip(
+        predictions, diagnostics, expected, strict=True
+    ):
+        torch.testing.assert_close(actual, reference, rtol=2e-5, atol=2e-6)
+        for key in ("nodes", "edges", "isolated_nodes", "max_degree"):
+            torch.testing.assert_close(
+                torch.as_tensor(detail[key]), torch.as_tensor(reference_detail[key]),
+                rtol=0, atol=0,
+            )
+        for key in ("firing_rates", "spike_counts", "firing_rate_denominators"):
+            torch.testing.assert_close(detail[key], reference_detail[key], rtol=0, atol=0)
+        torch.testing.assert_close(
+            detail["recurrent_state"], reference_detail["recurrent_state"], rtol=2e-5, atol=2e-6
+        )
+
+
+def test_calibration_batch_counts_empty_attempts_and_preserves_observed_maxima():
+    single = _model().eval()
+    batch = _model().eval()
+    samples = [_sample("a", count=5), _sample("empty", count=0), _sample("b", count=8)]
+    single.reset_activation_maxima()
+    batch.reset_activation_maxima()
+    for sample in samples:
+        single.calibrate_sample(sample)
+    batch.calibrate_batch(samples)
+    assert single.calibration_summary() == batch.calibration_summary()
+    assert batch.calibration_summary()["attempted_samples"] == 3
+    assert batch.calibration_summary()["valid_samples_per_layer"] == [2, 2]
+    for expected, actual in zip(single.encoder.layers, batch.encoder.layers, strict=True):
+        torch.testing.assert_close(
+            actual.calibration_activation_max, expected.calibration_activation_max,
+            rtol=2e-5, atol=2e-6,
+        )
+
+
+def test_single_frame_batch_uses_all_three_timing_scopes():
+    visits = []
+
+    class Timer:
+        @contextmanager
+        def scope(self, label, *, gpu):
+            visits.append((label, "start"))
+            yield
+            visits.append((label, "end"))
+
+    _model().eval().forward_batch([_sample("a")], timing=Timer())
     assert visits == [(stage, event) for stage in ("graph", "encoder", "decoder")
                       for event in ("start", "end")]

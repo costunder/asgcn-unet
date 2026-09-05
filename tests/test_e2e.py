@@ -489,7 +489,9 @@ def test_standalone_evaluate_and_benchmark_reject_nonfinite_predictions(
         return torch.full_like(prediction, float("nan")), diagnostics
 
     monkeypatch.setattr(ASGCNUNet, "forward_sample", poisoned_forward)
-    with pytest.raises(FloatingPointError, match="Non-finite prediction"):
+    with pytest.raises(
+        FloatingPointError, match=r"Nonfinite evaluation tensors in dataset indices \[0\]"
+    ):
         evaluate(
             config,
             checkpoint,

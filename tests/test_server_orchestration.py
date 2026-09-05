@@ -91,6 +91,18 @@ def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
     expected_fast["train"]["batch_size"] = 16
     expected_fast["model"]["spline_backend"] = "triton"
     expected_fast["output"]["run_dir"] = "runs/fast"
+    automatic_inference = {
+        "batch_size": "auto",
+        "batch_candidates": [1, 2, 4, 8, 16],
+        "worker_candidates": [0, 2, 4],
+        "profile_warmup": 1,
+        "profile_steps": 3,
+        "profile_memory_fraction": 0.8,
+        "persistent_workers": True,
+        "prefetch_factor": 2,
+    }
+    expected_fast["train"]["validation"] = automatic_inference
+    expected_fast["calibration"] = {**automatic_inference, "num_workers": "auto"}
     assert configs["fast.json"] == expected_fast
     assert configs["hdr.json"]["eval"]["output_dir"] == "runs/eval/hdr"
     assert configs["aid.json"]["eval"]["output_dir"] == "runs/eval/aid"
@@ -106,7 +118,7 @@ def test_baseline_and_batch_configs_keep_short_separate_output_roots() -> None:
 
 def test_batch_wrapper_isolates_training_profile_status_and_evaluation() -> None:
     script = _text("scripts/run.sh")
-    assert 'EXPERIMENT="${EXPERIMENT:-single}"' in script
+    assert 'EXPERIMENT="${EXPERIMENT:-fast}"' in script
     for assignment in (
         "DEFAULT_TRAIN_CONFIG=configs/batch.json",
         "DEFAULT_TRAIN_RUN=runs/batch",
@@ -126,7 +138,7 @@ def test_evaluation_recovery_routes_one_dataset_and_forwards_edge_guard() -> Non
     evaluation = _text("scripts/eval.sh")
 
     assert 'EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES:-}"' in runner
-    assert 'EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES}"' in runner
+    assert 'EVAL_MAX_GRAPH_EDGES="${graph_edge_guard}"' in runner
     assert 'run_eval_config "${HDR_CONFIG}"' in runner
     assert 'run_eval_config "${AID_CONFIG}"' in runner
     assert '${STATUS_DIR}/${stage_name}.json' in runner
@@ -148,9 +160,12 @@ def test_evaluation_mode_resume_is_explicit_and_preserves_partial_artifacts() ->
     assert "restarting incomplete mode" in runner
     assert 'RUN_EVALUATION="${run_evaluation}"' in runner
     assert 'RUN_BENCHMARK="${run_benchmark}"' in runner
-    assert 'mv -- "${path}" "${backup}"' in runner
+    assert '--preserve-incomplete' in runner
     assert 'flock --nonblock "${resume_lock_fd}"' in runner
-    assert '( -e "${run_dir}" || -L "${run_dir}" )' in runner
+    assert 'preserve_incomplete_eval_path' not in runner
+    resume = _text("scripts/eval_resume.py")
+    assert 'with exclusive_artifact_writer(run_dir):' in resume
+    assert 'path.rename(destination)' in resume
     assert "rm -f" not in runner
 
     assert 'RUN_EVALUATION="${RUN_EVALUATION:-1}"' in evaluation
@@ -239,7 +254,7 @@ def test_scheduler_fast_routing_keeps_profile_checkpoints_and_eval_isolated() ->
     for scheduler in ("sbatch", "pbs"):
         for stage in ("profile", "train", "calibrate", "eval"):
             script = _text(f"server/{stage}.{scheduler}")
-            assert 'EXPERIMENT="${EXPERIMENT:-single}"' in script
+            assert 'EXPERIMENT="${EXPERIMENT:-fast}"' in script
             assert "configs/fast.json" in script or "configs/hdr-fast.json" in script
         training = _text(f"server/train.{scheduler}")
         assert 'MAX_HOURS="${MAX_HOURS:-47}"' in training

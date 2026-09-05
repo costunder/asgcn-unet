@@ -38,7 +38,14 @@
     "recurrent": true
   },
   "eval": {
-    "batch_size": 1,
+    "batch_size": "auto",
+    "batch_candidates": [1, 2, 4, 8, 16],
+    "worker_candidates": [0, 2, 4],
+    "batch_probe_indices": [37791],
+    "profile_warmup": 1,
+    "profile_steps": 3,
+    "profile_memory_fraction": 0.8,
+    "max_graph_edges_override": 7475202,
     "precision": "fp32",
     "tf32": false,
     "num_workers": 2,

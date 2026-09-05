@@ -20,7 +20,7 @@ select_conda_python() {
   # Keep user/foreign site packages out of the selected, version-checked runtime.
   export PYTHONNOUSERSITE=1
   # Set before any torch/numpy import, including profile/check entrypoints.
-  export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
+  export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-${NCPUS:-4}}}"
   export MKL_NUM_THREADS="${MKL_NUM_THREADS:-${OMP_NUM_THREADS}}"
   for thread_setting in OMP_NUM_THREADS MKL_NUM_THREADS; do
     if [[ ! "${!thread_setting}" =~ ^[1-9][0-9]*$ ]]; then
@@ -96,11 +96,8 @@ runtime_command() {
 }
 
 runtime_exec() {
-  if [[ "${DRY_RUN:-0}" == "1" ]]; then
-    runtime_command "$@"
-  else
-    exec "$@"
-  fi
+  # Compatibility name: return the child status without replacing the caller.
+  runtime_command "$@"
 }
 
 check_runtime_profile() {
@@ -116,4 +113,18 @@ check_runtime_profile() {
     arguments+=(--include-private-host-provenance)
   fi
   runtime_command "${arguments[@]}"
+}
+
+# Explicit shell overrides only. Otherwise Python resolves eval.max_graph_edges_override
+# from the config for resume, quality and benchmark using one contract.
+evaluation_graph_edge_guard() {
+  local config_path="$1"
+  if [[ -n "${EVAL_MAX_GRAPH_EDGES:-}" ]]; then
+    printf '%s' "${EVAL_MAX_GRAPH_EDGES}"
+  elif [[ -n "${AID_MAX_GRAPH_EDGES:-}" \
+    && ( "${config_path}" == "configs/aid-fast.json" \
+    || "${config_path}" == "./configs/aid-fast.json" \
+    || "${config_path}" == "${PROJECT_ROOT}/configs/aid-fast.json" ) ]]; then
+    printf '%s' "${AID_MAX_GRAPH_EDGES}"
+  fi
 }

@@ -9,6 +9,7 @@ import pytest
 import torch
 
 import asgcn_unet.engine as engine_module
+import asgcn_unet.resources as resources_module
 from asgcn_unet.data import EventHDRDataset, load_eventhdr_split_manifest
 from asgcn_unet.engine import (
     _balanced_contiguous_indices,
@@ -87,6 +88,7 @@ def _eval_config(root, output_dir) -> dict:
         },
         "model": _model_config(),
         "eval": {
+            "batch_size": 1,
             "num_workers": 0,
             "max_samples": 1,
             "save_predictions": 0,
@@ -429,6 +431,60 @@ def test_inference_edge_guard_override_only_raises_runtime_limit() -> None:
         _set_inference_max_graph_edges(ASGCNUNet(**unbounded_config), 3_000_000)
 
 
+def test_calibration_zero_wall_interval_reports_unavailable_throughput(
+    tmp_path, monkeypatch
+) -> None:
+    """CPU debug calibration must tolerate two snapshots in one clock tick."""
+    root = tmp_path / "hdr"
+    make_eventhdr(root)
+    config = _eval_config(root, tmp_path / "unused-eval")
+    config["calibration"] = {"batch_size": 2, "num_workers": 0}
+    model_state = ASGCNUNet(**config["model"]).state_dict()
+    source = tmp_path / "debug-ann.pt"
+    atomic_torch_save(
+        {
+            "checkpoint_type": "training",
+            "epoch": 1,
+            "model": model_state,
+            "model_state_sha256": _model_state_sha256(model_state),
+            "model_config": config["model"],
+            "paper_core_version": engine_module.PAPER_CORE_VERSION,
+        },
+        source,
+    )
+    snapshots = []
+    collect_snapshot = resources_module.collect_runtime_resources
+
+    def same_clock_tick(**kwargs):
+        snapshot = collect_snapshot(**kwargs)
+        snapshot["monotonic_seconds"] = 760261.375
+        snapshots.append(snapshot)
+        return snapshot
+
+    monkeypatch.setattr(resources_module, "collect_runtime_resources", same_clock_tick)
+    monkeypatch.setattr(engine_module, "collect_runtime_resources", same_clock_tick)
+    output = tmp_path / "debug-snn.pt"
+    calibrate(config, source, output, allow_unsealed_calibration=True)
+    checkpoint = torch.load(output, map_location="cpu", weights_only=False)
+
+    assert len(snapshots) == 2
+    report = checkpoint["execution_report"]
+    performance = checkpoint["calibration_performance"]
+    assert report["resources"]["monotonic_seconds"] == 760261.375
+    assert performance["resources_after"]["monotonic_seconds"] == 760261.375
+    assert performance["wall_seconds"] == 0.0
+    assert performance["frames_per_second"] is None
+    assert performance["process_cpu_percent"] is None
+    assert performance["process_cpu_allocation_percent"] is None
+    assert performance["process_cpu_utilization_status"] == "unavailable_zero_wall_interval"
+    assert "clock resolution" in performance["process_cpu_utilization_note"]
+    assert performance["frames"] == checkpoint["snn_calibration_samples"]
+    assert performance["frames"] == report["data"]["dataset_size"] > 0
+    assert report["data"]["used_ratio"] == 1.0
+    assert checkpoint["report_eligible"] is False
+    json.dumps(performance, allow_nan=False)
+
+
 def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
     tmp_path, monkeypatch
 ) -> None:
@@ -477,6 +533,7 @@ def test_calibration_is_balanced_and_writes_clean_inference_checkpoint(
     )
     config = _eval_config(root, tmp_path / "eval")
     config["train"] = {
+        "batch_size": 1,
         "num_workers": 0,
         "persistent_workers": False,
         "prefetch_factor": 2,
@@ -702,6 +759,7 @@ def test_calibration_seals_ann_training_data_transform_manifest_and_source(
     config["dataset"]["val_root"] = str(val_root)
     config["dataset"]["split_manifest"] = str(manifest_path)
     config["train"] = {
+        "batch_size": 1,
         "num_workers": 0,
         "max_train_samples": None,
         "max_val_samples": None,
@@ -1029,6 +1087,13 @@ def test_calibration_seals_ann_training_data_transform_manifest_and_source(
             "effective_max_graph_edges": 3_000_000,
         },
         "scope": "full_dataset_quality_evaluation",
+        "batching": {
+            "policy": "single_sequence_reference",
+            "physical_batch_size_limit": 1,
+            "num_workers": 0,
+            "full_coverage": True,
+            "latency_scope": "physical_batch_completion_not_amortized",
+        },
     }
     assert reporting_result["graph_edge_guard"] == execution["graph_edge_guard"]
 

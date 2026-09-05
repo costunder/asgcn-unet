@@ -8,6 +8,11 @@ from types import SimpleNamespace
 import pytest
 
 import scripts.eval_resume as resume
+from asgcn_unet.artifact_lock import (
+    ArtifactWriterBusyError,
+    artifact_writer_lock_path,
+    exclusive_artifact_writer,
+)
 from asgcn_unet.engine import (
     _canonical_sha256,
     _current_source_contract,
@@ -131,6 +136,44 @@ def test_resume_validator_accepts_matching_complete_mode(
     assert resume.inspect_mode(_args(output, checkpoint)) == (1, 1)
 
 
+@pytest.mark.parametrize("explicit", [None, 7_475_202])
+def test_resume_resolves_config_guard_without_changing_checkpoint_model_contract(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, explicit: int | None,
+) -> None:
+    config = load_json(CONFIG_PATH)
+    original_model = json.loads(json.dumps(config["model"]))
+    # A larger config value proves an explicit argument takes precedence.
+    config["eval"]["max_graph_edges_override"] = 7_475_202 if explicit is None else 8_000_000
+    config_path = tmp_path / "configs" / "aid-fast.json"
+    config_path.parent.mkdir()
+    config_path.write_text(json.dumps(config), encoding="utf-8")
+    monkeypatch.setitem(globals(), "CONFIG_PATH", config_path)
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    run_dir = _write_complete_mode(output, checkpoint)
+    _stub_request_validation(monkeypatch, checkpoint)
+    arguments = _args(output, checkpoint)
+    arguments.max_graph_edges = explicit
+
+    assert resume.inspect_mode(arguments) == (1, 1)
+    metrics = json.loads((run_dir / "metrics.json").read_text(encoding="utf-8"))
+    model_contract = metrics["evaluation_protocol"]["model_config"]
+    assert model_contract == _hashed_contract(original_model)
+    assert original_model["max_graph_edges"] == 2_000_000
+
+
+@pytest.mark.parametrize("value", [True, False, 0, -1, 2.5, "7475202"])
+def test_resume_rejects_invalid_config_guard_instead_of_silently_falling_back(value) -> None:
+    with pytest.raises(resume.ArtifactMismatch, match="positive integer"):
+        resume._requested_graph_guard({"eval": {"max_graph_edges_override": value}}, None)
+
+
+def test_resume_explicit_guard_overrides_config_and_absent_guard_remains_unset() -> None:
+    assert resume._requested_graph_guard({}, None) is None
+    assert resume._requested_graph_guard({"eval": {"max_graph_edges_override": 8_000_000}}, 7_475_202) == 7_475_202
+
+
 def test_resume_validator_reports_each_completed_half_independently(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -241,3 +284,75 @@ def test_resume_validator_refuses_changed_data_or_nonreporting_result(
     (run_dir / "metrics.json").write_text(json.dumps(metrics), encoding="utf-8")
     with pytest.raises(resume.ArtifactMismatch, match="report_eligible mismatch"):
         resume.inspect_mode(_args(output, checkpoint))
+
+
+@pytest.mark.parametrize(("quality", "benchmark"), [(1, 0), (0, 1), (0, 0), (1, 1)])
+def test_prepare_mode_preserves_only_incomplete_work_under_the_writer_lock(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, quality: int, benchmark: int,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    run_dir = _write_complete_mode(output, checkpoint)
+    _stub_request_validation(monkeypatch, checkpoint)
+    if not quality:
+        (run_dir / "metrics.json").write_bytes(b"")
+        (run_dir / "predictions").mkdir()
+        (run_dir / "predictions" / "partial.txt").write_text("preserve me", encoding="utf-8")
+    if not benchmark:
+        (run_dir / "benchmark.json").write_bytes(b"")
+    quality_before = (run_dir / "metrics.json").read_bytes()
+    benchmark_before = (run_dir / "benchmark.json").read_bytes()
+
+    assert resume.prepare_mode(_args(output, checkpoint)) == (quality, benchmark)
+    assert not artifact_writer_lock_path(run_dir).exists()
+    if quality:
+        assert (run_dir / "metrics.json").read_bytes() == quality_before
+        if not benchmark:
+            backups = list(run_dir.glob("benchmark.json.incomplete-*"))
+            assert len(backups) == 1
+            assert (backups[0] / "benchmark.json").read_bytes() == benchmark_before
+    elif benchmark:
+        assert (run_dir / "benchmark.json").read_bytes() == benchmark_before
+        for name in ("metrics.json", "frames.csv", "predictions"):
+            backups = list(run_dir.glob(f"{name}.incomplete-*"))
+            assert len(backups) == 1
+            assert (backups[0] / name).exists()
+            assert not (run_dir / name).exists()
+    else:
+        assert not run_dir.exists()
+        backups = list(output.glob(f"{run_dir.name}.incomplete-*"))
+        assert len(backups) == 1
+        assert (backups[0] / run_dir.name / "predictions" / "partial.txt").read_text(encoding="utf-8") == "preserve me"
+
+
+def test_prepare_mode_cannot_inspect_or_move_output_owned_by_an_active_writer(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    run_dir = _write_complete_mode(output, checkpoint)
+    before = (run_dir / "metrics.json").read_bytes()
+    monkeypatch.setattr(resume, "inspect_mode", lambda args: pytest.fail("Unlocked inspection ran"))
+    with exclusive_artifact_writer(run_dir):
+        with pytest.raises(ArtifactWriterBusyError):
+            resume.prepare_mode(_args(output, checkpoint))
+        assert (run_dir / "metrics.json").read_bytes() == before
+        assert not list(output.glob("*.incomplete-*"))
+
+
+def test_prepare_mode_mismatch_does_not_preserve_or_modify_any_existing_result(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    checkpoint = tmp_path / "best_snn.pt"
+    checkpoint.write_bytes(b"sealed-checkpoint-fixture")
+    output = tmp_path / "aid"
+    run_dir = _write_complete_mode(output, checkpoint)
+    _stub_request_validation(monkeypatch, checkpoint)
+    before = {path.name: path.read_bytes() for path in run_dir.iterdir()}
+    monkeypatch.setattr(resume, "_current_runtime_contract", lambda config, model: {"mismatch": True})
+    with pytest.raises(resume.ArtifactMismatch, match="runtime mismatch"):
+        resume.prepare_mode(_args(output, checkpoint))
+    assert {path.name: path.read_bytes() for path in run_dir.iterdir()} == before
+    assert not artifact_writer_lock_path(run_dir).exists()

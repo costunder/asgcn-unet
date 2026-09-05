@@ -233,7 +233,7 @@ def test_reconstruction_loss_accepts_separately_consumed_temporal_weight() -> No
         ({"train": {"batch_size": 2}}, "train.batch_size"),
         ({"train": {"max_train_samples": 0}}, "train.max_train_samples"),
         ({"train": {"max_val_samples": -1}}, "train.max_val_samples"),
-        ({"eval": {"batch_size": 2}}, "eval.batch_size"),
+        ({"eval": {"batch_size": 0}}, "eval.batch_size"),
         ({"eval": {"max_samples": 0}}, "eval.max_samples"),
         ({"eval": {"precision": "fp16"}}, "eval.precision"),
         ({"eval": {"tf32": 1}}, "eval.tf32"),
@@ -244,6 +244,11 @@ def test_reconstruction_loss_accepts_separately_consumed_temporal_weight() -> No
 def test_experiment_config_rejects_invalid_sample_contracts(config: dict, message: str) -> None:
     with pytest.raises((TypeError, ValueError), match=message):
         validate_experiment_config(config)
+
+
+@pytest.mark.parametrize("batch_size", [1, 2, 16, "auto"])
+def test_experiment_config_accepts_physical_evaluation_batches(batch_size) -> None:
+    validate_experiment_config({"eval": {"batch_size": batch_size}})
 
 
 def test_checked_in_configs_declare_target_and_inference_precision() -> None:

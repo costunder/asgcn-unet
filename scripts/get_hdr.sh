@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Entry scripts must not change an interactive shell through accidental sourcing.
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+  printf '%s\n' "Source ignored: run this entrypoint with bash or its scheduler; the current shell is unchanged." >&2
+else
+_asgcn_entrypoint() (
 set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,7 +25,7 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     "" \
     "Execution requires CONDA_PREFIX or PYTHON_BIN selecting a Conda environment." \
     "The HTTP download needs no CUDA, browser, or user login."
-  exit 0
+  return 0
 fi
 
 cd -- "${PROJECT_ROOT}"
@@ -28,3 +33,6 @@ cd -- "${PROJECT_ROOT}"
 source "${PROJECT_ROOT}/scripts/runtime.sh"
 select_conda_python
 runtime_exec "${PYTHON_BIN}" "${SCRIPT_DIR}/get_hdr.py" "$@"
+)
+_asgcn_entrypoint "$@"
+fi

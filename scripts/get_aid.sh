@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Entry scripts must not change an interactive shell through accidental sourcing.
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+  printf '%s\n' "Source ignored: run this entrypoint with bash or its scheduler; the current shell is unchanged." >&2
+else
+_asgcn_entrypoint() (
 set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -33,7 +38,7 @@ while (($#)); do
     -d|--destination)
       if (($# < 2)); then
         echo "ERROR: $1 requires a directory" >&2
-        exit 2
+        return 2
       fi
       DESTINATION="$2"
       shift 2
@@ -44,7 +49,7 @@ while (($#)); do
       ;;
     -h|--help)
       usage
-      exit 0
+      return 0
       ;;
     --)
       shift
@@ -54,7 +59,7 @@ while (($#)); do
     -*)
       echo "ERROR: unknown option: $1" >&2
       usage >&2
-      exit 2
+      return 2
       ;;
     *)
       SCENES+=("$1")
@@ -65,7 +70,7 @@ done
 
 if ((DOWNLOAD_ALL == 1)) && ((${#SCENES[@]} > 0)); then
   echo "ERROR: use either --all or explicit scene names, not both" >&2
-  exit 2
+  return 2
 fi
 if ((DOWNLOAD_ALL == 0)) && ((${#SCENES[@]} == 0)); then
   DOWNLOAD_ALL=1
@@ -77,16 +82,16 @@ select_conda_python
 if [[ "${DRY_RUN}" == "1" ]]; then
   echo "EventAid-R dry run: no files transferred."
   runtime_command bash "${SCRIPT_DIR}/get_aid.sh" --destination "${DESTINATION}" "${SCENES[@]}"
-  exit 0
+  return 0
 fi
 
 if ! command -v curl >/dev/null 2>&1; then
   echo "ERROR: curl is required" >&2
-  exit 1
+  return 1
 fi
 if [[ ! -f "${MANIFEST}" ]]; then
   echo "ERROR: manifest not found: ${MANIFEST}" >&2
-  exit 1
+  return 1
 fi
 
 mkdir -p "${DESTINATION}"
@@ -153,3 +158,6 @@ PY
 done <"${SELECTION_FILE}"
 
 echo "Done. Keep the ZIP files compressed; the EventAid-R loader reads them directly."
+)
+_asgcn_entrypoint "$@"
+fi

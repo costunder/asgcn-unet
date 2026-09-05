@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+import zipfile
 from collections import OrderedDict, deque
 from collections.abc import Iterator
 from contextlib import ExitStack
@@ -12,9 +13,120 @@ from typing import Any
 
 import h5py
 import torch
+from PIL import Image
 from torch.utils.data import Sampler, Subset
 
 from .graph import EventGraph
+
+
+class PackedSampleBatch:
+    """Pack events/targets before transfer; sample dictionaries only expose views.
+
+    This deliberately does not inherit ``list`` or ``Sequence``: DataLoader's
+    pin-memory dispatcher must call our method once for each packed allocation,
+    rather than recursively pinning the individual sample views again.
+    """
+
+    def __init__(
+        self,
+        samples: list[dict[str, Any]],
+        events: torch.Tensor,
+        event_counts: tuple[int, ...],
+        targets: torch.Tensor | None,
+    ) -> None:
+        self.events = events
+        self.event_counts = event_counts
+        self.targets = targets
+        self.sensor_size = tuple(samples[0]["sensor_size"])
+        self._samples = []
+        offset = 0
+        for index, (sample, count) in enumerate(zip(samples, event_counts, strict=True)):
+            view = dict(sample)
+            view["events"] = events[offset : offset + count]
+            if targets is not None:
+                view["target"] = targets[index]
+            self._samples.append(view)
+            offset += count
+
+    def __len__(self) -> int:
+        return len(self._samples)
+
+    def __iter__(self):
+        return iter(self._samples)
+
+    def __getitem__(self, index):
+        return self._samples[index]
+
+    def to(self, device: torch.device) -> PackedSampleBatch:
+        return PackedSampleBatch(
+            self._samples,
+            self.events.to(device, non_blocking=True),
+            self.event_counts,
+            None if self.targets is None else self.targets.to(device, non_blocking=True),
+        )
+
+    def pin_memory(self) -> PackedSampleBatch:
+        return PackedSampleBatch(
+            self._samples,
+            self.events.pin_memory(),
+            self.event_counts,
+            None if self.targets is None else self.targets.pin_memory(),
+        )
+
+
+def pack_samples(samples: list[dict[str, Any]] | PackedSampleBatch) -> PackedSampleBatch:
+    """Collate one geometry bucket without padding/dropping any event or target."""
+    if isinstance(samples, PackedSampleBatch):
+        return samples
+    if not samples:
+        raise ValueError("Cannot pack an empty sample batch")
+    sensor_size = tuple(samples[0]["sensor_size"])
+    if any(tuple(sample["sensor_size"]) != sensor_size for sample in samples):
+        raise ValueError("A packed batch must contain one shared sensor_size")
+    events = [sample["events"] for sample in samples]
+    reference = events[0]
+    if any(
+        value.ndim != 2 or value.shape[1:] != reference.shape[1:]
+        or value.device != reference.device or value.dtype != reference.dtype
+        for value in events
+    ):
+        raise ValueError("Packed events must share feature shape, device and dtype")
+    have_targets = ["target" in sample for sample in samples]
+    if any(have_targets) and not all(have_targets):
+        raise ValueError("Packed samples must either all have targets or all omit them")
+    targets = torch.stack([sample["target"] for sample in samples]) if all(have_targets) else None
+    return PackedSampleBatch(
+        samples,
+        torch.cat(events, dim=0),
+        tuple(int(value.shape[0]) for value in events),
+        targets,
+    )
+
+
+def move_batch(
+    samples: list[dict[str, Any]] | PackedSampleBatch, device: torch.device
+) -> PackedSampleBatch:
+    """One event transfer and one target transfer for the physical mini-batch."""
+    return pack_samples(samples).to(device)
+
+
+def pack_calibration_samples(
+    samples: list[dict[str, Any]] | PackedSampleBatch,
+) -> PackedSampleBatch:
+    """CPU calibration collate without stacking or retaining target images.
+
+    Calibration observes only encoder events. Shallow dictionary views preserve
+    every event and metadata field, while the caller's target tensors and sample
+    dictionaries remain unchanged. A module-level callable also supports spawn
+    DataLoader workers without initializing CUDA in the decoding processes.
+    """
+    if any(sample["events"].device.type != "cpu" for sample in samples):
+        raise ValueError("Calibration collation requires CPU event tensors")
+    views = [
+        {key: value for key, value in sample.items() if key != "target"}
+        for sample in samples
+    ]
+    return pack_samples(views)
 
 
 def sequence_key(sample: dict[str, Any]) -> tuple[str, str]:
@@ -111,6 +223,7 @@ class SequenceBatchSampler(Sampler[list[int]]):
         previous_indices: dict[tuple[str, str], int] = {}
         with ExitStack() as stack:
             handles: dict[Path, h5py.File] = {}
+            zip_handles: dict[Path, zipfile.ZipFile] = {}
             for sample_index, original_index in enumerate(selected):
                 record = records[original_index]
                 if not isinstance(record, dict):
@@ -123,15 +236,21 @@ class SequenceBatchSampler(Sampler[list[int]]):
                     raise ValueError("Each sequence must be indexed in strictly chronological order")
                 previous_indices[key] = index
                 self._streams.setdefault(key, []).append(sample_index)
-                shape = record.get("sensor_size")
+                shape = record.get("sensor_size") or record.get("shape")
                 if shape is None:
                     path = Path(record["path"])
-                    if path not in handles:
-                        handles[path] = stack.enter_context(h5py.File(path, "r"))
-                    image = handles[path]["images"][record["image_key"]]
-                    if not isinstance(image, h5py.Dataset) or image.ndim not in (2, 3):
-                        raise ValueError("Sequence batching requires HxW or HxWxC image metadata")
-                    shape = image.shape[:2]
+                    if path.suffix.lower() == ".zip":
+                        if path not in zip_handles:
+                            zip_handles[path] = stack.enter_context(zipfile.ZipFile(path))
+                        with zip_handles[path].open(record["target_name"]) as member, Image.open(member) as image:
+                            shape = (image.height, image.width)
+                    else:
+                        if path not in handles:
+                            handles[path] = stack.enter_context(h5py.File(path, "r"))
+                        image = handles[path]["images"][record["image_key"]]
+                        if not isinstance(image, h5py.Dataset) or image.ndim not in (2, 3):
+                            raise ValueError("Sequence batching requires HxW or HxWxC image metadata")
+                        shape = image.shape[:2]
                 if not isinstance(shape, (tuple, list)) or len(shape) != 2:
                     raise ValueError("Sequence batching sensor_size must contain height and width")
                 height, width = (int(value) for value in shape)
@@ -152,6 +271,11 @@ class SequenceBatchSampler(Sampler[list[int]]):
     def sample_sensor_sizes(self) -> tuple[tuple[int, int], ...]:
         """Post-crop geometry indexed by the sampler's selected dataset indices."""
         return self._shapes
+
+    @property
+    def sequence_indices(self) -> tuple[tuple[int, ...], ...]:
+        """Chronological dataset indices, available without decoding events/targets."""
+        return tuple(tuple(indices) for indices in self._streams.values())
 
     def _schedule(self) -> tuple[tuple[int, ...], ...]:
         streams = [tuple(indices) for indices in self._streams.values()]
@@ -193,3 +317,17 @@ class SequenceBatchSampler(Sampler[list[int]]):
 
     def __len__(self) -> int:
         return len(self._batches)
+
+
+class ShapeBatchSampler(SequenceBatchSampler):
+    """Non-recurrent encoder calibration can batch frames from the same stream."""
+
+    def _schedule(self) -> tuple[tuple[int, ...], ...]:
+        buckets: OrderedDict[tuple[int, int], list[int]] = OrderedDict()
+        for index, shape in enumerate(self._shapes):
+            buckets.setdefault(shape, []).append(index)
+        return tuple(
+            tuple(indices[start : start + self.batch_size])
+            for indices in buckets.values()
+            for start in range(0, len(indices), self.batch_size)
+        )

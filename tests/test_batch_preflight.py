@@ -8,6 +8,7 @@ import pytest
 import torch
 
 import asgcn_unet.preflight as profile
+from asgcn_unet.batching import PackedSampleBatch, move_batch, pack_samples
 from asgcn_unet.data import build_dataset
 from asgcn_unet.model import ASGCNUNet
 from asgcn_unet.utils import save_json
@@ -148,6 +149,7 @@ def test_actual_cpu_batch_probe_calls_vectorized_model_and_backward(tmp_path, mo
     original = ASGCNUNet.forward_training_batch
 
     def observed(self, samples, states, **kwargs):
+        assert isinstance(samples, PackedSampleBatch)
         calls.append(len(samples))
         return original(self, samples, states, **kwargs)
 
@@ -166,6 +168,76 @@ def test_actual_cpu_batch_probe_calls_vectorized_model_and_backward(tmp_path, mo
         assert measured["gradient_norm"] >= 0
         assert measured["step_time_ms"] > 0
         assert measured["peak_allocated_mib"] is None
+        pipeline = measured["input_pipeline"]
+        assert pipeline["execution"] == "cpu_packed_collate_then_one_batched_transfer"
+        assert pipeline["dataset_indices"] == measured["dataset_indices"]
+        assert pipeline["physical_batch_size"] == measured["batch_size"]
+        assert pipeline["target_shape"] == [measured["batch_size"], 1, *measured["sensor_size"]]
+        assert pipeline["pin_memory"] is False
+        assert all(pipeline[key] >= 0 for key in (
+            "dataset_loading_ms", "cpu_collate_and_pin_ms", "host_to_device_ms", "total_input_ms"
+        ))
+
+
+def test_preflight_packed_input_preserves_all_events_targets_and_partial_tail(tmp_path):
+    # Synthetic HDF5 CPU diagnostic only, not a final data/performance result.
+    config = _batch_config(tmp_path, empty=True)
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        for indices in ([0, 5], [3]):
+            raw = [dataset[index] for index in indices]
+            expected = move_batch(pack_samples(raw), torch.device("cpu"))
+            actual, detail = profile._load_packed_probe_batch(dataset, indices, torch.device("cpu"))
+            assert isinstance(actual, PackedSampleBatch)
+            assert actual.event_counts == expected.event_counts
+            torch.testing.assert_close(actual.events, expected.events, rtol=0, atol=0)
+            torch.testing.assert_close(actual.targets, expected.targets, rtol=0, atol=0)
+            assert [sample["sample_id"] for sample in actual] == [sample["sample_id"] for sample in raw]
+            assert detail["dataset_indices"] == indices
+            assert detail["physical_batch_size"] == len(indices)
+    finally:
+        dataset.close()
+
+
+def test_preflight_predecessors_use_one_matching_packed_training_forward(tmp_path, monkeypatch):
+    config = _batch_config(tmp_path)
+    config["model"]["recurrent"] = True
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        device = torch.device("cpu")
+        model = ASGCNUNet(**config["model"])
+        reference = copy.deepcopy(model)
+        expected_batch = move_batch(pack_samples([dataset[0], dataset[4]]), device)
+        with torch.no_grad():
+            expected_prediction, expected_details = reference.forward_training_batch(
+                expected_batch, [None, None]
+            )
+        original = ASGCNUNet.forward_training_batch
+        calls = []
+
+        def observed(self, samples, states, **kwargs):
+            assert isinstance(samples, PackedSampleBatch)
+            calls.append(len(samples))
+            return original(self, samples, states, **kwargs)
+
+        def forbidden_serial_transfer(*args, **kwargs):
+            pytest.fail("Batched predecessor replay must not transfer samples individually")
+
+        monkeypatch.setattr(ASGCNUNet, "forward_training_batch", observed)
+        monkeypatch.setattr(profile, "move_sample", forbidden_serial_transfer)
+        contexts, used = profile._batch_predecessor_contexts(
+            model, dataset, {"batch_size": 3, "predecessor_indices": [0, None, 4]}, config, device
+        )
+        assert calls == [2] and used == [0, None, 4]
+        assert contexts[1] == (None, None, None)
+        for local, slot in enumerate((0, 2)):
+            state, prediction, target = contexts[slot]
+            torch.testing.assert_close(state, expected_details[local]["recurrent_state"], rtol=0, atol=0)
+            torch.testing.assert_close(prediction, expected_prediction[local:local + 1], rtol=0, atol=0)
+            torch.testing.assert_close(target, expected_batch.targets[local:local + 1], rtol=0, atol=0)
+            assert not state.requires_grad and not prediction.requires_grad
+    finally:
+        dataset.close()
 
 
 def test_batch_failure_cannot_pass_using_successful_framewise_probes(

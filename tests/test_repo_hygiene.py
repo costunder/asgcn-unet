@@ -495,5 +495,9 @@ def test_ci_pins_actions_and_runs_repository_hygiene_gates() -> None:
     assert "--all-history" in workflow
     assert "--require-external-patterns" not in workflow
     assert "for script in scripts/*.sh server/*.sbatch server/*.pbs; do" in workflow
-    assert 'bash -n "$script" || exit 1' in workflow
+    syntax_step = workflow.split("- name: Validate Linux shell entrypoints", maxsplit=1)[1]
+    syntax_step = syntax_step.split("\n  test:", maxsplit=1)[0]
+    assert 'set -euo pipefail' in syntax_step
+    assert 'bash -n "$script"' in syntax_step
+    assert 'exit ' not in syntax_step
     assert "run: bash -n scripts/*.sh" not in workflow

@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Entry scripts must not change an interactive shell through accidental sourcing.
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+  printf '%s\n' "Source ignored: run this entrypoint with bash or its scheduler; the current shell is unchanged." >&2
+else
+_asgcn_entrypoint() (
 set -Eeuo pipefail
 
 # Install only into the already-selected, non-base Conda server environment.
@@ -8,25 +13,25 @@ REQUIRE_CUDA="${REQUIRE_CUDA-0}"
 
 if [[ "$#" -ne 0 ]]; then
   echo "ERROR: setup.sh accepts no positional arguments." >&2
-  exit 1
+  return 1
 fi
 if [[ "${REQUIRE_CUDA}" != "0" && "${REQUIRE_CUDA}" != "1" ]]; then
   echo "ERROR: REQUIRE_CUDA must be 0 or 1." >&2
-  exit 1
+  return 1
 fi
 if [[ -z "${CONDA_PREFIX:-}" || "${CONDA_PREFIX}" != /* \
    || ! -d "${CONDA_PREFIX}/conda-meta" || ! -x "${CONDA_PREFIX}/bin/python" ]]; then
   echo "ERROR: select an existing non-base Conda environment with its own Python first." >&2
-  exit 1
+  return 1
 fi
 if [[ "${CONDA_DEFAULT_ENV:-}" == "base" ]]; then
   echo "ERROR: installation into the base Conda environment is not allowed." >&2
-  exit 1
+  return 1
 fi
 if [[ -v PIP_TARGET || -v PIP_PREFIX || -v PIP_ROOT || -v PIP_PYTHON \
    || ( -v PIP_USER && "${PIP_USER}" != "0" ) ]]; then
   echo "ERROR: pip destination overrides are not allowed for the locked Conda installation." >&2
-  exit 1
+  return 1
 fi
 
 CONDA_PYTHON="${CONDA_PREFIX}/bin/python"
@@ -123,3 +128,6 @@ echo "Conda installation and exact runtime verification complete."
 echo "Next: bash scripts/get_aid.sh --all"
 echo "Then: bash scripts/get_hdr.sh --download"
 echo "Finally, inside a GPU allocation: bash scripts/run.sh all"
+)
+_asgcn_entrypoint "$@"
+fi

@@ -4,6 +4,7 @@ import math
 from collections.abc import Iterator
 from dataclasses import dataclass
 from functools import lru_cache
+from itertools import accumulate
 
 import torch
 from torch import nn
@@ -48,6 +49,16 @@ class EventGraph:
             raise ValueError("in_degree and node_features must share a device")
         if self.in_degree.dtype != torch.long:
             raise TypeError("in_degree must use torch.long counts")
+
+
+@dataclass
+class PackedEventGraph:
+    """A disjoint event graph with sample identities, including empty samples."""
+
+    graph: EventGraph
+    node_counts: tuple[int, ...]
+    node_batch: torch.Tensor
+    edge_counts: torch.Tensor
 
 
 def _safe_batch_norm(norm: nn.BatchNorm1d, values: torch.Tensor) -> torch.Tensor:
@@ -143,6 +154,8 @@ def _radius_graph_candidate_chunks(
     *,
     position_dims: int = 3,
     chunk_size: int = 512,
+    node_batch: torch.Tensor | None = None,
+    largest_graph_nodes: int | None = None,
 ) -> Iterator[tuple[torch.Tensor, torch.Tensor, torch.Tensor]]:
     """Yield bounded adjacent-cell candidate chunks for an exact radius search."""
     radius = float(radius)
@@ -178,9 +191,15 @@ def _radius_graph_candidate_chunks(
     cells = torch.floor(coordinates / radius).to(torch.long)
     cells = cells.clamp_(0, cells_per_axis - 1)
     cell_hash = (cells * strides).sum(dim=1)
+    # Namespace the spatial hash, rather than filtering cross-sample pairs after
+    # allocating them. Samples with coincident coordinates remain independent.
+    hash_volume = cells_per_axis**position_dims
+    if node_batch is not None:
+        cell_hash = cell_hash + node_batch * hash_volume
     sorted_hash, sorted_nodes = torch.sort(cell_hash)
     # Bound worst-case candidate materialization even if every event occupies one cell.
-    effective_chunk_size = min(chunk_size, max(1, 4_000_000 // count))
+    candidate_node_bound = count if largest_graph_nodes is None else largest_graph_nodes
+    effective_chunk_size = min(chunk_size, max(1, 4_000_000 // candidate_node_bound))
     # Lookup several small source/cell tables together, then copy their scalar
     # allocation counts once. Candidate distances are still materialized one
     # original bounded chunk at a time; this does not enlarge the edge scratch.
@@ -191,7 +210,12 @@ def _radius_graph_candidate_chunks(
         lookup_stop = min(lookup_start + lookup_size, count)
         neighbor_cells = cells[lookup_start:lookup_stop, None, :] + offsets[None, :, :]
         valid_cells = ((neighbor_cells >= 0) & (neighbor_cells < cells_per_axis)).all(dim=2)
-        neighbor_hashes = (neighbor_cells * strides).sum(dim=2).flatten()
+        neighbor_hashes = (neighbor_cells * strides).sum(dim=2)
+        if node_batch is not None:
+            neighbor_hashes = neighbor_hashes + (
+                node_batch[lookup_start:lookup_stop, None] * hash_volume
+            )
+        neighbor_hashes = neighbor_hashes.flatten()
         left_all = torch.searchsorted(sorted_hash, neighbor_hashes, right=False)
         right = torch.searchsorted(sorted_hash, neighbor_hashes, right=True)
         # Keep a fixed-size source/cell table: repeat_interleave already accepts
@@ -244,6 +268,8 @@ def build_radius_graph(
     position_dims: int = 3,
     chunk_size: int = 512,
     max_edges: int | None = None,
+    node_batch: torch.Tensor | None = None,
+    node_counts: tuple[int, ...] | None = None,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """Build the paper's exact radius graph with a uniform-cell candidate search.
 
@@ -251,7 +277,9 @@ def build_radius_graph(
     equivalent to an undirected graph.  Cells have width ``radius``; therefore only
     the 3^d adjacent cells can contain a valid neighbor.  Exact Euclidean filtering
     after candidate generation preserves the brute-force graph while avoiding the
-    O(N^2) distance matrix on sparse event volumes.
+    O(N^2) distance matrix on sparse event volumes. Optional ``node_batch`` and
+    host-side ``node_counts`` enable one packed search over independent graphs;
+    ``max_edges`` then remains a per-graph guard, never an aggregate batch cap.
     """
     radius = float(radius)
     if max_edges is not None:
@@ -263,6 +291,31 @@ def build_radius_graph(
 
     count = int(positions.shape[0])
     device = positions.device
+    if (node_batch is None) != (node_counts is None):
+        raise ValueError("node_batch and node_counts must be supplied together")
+    batch_edges: torch.Tensor | None = None
+    if node_batch is not None:
+        assert node_counts is not None
+        _validate_packed_counts(node_counts, count)
+        if node_batch.shape != (count,) or node_batch.dtype != torch.long:
+            raise ValueError("node_batch must be a long tensor with one id per node")
+        if node_batch.device != device:
+            raise ValueError("node_batch and positions must share a device")
+        if node_batch.numel() and bool(
+            ((node_batch < 0) | (node_batch >= len(node_counts))).any()
+        ):
+            raise ValueError("node_batch contains an invalid sample id")
+        actual_counts = torch.bincount(node_batch, minlength=len(node_counts))
+        if not torch.equal(actual_counts, node_batch.new_tensor(node_counts)):
+            raise ValueError("node_counts does not match node_batch")
+        if not math.isfinite(radius) or radius <= 0:
+            raise ValueError("graph_radius must be positive")
+        cells_per_axis = max(2, math.ceil(1.0 / radius) + 1)
+        if cells_per_axis**int(position_dims) * max(1, len(node_counts)) >= (
+            torch.iinfo(torch.long).max
+        ):
+            raise ValueError("graph_radius is too small for packed integer spatial hashing")
+        batch_edges = torch.zeros(len(node_counts), device=device, dtype=torch.long)
     sources: list[torch.Tensor] = []
     destination_chunks: list[torch.Tensor] = []
     distances_kept: list[torch.Tensor] = []
@@ -273,6 +326,8 @@ def build_radius_graph(
             radius,
             position_dims=position_dims,
             chunk_size=chunk_size,
+            node_batch=node_batch,
+            largest_graph_nodes=max(node_counts, default=1) if node_counts is not None else None,
         )
     ):
         within_radius = (expanded_sources != candidate_destinations) & (
@@ -282,20 +337,34 @@ def build_radius_graph(
         # the retained count without an additional scalar reduction/.item().
         kept = torch.nonzero(within_radius, as_tuple=True)[0]
         chunk_edge_count = kept.numel()
-        if (
+        kept_sources = expanded_sources.index_select(0, kept)
+        if batch_edges is not None:
+            assert node_batch is not None
+            batch_edges.add_(torch.bincount(
+                node_batch[kept_sources], minlength=batch_edges.numel()
+            ))
+            if max_edges is not None and bool((batch_edges > max_edges).any()):
+                exceeded = torch.nonzero(batch_edges > max_edges).flatten().tolist()
+                raise RuntimeError(
+                    f"Radius graph exceeded max_graph_edges={max_edges:,} "
+                    f"in batch sample(s) {exceeded}. Measure the exact topology and "
+                    "accelerator memory before adjusting the explicit per-graph guard; "
+                    "preserve graph_radius and event sampling."
+                )
+        elif (
             max_edges is not None
             and retained_edge_count + chunk_edge_count > max_edges
         ):
             raise RuntimeError(
                 "Radius graph exceeded max_graph_edges="
-                f"{max_edges:,} while processing {count:,} nodes. Reduce "
-                "graph_radius/max_events or raise the explicit memory guard after "
-                "measuring accelerator memory."
+                f"{max_edges:,} while processing {count:,} nodes. Measure the exact "
+                "topology and accelerator memory before adjusting the explicit "
+                "guard; preserve graph_radius and event sampling."
             )
         if chunk_edge_count == 0:
             continue
         retained_edge_count += chunk_edge_count
-        sources.append(expanded_sources.index_select(0, kept))
+        sources.append(kept_sources)
         destination_chunks.append(candidate_destinations.index_select(0, kept))
         distances_kept.append(candidate_distances.index_select(0, kept))
 
@@ -387,6 +456,93 @@ def build_event_graph(
         max_edges=max_graph_edges,
     )
     return EventGraph(node_features, positions, edge_index, edge_attr)
+
+
+def _validate_packed_counts(counts: tuple[int, ...], total: int) -> None:
+    if any(isinstance(value, bool) or not isinstance(value, int) or value < 0 for value in counts):
+        raise ValueError("Packed event/node counts must be non-negative integers")
+    if sum(counts) != total:
+        raise ValueError("Packed event/node counts must sum to the tensor row count")
+
+
+def build_event_graph_batch(
+    events: torch.Tensor,
+    event_counts: tuple[int, ...],
+    sensor_size: tuple[int, int],
+    *,
+    event_sampling_factor: int,
+    graph_radius: float,
+    graph_position_dims: int,
+    graph_chunk_size: int,
+    max_graph_edges: int | None = None,
+) -> PackedEventGraph:
+    """Build exact independent graphs in one packed device operation stream.
+
+    Counts come from CPU collation, so sampling offsets and allocation sizes need
+    no device-to-host count discovery. Temporal normalization and deterministic
+    factor-R sampling restart at each sample, exactly as ``build_event_graph``.
+    No Python loop performs per-sample graph construction or device transfers.
+    """
+    if events.ndim != 2 or events.shape[1] != 4:
+        raise ValueError("Events must have shape [N,4] with x,y,t,p columns")
+    _validate_packed_counts(event_counts, int(events.shape[0]))
+    # Share validation with the single-graph API without sampling this packed
+    # tensor globally, which would shift the phase after uneven sample lengths.
+    uniformly_sample_events(events[:0], event_sampling_factor)
+    factor = int(event_sampling_factor)
+    height, width = (int(value) for value in sensor_size)
+    if height < 1 or width < 1:
+        raise ValueError("sensor_size must contain positive height and width")
+    node_counts = tuple((value + factor - 1) // factor for value in event_counts)
+    node_total = sum(node_counts)
+    counts_tensor = torch.tensor(node_counts, device=events.device, dtype=torch.long)
+    node_batch = torch.repeat_interleave(
+        torch.arange(len(node_counts), device=events.device), counts_tensor,
+        output_size=node_total,
+    )
+    if node_total:
+        node_starts = counts_tensor.cumsum(0) - counts_tensor
+        if factor == 1:
+            # The flat input already has exactly the required sample order.
+            # Avoid an identity gather and its event-sized index/copy buffers.
+            sampled = events.float()
+        else:
+            event_starts = torch.tensor(
+                (0, *accumulate(event_counts)), device=events.device, dtype=torch.long
+            )
+            local_index = torch.arange(node_total, device=events.device) - node_starts[node_batch]
+            source_index = event_starts[node_batch] + local_index * factor
+            sampled = events[source_index].float()
+        adjacent_same_sample = node_batch[1:] == node_batch[:-1]
+        finite, unordered = torch.stack((
+            torch.isfinite(sampled).all(),
+            ((sampled[1:, 2] < sampled[:-1, 2]) & adjacent_same_sample).any(),
+        )).tolist()
+        if not finite:
+            raise ValueError("Event coordinates, timestamps, and polarities must be finite")
+        if unordered:
+            raise ValueError("Event timestamps must be monotonically non-decreasing")
+        first = sampled[node_starts[node_batch], 2]
+        last = sampled[(node_starts + counts_tensor - 1)[node_batch], 2]
+        x = sampled[:, 0] / max(width - 1, 1)
+        y = sampled[:, 1] / max(height - 1, 1)
+        t = (sampled[:, 2] - first) / (last - first).abs().clamp_min(1e-6)
+        polarity = torch.where(sampled[:, 3] > 0, 1.0, -1.0)
+        node_features = torch.stack((x, y, t, polarity), dim=-1)
+        positions = torch.stack((x, y, t, (polarity + 1.0) * 0.5), dim=-1)
+    else:
+        node_features = torch.empty((0, 4), device=events.device, dtype=torch.float32)
+        positions = torch.empty_like(node_features)
+    edge_index, edge_attr = build_radius_graph(
+        positions, graph_radius, position_dims=graph_position_dims,
+        chunk_size=graph_chunk_size, max_edges=max_graph_edges,
+        node_batch=node_batch, node_counts=node_counts,
+    )
+    edge_counts = torch.bincount(node_batch[edge_index[0]], minlength=len(node_counts))
+    return PackedEventGraph(
+        EventGraph(node_features, positions, edge_index, edge_attr),
+        node_counts, node_batch, edge_counts,
+    )
 
 
 def linear_open_bspline_basis(
@@ -781,6 +937,9 @@ class ASGCNEncoder(nn.Module):
         graph: EventGraph,
         simulation_steps: int = 16,
         dynamics: str = "literal_eq15",
+        *,
+        node_batch: torch.Tensor | None = None,
+        batch_size: int | None = None,
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
         """Run explicit IF timesteps using literal Eq. (15) or a standard-IF control."""
         require_spline_backend(self.spline_backend, graph.node_features.device)
@@ -794,9 +953,28 @@ class ASGCNEncoder(nn.Module):
         if any(not layer._snn_is_normalized for layer in self.layers):
             raise RuntimeError("SNN inference requires Eq. (6) parameter normalization")
         node_count = int(graph.node_features.shape[0])
+        if (node_batch is None) != (batch_size is None):
+            raise ValueError("node_batch and batch_size must be supplied together")
+        nodes_per_sample: torch.Tensor | None = None
+        if node_batch is not None:
+            if (
+                isinstance(batch_size, bool) or not isinstance(batch_size, int)
+                or batch_size < 1
+            ):
+                raise ValueError("batch_size must be a positive integer")
+            if node_batch.shape != (node_count,) or node_batch.dtype != torch.long:
+                raise ValueError("node_batch must be a long tensor with one id per node")
+            if node_batch.device != graph.node_features.device:
+                raise ValueError("node_batch and node features must share a device")
+            if node_count and bool(((node_batch < 0) | (node_batch >= batch_size)).any()):
+                raise ValueError("node_batch contains an invalid sample id")
+            nodes_per_sample = torch.bincount(node_batch, minlength=batch_size).to(
+                graph.node_features.dtype
+            )
+        statistic_shape = () if node_batch is None else (batch_size,)
         if node_count == 0:
             empty = graph.node_features.new_empty((0, self.hidden_dim))
-            zeros = [graph.node_features.new_zeros(()) for _ in self.layers]
+            zeros = [graph.node_features.new_zeros(statistic_shape) for _ in self.layers]
             return empty, zeros
 
         membranes = [
@@ -814,7 +992,7 @@ class ASGCNEncoder(nn.Module):
         output_spike_sum = graph.node_features.new_zeros(
             (node_count, self.layers[-1].out_channels)
         )
-        active_counts = [graph.node_features.new_zeros(()) for _ in self.layers]
+        active_counts = [graph.node_features.new_zeros(statistic_shape) for _ in self.layers]
         basis_cache = self._basis_cache(graph)
         # The analog event features and topology are constant for all IF steps.
         # ``affine`` has no BatchNorm/dropout state updates, so its first-layer
@@ -864,23 +1042,46 @@ class ASGCNEncoder(nn.Module):
                     output_spike_sum = output_spike_sum + spikes
                 # Counts are non-differentiable statistics, unlike membrane and
                 # spike tensors; updating only these scalar accumulators is safe.
-                active_counts[index].add_((spikes != 0).sum())
+                if node_batch is None:
+                    active_counts[index].add_((spikes != 0).sum())
+                else:
+                    # Reduce exact integer counts before casting once per step,
+                    # matching the single-graph accumulator even at low precision.
+                    per_sample_counts = torch.zeros(
+                        batch_size, device=node_batch.device, dtype=torch.long
+                    )
+                    per_sample_counts.index_add_(0, node_batch, (spikes != 0).sum(dim=1))
+                    active_counts[index].add_(per_sample_counts)
                 hidden = spikes
 
         firing_rates = [
             active.to(graph.node_features.dtype)
-            / float(simulation_steps * max(1, node_count * layer.out_channels))
+            / (
+                float(simulation_steps * max(1, node_count * layer.out_channels))
+                if nodes_per_sample is None
+                else (nodes_per_sample * layer.out_channels).clamp_min(1) * simulation_steps
+            )
             for active, layer in zip(active_counts, self.layers, strict=True)
         ]
         return output_spike_sum / float(simulation_steps), firing_rates
 
     @torch.no_grad()
-    def update_activation_maxima(self, activations: list[torch.Tensor]) -> None:
+    def update_activation_maxima(
+        self, activations: list[torch.Tensor], *, sample_count: int = 1
+    ) -> None:
+        """Reduce maxima over packed nodes, counting original nonempty samples."""
+        if (
+            isinstance(sample_count, bool) or not isinstance(sample_count, int)
+            or sample_count < 0
+        ):
+            raise ValueError("sample_count must be a non-negative integer")
         if len(activations) != len(self.layers):
             raise ValueError("Activation count does not match graph layer count")
         for index, (layer, activation) in enumerate(zip(self.layers, activations, strict=True)):
             if activation.numel() == 0:
                 continue
+            if sample_count == 0:
+                raise ValueError("Nonempty calibration activations require sample_count > 0")
             if activation.ndim != 2 or activation.shape[1] != layer.out_channels:
                 raise ValueError("Calibration activation shape does not match graph layer")
             if not bool(torch.isfinite(activation).all()):
@@ -890,7 +1091,7 @@ class ASGCNEncoder(nn.Module):
                 torch.maximum(layer.calibration_activation_max, maxima)
             )
             layer.dead_channel_mask.copy_(layer.calibration_activation_max <= 0)
-            self.calibration_samples_seen[index].add_(1)
+            self.calibration_samples_seen[index].add_(sample_count)
 
     @torch.no_grad()
     def reset_activation_maxima(self) -> None:

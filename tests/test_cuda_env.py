@@ -60,6 +60,8 @@ class FakeCuda:
 
 
 def _install_cuda(monkeypatch: pytest.MonkeyPatch, cuda: FakeCuda) -> None:
+    # Explicit mock allocation: these tests never call a real CUDA runtime.
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "4")
     monkeypatch.setattr(
         check_env,
         "torch",
@@ -255,3 +257,43 @@ def test_check_env_cuda_error_details_require_private_opt_in(
         for private_value in (str(tmp_path), private_path.as_posix(), "private-compute-node"):
             assert private_value not in message + captured.out + captured.err
     assert captured.out == ""
+
+
+def test_unmasked_required_cuda_fails_before_runtime_queries(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from asgcn_unet import allocation
+
+    cuda = FakeCuda(available=True, runtime_count=1)
+    _install_cuda(monkeypatch, cuda)
+    monkeypatch.delenv("CUDA_VISIBLE_DEVICES")
+    monkeypatch.setenv("NVIDIA_VISIBLE_DEVICES", "all")
+    monkeypatch.setenv("SLURM_JOB_ID", "123")
+    monkeypatch.setattr(allocation, "_container_device_evidence", lambda: None)
+    _set_arguments(monkeypatch, tmp_path, "--require-cuda")
+    with pytest.raises(SystemExit, match="allocation safety check"):
+        check_env.main()
+    assert cuda.calls == []
+
+
+def test_unmasked_general_diagnostic_marks_cuda_unknown_without_probing(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    from asgcn_unet import allocation
+
+    cuda = FakeCuda(available=True, runtime_count=1)
+    _install_cuda(monkeypatch, cuda)
+    monkeypatch.delenv("CUDA_VISIBLE_DEVICES")
+    monkeypatch.setattr(allocation, "_container_device_evidence", lambda: None)
+    _set_arguments(monkeypatch, tmp_path)
+    check_env.main()
+    report = json.loads(capsys.readouterr().out)
+    assert report["cuda_available"] is None
+    assert report["gpu_devices"] is None
+    assert report["gpu_mig"] is None
+    assert report["gpu_allocation"]["verified"] is False
+    assert report["cuda_probe_skipped_reason"]
+    assert cuda.calls == []

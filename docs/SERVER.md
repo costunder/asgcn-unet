@@ -3,10 +3,22 @@
 MobaXterm 등의 SSH client로 접속한 Linux GPU 서버 또는 scheduler compute node에서 실행한다.
 아래 명령은 저장소 root 기준이며, 전체 EventHDR와 EventAid-R를 사용하는 실험 경로를 설명한다.
 
-GPU 미니배치 실험은 [TRAIN.md](TRAIN.md)를 따른다. `EXPERIMENT=batch`는 B4+Torch,
-`EXPERIMENT=fast`는 서버 비교에서 선택된 B16+Triton과 각각의 config, CUDA profile, `runs/batch` 또는
-`runs/fast` 출력 경로를 선택한다. 기본 단일 프레임 실험과 checkpoint를 공유하지 않는다. 실행 중인
-학습 checkout을 갱신하거나 같은 GPU에서 학습을 겹쳐 실행하지 않는다.
+기본 실험은 서버 B4/B8/B16 비교에서 선택된 **`EXPERIMENT=fast` (B16+Triton)** 이다.
+run/train/eval/calibrate와 Slurm/PBS entrypoint는 모두 이 기본값을 공유한다. 모델·데이터·40 epoch와
+T4/8/16/32 평가 행렬은 그대로 유지한다. 아래 명령과 결과 경로도 fast 기준이다.
+`EXPERIMENT=single` (B1+Torch, `runs/train`)과 `EXPERIMENT=batch` (B4+Torch, `runs/batch`)는
+기존 비교 실험 재현용으로 명시적으로 선택할 수 있다. 자세한 batch 측정은 [TRAIN.md](TRAIN.md)를 따른다.
+실행 중인 학습 checkout을 갱신하거나 같은 GPU에서 학습을 겹쳐 실행하지 않는다.
+
+셸 entrypoint는 `bash scripts/run.sh ...` 또는 scheduler로 실행한다. 실수로 source하면 안내만 출력하고
+실행을 시작하지 않는다. 호출 셸의 옵션·작업 디렉터리·trap은 유지하며, 정상 실행 중 오류는 해당 자식
+작업의 실패 상태로 반환한다. `scripts/runtime.sh`만 source용 함수 라이브러리다.
+GPU 번호는 코드에서 선택하지 않는다. scheduler/관리자가 제공한 allocation과 `CUDA_VISIBLE_DEVICES`를
+그대로 사용하며, 장치 번호는 재할당마다 달라질 수 있다. 출력의 process-local device는 할당된 visible
+장치 안의 인덱스다.
+CUDA 실행 전에는 유효한 명시 mask 또는 device-cgroup whitelist로 할당 근거를 확인한다.
+mask 없이 MIG 장치 한 개가 보인다는 사실, job ID 또는 NVIDIA_VISIBLE_DEVICES=all만으로는
+충분하지 않다. 근거가 없으면 GPU 초기화 전에 중단하고 현재 할당 정보를 확인한다.
 
 ## 1. 환경 설치
 
@@ -193,8 +205,8 @@ python scripts/check_env.py \
   --require-cuda --require-full-data --lock constraints/py312.txt \
   --runtime-profile constraints/server.json
 
-asgcn-unet inspect --config configs/train.json --samples 2 --validate-all
-asgcn-unet inspect --config configs/aid.json --samples 2 --validate-all
+asgcn-unet inspect --config configs/fast.json --samples 2 --validate-all
+asgcn-unet inspect --config configs/aid-fast.json --samples 2 --validate-all
 ```
 
 `train.json` inspect는 manifest에 따라 EventHDR train 51개와 eval 19개 root를 모두 검사한다.
@@ -248,7 +260,7 @@ benchmark step 수는 이 quality cap과 별도의 compute-only 측정 계약이
 ANN validation과 같아야 한다.
 
 profile 기본값은 `PROFILE_TOP_DENSITY=10`, `PROFILE_SAMPLES=3`,
-`PROFILE_OUTPUT=runs/profile.json`이다. 전수 scan은 edge guard 초과 표본을 찾고, 실제 CUDA probe는
+`PROFILE_OUTPUT=runs/fast-profile.json`이다. 전수 scan은 edge guard 초과 표본을 찾고, 실제 CUDA probe는
 edge 수 상위 3개 표본에서 configured loss·optimizer까지 포함한 학습 step과 peak allocated/reserved
 VRAM을 잰다. 이는 기록된 GPU와 선택 표본에 한정된 실측 gate이며 절대 VRAM 보증이 아니다.
 새 전수 scan은 events를 선택한 CUDA 장치로 옮겨 graph topology를 계산한다. CPU는 HDF5 읽기와
@@ -279,7 +291,7 @@ summary가 유지된다.
 
 ### 사전검사 중단 후 이어가기
 
-`runs/profile.scan/index.json`과 작은 구간 파일들에 전수검사 기록이 저장된다. 128개 또는 30초 간격에
+`runs/fast-profile.scan/index.json`과 작은 구간 파일들에 전수검사 기록이 저장된다. 128개 또는 30초 간격에
 표본 경계에서 저장하며, 정상적인 interrupt/오류 시에도 완료된 표본을 저장한다. 강제 종료 시에는
 마지막 원자적 commit 이후 구간을 다시 계산한다. data SHA-256·설정·topology 구현 계약이 같아야 한다.
 
@@ -302,20 +314,20 @@ AMP가 꺼진 상태의 잘못된 gradient, 지속되는 overflow, 다른 CUDA/c
 
 ```bash
 git pull --ff-only &&
-export PROFILE_OUTPUT=runs/profile2.json &&
-PROFILE_REUSE_REPORT=runs/profile.json bash scripts/run.sh profile &&
+export PROFILE_OUTPUT=runs/fast-profile2.json &&
+PROFILE_REUSE_REPORT=runs/fast-profile.json bash scripts/run.sh profile &&
 RESTART_TRAIN=1 bash scripts/run.sh train &&
 bash scripts/run.sh calibrate &&
 bash scripts/run.sh eval
 ```
 
 Git 갱신 실패 시 아래 명령은 실행하지 않는다. 새 terminal에서는 `PROFILE_OUTPUT`도 다시 설정한다.
-원본 `runs/profile.json`은 보존된다. `PROFILE_REUSE_REPORT`는 완전한 기록·요약·data/config hash와
+원본 `runs/fast-profile.json`은 보존된다. `PROFILE_REUSE_REPORT`는 완전한 기록·요약·data/config hash와
 검토된 source 계약을 검증한 후 topology 통계만 새 보고서로 이관한다. legacy v1 보고서는 허용 목록의
 clean commit/source hash 조합만 받고, 임의 수정된 보고서나 알 수 없는 구현은 재사용하지 않는다.
 통계의 CPU/CUDA 출처를 보존하며 새로운 코드·GPU에서 수치·밀집 probe를 다시 실행한다.
 
-metadata-only `runs/train`은 `runs/train.failed-*/train`으로 보존된다. `config.json`,
+metadata-only `runs/fast`은 `runs/fast.failed-*/train`으로 보존된다. `config.json`,
 `preflight_gate.json`, `.data_hash_cache.json` 외 파일·하위 폴더 또는 checkpoint가 있으면 자동으로
 옮기지 않는다. 기존 작업은 먼저 종료해야 한다. 이 옵션은 epoch 내부 학습을 복원하는 resume가 아니다.
 
@@ -324,19 +336,19 @@ metadata-only `runs/train`은 `runs/train.failed-*/train`으로 보존된다. `c
 직접 실행은 다음과 같다.
 
 ```bash
-RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+RESUME_CHECKPOINT="$PWD/runs/fast/last.pt" \
   bash scripts/run.sh train 2>&1 | tee logs/train-resume.log
 ```
 
 동일한 동작을 저수준 wrapper로 실행하려면 다음 명령을 쓴다.
 
 ```bash
-RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
-  bash scripts/train.sh configs/train.json
+RESUME_CHECKPOINT="$PWD/runs/fast/last.pt" \
+  bash scripts/train.sh configs/fast.json
 ```
 
 두 wrapper 모두 `PROFILE_OUTPUT`을 따르며, 저수준 wrapper에서 `PREFLIGHT_REPORT`를 따로 지정하면
-그 값이 우선한다. 이전 profile 이관을 사용했다면 `PROFILE_OUTPUT=runs/profile2.json`을 유지한다.
+그 값이 우선한다. 이전 profile 이관을 사용했다면 `PROFILE_OUTPUT=runs/fast-profile2.json`을 유지한다.
 
 현재 checkpoint는 기본 300초 간격, 각 epoch 끝, `Ctrl+C`/`SIGTERM` 또는 `MAX_HOURS` 요청 뒤의
 **성공한 optimizer update 경계**에서 `last.pt`를 원자적으로 갱신한다. model·optimizer·scheduler·AMP
@@ -378,9 +390,22 @@ profile, calibration, evaluation artifact를 자동으로 건너뛰거나 덮어
 
 한 dataset의 평가만 실패했으면 `eval-hdr` 또는 `eval-aid` stage를 사용한다. 같은 출력 root에
 `EVAL_RESUME=1`을 지정하면 완료된 mode는 건너뛰고, 실패한 partial artifact를
-`.incomplete-<UTC>-<PID>`로 보존한 뒤 그 mode만 처음부터 다시 실행한다. frame-level resume은
+`.incomplete-<UTC>-<PID>-<random>/<원래 이름>` 아래에 보존한 뒤 그 mode만 처음부터 다시 실행한다. frame-level resume은
 지원하지 않으므로 중단된 mode 내부의 처리 완료 frame부터 이어 붙이지는 않는다. 이 복구는 같은
-config/checkpoint/edge guard에만 사용한다.
+config/checkpoint/edge guard뿐 아니라 source/runtime/data/protocol까지 일치할 때만 사용한다.
+실제 quality/benchmark writer와 복구 검사는 동일한 sibling `.<mode>.writer.lock`을 독점 획득한다.
+완료 여부 검사와 partial 보존도 그 잠금 안에서 수행하므로 쓰는 중인 결과를 이동하지 않는다.
+기존 잠금은 자동으로 stale 판정하거나 제거하지 않으며 원인 확인 전에는 재실행하지 않는다.
+
+기존 `configs/aid-fast.json`의 8,192-event / radius 0.08 계약에는 실측 edge 상한 **7,475,202**를
+`eval.max_graph_edges_override`에 평가 전용 기본 guard로 적용한다. model 설정과 checkpoint hash는 유지한다.
+sample 37791의 ANN과 literal_eq15 T32 진단에서 peak allocated
+678.06 MiB / reserved 922 MiB를 기록했고, 전체 51,512프레임의 ANN+SNN 9개 mode 평가가 완료됐다.
+이 근거는 해당 데이터·전처리·graph 규칙에만 적용된다. 학습 guard와 다른 config에는 적용하지 않으며,
+명시 CLI/env override가 config보다 우선한다. 셸은 별도의 숫자 기본값을 만들지 않으며 resume 판정·quality·benchmark는 같은 config 값을 해석한다.
+입력/graph 규칙이나 batch·하드웨어가 달라지면 아래 scan/probe 및 실제 batch 메모리를 다시 측정한다.
+사용자가 완료한 기존 9개 조건 결과와 checkpoint는 보존한다. 기존 scan/probe와 동일한 graph 규칙이면
+이를 다시 수행하지 않는다. 새 배치 실행은 별도 output에서 검증하고, batching 변경만으로 재학습하지 않는다.
 
 edge guard에서 중단됐다면 숫자를 추측해 전체 평가를 반복하지 않는다. 예를 들어 진행률
 `32843/51512`에서 4,000,000-edge guard가 중단된 경우, 완료된 `[0,32843)` 구간의 상한과 나머지 구간의
@@ -413,7 +438,8 @@ guard를 정할 뿐 그 edge 수의 모델 forward가 해당 GPU VRAM에서 안�
 따라서 전체 평가 전에 최대-edge sample을 같은 할당 GPU에서 ANN과 가장 긴 SNN 설정으로 실제 실행한다.
 아래 두 placeholder에는 scan JSON의 값을 넣고, 각 출력의 `graph_topology.actual_directed_edges`,
 `gpu_memory.peak_allocated_mib`, `gpu_memory.peak_reserved_mib`, `runtime.cuda_visible_devices`를 확인한다.
-probe가 OOM이면 guard를 더 올려 평가하지 말고 더 큰 GPU allocation을 받는다.
+probe가 OOM이면 guard만 더 올리지 않는다. tensor 참조·sparse/chunking·cache·precision·physical batch의
+실측 메모리부터 점검하고 필요한 경우 더 큰 GPU allocation을 요청한다. 모델·그래프 규모를 줄이지 않는다.
 
 ```bash
 DENSE_INDEX=<global_max_sample.dataset_index>
@@ -481,17 +507,17 @@ cal_id=$(sbatch --parsable \
   --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
   server/calibrate.sbatch)
 
-for cfg in configs/hdr.json configs/aid.json; do
+for cfg in configs/hdr-fast.json configs/aid-fast.json; do
   sbatch --dependency="afterok:${cal_id}" \
-    --export="PROJECT_ROOT=$PWD,CONDA_PREFIX=$CONDA_PREFIX,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann" \
+    --export="PROJECT_ROOT=$PWD,CONDA_PREFIX=$CONDA_PREFIX,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/fast/best.pt,INFERENCE_MODE=ann" \
     server/eval.sbatch
 done
 
-for cfg in configs/hdr.json configs/aid.json; do
+for cfg in configs/hdr-fast.json configs/aid-fast.json; do
   for dynamics in literal_eq15 standard_if; do
     for steps in 4 8 16 32; do
       sbatch --dependency="afterok:${cal_id}" \
-        --export="PROJECT_ROOT=$PWD,CONDA_PREFIX=$CONDA_PREFIX,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
+        --export="PROJECT_ROOT=$PWD,CONDA_PREFIX=$CONDA_PREFIX,VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH=${cfg},CHECKPOINT_PATH=runs/fast/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS=${dynamics},SIMULATION_STEPS=${steps}" \
         server/eval.sbatch
     done
   done
@@ -504,7 +530,7 @@ done
 
 ```bash
 train_id=$(sbatch --parsable \
-  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  --export=PROJECT_ROOT="$PWD",CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/fast/last.pt" \
   server/train.sbatch)
 ```
 
@@ -535,17 +561,17 @@ cal_id=$(qsub \
   -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,CALIBRATION_SAMPLES=all \
   server/calibrate.pbs)
 
-for cfg in configs/hdr.json configs/aid.json; do
+for cfg in configs/hdr-fast.json configs/aid-fast.json; do
   qsub -W depend="afterok:${cal_id}" \
-    -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best.pt,INFERENCE_MODE=ann \
+    -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/fast/best.pt,INFERENCE_MODE=ann \
     server/eval.pbs
 done
 
-for cfg in configs/hdr.json configs/aid.json; do
+for cfg in configs/hdr-fast.json configs/aid-fast.json; do
   for dynamics in literal_eq15 standard_if; do
     for steps in 4 8 16 32; do
       qsub -W depend="afterok:${cal_id}" \
-        -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/train/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
+        -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RUN_BENCHMARK=1,CONFIG_PATH="${cfg}",CHECKPOINT_PATH=runs/fast/best_snn.pt,INFERENCE_MODE=snn,SNN_DYNAMICS="${dynamics}",SIMULATION_STEPS="${steps}" \
         server/eval.pbs
     done
   done
@@ -556,7 +582,7 @@ PBS에서 resume chain을 시작할 때는 다음처럼 `RESUME_CHECKPOINT`를 �
 
 ```bash
 train_id=$(qsub \
-  -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+  -v CONDA_PREFIX="$CONDA_PREFIX",VALIDATE_DATASET=0,RESUME_CHECKPOINT="$PWD/runs/fast/last.pt" \
   server/train.pbs)
 ```
 
@@ -594,8 +620,8 @@ hostname, job ID, 절대경로를 기록한 log는 이름을 바꾸거나 scan�
 학습이 끝나면 다음 파일을 먼저 확인한다.
 
 ```bash
-ls -lh "${PROFILE_OUTPUT:-runs/profile.json}"
-ls -lh runs/train/{last.pt,best.pt,best_snn.pt,history.json,config.json}
+ls -lh "${PROFILE_OUTPUT:-runs/fast-profile.json}"
+ls -lh runs/fast/{last.pt,best.pt,best_snn.pt,history.json,config.json}
 find runs -name metrics.json -o -name benchmark.json | sort
 ```
 
@@ -608,7 +634,7 @@ runs/eval/aid/ann/
 runs/eval/aid/snn_<dynamics>_T<steps>/
 ```
 
-`runs/profile.json`, `runs/status/{check,profile,train,calibrate,eval}.json`과 각 run의 `metrics.json`,
+`runs/fast-profile.json`, `runs/fast-status/{check,profile,train,calibrate,eval}.json`과 각 run의 `metrics.json`,
 `frames.csv`, `predictions/`, `benchmark.json`을 config, Git commit, scheduler log, `check_env.py` 출력과
 함께 보존한다. profile과 평가 artifact의 공개 protocol은 host 절대경로/hostname을 저장하지 않는다.
 `check_env.py`와 `inspect`의 `--include-private-host-provenance` 출력은 로컬 진단 전용이며 공개
@@ -665,7 +691,7 @@ bash scripts/run.sh eval
 ```
 
 이는 완료된 데이터 검사를 되풀이하지 않는 재개 절차이며 CUDA profile을 생략하는 우회가 아니다.
-기존 보고서와 `runs/profile.scan/`은 자동으로 덮어쓰지 않는다. 같은 실패·중단 스캔은 앞의
+기존 보고서와 `runs/fast-profile.scan/`은 자동으로 덮어쓰지 않는다. 같은 실패·중단 스캔은 앞의
 `PROFILE_RESUME=1` 절차로 이어가고, 별도 새 검사라면 `PROFILE_OUTPUT`에 새 파일명을 지정해
 원본 보고서와 journal을 모두 보존한다. JSON만 옮기면 기존 journal 때문에 새 검사가 거부된다.
 이미 학습 checkpoint가 생긴 다른 실행에는 위 fresh-train

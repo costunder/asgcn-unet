@@ -438,6 +438,50 @@ def scan_paths(
     return sorted(set(findings)), text_count, binary_count
 
 
+def _finish_owned_history_reader(process: subprocess.Popen[bytes], owned_pid: int) -> None:
+    """Finish this scan's verified child, preferring EOF over any targeted signal."""
+    command = ["git", "cat-file", "--batch"]
+
+    def verify_and_report(reason: str) -> None:
+        if (
+            type(owned_pid) is not int
+            or owned_pid <= 0
+            or owned_pid in {os.getpid(), os.getppid()}
+            or process.pid != owned_pid
+            or process.args != command
+        ):
+            raise RuntimeError("Refusing cleanup of an unverified history-reader process")
+        print(
+            f"History-reader cleanup: PID={owned_pid}, command=git cat-file --batch; {reason}",
+            file=sys.stderr,
+        )
+
+    verify_and_report("scan failed; closing only this child's pipes to request normal completion")
+    try:
+        if process.stdin is not None and not process.stdin.closed:
+            process.stdin.close()
+    except BrokenPipeError:
+        print("History-reader stdin was already closed by the child.", file=sys.stderr)
+    finally:
+        if process.stdout is not None and not process.stdout.closed:
+            process.stdout.close()
+    try:
+        process.wait(timeout=5)
+        return
+    except subprocess.TimeoutExpired:
+        verify_and_report("no completion after EOF and 5 seconds; terminating only this owned child")
+    if process.poll() is None:
+        process.terminate()
+    try:
+        process.wait(timeout=5)
+        return
+    except subprocess.TimeoutExpired:
+        verify_and_report("targeted termination did not finish within 5 seconds; forcing only this owned child")
+    if process.poll() is None:
+        process.kill()
+    process.wait(timeout=5)
+
+
 def scan_history(
     root: Path,
     patterns: Sequence[PatternSpec],
@@ -458,6 +502,7 @@ def scan_history(
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
     )
+    owned_pid = process.pid
     assert process.stdin is not None
     assert process.stdout is not None
     try:
@@ -500,10 +545,11 @@ def scan_history(
         process.stdin.close()
         if process.wait() != 0:
             raise ValueError("git blob reader failed")
-    except BaseException:
-        if process.poll() is None:
-            process.kill()
-            process.wait()
+    except BaseException as error:
+        try:
+            _finish_owned_history_reader(process, owned_pid)
+        except (OSError, RuntimeError, subprocess.TimeoutExpired) as cleanup_error:
+            raise error from cleanup_error
         raise
     return sorted(set(findings)), text_count, binary_count
 

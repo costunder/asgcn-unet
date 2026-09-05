@@ -13,6 +13,7 @@ import numpy as np
 import torch
 from PIL import Image
 
+from .allocation import require_gpu_allocation
 from .data.common import validate_target_normalization
 from .losses import validate_loss_weights
 
@@ -68,8 +69,10 @@ def validate_experiment_config(config: dict[str, Any]) -> None:
         if not isinstance(evaluation, dict):
             raise TypeError("eval must be an object")
         batch_size = evaluation.get("batch_size", 1)
-        if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size != 1:
-            raise ValueError("eval.batch_size must be 1 for the current sample-wise pipeline")
+        if batch_size != "auto" and (
+            isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1
+        ):
+            raise ValueError("eval.batch_size must be 'auto' or a positive integer")
         _validate_optional_positive_integer(evaluation.get("max_samples"), "eval.max_samples")
         precision = evaluation.get("precision", "fp32")
         if not isinstance(precision, str) or precision not in _EVALUATION_PRECISIONS:
@@ -156,15 +159,28 @@ def save_json(path: str | Path, value: Any) -> None:
 def set_seed(seed: int) -> None:
     random.seed(seed)
     np.random.seed(seed)
+    if torch.cuda.is_initialized():
+        require_gpu_allocation()
+    # torch.manual_seed also seeds CUDA (lazily before CUDA initialization).
+    # Do not probe all host GPUs merely to initialize a CPU diagnostic seed.
     torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
 
 
 def resolve_device(value: str) -> torch.device:
     if value == "auto":
-        return torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    return torch.device(value)
+        require_gpu_allocation()
+        if not torch.cuda.is_available():
+            raise RuntimeError(
+                "device=auto requires an available allocated CUDA device; CPU fallback is disabled. "
+                "Use device=cpu explicitly for CPU diagnostics or tests."
+            )
+        return torch.device("cuda")
+    device = torch.device(value)
+    if device.type == "cuda":
+        require_gpu_allocation()
+        if not torch.cuda.is_available():
+            raise RuntimeError("Requested CUDA device is unavailable; CPU fallback is disabled")
+    return device
 
 
 def move_sample(sample: dict[str, Any], device: torch.device) -> dict[str, Any]:

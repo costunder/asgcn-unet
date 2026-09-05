@@ -9,6 +9,11 @@
 #SBATCH --output=slurm-%x-%j.out
 #SBATCH --error=slurm-%x-%j.err
 
+# Entry scripts must not change an interactive shell through accidental sourcing.
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+  printf '%s\n' "Source ignored: run this entrypoint with bash or its scheduler; the current shell is unchanged." >&2
+else
+_asgcn_entrypoint() (
 set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -25,7 +30,7 @@ if [[ -z "${PROJECT_ROOT:-}" ]] \
   echo "ERROR: PROJECT_ROOT is not a repository checkout." >&2
   echo "Run sbatch from the repository root or use:" >&2
   echo "  sbatch --export=PROJECT_ROOT=/path/to/repo,CONDA_PREFIX=/path/to/conda/env server/train.sbatch" >&2
-  exit 1
+  return 1
 fi
 PROJECT_ROOT="$(cd -- "${PROJECT_ROOT}" && pwd)"
 cd "${PROJECT_ROOT}"
@@ -35,12 +40,12 @@ cd "${PROJECT_ROOT}"
 if [[ -n "${CUDA_MODULE:-}" ]]; then
   if ! command -v module >/dev/null 2>&1; then
     echo "ERROR: CUDA_MODULE was set, but the module command is unavailable" >&2
-    exit 1
+    return 1
   fi
   module load "${CUDA_MODULE}"
 fi
 
-export EXPERIMENT="${EXPERIMENT:-single}"
+export EXPERIMENT="${EXPERIMENT:-fast}"
 case "${EXPERIMENT}" in
   single)
     DEFAULT_CONFIG_PATH=configs/train.json
@@ -54,12 +59,12 @@ case "${EXPERIMENT}" in
     DEFAULT_CONFIG_PATH=configs/fast.json
     DEFAULT_PREFLIGHT_REPORT=runs/fast-profile.json
     ;;
-  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; return 2 ;;
 esac
 if [[ -n "${CONFIG_PATH:-}" && -n "${TRAIN_CONFIG:-}" \
   && "${CONFIG_PATH}" != "${TRAIN_CONFIG}" ]]; then
   echo "ERROR: CONFIG_PATH and TRAIN_CONFIG must refer to the same training config" >&2
-  exit 2
+  return 2
 fi
 export TRAIN_CONFIG="${TRAIN_CONFIG:-${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}}"
 export CONFIG_PATH="${TRAIN_CONFIG}"
@@ -86,7 +91,7 @@ export SLURM_EXPORT_ENV=ALL
 if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
   && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
   echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
-  exit 2
+  return 2
 fi
 if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" == "1" ]]; then
   echo "Host: $(hostname)"
@@ -103,8 +108,9 @@ else
     echo "Resume: ${RESUME_CHECKPOINT##*/}"
   fi
 fi
-if [[ "${DRY_RUN}" != "1" ]]; then
-  nvidia-smi || true
-fi
+# The child preflight reports only devices from the verified allocation.
 
 runtime_command srun bash "${PROJECT_ROOT}/scripts/run.sh" train
+)
+_asgcn_entrypoint "$@"
+fi

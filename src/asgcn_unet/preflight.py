@@ -16,7 +16,13 @@ import torch
 from torch.nn import functional as F
 from tqdm import tqdm
 
-from .batching import SequenceBatchSampler, sequence_key
+from .batching import (
+    PackedSampleBatch,
+    SequenceBatchSampler,
+    move_batch,
+    pack_samples,
+    sequence_key,
+)
 from .data import build_dataset
 from .engine import (
     _AMP_MAX_RETRIES,
@@ -773,6 +779,45 @@ def _batch_plan(
     }
 
 
+def _load_packed_probe_batch(
+    dataset: Any,
+    indices: list[int],
+    device: torch.device,
+) -> tuple[PackedSampleBatch, dict[str, Any]]:
+    """Use the training collate/transfer path without changing probe coverage."""
+    started = time.perf_counter()
+    raw_samples = [dataset[index] for index in indices]
+    loaded = time.perf_counter()
+    packed = pack_samples(raw_samples)
+    if packed.events.device.type != "cpu":
+        raise ValueError("Training preflight expects dataset decoding and collation on CPU")
+    if device.type == "cuda":
+        packed = packed.pin_memory()
+    collated = time.perf_counter()
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+    transfer_started = time.perf_counter()
+    samples = move_batch(packed, device)
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+    transferred = time.perf_counter()
+    return samples, {
+        "execution": "cpu_packed_collate_then_one_batched_transfer",
+        "dataset_indices": list(indices),
+        "physical_batch_size": len(samples),
+        "event_counts": list(samples.event_counts),
+        "events_shape": list(samples.events.shape),
+        "target_shape": None if samples.targets is None else list(samples.targets.shape),
+        "pin_memory": device.type == "cuda",
+        "non_blocking_transfer": device.type == "cuda",
+        "dataset_loading_ms": (loaded - started) * 1000,
+        "cpu_collate_and_pin_ms": (collated - loaded) * 1000,
+        "host_to_device_ms": (transferred - transfer_started) * 1000,
+        "total_input_ms": (transferred - started) * 1000,
+        "timing_scope": "input_only_excludes_predecessor_replay_and_training_step",
+    }
+
+
 @torch.no_grad()
 def _batch_predecessor_contexts(
     model: ASGCNUNet,
@@ -793,13 +838,15 @@ def _batch_predecessor_contexts(
     ]
     if not valid:
         return contexts, used
-    samples = [move_sample(dataset[index], device) for _, index in valid]
+    samples, _ = _load_packed_probe_batch(dataset, [index for _, index in valid], device)
     amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
     # This is one actual batched predecessor replay, not B sequential forwards.
     # It is an empirical context-memory probe, not a full-history trajectory.
     with torch.autocast(device_type=device.type, enabled=amp):
         prediction, diagnostics = model.forward_training_batch(samples, [None] * len(samples))
-    target = torch.stack([sample["target"] for sample in samples])
+    target = samples.targets
+    if target is None:
+        raise ValueError("Batched predecessor replay requires a target for every frame")
     for local, (slot, predecessor) in enumerate(valid):
         state = diagnostics[local]["recurrent_state"]
         contexts[slot] = (
@@ -824,7 +871,9 @@ def _gpu_batch_step(
     *,
     fresh: bool,
 ) -> dict[str, Any]:
-    samples = [move_sample(dataset[index], device) for index in selected["dataset_indices"]]
+    samples, input_pipeline = _load_packed_probe_batch(
+        dataset, selected["dataset_indices"], device
+    )
     if fresh:
         contexts = [(None, None, None)] * len(samples)
         predecessors: list[int | None] = [None] * len(samples)
@@ -873,12 +922,6 @@ def _gpu_batch_step(
         or list(prediction.shape[-2:]) != selected["sensor_size"]
     ):
         raise RuntimeError("Batched training probe output does not match the actual selected batch")
-    for index, detail in zip(selected["dataset_indices"], diagnostics, strict=True):
-        if (
-            int(detail["edges"]) != records[index]["actual_directed_edges"]
-            or int(detail["nodes"]) != records[index]["model_sampled_events"]
-        ):
-            raise RuntimeError("Batched training graph differs from cached per-frame topology")
     if device.type == "cuda":
         end.record()
         end.synchronize()
@@ -890,6 +933,19 @@ def _gpu_batch_step(
         allocated = reserved = None
     if not math.isfinite(elapsed) or elapsed <= 0:
         raise FloatingPointError("Batched training probe produced an invalid elapsed time")
+    # Topology verification is diagnostic CPU work, outside measured training.
+    # Transfer all graph edge counts together instead of synchronizing per graph.
+    measured_edges = torch.stack([
+        torch.as_tensor(detail["edges"], device=device) for detail in diagnostics
+    ]).detach().cpu().tolist()
+    for index, detail, edges in zip(
+        selected["dataset_indices"], diagnostics, measured_edges, strict=True
+    ):
+        if (
+            edges != records[index]["actual_directed_edges"]
+            or detail["nodes"] != records[index]["model_sampled_events"]
+        ):
+            raise RuntimeError("Batched training graph differs from cached per-frame topology")
     return {
         **selected,
         "execution": "disjoint_graph_batch_and_vectorized_decoder",
@@ -901,6 +957,8 @@ def _gpu_batch_step(
         "amp_enabled": amp,
         "amp": amp_info,
         "step_time_ms": elapsed,
+        "step_timing_scope": "forward_loss_backward_optimizer_excludes_input_and_context_replay",
+        "input_pipeline": input_pipeline,
         "peak_allocated_mib": allocated,
         "peak_reserved_mib": reserved,
     }

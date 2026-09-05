@@ -69,6 +69,13 @@ EventAid-R은 장면별 PNG/JPEG GT를 ZIP에서 직접 읽는다. `R-traffic`�
 ### 4. 전체 학습·보정·평가
 
 GPU가 할당된 터미널에서 실행한다. 기본 설정은 EventHDR train 전체를 사용하는 **40 epoch 학습**이다.
+실행 기본값은 서버에서 측정한 **`EXPERIMENT=fast` (B16+Triton)** 이며 `runs/fast`를 사용한다.
+기존 B1/B4 기준선은 각각 `EXPERIMENT=single`/`EXPERIMENT=batch`로 명시적으로 선택한다.
+GPU 번호를 고정하지 않으며 scheduler/사용자가 제공한 `CUDA_VISIBLE_DEVICES`를 그대로 따른다.
+CUDA 실행은 명시적인 유효 mask 또는 검증 가능한 device-cgroup 장치 제한으로 할당 근거를 먼저
+확인한다. mask가 없는데 MIG 한 개만 보인다는 사실, job ID 또는 `NVIDIA_VISIBLE_DEVICES=all`만으로는
+할당된 GPU라고 판단하지 않는다. 근거가 없으면 GPU를 초기화하기 전에 중단하므로, 관리자나 scheduler가
+알려 준 현재 할당 값을 확인해야 한다. 코드가 임의의 장치 번호를 선택하거나 mask를 덮어쓰지 않는다.
 
 ```bash
 conda activate asgcn
@@ -78,7 +85,8 @@ bash scripts/run.sh all 2>&1 | tee logs/run.log
 ```
 
 자동 순서: 전체 데이터 검사 → CUDA 전수 그래프 검사·수치/밀집 표본 검증 → ANN 학습 → SNN 보정 → 두 데이터셋 전체
-ANN/SNN 평가. 결과는 `runs/`, 실행 로그는 `logs/run.log`에 저장된다.
+ANN/SNN 평가. 기본 결과는 `runs/fast`, preflight는 `runs/fast-profile.json`, stage 상태는
+`runs/fast-status`에 저장된다. 실행 로그는 `logs/run.log`다.
 
 연결이 끊겨도 계속 실행하려면 위 블록을 **`tmux new-session -s asgcn`으로 연 세션 안에서**
 실행한다(`tmux` 설치 필요). 분리는 `Ctrl-b`, `d`, 재접속은 `tmux attach -t asgcn`이다.
@@ -120,6 +128,14 @@ EXPERIMENT=fast RESUME_CHECKPOINT=runs/fast/last.pt MAX_HOURS=6 \
 topology 통계만 명시적으로 재사용할 수 있지만 GPU probe는 항상 새로 수행한다. 상세 측정 범위와
 실행·재개 계약은 [성능 안내](docs/PERF.md#동일-실데이터-gpu-비교)와
 [학습 안내](docs/TRAIN.md)를 따른다.
+
+이미 완료한 ANN/SNN checkpoint와 9개 EventAid-R 결과가 있으면, 병렬화 개선을 적용하기 위해
+`all`이나 재학습부터 실행하지 않는다. 기존 결과를 기준선으로 보존하고 같은 checkpoint를 새 평가
+output에서 검증한다. 모델·데이터·event cap·T4/8/16/32 행렬은 유지한다.
+평가와 calibration의 `batch_size="auto"`는 현재 할당에서 batch `[1,2,4,8,16]`과 worker `[0,2,4]`
+후보의 처리량·VRAM을 측정해 선택한다. 이 사전 측정의 적은 step 수는 전체 품질 평가나 calibration의
+데이터 수를 줄이는 설정이 아니다. 설정·기록·남은 CUDA 검증 범위는
+[실행 계약](docs/EXECUTION_CONTRACT.md)을 따른다.
 
 ## 실험 범위
 
@@ -217,7 +233,7 @@ fail 조건으로 만들지 않는다.
 1. `check`: CUDA·locked dependency·전체 파일 coverage를 확인하고 두 데이터의 모든 sample을 decode
 2. `profile`: EventHDR train graph를 CUDA에서 전수 조사하고 첫 프레임·빈/희소 입력 및 edge 수 상위
    표본 3개에서 CUDA forward/backward, optimizer step, peak allocated/reserved VRAM과 step time 측정
-3. `train`: 검증된 `runs/profile.json`을 현재 config·data·source·CUDA runtime에 다시 결합한 뒤
+3. `train`: 검증된 `runs/fast-profile.json`을 현재 config·data·source·CUDA runtime에 다시 결합한 뒤
    EventHDR train 전체 40 epoch ANN 학습
 4. `calibrate`: EventHDR train의 모든 calibration sample로 `best_snn.pt` 생성
 5. `eval`: EventHDR eval과 EventAid-R 전체에 대해 ANN 1회 및
@@ -250,7 +266,7 @@ DRY_RUN=1 bash scripts/run.sh all
 
 ### 사전검사가 중단된 경우
 
-새 버전은 `runs/profile.scan/`에 128개 또는 30초 간격(표본 처리 경계)으로 검사 기록을 원자적으로
+새 버전은 `runs/fast-profile.scan/`에 128개 또는 30초 간격(표본 처리 경계)으로 검사 기록을 원자적으로
 저장한다. 중단한 같은 scan은 다음처럼 재개한다. 이미 통과한 최종 보고서는 덮어쓰지 않는다.
 
 ```bash
@@ -258,7 +274,7 @@ PROFILE_RESUME=1 bash scripts/run.sh profile
 ```
 
 `preflight-topology` 100%는 통계 검사 완료이며, 이어지는 GPU 검증까지 성공한 뒤 최종
-`runs/profile.json`의 `status=passed`를 확인해야 학습으로 이어갈 수 있다.
+`runs/fast-profile.json`의 `status=passed`를 확인해야 학습으로 이어갈 수 있다.
 
 ### 이전 버전의 첫-step AMP 오류에서 복구
 
@@ -267,20 +283,20 @@ PROFILE_RESUME=1 bash scripts/run.sh profile
 
 ```bash
 git pull --ff-only &&
-export PROFILE_OUTPUT=runs/profile2.json &&
-PROFILE_REUSE_REPORT=runs/profile.json bash scripts/run.sh profile &&
+export PROFILE_OUTPUT=runs/fast-profile2.json &&
+PROFILE_REUSE_REPORT=runs/fast-profile.json bash scripts/run.sh profile &&
 RESTART_TRAIN=1 bash scripts/run.sh train &&
 bash scripts/run.sh calibrate &&
 bash scripts/run.sh eval
 ```
 
 첫 명령의 갱신이 실패하면 다음 명령은 실행하지 않는다. 다른 터미널로 이어갈 때에도
-`export PROFILE_OUTPUT=runs/profile2.json`을 설정한다. 이관은 출처가 확인된 전수 topology 통계만
+`export PROFILE_OUTPUT=runs/fast-profile2.json`을 설정한다. 이관은 출처가 확인된 전수 topology 통계만
 재사용하고 첫/빈/희소·밀집 표본의 GPU 검증은 새로 수행한다. 이전 CPU 통계는 CPU 출처로 남으며,
 이전 GPU 수치가 새 측정으로 둔갑하지 않는다. 출처·데이터·설정이 맞지 않으면 이관을 거부한다.
 
 `RESTART_TRAIN=1`은 **이전 작업을 종료한 상태에서**, epoch checkpoint 없이 metadata만 남은
-`runs/train`을 `runs/train.failed-*/train`에 보존하고 새 학습을 시작한다. checkpoint·history·알 수 없는
+`runs/fast`를 `runs/fast.failed-*/fast`에 보존하고 새 학습을 시작한다. checkpoint·history·알 수 없는
 파일이 있으면 거부한다. 완료된 epoch가 없는 실행의 재시작이며, 중간 optimizer step의 복원이 아니다.
 AMP overflow는 scale을 낮춰 같은 프레임을 최대 16번 재시도하고 실패한 시도의 BatchNorm·난수 상태를
 복원한다. 프레임을 버리지 않으며, 비유한 loss나 지속되는 오류는 그대로 중단한다.
@@ -294,42 +310,53 @@ AMP overflow는 scale을 낮춰 같은 프레임을 최대 16번 재시도하고
 `Ctrl+C`, `SIGTERM` 또는 `MAX_HOURS`는 다음 안전 경계에서 저장한 뒤 종료코드 75로 끝난다.
 `run.sh all`도 이때 train 상태를 `PAUSED`로 기록하고 calibration/eval로 넘어가지 않는다.
 
-기본 B1 run을 재개하는 명령은 다음과 같다.
+기본 B16 fast run을 재개하는 명령은 다음과 같다.
 
 ```bash
-RESUME_CHECKPOINT="$PWD/runs/train/last.pt" \
+RESUME_CHECKPOINT="$PWD/runs/fast/last.pt" \
   bash scripts/run.sh train 2>&1 | tee -a logs/train.log
 ```
 
 `run.sh`은 `check`, `profile`, `train`, `calibrate`, `eval`, `all` stage를 각각 실행할 수 있다. `train`은
-기본적으로 통과한 `runs/profile.json`을 요구하고, 이를 현재 config·전체 train data digest·source·GPU
+기본적으로 통과한 `runs/fast-profile.json`을 요구하고, 이를 현재 config·전체 train data digest·source·GPU
 runtime에 다시 결합한다. 학습 재개가 끝나면 `bash scripts/run.sh calibrate`, 이어서
 `bash scripts/run.sh eval`을 실행한다. 기존 artifact를 발견해도 자동으로 건너뛰거나 덮어쓰지 않으므로,
 부분 실행을 복구할 때 완료된 stage를 임의로 다시 실행하지 않는다. 합성 fixture용
 `--allow-unverified-preflight` 우회는 checkpoint에 비보고용으로 영구 기록되고 `all` 및 scheduler
 wrapper에서는 허용되지 않는다.
 
+기존 B1 기준선을 재개할 때만 `EXPERIMENT=single`, `runs/train/last.pt`, `runs/profile.json`을 함께
+선택한다. B4는 `EXPERIMENT=batch`와 `runs/batch` 경로를 사용한다. 기준선 checkpoint를 fast run에
+이어 붙이지 않는다.
+
 dataset 하나의 평가만 복구할 때는 `eval-hdr` 또는 `eval-aid`를 사용한다. 같은 출력 root에서
 `EVAL_RESUME=1`을 지정하면 완료된 mode는 건너뛴다. 중단된 mode는 frame 상태를 이어 붙이지 않고
-그 mode의 partial artifact를 `.incomplete-<UTC>-<PID>`로 보존한 뒤 해당 mode만 처음부터 다시 실행한다.
-예를 들어 EventAid-R가 configured edge guard에서 중단됐고, 별도 topology 및 VRAM 측정으로
-4,000,000 edges가 안전하다고 확인한 경우 다음처럼 실행한다.
+그 mode의 partial artifact를 새 `.incomplete-<UTC>-<PID>-<random>` 컨테이너 안에 보존한 뒤
+해당 mode만 처음부터 다시 실행한다. 기존 8,192-event/radius-0.08 EventAid fast 계약의
+`eval.max_graph_edges_override`는 실제 topology scan과 밀집 ANN/SNN T32 probe로 확인한
+**7,475,202**다. model config와 checkpoint hash는 이 평가 전용 guard 때문에 바뀌지 않는다.
+아래는 새 평가 output을 선택한 예다. 이미 완료한 비교 기준 디렉터리를 이 경로로 지정하지 않는다.
 
 ```bash
 EXPERIMENT=fast \
-EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-recovery-4m" \
-EVAL_MAX_GRAPH_EDGES=4000000 \
+EVAL_OUTPUT_ROOT="$PWD/runs/fast/eval-batched" \
 EVAL_RESUME=1 \
   bash scripts/run.sh eval-aid
 ```
 
-`EVAL_MAX_GRAPH_EDGES`는 quality와 benchmark에 같은 inference-only guard override를 전달하며 결과
-protocol에 기록된다. 이 예시 값은 9.5 GiB를 포함한 임의의 GPU에서 안전하거나 충분하다는 보장이
-아니므로 실측 없이 사용하지 않는다. `EVAL_RESUME=1`은 mode-level recovery이며 quality evaluation의
+명시적인 `EVAL_MAX_GRAPH_EDGES`는 config보다 우선하며 quality·benchmark·resume 검사에 같은 값을
+전달한다. graph 규칙·batch·할당이 바뀌면 밀집 입력을 포함해 VRAM을 다시 측정한다.
+`EVAL_RESUME=1`은 mode-level recovery이며 quality evaluation의
 frame-level resume은 아니다. `metrics.json`과 `frames.csv`가 모두 있으면 quality를, 여기에
 `benchmark.json`까지 있으면 mode 전체를 완료로 본다. 완료 artifact는 덮어쓰지 않고 partial artifact도
 자동 백업한다. 이 옵션은 같은 config/checkpoint/guard의 중단 복구에만 사용하고, 조건을 바꾸는 새 실험은
 새 `EVAL_OUTPUT_ROOT`를 선택한다. 상태는 각각 `eval-hdr.json`과 `eval-aid.json`에 기록된다.
+
+quality, benchmark와 recovery의 검사·보존은 mode의 sibling `.<mode>.writer.lock`을 공유한다.
+다른 writer 또는 해제되지 않은 lock이 있으면 결과를 이동하거나 덮어쓰지 않고 실패한다.
+프로세스가 강제 중단돼 남은 lock도 자동으로 지우지 않는다. lock의 PID와 실행 명령을 먼저 확인하고,
+기존 writer가 없다는 확인 및 명시적인 복구 결정 뒤에만 해당 lock 하나를 정리한다.
+셸 entrypoint를 source하면 실행하지 않고 안내만 출력하므로 호출 셸의 옵션·trap·작업 디렉터리가 유지된다.
 
 resume 시 model, optimizer, scheduler, AMP scaler, RNG, history뿐 아니라 config, 상대 data identity,
 현재 epoch cursor/context, 전체 data SHA-256, source tree hash와 GPU protocol을 교차검증한다.
@@ -345,7 +372,8 @@ EventHDR 보고용 ANN은 문법적으로 유효한 반복 `best_validation_macr
 
 calibration은 clean `ann_inference` checkpoint만 받고, 학습 당시 EventHDR train 전체 byte digest,
 transform, final split manifest와 source tree가 현재 실행과 일치해야 한다. 또한 manifest가 가리키는
-모든 training sample을 dataset index `0..N-1` 순서로 정확히 한 번씩 사용해야 `sealed=true`가 된다.
+모든 training sample을 중복·누락 없이 정확히 한 번씩 사용해야 `sealed=true`가 된다.
+독립 sample의 실제 physical batch와 방문 순서·전체 coverage는 calibration protocol에 기록한다.
 일부 sample만 지정하면 기본 실행은 변환 전에 실패한다. 테스트용 `--allow-unsealed-calibration`으로만
 부분 보정을 만들 수 있고, 결과에는 불일치 이유와 `report_eligible=false`가 영구 기록된다.
 이 override를 명시한 사실 자체가 taint이므로 sample이 우연히 전체여도 `sealed=false`다.
@@ -364,31 +392,31 @@ load 단계에서 거부된다.
 `OVERWRITE_CALIBRATION=1`을 명시할 수 있지만, 이미 완료된 평가 artifact는 보존하거나 config의
 `eval.output_dir`를 새 경로로 바꿔 별도 run으로 실행해야 한다.
 
-주요 출력은 다음과 같다.
+기본 `EXPERIMENT=fast`의 주요 출력은 다음과 같다.
 
 ```text
-runs/train/
+runs/fast/
 ├── config.json
 ├── history.json
 ├── last.pt                       # 학습 재개용 전체 상태
 ├── best.pt                       # ANN inference용 clean checkpoint
 └── best_snn.pt                   # 보정된 SNN graph encoder checkpoint
 
-runs/profile.json                 # 전체 topology + 최고 밀도 CUDA 학습-step 사전검증
+runs/fast-profile.json            # 전체 topology + 최고 밀도 CUDA 학습-step 사전검증
 
-runs/status/
+runs/fast-status/
 ├── check.json
 ├── profile.json
 ├── train.json
 ├── calibrate.json
-└── eval.json                     # RUNNING/COMPLETED/FAILED stage 상태
+└── eval.json                     # RUNNING/COMPLETED/FAILED; train은 PAUSED도 기록
 
-runs/eval/hdr/ann/
-runs/eval/hdr/snn_literal_eq15_T{4,8,16,32}/
-runs/eval/hdr/snn_standard_if_T{4,8,16,32}/
-runs/eval/aid/ann/
-runs/eval/aid/snn_literal_eq15_T{4,8,16,32}/
-runs/eval/aid/snn_standard_if_T{4,8,16,32}/
+runs/fast/eval/hdr/ann/
+runs/fast/eval/hdr/snn_literal_eq15_T{4,8,16,32}/
+runs/fast/eval/hdr/snn_standard_if_T{4,8,16,32}/
+runs/fast/eval/aid/ann/
+runs/fast/eval/aid/snn_literal_eq15_T{4,8,16,32}/
+runs/fast/eval/aid/snn_standard_if_T{4,8,16,32}/
 ```
 
 각 평가 폴더에는 `metrics.json`, `frames.csv`, `predictions/`, `benchmark.json`이 생긴다. 보고용 ANN은
@@ -486,25 +514,30 @@ python scripts/scan_private_text.py logs/public/train.stdout.log \
 
 ## 현재 검증 상태와 한계
 
+사용자가 제공한 서버 출력에는 epoch 40 checkpoint와 EventAid-R 51,512프레임 × 9개 조건의
+완료된 품질/benchmark 결과가 있다. 이 결과는 이전 실행의 결과로 보존하며, 아래 로컬 검증 범위와
+구분한다. 새 batching·실행 안전 코드로 전체 CUDA 학습이나 전체 평가를 다시 검증했다는 뜻은 아니다.
+
 - CI는 Linux Conda 고정 profile의 실제 설치·버전 일치·전체 회귀검사와 Ubuntu/Windows의
   Python 3.10·3.11·3.12 호환성을 검사한다. 검증 결과는 사용한 commit의 Actions에서 확인한다.
 - `code_summary.md`는 source commit과 파일별 SHA-256을 기록하는 전체 text snapshot이다.
   CI는 snapshot 일치와 source provenance를 확인한다. 개인정보 검사는 현재 tracked text와 Git history를
   대상으로 하며, 실제 식별자는 저장소 밖 로컬 검사에만 사용한다.
   상세 검증 기록과 유지관리 절차는 [인계서](hand_off.md#14-테스트-상태와-검증-범위)에 있다.
-- 환경 검사와 profile은 CUDA를 먼저 초기화한 뒤 cuDNN·장치 정보를 읽고, checkpoint RNG도 초기화 후
-  장치를 열거한다. 실제 초기화 실패나 CUDA 불가는 우회하지 않는다.
+- 환경 검사와 profile은 GPU 할당 근거를 먼저 확인한 뒤 CUDA를 초기화하고 cuDNN·장치 정보를 읽는다.
+  checkpoint RNG도 초기화 후 장치를 열거한다. 할당 미확인·초기화 실패·CUDA 불가는 우회하지 않는다.
 - 코드의 unit/integration test와 Linux 의존성 검사는 구성되어 있지만, EventHDR+EventAid-R 전체
-  실데이터를 사용한 `runs/profile.json`, CUDA 40-epoch 학습·전체 행렬 실행, A6000/A100 peak
+  실데이터를 사용한 `runs/fast-profile.json`, CUDA 40-epoch 학습·전체 행렬 실행, A6000/A100 peak
   memory·runtime·latency artifact는 이 로컬 검증에서 생성하지 않았다. 따라서 README는 실행 절차
   설명이지 측정 완료 보고서가 아니다.
 - 공개 자료에 EventHDR H5↔physical-scene 완전 대응표가 없어 공식 train/eval root 이상의
   scene-disjoint 주장을 하지 않는다.
 - 원 논문의 동적 asynchronous K-hop update, pooling/classifier, energy model은 포함하지 않는다.
 - 반도체 RTL/FPGA/ASIC, event compression/transport, 실제 전력·에너지 측정은 후속 과제 범위다.
-- B16+Triton의 실측은 조건당 측정 512프레임 범위이며 전체 epoch/수렴 결과는 아직 없다. 재개 단위는
-  기본 300초마다 저장된 성공 batch 경계다. 전체 실행 시간과 저장 공간은 서버 GPU, filesystem,
-  dataset decode 속도에 따라 달라진다.
+- 기본 B16+Triton 선택의 처리량 비교는 조건당 측정 512프레임 범위이며 그 비교 자체가 수렴 검증은 아니다.
+  사용자 서버의 완료된 epoch 40 checkpoint/평가와 새 코드의 미검증 CUDA 성능을 별도로 취급한다.
+  학습 재개 단위는 기본 300초마다 저장된 성공 batch 경계다. 전체 실행 시간과 저장 공간은 서버 GPU,
+  filesystem, dataset decode 속도에 따라 달라진다.
 
 코드 전체 스냅샷은 [code_summary.md](code_summary.md), 인수인계와 연구상 주의점은
 [hand_off.md](hand_off.md)를 참조한다.

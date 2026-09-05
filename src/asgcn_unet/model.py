@@ -7,8 +7,14 @@ from typing import Any
 import torch
 from torch import nn
 
-from .batching import concatenate_graphs, sequence_key
-from .graph import PAPER_CORE_VERSION, ASGCNEncoder, EventGraph, build_event_graph
+from .batching import PackedSampleBatch, pack_samples, sequence_key
+from .graph import (
+    PAPER_CORE_VERSION,
+    ASGCNEncoder,
+    EventGraph,
+    build_event_graph,
+    build_event_graph_batch,
+)
 from .ops import SPLINE_BACKENDS, require_spline_backend
 from .unet import RecurrentUNetDecoder
 
@@ -37,6 +43,29 @@ def rasterize_features(
     )
     raster = raster / counts.clamp_min(1.0)
     return raster.transpose(0, 1).reshape(1, features.shape[-1], grid_h, grid_w)
+
+
+def rasterize_batch(
+    features: torch.Tensor,
+    graph: EventGraph,
+    node_batch: torch.Tensor,
+    batch_size: int,
+    sensor_size: tuple[int, int],
+    downsample: int,
+) -> torch.Tensor:
+    """One scatter for every node, with a separate raster address space per frame."""
+    height, width = sensor_size
+    grid_h = max(1, (height + downsample - 1) // downsample)
+    grid_w = max(1, (width + downsample - 1) // downsample)
+    x = (graph.positions[:, 0] * width / downsample).long().clamp(0, grid_w - 1)
+    y = (graph.positions[:, 1] * height / downsample).long().clamp(0, grid_h - 1)
+    linear = node_batch * (grid_h * grid_w) + y * grid_w + x
+    raster = features.new_zeros((batch_size * grid_h * grid_w, features.shape[-1]))
+    raster.index_add_(0, linear, features)
+    counts = features.new_zeros((batch_size * grid_h * grid_w, 1))
+    counts.index_add_(0, linear, features.new_ones((linear.numel(), 1)))
+    raster = raster / counts.clamp_min(1.0)
+    return raster.reshape(batch_size, grid_h, grid_w, features.shape[-1]).permute(0, 3, 1, 2)
 
 
 class ASGCNUNet(nn.Module):
@@ -161,29 +190,40 @@ class ASGCNUNet(nn.Module):
         simulation_steps: int = 16,
         return_activations: bool = False,
         recurrent_state: torch.Tensor | None = None,
+        *,
+        timing: Any = None,
     ) -> tuple[torch.Tensor, dict[str, Any]]:
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")
         simulation_steps = int(simulation_steps)
-        graph = self._graph(sample)
-        if inference_mode == "ann":
-            features, activations = self.encoder.forward_ann(graph, return_activations)
-            firing_rates: list[torch.Tensor] = []
-        elif inference_mode == "snn":
-            features, firing_rates = self.encoder.forward_snn(
-                graph,
-                simulation_steps,
-                dynamics=self.snn_dynamics,
+        gpu = sample["events"].device.type == "cuda"
+
+        def scope(label: str):
+            return timing.scope(label, gpu=gpu) if timing is not None else nullcontext()
+
+        with scope("graph"):
+            graph = self._graph(sample)
+        with scope("encoder"):
+            if inference_mode == "ann":
+                features, activations = self.encoder.forward_ann(graph, return_activations)
+                firing_rates: list[torch.Tensor] = []
+            elif inference_mode == "snn":
+                features, firing_rates = self.encoder.forward_snn(
+                    graph,
+                    simulation_steps,
+                    dynamics=self.snn_dynamics,
+                )
+                # Rescale normalized spikes into the analog decoder's trained
+                # lambda_L units; literal Eq. (15) is not ANN-rate equivalence.
+                features = features * self.encoder.output_activation_scale(features)
+                activations = []
+            else:
+                raise ValueError(f"Unknown inference_mode: {inference_mode}")
+        with scope("decoder"):
+            raster = rasterize_features(
+                features, graph, sample["sensor_size"], self.raster_downsample
             )
-            # Express normalized spike amplitudes in the analog decoder's trained
-            # lambda_L units. For literal Eq. (15), this is dimensional rescaling,
-            # not a claim of proven finite-T ANN-rate equivalence.
-            features = features * self.encoder.output_activation_scale(features)
-            activations = []
-        else:
-            raise ValueError(f"Unknown inference_mode: {inference_mode}")
-        raster = rasterize_features(features, graph, sample["sensor_size"], self.raster_downsample)
-        prediction, next_state = self.decoder(raster, sample["sensor_size"], recurrent_state)
+            prediction, next_state = self.decoder(raster, sample["sensor_size"], recurrent_state)
         dataset_sampling_ratio = float(
             sample.get("metadata", {}).get("dataset_sampling_ratio", 1.0)
         )
@@ -233,49 +273,93 @@ class ASGCNUNet(nn.Module):
 
     def forward_training_batch(
         self,
-        samples: list[dict[str, Any]],
+        samples: list[dict[str, Any]] | PackedSampleBatch,
         recurrent_states: list[torch.Tensor | None] | None = None,
         *,
         timing: Any = None,
     ) -> tuple[torch.Tensor, list[dict[str, Any]]]:
-        """Train independent sequence frames with one encoder and decoder call.
+        """Preserve the pooled-node ANN training contract using packed graphs."""
+        keys = [sequence_key(sample) for sample in samples]
+        if len(set(keys)) != len(keys):
+            raise ValueError("A training batch may contain only one frame from each sequence")
+        return self.forward_batch(samples, recurrent_states, timing=timing)
 
-        This opt-in ANN path uses pooled-node graph BatchNorm in training mode;
+    def forward_batch(
+        self,
+        samples: list[dict[str, Any]] | PackedSampleBatch,
+        recurrent_states: list[torch.Tensor | None] | None = None,
+        *,
+        inference_mode: str = "ann",
+        simulation_steps: int = 16,
+        timing: Any = None,
+    ) -> tuple[torch.Tensor, list[dict[str, Any]]]:
+        """One packed graph, encoder, raster scatter and decoder per physical batch.
+
+        The ANN path uses pooled-node graph BatchNorm in training mode;
         it is a distinct minibatch protocol, not gradient accumulation or a claim
         of equivalence to sequential batch-one parameter updates. No graph edge
         or recurrent state crosses a sample boundary.
         """
         if not samples:
-            raise ValueError("Training batches must contain at least one sample")
+            raise ValueError("Batches must contain at least one sample")
         sensor_size = tuple(int(value) for value in samples[0]["sensor_size"])
         if len(sensor_size) != 2 or min(sensor_size) < 1:
             raise ValueError("Training batches require positive height and width")
         if any(tuple(sample["sensor_size"]) != sensor_size for sample in samples):
             raise ValueError("A training batch must contain one shared sensor_size")
-        keys = [sequence_key(sample) for sample in samples]
-        if len(set(keys)) != len(keys):
-            raise ValueError("A training batch may contain only one frame from each sequence")
+        if inference_mode not in {"ann", "snn"}:
+            raise ValueError(f"Unknown inference_mode: {inference_mode}")
+        if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
+            raise ValueError("simulation_steps must be an integer")
+        simulation_steps = int(simulation_steps)
         if recurrent_states is None:
             recurrent_states = [None] * len(samples)
         if len(recurrent_states) != len(samples):
             raise ValueError("recurrent_states must contain one entry per batch sample")
+        if any(state is not None and not isinstance(state, torch.Tensor) for state in recurrent_states):
+            raise TypeError("A recurrent state must be a tensor or None")
+        if len(samples) == 1 and not isinstance(samples, PackedSampleBatch):
+            # Preserve the original raw-list B1 reference API bitwise. Loader
+            # batches, including one-frame tails, keep the packed execution path
+            # so every physical batch uses the same transfer/graph protocol.
+            prediction, detail = self.forward_sample(
+                samples[0], inference_mode=inference_mode, simulation_steps=simulation_steps,
+                recurrent_state=recurrent_states[0], timing=timing,
+            )
+            return prediction, [detail]
         gpu = samples[0]["events"].device.type == "cuda"
 
         def scope(label: str):
             return timing.scope(label, gpu=gpu) if timing is not None else nullcontext()
 
         with scope("graph"):
-            graphs = [self._graph(sample) for sample in samples]
-            graph = concatenate_graphs(graphs)
-            node_counts = [item.node_features.shape[0] for item in graphs]
+            packed = pack_samples(samples)
+            require_spline_backend(self.spline_backend, packed.events.device)
+            topology = build_event_graph_batch(
+                packed.events, packed.event_counts, sensor_size,
+                event_sampling_factor=self.event_sampling_factor,
+                graph_radius=self.graph_radius,
+                graph_position_dims=self.graph_position_dims,
+                graph_chunk_size=self.graph_chunk_size,
+                max_graph_edges=self.max_graph_edges,
+            )
+            graph = topology.graph
+            node_counts = topology.node_counts
         with scope("encoder"):
-            features, _activations = self.encoder.forward_ann(graph)
+            if inference_mode == "ann":
+                features, _activations = self.encoder.forward_ann(graph)
+                firing_rates = []
+            else:
+                features, firing_rates = self.encoder.forward_snn(
+                    graph, simulation_steps, dynamics=self.snn_dynamics,
+                    node_batch=topology.node_batch, batch_size=len(samples),
+                )
+                features = features * self.encoder.output_activation_scale(features)
         with scope("decoder"):
-            per_sample_features = features.split(node_counts, dim=0)
-            raster = torch.cat([
-                rasterize_features(values, item, sensor_size, self.raster_downsample)
-                for values, item in zip(per_sample_features, graphs, strict=True)
-            ], dim=0)
+            raster = rasterize_batch(
+                features, graph, topology.node_batch, len(samples), sensor_size,
+                self.raster_downsample,
+            )
             state_batch = None
             if self.decoder.recurrent is not None:
                 # Two stride-two, padding-one downsampling convolutions each
@@ -306,29 +390,42 @@ class ASGCNUNet(nn.Module):
                         for state in valid_states
                     ], dim=0)
             predictions, next_state = self.decoder(raster, sensor_size, state_batch)
+        assert graph.in_degree is not None
+        isolated_counts = graph.in_degree.new_zeros(len(samples))
+        isolated_counts.index_add_(0, topology.node_batch, (graph.in_degree == 0).long())
+        max_degrees = graph.in_degree.new_zeros(len(samples))
+        max_degrees.scatter_reduce_(
+            0, topology.node_batch, graph.in_degree, reduce="amax", include_self=True
+        )
         diagnostics = []
-        for index, (sample, item) in enumerate(zip(samples, graphs, strict=True)):
-            nodes = int(item.node_features.shape[0])
-            assert item.in_degree is not None
-            isolated = (item.in_degree == 0).sum()
-            maximum = item.in_degree.max() if nodes else item.in_degree.new_zeros(())
+        # This loop packages views/metadata only; graph/encoder/raster/decoder
+        # tensor work above operates on the entire physical batch.
+        for index, sample in enumerate(samples):
+            nodes = node_counts[index]
+            isolated = isolated_counts[index]
+            maximum = max_degrees[index]
             sampling_ratio = float(sample.get("metadata", {}).get("dataset_sampling_ratio", 1.0))
+            denominators = (
+                [simulation_steps * nodes * layer.out_channels for layer in self.encoder.layers]
+                if inference_mode == "snn" else []
+            )
+            rates = [rate[index] for rate in firing_rates]
             diagnostics.append({
                 "paper_core_version": self.architecture_version,
                 "nodes": nodes,
-                "edges": int(item.edge_index.shape[1]),
+                "edges": topology.edge_counts[index],
                 "isolated_nodes": isolated,
-                "isolate_ratio": isolated.to(item.node_features.dtype) / float(max(1, nodes)),
+                "isolate_ratio": isolated.to(graph.node_features.dtype) / float(max(1, nodes)),
                 "max_degree": maximum,
                 "edge_feature": "normalized_scalar_distance",
                 "event_sampling_factor": self.event_sampling_factor,
                 "dataset_sampling_ratio": sampling_ratio,
                 "effective_sampling_ratio": sampling_ratio * self.event_sampling_factor,
-                "snn_dynamics": None,
-                "decoder_input_lambda_applied": False,
-                "firing_rates": [],
-                "firing_rate_denominators": [],
-                "spike_counts": [],
+                "snn_dynamics": self.snn_dynamics if inference_mode == "snn" else None,
+                "decoder_input_lambda_applied": inference_mode == "snn",
+                "firing_rates": rates,
+                "firing_rate_denominators": denominators,
+                "spike_counts": [rate * count for rate, count in zip(rates, denominators)],
                 "activations": [],
                 "recurrent_state": None if next_state is None else next_state[index : index + 1],
             })
@@ -341,16 +438,42 @@ class ASGCNUNet(nn.Module):
         simulation_steps: int = 16,
         recurrent_states: list[torch.Tensor | None] | None = None,
     ) -> tuple[list[torch.Tensor], list[dict[str, Any]]]:
-        predictions, diagnostics = [], []
-        if recurrent_states is None:
-            recurrent_states = [None] * len(batch)
-        for sample, state in zip(batch, recurrent_states, strict=True):
-            prediction, detail = self.forward_sample(
-                sample, inference_mode, simulation_steps, recurrent_state=state
-            )
-            predictions.append(prediction)
-            diagnostics.append(detail)
-        return predictions, diagnostics
+        if not batch:
+            return [], []
+        prediction, diagnostics = self.forward_batch(
+            batch, recurrent_states, inference_mode=inference_mode,
+            simulation_steps=simulation_steps,
+        )
+        return list(prediction.split(1, dim=0)), diagnostics
+
+    @torch.no_grad()
+    def calibrate_batch(
+        self, samples: list[dict[str, Any]] | PackedSampleBatch
+    ) -> dict[str, Any]:
+        """Exact feature-wise maxima across the packed nodes of all input frames."""
+        packed = pack_samples(samples)
+        require_spline_backend(self.spline_backend, packed.events.device)
+        topology = build_event_graph_batch(
+            packed.events, packed.event_counts, packed.sensor_size,
+            event_sampling_factor=self.event_sampling_factor,
+            graph_radius=self.graph_radius,
+            graph_position_dims=self.graph_position_dims,
+            graph_chunk_size=self.graph_chunk_size,
+            max_graph_edges=self.max_graph_edges,
+        )
+        _, activations = self.encoder.forward_ann(topology.graph, return_activations=True)
+        self.encoder.update_activation_maxima(
+            activations, sample_count=sum(count > 0 for count in topology.node_counts),
+        )
+        self.calibration_attempts.add_(len(samples))
+        # Reuse the measured topology; reporting may reduce these device counts
+        # over the run without rebuilding graphs or synchronizing each sample.
+        return {
+            "nodes": topology.node_counts,
+            "edges": topology.edge_counts,
+            "sensor_size": packed.sensor_size,
+            "event_counts": packed.event_counts,
+        }
 
     @torch.no_grad()
     def calibrate_sample(self, sample: dict[str, Any], momentum: float = -1.0) -> None:

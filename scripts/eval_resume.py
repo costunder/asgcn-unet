@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Validate whether both halves of one evaluation mode are safe to reuse."""
 
 from __future__ import annotations
@@ -6,11 +5,20 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
 import torch
 
+from asgcn_unet.artifact_lock import (
+    ArtifactWriterBusyError,
+    ArtifactWriterOwnershipError,
+    exclusive_artifact_writer,
+)
 from asgcn_unet.data.factory import build_dataset
 from asgcn_unet.engine import (
     _canonical_sha256,
@@ -261,7 +269,18 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--benchmark-warmup", type=int, required=True)
     parser.add_argument("--benchmark-steps", type=int, required=True)
     parser.add_argument("--require-cuda", action="store_true")
+    parser.add_argument("--preserve-incomplete", action="store_true")
     return parser
+
+
+def _requested_graph_guard(config: dict[str, Any], explicit: int | None) -> int | None:
+    """Resolve the same explicit-over-config inference-only guard as evaluation."""
+    requested = explicit
+    if requested is None:
+        requested = config.get("eval", {}).get("max_graph_edges_override")
+    if requested is not None and (type(requested) is not int or requested < 1):
+        raise ArtifactMismatch("max graph edges override must be a positive integer")
+    return requested
 
 
 def inspect_mode(args: argparse.Namespace) -> tuple[int, int]:
@@ -274,6 +293,7 @@ def inspect_mode(args: argparse.Namespace) -> tuple[int, int]:
     config_path = resolve_path(args.config, Path.cwd())
     base_dir = experiment_base_dir(config_path)
     config = resolve_experiment_paths(load_json(config_path), config_path)
+    requested_guard = _requested_graph_guard(config, args.max_graph_edges)
     output_dir = resolve_path(args.output_dir, base_dir)
     config["eval"]["output_dir"] = str(output_dir)
     checkpoint_path = resolve_path(args.checkpoint, base_dir)
@@ -317,8 +337,8 @@ def inspect_mode(args: argparse.Namespace) -> tuple[int, int]:
     except Exception as error:
         raise ArtifactMismatch("checkpoint validation failed") from error
     configured_guard = model.max_graph_edges
-    if args.max_graph_edges is not None and (
-        configured_guard is None or args.max_graph_edges < configured_guard
+    if requested_guard is not None and (
+        configured_guard is None or requested_guard < configured_guard
     ):
         raise ArtifactMismatch(
             "max graph edges must not lower the configured finite guard"
@@ -342,7 +362,7 @@ def inspect_mode(args: argparse.Namespace) -> tuple[int, int]:
         "simulation_steps": args.simulation_steps,
         "dynamics": dynamics,
         "configured_guard": configured_guard,
-        "requested_guard": args.max_graph_edges,
+        "requested_guard": requested_guard,
         "dataset_common": dataset_common,
     }
     if quality_complete:
@@ -357,8 +377,51 @@ def inspect_mode(args: argparse.Namespace) -> tuple[int, int]:
     return int(quality_complete), int(benchmark_complete)
 
 
+def _preserve_incomplete_artifact(path: Path) -> None:
+    if not path.exists() and not path.is_symlink():
+        return
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    backup = path.parent / f"{path.name}.incomplete-{stamp}-{os.getpid()}-{uuid4().hex[:8]}"
+    try:
+        # Reserve a new container exclusively: rename can never replace an old backup.
+        backup.mkdir(mode=0o700)
+        destination = backup / path.name
+        if destination.exists() or destination.is_symlink():
+            raise ArtifactMismatch("recovery backup destination unexpectedly exists")
+        path.rename(destination)
+    except OSError as error:
+        raise ArtifactMismatch(f"could not preserve incomplete artifact: {path.name}") from error
+    print(f"[eval-resume] preserved incomplete artifact: {backup.name}/{path.name}", file=sys.stderr)
+
+
+def prepare_mode(args: argparse.Namespace) -> tuple[int, int]:
+    """Inspect and preserve incomplete output while holding the actual writer lock."""
+    config_path = resolve_path(args.config, Path.cwd())
+    output_dir = resolve_path(args.output_dir, experiment_base_dir(config_path))
+    run_label = (
+        "ann" if args.inference_mode == "ann"
+        else f"snn_{args.snn_dynamics}_T{args.simulation_steps}"
+    )
+    run_dir = output_dir / run_label
+    with exclusive_artifact_writer(run_dir):
+        quality_complete, benchmark_complete = inspect_mode(args)
+        if quality_complete and benchmark_complete:
+            return quality_complete, benchmark_complete
+        if quality_complete:
+            _preserve_incomplete_artifact(run_dir / "benchmark.json")
+        elif benchmark_complete:
+            for name in ("metrics.json", "frames.csv", "predictions"):
+                _preserve_incomplete_artifact(run_dir / name)
+        else:
+            _preserve_incomplete_artifact(run_dir)
+        return quality_complete, benchmark_complete
+
+
 def main() -> int:
-    quality_complete, benchmark_complete = inspect_mode(_parser().parse_args())
+    args = _parser().parse_args()
+    quality_complete, benchmark_complete = (
+        prepare_mode(args) if args.preserve_incomplete else inspect_mode(args)
+    )
     print(f"{quality_complete} {benchmark_complete}")
     return 0
 
@@ -366,5 +429,5 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except ArtifactMismatch as error:
+    except (ArtifactMismatch, ArtifactWriterBusyError, ArtifactWriterOwnershipError) as error:
         raise SystemExit(f"evaluation resume refused: {error}") from None

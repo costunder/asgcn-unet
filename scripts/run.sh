@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Entry scripts must not change an interactive shell through accidental sourcing.
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+  printf '%s\n' "Source ignored: run this entrypoint with bash or its scheduler; the current shell is unchanged." >&2
+else
+_asgcn_entrypoint() (
 set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -12,14 +17,14 @@ Stages:
   check       Check CUDA/dependencies/full data and decode every selected sample
   profile     Scan all train graphs on CUDA; probe dense and first/empty/sparse samples
   train       Train EventHDR ANN, or resume with RESUME_CHECKPOINT
-  calibrate   Convert runs/train/best.pt to runs/train/best_snn.pt
+  calibrate   Convert the selected experiment's best.pt to best_snn.pt
   eval        Run the complete EventHDR/EventAid-R ANN+SNN evaluation matrix
   eval-hdr    Run only the EventHDR ANN+SNN evaluation matrix
   eval-aid    Run only the EventAid-R ANN+SNN evaluation matrix
   all         Run check, profile, train, calibrate and eval in order (default)
 
 Important environment:
-  EXPERIMENT=single|batch|fast           Default: single; fast is B16 + Triton
+  EXPERIMENT=single|batch|fast           Default: fast; measured B16 + Triton
   RESUME_CHECKPOINT=PATH
   MAX_HOURS=N / CHECKPOINT_SECONDS=N     Optional safe pause / checkpoint interval
   TRAIN_CONFIG / HDR_CONFIG / AID_CONFIG
@@ -31,10 +36,11 @@ Important environment:
   CALIBRATION_SAMPLES=all|N              Default: all; partial N cannot be reporting
   SIMULATION_STEPS_LIST='4 8 16 32'
   BENCHMARK_WARMUP=N / BENCHMARK_STEPS=N
-  EVAL_MAX_GRAPH_EDGES=N                 Eval-only guard raise; recorded in outputs
+  EVAL_MAX_GRAPH_EDGES=N                 Explicit eval-only guard; recorded in outputs
+  AID_MAX_GRAPH_EDGES=N                  Optional aid-fast-only explicit guard
   EVAL_RESUME=0|1                        Resume at mode boundaries; default: 0
   PROFILE_SAMPLES=N / PROFILE_TOP_DENSITY=N
-  PROFILE_OUTPUT=PATH                    Default: runs/profile.json
+  PROFILE_OUTPUT=PATH                    Default: runs/fast-profile.json
   PROFILE_RESUME=0|1                     Resume a matching saved scan; default: 0
   PROFILE_REUSE_REPORT=PATH              Reuse topology only; rerun GPU probes
   PROFILE_CPU_THREADS=N                 CPU helpers for CUDA scan; default: 4
@@ -52,7 +58,7 @@ EOF
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   usage
-  exit 0
+  return 0
 fi
 
 STAGE="${1:-all}"
@@ -61,16 +67,16 @@ case "${STAGE}" in
   *)
     echo "ERROR: unknown stage '${STAGE}'" >&2
     usage >&2
-    exit 2
+    return 2
     ;;
 esac
 if [[ "$#" -gt 1 ]]; then
   echo "ERROR: run.sh accepts at most one stage argument" >&2
   usage >&2
-  exit 2
+  return 2
 fi
 
-EXPERIMENT="${EXPERIMENT:-single}"
+EXPERIMENT="${EXPERIMENT:-fast}"
 DEFAULT_HDR_CONFIG=configs/hdr.json
 DEFAULT_AID_CONFIG=configs/aid.json
 case "${EXPERIMENT}" in
@@ -97,7 +103,7 @@ case "${EXPERIMENT}" in
     DEFAULT_HDR_CONFIG=configs/hdr-fast.json
     DEFAULT_AID_CONFIG=configs/aid-fast.json
     ;;
-  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; exit 2 ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; return 2 ;;
 esac
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
 CONSTRAINTS_FILE="${CONSTRAINTS_FILE:-constraints/py312.txt}"
@@ -142,7 +148,7 @@ for flag_name in \
   flag_value="${!flag_name}"
   if [[ "${flag_value}" != "0" && "${flag_value}" != "1" ]]; then
     echo "ERROR: ${flag_name} must be 0 or 1" >&2
-    exit 2
+    return 2
   fi
 done
 
@@ -160,11 +166,11 @@ if [[ "${DRY_RUN}" != "1" \
   echo "ERROR: profile/all is a CUDA reporting gate and requires REQUIRE_CUDA=1." >&2
   echo "For a deliberate non-reporting train only, select train and set" >&2
   echo "ALLOW_UNVERIFIED_PREFLIGHT=1." >&2
-  exit 2
+  return 2
 fi
 if [[ "${STAGE}" == "all" && "${ALLOW_UNVERIFIED_PREFLIGHT}" == "1" ]]; then
   echo "ERROR: all is a reporting pipeline and cannot bypass its preflight gate." >&2
-  exit 2
+  return 2
 fi
 
 # shellcheck source=scripts/runtime.sh
@@ -177,39 +183,39 @@ for required_path in \
   "${AID_CONFIG}"; do
   if [[ ! -f "${required_path}" ]]; then
     echo "ERROR: required run file not found: $(path_log_label "${required_path}")" >&2
-    exit 1
+    return 1
   fi
 done
 if [[ -n "${RESUME_CHECKPOINT}" && "${DRY_RUN}" != "1" \
   && ! -f "${RESUME_CHECKPOINT}" ]]; then
   echo "ERROR: resume checkpoint not found: $(path_log_label "${RESUME_CHECKPOINT}")" >&2
-  exit 1
+  return 1
 fi
 
 read -r -a SIMULATION_STEPS <<< "${SIMULATION_STEPS_LIST}"
 if [[ "${#SIMULATION_STEPS[@]}" -eq 0 ]]; then
   echo "ERROR: SIMULATION_STEPS_LIST must contain at least one positive integer" >&2
-  exit 2
+  return 2
 fi
 for step in "${SIMULATION_STEPS[@]}"; do
   if [[ ! "${step}" =~ ^[1-9][0-9]*$ ]]; then
     echo "ERROR: invalid simulation step '${step}' in SIMULATION_STEPS_LIST" >&2
-    exit 2
+    return 2
   fi
 done
 for profile_value in "${PROFILE_SAMPLES}" "${PROFILE_TOP_DENSITY}"; do
   if [[ ! "${profile_value}" =~ ^[1-9][0-9]*$ ]]; then
     echo "ERROR: profile sample counts must be positive integers" >&2
-    exit 2
+    return 2
   fi
 done
 if [[ ! "${PROFILE_CPU_THREADS}" =~ ^[1-9][0-9]*$ ]]; then
   echo "ERROR: PROFILE_CPU_THREADS must be a positive integer" >&2
-  exit 2
+  return 2
 fi
 if ((PROFILE_TOP_DENSITY < PROFILE_SAMPLES)); then
   echo "ERROR: PROFILE_TOP_DENSITY must be >= PROFILE_SAMPLES" >&2
-  exit 2
+  return 2
 fi
 
 run_cmd() {
@@ -265,7 +271,7 @@ record_stage_failure() {
       write_stage_status "${ACTIVE_STAGE}" FAILED "${exit_code}"
     fi
   fi
-  exit "${exit_code}"
+  return "${exit_code}"
 }
 trap record_stage_failure ERR
 
@@ -284,7 +290,7 @@ require_file() {
   local label="$2"
   if [[ "${DRY_RUN}" != "1" && ! -f "${path}" ]]; then
     echo "ERROR: ${label} not found: $(path_log_label "${path}")" >&2
-    exit 1
+    return 1
   fi
 }
 
@@ -368,26 +374,14 @@ run_calibrate() {
   require_file "${SNN_CHECKPOINT}" "SNN checkpoint"
 }
 
-preserve_incomplete_eval_path() {
-  local path="$1"
-  if [[ ! -e "${path}" && ! -L "${path}" ]]; then
-    return
-  fi
-  local backup="${path}.incomplete-$(date -u +%Y%m%dT%H%M%SZ)-$$"
-  if [[ -e "${backup}" || -L "${backup}" ]]; then
-    echo "ERROR: evaluation recovery backup already exists: $(path_log_label "${backup}")" >&2
-    exit 1
-  fi
-  mv -- "${path}" "${backup}"
-  echo "[eval-resume] preserved incomplete artifact: $(path_log_label "${backup}")"
-}
-
 run_one_evaluation() (
   local config_path="$1"
   local checkpoint_path="$2"
   local mode="$3"
   local simulation_steps="$4"
   local dynamics="$5"
+  local graph_edge_guard
+  graph_edge_guard="$(evaluation_graph_edge_guard "${config_path}")"
   local config_name="${config_path##*/}"
   local dataset_name="${config_name%.json}"
   if [[ "${EXPERIMENT}" == "fast" ]]; then
@@ -402,23 +396,19 @@ run_one_evaluation() (
   if [[ "${EVAL_RESUME}" == "1" ]]; then
     if [[ -z "${output_dir}" ]]; then
       echo "ERROR: EVAL_RESUME=1 requires an explicit EVAL_OUTPUT_ROOT." >&2
-      exit 2
+      return 2
     fi
     local run_label="ann"
     if [[ "${mode}" == "snn" ]]; then
       run_label="snn_${dynamics}_T${simulation_steps}"
     fi
     local run_dir="${output_dir}/${run_label}"
-    local metrics_path="${run_dir}/metrics.json"
-    local frames_path="${run_dir}/frames.csv"
-    local predictions_path="${run_dir}/predictions"
-    local benchmark_path="${run_dir}/benchmark.json"
     local quality_complete=0
     local benchmark_complete=0
     if [[ "${DRY_RUN}" != "1" ]]; then
       if ! command -v flock >/dev/null 2>&1; then
         echo "ERROR: EVAL_RESUME=1 requires the flock command." >&2
-        exit 1
+        return 1
       fi
       mkdir -p -- "${output_dir}"
       local resume_lock="${run_dir}.resume.lock"
@@ -426,7 +416,7 @@ run_one_evaluation() (
       exec {resume_lock_fd}>"${resume_lock}"
       if ! flock --nonblock "${resume_lock_fd}"; then
         echo "ERROR: another recovery process owns $(path_log_label "${resume_lock}")" >&2
-        exit 1
+        return 1
       fi
       local resume_args=(
         --config "${config_path}"
@@ -436,12 +426,13 @@ run_one_evaluation() (
         --simulation-steps "${simulation_steps}"
         --benchmark-warmup "${BENCHMARK_WARMUP}"
         --benchmark-steps "${BENCHMARK_STEPS}"
+        --preserve-incomplete
       )
       if [[ -n "${dynamics}" ]]; then
         resume_args+=(--snn-dynamics "${dynamics}")
       fi
-      if [[ -n "${EVAL_MAX_GRAPH_EDGES}" ]]; then
-        resume_args+=(--max-graph-edges "${EVAL_MAX_GRAPH_EDGES}")
+      if [[ -n "${graph_edge_guard}" ]]; then
+        resume_args+=(--max-graph-edges "${graph_edge_guard}")
       fi
       if [[ "${REQUIRE_CUDA}" == "1" ]]; then
         resume_args+=(--require-cuda)
@@ -450,14 +441,14 @@ run_one_evaluation() (
       if ! resume_state="$(
         "${PYTHON_BIN}" "${PROJECT_ROOT}/scripts/eval_resume.py" "${resume_args[@]}"
       )"; then
-        echo "ERROR: existing evaluation artifacts do not match this recovery request." >&2
-        echo "Choose a new EVAL_OUTPUT_ROOT; no existing artifact was moved." >&2
-        exit 1
+        echo "ERROR: evaluation recovery validation or preservation failed." >&2
+        echo "No result was overwritten. Inspect the diagnostic and recovery backups before retrying." >&2
+        return 1
       fi
       read -r quality_complete benchmark_complete <<< "${resume_state}"
       if [[ ! "${quality_complete}" =~ ^[01]$ || ! "${benchmark_complete}" =~ ^[01]$ ]]; then
         echo "ERROR: invalid evaluation recovery state" >&2
-        exit 1
+        return 1
       fi
     fi
 
@@ -466,17 +457,11 @@ run_one_evaluation() (
       return
     elif [[ "${quality_complete}" == "1" ]]; then
       run_evaluation=0
-      preserve_incomplete_eval_path "${benchmark_path}"
       echo "[eval-resume] ${dataset_name}/${run_label}: quality complete; running benchmark only"
     elif [[ "${benchmark_complete}" == "1" ]]; then
       run_benchmark=0
-      preserve_incomplete_eval_path "${metrics_path}"
-      preserve_incomplete_eval_path "${frames_path}"
-      preserve_incomplete_eval_path "${predictions_path}"
       echo "[eval-resume] ${dataset_name}/${run_label}: benchmark complete; restarting quality only"
-    elif [[ "${DRY_RUN}" != "1" \
-      && ( -e "${run_dir}" || -L "${run_dir}" ) ]]; then
-      preserve_incomplete_eval_path "${run_dir}"
+    elif [[ "${DRY_RUN}" != "1" ]]; then
       echo "[eval-resume] ${dataset_name}/${run_label}: restarting incomplete mode"
     fi
   fi
@@ -487,7 +472,7 @@ run_one_evaluation() (
     RUN_BENCHMARK="${run_benchmark}" \
     BENCHMARK_WARMUP="${BENCHMARK_WARMUP}" \
     BENCHMARK_STEPS="${BENCHMARK_STEPS}" \
-    EVAL_MAX_GRAPH_EDGES="${EVAL_MAX_GRAPH_EDGES}" \
+    EVAL_MAX_GRAPH_EDGES="${graph_edge_guard}" \
     INFERENCE_MODE="${mode}" \
     SIMULATION_STEPS="${simulation_steps}" \
     SNN_DYNAMICS="${dynamics}" \
@@ -560,3 +545,6 @@ echo "Stage '${STAGE}' completed."
 echo "Training preflight: $(path_log_label "${PROFILE_OUTPUT}")"
 echo "ANN checkpoint: $(path_log_label "${ANN_CHECKPOINT}")"
 echo "SNN checkpoint: $(path_log_label "${SNN_CHECKPOINT}")"
+)
+_asgcn_entrypoint "$@"
+fi

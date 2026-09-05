@@ -66,8 +66,9 @@ jobs:
 
       - name: Validate Linux shell entrypoints
         run: |
+          set -euo pipefail
           for script in scripts/*.sh server/*.sbatch server/*.pbs; do
-            bash -n "$script" || exit 1
+            bash -n "$script"
           done
 
   test:

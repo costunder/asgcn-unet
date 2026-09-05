@@ -8,7 +8,7 @@ from typing import Any
 import torch
 from torch.nn import functional as F
 
-from .batching import sequence_key
+from .batching import PackedSampleBatch, sequence_key
 
 
 def batching_contract(batch_size: int) -> dict[str, Any] | None:
@@ -127,7 +127,10 @@ def forward_training_loss(
                 )
             diagnostics = [detail]
         with timing.scope("loss") if timing is not None else nullcontext():
-            target = torch.stack([sample["target"] for sample in samples])
+            target = (
+                samples.targets if isinstance(samples, PackedSampleBatch)
+                else torch.stack([sample["target"] for sample in samples])
+            )
             loss, parts = criterion(prediction, target)
             valid = [i for i, context in enumerate(contexts) if context[1] is not None]
             if temporal_weight > 0 and valid:

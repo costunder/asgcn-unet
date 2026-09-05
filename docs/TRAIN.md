@@ -1,10 +1,12 @@
 # 단일 프레임 기준선과 독립 시퀀스 배치 학습
 
-`configs/train.json`은 기존 batch 1 기준선(training protocol v5)이다.
-`configs/batch.json`은 batch 상한 4의 별도 실험(training protocol v6)이며,
+`configs/train.json`은 `EXPERIMENT=single`로 선택하는 기존 batch 1 기준선이다.
+`configs/batch.json`은 `EXPERIMENT=batch`로 선택하는 batch 상한 4의 별도 실험이며,
 ASGCN 모델의 `architecture_version=2`를 바꾸는 설정은 아니다.
 `configs/fast.json`은 실제 비교에서 선택된 batch 상한 16 + `spline_backend=triton`의 별도
-training protocol이며 출력은 `runs/fast`다. 세 설정 사이 checkpoint는 공유하지 않는다.
+training protocol이며 출력은 `runs/fast`다. **실행 기본값은 `EXPERIMENT=fast`** 이다.
+세 설정 사이 학습 checkpoint를 이어 붙이지 않는다. 이미 완료한 ANN/SNN checkpoint의 평가 경로를
+개선하기 위해 재학습을 다시 실행할 필요는 없다. 기존 9조건 결과는 비교 기준으로 보존한다.
 
 ## 서버 비교 결과와 선택 근거
 
@@ -19,13 +21,13 @@ B4/B8/B16 × Torch/Torch-fused/Triton × 2회인 18개 처리량 trial이 모두
 
 두 반복 평균의 비는 약 **4.03배**다. B16+Triton은 B8+Triton 평균보다 약 3.5% 빨랐다.
 이는 동기식 benchmark의 해당 512-frame window 결과이며 production DataLoader를 포함한 전체 epoch 시간,
-모든 밀도 입력의 OOM 안전성 또는 40-epoch 수렴/품질을 뜻하지 않는다. 그래서 `fast.json`은 기존
-기본값을 덮어쓰지 않고 별도 run으로 두며, 학습 전 현재 source/config/data/runtime의 새 CUDA preflight를
+모든 밀도 입력의 OOM 안전성 또는 40-epoch 수렴/품질을 뜻하지 않는다. `fast.json`을 실행 기본값으로
+선택하되 기존 B1/B4 config와 결과는 보존하며, 새 학습 전 현재 source/config/data/runtime의 CUDA preflight를
 요구한다.
 
 ## 계산과 순서
 
-각 프레임의 이벤트로 기존과 같은 그래프를 만든 뒤, 노드 인덱스만 이동해 분리된 그래프들을 합친다.
+입력 batch를 pack하고 프레임 식별자를 유지한 채 기존과 같은 서로 분리된 그래프를 구성한다.
 프레임 사이의 edge는 만들지 않는다. 합친 그래프에 encoder ANN을 **한 번**, 각 프레임의 raster를
 쌓은 텐서에 recurrent U-Net decoder를 **한 번** 호출한다. `forward_sample`을 B번 부르는
 방식이나 gradient accumulation은 아니다. 기존 batch 1 경로는 유지한다.
@@ -63,14 +65,20 @@ Context가 없는 프레임의 temporal 항을 0으로 놓은 전체 프레임 �
 동일한 프레임 노출 횟수가 동일한 optimizer update 횟수나 동일한 수렴 결과를 뜻하지 않는다.
 기준선 checkpoint를 batch 실험에 `--resume`으로 연결하지 않는다. Batch 실험은 새로 학습하며,
 그 이후의 재개만 일치하는 batch protocol/checkpoint 계약을 따른다.
-검증·calibration·평가는 기존의 시간 순서 batch 1 경로를 사용한다.
+검증·평가는 독립 sequence를 함께 처리하면서 각 sequence의 시간 순서와 recurrent state를 유지한다.
+calibration도 전체 데이터의 활성값 수집을 batch로 처리한다. `eval.batch_size`와
+`calibration.batch_size`의 기본 `"auto"`는 현재 할당에서 `[1,2,4,8,16]` 후보와 worker `[0,2,4]`를
+실제로 측정한다. warmup 1, 측정 최소 3 step, VRAM 예산 비율 0.8을 사용하며 EventAid는 알려진
+최대 밀도 sample 37791도 probe에 포함한다. 후보 probe는 최종 metric이나 데이터 subset이 아니다.
+선택 근거와 실제 physical batch/worker/peak memory/처리량을 기록하며, 최종 데이터 범위와
+T4/8/16/32 행렬을 임의로 줄이지 않는다. 자세한 계약은 [EXECUTION_CONTRACT.md](EXECUTION_CONTRACT.md)를 따른다.
 
 ## 실제 학습 시간 기록
 
 Batch 설정은 실제 학습의 첫 10개 성공 step을 warmup으로 두고, 다음 50개 step에 `StageTimer`를 켠다.
 여기서 step은 배치 하나에 대한 성공한 optimizer update이며 frame 수와 구분한다.
 별도 모델을 돌리거나 측정을 위해 추가 optimizer update를 실행하지 않는다. 수집 창이 끝나면
-`runs/batch/timing.json`을 저장한다. 기록 대상은 data loading, transfer, graph, encoder, decoder,
+기본 `runs/fast/timing.json`을 저장한다(B4는 `runs/batch/timing.json`). 기록 대상은 data loading, transfer, graph, encoder, decoder,
 loss, backward, gradient 검사, optimizer 등의 단계다. AMP 재시도가 있으면 해당 step의 재시도 작업도 포함한다.
 
 `host_wall`은 Python 실행·연산 제출·대기 시간을 포함한 host 경과시간이다. `cuda_elapsed`는
@@ -80,7 +88,7 @@ loss, backward, gradient 검사, optimizer 등의 단계다. AMP 재시도가 �
 측정 자체의 overhead와 첫 50개 step의 대표성 한계도 고려해야 한다.
 `window_complete`, `measured_steps`, `dropped_scopes`를 확인해 미완료·기록 누락을 구분한다.
 
-`runs/batch/history.json`에는 epoch의 `training_seconds`, `frames`, `optimizer_steps`,
+기본 `runs/fast/history.json`에는 epoch의 `training_seconds`, `frames`, `optimizer_steps`,
 `frames_per_second`, `batch_size_limit`, AMP 재시도와 GPU peak allocated/reserved 메모리가 기록된다.
 `performance` 시간은 epoch 종료 CUDA 동기화까지 포함하고 validation 시간은 제외한다.
 반면 현재 `gpu_memory` peak는 epoch 학습 시작부터 해당 epoch의 선택적 validation까지 포함한다.
@@ -172,7 +180,7 @@ device/stream별 작은 불변 hash 상수를 재사용한다. 이벤트별 grap
 `model.spline_backend`에는 기준 `torch` 외에 두 basis 항을 묶는 `torch_fused`와
 GPU 커널로 gather·weight·scatter를 융합하는 명시적 `triton` 후보가 있다.
 두 후보는 부동소수점 누적 순서를 바꿀 수 있으므로 bitwise 동일한 학습을 주장하지 않는다.
-기본 config, 모델 크기, event 제한, 전체 epoch/frame 수와 AMP 안전 검사는 변경하지 않았다.
-서버 비교를 통과한 B16+Triton은 별도 `fast.json`으로만 채택했으며 기존 checkpoint의 source 검사를
+기존 기준선 config, 모델 크기, event 제한, 전체 epoch/frame 수와 AMP 안전 검사는 보존한다.
+서버 비교를 통과한 B16+Triton의 `fast.json`을 실행 기본으로 선택했으며 기존 checkpoint의 source 검사를
 우회하지 않는다.
 비교 명령과 후보별 제약은 [PERF.md](PERF.md#동일-실데이터-gpu-비교)에 정리한다.

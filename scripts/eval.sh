@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
+# Entry scripts must not change an interactive shell through accidental sourcing.
+if [[ "${BASH_SOURCE[0]}" != "$0" ]]; then
+  printf '%s\n' "Source ignored: run this entrypoint with bash or its scheduler; the current shell is unchanged." >&2
+else
+_asgcn_entrypoint() (
 set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
-CONFIG_PATH="${1:-${CONFIG_PATH:-configs/hdr.json}}"
-CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-runs/train/best.pt}}"
+EXPERIMENT="${EXPERIMENT:-fast}"
+case "${EXPERIMENT}" in
+  single) DEFAULT_CONFIG_PATH=configs/hdr.json; DEFAULT_RUN_DIR=runs/train ;;
+  batch) DEFAULT_CONFIG_PATH=configs/hdr.json; DEFAULT_RUN_DIR=runs/batch ;;
+  fast) DEFAULT_CONFIG_PATH=configs/hdr-fast.json; DEFAULT_RUN_DIR=runs/fast ;;
+  *) echo "ERROR: EXPERIMENT must be single, batch or fast" >&2; return 2 ;;
+esac
+CONFIG_PATH="${1:-${CONFIG_PATH:-${DEFAULT_CONFIG_PATH}}}"
+CHECKPOINT_PATH="${2:-${CHECKPOINT_PATH:-${DEFAULT_RUN_DIR}/best.pt}}"
 INFERENCE_MODE="${INFERENCE_MODE:-ann}"
 SIMULATION_STEPS="${SIMULATION_STEPS:-16}"
 SNN_DYNAMICS="${SNN_DYNAMICS:-}"
@@ -32,72 +44,62 @@ cd "${PROJECT_ROOT}"
 if [[ "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "0" \
   && "${INCLUDE_PRIVATE_HOST_PROVENANCE}" != "1" ]]; then
   echo "ERROR: INCLUDE_PRIVATE_HOST_PROVENANCE must be 0 or 1" >&2
-  exit 2
+  return 2
 fi
 # shellcheck source=scripts/runtime.sh
 source "${PROJECT_ROOT}/scripts/runtime.sh"
 select_conda_python
+EVAL_MAX_GRAPH_EDGES="$(evaluation_graph_edge_guard "${CONFIG_PATH}")"
 
 if [[ ! -f "${CONFIG_PATH}" ]]; then
   echo "ERROR: evaluation config not found: $(path_log_label "${CONFIG_PATH}")" >&2
-  exit 1
+  return 1
 fi
 if [[ "${DRY_RUN}" != "1" && ! -f "${CHECKPOINT_PATH}" ]]; then
   echo "ERROR: checkpoint not found: $(path_log_label "${CHECKPOINT_PATH}")" >&2
-  exit 1
+  return 1
 fi
 if [[ "${VALIDATE_DATASET}" != "0" && "${VALIDATE_DATASET}" != "1" ]]; then
   echo "ERROR: VALIDATE_DATASET must be 0 or 1" >&2
-  exit 2
+  return 2
 fi
 if [[ "${RUN_EVALUATION}" != "0" && "${RUN_EVALUATION}" != "1" ]]; then
   echo "ERROR: RUN_EVALUATION must be 0 or 1" >&2
-  exit 2
+  return 2
 fi
 if [[ "${RUN_BENCHMARK}" != "0" && "${RUN_BENCHMARK}" != "1" ]]; then
   echo "ERROR: RUN_BENCHMARK must be 0 or 1" >&2
-  exit 2
+  return 2
 fi
 if [[ "${RUN_EVALUATION}" == "0" && "${RUN_BENCHMARK}" == "0" ]]; then
   echo "ERROR: RUN_EVALUATION and RUN_BENCHMARK cannot both be 0" >&2
-  exit 2
+  return 2
 fi
 if [[ "${INSPECT_VALIDATE_ALL}" != "0" && "${INSPECT_VALIDATE_ALL}" != "1" ]]; then
   echo "ERROR: INSPECT_VALIDATE_ALL must be 0 or 1" >&2
-  exit 2
+  return 2
 fi
 if [[ "${INFERENCE_MODE}" != "ann" && "${INFERENCE_MODE}" != "snn" ]]; then
   echo "ERROR: INFERENCE_MODE must be ann or snn" >&2
-  exit 2
+  return 2
 fi
 if [[ -n "${EVAL_MAX_GRAPH_EDGES}" && ! "${EVAL_MAX_GRAPH_EDGES}" =~ ^[1-9][0-9]*$ ]]; then
   echo "ERROR: EVAL_MAX_GRAPH_EDGES must be a positive integer" >&2
-  exit 2
+  return 2
 fi
 if [[ -n "${SNN_DYNAMICS}" ]]; then
   if [[ "${INFERENCE_MODE}" != "snn" ]]; then
     echo "ERROR: SNN_DYNAMICS is only valid when INFERENCE_MODE=snn" >&2
-    exit 2
+    return 2
   fi
   if [[ "${SNN_DYNAMICS}" != "literal_eq15" && "${SNN_DYNAMICS}" != "standard_if" ]]; then
     echo "ERROR: SNN_DYNAMICS must be literal_eq15 or standard_if" >&2
-    exit 2
+    return 2
   fi
 fi
 
 check_runtime_profile
-runtime_command "${PYTHON_BIN}" - "${REQUIRE_CUDA}" <<'PY'
-import sys
-import torch
-
-required = sys.argv[1] == "1"
-available = torch.cuda.is_available()
-print(f"PyTorch {torch.__version__}; CUDA runtime={torch.version.cuda}; available={available}")
-if available:
-    print(f"GPU: {torch.cuda.get_device_name(0)}")
-elif required:
-    raise SystemExit("CUDA GPU is required. Set REQUIRE_CUDA=0 only for a deliberate CPU run.")
-PY
+# The shared preflight reports the runtime only after allocation verification.
 
 export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-${SLURM_CPUS_PER_TASK:-4}}"
@@ -152,4 +154,7 @@ if [[ "${RUN_BENCHMARK}" == "1" ]]; then
     "${OUTPUT_ARGS[@]}" \
     "${DYNAMICS_ARGS[@]}" \
     "${GRAPH_EDGE_ARGS[@]}"
+fi
+)
+_asgcn_entrypoint "$@"
 fi

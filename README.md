@@ -262,6 +262,20 @@ benchmark는 이 quality 계약과 별도로 sampling provenance를 기록한다
 DRY_RUN=1 bash scripts/run.sh all
 ```
 
+## 평가 이미지·시공간 그래프 보기
+
+완료된 평가 PNG를 다시 추론하지 않고 비교하려면 다음 읽기 전용 뷰어를 사용한다.
+
+```bash
+python scripts/view_results.py --eval-root runs/fast/eval-2960f09 --cpu-threads 4 --port 8765
+```
+
+정답/ANN/SNN 비교, 저장된 프레임별 지표, 8-bit 영상 차이, CPU 시공간 그래프와
+선택 노드의 전체 이웃을 볼 수 있다. 현재 `save_predictions=20`은 첫 20프레임의
+PNG만 저장하며 전체 평가 범위와는 다르다. 기존 결과·원본 데이터는 변경하지 않는다.
+서버 접속은 loopback 전용이므로 로컬 SSH 터널이 필요하다.
+[접속 방법·표시 범위·정확성 주의사항](docs/VIEWER.md)을 확인한다.
+
 ## 중단 후 재개와 결과 보호
 
 ### 사전검사가 중단된 경우

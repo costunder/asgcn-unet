@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="referrer" content="no-referrer">
+  <title>ASGCN-UNet · 결과 뷰어</title>
+  <link rel="stylesheet" href="viewer.css">
+  <script src="viewer.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#comparison">이미지 비교로 이동</a>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">A</span><div><h1>ASGCN-UNet</h1><p>평가 결과 · 이벤트 그래프</p></div></div>
+    <span class="readonly"><span aria-hidden="true">●</span> 로컬 · 읽기 전용</span>
+  </header>
+  <main>
+    <section id="error-panel" class="notice error" role="alert" hidden>
+      <div><strong>요청을 완료하지 못했습니다</strong><p id="error-message"></p></div>
+      <button id="dismiss-error" class="quiet" type="button">닫기</button>
+    </section>
+    <section id="warning-panel" class="notice warning" aria-label="결과 확인 사항" hidden><ul id="warnings"></ul></section>
+    <section class="selection-panel" aria-label="데이터와 프레임 선택">
+      <div class="field dataset-field"><label for="dataset-select">데이터셋</label><select id="dataset-select" disabled><option>불러오는 중…</option></select></div>
+      <div class="field frame-field"><label for="frame-select">저장된 프레임</label><select id="frame-select" disabled><option>프레임을 선택하세요</option></select></div>
+      <div class="frame-buttons"><button id="previous-frame" type="button" disabled aria-label="이전 저장 프레임">← 이전</button><button id="next-frame" type="button" disabled aria-label="다음 저장 프레임">다음 →</button></div>
+      <button id="reload-catalog" class="quiet" type="button">목록 새로고침</button>
+      <p id="coverage" class="coverage">저장된 PNG와 전체 평가 범위를 확인하고 있습니다.</p>
+    </section>
+    <p id="loading-status" class="status" role="status" aria-live="polite">결과 목록을 불러오는 중…</p>
+    <section id="empty-state" class="empty-state" hidden>
+      <h2>표시할 저장 이미지가 없습니다</h2>
+      <p>평가가 수행됐더라도 PNG를 저장하지 않은 프레임은 여기에 나타나지 않습니다. 원본 평가 결과는 변경하지 않습니다.</p>
+    </section>
+    <section id="comparison" class="panel" aria-labelledby="comparison-title" hidden>
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / SAVED RESULTS</p><h2 id="comparison-title">정답과 예측</h2><p id="sample-label" class="subtle"></p></div>
+        <div class="mode-controls">
+          <div class="field"><label for="mode-select">예측 모드</label><select id="mode-select"></select></div>
+          <div class="field"><label for="second-mode-select">추가 비교</label><select id="second-mode-select"><option value="">선택 안 함</option></select></div>
+        </div>
+      </div>
+      <p id="evaluation-domain" class="domain-note">평가용 정답: 그레이스케일 · 로그 톤매핑</p>
+      <div class="image-grid" id="image-grid">
+        <figure class="image-card"><figcaption><span class="image-label">GT</span><strong>평가용 정답</strong></figcaption><div class="image-stage"><img id="gt-image" alt="선택한 프레임의 평가용 정답" decoding="async"></div><p class="image-caption">평가에 사용된 정규화·그레이스케일·톤매핑 이미지</p></figure>
+        <figure class="image-card"><figcaption><span class="image-label accent">PRED</span><strong id="prediction-label">예측</strong><span id="eligibility" class="badge"></span></figcaption><div class="image-stage"><img id="prediction-image" alt="선택한 모드의 저장된 예측" decoding="async"></div><dl id="prediction-metrics" class="metrics"></dl></figure>
+        <figure id="second-card" class="image-card" hidden><figcaption><span class="image-label accent">PRED</span><strong id="second-label"></strong><span id="second-eligibility" class="badge"></span></figcaption><div class="image-stage"><img id="second-image" alt="추가 모드의 저장된 예측" decoding="async"></div><dl id="second-metrics" class="metrics"></dl></figure>
+      </div>
+      <p class="source-note">PSNR·SSIM·RMSE는 저장된 프레임 CSV의 값입니다. 전체 데이터셋 평균이 아니며, 브라우저에서 다시 계산하지 않습니다.</p>
+      <p id="frame-note" class="source-note"></p>
+      <details id="difference-details" class="difference-section">
+        <summary>저장 PNG의 차이 영상 보기 <span>8-bit 시각 진단</span></summary>
+        <div class="difference-controls"><label for="difference-gain">밝기 배율 <output id="difference-gain-label" for="difference-gain">4×</output></label><input id="difference-gain" type="range" min="1" max="16" step="1" value="4"></div>
+        <p class="source-note">|예측 PNG − 정답 PNG| × 배율. 저장된 8-bit 픽셀의 절댓값 차이만 표시하며, 실제 평가 metric을 재계산하지 않습니다. 밝기 배율에 따라 표시가 포화될 수 있습니다.</p>
+        <p id="difference-status" class="status" role="status"></p>
+        <div class="difference-stage"><canvas id="difference-canvas" aria-label="저장된 예측과 정답 PNG의 절댓값 차이"></canvas></div>
+      </details>
+    </section>
+    <section id="graph-panel" class="panel" aria-labelledby="graph-title" hidden>
+      <div class="section-heading">
+        <div><p class="eyebrow">02 / EVENT GRAPH</p><h2 id="graph-title">입력 이벤트와 연결</h2></div>
+        <button id="load-graph" class="primary" type="button">그래프 불러오기</button>
+      </div>
+      <p id="graph-status" class="status" role="status">버튼을 누르면 이 프레임의 원본 데이터를 CPU로 읽습니다. 모델 추론이나 GPU 작업은 시작하지 않습니다.</p>
+      <div id="graph-content" hidden>
+        <dl id="graph-statistics" class="graph-statistics"></dl>
+        <p id="graph-rule" class="source-note"></p>
+        <div class="graph-toolbar">
+          <div class="view-buttons" role="group" aria-label="그래프 투영 방향"><button type="button" data-view="3d" aria-pressed="true">3D</button><button type="button" data-view="xy" aria-pressed="false">XY</button><button type="button" data-view="xt" aria-pressed="false">XT</button></div>
+          <label class="check"><input id="show-edges" type="checkbox" checked> 표시용 엣지</label>
+          <button id="reset-view" class="quiet" type="button">시점 초기화</button>
+          <div class="legend" aria-label="극성 범례"><span><i class="positive"></i>+ 극성</span><span><i class="negative"></i>− 극성</span><span><i class="neighbor"></i>정확한 이웃</span></div>
+        </div>
+        <div class="graph-canvas-wrap"><canvas id="graph-canvas" tabindex="0" aria-label="모든 입력 이벤트 노드를 표시하는 그래프. 드래그로 회전, 휠로 확대, 클릭으로 노드 선택." aria-describedby="graph-help"></canvas><span id="graph-view-label" class="graph-view-label">x · y · t / 3D</span></div>
+        <p id="graph-help" class="source-note">3D 드래그: 회전 · XY/XT 드래그: 이동 · 휠: 확대 · 노드 클릭: 전체 이웃 조회. 키보드 방향키와 + / −, 0으로도 시점을 조절할 수 있습니다.</p>
+        <div class="node-inspector"><form id="node-form"><label for="node-index">노드 번호</label><input id="node-index" type="number" min="0" step="1" inputmode="numeric" placeholder="0"><button type="submit">전체 이웃 확인</button></form><p id="neighbor-status" role="status">노드를 선택하면 표시용 엣지 부분집합과 별도로, 해당 노드의 정확한 전체 이웃을 강조합니다.</p></div>
+        <dl id="graph-metadata" class="metadata"></dl>
+        <p id="graph-provenance" class="source-note"></p>
+        <figure id="raw-target-card" class="raw-target-card" hidden><figcaption><strong>정답 원본의 정규화·그레이스케일 미리보기 (톤매핑 전)</strong><p class="source-note">원본 RGB 그대로 또는 원본 HDR 수치 파일을 표시하는 것이 아닙니다.</p></figcaption><div class="image-stage"><img id="raw-target-image" alt="정답 원본의 정규화·그레이스케일 미리보기, 톤매핑 전" decoding="async"></div></figure>
+      </div>
+    </section>
+  </main>
+  <footer>저장된 결과를 읽어 표시합니다. 평가 파일·체크포인트·모델 설정은 변경하지 않습니다.</footer>
+  <noscript><p class="notice error">이 로컬 뷰어는 JavaScript가 필요합니다. 외부 스크립트는 사용하지 않습니다.</p></noscript>
+</body>
+</html>

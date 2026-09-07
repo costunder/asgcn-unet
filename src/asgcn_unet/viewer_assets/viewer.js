@@ -343,6 +343,9 @@
     if (graph.statistics.nodes !== graph.nodes.length || graph.statistics.displayed_edges !== graph.edges.length) {
       throw new Error("그래프의 표시 데이터와 노드·엣지 개수 보고가 일치하지 않습니다.");
     }
+    if (graph.topology_kind === "no_graph" && (graph.edges.length !== 0 || graph.statistics.actual_directed_edges !== 0)) {
+      throw new Error("no_graph 설계에 엣지가 기록되어 있습니다.");
+    }
   }
   async function loadGraph() {
     if (!state.frame || state.frame.graph_available !== true) return;
@@ -369,7 +372,9 @@
         ["고립 노드", number(stats.isolated_nodes)],
         ["최대 degree", number(stats.max_degree)]
       ]);
-      byId("graph-rule").textContent = "연결 규칙: 정규화 " +
+      byId("graph-rule").textContent = graph.topology_kind === "no_graph"
+        ? "그래프 없음(no_graph): " + text(graph.encoder_kind) + " 비교군은 실제 정규화 이벤트 노드를 사용하지만 이웃 연결은 생성하지 않습니다. 0개 엣지는 오류 fallback이 아닙니다."
+        : "연결 규칙: 정규화 " +
         (graph.position_dims === 2 ? "(x, y)" : "(x, y, t)") + " 거리 < " + number(graph.radius, 6) +
         " · self-edge 제외 · 양방향 연결. 방향별 엣지는 같은 화면 선으로 겹쳐 보일 수 있습니다.";
       const metadata = graph.metadata || {};
@@ -383,7 +388,8 @@
       byId("graph-provenance").textContent = text(graph.provenance_note);
       byId("node-index").max = Math.max(0, graph.nodes.length - 1);
       byId("graph-content").hidden = false;
-      byId("graph-status").textContent = "노드 " + number(graph.nodes.length) + "개를 모두 표시합니다. 전체 그래프의 엣지를 줄인 것이 아니라, 화면에 그릴 엣지만 부분집합으로 표시합니다.";
+      byId("graph-status").textContent = "노드 " + number(graph.nodes.length) + "개를 모두 표시합니다. " +
+        (graph.topology_kind === "no_graph" ? "이 비교군은 설계상 그래프가 없으므로 엣지와 이웃은 0개입니다." : "전체 그래프의 엣지를 줄인 것이 아니라, 화면에 그릴 엣지만 부분집합으로 표시합니다.");
       byId("raw-target-card").hidden = !graph.raw_target_url;
       if (graph.raw_target_url) showImage("raw-target-image", graph.raw_target_url, revision, null);
       graphView.reset();

@@ -197,6 +197,8 @@ def _validate_common(
             requested_guard if requested_guard is not None else configured_guard
         ),
     }
+    if public_config["contract"]["model"].get("encoder_kind", "graph") != "graph":
+        expected_guard.update({"edge_guard_applicable": False, "topology_kind": "no_graph"})
     _require_equal(
         f"{protocol_key}.graph_edge_guard",
         execution.get("graph_edge_guard"),

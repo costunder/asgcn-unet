@@ -369,7 +369,11 @@ def _visualization_pngs(sample: dict, graph: dict, directory: Path) -> None:
         )
     draw.text(
         (25, 18),
-        "ACTUAL EVENT GRAPH - CPU reconstruction / display-edge subset",
+        (
+            f"ACTUAL EVENT NODES - encoder={graph['encoder_kind']} / no graph by architecture"
+            if graph.get("topology_kind") == "no_graph"
+            else "ACTUAL EVENT GRAPH - CPU reconstruction / display-edge subset"
+        ),
         fill=(220, 230, 240),
     )
     draw.text(
@@ -397,7 +401,9 @@ def generate_result_visualizations(
     """One command creates copied model PNGs, real graph files, and an offline report.
 
     All already-saved prediction frames are processed. Missing real inputs or
-    graph/statistics disagreement fails explicitly, never a graph-free success.
+    graph/statistics disagreement fails explicitly, never a graph-free fallback.
+    Explicit identity/pointwise architectures visualize their real normalized
+    event nodes with zero edges; they do not acquire a graph for display.
     """
     from .diagnostic_resources import preflight
 
@@ -524,6 +530,7 @@ def generate_result_visualizations(
     _unchanged(input_snapshot)
     disk_plan = _output_space_plan(payload, source_contracts, limits, destination, display_edges)
     scratch_estimates = []
+    topology_kinds = set()
     before_threads = torch.get_num_threads()
     created = False
     generated_frames = 0
@@ -585,7 +592,11 @@ def generate_result_visualizations(
                         recorded["edges"],
                         "Graph edges",
                     )
-                graph["offline_neighbor_scope"] = "included_edges_only"
+                topology_kind = graph.get("topology_kind", "radius_graph")
+                topology_kinds.add(topology_kind)
+                graph["offline_neighbor_scope"] = (
+                    "complete_no_graph" if topology_kind == "no_graph" else "included_edges_only"
+                )
                 graph["source_identity"] = identity
                 graph["identity_verified"] = False
                 graph["saved_protocol_commitment_verified"] = False
@@ -598,11 +609,18 @@ def generate_result_visualizations(
                     "all-mode node/edge counts",
                 ]
                 graph["provenance_note"] = (
-                    "Actual current events, exact CPU radius-graph reconstruction. Saved model/data "
+                    (
+                        "Actual current normalized event nodes for the explicit "
+                        f"{graph['encoder_kind']} no-graph architecture; zero edges are not a "
+                        "failure fallback, and no radius connections were computed. "
+                        if topology_kind == "no_graph"
+                        else "Actual current events, exact CPU radius-graph reconstruction. "
+                    )
+                    + "Saved model/data "
                     "semantics, selected source, GT pixels and all-mode node/edge counts matched. "
                     "Full source-file hashes, full saved protocol/dataset commitments and historical "
                     "GPU tensor equality were NOT verified. "
-                    "All input nodes and full topology statistics retained; drawn edges are a subset. "
+                    "All input nodes and full topology statistics retained. "
                     "Predictions are original full-evaluation PNGs, not reset-state reinference."
                 )
                 retained_bytes += _retained_estimate(graph) + 32768
@@ -641,9 +659,10 @@ def generate_result_visualizations(
                 del sample
         payload["title"] = "실제 복원 결과 · 시공간 그래프"
         payload["notes"] = [
-            "실제 평가의 GT·복원 PNG와 동일 프레임의 실제 이벤트로 생성한 시공간 그래프입니다.",
-            "재학습·재추론 없이 기존 평가의 복원 PNG를 보존했습니다. 모든 저장 PNG 프레임에 그래프를 생성했습니다.",
-            "그래프 생성은 현재 원본의 CPU 진단입니다. 과거 GPU 텐서의 bitwise 일치나 전체 데이터 파일 hash를 재검증하지 않았습니다.",
+            "실제 평가의 GT·복원 PNG와 동일 프레임의 실제 이벤트 노드·입력 연결 구조입니다.",
+            "재학습·재추론 없이 기존 평가의 복원 PNG를 보존했습니다. 모든 저장 PNG 프레임의 입력을 시각화했습니다.",
+            "identity/pointwise 비교군은 설계상 그래프가 없습니다(no_graph). 실제 정규화 이벤트 노드만 표시하며, 0개 엣지는 그래프 실패나 축소 결과가 아닙니다.",
+            "입력 생성은 현재 원본의 CPU 진단입니다. 과거 GPU 텐서의 bitwise 일치나 전체 데이터 파일 hash를 재검증하지 않았습니다.",
             "저장된 모델·실행 설정 hash는 확인했으나, 전체 평가 protocol·dataset 계약의 hash는 재검증하지 않았습니다.",
             "PNG로 저장되지 않은 전체 평가 프레임을 추가 추론하지 않습니다. 그래프 생성 범위는 모든 저장 PNG 프레임입니다.",
             "이웃 조회는 HTML/JSON에 포함된 표시용 엣지만 대상으로 합니다. 전체 엣지 수는 정확히 계산한 통계입니다.",
@@ -658,7 +677,9 @@ def generate_result_visualizations(
         )
         payload["export"].update(
             {
-                "graph_reconstruction": True,
+                "graph_reconstruction": "radius_graph" in topology_kinds,
+                "input_topology_visualization": True,
+                "topology_kinds": sorted(topology_kinds),
                 "model_inference": False,
                 "scope": "all_saved_prediction_frames",
                 "retained_metadata_estimate_bytes": retained_bytes,
@@ -669,7 +690,9 @@ def generate_result_visualizations(
             {
                 "schema": "asgcn_result_visualizations_v1",
                 "complete": True,
-                "graph_reconstruction": True,
+                "graph_reconstruction": "radius_graph" in topology_kinds,
+                "input_topology_visualization": True,
+                "topology_kinds": sorted(topology_kinds),
                 "model_inference": False,
                 "report_eligible": False,
                 "scope": "all_saved_prediction_frames",

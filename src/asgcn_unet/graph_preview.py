@@ -30,6 +30,14 @@ def _optional_timestamp(value: Any, name: str) -> float | None:
     return float(value)
 
 
+def _encoder_topology_kind(model_config: dict) -> str:
+    """Topology follows an explicit architecture, never a failed graph build."""
+    encoder = model_config.get("encoder_kind", "graph")
+    if not isinstance(encoder, str) or encoder not in {"graph", "pointwise", "identity"}:
+        raise ValueError("encoder_kind must be graph, pointwise, or identity")
+    return "radius_graph" if encoder == "graph" else "no_graph"
+
+
 @dataclass(frozen=True, slots=True)
 class GraphPreview:
     """JSON display payload plus the complete CPU topology for exact selection."""
@@ -74,6 +82,7 @@ def build_graph_preview(
     """
     if not isinstance(sample, dict) or not isinstance(model_config, dict):
         raise TypeError("sample and model_config must be dictionaries")
+    topology_kind = _encoder_topology_kind(model_config)
     max_graph_edges = _integer(max_graph_edges, "max_graph_edges")
     display_edges = _integer(display_edges, "display_edges", minimum=0)
     required = ("event_sampling_factor", "graph_radius", "graph_position_dims", "graph_chunk_size")
@@ -86,7 +95,12 @@ def build_graph_preview(
         raise ValueError("graph_position_dims must be one of 1, 2, 3, or 4")
     chunk_size = _integer(model_config["graph_chunk_size"], "graph_chunk_size")
     radius = model_config["graph_radius"]
-    if isinstance(radius, bool) or not isinstance(radius, Real) or not math.isfinite(radius) or radius <= 0:
+    if (
+        isinstance(radius, bool)
+        or not isinstance(radius, Real)
+        or not math.isfinite(radius)
+        or radius <= 0
+    ):
         raise ValueError("graph_radius must be finite and positive")
     configured_guard = model_config.get("max_graph_edges")
     if configured_guard is not None:
@@ -119,14 +133,20 @@ def build_graph_preview(
     if t0_us is not None and t1_us is not None and t1_us < t0_us:
         raise ValueError("t1_us cannot precede t0_us")
 
-    graph = build_event_graph(
-        events.detach(), sensor_size,
-        event_sampling_factor=factor,
-        graph_radius=float(radius),
-        graph_position_dims=position_dims,
-        graph_chunk_size=chunk_size,
-        max_graph_edges=max_graph_edges,
-    )
+    if topology_kind == "no_graph":
+        from .ablation_encoders import prepare_event_container
+
+        graph = prepare_event_container(events.detach(), sensor_size, event_sampling_factor=factor)
+    else:
+        graph = build_event_graph(
+            events.detach(),
+            sensor_size,
+            event_sampling_factor=factor,
+            graph_radius=float(radius),
+            graph_position_dims=position_dims,
+            graph_chunk_size=chunk_size,
+            max_graph_edges=max_graph_edges,
+        )
     node_count = int(graph.node_features.shape[0])
     edge_count = int(graph.edge_index.shape[1])
     displayed = min(display_edges, edge_count)
@@ -152,8 +172,12 @@ def build_graph_preview(
             "isolated_nodes": int((degrees == 0).sum()),
             "max_degree": int(degrees.max()) if node_count else 0,
         },
-        "radius": float(radius),
-        "position_dims": position_dims,
+        "topology_kind": topology_kind,
+        "encoder_kind": model_config.get("encoder_kind", "graph"),
+        "radius": float(radius) if topology_kind == "radius_graph" else None,
+        "position_dims": position_dims if topology_kind == "radius_graph" else None,
+        "configured_radius": float(radius),
+        "configured_position_dims": position_dims,
         "metadata": {
             "raw_events": raw,
             "retained_events": retained,
@@ -171,4 +195,13 @@ def build_graph_preview(
             "with an earlier GPU graph is not asserted."
         ),
     }
+    if topology_kind == "no_graph":
+        payload["provenance_note"] = (
+            "Actual normalized x/y/t/p event nodes for the explicitly configured "
+            f"{model_config['encoder_kind']} encoder. The model has no graph: zero "
+            "edges/degrees are its architecture, not graph failure, truncation, or "
+            "a fallback. Configured event sampling and all remaining nodes are "
+            "preserved. Radius/position settings are recorded but not applied. "
+            "No inference or quality evaluation was performed."
+        )
     return GraphPreview(payload, graph.edge_index, node_count)

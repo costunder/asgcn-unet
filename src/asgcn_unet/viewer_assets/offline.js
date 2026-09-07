@@ -166,6 +166,7 @@
       g.statistics.actual_directed_edges<g.edges.length || g.statistics.displayed_edges!==g.edges.length)
       throw new Error("그래프 노드·엣지 통계와 포함된 배열의 크기가 맞지 않습니다.");
     if(!g.edges.every(e=>Array.isArray(e)&&e.length===2&&e.every(x=>integer(x)&&x<g.nodes.length)))throw new Error("엣지의 노드 index가 잘못되었습니다.");
+    if(g.topology_kind==="no_graph"&&(g.edges.length!==0||g.statistics.actual_directed_edges!==0))throw new Error("no_graph 설계에 엣지가 기록되어 있습니다.");
     return g;
   }
   function setGraph(graph,manual) {
@@ -175,7 +176,8 @@
     if(!graph)return;
     state.graph=validateGraph(graph);
     el("graph-content").hidden=false;el("graph-empty").hidden=true;
-    el("graph-note").textContent=(manual?"직접 읽은 그래프 파일 · 현재 영상/프레임과 연결 미검증. ":"포함된 저장 그래프 · 과거 GPU tensor와의 동일성을 재검증하지 않았습니다. ")+
+    el("graph-note").textContent=(graph.topology_kind==="no_graph"?"그래프 없음(no_graph) · "+plain(graph.encoder_kind)+" 비교군의 실제 이벤트 노드입니다. 0개 엣지는 설계에 따른 것이며 오류 fallback이 아닙니다. ":"")+
+      (manual?"직접 읽은 그래프 파일 · 현재 영상/프레임과 연결 미검증. ":"포함된 저장 입력 · 과거 GPU tensor와의 동일성을 재검증하지 않았습니다. ")+
       "모든 포함 노드를 표시합니다. 선의 표시 개수만 조절하며 그래프를 다시 생성하지 않습니다. 이웃은 파일에 포함된 엣지만 대상으로 합니다. "+plain(graph.provenance_note||"");
     scheduleDraw();
   }
@@ -227,13 +229,13 @@
       const a=project([.5,.5,.5],width,height),b=project(p,width,height);
       ctx.strokeStyle=muted;ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();ctx.fillText(label,b[0]+6,b[1]-6);
     }
-    terms("graph-stats",[["노드 · 포함 전체",fmt(g.nodes.length)],["실제 방향 엣지 · 기록값",fmt(g.statistics.actual_directed_edges)],
+    terms("graph-stats",[["입력 구조",g.topology_kind==="no_graph"?"그래프 없음 (no_graph)":"반경 그래프"],["노드 · 포함 전체",fmt(g.nodes.length)],["실제 방향 엣지 · 기록값",fmt(g.statistics.actual_directed_edges)],
       ["파일에 포함된 엣지",fmt(g.edges.length)],["현재 그린 선",fmt(shown)],["반경 · 기록값",fmt(g.radius,4)],
       ["위치 차원",fmt(g.position_dims)],["고립 노드 · 기록값",fmt(g.statistics.isolated_nodes)]]);
     if(selected!==null){
       const n=g.nodes[selected];
       el("node-detail").textContent="node "+selected+"\nx / y / t: "+n.slice(0,3).map(x=>fmt(x,4)).join(" / ")+
-        "\npolarity: "+fmt(n[3])+"\n포함된 outgoing 엣지의 이웃: "+neighbors.size+"개\n전체 그래프 degree로 간주하지 않습니다.";
+        "\npolarity: "+fmt(n[3])+(g.topology_kind==="no_graph"?"\n설계상 그래프 없음: 이웃 0개, degree 0":"\n포함된 outgoing 엣지의 이웃: "+neighbors.size+"개\n전체 그래프 degree로 간주하지 않습니다.");
     }
   }
   async function loadGraphFile(){

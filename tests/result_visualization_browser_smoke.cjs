@@ -20,7 +20,7 @@ function fixtureAt(directory) {
   const report = JSON.parse(fs.readFileSync(path.join(root, "generation.json"), "utf8"));
   assert.equal(report.schema, "asgcn_result_visualizations_v1");
   assert.equal(report.complete, true, "The generator must have completed successfully");
-  assert.equal(report.graph_reconstruction, true);
+  assert.equal(typeof report.graph_reconstruction, "boolean");
   assert.equal(report.model_inference, false);
   assert.equal(report.report_eligible, false);
   const html = fs.readFileSync(index, "utf8");
@@ -31,6 +31,8 @@ function fixtureAt(directory) {
   assert.ok(data.datasets.length > 0);
   assert.ok(data.datasets.every(dataset => ["aid", "hdr"].includes(dataset.id)));
   const frames = data.datasets.flatMap(dataset => dataset.frames);
+  assert.equal(report.graph_reconstruction,
+    frames.some(frame => frame.graph.topology_kind !== "no_graph"));
   assert.ok(frames.length >= 2 && frames.length <= 16,
     "Use a small synthetic integration fixture with at least two real generated frames");
   assert.ok(frames.every(frame => /synthetic/i.test(frame.group)),
@@ -74,14 +76,22 @@ async function painted(page) {
 async function graphChecks(page, graph) {
   await page.click('[data-panel="graph"]');
   await page.waitForFunction(() => !document.getElementById("graph-content").hidden &&
-    document.querySelectorAll("#graph-stats dd").length === 7);
+    document.querySelectorAll("#graph-stats dd").length === 8);
   await painted(page);
   const stats = await page.locator("#graph-stats dd").allTextContents();
-  assert.equal(stats[0], formatted(graph.nodes.length));
-  assert.equal(stats[1], formatted(graph.statistics.actual_directed_edges));
-  assert.equal(stats[2], formatted(graph.edges.length));
+  const noGraph = graph.topology_kind === "no_graph";
+  assert.match(stats[0], noGraph ? /no_graph/ : /반경 그래프/);
+  assert.equal(stats[1], formatted(graph.nodes.length));
+  assert.equal(stats[2], formatted(graph.statistics.actual_directed_edges));
+  assert.equal(stats[3], formatted(graph.edges.length));
   assert.equal(await page.locator("#graph-empty").isVisible(), false);
-  assert.match(await page.locator("#graph-note").textContent(), /CPU/);
+  assert.match(await page.locator("#graph-note").textContent(), noGraph ? /no_graph/ : /CPU/);
+  if (noGraph) {
+    assert.equal(graph.edges.length, 0);
+    assert.equal(graph.statistics.actual_directed_edges, 0);
+    assert.equal(stats[5], "—", "No graph means no applied radius");
+    assert.equal(stats[6], "—", "No graph means no graph position dimensions");
+  }
   assert.equal(await page.locator("#graph-canvas").evaluate(canvas => {
     if (!canvas.width || !canvas.height) return false;
     const pixels = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height).data;
@@ -94,15 +104,19 @@ async function graphChecks(page, graph) {
     await page.click("#select-node");
     await page.waitForFunction(node => document.getElementById("node-detail").textContent
       .startsWith("node " + node + "\n"), selected);
-    assert.match(await page.locator("#node-detail").textContent(),
-      new RegExp("포함된 outgoing 엣지의 이웃: " + neighbors.size + "개"));
-    assert.match(await page.locator("#node-detail").textContent(), /전체 그래프 degree로 간주하지 않습니다/);
+    if (noGraph) {
+      assert.match(await page.locator("#node-detail").textContent(), /설계상 그래프 없음: 이웃 0개, degree 0/);
+    } else {
+      assert.match(await page.locator("#node-detail").textContent(),
+        new RegExp("포함된 outgoing 엣지의 이웃: " + neighbors.size + "개"));
+      assert.match(await page.locator("#node-detail").textContent(), /전체 그래프 degree로 간주하지 않습니다/);
+    }
   }
   await page.fill("#edge-count", "0");
   await page.locator("#edge-count").dispatchEvent("change");
   await painted(page);
-  assert.equal(await page.locator("#graph-stats dd").nth(3).textContent(), "0");
-  assert.equal(await page.locator("#graph-stats dd").nth(1).textContent(),
+  assert.equal(await page.locator("#graph-stats dd").nth(4).textContent(), "0");
+  assert.equal(await page.locator("#graph-stats dd").nth(2).textContent(),
     formatted(graph.statistics.actual_directed_edges), "Display control must not change actual topology");
   await page.fill("#edge-count", String(graph.edges.length));
   await page.locator("#edge-count").dispatchEvent("change");
@@ -153,7 +167,9 @@ async function graphChecks(page, graph) {
           .includes(sample), frame.sample_id);
         const directory = path.join(fixture.root, dataset.id, String(frame.index).padStart(8, "0"));
         assert.ok(frame.images.some(item => item.mode === "ann"), "Fixture includes ANN");
-        assert.ok(frame.images.some(item => item.mode.startsWith("snn_")), "Fixture includes SNN");
+        if (frame.graph.topology_kind !== "no_graph") {
+          assert.ok(frame.images.some(item => item.mode.startsWith("snn_")), "Radius-graph fixture includes SNN");
+        }
         for (const item of frame.images) {
           const gt = pngDescriptor(fixture, item.target, path.join(directory, "gt.png"));
           const prediction = pngDescriptor(fixture, item.prediction,

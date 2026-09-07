@@ -14,7 +14,7 @@ from typing import Any
 import torch
 
 from .graph import prepare_event_nodes, uniformly_sample_events
-from .graph_preview import _integer, _optional_timestamp
+from .graph_preview import _encoder_topology_kind, _integer, _optional_timestamp
 
 # Conservative allowances for tensor scratch, Python lists, and JSON conversion.
 # These describe the graph operation, not the interpreter or dataset decoding.
@@ -25,17 +25,25 @@ _BYTES_PER_PAIR = 96
 
 
 def _memory_plan(
-    events: torch.Tensor, node_count: int, display_edges: int,
-    configured_chunk_size: int, memory_budget_bytes: int,
+    events: torch.Tensor,
+    node_count: int,
+    display_edges: int,
+    configured_chunk_size: int,
+    memory_budget_bytes: int,
+    *,
+    topology_kind: str = "radius_graph",
 ) -> dict[str, int | str]:
-    displayed_bound = min(display_edges, node_count * max(0, node_count - 1))
+    has_graph = topology_kind == "radius_graph"
+    displayed_bound = min(display_edges, node_count * max(0, node_count - 1)) if has_graph else 0
     input_bytes = events.untyped_storage().nbytes()
     persistent_bytes = (
-        _FIXED_BYTES + input_bytes + node_count * _BYTES_PER_NODE
+        _FIXED_BYTES
+        + input_bytes
+        + node_count * _BYTES_PER_NODE
         + displayed_bound * _BYTES_PER_DISPLAY_EDGE
     )
     available = memory_budget_bytes - persistent_bytes
-    if available < _BYTES_PER_PAIR:
+    if available < (_BYTES_PER_PAIR if has_graph else 0):
         raise MemoryError(
             "Diagnostic graph memory budget is insufficient before topology allocation: "
             f"budget={memory_budget_bytes:,} bytes, estimated input/node/display storage="
@@ -44,8 +52,12 @@ def _memory_plan(
             "must remain unchanged. No topology was truncated."
         )
     pair_capacity = available // _BYTES_PER_PAIR
-    source_tile = min(max(node_count, 1), configured_chunk_size, math.isqrt(pair_capacity))
-    destination_tile = min(max(node_count, 1), pair_capacity // source_tile)
+    source_tile = (
+        min(max(node_count, 1), configured_chunk_size, math.isqrt(pair_capacity))
+        if has_graph
+        else 0
+    )
+    destination_tile = min(max(node_count, 1), pair_capacity // source_tile) if has_graph else 0
     scratch_bytes = source_tile * destination_tile * _BYTES_PER_PAIR
     return {
         "budget_bytes": memory_budget_bytes,
@@ -57,6 +69,7 @@ def _memory_plan(
         "destination_tile_nodes": destination_tile,
         "maximum_pair_tile": source_tile * destination_tile,
         "configured_graph_chunk_size": configured_chunk_size,
+        "topology_kind": topology_kind,
         "scope": (
             "Conservative graph-operation estimate including the supplied event storage, "
             "normalized nodes, statistics, display JSON, and tensor scratch; excludes "
@@ -67,12 +80,16 @@ def _memory_plan(
 
 
 def _pair_tiles(
-    coordinates: torch.Tensor, sources: torch.Tensor, *, radius: float,
-    source_tile: int, destination_tile: int,
+    coordinates: torch.Tensor,
+    sources: torch.Tensor,
+    *,
+    radius: float,
+    source_tile: int,
+    destination_tile: int,
 ) -> Iterator[tuple[torch.Tensor, int, torch.Tensor]]:
     """Yield exact predicate tiles; never retain a previous tile's storage."""
     for start in range(0, sources.numel(), source_tile):
-        selected_sources = sources[start:start + source_tile]
+        selected_sources = sources[start : start + source_tile]
         source_positions = coordinates.index_select(0, selected_sources)
         for destination_start in range(0, coordinates.shape[0], destination_tile):
             destination_stop = min(destination_start + destination_tile, coordinates.shape[0])
@@ -80,7 +97,8 @@ def _pair_tiles(
             # the strict radius boundary is part of the original graph rule.
             distance = torch.linalg.vector_norm(
                 source_positions[:, None, :]
-                - coordinates[None, destination_start:destination_stop, :], dim=-1,
+                - coordinates[None, destination_start:destination_stop, :],
+                dim=-1,
             )
             mask = distance < radius
             destinations = torch.arange(destination_start, destination_stop, device="cpu")
@@ -92,8 +110,14 @@ def _pair_tiles(
 
 
 def _display_subset(
-    coordinates: torch.Tensor, radius: float, out_degree: torch.Tensor,
-    edge_count: int, displayed: int, *, source_tile: int, destination_tile: int,
+    coordinates: torch.Tensor,
+    radius: float,
+    out_degree: torch.Tensor,
+    edge_count: int,
+    displayed: int,
+    *,
+    source_tile: int,
+    destination_tile: int,
 ) -> list[list[int]]:
     if displayed == 0:
         return []
@@ -107,8 +131,11 @@ def _display_subset(
     result = torch.empty((displayed, 2), dtype=torch.long, device="cpu")
     filled = torch.zeros(displayed, dtype=torch.bool, device="cpu")
     for sources, destination_start, mask in _pair_tiles(
-        coordinates, wanted_sources, radius=radius,
-        source_tile=source_tile, destination_tile=destination_tile,
+        coordinates,
+        wanted_sources,
+        radius=radius,
+        source_tile=source_tile,
+        destination_tile=destination_tile,
     ):
         # Full-graph source-major ranks remain correct across destination tiles.
         ranks = mask.cumsum(dim=1, dtype=torch.long)
@@ -129,7 +156,11 @@ def _display_subset(
 
 @torch.no_grad()
 def build_diagnostic_graph(
-    sample: dict, model_config: dict, *, memory_budget_bytes: int, display_edges: int = 5000,
+    sample: dict,
+    model_config: dict,
+    *,
+    memory_budget_bytes: int,
+    display_edges: int = 5000,
 ) -> dict[str, Any]:
     """Return an offline graph payload from an actual preprocessed CPU sample.
 
@@ -143,6 +174,7 @@ def build_diagnostic_graph(
     """
     if not isinstance(sample, dict) or not isinstance(model_config, dict):
         raise TypeError("sample and model_config must be dictionaries")
+    topology_kind = _encoder_topology_kind(model_config)
     memory_budget_bytes = _integer(memory_budget_bytes, "memory_budget_bytes")
     display_edges = _integer(display_edges, "display_edges", minimum=0)
     required = ("event_sampling_factor", "graph_radius", "graph_position_dims", "graph_chunk_size")
@@ -182,38 +214,57 @@ def build_diagnostic_graph(
     if t0_us is not None and t1_us is not None and t1_us < t0_us:
         raise ValueError("t1_us cannot precede t0_us")
     node_count = (retained + factor - 1) // factor
-    plan = _memory_plan(events, node_count, display_edges, chunk_size, memory_budget_bytes)
+    plan = _memory_plan(
+        events,
+        node_count,
+        display_edges,
+        chunk_size,
+        memory_budget_bytes,
+        topology_kind=topology_kind,
+    )
     nodes, positions = prepare_event_nodes(
-        uniformly_sample_events(events.detach(), factor), sensor_size,
+        uniformly_sample_events(events.detach(), factor),
+        sensor_size,
     )
     coordinates = positions[:, :position_dims]
     if coordinates.numel() and bool(((coordinates < 0) | (coordinates > 1)).any()):
         raise ValueError("Normalized graph coordinates must lie in [0,1]")
-    if node_count and max(2, math.ceil(1.0 / radius) + 1) ** position_dims >= (
-        torch.iinfo(torch.long).max
+    if (
+        topology_kind == "radius_graph"
+        and node_count
+        and max(2, math.ceil(1.0 / radius) + 1) ** position_dims >= (torch.iinfo(torch.long).max)
     ):
         raise ValueError("graph_radius is too small for the model's integer spatial hashing")
     source_tile = int(plan["source_tile_nodes"])
     destination_tile = int(plan["destination_tile_nodes"])
     in_degree = torch.zeros(node_count, dtype=torch.long, device="cpu")
     out_degree = torch.zeros_like(in_degree)
-    all_sources = torch.arange(node_count, dtype=torch.long, device="cpu")
-    for sources, destination_start, mask in _pair_tiles(
-        coordinates, all_sources, radius=radius,
-        source_tile=source_tile, destination_tile=destination_tile,
-    ):
-        out_degree[sources] += mask.sum(dim=1)
-        in_degree[destination_start:destination_start + mask.shape[1]] += mask.sum(dim=0)
-        del mask
+    if topology_kind == "radius_graph":
+        all_sources = torch.arange(node_count, dtype=torch.long, device="cpu")
+        for sources, destination_start, mask in _pair_tiles(
+            coordinates,
+            all_sources,
+            radius=radius,
+            source_tile=source_tile,
+            destination_tile=destination_tile,
+        ):
+            out_degree[sources] += mask.sum(dim=1)
+            in_degree[destination_start : destination_start + mask.shape[1]] += mask.sum(dim=0)
+            del mask
     edge_count = int(in_degree.sum())
     if not torch.equal(in_degree, out_degree):
         raise RuntimeError("Strict-radius diagnostic topology unexpectedly lost symmetry")
     displayed = min(display_edges, edge_count)
     edges = _display_subset(
-        coordinates, radius, out_degree, edge_count, displayed,
-        source_tile=source_tile, destination_tile=destination_tile,
+        coordinates,
+        radius,
+        out_degree,
+        edge_count,
+        displayed,
+        source_tile=source_tile,
+        destination_tile=destination_tile,
     )
-    return {
+    payload = {
         "nodes": nodes.tolist(),
         "edges": edges,
         "degrees": in_degree.tolist(),
@@ -224,8 +275,12 @@ def build_diagnostic_graph(
             "isolated_nodes": int((in_degree == 0).sum()),
             "max_degree": int(in_degree.max()) if node_count else 0,
         },
-        "radius": radius,
-        "position_dims": position_dims,
+        "topology_kind": topology_kind,
+        "encoder_kind": model_config.get("encoder_kind", "graph"),
+        "radius": radius if topology_kind == "radius_graph" else None,
+        "position_dims": position_dims if topology_kind == "radius_graph" else None,
+        "configured_radius": radius,
+        "configured_position_dims": position_dims,
         "metadata": {
             "raw_events": raw,
             "retained_events": retained,
@@ -246,3 +301,14 @@ def build_diagnostic_graph(
             "with an earlier GPU graph is not asserted."
         ),
     }
+    if topology_kind == "no_graph":
+        payload["provenance_note"] = (
+            "Actual normalized x/y/t/p event nodes for the explicitly configured "
+            f"{model_config['encoder_kind']} encoder. Zero edges/degrees are the "
+            "declared no-graph architecture, not a failure fallback or topology "
+            "truncation. No pairwise distances or graph edges were computed. "
+            "Configured event sampling and every remaining event node are retained; "
+            "radius/position settings are recorded but not applied. "
+            "No inference or quality evaluation was performed."
+        )
+    return payload

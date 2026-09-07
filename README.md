@@ -6,6 +6,12 @@ EventHDR 전체 공개 배포본으로 학습하고 EventHDR 공식 eval과 Even
 event-to-frame 연구 코드다. ASGCN graph encoder와 recurrent U-Net decoder를 결합하고,
 ANN 및 ANN→SNN 변환 모델의 복원 품질·지연·발화율을 동일한 데이터와 평가 조건에서 비교한다.
 
+구조별 비교는 [구조 비교 실험](docs/ABLATIONS.md)을 따른다. U-Net-only,
+그래프 없는 pointwise ANN/SNN + U-Net, 기존 GNN/Spiking GNN + U-Net,
+GNN/Spiking GNN + recurrent Transformer를 독립 경로에서 학습·평가한다.
+`scripts/run_ablations.py`는 기본적으로 계획만 출력하며, 명시적 `--execute` 없이
+학습·평가를 시작하지 않는다. 기존 `runs/fast` 결과는 변경하지 않는다.
+
 ## 설치 및 실행
 
 Linux x86_64, glibc 2.28 이상, Git·Conda·curl이 필요하다. 학습·평가는 NVIDIA GPU에서 실행한다.

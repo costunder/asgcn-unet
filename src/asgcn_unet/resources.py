@@ -464,6 +464,9 @@ def build_execution_report(
         "phase": phase,
         "model": {
             "name": type(model).__name__ if model is not None else None,
+            "architecture": (model.architecture_description()
+                             if model is not None and hasattr(model, "architecture_description")
+                             else None),
             "config": dict(config.get("model", {})),
             "total_parameters": total,
             "trainable_parameters": trainable,

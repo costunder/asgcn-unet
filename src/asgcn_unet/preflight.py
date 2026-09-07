@@ -216,12 +216,27 @@ def _sample_topology(
         sample["events"], int(model_config.get("event_sampling_factor", 1))
     )
     _, positions = prepare_event_nodes(sampled, sample["sensor_size"])
-    topology = radius_graph_topology(
-        positions,
-        float(model_config.get("graph_radius", 0.08)),
-        position_dims=int(model_config.get("graph_position_dims", 3)),
-        chunk_size=int(model_config.get("graph_chunk_size", 512)),
-    )
+    encoder_kind = model_config.get("encoder_kind", "graph")
+    if encoder_kind not in {"graph", "pointwise", "identity"}:
+        raise ValueError(f"Unsupported encoder_kind: {encoder_kind}")
+    if encoder_kind == "graph":
+        topology = radius_graph_topology(
+            positions,
+            float(model_config.get("graph_radius", 0.08)),
+            position_dims=int(model_config.get("graph_position_dims", 3)),
+            chunk_size=int(model_config.get("graph_chunk_size", 512)),
+        )
+    else:
+        # Zero edges is the declared no-neighbour architecture, not an
+        # incomplete scan or a graph-construction failure fallback.
+        topology = {
+            "nodes": int(sampled.shape[0]),
+            "candidate_directed_edges": 0,
+            "actual_directed_edges": 0,
+            "max_degree": 0,
+            "isolated_nodes": int(sampled.shape[0]),
+            "isolate_ratio": 1.0 if sampled.shape[0] else 0.0,
+        }
     nodes = int(topology["nodes"])
     possible_edges = nodes * max(nodes - 1, 0)
     actual_edges = int(topology["actual_directed_edges"])
@@ -229,6 +244,7 @@ def _sample_topology(
     edge_guard_passed = max_edges is None or actual_edges <= int(max_edges)
     return {
         "dataset_index": dataset_index,
+        "topology_kind": "radius_graph" if encoder_kind == "graph" else "no_graph",
         "sample_id": str(sample.get("sample_id", dataset_index)),
         "scene": str(metadata.get("scene", "unknown")),
         "sequence_index": (
@@ -270,6 +286,11 @@ def _topology_summary(
     max_edges = model_config.get("max_graph_edges", 2_000_000)
     return {
         "scan_scope": "complete_eventhdr_training_split",
+        "topology_kind": (
+            "radius_graph" if model_config.get("encoder_kind", "graph") == "graph"
+            else "no_graph"
+        ),
+        "edge_guard_applicable": model_config.get("encoder_kind", "graph") == "graph",
         "scan_complete": len(records) == dataset_size,
         "samples_scanned": len(records),
         "dataset_samples": dataset_size,
@@ -415,6 +436,15 @@ def _validate_topology_records(
             raise ValueError("Topology sequence index is invalid")
         raw, cropped, retained, nodes = (record[field] for field in integer_fields[:4])
         edges, candidates = record["actual_directed_edges"], record["candidate_directed_edges"]
+        encoder_kind = model_config.get("encoder_kind", "graph")
+        if encoder_kind not in {"graph", "pointwise", "identity"}:
+            raise ValueError(f"Unsupported encoder_kind: {encoder_kind}")
+        if encoder_kind != "graph" and (
+            record.get("topology_kind") != "no_graph" or edges != 0 or candidates != 0
+        ):
+            raise ValueError("No-graph topology records must explicitly contain no edges")
+        if encoder_kind == "graph" and record.get("topology_kind", "radius_graph") != "radius_graph":
+            raise ValueError("Graph topology records cannot be reused from a no-graph architecture")
         maximum, isolates = record["max_degree"], record["isolated_nodes"]
         possible = nodes * max(0, nodes - 1)
         expected_guard = guard is None or edges <= int(guard)
@@ -1028,6 +1058,7 @@ def _run_batch_probe(
 def _topology_input_config(config: dict[str, Any]) -> dict[str, Any]:
     model = config.get("model", {})
     defaults = {
+        "encoder_kind": "graph",
         "event_sampling_factor": 1,
         "graph_radius": 0.08,
         "graph_position_dims": 3,

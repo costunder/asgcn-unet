@@ -92,6 +92,9 @@ class ASGCNUNet(nn.Module):
         decoder_channels: int = 48,
         output_channels: int = 1,
         recurrent: bool = True,
+        encoder_kind: str = "graph",
+        decoder_kind: str = "unet",
+        transformer_config: dict[str, Any] | None = None,
     ) -> None:
         super().__init__()
         if int(architecture_version) != PAPER_CORE_VERSION:
@@ -134,20 +137,43 @@ class ASGCNUNet(nn.Module):
             raise ValueError("snn_dynamics must be 'literal_eq15' or 'standard_if'")
         if int(raster_downsample) < 1:
             raise ValueError("raster_downsample must be at least 1")
+        if encoder_kind not in {"graph", "pointwise", "identity"}:
+            raise ValueError("encoder_kind must be graph, pointwise, or identity")
+        if decoder_kind not in {"unet", "transformer"}:
+            raise ValueError("decoder_kind must be unet or transformer")
+        if decoder_kind == "unet" and transformer_config is not None:
+            raise ValueError("transformer_config is only applicable to the Transformer decoder")
+        if encoder_kind != "graph" and spline_backend != "torch":
+            raise ValueError("Non-graph ablations require spline_backend=torch; no spline is executed")
         self.architecture_version = PAPER_CORE_VERSION
+        self.encoder_kind = encoder_kind
+        self.decoder_kind = decoder_kind
+        self.supports_snn = encoder_kind != "identity"
         self.spline_backend = spline_backend
-        self.encoder = ASGCNEncoder(
-            hidden_dim,
-            graph_layers,
-            spline_kernel_size=spline_kernel_size,
-            spline_degree=spline_degree,
-            spline_root_weight=spline_root_weight,
-            spline_chunk_size=spline_chunk_size,
-            spline_backend=spline_backend,
-        )
-        self.decoder = RecurrentUNetDecoder(
-            hidden_dim, decoder_channels, output_channels, recurrent
-        )
+        if encoder_kind == "graph":
+            self.encoder = ASGCNEncoder(
+                hidden_dim, graph_layers, spline_kernel_size=spline_kernel_size,
+                spline_degree=spline_degree, spline_root_weight=spline_root_weight,
+                spline_chunk_size=spline_chunk_size, spline_backend=spline_backend,
+            )
+        else:
+            from .ablation_encoders import IdentityEventEncoder, PointwiseEventEncoder
+            self.encoder = (IdentityEventEncoder() if encoder_kind == "identity"
+                            else PointwiseEventEncoder(hidden_dim, graph_layers))
+        decoder_input_channels = 4 if encoder_kind == "identity" else hidden_dim
+        if decoder_kind == "unet":
+            self.decoder = RecurrentUNetDecoder(
+                decoder_input_channels, decoder_channels, output_channels, recurrent
+            )
+        else:
+            from .transformer_decoder import RecurrentTransformerDecoder
+            required = {"depths", "heads", "window_size", "mlp_ratio"}
+            if not isinstance(transformer_config, dict) or set(transformer_config) != required:
+                raise ValueError("Transformer requires explicit depths, heads, window_size, mlp_ratio")
+            self.decoder = RecurrentTransformerDecoder(
+                decoder_input_channels, decoder_channels, output_channels, recurrent,
+                **transformer_config,
+            )
         self.register_buffer(
             "calibration_attempts",
             torch.zeros((), dtype=torch.long),
@@ -172,6 +198,12 @@ class ASGCNUNet(nn.Module):
         self.raster_downsample = int(raster_downsample)
 
     def _graph(self, sample: dict[str, Any]) -> EventGraph:
+        if self.encoder_kind != "graph":
+            from .ablation_encoders import prepare_event_container
+            return prepare_event_container(
+                sample["events"], sample["sensor_size"],
+                event_sampling_factor=self.event_sampling_factor,
+            )
         require_spline_backend(self.spline_backend, sample["events"].device)
         return build_event_graph(
             sample["events"],
@@ -182,6 +214,37 @@ class ASGCNUNet(nn.Module):
             graph_chunk_size=self.graph_chunk_size,
             max_graph_edges=self.max_graph_edges,
         )
+
+    def _packed_graph(self, packed: PackedSampleBatch):
+        if self.encoder_kind != "graph":
+            from .ablation_encoders import prepare_event_container_batch
+            return prepare_event_container_batch(
+                packed.events, packed.event_counts, packed.sensor_size,
+                event_sampling_factor=self.event_sampling_factor,
+            )
+        require_spline_backend(self.spline_backend, packed.events.device)
+        return build_event_graph_batch(
+            packed.events, packed.event_counts, packed.sensor_size,
+            event_sampling_factor=self.event_sampling_factor, graph_radius=self.graph_radius,
+            graph_position_dims=self.graph_position_dims, graph_chunk_size=self.graph_chunk_size,
+            max_graph_edges=self.max_graph_edges,
+        )
+
+    def _require_snn(self) -> None:
+        if not self.supports_snn:
+            raise ValueError("U-Net-only identity encoder has no SNN conversion/inference path")
+
+    def architecture_description(self) -> dict[str, Any]:
+        return {
+            "encoder_kind": self.encoder_kind, "decoder_kind": self.decoder_kind,
+            "encoder_layers": len(self.encoder.layers),
+            "encoder_output_channels": self.encoder.hidden_dim,
+            "spiking_supported": self.supports_snn,
+            "topology_kind": "radius_graph" if self.encoder_kind == "graph" else "no_graph",
+            "input_representation": "normalized_xy_t_p_event_features",
+            "rasterization": "per_cell_feature_mean",
+            "recurrent": self.decoder.recurrent is not None,
+        }
 
     def forward_sample(
         self,
@@ -196,6 +259,8 @@ class ASGCNUNet(nn.Module):
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")
         simulation_steps = int(simulation_steps)
+        if inference_mode == "snn":
+            self._require_snn()
         gpu = sample["events"].device.type == "cuda"
 
         def scope(label: str):
@@ -243,6 +308,7 @@ class ASGCNUNet(nn.Module):
             else []
         )
         diagnostics = {
+            "architecture": self.architecture_description(),
             "paper_core_version": self.architecture_version,
             "nodes": node_count,
             "edges": edge_count,
@@ -250,7 +316,9 @@ class ASGCNUNet(nn.Module):
             "isolate_ratio": isolated_nodes.to(graph.node_features.dtype)
             / float(max(1, node_count)),
             "max_degree": max_degree,
-            "edge_feature": "normalized_scalar_distance",
+            "edge_feature": (
+                "normalized_scalar_distance" if self.encoder_kind == "graph" else None
+            ),
             "event_sampling_factor": self.event_sampling_factor,
             "dataset_sampling_ratio": dataset_sampling_ratio,
             "effective_sampling_ratio": (dataset_sampling_ratio * self.event_sampling_factor),
@@ -309,6 +377,8 @@ class ASGCNUNet(nn.Module):
             raise ValueError("A training batch must contain one shared sensor_size")
         if inference_mode not in {"ann", "snn"}:
             raise ValueError(f"Unknown inference_mode: {inference_mode}")
+        if inference_mode == "snn":
+            self._require_snn()
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")
         simulation_steps = int(simulation_steps)
@@ -334,15 +404,7 @@ class ASGCNUNet(nn.Module):
 
         with scope("graph"):
             packed = pack_samples(samples)
-            require_spline_backend(self.spline_backend, packed.events.device)
-            topology = build_event_graph_batch(
-                packed.events, packed.event_counts, sensor_size,
-                event_sampling_factor=self.event_sampling_factor,
-                graph_radius=self.graph_radius,
-                graph_position_dims=self.graph_position_dims,
-                graph_chunk_size=self.graph_chunk_size,
-                max_graph_edges=self.max_graph_edges,
-            )
+            topology = self._packed_graph(packed)
             graph = topology.graph
             node_counts = topology.node_counts
         with scope("encoder"):
@@ -411,13 +473,16 @@ class ASGCNUNet(nn.Module):
             )
             rates = [rate[index] for rate in firing_rates]
             diagnostics.append({
+                "architecture": self.architecture_description(),
                 "paper_core_version": self.architecture_version,
                 "nodes": nodes,
                 "edges": topology.edge_counts[index],
                 "isolated_nodes": isolated,
                 "isolate_ratio": isolated.to(graph.node_features.dtype) / float(max(1, nodes)),
                 "max_degree": maximum,
-                "edge_feature": "normalized_scalar_distance",
+                "edge_feature": (
+                    "normalized_scalar_distance" if self.encoder_kind == "graph" else None
+                ),
                 "event_sampling_factor": self.event_sampling_factor,
                 "dataset_sampling_ratio": sampling_ratio,
                 "effective_sampling_ratio": sampling_ratio * self.event_sampling_factor,
@@ -451,16 +516,9 @@ class ASGCNUNet(nn.Module):
         self, samples: list[dict[str, Any]] | PackedSampleBatch
     ) -> dict[str, Any]:
         """Exact feature-wise maxima across the packed nodes of all input frames."""
+        self._require_snn()
         packed = pack_samples(samples)
-        require_spline_backend(self.spline_backend, packed.events.device)
-        topology = build_event_graph_batch(
-            packed.events, packed.event_counts, packed.sensor_size,
-            event_sampling_factor=self.event_sampling_factor,
-            graph_radius=self.graph_radius,
-            graph_position_dims=self.graph_position_dims,
-            graph_chunk_size=self.graph_chunk_size,
-            max_graph_edges=self.max_graph_edges,
-        )
+        topology = self._packed_graph(packed)
         _, activations = self.encoder.forward_ann(topology.graph, return_activations=True)
         self.encoder.update_activation_maxima(
             activations, sample_count=sum(count > 0 for count in topology.node_counts),
@@ -477,6 +535,7 @@ class ASGCNUNet(nn.Module):
 
     @torch.no_grad()
     def calibrate_sample(self, sample: dict[str, Any], momentum: float = -1.0) -> None:
+        self._require_snn()
         if momentum != -1.0:
             raise ValueError(
                 "ASGCN paper-core calibration uses exact feature-wise maxima; momentum must be -1"
@@ -488,10 +547,12 @@ class ASGCNUNet(nn.Module):
 
     @torch.no_grad()
     def fold_batch_norm(self) -> None:
+        self._require_snn()
         self.encoder.fold_batch_norm()
 
     @torch.no_grad()
     def reset_activation_maxima(self) -> None:
+        self._require_snn()
         self.encoder.reset_activation_maxima()
         self.calibration_attempts.zero_()
         self.calibration_commitment_digest.zero_()
@@ -530,6 +591,7 @@ class ASGCNUNet(nn.Module):
 
     @torch.no_grad()
     def apply_parameter_normalization(self) -> None:
+        self._require_snn()
         self.encoder.apply_parameter_normalization()
 
     def calibration_summary(self) -> dict[str, list[int] | int | str | bool | None]:

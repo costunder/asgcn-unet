@@ -250,8 +250,8 @@ def _validate_loaded_conversion_state(
     normalized_flags = [bool(layer.snn_normalized.item()) for layer in model.encoder.layers]
     if len(set(bn_flags)) > 1 or len(set(normalized_flags)) > 1:
         raise ValueError(f"Checkpoint {checkpoint_path} contains partially converted graph layers")
-    state_bn_folded = all(bn_flags)
-    state_normalized = all(normalized_flags)
+    state_bn_folded = bool(bn_flags) and all(bn_flags)
+    state_normalized = bool(normalized_flags) and all(normalized_flags)
     metadata_bn_folded = bool(metadata.get("batch_norm_folded"))
     metadata_normalized = bool(metadata.get("parameter_normalized"))
     if metadata_bn_folded != state_bn_folded:
@@ -265,6 +265,8 @@ def _validate_loaded_conversion_state(
             "with layer snn_normalized state"
         )
     checkpoint_type = metadata.get("checkpoint_type")
+    if checkpoint_type == "snn_inference" and not model.supports_snn:
+        raise ValueError("An identity/U-Net-only checkpoint cannot be labeled snn_inference")
     if checkpoint_type == "snn_inference" and not (state_bn_folded and state_normalized):
         raise ValueError(
             f"Checkpoint {checkpoint_path} is labeled snn_inference but its graph "
@@ -2152,7 +2154,7 @@ def _set_inference_snn_dynamics(
 def _set_inference_max_graph_edges(
     model: ASGCNUNet,
     override: int | None,
-) -> dict[str, int | None]:
+) -> dict[str, Any]:
     """Raise the runtime-only edge guard without changing checkpoint identity."""
     configured = model.max_graph_edges
     if override is not None:
@@ -2168,11 +2170,14 @@ def _set_inference_max_graph_edges(
                 f"configured max_graph_edges={configured:,}"
             )
         model.max_graph_edges = override
-    return {
+    result = {
         "configured_max_graph_edges": configured,
         "requested_max_graph_edges_override": override,
         "effective_max_graph_edges": model.max_graph_edges,
     }
+    if model.encoder_kind != "graph":
+        result.update({"edge_guard_applicable": False, "topology_kind": "no_graph"})
+    return result
 
 
 def _inference_run_label(
@@ -2700,7 +2705,10 @@ def _centralize_gradients(model: torch.nn.Module) -> None:
     for module in model.modules():
         if not isinstance(module, PaperSplineConv):
             continue
-        for parameter in (module.weight, module.root):
+        # Pointwise ablations share BN/conversion machinery but deliberately
+        # have no unused spline-root parameter. Their [in,out] matrix uses
+        # the same input-axis gradient centralization.
+        for parameter in (module.weight, getattr(module, "root", None)):
             if parameter is None:
                 continue
             spline_parameters.add(id(parameter))

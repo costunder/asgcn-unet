@@ -1,89 +1,161 @@
-# 실제 평가 이미지와 시공간 그래프 보기
+# 실제 복원 PNG·시공간 그래프 생성 및 확인
 
-`scripts/view_results.py`는 완료된 평가 결과를 읽는 **진단용 뷰어**다.
-재학습, 체크포인트 로딩, ANN/SNN 재추론, CUDA 초기화/선택을 하지 않는다.
-원본 데이터, 체크포인트, 평가 PNG/CSV/JSON 및 데이터 해시 캐시는 변경하지 않는다.
+기본 결과 확인 경로는 `scripts/generate_result_visualizations.py`다.
+이 Python 코드는 **기존 평가의 실제 GT·복원 PNG와 같은 프레임의 실제 이벤트**를 결합해
+PNG·그래프 JSON·오프라인 비교 화면을 한 번에 생성한다. 빈 뷰어나 붙여 넣은 평가표로
+실제 결과 생성을 대신하지 않는다.
 
-## 서버 실행
+## 한 번에 생성하기
 
-아래는 코드가 서버에 반영된 뒤 저장소 루트에서 실행하는 명령이다. 기존 평가 결과를 다시 만들지 않는다.
-
-```bash
-python scripts/view_results.py --eval-root runs/fast/eval-2960f09 --cpu-threads 4 --port 8765
-```
-
-실행하면 저장 이미지 개수, 전체 평가 프레임 수, 접속용 비공개 URL을 출력한다.
-GPU를 사용하지 않으므로 GPU 번호를 지정할 필요가 없으며 기존 GPU 환경변수도 바꾸지 않는다.
-`--cpu-threads`는 할당받은 CPU 범위에 맞춘다. 이 값은 뷰어 진단용이며 학습/평가 배치를 바꾸지 않는다.
-
-서버 프로그램은 `127.0.0.1`에만 바인딩한다. 다른 컴퓨터에서 서버의 localhost URL을
-그대로 열 수 없으므로 **기존 SSH 경로를 통한 로컬 포트 포워딩**이 필요하다.
-MobaXterm의 로컬 SSH 터널을 쓰거나, 서버에 접속 가능한 로컬 PC의 별도 터미널에서 다음을 실행한다.
+완료된 평가 폴더와 당시 사용한 config·원본 H5/ZIP이 있는 컴퓨터에서,
+저장소 root와 기존 학습·평가 Python 환경을 사용한다. 새 연결·다운로드·학습은 수행하지 않는다.
 
 ```bash
-ssh -N -L 127.0.0.1:8765:127.0.0.1:8765 USER@SSH_HOST
+python -B scripts/generate_result_visualizations.py --eval-root runs/fast/eval-2960f09 --cpu-threads 4 --memory-budget-mib 1024 --reserve-memory-mib 1024
 ```
 
-`USER@SSH_HOST`는 원래 사용하던 SSH 접속 계정/주소로 바꾼다.
-접속에 원래 사용하는 SSH 별칭, 포트 또는 점프 호스트가 있다면 그 접속 경로를 유지한다.
-위 명령은 기존 SSH 세션을 종료하거나 SSH/방화벽 설정을 변경하지 않는다.
-이후 서버가 출력한 **토큰까지 포함한 전체 URL**을 로컬 브라우저에서 연다.
-로컬·원격 포트는 동일하게 맞춘다. 8765가 사용 중이면 양쪽 모두 다른 빈 포트로 지정하며,
-다른 사용자의 프로세스를 종료하지 않는다. URL 토큰은 공유하지 않는다.
+`--cpu-threads 4`는 CPU thread 수이고 GPU 번호가 아니다. **현재 사용이 허용된 CPU 자원**에
+맞춰 지정한다. `--memory-budget-mib 1024`는 진단의 추가 작업 메모리 계획 예산,
+`--reserve-memory-mib 1024`는 예산 외에 남아 있어야 하는 여유 RAM이다.
+실측 가용 RAM·노출된 현재 cgroup과 조상 제한·CPU affinity/quota 및 명시적 scheduler CPU 제한을
+대조한다. 필수 측정에 실패하거나 예산·여유분이 부족하면 생성 전에 거부한다.
+다른 작업의 점유 변동까지 격리하거나 OOM이 절대 없다고 보장하는 설정은 아니다.
 
-뷰어 터미널에서 Ctrl+C를 누르면 이 뷰어만 끝나고 SSH 셸은 남는다.
-뷰어를 새로 실행할 때 URL 토큰이 바뀐다. 시스템 서비스로 설치하지 않는다.
+기본 config는 `configs/aid-fast.json`과 `configs/hdr-fast.json`이다.
+다른 설정으로 평가했다면 `--aid-config` / `--hdr-config`에 **실제 평가 당시 설정**을 지정한다.
+모델·변환·manifest 계약이 저장된 평가와 다르면 임의로 설정을 맞추거나 원본을 바꾸지 않고 실패한다.
 
-## 볼 수 있는 것
+출력 이름을 지정하지 않으면 다음과 같은 **새 고유 폴더**를 만든다.
 
-- EventHDR / EventAid-R 선택, 저장된 프레임 선택, ANN 및 각 SNN 모드 비교.
-- **평가용 정답 GT**와 저장된 **U-Net 최종 복원 영상**의 나란히 비교.
-- `frames.csv`에 저장된 원래 float 평가 지표. 8-bit PNG로 지표를 다시 계산하지 않는다.
-- 정답과 복원의 **8-bit 표시 영상 절대차**. 별도의 시각 진단이며 새 품질 지표가 아니다.
-- **그래프 불러오기**를 누르면 같은 프레임의 현재 원본 데이터를 CPU에서 읽어
-  원래 설정의 전체 그래프를 재구성한다. GPU나 체크포인트는 필요 없다.
-- 그래프의 모든 모델 입력 노드, 정규화된 x/y/t와 polarity, 실제 전체 엣지 수,
-  표시된 엣지 수, 고립 노드 수, 최대 degree. 회전 및 XY/XT 보기.
-- 노드를 선택하면 표시용 엣지 일부가 아닌 **그 노드의 전체 실제 이웃**을 조회한다.
-- 정답 원본의 정규화·그레이스케일 미리보기(톤매핑 전). 원시 HDR 수치나
-  원본 RGB 파일 그대로의 표시가 아니라는 점을 구분한다.
+```text
+runs/fast/visualization-<UTC>-<id>/
+├── index.html                     # 실제 PNG·그래프·평가표를 담은 오프라인 화면
+├── generation.json                # 성공 여부, 생성 범위와 자원 계획
+├── aid/
+│   └── 00000000/                  # 저장된 평가 프레임 index
+│       ├── gt.png                 # 원래 평가에서 저장한 GT
+│       ├── ann.png                # 원래 ANN 복원 PNG
+│       ├── snn_literal_eq15_T4.png # 존재하는 각 SNN 모드도 별도 PNG
+│       ├── events-xy.png          # 실제 모델 입력 이벤트의 XY 점유
+│       ├── graph-xyt.png          # 실제 시공간 그래프의 표시용 투영
+│       └── graph.json             # 모든 입력 노드·전체 통계·표시용 엣지
+└── hdr/
+    └── ...
+```
 
-## 범위와 정확성
+`--output-dir`로 새 폴더를 지정할 수도 있다. 기존 폴더가 있으면 덮어쓰지 않는다.
+실패 시 새 폴더가 이미 만들어졌다면 `generation.failed.json`에 원인을 기록하고,
+기존 평가·실험 결과는 그대로 둔다. 다시 시도할 때 기존 결과를 삭제할 필요가 없다.
 
-현재 fast 평가 설정의 `save_predictions=20`은 **dataset index 0~19만 PNG로 저장**한다.
-전체 품질 평가를 20프레임으로 줄인 것이 아니다. 저장되지 않은 프레임의 복원 이미지는
-이 뷰어가 만들거나 대체하지 않는다. 더 많은 프레임 저장은 별도의 평가/출력 작업이다.
+생성된 `index.html` 한 파일을 PC에서 더블클릭해 나란히·겹쳐 비교, 확대, 평가표,
+이벤트 이미지와 회전 가능한 시공간 그래프를 확인한다. 원격에서 생성했다면 생성 후 HTML을
+PC에 한 번 복사해야 하지만, 표시를 위한 SSH 터널이나 실행 중인 웹 서버는 필요 없다.
+PNG 파일을 별도로 쓰려면 해당 새 출력 폴더의 이미지를 사용한다.
+HTML을 보는 동안 인터넷·Python·GPU·H5/ZIP·모델 추론·그래프 재계산은 필요하지 않다.
 
-PNG는 `predictions/*_gt.png`, `*_pred.png`에 있으며, GT는 데이터셋 설정에 따른
-정규화·채널 변환·로그 톤매핑을 거친 8-bit 영상이다. 기존 float PSNR/SSIM과
-PNG에서 계산한 값이 일치한다고 주장하지 않는다.
+## 실제 입력과 생성 범위
 
-저장된 예측을 재사용하므로 원래 전체 평가의 ConvGRU 시퀀스 상태가 반영된 결과를 본다.
-임의 프레임에서 recurrent state를 초기화해 다시 추론하는 방식은 사용하지 않는다.
+입력 루트 아래 `aid/ann`, `aid/snn_literal_eq15_T4`, `hdr/ann` 등 각 모드 폴더에
+`metrics.json`, `frames.csv`, `predictions/*_gt.png`, `predictions/*_pred.png`가 필요하다.
+`benchmark.json`은 있으면 포함한다. 해당 프레임의 원본 EventHDR H5 또는 EventAid-R ZIP은
+실제 config의 `dataset.root`에서 읽는다. 체크포인트를 로드하지 않으므로 재학습·재보정도 필요 없다.
 
-현재 그래프 규칙은 정규화된 위치 벡터의 거리 `< graph_radius`이며 self-edge는 제외한다.
-현재 fast 설정은 x/y/t 3차원, 반경 0.08이고 양방향 그래프다. polarity는 노드 특징이며
-현재 3차원 거리 계산에는 들어가지 않는다. 원래 이벤트 선택·그래프 크기는 유지한다.
+- 발견된 모든 활성 모드의 **모든 저장 PNG 프레임**을 처리하고 각 프레임의 실제 그래프를 생성한다.
+  조용히 일부 프레임만 선택하거나 그래프 없는 성공 결과로 바꾸지 않는다.
+- GT·ANN/SNN 복원 PNG는 원문 바이트 그대로 복사·포함한다. 크기·색상·압축을 다시 만들지 않는다.
+  새로 생성하는 PNG는 이벤트 점유와 그래프 표시 자료이며 가짜 모델 예측이 아니다.
+- 기존 전체 평가에서 생성한 복원 PNG를 쓰므로 **recurrent context를 보존**한다.
+  선택 프레임만 state를 초기화해 재추론한 이미지를 기존 결과처럼 보여주지 않는다.
+- CSV 프레임 신원·파일명·프레임 개수·모드 신원·모드 간 GT 동일 바이트와 해상도를 확인한다.
+- 저장된 모델·변환·manifest 계약과 원본의 선택 window·sample identity·GT 픽셀을 대조한다.
+  생성한 전체 node/edge 수가 각 모드의 CSV 통계와 다르면 실패한다.
+- SHA256이 같은 PNG는 HTML 안에서 중복 저장하지 않는다.
+- `.failed-*` / `.incomplete-*` 보관 폴더는 경고를 표시하고 제외한다.
+- PSNR/SSIM은 저장된 float 지표이며 PNG에서 다시 계산하지 않는다.
+- `report_eligible`은 저장된 보고 적격성이지 화질 보증이 아니다.
+- `save_predictions=20`이면 각 모드에 저장한 그 20개 프레임 범위다.
+  저장되지 않은 전체 평가 프레임을 추가 추론하지 않으며, 기존 전체 품질 평가는 축소되지 않는다.
+- 원본 데이터·저장 PNG·필수 계약이 없거나 대응 관계가 다르면 명시적으로 실패한다.
+  빈 화면·합성 영상·추정 그래프로 대체하지 않는다.
 
-시각적으로 수백만 선을 겹쳐 그리지 않도록 기본 **표시용** 엣지만 5,000개로 제한한다
-(`--display-edges`). 실제 전체 엣지 계산·개수·선택 노드의 전체 이웃은 줄이지 않는다.
-현재 그래프 한 개만 RAM에 캐시하며 다음 프레임으로 바꾸면 이전 그래프를 해제한다.
+## 그래프 계산과 정확성의 경계
 
-그래프는 **현재 원본 파일에서 재구성한 진단 결과**이지 과거 GPU의 저장된 edge tensor가 아니다.
-평가 설정/manifest, 선택 프레임 신원, 저장 GT 픽셀, 노드·엣지 통계를 대조한다.
-전체 데이터 파일 SHA-256을 다시 계산하지 않으므로 과거 GPU tensor의 bitwise 동일성이나
-전체 데이터 내용의 재검증을 뜻하지 않는다. 불일치하면 오류를 표시하고 임의로 고치지 않는다.
+실제 원본 sample의 기존 전처리·sampling factor·좌표 정규화·반경·차원 수를 그대로 적용한다.
+모든 모델 입력 노드를 유지하며 CPU float32의 strict-radius (`distance < radius`) 규칙으로
+전체 directed edge 수와 node별 degree를 계산한다. 모델·데이터·추론 경로는 변경하지 않는다.
 
-완료 보고서가 없는 run은 경고로 드러내고 `.failed-*`, `.incomplete-*` 폴더는 제외한다.
-파일 경로를 브라우저에서 자유롭게 지정할 수 없고, 지정된 평가 루트 안의 등록된 PNG만 제공한다.
-외부 CDN, 원격 API, 공개 바인딩 또는 디렉터리 목록 기능은 없다.
+계산은 RAM 예산에 맞춘 벡터화 tile로 나누며 전체 엣지 목록을 메모리에 보관하지 않는다.
+모든 node pair를 확인하는 `O(N²)` 진단이므로 큰 프레임의 처리 시간은 실제 측정이 필요하다.
+이 계산은 이미 저장한 PNG 프레임용이지 전체 품질 평가를 다시 수행하는 경로가 아니다.
 
-## 실행 없이 저장 범위 확인
+`--display-edges 5000`은 **그릴 선과 표시 JSON의 엣지 배열만** 제한한다.
+모든 노드·전체 edge 통계·전체 degree 계산은 줄이지 않는다. `graph.json`의 `nodes`는
+정규화한 `[x, y, t, polarity]`, `edges`는 표시용 `[source, destination]`이다.
+브라우저 이웃 조회는 **포함된 표시 엣지**만 대상으로 하며 전체 이웃 목록이라고 주장하지 않는다.
+
+현재 원본의 선택 프레임과 저장된 결과를 대조한 진단이다. 전체 원본 파일의 과거 SHA-256을
+다시 검증하거나 과거 GPU graph tensor와 bitwise 일치를 증명한 것은 아니다.
+저장된 모델·실행 설정 hash는 확인하지만 전체 protocol·dataset 계약의 hash는 재검증하지 않는다.
+CPU 재구성·검증 항목·이 제한을 `graph.json`과 HTML에 기록한다.
+생성 자체는 `report_eligible=false`, `model_inference=false`이며 새로운 품질 평가가 아니다.
+
+## 자원과 파일 안전
+
+- 생성은 CPU 전용이다. SSH 접속·웹 서버 실행·GPU 초기화·GPU 번호 선택·모델 추론을 하지 않는다.
+- 원본 H5/ZIP은 선택된 프레임을 읽는 용도이며 전체 데이터셋 인덱스를 새로 만들지 않는다.
+- report는 작은 버퍼로 순차 파싱하고 선택 PNG의 source identity만 유지한다.
+  전체 sampling identity 배열을 한꺼번에 Python 객체로 만들지 않는다.
+- PNG는 하나씩 Base64로 출력하고 전체 이미지 문자열을 한꺼번에 쌓지 않는다.
+  개별 PNG·JSON·디코딩·원본 읽기에도 임시 메모리가 필요하다.
+- RAM 여유와 노출된 CPU 제한을 초기 단계와 주요 할당 전에 반복 확인한다.
+  namespace 바깥처럼 OS 조회에 노출되지 않는 상위 자원 제한은 확인 범위 밖이며 기록에 명시한다.
+- 기본 한도: 전체 입력 2,048 MiB, 출력 256 MiB, 선택 메타데이터 8 MiB,
+  PNG 한 장 32 MiB, 예상 RGBA 디코딩 한 장 128 MiB.
+  생성 CLI의 `--max-output-mib`는 HTML 크기만 조정한다. 그래프와 원본 처리에는 별도의 작업 예산을 적용한다.
+  이 한도는 상한이며 실제 RAM 예산에 맞춰 파싱·인코딩 허용량이 더 엄격해질 수 있다.
+- 브라우저 직접 입력은 PNG/JSON 파일당 32 MiB, PNG 예상 RGBA 128 MiB다.
+- 한도 초과는 **전체 생성 실패**다. 모델·노드·전체 엣지·프레임·해상도를 자동 축소하지 않는다.
+  예산을 올리기 전 현재 허용된 RAM·디스크·브라우저 부담을 확인한다.
+- 점검은 시점별 snapshot과 알고리즘 메모리 계획이지 peak RSS 강제 제한이나 완전한 자원 격리가 아니다.
+  다른 실험이 이후 RAM을 소비할 수 있으며, CPU 허용량 확인이 현재 idle/exclusive CPU 보증도 아니다.
+- 새 폴더에만 결과를 만들고 HTML은 새 임시 파일을 완성한 뒤 기존 출력이 없는 경우에만 게시한다.
+  실패 시 현재 HTML 생성의 임시 파일만 제거하며 원본·기존 결과와 다른 실험은 그대로 둔다.
+- HTML은 CSP `connect-src 'none'` 등으로 네트워크를 차단한다.
+  이미지·평가 메타데이터와 원본 선택 정보가 포함되므로 공유 범위를 확인한다.
+
+## 보조 경로: 이미 있는 PNG만 내보내기
+
+`scripts/export_results_html.py`는 **기존 PNG·평가표만 묶는** 별도 stdlib 도구다.
+실제 이벤트 그래프를 생성하려는 경우에는 위 `generate_result_visualizations.py`를 사용한다.
 
 ```bash
-python scripts/view_results.py --eval-root runs/fast/eval-2960f09 --check
+python -B scripts/export_results_html.py --eval-root runs/fast/eval-2960f09 --output runs/fast/asgcn-offline-results.html
 ```
 
-이 명령은 카탈로그만 출력하고 서버나 그래프 계산을 시작하지 않는다.
-`--aid-config` / `--hdr-config`로 해당 평가에 사용했던 설정 파일을 지정할 수 있다.
-데이터셋이 없어도 저장 PNG 비교는 가능하지만 그래프/톤매핑 전 정답 보기에는 원본 데이터가 필요하다.
+이 보조 도구에는 PyTorch·NumPy·Pillow나 GPU가 필요 없으며, 저장 그래프가 없으면 그래프 미포함이다.
+기존 그래프를 `--graph-json saved-graphs.json`으로 명시할 수 있다.
+wrapper 형식은 `schema: asgcn_offline_graphs_v1`, `graphs: [...]`이며 각 항목은
+`dataset`(aid/hdr), `index`, `sample_id`, 저장 배열인 `graph`를 갖는다.
+해당 식별자가 CSV와 다르면 거부하지만 원본 topology를 다시 검증하지는 않는다.
+보조 도구의 `--max-*-mib`로 입력/출력 한도를 명시하며 기존 출력은 덮어쓰지 않는다.
+
+HTML에서 PC의 PNG 두 장이나 JSON을 직접 선택하는 기능도 있지만, 직접 선택한 자료는 평가표의
+프레임과 연결 미검증으로 표시한다. 평가표만 있는 파일은 실제 PNG·그래프 확인을 대신하지 않는다.
+
+기존 `scripts/view_results.py`는 과거 서버형 진단 도구로 남아 있다.
+그래프 요청 때 CPU에서 원본과 전체 그래프를 다시 만들며 공유 서버 RAM/cgroup 사전 검사가
+없으므로 기본 결과 확인 경로로 사용하지 않는다. 새 생성 CLI는 웹 서버를 시작하지 않는다.
+
+## 검증 범위
+
+생성기·source reader·그래프·자원 점검의 단위/통합 테스트와 `file://` 브라우저 smoke test는
+**합성 테스트 자료**로 수행한다. 작은 CPU 테스트를 실제 사용자 데이터 생성 완료,
+모델 성능 검증, 전체 학습·평가 완료 또는 서버 사고 원인 확인으로 표현하지 않는다.
+실제 서버의 H5/ZIP·PNG와 현재 할당에서 실행한 자원·처리 시간 검증은 별도다.
+
+`tests/test_result_visualization.py`의 합성 CPU 통합 테스트는 임시 폴더에 실제 생성 경로를
+통과한 `generated` 폴더를 만든다. Playwright가 있는 Node에서
+`tests/result_visualization_browser_smoke.cjs`에 그 폴더 경로 하나를 전달하면
+GT·모드별 복원·진단 PNG와 그래프 연결을 오프라인으로 검사한다.
+`ASGCN_PLAYWRIGHT_MODULE`로 기존 Playwright 경로, `ASGCN_BROWSER_CHANNEL=chrome` 등으로
+기존 브라우저를 선택할 수 있다. 새 설치나 HTTP 서버가 필요하지 않다.

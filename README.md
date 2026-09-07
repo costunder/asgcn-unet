@@ -264,17 +264,27 @@ DRY_RUN=1 bash scripts/run.sh all
 
 ## 평가 이미지·시공간 그래프 보기
 
-완료된 평가 PNG를 다시 추론하지 않고 비교하려면 다음 읽기 전용 뷰어를 사용한다.
+완료된 평가 결과는 다음 **Python 생성 코드**로 확인한다. 저장된 GT·ANN/SNN PNG를
+원문 바이트 그대로 복사하고, 같은 프레임의 실제 H5/ZIP 이벤트에서 시공간 그래프와
+이벤트·그래프 PNG를 생성해 오프라인 비교 화면까지 한 번에 만든다.
+평가 폴더와 당시 config·원본 데이터가 있는 컴퓨터에서 실행한다.
 
 ```bash
-python scripts/view_results.py --eval-root runs/fast/eval-2960f09 --cpu-threads 4 --port 8765
+python -B scripts/generate_result_visualizations.py --eval-root runs/fast/eval-2960f09 --cpu-threads 4 --memory-budget-mib 1024 --reserve-memory-mib 1024
 ```
 
-정답/ANN/SNN 비교, 저장된 프레임별 지표, 8-bit 영상 차이, CPU 시공간 그래프와
-선택 노드의 전체 이웃을 볼 수 있다. 현재 `save_predictions=20`은 첫 20프레임의
-PNG만 저장하며 전체 평가 범위와는 다르다. 기존 결과·원본 데이터는 변경하지 않는다.
-서버 접속은 loopback 전용이므로 로컬 SSH 터널이 필요하다.
-[접속 방법·표시 범위·정확성 주의사항](docs/VIEWER.md)을 확인한다.
+`4`는 사용할 CPU thread 수이며 GPU 번호가 아니다. 현재 허용된 CPU 자원에 맞춰 지정한다.
+명시한 1,024 MiB 작업 예산과 1,024 MiB 여유분을 측정한 RAM·cgroup 제한 및 CPU 할당과
+대조하고, 부족하거나 확인할 수 없으면 실행을 거부한다. 이는 OS 수준의 메모리 격리 보증은 아니다.
+
+새 고유 폴더 `runs/fast/visualization-<UTC>-<id>/`에 PNG·`graph.json`·`index.html`과
+생성 기록을 저장한다. 생성된 `index.html`은 더블클릭으로 열며, SSH 터널·웹 서버·GPU가 필요 없다.
+재학습·재추론하지 않으므로 기존 전체 평가의 recurrent context와 복원 PNG를 유지한다.
+**모든 저장 PNG 프레임**을 처리하며 `save_predictions=20`이면 그 저장 범위다.
+전체 품질 평가를 다시 하거나 저장되지 않은 프레임을 새로 추론하는 명령은 아니다.
+그래프는 모든 모델 입력 노드와 정확한 전체 엣지 통계를 보존하고, 표시하는 선만 제한한다.
+원본이나 대응 관계가 없으면 그래프 없는 결과로 대체하지 않고 실패한다.
+입력·자원·출력의 상세 계약은 [결과 생성 코드 안내](docs/VIEWER.md)를 따른다.
 
 ## 중단 후 재개와 결과 보호
 

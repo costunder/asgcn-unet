@@ -545,6 +545,12 @@ echo "Stage '${STAGE}' completed."
 echo "Training preflight: $(path_log_label "${PROFILE_OUTPUT}")"
 echo "ANN checkpoint: $(path_log_label "${ANN_CHECKPOINT}")"
 echo "SNN checkpoint: $(path_log_label "${SNN_CHECKPOINT}")"
+case "${STAGE}" in
+  eval|eval-hdr|eval-aid|all)
+    echo "Actual GT/prediction PNG + event graph generator: scripts/generate_result_visualizations.py"
+    echo "Execution instructions: docs/VIEWER.md (explicit CPU/RAM budgets; no automatic extra computation)."
+    ;;
+esac
 )
 _asgcn_entrypoint "$@"
 fi

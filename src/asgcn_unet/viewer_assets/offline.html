@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>ASGCN · 오프라인 결과 뷰어</title>
+<style>__OFFLINE_CSS__</style>
+</head>
+<body>
+<header class="topbar"><div class="brand"><span class="brand-mark" aria-hidden="true">A</span><div><strong>ASGCN · Reconstruction</strong><span>저장된 결과를 그대로 비교합니다</span></div></div><span class="offline-badge">● 오프라인 · 서버 연결 없음</span></header>
+<main>
+<div class="heading"><div><p class="eyebrow">RESULT EXPLORER</p><h1 id="page-title">복원 결과 살펴보기</h1></div><label class="dataset-control">데이터셋<select id="dataset-select" aria-label="데이터셋"></select></label></div>
+<p id="source-note" class="source-note"></p>
+<div id="error" role="alert" hidden></div>
+<nav class="tabs" aria-label="결과 보기"><button type="button" data-panel="compare" aria-pressed="true">복원 비교</button><button type="button" data-panel="graph" aria-pressed="false">시공간 그래프</button><button type="button" data-panel="summary" aria-pressed="false">평가 결과표</button></nav>
+<section id="compare-panel" class="panel" aria-label="복원 비교">
+<div class="toolbar">
+<label class="frame-control">저장된 프레임<select id="frame-select"></select></label>
+<label>복원 모드<select id="mode-select"></select></label>
+<label>비교 방식<select id="comparison-layout"><option value="side">나란히</option><option value="wipe">겹쳐 비교</option></select></label>
+<label>확대 <output id="zoom-value">100%</output><input id="zoom" type="range" min="100" max="400" step="25" value="100"></label>
+</div>
+<div id="frame-status" class="status-line" aria-live="polite"></div>
+<div id="image-empty" class="empty-state"><span class="empty-symbol" aria-hidden="true">▧</span><h2>복원 이미지가 포함되지 않았습니다</h2><p>아래에서 PC에 있는 GT·복원 PNG를 선택하거나,<br>평가 폴더를 내보낸 HTML을 열면 실제 이미지를 비교할 수 있습니다.</p><p>임의 예측 이미지를 만들거나 서버에 요청하지 않습니다.</p></div>
+<div id="image-content" hidden>
+<div id="side-view" class="image-pair">
+<figure><figcaption><strong>평가용 정답 · GT</strong><span id="gt-size"></span></figcaption><div class="image-scroll"><img id="gt-image" alt="저장된 평가용 정답 GT"></div></figure>
+<figure><figcaption><strong id="prediction-label">U-Net 복원</strong><span id="pred-size"></span></figcaption><div class="image-scroll"><img id="pred-image" alt="저장된 U-Net 복원 이미지"></div></figure>
+</div>
+<div id="wipe-view" hidden><div class="wipe-labels"><strong>GT</strong><strong>복원</strong></div><div class="image-scroll"><div id="wipe-stage"><img id="wipe-pred" alt="겹쳐 비교: 복원"><img id="wipe-gt" alt="겹쳐 비교: GT"><div id="wipe-line"></div></div></div><label class="wipe-control">GT 표시 비율 <output id="wipe-value">50%</output><input id="wipe" type="range" min="0" max="100" value="50"></label></div>
+<dl id="frame-metrics" class="metric-strip"></dl>
+<details id="diagnostic-previews" class="local-files" hidden><summary>실제 이벤트·시공간 그래프 PNG</summary><p>같은 프레임의 실제 모델 입력 노드로 생성한 진단 PNG입니다. 복원 영상이 아닙니다. 그래프의 선은 표시용 부분집합이며 전체 노드와 실제 엣지 수는 그래프 탭에서 확인합니다.</p><div class="image-pair"><figure><figcaption><strong>실제 이벤트 · XY</strong></figcaption><div class="image-scroll"><img id="events-preview" alt="실제 입력 이벤트의 공간 분포"></div></figure><figure><figcaption><strong>실제 그래프 · XYT</strong></figcaption><div class="image-scroll"><img id="graph-preview-png" alt="실제 시공간 그래프의 정적 PNG"></div></figure></div></details>
+</div>
+<details class="local-files"><summary>PC의 PNG 두 장 직접 비교</summary><p>파일은 이 브라우저 안에서만 읽습니다. 직접 선택한 이미지는 평가표의 프레임·수치와 연결된 것으로 간주하지 않습니다.</p><div class="file-row"><label>GT PNG<input id="local-gt" type="file" accept="image/png,.png"></label><label>복원 PNG<input id="local-pred" type="file" accept="image/png,.png"></label><button id="use-saved" type="button">저장된 프레임으로 돌아가기</button></div><p id="local-status" aria-live="polite"></p></details>
+<p class="footnote">GT는 평가 과정에서 저장된 정규화·톤매핑 후 8-bit PNG입니다. 원시 HDR 방사값이나 원본 RGB와 다를 수 있습니다. 표시 확대는 복원 성능을 바꾸지 않습니다.</p>
+</section>
+<section id="graph-panel" class="panel" aria-label="시공간 그래프" hidden>
+<div class="toolbar"><label>투영<select id="projection"><option value="3d">3D · x / y / t</option><option value="xy">XY · 공간</option><option value="xt">XT · 공간 / 시간</option></select></label><label>표시할 선<input id="edge-count" type="number" min="0" step="100" value="5000"></label><label>노드 선택<input id="node-index" type="number" min="0" step="1" placeholder="index"></label><button id="select-node" type="button">선택</button><button id="reset-graph" type="button">시점 초기화</button></div>
+<div id="graph-empty" class="empty-state"><span class="empty-symbol" aria-hidden="true">⌘</span><h2>실제 그래프 데이터 미포함</h2><p>PNG만으로 모델 입력 그래프를 추정하지 않습니다.<br>저장된 그래프 JSON이 있을 때만 표시합니다.</p></div>
+<div id="graph-content" hidden><div class="graph-layout"><div class="graph-stage"><canvas id="graph-canvas" aria-label="저장된 시공간 그래프. x, y, t는 정규화된 좌표입니다.">노드·엣지는 아래 통계와 노드 선택 결과에서 확인할 수 있습니다.</canvas><span class="graph-hint">드래그: 회전 · 휠: 확대 · 클릭: 노드 선택</span></div><aside><h2>그래프 정보</h2><dl id="graph-stats"></dl><p class="legend"><span class="positive">● + polarity</span><span class="negative">● − polarity</span></p><p id="node-detail" aria-live="polite">노드를 선택하세요.</p></aside></div><p id="graph-note" class="footnote"></p></div>
+<details class="local-files"><summary>저장된 그래프 JSON 직접 열기</summary><p>기존 nodes / edges / statistics 형식을 읽습니다. 입력 파일은 최대 32 MiB이며, 초과하면 줄여 읽지 않고 거부합니다. 그래프 생성이나 데이터셋 읽기는 하지 않습니다.</p><label>그래프 JSON<input id="local-graph" type="file" accept="application/json,.json"></label><label id="imported-graph-label" hidden>파일 안의 그래프<select id="imported-graph-select"></select></label><p id="graph-file-status" aria-live="polite"></p></details>
+</section>
+<section id="summary-panel" class="panel" aria-label="평가 결과표" hidden>
+<div class="section-heading"><div><h2 id="summary-title">평가 결과</h2><p>PSNR·SSIM은 높을수록 좋습니다. 속도와 메모리는 별도 벤치마크 측정값입니다.</p></div><label>평균 기준<select id="average-select"><option value="micro">micro · 프레임 평균</option><option value="macro">macro · 그룹 평균</option></select></label></div>
+<div class="table-scroll"><table><thead><tr><th scope="col">모드</th><th scope="col">평가 프레임</th><th scope="col">PSNR ↑</th><th scope="col">SSIM ↑</th><th scope="col">ms ↓</th><th scope="col">FPS ↑</th><th scope="col">VRAM MiB</th><th scope="col">보고 적격성¹</th></tr></thead><tbody id="summary-body"></tbody></table></div>
+<p id="summary-empty" class="empty-state" hidden>평가 수치가 포함되지 않았습니다.</p>
+<p class="footnote">¹ 품질 평가 보고 / 벤치마크 보고 순서의 report_eligible 값입니다. 영상이 선명하다거나 모델 품질이 충분하다는 뜻이 아닙니다. ms/FPS/VRAM은 전체 데이터셋의 end-to-end 속도나 최대 메모리가 아닙니다. T는 SNN 시뮬레이션 스텝 수이며, literal_eq15 / standard_if는 데이터셋이 아니라 뉴런 동작 방식입니다.</p>
+</section>
+<details class="provenance"><summary>자료 출처와 포함 범위</summary><ul id="notes"></ul><ul id="warnings"></ul><p>이 HTML은 기존 결과의 표시 도구입니다. 재학습·재추론·지표 재평가를 수행하지 않습니다. 자료를 포함한 HTML에는 평가 이미지와 메타데이터가 들어 있으므로 공유 범위를 확인하세요.</p></details>
+</main>
+<footer>ASGCN-U-Net <span>LOCAL FILE · NO NETWORK · NO INFERENCE</span></footer>
+<script id="offline-data" type="application/json">__OFFLINE_PAYLOAD__</script>
+<script>__OFFLINE_JS__</script>
+</body>
+</html>

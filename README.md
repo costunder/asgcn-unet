@@ -8,7 +8,13 @@ ANN 및 ANN→SNN 변환 모델의 복원 품질·지연·발화율을 동일한
 
 구조별 비교는 [구조 비교 실험](docs/ABLATIONS.md)을 따른다. U-Net-only,
 그래프 없는 pointwise ANN/SNN + U-Net, 기존 GNN/Spiking GNN + U-Net,
-GNN/Spiking GNN + recurrent Transformer를 독립 경로에서 학습·평가한다.
+GNN/SNN 없는 Transformer-only를 독립 경로에서 학습·평가한다. 주 비교는 동일한
+원본 이벤트 `x,y,t,p` 평균 raster와 시간 기억 조건을 쓰는 **U-Net 단독(A) 대
+Transformer 단독(E)**이며, 그래프/발화 인코더 효과는 별도 보조 비교로 구분한다.
+E의 family/출력은 `transformer`/`runs/ablations/transformer`이고 ANN만 평가한다.
+기존 `graph_transformer` 설정·결과는 보존하지만 현재 비교군 E나 기본 실행에 포함하지 않는다.
+현재 행렬은 전체 40-epoch 학습 4회, 전체 SNN 보정 2회(B/D), 두 데이터셋 품질 평가
+40개 및 compute-only benchmark 40개다. A/E에는 T·발화 동역학·SNN 보정이 없다.
 `scripts/run_ablations.py`는 기본적으로 계획만 출력하며, 명시적 `--execute` 없이
 학습·평가를 시작하지 않는다. 기존 `runs/fast` 결과는 변경하지 않는다.
 

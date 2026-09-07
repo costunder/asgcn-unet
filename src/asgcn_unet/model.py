@@ -232,7 +232,7 @@ class ASGCNUNet(nn.Module):
 
     def _require_snn(self) -> None:
         if not self.supports_snn:
-            raise ValueError("U-Net-only identity encoder has no SNN conversion/inference path")
+            raise ValueError("The identity encoder has no SNN conversion/inference path")
 
     def architecture_description(self) -> dict[str, Any]:
         return {

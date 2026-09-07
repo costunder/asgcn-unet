@@ -35,9 +35,9 @@ def test_full_plan_contains_all_families_modes_datasets_and_guards():
     commands = suite.plan_commands(PROJECT)
     assert sum(c.stage == "train" for c in commands) == 4
     assert sum(c.stage == "profile" for c in commands) == 4
-    assert sum(c.stage == "calibrate" for c in commands) == 3
-    assert sum(c.stage == "evaluate" for c in commands) == 56
-    assert sum(c.stage == "benchmark" for c in commands) == 56
+    assert sum(c.stage == "calibrate" for c in commands) == 2
+    assert sum(c.stage == "evaluate" for c in commands) == 40
+    assert sum(c.stage == "benchmark" for c in commands) == 40
     assert commands[0].stage == "environment"
     assert max(i for i, command in enumerate(commands) if command.stage == "profile") < min(
         i for i, command in enumerate(commands) if command.stage == "train"
@@ -48,7 +48,7 @@ def test_full_plan_contains_all_families_modes_datasets_and_guards():
         assert "--overwrite" not in command.argv
         if command.stage == "calibrate":
             assert suite._option(command.argv, "--samples") == "all"
-        if command.family == "unet":
+        if command.family in {"unet", "transformer"}:
             assert "snn" not in command.argv
 
 
@@ -85,8 +85,8 @@ def test_explicit_execution_preserves_gpu_allocation_and_stops_at_failure(monkey
 
 def test_summary_missing_is_not_zero_or_old_fast_results():
     rows = suite.collect_summary(PROJECT)
-    assert len(rows) == 56
-    assert {r["group"] for r in rows} == {"A", "B", "B-ANN-control", "C", "D", "E", "E-ANN-control"}
+    assert len(rows) == 40
+    assert {r["group"] for r in rows} == {"A", "B", "B-ANN-control", "C", "D", "E"}
     assert all(r["frames"] is None and r["micro_psnr"] is None for r in rows)
     assert all("runs" in r["run"] and "ablations" in r["run"] for r in rows)
     assert "N/A" in suite.render_summary(rows)
@@ -362,7 +362,7 @@ def test_all_family_profiles_fail_before_any_training(tmp_path):
 
     def runner(argv, **kwargs):
         calls.append(argv)
-        if "profile" in argv and "graph_transformer-train.json" in " ".join(argv):
+        if "profile" in argv and "transformer-train.json" in " ".join(argv):
             raise subprocess.CalledProcessError(1, argv)
 
     with pytest.raises(subprocess.CalledProcessError):
@@ -405,3 +405,74 @@ def test_tampered_benchmark_contracts_are_not_marked_verified(tmp_path, field):
     assert "benchmark" in graph["status"]
     if field != "model_config":
         assert all(row[f"benchmark_{field}_matched"] is False for row in rows)
+
+
+def test_transformer_is_identity_encoder_ann_only_with_separate_run():
+    assert suite.FAMILIES["transformer"] == ("identity", "transformer", "E")
+    assert suite.modes("transformer") == suite.modes("unet") == (("ann", None, None),)
+    for split in ("train", "hdr", "aid"):
+        config = suite._load(suite.config_path(PROJECT, "transformer", split))
+        assert config["model"]["encoder_kind"] == "identity"
+        assert config["model"]["decoder_kind"] == "transformer"
+        assert config["model"]["spline_backend"] == "torch"
+        assert config["model"]["transformer_config"] == suite.TRANSFORMER_CONFIG
+        assert (
+            config["dataset"] == suite._load(suite.config_path(PROJECT, "unet", split))["dataset"]
+        )
+    commands = suite.plan_commands(PROJECT, families=("transformer",))
+    assert not any(command.stage == "calibrate" for command in commands)
+    assert not any("snn" in command.argv for command in commands)
+    assert all("graph_transformer" not in " ".join(command.argv) for command in commands)
+
+
+def test_graph_transformer_configs_preserved_but_excluded_from_active_suite(tmp_path):
+    assert "graph_transformer" not in suite.FAMILIES
+    for split in ("train", "hdr", "aid"):
+        legacy = suite._load(suite.config_path(PROJECT, "graph_transformer", split))
+        assert legacy["model"]["encoder_kind"] == "graph"
+        assert legacy["model"]["decoder_kind"] == "transformer"
+    with pytest.raises(ValueError, match="preserved legacy"):
+        suite.plan_commands(PROJECT, families=("graph_transformer",))
+    project = _synthetic_project(tmp_path)
+    old = project / "runs/ablations/graph_transformer/eval/hdr/ann/metrics.json"
+    old.parent.mkdir(parents=True)
+    old.write_text('{"legacy_original": true}')
+    rows = suite.collect_summary(project)
+    assert all(row["family"] != "graph_transformer" for row in rows)
+    assert old.read_text() == '{"legacy_original": true}'
+
+
+def test_transformer_ann_is_primary_E_and_explicit_comparison_validation_fields(tmp_path):
+    project = _synthetic_project(tmp_path)
+    _synthetic_report(project, "unet")
+    _synthetic_report(project, "transformer")
+    rows = [row for row in suite.collect_summary(project) if row["frames"] is not None]
+    assert {row["group"] for row in rows} == {"A", "E"}
+    for row in rows:
+        assert row["quality_model_contract_valid"] is True
+        assert row["quality_mode_valid"] is True
+        assert row["benchmark_mode_valid"] is True
+        assert row["benchmark_checkpoint_match"] is True
+        assert row["benchmark_model_contract_valid"] is True
+
+
+def test_comparison_validation_fields_expose_invalid_mode_checkpoint_and_model(tmp_path):
+    project = _synthetic_project(tmp_path)
+    directory = _synthetic_report(project, "transformer")
+    quality_path = directory / "metrics.json"
+    quality = json.loads(quality_path.read_text())
+    quality["simulation_steps"] = 4
+    quality["evaluation_protocol"]["model_config"]["sha256"] = "tampered"
+    quality_path.write_text(json.dumps(quality))
+    benchmark_path = directory / "benchmark.json"
+    benchmark = json.loads(benchmark_path.read_text())
+    benchmark["inference_mode"] = "snn"
+    benchmark["checkpoint_model_sha256"] = "other-model"
+    benchmark["benchmark_protocol"]["model_config"]["sha256"] = "tampered"
+    benchmark_path.write_text(json.dumps(benchmark))
+    row = next(row for row in suite.collect_summary(project) if row["frames"] is not None)
+    assert row["quality_model_contract_valid"] is False
+    assert row["quality_mode_valid"] is False
+    assert row["benchmark_mode_valid"] is False
+    assert row["benchmark_checkpoint_match"] is False
+    assert row["benchmark_model_contract_valid"] is False

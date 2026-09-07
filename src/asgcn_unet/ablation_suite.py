@@ -23,8 +23,9 @@ FAMILIES = {
     "unet": ("identity", "unet", "A"),
     "pointwise_unet": ("pointwise", "unet", "B"),
     "graph_unet": ("graph", "unet", "C/D"),
-    "graph_transformer": ("graph", "transformer", "E"),
+    "transformer": ("identity", "transformer", "E"),
 }
+LEGACY_FAMILIES = ("graph_transformer",)
 STAGES = ("plan", "profile", "train", "calibrate", "eval", "all", "summary")
 STEPS = (4, 8, 16, 32)
 DYNAMICS = ("literal_eq15", "standard_if")
@@ -65,6 +66,11 @@ def validate_suite(project: Path, families: tuple[str, ...]) -> None:
     if not families or len(set(families)) != len(families):
         raise ValueError("Select one or more distinct experiment families")
     for family in families:
+        if family in LEGACY_FAMILIES:
+            raise ValueError(
+                f"{family} is a preserved legacy experiment, not active group E. "
+                "Use transformer for the graph-free, non-spiking Transformer baseline."
+            )
         if family not in FAMILIES:
             raise ValueError(f"Unknown family: {family}")
         for split in ("train", "hdr", "aid"):
@@ -84,7 +90,7 @@ def modes(family: str) -> tuple[tuple[str, int | None, str | None], ...]:
     ann = (("ann", None, None),)
     return (
         ann
-        if family == "unet"
+        if FAMILIES[family][0] == "identity"
         else ann + tuple(("snn", steps, dynamics) for dynamics in DYNAMICS for steps in STEPS)
     )
 
@@ -189,7 +195,7 @@ def plan_commands(
                     ),
                 )
             )
-        if "calibrate" in stages and family != "unet":
+        if "calibrate" in stages and FAMILIES[family][0] != "identity":
             commands.append(
                 Command(
                     family,
@@ -505,26 +511,30 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
                 )
                 if q and not training_match:
                     issues.append("training settings mismatch/unavailable")
-                for report in (q, b):
-                    if report and (
-                        report.get("inference_mode") != mode
-                        or (
-                            mode == "snn"
-                            and (
-                                report.get("simulation_steps") != steps
-                                or report.get("snn_dynamics") != dynamics
-                            )
+                mode_validity = {}
+                for name, report in (("quality", q), ("benchmark", b)):
+                    valid = (
+                        (
+                            report.get("inference_mode") == mode
+                            and report.get("simulation_steps") == steps
+                            and report.get("snn_dynamics") == dynamics
                         )
-                    ):
-                        issues.append("mode contract mismatch")
-                if (
-                    q
-                    and b
-                    and (
-                        not isinstance(q.get("checkpoint_model_sha256"), str)
-                        or q.get("checkpoint_model_sha256") != b.get("checkpoint_model_sha256")
+                        if report
+                        else None
                     )
-                ):
+                    mode_validity[name] = valid
+                    if valid is False:
+                        issues.append("mode contract mismatch")
+                benchmark_checkpoint_match = (
+                    (
+                        isinstance(q.get("checkpoint_model_sha256"), str)
+                        and bool(q.get("checkpoint_model_sha256"))
+                        and q.get("checkpoint_model_sha256") == b.get("checkpoint_model_sha256")
+                    )
+                    if q and b
+                    else None
+                )
+                if benchmark_checkpoint_match is False:
                     issues.append("benchmark checkpoint mismatch")
                 benchmark_protocol = b.get("benchmark_protocol", {})
                 benchmark_model_valid = (
@@ -572,11 +582,7 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
                 rows.append(
                     {
                         "group": group
-                        + (
-                            "-ANN-control"
-                            if family in {"pointwise_unet", "graph_transformer"} and mode == "ann"
-                            else ""
-                        ),
+                        + ("-ANN-control" if family == "pointwise_unet" and mode == "ann" else ""),
                         "family": family,
                         "dataset": split,
                         "mode": label,
@@ -599,6 +605,11 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
                             q.get("execution", {}).get("model", {}).get("trainable_parameters")
                         ),
                         "training_settings_match": training_match if q else None,
+                        "quality_model_contract_valid": stored_model == model if q else None,
+                        "quality_mode_valid": mode_validity["quality"],
+                        "benchmark_mode_valid": mode_validity["benchmark"],
+                        "benchmark_checkpoint_match": benchmark_checkpoint_match,
+                        "benchmark_model_contract_valid": benchmark_model_valid if b else None,
                         "quality_dataset_claimed_sha256": protocol.get(
                             "evaluation_dataset", {}
                         ).get("sha256"),

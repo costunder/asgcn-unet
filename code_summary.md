@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-07T10:54:38Z",
+    "generated_utc": "2026-09-08T03:38:32Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "5757edb58b3fc72b3d695b3a175127e560143fa2",
-    "source_tree_at_generation": "c93f29033515d27f9a39968e822f292c045e6d32",
+    "source_commit_at_generation": "6cdbcf37cf79cfdc832093ad531ed405fff11a63",
+    "source_tree_at_generation": "20d98dfeaf6f3ec75d4482d96d3dbdb3a622cac6",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 40927,
+        "bytes": 43481,
         "path": "README.md",
-        "sha256": "330e62653e6188e5db5b000790d99d79c10d5b8f410fa80f00c22e60ee0b8023"
+        "sha256": "4336accf7f18d3e2196b0d0d7cc110e8293e823b88672a88d7daef354eeca61d"
       },
       {
         "bytes": 1993,
@@ -176,9 +176,9 @@
         "sha256": "8fc2e10b2ecbb0b4b0f8cdbc350c418dec80e4a434c8df54674aa4f663dd0172"
       },
       {
-        "bytes": 12647,
+        "bytes": 18802,
         "path": "docs/ABLATIONS.md",
-        "sha256": "eb5253eb3112a1417e41a1ba3c981b6bb4555c50eb4609e342ca0f6f703682e2"
+        "sha256": "c1862202d52d5ff77543f2dda60e74ebd906e10f2b582f431e63f931df855bbe"
       },
       {
         "bytes": 13841,
@@ -306,9 +306,9 @@
         "sha256": "041bfcc8e945bb560e1708447a1bd777c7341f4a25f1e114ee1cf19d942330d4"
       },
       {
-        "bytes": 3841,
+        "bytes": 5168,
         "path": "scripts/run_ablations.py",
-        "sha256": "605aba2843f9c4d080d4ad6420e6925141d7558fcfa5b7e34221ce3673db7361"
+        "sha256": "7bbf18827355809f23d9742d2e801cbe7c85d54475ef2dc7658665abab06b98c"
       },
       {
         "bytes": 4203,
@@ -386,9 +386,9 @@
         "sha256": "f2dc65b5bcc61a0f90a890075ae84da48d115380756adb0b643839c011370c46"
       },
       {
-        "bytes": 6985,
+        "bytes": 11375,
         "path": "src/asgcn_unet/ablation_comparison.py",
-        "sha256": "2dac1f267695e37509a55e0dfc868c729cb344b61aeefc11f72c7102277aa28c"
+        "sha256": "ef2a5a0551450fba5ba36e0cf72f856ce70495beee6c177c6fd8c6a9ca5a4b1b"
       },
       {
         "bytes": 12978,
@@ -396,9 +396,9 @@
         "sha256": "459cebd032bebf7c6d02de2830a1cbbca32abf927eaed2f44e1ee5317583c3b6"
       },
       {
-        "bytes": 29447,
+        "bytes": 33404,
         "path": "src/asgcn_unet/ablation_suite.py",
-        "sha256": "42ad43ff0a4bde9163811ba6091fd60d23bfed2469062645e0852cefe10dae54"
+        "sha256": "ababca8d3e24ed4c76bb54493b06af2b74bebc595a224475d6c59684c5db15e6"
       },
       {
         "bytes": 8889,
@@ -666,9 +666,9 @@
         "sha256": "85d294059c46d57ad3d0877f52e9a474b5d04bccbf3489e49ae308e15a039cd1"
       },
       {
-        "bytes": 19187,
+        "bytes": 29097,
         "path": "tests/test_ablation_suite.py",
-        "sha256": "4e33ac8d2edb8e4248a563e36c5b9d751bc8a9f880bb23b21c89db1b1f9ef2a7"
+        "sha256": "1681dd3c21c29906c5c57305cdfe3c19ee5d1e22eae0a6aa51027b7f9bb80fef"
       },
       {
         "bytes": 26238,
@@ -694,6 +694,11 @@
         "bytes": 22542,
         "path": "tests/test_batching.py",
         "sha256": "c72f6574ead946df3d9f5a2cc18d68eae7c45d40220b70076e4cc00b1f2ad0f1"
+      },
+      {
+        "bytes": 7110,
+        "path": "tests/test_bcd_throughput_cli.py",
+        "sha256": "e4952bf5b7156138619e5dbef589f4b738381e0c1155d57c27b85401b794969d"
       },
       {
         "bytes": 16394,
@@ -1056,9 +1061,9 @@
         "sha256": "13102c5eba21b14b23bbb932bb0d7a6822f93c34b5c4fa465cd92b01130475d0"
       }
     ],
-    "included_file_count": 208,
+    "included_file_count": 209,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "f95115bcdb3ccc8b138c9ccd03fb4f79bcd985942c126d666711a05104372fb0"
+    "snapshot_sha256": "cc12ade3a39812c955d86f10c9cbf64439797e20a4c1de2f73de5b27e8aa2ba0"
   }
 }
 -->
@@ -1345,10 +1350,42 @@ GNN/SNN 없는 Transformer-only를 독립 경로에서 학습·평가한다. 주
 Transformer 단독(E)**이며, 그래프/발화 인코더 효과는 별도 보조 비교로 구분한다.
 E의 family/출력은 `transformer`/`runs/ablations/transformer`이고 ANN만 평가한다.
 기존 `graph_transformer` 설정·결과는 보존하지만 현재 비교군 E나 기본 실행에 포함하지 않는다.
-현재 행렬은 전체 40-epoch 학습 4회, 전체 SNN 보정 2회(B/D), 두 데이터셋 품질 평가
+기본 `--profile full` 행렬은 전체 40-epoch 학습 4회, 전체 SNN 보정 2회(B/D), 두 데이터셋 품질 평가
 40개 및 compute-only benchmark 40개다. A/E에는 T·발화 동역학·SNN 보정이 없다.
 `scripts/run_ablations.py`는 기본적으로 계획만 출력하며, 명시적 `--execute` 없이
 학습·평가를 시작하지 않는다. 기존 `runs/fast` 결과는 변경하지 않는다.
+
+## B/C/D만 T4로 학습·평가
+
+`bcd-throughput-t4`는 `pointwise_unet`과 `graph_unet`만 사용하는 처리속도 지향
+탐색적 프로필이다. A/E는 실행하지 않는다. **ANN 학습 2회(각 40 epochs/B16),
+전체 보정 2회, 전체 품질 평가 12개와 benchmark 12개**를 실행하며 C/D는 같은 ANN 학습을 공유한다.
+B/D의 SNN은 `literal_eq15`와 `standard_if` 모두 T4로 평가하고 ANN 대조군도 유지한다.
+모델 크기·그래프 규칙·이벤트 수·입력 해상도·전체 학습/평가 데이터는 줄이지 않는다.
+기존 `configs/ablations/{pointwise_unet,graph_unet}-*.json`과
+`runs/ablations/{pointwise_unet,graph_unet}` 경로를 쓰며 새로운 학습 namespace를 만들지 않는다.
+기존 결과는 코드·설정·데이터의 exact-resume 계약이 맞을 때만 재사용한다.
+
+코드가 서버에 반영되고 **현재 작업에 실제로 할당된 GPU 환경**이 확인된 터미널에서 실행한다.
+스크립트는 할당 mask를 바꾸지 않으며 환경·전체 데이터·preflight 검사 실패 시 멈춘다.
+
+```bash
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage all --execute --resume
+```
+
+계획만 보려면 `--stage plan`을 사용하고 `--execute --resume`을 생략한다.
+결과는 `--profile bcd-throughput-t4 --stage summary`로 읽으며 B/C/D 표가 먼저 나온다.
+학습은 physical B16을 preflight로 실측하며 여러 학습 batch 후보를 탐색하지 않는다.
+평가·보정은 batch `1/2/4/8/16`, worker `0/2/4` 후보를 실측해 선택한다.
+benchmark FPS는 **B1 단일 프레임 compute-only** 값이다. 별도 평가 처리량 표의
+`eval_compute_fps`는 모델·그래프 처리량, `eval_end_to_end_fps`는 데이터 로딩·전송·모델·metric·PNG 저장을
+포함한 **평가루프(end-to-end)** 처리량이며 실제 batch/worker와 함께 표시한다.
+worker 시작·profile·checkpoint 로딩·summary 직렬화는 제외되므로 전체 작업 wall-clock FPS가 아니다.
+이를 기존 benchmark FPS로 대체하지 않는다.
+T8/T16/T32는 이 프로필에서 실행하지 않지만 기존 `full` 행렬과 결과는 보존한다.
+T는 추론 횟수여서 ANN 학습 시간 감소를 뜻하지 않으며, 새 모델의 FPS 향상이나 품질을
+보장하지 않는다. 이전 test/benchmark를 보고 정한 탐색적 선택이라는 해석과 재개 조건은
+[B/C/D 프로필 안내](docs/ABLATIONS.md#bcd-처리속도-지향-프로필-bcd-throughput-t4)를 따른다.
 
 ## 설치 및 실행
 
@@ -4533,7 +4570,7 @@ wheel==0.48.0 \
 | D | `graph_unet` | 동일 가중치의 보정된 6층 Spiking GNN → 기존 recurrent U-Net | SNN |
 | E | `transformer` | A와 동일한 정규화 원본 이벤트 특징 → 평균 raster → recurrent Transformer 복원기 | ANN |
 
-4개 ANN 학습이 A–E를 구성한다. B, D의 SNN은 각각 자기 ANN을 전체
+기본 `--profile full`에서는 4개 ANN 학습이 A–E를 구성한다. B, D의 SNN은 각각 자기 ANN을 전체
 EventHDR 학습 프레임으로 보정한다. 그래프 없는 SNN도 학습된 pointwise
 인코더의 발화 변환이며, 빈 그래프를 넣고 기존 GNN이라고 부르는 구현이 아니다.
 두 데이터셋 모두 네 family의 ANN을 평가하고 B/D에만 `literal_eq15`,
@@ -4660,6 +4697,91 @@ benchmark는 기존 read-only resume inspector로 출처·runtime·설정·데�
 검증한 뒤 건너뛴다. 기존 미완료 평가 폴더는 자동 이동·삭제·덮어쓰지 않는다.
 그 경우 정확한 경로와 이유를 보고하고 중단한다. 기존 eval recovery 도구를
 사용한 복구는 별도 명시적인 사용자 판단이 필요하다.
+
+## B/C/D 처리속도 지향 프로필: `bcd-throughput-t4`
+
+이 프로필은 B/C/D를 우선 학습·비교하고 SNN 추론을 **T=4**로 실행한다.
+기본 family는 `pointwise_unet`과 `graph_unet`이며 A/E를 재학습·재평가하지 않는다.
+`--profile`을 생략하면 기존 `full` 행렬이 유지된다. T4 프로필은 기존 전체 실험을
+대체하거나 이미 생성된 T8/T16/T32 결과를 삭제하는 설정이 아니다.
+별도의 학습 모델 설정을 만드는 것이 아니라 실행할 추론 조건만 선택한다.
+따라서 기존 `configs/ablations/{pointwise_unet,graph_unet}-{train,hdr,aid}.json`과
+`runs/ablations/{pointwise_unet,graph_unet}`를 그대로 사용하고 새 run namespace를 만들지 않는다.
+ANN과 T4의 출력 경로도 기존 mode 경로와 같다. 파일이 있다는 이유만으로 재사용하지 않으며
+아래 `--resume` 검증을 통과한 것만 보존·건너뛴다.
+
+| 학습 family | 두 데이터셋 각각에서 실행하는 조건 |
+| --- | --- |
+| `pointwise_unet` | B의 ANN 대조군, B-SNN `literal_eq15` T4, B-SNN `standard_if` T4 |
+| `graph_unet` | C(ANN), D-SNN `literal_eq15` T4, D-SNN `standard_if` T4 |
+
+총 **ANN 학습 2회 + 전체 SNN 보정 2회 + 품질 평가 12개 + benchmark 12개**다.
+C/D는 하나의 graph ANN 학습을 공유하고 D는 그 ANN을 보정한 모델이다.
+B도 자기 pointwise ANN을 학습·보정한다. 그래프가 없는 B에 반경 그래프를 생성하지 않는다.
+각 품질 평가는 EventHDR 또는 EventAid-R의 전체 평가 프레임을 사용한다.
+
+다음 설정은 그대로 유지한다: **40 epochs, physical batch 16, 전체 학습·validation·
+calibration 데이터, 기존 6층/hidden 64 인코더와 recurrent U-Net, 이벤트 입력 수,
+그래프 반경과 실제 연결 규칙, 전체 입력 해상도, optimizer/loss/schedule**.
+학습은 기존 **physical B16을 preflight로 실측**하며 여러 학습 batch 후보 중 선택하는
+기능은 아니다. 평가·보정은 기존 auto 후보 batch `1/2/4/8/16`, worker `0/2/4`를
+실측해 선택한다. 두 경로를 구분하며 평가 auto 선택을 학습 batch 탐색으로 표현하지 않는다.
+T는 SNN 추론의 시뮬레이션 횟수이므로 **T4를 선택했다고 ANN 학습 시간이 짧아지는
+것은 아니다**. 모델·데이터·그래프를 줄이거나 FP32 평가를 몰래 저정밀도로 바꾸지 않는다.
+학습의 기존 AMP 설정과 평가의 **FP32/TF32 off**를 유지한다. C/D의 기존 Triton
+그래프 연산과 B의 순수 PyTorch pointwise 경로도 변경하지 않는다. EventAid-R의 기존
+`max_graph_edges_override=7475202` 및 밀집 probe index `37791`도 그대로다.
+이 값은 실제 연결을 잘라내는 설정이 아니라 C/D 반경 그래프의 명시적인 메모리 guard다.
+B는 `no_graph`이므로 이 엣지 guard가 적용되는 그래프를 만들지 않는다.
+
+코드가 서버에 반영된 후 계획만 확인하려면 다음 명령을 사용한다.
+이 단계는 GPU·원본 데이터 접근이나 학습·평가 실행을 하지 않는다.
+
+```bash
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage plan
+```
+
+현재 작업에 실제로 할당된 GPU mask/장치 제한을 보존한 같은 Conda 환경에서 실행한다.
+할당이 확인되지 않으면 먼저 현재 할당을 확인해야 하며, 장치 번호를 추측하거나
+`CUDA_VISIBLE_DEVICES`를 임의로 바꾸지 않는다. 환경/전체 데이터 검사와 두 family의
+preflight가 통과해야 학습이 시작된다.
+
+```bash
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage all --execute --resume
+```
+
+`--resume`은 위의 동일한 검증·결과 보존 규칙을 따른다. 기존 checkpoint/profile의
+코드·설정·데이터 계약이 다르면 자동 재사용하지 않고 멈춘다. 미완료 평가 폴더를
+삭제·덮어쓰거나 평가 중간 프레임부터 임의로 이어 붙이지 않는다.
+
+완료 결과를 읽을 때는 같은 프로필을 지정한다. 기본 출력은 **B/C/D T4 비교표**이며
+A/E 비교표로 바꾸어 표시하지 않는다. 전체 출처 확인 열은 `--details`로 추가한다.
+
+```bash
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage summary
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage summary --details
+```
+
+이 프로필에서는 **T8/T16/T32를 실행하지 않는다**. 완료 표시는 T4 프로필에만
+해당하며 전체 `full` 행렬 완료를 뜻하지 않는다. 더 긴 T 비교는 기존 `full`
+프로필의 별도 후속 실험으로 남는다. 두 발화 동역학 중 한쪽을 숨기거나 제거하지 않는다.
+
+T4 선택은 이전 `runs/fast/eval-2960f09` GNN/SNN benchmark에서 T32보다 짧은
+지연을 보였던 결과를 동기로 한다. **이전 test/benchmark를 본 뒤 정한 탐색적 프로필**이며
+새 B/C/D의 실측 성능이나 독립적으로 고정한 최종 test 선택을 뜻하지 않는다.
+새 프로필의 FPS 향상 폭·모델 간 순위·복원 품질·전체 학습 시간은 실제 실행 전에는
+보장할 수 없다. summary는 서로 다른 측정 범위를 구분한다.
+
+- 기존 benchmark FPS: **B1 단일 프레임 compute-only** 측정값이다. auto 선택된 평가
+  batch의 처리량이 아니며 batch 처리량으로 이 열을 대체하지 않는다.
+- 별도 평가 처리량 표의 `eval_compute_fps`: 평가의 모델·그래프 계산 처리량으로
+  데이터 I/O·metric·PNG 저장을 제외한다.
+- 같은 표의 `eval_end_to_end_fps`: 데이터 로딩·전송·모델·metric·PNG 저장을 포함한
+  **평가루프(end-to-end)** 처리량이다. worker 시작·profile·checkpoint 로딩·summary
+  직렬화는 제외되므로 전체 작업 wall-clock FPS가 아니다. 실제 적용된 batch/worker와 함께 해석한다.
+
+benchmark의 표본 VRAM은 전체 실행 메모리 최대값이 아니다. 측정 범위가 다른
+benchmark FPS와 평가 처리량을 같은 지표로 나누거나 FPS 향상으로 주장하지 않는다.
 
 ## 결과와 확인
 
@@ -12615,28 +12737,47 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
+from collections import Counter
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT / "src"))
 
-from asgcn_unet.ablation_comparison import render_a_e
+from asgcn_unet.ablation_comparison import render_a_e, render_bcd_t4
 from asgcn_unet.ablation_suite import (
+    EXECUTION_PROFILES,
     FAMILIES,
     STAGES,
     collect_summary,
     execute_commands,
+    get_execution_profile,
     plan_commands,
     render_summary,
 )
+
+
+def _print_results(args: argparse.Namespace, families: tuple[str, ...]) -> None:
+    options = {} if args.profile == "full" else {"profile": args.profile}
+    rows = collect_summary(PROJECT, families, **options)
+    if args.profile == "full":
+        print(render_a_e(rows))
+    else:
+        print(render_bcd_t4(rows))
+    if args.details:
+        print("\n## Selected experiments and stored provenance\n")
+        print(render_summary(rows))
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stage", choices=STAGES, default="plan")
     parser.add_argument(
+        "--profile", choices=tuple(EXECUTION_PROFILES), default="full",
+        help="full keeps the complete sweep; bcd-throughput-t4 runs B/C/D ANN and both T=4 dynamics only",
+    )
+    parser.add_argument(
         "--details", action="store_true",
-        help="Append supplementary B/C/D, ANN controls and full provenance after the A/E table",
+        help="Append all selected rows, macro metrics and stored provenance after the compact table",
     )
     parser.add_argument(
         "--execute",
@@ -12648,33 +12789,42 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Verify completed artifacts and resume last.pt; never archive/overwrite incomplete results",
     )
-    parser.add_argument("--families", nargs="+", choices=tuple(FAMILIES), default=list(FAMILIES))
+    parser.add_argument("--families", nargs="+", choices=tuple(FAMILIES), default=None)
     parser.add_argument(
         "--cpu-threads", type=int, default=4, help="CPU helpers for existing full CUDA preflight"
     )
     args = parser.parse_args(argv)
     try:
+        profile = get_execution_profile(args.profile)
+        families = tuple(args.families) if args.families is not None else profile.families
         if args.stage == "summary":
-            rows = collect_summary(PROJECT, tuple(args.families))
-            print(render_a_e(rows))
-            if args.details:
-                print("\n## Supplementary experiments and stored provenance\n")
-                print(render_summary(rows))
+            _print_results(args, families)
             return 0
         if args.stage == "plan" and args.execute:
             raise ValueError("plan never executes; choose --stage all (or one stage) explicitly")
         commands = plan_commands(
-            PROJECT, stage=args.stage, families=tuple(args.families), cpu_threads=args.cpu_threads
+            PROJECT, stage=args.stage, families=families, cpu_threads=args.cpu_threads,
+            profile=args.profile,
         )
-        print("Primary: A (U-Net only) vs E (Transformer only); no GNN/SNN in either.")
-        print("Supplementary: B (+ANN control), C/D. Old graph_transformer is not E.")
+        print(f"Execution profile: {profile.name}; selected families: {', '.join(families)}")
+        if profile.name == "full":
+            print("Primary: A (U-Net only) vs E (Transformer only); no GNN/SNN in either.")
+            print("Supplementary: B (+ANN control), C/D. Old graph_transformer is not E.")
+        else:
+            print("B/C/D throughput-first: ANN controls and T=4 with both SNN dynamics.")
+            print("A/E are not scheduled. T=8/16/32 are deferred, not completed or deleted.")
+            print("T is an inference setting: B and C/D each share one ANN training across their modes.")
         print(
             "Full existing data, resolution, 40 epochs and physical batch 16 retained."
         )
-        if any(FAMILIES[family][0] != "identity" for family in args.families):
-            print("Supplementary B/D retain all T and both SNN dynamics; A/E are ANN-only.")
+        if any(FAMILIES[family][0] != "identity" for family in families):
+            print(f"Selected SNN steps: {profile.simulation_steps}; dynamics: {profile.dynamics}")
         else:
             print("A/E are ANN-only: no SNN calibration or T sweep.")
+        counts = Counter(command.stage for command in commands)
+        print("Planned stages: " + ", ".join(f"{stage}={count}" for stage, count in counts.items()))
+        print("Existing train AMP and measured batching remain enabled; evaluation remains FP32 with TF32 off.")
+        print("Higher FPS is not guaranteed; benchmark values are compute-only single-frame latency references.")
         print(
             "No GPU is selected or mask changed. Concurrent studies on the same allocation are not launched."
         )
@@ -12688,11 +12838,7 @@ def main(argv: list[str] | None = None) -> int:
             cpu_threads=args.cpu_threads,
         )
         if args.execute and args.stage in {"all", "eval"}:
-            rows = collect_summary(PROJECT, tuple(args.families))
-            print(render_a_e(rows))
-            if args.details:
-                print("\n## Supplementary experiments and stored provenance\n")
-                print(render_summary(rows))
+            _print_results(args, families)
         return 0
     except (ValueError, TypeError, OSError, subprocess.CalledProcessError) as error:
         print(f"Ablation stage stopped: {error}", file=sys.stderr)
@@ -15161,6 +15307,91 @@ def render_a_e(rows: list[dict]) -> str:
         "Use --details for supplementary B/C/D, ANN controls, all T/dynamics, and provenance records.",
     ])
     return "\n".join(lines)
+
+
+def render_bcd_t4(rows: list[dict]) -> str:
+    """Stored B/C/D T=4 results, with no ranking, inference, or implicit sweep completion."""
+    allowed = {
+        ("pointwise_unet", "B-ANN-control", "ann"),
+        ("graph_unet", "C", "ann"),
+        *((family, group, f"snn_{dynamics}_T4")
+          for family, group in (("pointwise_unet", "B"), ("graph_unet", "D"))
+          for dynamics in ("literal_eq15", "standard_if")),
+    }
+    seen = set()
+    for row in rows:
+        identity = (row.get("family"), row.get("group"), row.get("mode"))
+        if identity not in allowed or row.get("dataset") not in {"hdr", "aid"}:
+            raise ValueError("Unexpected result in B/C/D T=4 profile")
+        key = (row["dataset"], *identity)
+        if key in seen:
+            raise ValueError("Duplicate result in B/C/D T=4 profile")
+        seen.add(key)
+
+    def cell(value: Any) -> str:
+        if value is None:
+            return "N/A"
+        if isinstance(value, bool):
+            return "yes" if value else "no"
+        if isinstance(value, (int, float)):
+            finite = _number(value)
+            return "N/A" if finite is None else f"{finite:.5f}" if isinstance(finite, float) else str(finite)
+        return str(value).replace("|", "\\|").replace("\n", " ")
+
+    fields = (
+        "group", "mode", "frames", "parameters", "micro_psnr", "micro_ssim",
+        "mean_ms", "fps", "vram_mib", "quality_eligible", "benchmark_eligible",
+    )
+    lines = [
+        "## B/C/D throughput-first profile: T=4", "",
+        "B: pointwise SNN + U-Net (with ANN control); C: GNN + U-Net; D: spiking GNN + U-Net.",
+        "A/E are not included. T=8/16/32 are deferred, not missing requirements of this profile.",
+        "This is not completion of the full sweep and does not establish the optimal T/dynamics.", "",
+    ]
+    if not rows:
+        lines.append("No selected results available. No training or inference was started.")
+    for dataset in ("hdr", "aid"):
+        selected = [row for row in rows if row["dataset"] == dataset]
+        if not selected:
+            continue
+        lines.extend([
+            f"### {dataset}", "",
+            "| Group | Mode | Frames | Parameters | PSNR-u | SSIM-u | ms | FPS | VRAM-MiB | Quality | Bench |",
+            "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
+        ])
+        lines.extend("| " + " | ".join(cell(row.get(key)) for key in fields) + " |" for row in selected)
+        lines.append("")
+        lines.extend([
+            "Measured quality-evaluation batching (not the single-frame benchmark above):", "",
+            "| Group | Mode | Selected batch | Workers | Batch compute frames/s | End-to-end frames/s |",
+            "| --- | --- | ---: | ---: | ---: | ---: |",
+        ])
+        batching_fields = (
+            "group", "mode", "eval_batch_size", "eval_num_workers",
+            "eval_compute_fps", "eval_end_to_end_fps",
+        )
+        lines.extend(
+            "| " + " | ".join(cell(row.get(key)) for key in batching_fields) + " |"
+            for row in selected
+        )
+        lines.append("")
+        # Preserve warnings even in the compact view; raw FPS alone is not a validity claim.
+        for status in dict.fromkeys(row.get("status", "status unavailable") for row in selected):
+            labels = ", ".join(
+                f"{row['group']}/{row['mode']}" for row in selected
+                if row.get("status", "status unavailable") == status
+            )
+            lines.extend([f"Status [{labels}]: {cell(status)}", ""])
+    lines.extend([
+        "N/A is unavailable, never zero. Quality/Bench show stored eligibility, not a new validation.",
+        "PSNR-u/SSIM-u are micro averages. Use --details for macro metrics and per-condition provenance.",
+        "FPS/ms/VRAM are compute-only benchmark measurements, not end-to-end speed or full-run memory maxima.",
+        "Batch compute frames/s excludes I/O, metrics and PNG writing; end-to-end includes them during evaluation.",
+        "Evaluation-loop end-to-end excludes startup, profiling, checkpoint loading and final report serialization.",
+        "Selected batch is a ceiling; sequence/shape lanes may produce smaller physical batches.",
+        "Training duration is not inferred from FPS. Original datasets and current hardware are not revalidated here.",
+    ])
+    return "\n".join(lines)
 ~~~~~~~~
 
 # src/asgcn_unet/ablation_encoders.py
@@ -15486,6 +15717,7 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any
 
 FAMILIES = {
@@ -15504,6 +15736,57 @@ TRANSFORMER_CONFIG = {
     "window_size": 8,
     "mlp_ratio": 4.0,
 }
+
+
+@dataclass(frozen=True)
+class ExecutionProfile:
+    """Explicit execution selection, never a model/data/training configuration."""
+
+    name: str
+    families: tuple[str, ...]
+    simulation_steps: tuple[int, ...]
+    dynamics: tuple[str, ...]
+    full_sweep: bool
+
+
+EXECUTION_PROFILES = MappingProxyType(
+    {
+        "full": ExecutionProfile("full", tuple(FAMILIES), STEPS, DYNAMICS, True),
+        "bcd-throughput-t4": ExecutionProfile(
+            "bcd-throughput-t4",
+            ("pointwise_unet", "graph_unet"),
+            (4,),
+            DYNAMICS,
+            False,
+        ),
+    }
+)
+
+
+def get_execution_profile(name: str = "full") -> ExecutionProfile:
+    """Return immutable declared scope; misspellings never fall back to full/fast."""
+    if not isinstance(name, str) or name not in EXECUTION_PROFILES:
+        raise ValueError(f"Unknown execution profile: {name!r}")
+    return EXECUTION_PROFILES[name]
+
+
+def resolve_profile_families(
+    families: tuple[str, ...] | None = None,
+    *,
+    profile: str = "full",
+) -> tuple[str, ...]:
+    selection = get_execution_profile(profile)
+    selected = selection.families if families is None else tuple(families)
+    if not selected or len(set(selected)) != len(selected):
+        raise ValueError("Select one or more distinct experiment families")
+    for family in selected:
+        if family in LEGACY_FAMILIES:
+            raise ValueError(f"{family} is a preserved legacy experiment, not an active family")
+        if family not in FAMILIES:
+            raise ValueError(f"Unknown family: {family}")
+        if family not in selection.families:
+            raise ValueError(f"Family {family} is not permitted by execution profile {profile}")
+    return selected
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -15555,12 +15838,19 @@ def config_path(project: Path, family: str, split: str) -> Path:
     return project / "configs" / "ablations" / f"{family}-{split}.json"
 
 
-def modes(family: str) -> tuple[tuple[str, int | None, str | None], ...]:
+def modes(family: str, *, profile: str = "full") -> tuple[tuple[str, int | None, str | None], ...]:
+    selection = get_execution_profile(profile)
+    resolve_profile_families((family,), profile=profile)
     ann = (("ann", None, None),)
     return (
         ann
         if FAMILIES[family][0] == "identity"
-        else ann + tuple(("snn", steps, dynamics) for dynamics in DYNAMICS for steps in STEPS)
+        else ann
+        + tuple(
+            ("snn", steps, dynamics)
+            for dynamics in selection.dynamics
+            for steps in selection.simulation_steps
+        )
     )
 
 
@@ -15579,10 +15869,12 @@ def plan_commands(
     project: Path,
     *,
     stage: str = "all",
-    families: tuple[str, ...] = tuple(FAMILIES),
+    families: tuple[str, ...] | None = None,
     python: str = sys.executable,
     cpu_threads: int = 4,
+    profile: str = "full",
 ) -> list[Command]:
+    families = resolve_profile_families(families, profile=profile)
     validate_suite(project, families)
     if stage not in STAGES or type(cpu_threads) is not int or cpu_threads < 1:
         raise ValueError("Invalid stage or CPU thread count")
@@ -15627,7 +15919,7 @@ def plan_commands(
     for family in families:
         train = str(config_path(project, family, "train"))
         run = project / "runs/ablations" / family
-        profile = str(project / "runs/ablations" / f"{family}-profile.json")
+        profile_output = str(project / "runs/ablations" / f"{family}-profile.json")
         if "profile" in stages:
             commands.append(
                 Command(
@@ -15639,7 +15931,7 @@ def plan_commands(
                         "--config",
                         train,
                         "--output",
-                        profile,
+                        profile_output,
                         "--samples",
                         "3",
                         "--top-density",
@@ -15660,7 +15952,7 @@ def plan_commands(
                         "--config",
                         train,
                         "--preflight-report",
-                        profile,
+                        profile_output,
                     ),
                 )
             )
@@ -15686,7 +15978,7 @@ def plan_commands(
         if "eval" in stages:
             for split in ("hdr", "aid"):
                 config = str(config_path(project, family, split))
-                for mode, steps, dynamics in modes(family):
+                for mode, steps, dynamics in modes(family, profile=profile):
                     checkpoint = str(run / ("best.pt" if mode == "ann" else "best_snn.pt"))
                     common = (
                         "--config",
@@ -15900,10 +16192,17 @@ def _training_settings(config: dict) -> dict:
     return result
 
 
-def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) -> list[dict]:
+def collect_summary(
+    project: Path,
+    families: tuple[str, ...] | None = None,
+    *,
+    profile: str = "full",
+) -> list[dict]:
     """Read exact suite paths; never re-label runs/fast or archive results as ablations."""
     from .offline_viewer import ExportLimits, _read_selected
 
+    selection_profile = get_execution_profile(profile)
+    families = resolve_profile_families(families, profile=profile)
     validate_suite(project, families)
     selection = {
         "quality": {"frames": True, "micro": True, "macro": True},
@@ -15912,7 +16211,15 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
         "simulation_steps": True,
         "snn_dynamics": True,
         "checkpoint_model_sha256": True,
-        "execution": {"model": {"total_parameters": True, "trainable_parameters": True}},
+        "execution": {
+            "model": {"total_parameters": True, "trainable_parameters": True},
+            "batching": {"physical_batch_size": True},
+            "loader": {"num_workers": True},
+        },
+        "performance": {
+            "throughput_frames_per_second": True,
+            "end_to_end_frames_per_second": True,
+        },
         "evaluation_protocol": {
             "model_config": True,
             "execution": True,
@@ -15948,7 +16255,7 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
     for family in families:
         for split in ("hdr", "aid"):
             model = _load(config_path(project, family, split))["model"]
-            for mode, steps, dynamics in modes(family):
+            for mode, steps, dynamics in modes(family, profile=profile):
                 label = mode_label(mode, steps, dynamics)
                 directory = project / "runs/ablations" / family / "eval" / split / label
                 reports = {}
@@ -16053,6 +16360,8 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
                         "group": group
                         + ("-ANN-control" if family == "pointwise_unet" and mode == "ann" else ""),
                         "family": family,
+                        "execution_profile": selection_profile.name,
+                        "profile_is_full_sweep": selection_profile.full_sweep,
                         "dataset": split,
                         "mode": label,
                         "run": str(directory),
@@ -16066,6 +16375,18 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
                         },
                         "mean_ms": _finite(b.get("mean_ms")),
                         "fps": _finite(b.get("fps")),
+                        "eval_compute_fps": _finite(
+                            q.get("performance", {}).get("throughput_frames_per_second")
+                        ),
+                        "eval_end_to_end_fps": _finite(
+                            q.get("performance", {}).get("end_to_end_frames_per_second")
+                        ),
+                        "eval_batch_size": _finite(
+                            q.get("execution", {}).get("batching", {}).get("physical_batch_size")
+                        ),
+                        "eval_num_workers": _finite(
+                            q.get("execution", {}).get("loader", {}).get("num_workers")
+                        ),
                         "vram_mib": _finite(b.get("peak_gpu_memory_mb")),
                         "parameters": _finite(
                             q.get("execution", {}).get("model", {}).get("total_parameters")
@@ -16153,6 +16474,10 @@ def render_summary(rows: list[dict]) -> str:
         "macro_ssim",
         "mean_ms",
         "fps",
+        "eval_compute_fps",
+        "eval_end_to_end_fps",
+        "eval_batch_size",
+        "eval_num_workers",
         "vram_mib",
         "quality_eligible",
         "benchmark_eligible",
@@ -16182,6 +16507,11 @@ def render_summary(rows: list[dict]) -> str:
     return (
         "\n".join(lines)
         + "\n\nN/A is missing, not zero. Timing is compute-only when io_excluded=true. "
+        "fps is the separate single-frame benchmark, never replaced by eval_compute_fps. "
+        "eval_compute_fps is full-evaluation frames/model time; eval_end_to_end_fps includes "
+        "loader, transfer, metrics and prediction artifacts, but excludes model loading, worker startup, "
+        "profiling and summary serialization. eval_batch_size is the selected physical batch limit, "
+        "not a claim that every tail batch reaches that size. "
         "quality_* columns do not validate FPS comparability; use benchmark_* columns. "
         "Quality dataset hashes are stored claims only (full-frame identity arrays are not retained/rehashed here). "
         "Stored eligibility is not proof of matched training, hardware, or dataset provenance. "
@@ -38776,6 +39106,229 @@ def test_comparison_validation_fields_expose_invalid_mode_checkpoint_and_model(t
     assert row["benchmark_mode_valid"] is False
     assert row["benchmark_checkpoint_match"] is False
     assert row["benchmark_model_contract_valid"] is False
+
+
+def test_execution_profile_metadata_is_immutable_and_full_default_is_unchanged():
+    from dataclasses import FrozenInstanceError
+
+    full = suite.get_execution_profile()
+    assert full.name == "full"
+    assert full.families == tuple(suite.FAMILIES)
+    assert full.simulation_steps == (4, 8, 16, 32)
+    assert full.dynamics == suite.DYNAMICS
+    assert full.full_sweep is True
+    selected = suite.get_execution_profile("bcd-throughput-t4")
+    assert selected.families == ("pointwise_unet", "graph_unet")
+    assert selected.simulation_steps == (4,)
+    assert selected.dynamics == ("literal_eq15", "standard_if")
+    assert selected.full_sweep is False
+    with pytest.raises(FrozenInstanceError):
+        selected.simulation_steps = (32,)
+    with pytest.raises(TypeError):
+        suite.EXECUTION_PROFILES["bcd-throughput-t4"] = full
+
+
+@pytest.mark.parametrize("profile", ["unknown", "bcd-throughput-t04", "", None, 4])
+def test_unknown_execution_profiles_never_fall_back(profile):
+    with pytest.raises(ValueError, match="Unknown execution profile"):
+        suite.get_execution_profile(profile)
+    with pytest.raises(ValueError, match="Unknown execution profile"):
+        suite.plan_commands(PROJECT, profile=profile)
+    with pytest.raises(ValueError, match="Unknown execution profile"):
+        suite.collect_summary(PROJECT, profile=profile)
+
+
+def test_bcd_t4_plan_has_two_shared_trainings_two_calibrations_and_twelve_pairs():
+    commands = suite.plan_commands(PROJECT, profile="bcd-throughput-t4")
+    assert {command.family for command in commands} == {"suite", "pointwise_unet", "graph_unet"}
+    assert sum(command.stage == "profile" for command in commands) == 2
+    assert sum(command.stage == "train" for command in commands) == 2
+    assert sum(command.stage == "calibrate" for command in commands) == 2
+    assert sum(command.stage == "evaluate" for command in commands) == 12
+    assert sum(command.stage == "benchmark" for command in commands) == 12
+    assert max(i for i, command in enumerate(commands) if command.stage == "profile") < min(
+        i for i, command in enumerate(commands) if command.stage == "train"
+    )
+    for family in ("pointwise_unet", "graph_unet"):
+        assert suite.modes(family, profile="bcd-throughput-t4") == (
+            ("ann", None, None),
+            ("snn", 4, "literal_eq15"),
+            ("snn", 4, "standard_if"),
+        )
+    for command in commands:
+        if command.stage == "calibrate":
+            assert suite._option(command.argv, "--samples") == "all"
+        if "--simulation-steps" in command.argv:
+            assert suite._option(command.argv, "--simulation-steps") == "4"
+
+
+@pytest.mark.parametrize("family", ["unet", "transformer", "graph_transformer"])
+def test_bcd_profile_rejects_A_E_and_legacy_in_plan_modes_and_summary(family):
+    with pytest.raises(ValueError):
+        suite.plan_commands(PROJECT, families=(family,), profile="bcd-throughput-t4")
+    with pytest.raises(ValueError):
+        suite.collect_summary(PROJECT, (family,), profile="bcd-throughput-t4")
+    with pytest.raises(ValueError):
+        suite.modes(family, profile="bcd-throughput-t4")
+
+
+@pytest.mark.parametrize("family", ["pointwise_unet", "graph_unet"])
+def test_bcd_profile_explicit_single_family_for_retry_does_not_expand_scope(family):
+    commands = suite.plan_commands(PROJECT, families=(family,), profile="bcd-throughput-t4")
+    assert {command.family for command in commands} == {"suite", family}
+    assert sum(command.stage == "train" for command in commands) == 1
+    assert sum(command.stage == "calibrate" for command in commands) == 1
+    assert sum(command.stage == "evaluate" for command in commands) == 6
+    rows = suite.collect_summary(PROJECT, (family,), profile="bcd-throughput-t4")
+    assert len(rows) == 6
+    assert {row["family"] for row in rows} == {family}
+    assert all(row["profile_is_full_sweep"] is False for row in rows)
+
+
+def test_bcd_priority_plan_is_only_a_mode_selection_not_a_config_or_checkpoint_change():
+    families = ("pointwise_unet", "graph_unet")
+    before = {
+        suite.config_path(PROJECT, family, split): suite.config_path(
+            PROJECT, family, split
+        ).read_bytes()
+        for family in families
+        for split in ("train", "hdr", "aid")
+    }
+    full = suite.plan_commands(PROJECT, families=families)
+    selected = suite.plan_commands(PROJECT, profile="bcd-throughput-t4")
+    expected = [
+        command
+        for command in full
+        if "--simulation-steps" not in command.argv
+        or suite._option(command.argv, "--simulation-steps") == "4"
+    ]
+    assert selected == expected
+    assert all(path.read_bytes() == content for path, content in before.items())
+    for family in families:
+        train = suite._load(suite.config_path(PROJECT, family, "train"))
+        assert train["train"]["epochs"] == 40
+        assert train["train"]["batch_size"] == 16
+        assert train["model"]["graph_layers"] == 6
+        assert train["model"]["hidden_dim"] == 64
+        assert train["dataset"]["max_events"] == 8192
+
+
+def test_bcd_summary_reports_explicit_selected_scope_without_full_sweep_claim():
+    rows = suite.collect_summary(PROJECT, profile="bcd-throughput-t4")
+    assert len(rows) == 12
+    assert {row["group"] for row in rows} == {"B", "B-ANN-control", "C", "D"}
+    assert {row["mode"] for row in rows} == {"ann", "snn_literal_eq15_T4", "snn_standard_if_T4"}
+    assert {row["execution_profile"] for row in rows} == {"bcd-throughput-t4"}
+    assert all(row["profile_is_full_sweep"] is False for row in rows)
+    assert len(suite.collect_summary(PROJECT)) == 40
+
+
+def test_bcd_priority_plan_is_read_only_and_preserves_explicit_GPU_mask(monkeypatch):
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "current-allocation-not-chosen-by-test")
+    before = dict(suite.os.environ)
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Planning a selected profile executed work")
+
+    suite.execute_commands(
+        suite.plan_commands(PROJECT, profile="bcd-throughput-t4"),
+        PROJECT,
+        runner=forbidden,
+        emit=lambda _: None,
+    )
+    assert dict(suite.os.environ) == before
+
+
+def test_summary_separates_actual_evaluation_batch_throughput_from_benchmark_fps(tmp_path):
+    project = _synthetic_project(tmp_path)
+    directory = _synthetic_report(project, "graph_unet")
+    path = directory / "metrics.json"
+    report = json.loads(path.read_text())
+    # These are the scalar keys written by evaluation_batches.evaluation_frames
+    # and resources.build_execution_report; arbitrary synthetic values only.
+    report["performance"] = {
+        "throughput_frames_per_second": 123.5,
+        "end_to_end_frames_per_second": 87.25,
+        "throughput_scope": "model_graph_encoder_decoder_excludes_io_metrics_artifacts",
+        "end_to_end_scope": "loader_transfer_model_metrics_prediction_artifacts",
+    }
+    report["execution"]["batching"] = {"physical_batch_size": 16}
+    report["execution"]["loader"] = {"num_workers": 4}
+    # A profile trial is NOT the actual evaluation-loop throughput or batch.
+    report["batch_profile"] = {
+        "selected": {"batch_size": 8, "num_workers": 2, "samples_per_second": 999.0}
+    }
+    path.write_text(json.dumps(report))
+    row = next(
+        row
+        for row in suite.collect_summary(project, profile="bcd-throughput-t4")
+        if row["frames"] is not None
+    )
+    assert row["eval_compute_fps"] == 123.5
+    assert row["eval_end_to_end_fps"] == 87.25
+    assert row["eval_batch_size"] == 16
+    assert row["eval_num_workers"] == 4
+    assert row["fps"] == 50.0
+    rendered = suite.render_summary([row])
+    assert all(
+        field in rendered
+        for field in (
+            "eval_compute_fps",
+            "eval_end_to_end_fps",
+            "eval_batch_size",
+            "eval_num_workers",
+        )
+    )
+    assert "separate single-frame benchmark" in rendered
+    assert "not a claim that every tail batch" in rendered
+
+
+def test_missing_evaluation_throughput_is_NA_and_does_not_fall_back_to_benchmark(tmp_path):
+    project = _synthetic_project(tmp_path)
+    _synthetic_report(project, "graph_unet")
+    row = next(row for row in suite.collect_summary(project) if row["frames"] is not None)
+    assert row["fps"] == 50.0
+    assert row["eval_compute_fps"] is None
+    assert row["eval_end_to_end_fps"] is None
+    assert row["eval_batch_size"] is None
+    assert row["eval_num_workers"] is None
+
+
+@pytest.mark.parametrize("invalid", [None, True, "unavailable"])
+def test_evaluation_throughput_fields_reject_nonnumeric_values(tmp_path, invalid):
+    project = _synthetic_project(tmp_path)
+    directory = _synthetic_report(project, "graph_unet")
+    path = directory / "metrics.json"
+    report = json.loads(path.read_text())
+    report["performance"] = {
+        "throughput_frames_per_second": invalid,
+        "end_to_end_frames_per_second": invalid,
+    }
+    report["execution"]["batching"] = {"physical_batch_size": invalid}
+    report["execution"]["loader"] = {"num_workers": invalid}
+    path.write_text(json.dumps(report))
+    row = next(row for row in suite.collect_summary(project) if row["frames"] is not None)
+    assert all(
+        row[field] is None
+        for field in (
+            "eval_compute_fps",
+            "eval_end_to_end_fps",
+            "eval_batch_size",
+            "eval_num_workers",
+        )
+    )
+    assert row["fps"] == 50.0
+
+
+def test_recorded_zero_workers_is_not_treated_as_missing(tmp_path):
+    project = _synthetic_project(tmp_path)
+    directory = _synthetic_report(project, "graph_unet")
+    path = directory / "metrics.json"
+    report = json.loads(path.read_text())
+    report["execution"]["loader"] = {"num_workers": 0}
+    path.write_text(json.dumps(report))
+    row = next(row for row in suite.collect_summary(project) if row["frames"] is not None)
+    assert row["eval_num_workers"] == 0
 ~~~~~~~~
 
 # tests/test_amp.py
@@ -41077,6 +41630,191 @@ def test_single_frame_batch_uses_all_three_timing_scopes():
     _model().eval().forward_batch([_sample("a")], timing=Timer())
     assert visits == [(stage, event) for stage in ("graph", "encoder", "decoder")
                       for event in ("start", "end")]
+~~~~~~~~
+
+# tests/test_bcd_throughput_cli.py
+
+~~~~~~~~python
+"""Synthetic CPU/read-only profile checks; no production training or GPU runs."""
+
+import builtins
+import copy
+import importlib.util
+import math
+import os
+from collections import Counter
+from pathlib import Path
+
+import pytest
+
+from asgcn_unet.ablation_comparison import render_bcd_t4
+from asgcn_unet.ablation_suite import collect_summary
+
+PROJECT = Path(__file__).resolve().parents[1]
+PROFILE = "bcd-throughput-t4"
+
+
+def _cli():
+    spec = importlib.util.spec_from_file_location("synthetic_bcd_cli", PROJECT / "scripts/run_ablations.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _rows():
+    return collect_summary(PROJECT, profile=PROFILE)
+
+
+def _forbidden(*args, **kwargs):
+    raise AssertionError("Read-only test started a subprocess, checkpoint, or GPU operation")
+
+
+def test_plan_selects_only_bcd_and_t4_with_no_execution(monkeypatch, capsys):
+    cli = _cli()
+    monkeypatch.setattr(cli.subprocess, "run", _forbidden)
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "synthetic-assigned-device")
+    before_env = dict(os.environ)
+    configs = list((PROJECT / "configs/ablations").glob("*.json"))
+    before_configs = {path: path.read_bytes() for path in configs}
+    assert cli.main(["--profile", PROFILE]) == 0
+    output = capsys.readouterr().out
+    assert "PLAN ONLY" in output
+    assert "train=2, calibrate=2, evaluate=12, benchmark=12" in output
+    assert "T=8/16/32 are deferred" in output
+    assert "A/E are not scheduled" in output
+    assert "single-frame latency" in output
+    commands = [line for line in output.splitlines() if line.startswith("[")]
+    assert not any("[unet:" in line or "[transformer:" in line for line in commands)
+    for line in commands:
+        if "--simulation-steps" in line:
+            assert "--simulation-steps 4" in line
+    assert before_env == dict(os.environ)
+    assert before_configs == {path: path.read_bytes() for path in configs}
+
+
+def test_default_full_plan_keeps_all_families_and_sweep(monkeypatch, capsys):
+    cli = _cli()
+    monkeypatch.setattr(cli.subprocess, "run", _forbidden)
+    assert cli.main([]) == 0
+    output = capsys.readouterr().out
+    assert "Execution profile: full" in output
+    assert "train=4, calibrate=2, evaluate=40, benchmark=40" in output
+    assert "[unet:train]" in output and "[transformer:train]" in output
+    assert "--simulation-steps 32" in output
+
+
+@pytest.mark.parametrize("family", ["unet", "transformer"])
+def test_throughput_profile_refuses_a_e_before_execution(monkeypatch, family, capsys):
+    cli = _cli()
+    monkeypatch.setattr(cli, "execute_commands", _forbidden)
+    assert cli.main(["--profile", PROFILE, "--families", family, "--stage", "all", "--execute"]) == 1
+    assert "not permitted" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("details", [False, True])
+def test_throughput_summary_is_read_only_and_not_an_empty_ae_table(monkeypatch, capsys, details):
+    cli = _cli()
+    rows = _rows()
+    calls = []
+
+    def collect(project, families, *, profile):
+        calls.append((families, profile))
+        return rows
+
+    monkeypatch.setattr(cli, "collect_summary", collect)
+    monkeypatch.setattr(cli, "plan_commands", _forbidden)
+    monkeypatch.setattr(cli, "execute_commands", _forbidden)
+    monkeypatch.setattr(cli.subprocess, "run", _forbidden)
+    assert cli.main(["--profile", PROFILE, "--stage", "summary", *(["--details"] if details else [])]) == 0
+    output = capsys.readouterr().out
+    assert calls == [(("pointwise_unet", "graph_unet"), PROFILE)]
+    assert "## B/C/D throughput-first profile: T=4" in output
+    assert "Primary comparison: A" not in output
+    assert ("## Selected experiments and stored provenance" in output) is details
+    assert "not completion of the full sweep" in output
+    assert "missing quality; missing benchmark" in output
+
+
+def test_explicit_execute_dispatches_two_shared_trainings_and_resume(monkeypatch, capsys):
+    cli = _cli()
+    calls = []
+    rows = _rows()
+
+    def execute(commands, project, **kwargs):
+        calls.append((commands, kwargs))
+
+    monkeypatch.setattr(cli, "execute_commands", execute)
+    monkeypatch.setattr(cli, "collect_summary", lambda *args, **kwargs: rows)
+    monkeypatch.setattr(cli.subprocess, "run", _forbidden)
+    assert cli.main(["--profile", PROFILE, "--stage", "all", "--execute", "--resume"]) == 0
+    assert len(calls) == 1
+    commands, options = calls[0]
+    counts = Counter(command.stage for command in commands)
+    assert counts["train"] == counts["calibrate"] == 2
+    assert counts["evaluate"] == counts["benchmark"] == 12
+    assert options["execute"] is options["resume"] is True
+    assert "## B/C/D throughput-first" in capsys.readouterr().out
+
+
+def test_plan_never_accepts_execute(monkeypatch, capsys):
+    cli = _cli()
+    monkeypatch.setattr(cli, "execute_commands", _forbidden)
+    assert cli.main(["--profile", PROFILE, "--stage", "plan", "--execute"]) == 1
+    assert "plan never executes" in capsys.readouterr().err
+
+
+def test_render_separates_compute_benchmark_and_measured_batch_throughput():
+    rows = _rows()
+    rows[0].update(fps=17.25, eval_compute_fps=92.5, eval_end_to_end_fps=8.5, eval_batch_size=16, eval_num_workers=4)
+    before = copy.deepcopy(rows)
+    output = render_bcd_t4(rows)
+    assert "17.25000" in output and "92.50000" in output and "8.50000" in output
+    assert "Batch compute frames/s" in output and "End-to-end frames/s" in output
+    assert "ceiling" in output
+    assert rows == before
+
+
+@pytest.mark.parametrize("field", ["fps", "micro_psnr", "vram_mib", "eval_compute_fps", "eval_end_to_end_fps"])
+@pytest.mark.parametrize("value", [None, math.nan, math.inf, -math.inf])
+def test_nonfinite_or_unrecorded_metrics_are_unavailable(field, value):
+    rows = _rows()
+    rows[0][field] = value
+    output = render_bcd_t4(rows)
+    assert "| nan |" not in output.lower() and "| inf |" not in output.lower()
+    assert "N/A" in output
+
+
+@pytest.mark.parametrize("replacement", [
+    {"family": "unet", "group": "A", "mode": "ann"},
+    {"family": "graph_transformer", "group": "E", "mode": "ann"},
+    {"mode": "snn_literal_eq15_T32"},
+    {"dataset": "unrecognized"},
+])
+def test_render_refuses_wrong_family_mode_or_dataset(replacement):
+    rows = _rows()
+    rows[0].update(replacement)
+    with pytest.raises(ValueError, match="Unexpected"):
+        render_bcd_t4(rows)
+
+
+def test_render_refuses_duplicate_results():
+    rows = _rows()
+    with pytest.raises(ValueError, match="Duplicate"):
+        render_bcd_t4(rows + [rows[0]])
+
+
+def test_report_render_does_not_import_torch_or_engine(monkeypatch):
+    rows = _rows()
+    original = builtins.__import__
+
+    def guarded(name, *args, **kwargs):
+        if name.split(".")[0] in {"torch", "numpy"} or "engine" in name:
+            raise AssertionError(f"Read-only summary imported heavy runtime: {name}")
+        return original(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", guarded)
+    assert "B/C/D" in render_bcd_t4(rows)
+    assert "No selected results available" in render_bcd_t4([])
 ~~~~~~~~
 
 # tests/test_bench.py

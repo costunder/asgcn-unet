@@ -17,6 +17,7 @@ import sys
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any
 
 FAMILIES = {
@@ -35,6 +36,57 @@ TRANSFORMER_CONFIG = {
     "window_size": 8,
     "mlp_ratio": 4.0,
 }
+
+
+@dataclass(frozen=True)
+class ExecutionProfile:
+    """Explicit execution selection, never a model/data/training configuration."""
+
+    name: str
+    families: tuple[str, ...]
+    simulation_steps: tuple[int, ...]
+    dynamics: tuple[str, ...]
+    full_sweep: bool
+
+
+EXECUTION_PROFILES = MappingProxyType(
+    {
+        "full": ExecutionProfile("full", tuple(FAMILIES), STEPS, DYNAMICS, True),
+        "bcd-throughput-t4": ExecutionProfile(
+            "bcd-throughput-t4",
+            ("pointwise_unet", "graph_unet"),
+            (4,),
+            DYNAMICS,
+            False,
+        ),
+    }
+)
+
+
+def get_execution_profile(name: str = "full") -> ExecutionProfile:
+    """Return immutable declared scope; misspellings never fall back to full/fast."""
+    if not isinstance(name, str) or name not in EXECUTION_PROFILES:
+        raise ValueError(f"Unknown execution profile: {name!r}")
+    return EXECUTION_PROFILES[name]
+
+
+def resolve_profile_families(
+    families: tuple[str, ...] | None = None,
+    *,
+    profile: str = "full",
+) -> tuple[str, ...]:
+    selection = get_execution_profile(profile)
+    selected = selection.families if families is None else tuple(families)
+    if not selected or len(set(selected)) != len(selected):
+        raise ValueError("Select one or more distinct experiment families")
+    for family in selected:
+        if family in LEGACY_FAMILIES:
+            raise ValueError(f"{family} is a preserved legacy experiment, not an active family")
+        if family not in FAMILIES:
+            raise ValueError(f"Unknown family: {family}")
+        if family not in selection.families:
+            raise ValueError(f"Family {family} is not permitted by execution profile {profile}")
+    return selected
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -86,12 +138,19 @@ def config_path(project: Path, family: str, split: str) -> Path:
     return project / "configs" / "ablations" / f"{family}-{split}.json"
 
 
-def modes(family: str) -> tuple[tuple[str, int | None, str | None], ...]:
+def modes(family: str, *, profile: str = "full") -> tuple[tuple[str, int | None, str | None], ...]:
+    selection = get_execution_profile(profile)
+    resolve_profile_families((family,), profile=profile)
     ann = (("ann", None, None),)
     return (
         ann
         if FAMILIES[family][0] == "identity"
-        else ann + tuple(("snn", steps, dynamics) for dynamics in DYNAMICS for steps in STEPS)
+        else ann
+        + tuple(
+            ("snn", steps, dynamics)
+            for dynamics in selection.dynamics
+            for steps in selection.simulation_steps
+        )
     )
 
 
@@ -110,10 +169,12 @@ def plan_commands(
     project: Path,
     *,
     stage: str = "all",
-    families: tuple[str, ...] = tuple(FAMILIES),
+    families: tuple[str, ...] | None = None,
     python: str = sys.executable,
     cpu_threads: int = 4,
+    profile: str = "full",
 ) -> list[Command]:
+    families = resolve_profile_families(families, profile=profile)
     validate_suite(project, families)
     if stage not in STAGES or type(cpu_threads) is not int or cpu_threads < 1:
         raise ValueError("Invalid stage or CPU thread count")
@@ -158,7 +219,7 @@ def plan_commands(
     for family in families:
         train = str(config_path(project, family, "train"))
         run = project / "runs/ablations" / family
-        profile = str(project / "runs/ablations" / f"{family}-profile.json")
+        profile_output = str(project / "runs/ablations" / f"{family}-profile.json")
         if "profile" in stages:
             commands.append(
                 Command(
@@ -170,7 +231,7 @@ def plan_commands(
                         "--config",
                         train,
                         "--output",
-                        profile,
+                        profile_output,
                         "--samples",
                         "3",
                         "--top-density",
@@ -191,7 +252,7 @@ def plan_commands(
                         "--config",
                         train,
                         "--preflight-report",
-                        profile,
+                        profile_output,
                     ),
                 )
             )
@@ -217,7 +278,7 @@ def plan_commands(
         if "eval" in stages:
             for split in ("hdr", "aid"):
                 config = str(config_path(project, family, split))
-                for mode, steps, dynamics in modes(family):
+                for mode, steps, dynamics in modes(family, profile=profile):
                     checkpoint = str(run / ("best.pt" if mode == "ann" else "best_snn.pt"))
                     common = (
                         "--config",
@@ -431,10 +492,17 @@ def _training_settings(config: dict) -> dict:
     return result
 
 
-def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) -> list[dict]:
+def collect_summary(
+    project: Path,
+    families: tuple[str, ...] | None = None,
+    *,
+    profile: str = "full",
+) -> list[dict]:
     """Read exact suite paths; never re-label runs/fast or archive results as ablations."""
     from .offline_viewer import ExportLimits, _read_selected
 
+    selection_profile = get_execution_profile(profile)
+    families = resolve_profile_families(families, profile=profile)
     validate_suite(project, families)
     selection = {
         "quality": {"frames": True, "micro": True, "macro": True},
@@ -443,7 +511,15 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
         "simulation_steps": True,
         "snn_dynamics": True,
         "checkpoint_model_sha256": True,
-        "execution": {"model": {"total_parameters": True, "trainable_parameters": True}},
+        "execution": {
+            "model": {"total_parameters": True, "trainable_parameters": True},
+            "batching": {"physical_batch_size": True},
+            "loader": {"num_workers": True},
+        },
+        "performance": {
+            "throughput_frames_per_second": True,
+            "end_to_end_frames_per_second": True,
+        },
         "evaluation_protocol": {
             "model_config": True,
             "execution": True,
@@ -479,7 +555,7 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
     for family in families:
         for split in ("hdr", "aid"):
             model = _load(config_path(project, family, split))["model"]
-            for mode, steps, dynamics in modes(family):
+            for mode, steps, dynamics in modes(family, profile=profile):
                 label = mode_label(mode, steps, dynamics)
                 directory = project / "runs/ablations" / family / "eval" / split / label
                 reports = {}
@@ -584,6 +660,8 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
                         "group": group
                         + ("-ANN-control" if family == "pointwise_unet" and mode == "ann" else ""),
                         "family": family,
+                        "execution_profile": selection_profile.name,
+                        "profile_is_full_sweep": selection_profile.full_sweep,
                         "dataset": split,
                         "mode": label,
                         "run": str(directory),
@@ -597,6 +675,18 @@ def collect_summary(project: Path, families: tuple[str, ...] = tuple(FAMILIES)) 
                         },
                         "mean_ms": _finite(b.get("mean_ms")),
                         "fps": _finite(b.get("fps")),
+                        "eval_compute_fps": _finite(
+                            q.get("performance", {}).get("throughput_frames_per_second")
+                        ),
+                        "eval_end_to_end_fps": _finite(
+                            q.get("performance", {}).get("end_to_end_frames_per_second")
+                        ),
+                        "eval_batch_size": _finite(
+                            q.get("execution", {}).get("batching", {}).get("physical_batch_size")
+                        ),
+                        "eval_num_workers": _finite(
+                            q.get("execution", {}).get("loader", {}).get("num_workers")
+                        ),
                         "vram_mib": _finite(b.get("peak_gpu_memory_mb")),
                         "parameters": _finite(
                             q.get("execution", {}).get("model", {}).get("total_parameters")
@@ -684,6 +774,10 @@ def render_summary(rows: list[dict]) -> str:
         "macro_ssim",
         "mean_ms",
         "fps",
+        "eval_compute_fps",
+        "eval_end_to_end_fps",
+        "eval_batch_size",
+        "eval_num_workers",
         "vram_mib",
         "quality_eligible",
         "benchmark_eligible",
@@ -713,6 +807,11 @@ def render_summary(rows: list[dict]) -> str:
     return (
         "\n".join(lines)
         + "\n\nN/A is missing, not zero. Timing is compute-only when io_excluded=true. "
+        "fps is the separate single-frame benchmark, never replaced by eval_compute_fps. "
+        "eval_compute_fps is full-evaluation frames/model time; eval_end_to_end_fps includes "
+        "loader, transfer, metrics and prediction artifacts, but excludes model loading, worker startup, "
+        "profiling and summary serialization. eval_batch_size is the selected physical batch limit, "
+        "not a claim that every tail batch reaches that size. "
         "quality_* columns do not validate FPS comparability; use benchmark_* columns. "
         "Quality dataset hashes are stored claims only (full-frame identity arrays are not retained/rehashed here). "
         "Stored eligibility is not proof of matched training, hardware, or dataset provenance. "

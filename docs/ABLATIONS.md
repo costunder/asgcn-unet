@@ -11,7 +11,7 @@
 | D | `graph_unet` | 동일 가중치의 보정된 6층 Spiking GNN → 기존 recurrent U-Net | SNN |
 | E | `transformer` | A와 동일한 정규화 원본 이벤트 특징 → 평균 raster → recurrent Transformer 복원기 | ANN |
 
-4개 ANN 학습이 A–E를 구성한다. B, D의 SNN은 각각 자기 ANN을 전체
+기본 `--profile full`에서는 4개 ANN 학습이 A–E를 구성한다. B, D의 SNN은 각각 자기 ANN을 전체
 EventHDR 학습 프레임으로 보정한다. 그래프 없는 SNN도 학습된 pointwise
 인코더의 발화 변환이며, 빈 그래프를 넣고 기존 GNN이라고 부르는 구현이 아니다.
 두 데이터셋 모두 네 family의 ANN을 평가하고 B/D에만 `literal_eq15`,
@@ -138,6 +138,91 @@ benchmark는 기존 read-only resume inspector로 출처·runtime·설정·데�
 검증한 뒤 건너뛴다. 기존 미완료 평가 폴더는 자동 이동·삭제·덮어쓰지 않는다.
 그 경우 정확한 경로와 이유를 보고하고 중단한다. 기존 eval recovery 도구를
 사용한 복구는 별도 명시적인 사용자 판단이 필요하다.
+
+## B/C/D 처리속도 지향 프로필: `bcd-throughput-t4`
+
+이 프로필은 B/C/D를 우선 학습·비교하고 SNN 추론을 **T=4**로 실행한다.
+기본 family는 `pointwise_unet`과 `graph_unet`이며 A/E를 재학습·재평가하지 않는다.
+`--profile`을 생략하면 기존 `full` 행렬이 유지된다. T4 프로필은 기존 전체 실험을
+대체하거나 이미 생성된 T8/T16/T32 결과를 삭제하는 설정이 아니다.
+별도의 학습 모델 설정을 만드는 것이 아니라 실행할 추론 조건만 선택한다.
+따라서 기존 `configs/ablations/{pointwise_unet,graph_unet}-{train,hdr,aid}.json`과
+`runs/ablations/{pointwise_unet,graph_unet}`를 그대로 사용하고 새 run namespace를 만들지 않는다.
+ANN과 T4의 출력 경로도 기존 mode 경로와 같다. 파일이 있다는 이유만으로 재사용하지 않으며
+아래 `--resume` 검증을 통과한 것만 보존·건너뛴다.
+
+| 학습 family | 두 데이터셋 각각에서 실행하는 조건 |
+| --- | --- |
+| `pointwise_unet` | B의 ANN 대조군, B-SNN `literal_eq15` T4, B-SNN `standard_if` T4 |
+| `graph_unet` | C(ANN), D-SNN `literal_eq15` T4, D-SNN `standard_if` T4 |
+
+총 **ANN 학습 2회 + 전체 SNN 보정 2회 + 품질 평가 12개 + benchmark 12개**다.
+C/D는 하나의 graph ANN 학습을 공유하고 D는 그 ANN을 보정한 모델이다.
+B도 자기 pointwise ANN을 학습·보정한다. 그래프가 없는 B에 반경 그래프를 생성하지 않는다.
+각 품질 평가는 EventHDR 또는 EventAid-R의 전체 평가 프레임을 사용한다.
+
+다음 설정은 그대로 유지한다: **40 epochs, physical batch 16, 전체 학습·validation·
+calibration 데이터, 기존 6층/hidden 64 인코더와 recurrent U-Net, 이벤트 입력 수,
+그래프 반경과 실제 연결 규칙, 전체 입력 해상도, optimizer/loss/schedule**.
+학습은 기존 **physical B16을 preflight로 실측**하며 여러 학습 batch 후보 중 선택하는
+기능은 아니다. 평가·보정은 기존 auto 후보 batch `1/2/4/8/16`, worker `0/2/4`를
+실측해 선택한다. 두 경로를 구분하며 평가 auto 선택을 학습 batch 탐색으로 표현하지 않는다.
+T는 SNN 추론의 시뮬레이션 횟수이므로 **T4를 선택했다고 ANN 학습 시간이 짧아지는
+것은 아니다**. 모델·데이터·그래프를 줄이거나 FP32 평가를 몰래 저정밀도로 바꾸지 않는다.
+학습의 기존 AMP 설정과 평가의 **FP32/TF32 off**를 유지한다. C/D의 기존 Triton
+그래프 연산과 B의 순수 PyTorch pointwise 경로도 변경하지 않는다. EventAid-R의 기존
+`max_graph_edges_override=7475202` 및 밀집 probe index `37791`도 그대로다.
+이 값은 실제 연결을 잘라내는 설정이 아니라 C/D 반경 그래프의 명시적인 메모리 guard다.
+B는 `no_graph`이므로 이 엣지 guard가 적용되는 그래프를 만들지 않는다.
+
+코드가 서버에 반영된 후 계획만 확인하려면 다음 명령을 사용한다.
+이 단계는 GPU·원본 데이터 접근이나 학습·평가 실행을 하지 않는다.
+
+```bash
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage plan
+```
+
+현재 작업에 실제로 할당된 GPU mask/장치 제한을 보존한 같은 Conda 환경에서 실행한다.
+할당이 확인되지 않으면 먼저 현재 할당을 확인해야 하며, 장치 번호를 추측하거나
+`CUDA_VISIBLE_DEVICES`를 임의로 바꾸지 않는다. 환경/전체 데이터 검사와 두 family의
+preflight가 통과해야 학습이 시작된다.
+
+```bash
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage all --execute --resume
+```
+
+`--resume`은 위의 동일한 검증·결과 보존 규칙을 따른다. 기존 checkpoint/profile의
+코드·설정·데이터 계약이 다르면 자동 재사용하지 않고 멈춘다. 미완료 평가 폴더를
+삭제·덮어쓰거나 평가 중간 프레임부터 임의로 이어 붙이지 않는다.
+
+완료 결과를 읽을 때는 같은 프로필을 지정한다. 기본 출력은 **B/C/D T4 비교표**이며
+A/E 비교표로 바꾸어 표시하지 않는다. 전체 출처 확인 열은 `--details`로 추가한다.
+
+```bash
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage summary
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage summary --details
+```
+
+이 프로필에서는 **T8/T16/T32를 실행하지 않는다**. 완료 표시는 T4 프로필에만
+해당하며 전체 `full` 행렬 완료를 뜻하지 않는다. 더 긴 T 비교는 기존 `full`
+프로필의 별도 후속 실험으로 남는다. 두 발화 동역학 중 한쪽을 숨기거나 제거하지 않는다.
+
+T4 선택은 이전 `runs/fast/eval-2960f09` GNN/SNN benchmark에서 T32보다 짧은
+지연을 보였던 결과를 동기로 한다. **이전 test/benchmark를 본 뒤 정한 탐색적 프로필**이며
+새 B/C/D의 실측 성능이나 독립적으로 고정한 최종 test 선택을 뜻하지 않는다.
+새 프로필의 FPS 향상 폭·모델 간 순위·복원 품질·전체 학습 시간은 실제 실행 전에는
+보장할 수 없다. summary는 서로 다른 측정 범위를 구분한다.
+
+- 기존 benchmark FPS: **B1 단일 프레임 compute-only** 측정값이다. auto 선택된 평가
+  batch의 처리량이 아니며 batch 처리량으로 이 열을 대체하지 않는다.
+- 별도 평가 처리량 표의 `eval_compute_fps`: 평가의 모델·그래프 계산 처리량으로
+  데이터 I/O·metric·PNG 저장을 제외한다.
+- 같은 표의 `eval_end_to_end_fps`: 데이터 로딩·전송·모델·metric·PNG 저장을 포함한
+  **평가루프(end-to-end)** 처리량이다. worker 시작·profile·checkpoint 로딩·summary
+  직렬화는 제외되므로 전체 작업 wall-clock FPS가 아니다. 실제 적용된 batch/worker와 함께 해석한다.
+
+benchmark의 표본 VRAM은 전체 실행 메모리 최대값이 아니다. 측정 범위가 다른
+benchmark FPS와 평가 처리량을 같은 지표로 나누거나 FPS 향상으로 주장하지 않는다.
 
 ## 결과와 확인
 

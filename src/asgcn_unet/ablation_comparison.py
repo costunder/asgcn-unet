@@ -152,3 +152,88 @@ def render_a_e(rows: list[dict]) -> str:
         "Use --details for supplementary B/C/D, ANN controls, all T/dynamics, and provenance records.",
     ])
     return "\n".join(lines)
+
+
+def render_bcd_t4(rows: list[dict]) -> str:
+    """Stored B/C/D T=4 results, with no ranking, inference, or implicit sweep completion."""
+    allowed = {
+        ("pointwise_unet", "B-ANN-control", "ann"),
+        ("graph_unet", "C", "ann"),
+        *((family, group, f"snn_{dynamics}_T4")
+          for family, group in (("pointwise_unet", "B"), ("graph_unet", "D"))
+          for dynamics in ("literal_eq15", "standard_if")),
+    }
+    seen = set()
+    for row in rows:
+        identity = (row.get("family"), row.get("group"), row.get("mode"))
+        if identity not in allowed or row.get("dataset") not in {"hdr", "aid"}:
+            raise ValueError("Unexpected result in B/C/D T=4 profile")
+        key = (row["dataset"], *identity)
+        if key in seen:
+            raise ValueError("Duplicate result in B/C/D T=4 profile")
+        seen.add(key)
+
+    def cell(value: Any) -> str:
+        if value is None:
+            return "N/A"
+        if isinstance(value, bool):
+            return "yes" if value else "no"
+        if isinstance(value, (int, float)):
+            finite = _number(value)
+            return "N/A" if finite is None else f"{finite:.5f}" if isinstance(finite, float) else str(finite)
+        return str(value).replace("|", "\\|").replace("\n", " ")
+
+    fields = (
+        "group", "mode", "frames", "parameters", "micro_psnr", "micro_ssim",
+        "mean_ms", "fps", "vram_mib", "quality_eligible", "benchmark_eligible",
+    )
+    lines = [
+        "## B/C/D throughput-first profile: T=4", "",
+        "B: pointwise SNN + U-Net (with ANN control); C: GNN + U-Net; D: spiking GNN + U-Net.",
+        "A/E are not included. T=8/16/32 are deferred, not missing requirements of this profile.",
+        "This is not completion of the full sweep and does not establish the optimal T/dynamics.", "",
+    ]
+    if not rows:
+        lines.append("No selected results available. No training or inference was started.")
+    for dataset in ("hdr", "aid"):
+        selected = [row for row in rows if row["dataset"] == dataset]
+        if not selected:
+            continue
+        lines.extend([
+            f"### {dataset}", "",
+            "| Group | Mode | Frames | Parameters | PSNR-u | SSIM-u | ms | FPS | VRAM-MiB | Quality | Bench |",
+            "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
+        ])
+        lines.extend("| " + " | ".join(cell(row.get(key)) for key in fields) + " |" for row in selected)
+        lines.append("")
+        lines.extend([
+            "Measured quality-evaluation batching (not the single-frame benchmark above):", "",
+            "| Group | Mode | Selected batch | Workers | Batch compute frames/s | End-to-end frames/s |",
+            "| --- | --- | ---: | ---: | ---: | ---: |",
+        ])
+        batching_fields = (
+            "group", "mode", "eval_batch_size", "eval_num_workers",
+            "eval_compute_fps", "eval_end_to_end_fps",
+        )
+        lines.extend(
+            "| " + " | ".join(cell(row.get(key)) for key in batching_fields) + " |"
+            for row in selected
+        )
+        lines.append("")
+        # Preserve warnings even in the compact view; raw FPS alone is not a validity claim.
+        for status in dict.fromkeys(row.get("status", "status unavailable") for row in selected):
+            labels = ", ".join(
+                f"{row['group']}/{row['mode']}" for row in selected
+                if row.get("status", "status unavailable") == status
+            )
+            lines.extend([f"Status [{labels}]: {cell(status)}", ""])
+    lines.extend([
+        "N/A is unavailable, never zero. Quality/Bench show stored eligibility, not a new validation.",
+        "PSNR-u/SSIM-u are micro averages. Use --details for macro metrics and per-condition provenance.",
+        "FPS/ms/VRAM are compute-only benchmark measurements, not end-to-end speed or full-run memory maxima.",
+        "Batch compute frames/s excludes I/O, metrics and PNG writing; end-to-end includes them during evaluation.",
+        "Evaluation-loop end-to-end excludes startup, profiling, checkpoint loading and final report serialization.",
+        "Selected batch is a ceiling; sequence/shape lanes may produce smaller physical batches.",
+        "Training duration is not inferred from FPS. Original datasets and current hardware are not revalidated here.",
+    ])
+    return "\n".join(lines)

@@ -476,3 +476,226 @@ def test_comparison_validation_fields_expose_invalid_mode_checkpoint_and_model(t
     assert row["benchmark_mode_valid"] is False
     assert row["benchmark_checkpoint_match"] is False
     assert row["benchmark_model_contract_valid"] is False
+
+
+def test_execution_profile_metadata_is_immutable_and_full_default_is_unchanged():
+    from dataclasses import FrozenInstanceError
+
+    full = suite.get_execution_profile()
+    assert full.name == "full"
+    assert full.families == tuple(suite.FAMILIES)
+    assert full.simulation_steps == (4, 8, 16, 32)
+    assert full.dynamics == suite.DYNAMICS
+    assert full.full_sweep is True
+    selected = suite.get_execution_profile("bcd-throughput-t4")
+    assert selected.families == ("pointwise_unet", "graph_unet")
+    assert selected.simulation_steps == (4,)
+    assert selected.dynamics == ("literal_eq15", "standard_if")
+    assert selected.full_sweep is False
+    with pytest.raises(FrozenInstanceError):
+        selected.simulation_steps = (32,)
+    with pytest.raises(TypeError):
+        suite.EXECUTION_PROFILES["bcd-throughput-t4"] = full
+
+
+@pytest.mark.parametrize("profile", ["unknown", "bcd-throughput-t04", "", None, 4])
+def test_unknown_execution_profiles_never_fall_back(profile):
+    with pytest.raises(ValueError, match="Unknown execution profile"):
+        suite.get_execution_profile(profile)
+    with pytest.raises(ValueError, match="Unknown execution profile"):
+        suite.plan_commands(PROJECT, profile=profile)
+    with pytest.raises(ValueError, match="Unknown execution profile"):
+        suite.collect_summary(PROJECT, profile=profile)
+
+
+def test_bcd_t4_plan_has_two_shared_trainings_two_calibrations_and_twelve_pairs():
+    commands = suite.plan_commands(PROJECT, profile="bcd-throughput-t4")
+    assert {command.family for command in commands} == {"suite", "pointwise_unet", "graph_unet"}
+    assert sum(command.stage == "profile" for command in commands) == 2
+    assert sum(command.stage == "train" for command in commands) == 2
+    assert sum(command.stage == "calibrate" for command in commands) == 2
+    assert sum(command.stage == "evaluate" for command in commands) == 12
+    assert sum(command.stage == "benchmark" for command in commands) == 12
+    assert max(i for i, command in enumerate(commands) if command.stage == "profile") < min(
+        i for i, command in enumerate(commands) if command.stage == "train"
+    )
+    for family in ("pointwise_unet", "graph_unet"):
+        assert suite.modes(family, profile="bcd-throughput-t4") == (
+            ("ann", None, None),
+            ("snn", 4, "literal_eq15"),
+            ("snn", 4, "standard_if"),
+        )
+    for command in commands:
+        if command.stage == "calibrate":
+            assert suite._option(command.argv, "--samples") == "all"
+        if "--simulation-steps" in command.argv:
+            assert suite._option(command.argv, "--simulation-steps") == "4"
+
+
+@pytest.mark.parametrize("family", ["unet", "transformer", "graph_transformer"])
+def test_bcd_profile_rejects_A_E_and_legacy_in_plan_modes_and_summary(family):
+    with pytest.raises(ValueError):
+        suite.plan_commands(PROJECT, families=(family,), profile="bcd-throughput-t4")
+    with pytest.raises(ValueError):
+        suite.collect_summary(PROJECT, (family,), profile="bcd-throughput-t4")
+    with pytest.raises(ValueError):
+        suite.modes(family, profile="bcd-throughput-t4")
+
+
+@pytest.mark.parametrize("family", ["pointwise_unet", "graph_unet"])
+def test_bcd_profile_explicit_single_family_for_retry_does_not_expand_scope(family):
+    commands = suite.plan_commands(PROJECT, families=(family,), profile="bcd-throughput-t4")
+    assert {command.family for command in commands} == {"suite", family}
+    assert sum(command.stage == "train" for command in commands) == 1
+    assert sum(command.stage == "calibrate" for command in commands) == 1
+    assert sum(command.stage == "evaluate" for command in commands) == 6
+    rows = suite.collect_summary(PROJECT, (family,), profile="bcd-throughput-t4")
+    assert len(rows) == 6
+    assert {row["family"] for row in rows} == {family}
+    assert all(row["profile_is_full_sweep"] is False for row in rows)
+
+
+def test_bcd_priority_plan_is_only_a_mode_selection_not_a_config_or_checkpoint_change():
+    families = ("pointwise_unet", "graph_unet")
+    before = {
+        suite.config_path(PROJECT, family, split): suite.config_path(
+            PROJECT, family, split
+        ).read_bytes()
+        for family in families
+        for split in ("train", "hdr", "aid")
+    }
+    full = suite.plan_commands(PROJECT, families=families)
+    selected = suite.plan_commands(PROJECT, profile="bcd-throughput-t4")
+    expected = [
+        command
+        for command in full
+        if "--simulation-steps" not in command.argv
+        or suite._option(command.argv, "--simulation-steps") == "4"
+    ]
+    assert selected == expected
+    assert all(path.read_bytes() == content for path, content in before.items())
+    for family in families:
+        train = suite._load(suite.config_path(PROJECT, family, "train"))
+        assert train["train"]["epochs"] == 40
+        assert train["train"]["batch_size"] == 16
+        assert train["model"]["graph_layers"] == 6
+        assert train["model"]["hidden_dim"] == 64
+        assert train["dataset"]["max_events"] == 8192
+
+
+def test_bcd_summary_reports_explicit_selected_scope_without_full_sweep_claim():
+    rows = suite.collect_summary(PROJECT, profile="bcd-throughput-t4")
+    assert len(rows) == 12
+    assert {row["group"] for row in rows} == {"B", "B-ANN-control", "C", "D"}
+    assert {row["mode"] for row in rows} == {"ann", "snn_literal_eq15_T4", "snn_standard_if_T4"}
+    assert {row["execution_profile"] for row in rows} == {"bcd-throughput-t4"}
+    assert all(row["profile_is_full_sweep"] is False for row in rows)
+    assert len(suite.collect_summary(PROJECT)) == 40
+
+
+def test_bcd_priority_plan_is_read_only_and_preserves_explicit_GPU_mask(monkeypatch):
+    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "current-allocation-not-chosen-by-test")
+    before = dict(suite.os.environ)
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Planning a selected profile executed work")
+
+    suite.execute_commands(
+        suite.plan_commands(PROJECT, profile="bcd-throughput-t4"),
+        PROJECT,
+        runner=forbidden,
+        emit=lambda _: None,
+    )
+    assert dict(suite.os.environ) == before
+
+
+def test_summary_separates_actual_evaluation_batch_throughput_from_benchmark_fps(tmp_path):
+    project = _synthetic_project(tmp_path)
+    directory = _synthetic_report(project, "graph_unet")
+    path = directory / "metrics.json"
+    report = json.loads(path.read_text())
+    # These are the scalar keys written by evaluation_batches.evaluation_frames
+    # and resources.build_execution_report; arbitrary synthetic values only.
+    report["performance"] = {
+        "throughput_frames_per_second": 123.5,
+        "end_to_end_frames_per_second": 87.25,
+        "throughput_scope": "model_graph_encoder_decoder_excludes_io_metrics_artifacts",
+        "end_to_end_scope": "loader_transfer_model_metrics_prediction_artifacts",
+    }
+    report["execution"]["batching"] = {"physical_batch_size": 16}
+    report["execution"]["loader"] = {"num_workers": 4}
+    # A profile trial is NOT the actual evaluation-loop throughput or batch.
+    report["batch_profile"] = {
+        "selected": {"batch_size": 8, "num_workers": 2, "samples_per_second": 999.0}
+    }
+    path.write_text(json.dumps(report))
+    row = next(
+        row
+        for row in suite.collect_summary(project, profile="bcd-throughput-t4")
+        if row["frames"] is not None
+    )
+    assert row["eval_compute_fps"] == 123.5
+    assert row["eval_end_to_end_fps"] == 87.25
+    assert row["eval_batch_size"] == 16
+    assert row["eval_num_workers"] == 4
+    assert row["fps"] == 50.0
+    rendered = suite.render_summary([row])
+    assert all(
+        field in rendered
+        for field in (
+            "eval_compute_fps",
+            "eval_end_to_end_fps",
+            "eval_batch_size",
+            "eval_num_workers",
+        )
+    )
+    assert "separate single-frame benchmark" in rendered
+    assert "not a claim that every tail batch" in rendered
+
+
+def test_missing_evaluation_throughput_is_NA_and_does_not_fall_back_to_benchmark(tmp_path):
+    project = _synthetic_project(tmp_path)
+    _synthetic_report(project, "graph_unet")
+    row = next(row for row in suite.collect_summary(project) if row["frames"] is not None)
+    assert row["fps"] == 50.0
+    assert row["eval_compute_fps"] is None
+    assert row["eval_end_to_end_fps"] is None
+    assert row["eval_batch_size"] is None
+    assert row["eval_num_workers"] is None
+
+
+@pytest.mark.parametrize("invalid", [None, True, "unavailable"])
+def test_evaluation_throughput_fields_reject_nonnumeric_values(tmp_path, invalid):
+    project = _synthetic_project(tmp_path)
+    directory = _synthetic_report(project, "graph_unet")
+    path = directory / "metrics.json"
+    report = json.loads(path.read_text())
+    report["performance"] = {
+        "throughput_frames_per_second": invalid,
+        "end_to_end_frames_per_second": invalid,
+    }
+    report["execution"]["batching"] = {"physical_batch_size": invalid}
+    report["execution"]["loader"] = {"num_workers": invalid}
+    path.write_text(json.dumps(report))
+    row = next(row for row in suite.collect_summary(project) if row["frames"] is not None)
+    assert all(
+        row[field] is None
+        for field in (
+            "eval_compute_fps",
+            "eval_end_to_end_fps",
+            "eval_batch_size",
+            "eval_num_workers",
+        )
+    )
+    assert row["fps"] == 50.0
+
+
+def test_recorded_zero_workers_is_not_treated_as_missing(tmp_path):
+    project = _synthetic_project(tmp_path)
+    directory = _synthetic_report(project, "graph_unet")
+    path = directory / "metrics.json"
+    report = json.loads(path.read_text())
+    report["execution"]["loader"] = {"num_workers": 0}
+    path.write_text(json.dumps(report))
+    row = next(row for row in suite.collect_summary(project) if row["frames"] is not None)
+    assert row["eval_num_workers"] == 0

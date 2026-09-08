@@ -13,10 +13,42 @@ GNN/SNN 없는 Transformer-only를 독립 경로에서 학습·평가한다. 주
 Transformer 단독(E)**이며, 그래프/발화 인코더 효과는 별도 보조 비교로 구분한다.
 E의 family/출력은 `transformer`/`runs/ablations/transformer`이고 ANN만 평가한다.
 기존 `graph_transformer` 설정·결과는 보존하지만 현재 비교군 E나 기본 실행에 포함하지 않는다.
-현재 행렬은 전체 40-epoch 학습 4회, 전체 SNN 보정 2회(B/D), 두 데이터셋 품질 평가
+기본 `--profile full` 행렬은 전체 40-epoch 학습 4회, 전체 SNN 보정 2회(B/D), 두 데이터셋 품질 평가
 40개 및 compute-only benchmark 40개다. A/E에는 T·발화 동역학·SNN 보정이 없다.
 `scripts/run_ablations.py`는 기본적으로 계획만 출력하며, 명시적 `--execute` 없이
 학습·평가를 시작하지 않는다. 기존 `runs/fast` 결과는 변경하지 않는다.
+
+## B/C/D만 T4로 학습·평가
+
+`bcd-throughput-t4`는 `pointwise_unet`과 `graph_unet`만 사용하는 처리속도 지향
+탐색적 프로필이다. A/E는 실행하지 않는다. **ANN 학습 2회(각 40 epochs/B16),
+전체 보정 2회, 전체 품질 평가 12개와 benchmark 12개**를 실행하며 C/D는 같은 ANN 학습을 공유한다.
+B/D의 SNN은 `literal_eq15`와 `standard_if` 모두 T4로 평가하고 ANN 대조군도 유지한다.
+모델 크기·그래프 규칙·이벤트 수·입력 해상도·전체 학습/평가 데이터는 줄이지 않는다.
+기존 `configs/ablations/{pointwise_unet,graph_unet}-*.json`과
+`runs/ablations/{pointwise_unet,graph_unet}` 경로를 쓰며 새로운 학습 namespace를 만들지 않는다.
+기존 결과는 코드·설정·데이터의 exact-resume 계약이 맞을 때만 재사용한다.
+
+코드가 서버에 반영되고 **현재 작업에 실제로 할당된 GPU 환경**이 확인된 터미널에서 실행한다.
+스크립트는 할당 mask를 바꾸지 않으며 환경·전체 데이터·preflight 검사 실패 시 멈춘다.
+
+```bash
+python -B scripts/run_ablations.py --profile bcd-throughput-t4 --stage all --execute --resume
+```
+
+계획만 보려면 `--stage plan`을 사용하고 `--execute --resume`을 생략한다.
+결과는 `--profile bcd-throughput-t4 --stage summary`로 읽으며 B/C/D 표가 먼저 나온다.
+학습은 physical B16을 preflight로 실측하며 여러 학습 batch 후보를 탐색하지 않는다.
+평가·보정은 batch `1/2/4/8/16`, worker `0/2/4` 후보를 실측해 선택한다.
+benchmark FPS는 **B1 단일 프레임 compute-only** 값이다. 별도 평가 처리량 표의
+`eval_compute_fps`는 모델·그래프 처리량, `eval_end_to_end_fps`는 데이터 로딩·전송·모델·metric·PNG 저장을
+포함한 **평가루프(end-to-end)** 처리량이며 실제 batch/worker와 함께 표시한다.
+worker 시작·profile·checkpoint 로딩·summary 직렬화는 제외되므로 전체 작업 wall-clock FPS가 아니다.
+이를 기존 benchmark FPS로 대체하지 않는다.
+T8/T16/T32는 이 프로필에서 실행하지 않지만 기존 `full` 행렬과 결과는 보존한다.
+T는 추론 횟수여서 ANN 학습 시간 감소를 뜻하지 않으며, 새 모델의 FPS 향상이나 품질을
+보장하지 않는다. 이전 test/benchmark를 보고 정한 탐색적 선택이라는 해석과 재개 조건은
+[B/C/D 프로필 안내](docs/ABLATIONS.md#bcd-처리속도-지향-프로필-bcd-throughput-t4)를 따른다.
 
 ## 설치 및 실행
 

@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-08T03:38:32Z",
+    "generated_utc": "2026-09-09T21:52:59Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "6cdbcf37cf79cfdc832093ad531ed405fff11a63",
-    "source_tree_at_generation": "20d98dfeaf6f3ec75d4482d96d3dbdb3a622cac6",
+    "source_commit_at_generation": "a12644e6e7ad1753806691e9a55af3f97ee9db9a",
+    "source_tree_at_generation": "00dbd2ec88a4709f5532707a22059ff6ed903f7b",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -41,9 +41,9 @@
         "sha256": "8fe8c6db500884505a60174a279c6f98cb098c3c40869a5672f30b5ea86d9ba0"
       },
       {
-        "bytes": 43481,
+        "bytes": 44938,
         "path": "README.md",
-        "sha256": "4336accf7f18d3e2196b0d0d7cc110e8293e823b88672a88d7daef354eeca61d"
+        "sha256": "f291670ce39ab1b88a529b02db480fb03fe57c56a599fb1d3045b618813af367"
       },
       {
         "bytes": 1993,
@@ -181,9 +181,9 @@
         "sha256": "c1862202d52d5ff77543f2dda60e74ebd906e10f2b582f431e63f931df855bbe"
       },
       {
-        "bytes": 13841,
+        "bytes": 14316,
         "path": "docs/ASGCN.md",
-        "sha256": "0c4defd5e3564c7bb657ad48df6863b95ce815d15da3d4ebeb5f3687a79cbcde"
+        "sha256": "d96defb50186c60fec59e8db433067343e97193fd911b8f6e9cef017295558f3"
       },
       {
         "bytes": 6788,
@@ -204,6 +204,11 @@
         "bytes": 46527,
         "path": "docs/SERVER.md",
         "sha256": "7d6636269b6b749f588c1dc9d652fa175a6c39ce27fadecad8abe6243df10314"
+      },
+      {
+        "bytes": 11135,
+        "path": "docs/STREAMING_ASGCN.md",
+        "sha256": "1fea0e331cdb882863d08e50ac2729269b4fe26b181a23387285c21894ac8c7f"
       },
       {
         "bytes": 14160,
@@ -294,6 +299,11 @@
         "bytes": 20459,
         "path": "scripts/hdr_http.py",
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
+      },
+      {
+        "bytes": 2200,
+        "path": "scripts/prepare_streaming_experiment.py",
+        "sha256": "eb87e15c65c3f96ed1a1a99648a10633d747001891bc901399ffff101d1552bf"
       },
       {
         "bytes": 3141,
@@ -411,19 +421,19 @@
         "sha256": "d1673c9742bb74a8e04e2fa4989e1997afe3fd56612af6f03360701cb85cf883"
       },
       {
-        "bytes": 15074,
+        "bytes": 16034,
         "path": "src/asgcn_unet/batching.py",
-        "sha256": "d0e174f6e9cfd5451cb80f362a35dcbe1d5081dfbf9ef35fa8c7344fcaba907a"
+        "sha256": "0feb248814b0af677a8caeb19468c12e576e06c6aa937a391efd59b9a8d3dd0c"
       },
       {
-        "bytes": 11137,
+        "bytes": 12423,
         "path": "src/asgcn_unet/checkpoint.py",
-        "sha256": "cf76163fad59f1734c59b810b86bde2812f9ce26965ed8686a35fcc3e51a49f1"
+        "sha256": "3cc84bb759c6528d9f16815ddcc7ba9ff6e6e3d7ddb97491559847d909acf5dc"
       },
       {
-        "bytes": 27045,
+        "bytes": 27298,
         "path": "src/asgcn_unet/cli.py",
-        "sha256": "3949f6f3d5d49b6c5fd2a03b86d53aa217da8ce5b766d55fce77e31879409b00"
+        "sha256": "61f416f108f5b45a6d1a665e0bdecf753ac7a9d9d4563ad5801002bcad8d88b7"
       },
       {
         "bytes": 309,
@@ -431,29 +441,29 @@
         "sha256": "4b24dc7e861593989b5f820a50c35fbfeade1383fae97efb6691e3a1de7a09ec"
       },
       {
-        "bytes": 9754,
+        "bytes": 10968,
         "path": "src/asgcn_unet/data/common.py",
-        "sha256": "0591d6bd2abee38f7834cf81219d36d2dbfe64cd3992c12f6de06fe2b85a5e5b"
+        "sha256": "e32c2a9e110987f953ebce4da5d906dfc6d52ead95ad41ef7c666eab15e9b69c"
       },
       {
-        "bytes": 24704,
+        "bytes": 31075,
         "path": "src/asgcn_unet/data/eventaid_r.py",
-        "sha256": "aaae5e4a4b48f73d0dbb06e9a728857d7c0cb5c1081c0a90179a03046ba1ff47"
+        "sha256": "e259ee172a19c33c916cde39ef7ca8423d243b9f4e16d0c7c003e9707f3cc3f9"
       },
       {
-        "bytes": 24198,
+        "bytes": 30472,
         "path": "src/asgcn_unet/data/eventhdr.py",
-        "sha256": "29338fe60e6ee77daa80f683d75c58c8d773a202e374252deaf888df2c503a0b"
+        "sha256": "b8bc909026a7824f453d6990a0a01172afac2b9bc9a78c06399d8f06f581c34c"
       },
       {
-        "bytes": 11088,
+        "bytes": 11448,
         "path": "src/asgcn_unet/data/factory.py",
-        "sha256": "5ef139427badf8664679002b8f5a90e728465002435998349f78735ef292104d"
+        "sha256": "5123502b1f7ccc4c206c985ebf0493815158a773b4d5f0fcc4ea20c739a306e4"
       },
       {
-        "bytes": 14354,
+        "bytes": 14486,
         "path": "src/asgcn_unet/diagnostic_graph.py",
-        "sha256": "dcd5a4f7c5623a037fd26b2fb68af5e5b7e2de595c4f7ffb1c839704efed7e91"
+        "sha256": "7dc5f52478f6e862c43e807a8555e0c45dbfdfa0df64c75aa50ad68312e34d7e"
       },
       {
         "bytes": 15840,
@@ -461,19 +471,19 @@
         "sha256": "5aa92197c983192a412731aa9a5b94c2da58eabf245a2e8ea6c285a542df1dd2"
       },
       {
-        "bytes": 18216,
+        "bytes": 19878,
         "path": "src/asgcn_unet/diagnostic_sample.py",
-        "sha256": "fb6f394669df74e26c58b20b5be98f6d0c8c95630ee30df55c892cedd67147ce"
+        "sha256": "8eb471ee15f116a301d2ecb856ac00a7618bb73333090a325341fd15edddb839"
       },
       {
-        "bytes": 238496,
+        "bytes": 249368,
         "path": "src/asgcn_unet/engine.py",
-        "sha256": "25f3c4782e269cb27036c6d3f350eea2dd96dab2a60a3ec89b51f131c5497f4e"
+        "sha256": "7b6a8776281126b177f6219a4a5ee73742cea3d9e35dd9819fa1a1c3db0b5dc2"
       },
       {
-        "bytes": 7824,
+        "bytes": 8402,
         "path": "src/asgcn_unet/evaluation_batches.py",
-        "sha256": "47ab86fd6a464ba473d70f5f7302e2948d5a77080f570468f13f7cfe259c3660"
+        "sha256": "132034a8e6dbcaff73200c2e52b1262d1d11b06003e3cb3bf1c112f27103f63a"
       },
       {
         "bytes": 51856,
@@ -481,9 +491,9 @@
         "sha256": "33a1837ff3e9f6ba397e6f739f10421843a7067f8dd243f5ac24df5637b3d6f8"
       },
       {
-        "bytes": 9702,
+        "bytes": 9951,
         "path": "src/asgcn_unet/graph_preview.py",
-        "sha256": "718490121f2a710f5d705fb342f6971e17dccf9cebce3fa5d93e659a78e3f4c7"
+        "sha256": "8d3ab2d463e901c5a0433cd83062c8ee94862b2fb5b9e08bae0fd635bd2d08f1"
       },
       {
         "bytes": 16670,
@@ -501,9 +511,9 @@
         "sha256": "203f6844e6eb5539d6fd74fdd95911138f20748bbd2913572b95b0578878f216"
       },
       {
-        "bytes": 28535,
+        "bytes": 32166,
         "path": "src/asgcn_unet/model.py",
-        "sha256": "930723ab06605e9f1609925d2fa3ddd732dd02d7cde6f36b029148019e02ec27"
+        "sha256": "dccaf4e172c0f68f3f0072df47f822f0b2b4d47e45bc9b229553b1f8b10e15c7"
       },
       {
         "bytes": 40338,
@@ -521,9 +531,9 @@
         "sha256": "88a55b0424f1d18daaca8cf4d83c8e6cd4585d78a7e557ae231b9213b023e180"
       },
       {
-        "bytes": 82575,
+        "bytes": 83289,
         "path": "src/asgcn_unet/preflight.py",
-        "sha256": "0a376ff0f920fc1a33384ab61dfe01ff820845ee097800c4418b04db39646d1a"
+        "sha256": "ace2df79a6dbcf5c57c8cdb487e7f581e24cc0368668abfacab56e57e4c5d499"
       },
       {
         "bytes": 2451,
@@ -536,19 +546,19 @@
         "sha256": "bf3f9cbb7587746448cd083775925389178450d7fe18e267f9a2e80d27f64127"
       },
       {
-        "bytes": 24305,
+        "bytes": 24452,
         "path": "src/asgcn_unet/result_viewer.py",
-        "sha256": "c26663787821910b96f5461aca25463543285ba7d7ca292c5fe46bbe970515d8"
+        "sha256": "f212cf727dbf715a7fb58644c93a983bd426bc9d5a049d642daf5c1174cc89a7"
       },
       {
-        "bytes": 33372,
+        "bytes": 33519,
         "path": "src/asgcn_unet/result_visualization.py",
-        "sha256": "e25968f177e7a83718382549d69bad8b6d5447b5ccb6a18accbf5e3769fa7cda"
+        "sha256": "e1c00824992679646a7de2897fff7cf7271da445d7f172c91cc4a78c69d5fe1a"
       },
       {
-        "bytes": 8152,
+        "bytes": 8290,
         "path": "src/asgcn_unet/sample_probe.py",
-        "sha256": "373148364823ca1d1e21cd81a1a93aba93e09d65d9ea36d2df67917ffe35fafb"
+        "sha256": "62be601e26543e304832c34494156f3f54e1a2e3fff301ae6a2c0dc76189aa8d"
       },
       {
         "bytes": 8555,
@@ -556,14 +566,54 @@
         "sha256": "03f26f4638fae88c5b76c81d2bf17d10ab0b375f8cf9b0251719a21729a5b438"
       },
       {
+        "bytes": 19130,
+        "path": "src/asgcn_unet/stream_encoder.py",
+        "sha256": "8c75791b64834fd12424845a47d0489c27874432c176a00db88de86aaad0bd7e"
+      },
+      {
+        "bytes": 13962,
+        "path": "src/asgcn_unet/stream_graph.py",
+        "sha256": "6d30d01ea2a47f3903558cbf277a216f64f8890faf5ccf272c1ebb80f929a52b"
+      },
+      {
+        "bytes": 10889,
+        "path": "src/asgcn_unet/stream_inference_profile.py",
+        "sha256": "57074e5be5fb2009ddfb009c5c4b8a5290675b489c7a1e54f068d2d3fc3805d6"
+      },
+      {
+        "bytes": 9960,
+        "path": "src/asgcn_unet/stream_input.py",
+        "sha256": "e9396b0d0f767bd21f64c4e01453d8bd37b06c876167dd58dfbf5f49abd4f242"
+      },
+      {
+        "bytes": 23658,
+        "path": "src/asgcn_unet/stream_model.py",
+        "sha256": "f057eb57855f3928a322d4e9cfef73b8f6c90e272a8a40c2cbc87bca6f44bd3c"
+      },
+      {
+        "bytes": 38965,
+        "path": "src/asgcn_unet/stream_preflight.py",
+        "sha256": "9a911a16fb48aecf7d12185afcecbed3a4b794932f974e3eb45e7034f6ef32d5"
+      },
+      {
+        "bytes": 4376,
+        "path": "src/asgcn_unet/stream_reporting.py",
+        "sha256": "ce0c03864b2bec75961d65748177ac10a2351923f3fe54dc30320acd90014272"
+      },
+      {
+        "bytes": 9325,
+        "path": "src/asgcn_unet/stream_state.py",
+        "sha256": "a36a17b129e1924c186a7486bad9f388fe5e12fe14a20679894d4576ac2e1b7e"
+      },
+      {
         "bytes": 8826,
         "path": "src/asgcn_unet/timing.py",
         "sha256": "5f0babbb3a1753e2e0bbb07dc701ed3962a656f99ceca38baf1f0b09d09ff585"
       },
       {
-        "bytes": 11231,
+        "bytes": 11495,
         "path": "src/asgcn_unet/topology_scan.py",
-        "sha256": "fda3fc2e1c7e61a20c1b318a9212a51f498375f66033d23cd00fecfa1648cf38"
+        "sha256": "f1a779d459d6713a323f67ea7ab7606330c2d56d19689b2f4b687a78b580297d"
       },
       {
         "bytes": 6528,
@@ -581,9 +631,9 @@
         "sha256": "fec44e04051e57dbd8adb098c92cbc50db5a28a6755cd89a3aa0f41b400519bf"
       },
       {
-        "bytes": 10235,
+        "bytes": 11321,
         "path": "src/asgcn_unet/utils.py",
-        "sha256": "1f4a23de27869bf2c02ca462be8e59be928b67e7c49431424d756bfc5a5b4dae"
+        "sha256": "ac2f7b04328ce5711825aa3e09756f1013251f1081267f6f581456a19ae29c0e"
       },
       {
         "bytes": 8869,
@@ -756,9 +806,9 @@
         "sha256": "fcaf435b277c82276b0c9727b593d7765a4bbea6c02719108330f7d4d1310626"
       },
       {
-        "bytes": 9927,
+        "bytes": 13135,
         "path": "tests/test_diagnostic_sample.py",
-        "sha256": "e088a252d3f31d193b5a8293fef69c027b516570d8aa46788236ee58c6dde083"
+        "sha256": "b3c94a273d2275274e60f890488335c302c6589c6aefd5fb37aae137ec0351c0"
       },
       {
         "bytes": 18032,
@@ -991,6 +1041,61 @@
         "sha256": "4cdcd1e4d21136d71d1454dd9a99081febe81ff1af6b060bcd3d701e9782d7ae"
       },
       {
+        "bytes": 9895,
+        "path": "tests/test_stream_calibration.py",
+        "sha256": "622a5380630fc4145a7eb15ff9745eff8772d008301f804243dbebe1eaedb26d"
+      },
+      {
+        "bytes": 11538,
+        "path": "tests/test_stream_checkpoint.py",
+        "sha256": "b14e85c43b9a6f43af9736c0a635493bda15f55c2a3df292b0bcc68ace53a698"
+      },
+      {
+        "bytes": 2721,
+        "path": "tests/test_stream_diagnostic_guards.py",
+        "sha256": "0af10f34589e5c7833f8e1cbd026f89c89b1fc408ce5b84481fe307c2c561526"
+      },
+      {
+        "bytes": 14493,
+        "path": "tests/test_stream_encoder.py",
+        "sha256": "a058c3fba1d5b9a49e4252af4e0b9c6ec171f789ae88a054a1220669b25380de"
+      },
+      {
+        "bytes": 5356,
+        "path": "tests/test_stream_engine.py",
+        "sha256": "f23636ce4bf8706ad7c0e4eff99d63bc4c61e4745660eba88e0674721ae1e258"
+      },
+      {
+        "bytes": 13045,
+        "path": "tests/test_stream_graph.py",
+        "sha256": "7fce08d04a55f9f2d97fd4e8beb78f361cf8e4cf60d29db4f4d07362f5b2c9d5"
+      },
+      {
+        "bytes": 9040,
+        "path": "tests/test_stream_inference_profile.py",
+        "sha256": "d4648f8c39ac71601e9fa26f6d7595f623ffbaaf150b47e1c2454e7f5f141a99"
+      },
+      {
+        "bytes": 19347,
+        "path": "tests/test_stream_input.py",
+        "sha256": "e1d1a93c1fd56110aaa6fb9a90394351a849628adb68bb5cab9257910189b8df"
+      },
+      {
+        "bytes": 10105,
+        "path": "tests/test_stream_model.py",
+        "sha256": "0ef6b28ef315669ea5e17ba5fb0db46612694098a1e7b12703ef97ef98a0df2a"
+      },
+      {
+        "bytes": 18179,
+        "path": "tests/test_stream_preflight.py",
+        "sha256": "da53edb6793d6dfd8f4ed0e38fde358d575f67ddf5a4ccb0477f769967a4ee16"
+      },
+      {
+        "bytes": 6234,
+        "path": "tests/test_stream_reporting.py",
+        "sha256": "7112a34d11e3fd3d29e4031877dbdc8afd7ab88539ea4aaa8c9d8bc4004f8acd"
+      },
+      {
         "bytes": 4781,
         "path": "tests/test_summarize_eval.py",
         "sha256": "80a2b577be9644dd01a46165ff4cc8f1c782fa05df7945295c34edea62fe2b57"
@@ -1061,9 +1166,9 @@
         "sha256": "13102c5eba21b14b23bbb932bb0d7a6822f93c34b5c4fa465cd92b01130475d0"
       }
     ],
-    "included_file_count": 209,
+    "included_file_count": 230,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "cc12ade3a39812c955d86f10c9cbf64439797e20a4c1de2f73de5b27e8aa2ba0"
+    "snapshot_sha256": "a5990634fff435e53a41358d708399f06bda6e3a3eacdba7703c14115fad1558"
   }
 }
 -->
@@ -1342,6 +1447,27 @@ asgcn-unet inspect --config configs/aid.json --samples 2
 EventHDR 전체 공개 배포본으로 학습하고 EventHDR 공식 eval과 EventAid-R 전체에서 평가하는
 event-to-frame 연구 코드다. ASGCN graph encoder와 recurrent U-Net decoder를 결합하고,
 ANN 및 ANN→SNN 변환 모델의 복원 품질·지연·발화율을 동일한 데이터와 평가 조건에서 비교한다.
+
+## 비동기 ASGCN 복원 경로 (새 실험)
+
+기존 `architecture_version=2`와 B/C/D 결과는 **정적 프레임 그래프** 실험이다.
+이벤트별 비동기 실행을 검증한 결과가 아니며, 원 논문의 성능 재현으로 해석하지 않는다.
+새 `architecture_version=3`, `graph_execution=event_driven` 경로는 원본 물리 시각,
+도착·만료 그래프, K-hop 부분 갱신, 지속 IF 상태와 실제 희소 메시지 연산을 U-Net 복원에 연결한다.
+기존 결과와 설정은 보존하며 새 입력 계약으로 별도 학습해야 한다.
+
+[새 입력·동역학·실행 및 검증 계약](docs/STREAMING_ASGCN.md)을 먼저 확인한다.
+모델 6층·64채널, U-Net 48채널, 40 epochs, physical B16과 전체 데이터/해상도는 유지한다.
+프레임의 8,192-event 사후 선택 cap만 승인에 따라 제거한다. GPU/실제 데이터에서 품질·속도 향상은
+별도 실측해야 하며, CPU 합성 테스트는 그 증거가 아니다. 기존 실행 명령은 자동으로 v3로 바뀌지 않는다.
+
+```bash
+python -B scripts/prepare_streaming_experiment.py --help
+```
+
+준비 명령은 새 독립 폴더에 설정만 생성한다. 물리 시간 창/좌표 scale과 두 데이터셋의
+원본 이벤트·프레임 시간 단위는 명시적으로 지정해야 하며 코드가 추정하지 않는다.
+새 전체-stream CUDA preflight를 통과하기 전에는 학습을 시작하지 않는다.
 
 구조별 비교는 [구조 비교 실험](docs/ABLATIONS.md)을 따른다. U-Net-only,
 그래프 없는 pointwise ANN/SNN + U-Net, 기존 GNN/Spiking GNN + U-Net,
@@ -4834,6 +4960,11 @@ E의 예측은 `runs/ablations/transformer/eval/{hdr,aid}/ann/predictions`에 �
 ~~~~~~~~markdown
 # ASGCN-U-Net의 ASGCN paper-core 구현 범위
 
+이 문서는 기존 `architecture_version=2` 정적 프레임 그래프 경로의 범위를 설명한다.
+이 경로에는 비동기 이벤트 갱신이 없으며 기존 B/C/D 결과로 ASGCN의 비동기 효율을 주장하면 안 된다.
+새 v3 이벤트 도착·만료/지속 상태 경로는 [STREAMING_ASGCN.md](STREAMING_ASGCN.md)를 따른다.
+v3도 원 논문의 분류기를 복제한 공식 재현이 아니라 명시적 시간 계약을 둔 복원 적응이다.
+
 이 저장소는 AAAI 2025 ASGCN 논문의 공개 수식에서 확인할 수 있는 event graph와 ANN→SNN
 변환 핵심을 구현한 뒤, event-to-frame 복원용 decoder를 연결한 연구 코드다. 원 논문은 event
 classification을 다루지만 이 프로젝트의 출력은 luminance frame이다. 따라서 이 코드는 저자 공식
@@ -6520,6 +6651,187 @@ bash scripts/run.sh eval
 - `max_graph_edges=2,000,000` 또는 OOM: edge를 조용히 잘라 진행하지 않는다. 별도 config에서
   `max_events`, `graph_radius`, model width를 변경하고 peak memory를 다시 측정해 다른 실험으로 기록한다.
 - SSH 종료: foreground shell 대신 tmux, Slurm 또는 PBS job을 사용한다.
+~~~~~~~~
+
+# docs/STREAMING_ASGCN.md
+
+~~~~~~~~markdown
+# Stateful event-driven ASGCN reconstruction (architecture v3)
+
+## Scope and evidence
+
+This is an event-to-frame reconstruction adaptation of the public
+[ASGCN paper](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309),
+not its authors' classification implementation, trained weights, pooling/classifier
+pipeline, or published accuracy/energy reproduction. Public equations do not
+specify this project's physical clock scales, sliding duration, reconstruction
+readout, or event-local clock scheduling. Those choices are explicit below.
+
+The old v2 paths (`fast`, `graph_unet`/C/D, and their existing checkpoints/results)
+remain static-window baselines. No saved result is relabelled as asynchronous.
+V3 requires new training; exact model/config checks reject v2 checkpoint reuse.
+`paper_core_version=2` still identifies the shared spline/BN/conversion equations;
+`model_config.architecture_version=3` identifies the new input/execution contract.
+
+Implemented code paths are tested with **synthetic CPU unit/integration fixtures**.
+Those tests are not real-data training, CUDA kernel validation, PSNR/SSIM evidence,
+an inference-speed improvement, or measured energy consumption. Actual device
+preflight and full quality/latency evaluation remain required on the allocation.
+
+## Input and spatial/temporal geometry
+
+- `event_time_contract=physical_seconds_v1` keeps every post-ROI event. Production
+  preparation retains full resolution, so it does not introduce an ROI/subset.
+- `max_events=null` and model sampling factor `R=1` remove the future-dependent
+  8,192-event linspace selection. No node/edge cap silently trims the graph.
+- Raw event times are converted with `timestamp_scale_to_seconds`; frame boundaries
+  separately use `interval_timestamp_scale_to_seconds`. Both must be explicitly
+  supplied. A shared clock does **not** mean a shared storage unit. Timestamp
+  offsets, mismatches, nonfinite values, and lost time precision are not guessed away.
+- Events retain float64 physical times and stable source row IDs. Equal timestamps
+  are simultaneous; distinct timestamps are never merged into a faster logical step.
+- Spatial coordinates are x/(W-1), y/(H-1). Topology time is (event_seconds - fixed
+  sequence_origin_seconds)/time_scale_seconds, never a window's first/last-event
+  normalization. Existing nodes keep the same coordinates across arrivals/expiry.
+- The four node features are normalized x/y, **physical offset from the previous
+  frame boundary divided by time_scale_seconds**, and +/- polarity. That birth-frame
+  offset remains fixed for a node's lifetime; it does not depend on future events or
+  the current sliding-window endpoint. It is a declared reconstruction-specific feature.
+- Nodes older than current watermark minus `window_seconds` expire. Equality at
+  the cutoff is retained. Watermarks advance on arrivals and frame readouts, not
+  on another sequence's arrivals. Radius and all dimensions remain explicit.
+- EventHDR's official stored/recovered predecessor-index boundary is retained and
+  checked against adjacent raw rows. A proven late predecessor is identified in
+  metadata; arbitrary clock offsets are rejected. EventAid event/frame clocks are
+  strictly checked. File/part identity prevents unrelated sequences sharing state.
+
+The existing radius 0.08 is numerically preserved, but its temporal meaning now
+depends on the declared physical scale. Old and new inputs are **not** an identical
+experimental condition. All older quality tables remain valid only for their
+recorded contracts, not as matched controls for this new study.
+
+## Computation and persistent state
+
+The shared network remains six 64-channel spline layers, scalar open degree-one
+kernel size five, root transform, bias, and incoming-degree mean aggregation.
+The raster and base-48 recurrent U-Net/ConvGRU/head remain analog. The decoder runs
+once at a frame readout; an event update does not silently advance ConvGRU.
+
+`stream_graph.evolve_stream_graph` reuses surviving edges and attributes. Only new
+nodes issue radius neighbor queries. Removed edges change both affected endpoints;
+zero-valued messages still count in the complete incoming degree. Independent
+streams use one disjoint namespace with no inter-stream edge.
+
+`stream_encoder.update_encoder` remaps retained per-node caches and computes
+learned projections/messages only for affected destinations and their incident
+sources. Later layers propagate changes through the actual graph dependencies.
+SNN messages omit zero-valued sources before projection, not after a full dense
+projection. Root and folded bias remain part of the affine computation.
+
+ANN **training** deliberately recomputes the complete current causal-window graph
+with pooled-node BatchNorm, loss, backward and optimizer updates. Learned activation
+caches cannot survive changed weights or training BN statistics. The next training
+state contains only raw graph data plus detached decoder context. ANN **inference**
+uses frozen-BN incremental updates, tested against full snapshot recomputation.
+Full chronological calibration observes the same causal-window ANN features and
+retains no profile/sample maxima in its final commitment.
+
+### Explicit event-local IF clock
+
+V3 SNN is not equivalent to v2's freshly initialized whole-graph T-clock output.
+Each actual arrival/expiry/readout update runs T local sweeps, layer 0 through layer
+5 in feedforward order. Only affected neurons advance their local clock. Thus bias
+is added at a local update, not continuously in wall-clock time. No unsupported
+claim of equivalence to a global-clock bias-driven scheduler is made.
+
+New neurons start at half threshold; retained neurons retain membrane, previous
+local spike, emitted-spike sum, and local tick count. `literal_eq15` includes the
+previous local spike; `standard_if` omits it. Both use threshold-valued spikes and
+soft reset. Previous local spikes and transmitted one-sweep pulses are separate:
+a pending pulse-off propagates on the next active update, never by holding a
+spike indefinitely. Idle graph lanes retain pending pulses and do not tick when
+another graph receives more arrivals.
+
+Readout is each live node's cumulative threshold-valued spike sum divided by its
+own local tick count, then the existing output normalization scale and cell-mean
+raster. Reported firing counts/denominators instead count **actual operations in
+the current frame invocation**, avoiding repeated aggregation of old history.
+T4 here is four local sweeps per update, not four sensor timestamps and not the
+old static T4 experiment. It is not established as optimal.
+
+### Costs and limitations
+
+The implementation still scans/remaps some full node/edge metadata, builds spatial
+cell/CSR indices, and allocates remapped caches. These costs are exposed; an
+O(K-hop)-only wall-time or memory claim is false. Dense graphs can make the affected
+closure nearly the whole graph. Sequential causal arrival waves cannot be merged
+without changing this IF model. Independent streams in a wave are batched on the
+device; layers/local ticks have real causal dependencies.
+
+Consequently GPU FPS may be lower or higher depending on graph density, event rate,
+indexing overhead and sparsity. Lower operation counts are not proof of lower GPU
+latency or measured power. Profile before claiming either speed or energy benefits.
+
+## Safe preparation and execution
+
+`scripts/prepare_streaming_experiment.py` requires a new `--output-root` inside the
+checkout and these **six explicitly chosen** positive time quantities:
+
+| Flag | Meaning |
+|---|---|
+| `--window-seconds` | Physical sliding graph lifetime |
+| `--time-scale-seconds` | Fixed physical normalization for graph distance/features |
+| `--hdr-timestamp-scale-to-seconds` | EventHDR event storage unit to seconds |
+| `--hdr-interval-timestamp-scale-to-seconds` | EventHDR image-clock unit to seconds |
+| `--aid-timestamp-scale-to-seconds` | EventAid TXT event storage unit to seconds |
+| `--aid-interval-timestamp-scale-to-seconds` | EventAid frame-clock unit to seconds |
+
+No production time constant is silently selected. Use the original format's clock
+specification and measured data intervals to choose them. The preparation report
+lists every difference from the existing configs. It preserves depth/width/radius,
+full data/resolution, 40 epochs and physical batch 16, and creates only new files.
+It does not connect SSH, change GPU masks, start training or alter any old run.
+
+After preparation, use the ordinary CLI with the generated config paths:
+
+1. `profile --config <new-root>/configs/train.json --output <new-root>/stream-profile.json`
+2. `train --config <new-root>/configs/train.json --preflight-report <new-root>/stream-profile.json`
+3. `calibrate` with that same training config and the new ANN checkpoint.
+4. `evaluate` and `benchmark` with `<new-root>/configs/hdr.json` and `aid.json`,
+   the new checkpoints, and explicit ANN/SNN mode/T/dynamics as appropriate.
+
+The lines above list CLI arguments, not shell-ready commands with guessed time
+values or GPU IDs. `python -B -m asgcn_unet.cli --help` documents the command syntax.
+Preserve the scheduler/container's actual allocation. No script chooses GPU 0/4.
+
+Streaming preflight uses a separate schema and rejects old static profiles, scan
+reuse, and the unverified-preflight bypass. It checks the whole training stream,
+records actual readout topology and separately labelled conservative prefix-union
+bounds, then performs real stateful full-physical-batch CUDA training probes.
+A conservative bound is not an observed intra-frame maximum. Guard refusals never
+drop events or automatically raise memory limits. Neither sampled CUDA probes nor
+snapshot resource checks are an absolute whole-run memory guarantee.
+
+Calibration/evaluation batch and worker candidates are measured. Stateful
+inference profile trials bootstrap the causal prefix, with that preparation cost
+explicitly included in their timing; they are not steady-state throughput claims.
+Benchmarking replays full sequence prefixes even if the decoder's recurrence is
+disabled: the graph/SNN is still stateful. Prefix replay may be expensive and is
+outside the scored frame set. Full quality evaluation, sample compute-only speed,
+evaluation-loop throughput and total job duration remain distinct measurements.
+
+Legacy single-frame graph previews, saved-result graph generators, single-sample
+probes and `scan-eval-topology` explicitly refuse v3/physical inputs: they do not
+have predecessor graph/IF state and must not silently normalize a physical frame
+as v2. Existing v2 visualization is preserved; newly evaluated prediction/GT PNGs
+are still saved and viewable. A stateful graph visualization exporter is not
+implemented by this change.
+
+Training checkpoints store a validated, CPU-owned raw-graph/decoder state under
+context schema v2; legacy tensor-only context v1 remains supported. A failed AMP
+attempt receives the same immutable incoming state on retry. No failed attempt
+commits a graph update, kills a session, overwrites another experiment, or switches
+to a smaller model/CPU fallback.
 ~~~~~~~~
 
 # docs/TRAIN.md
@@ -12077,6 +12389,56 @@ def download_dataset(
         return counts
 ~~~~~~~~
 
+# scripts/prepare_streaming_experiment.py
+
+~~~~~~~~python
+"""Create an independent physical-time streaming study without executing it."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / "src"))
+
+from asgcn_unet.stream_preflight import prepare_streaming_experiment
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output-root", required=True, help="new independent directory inside this checkout")
+    parser.add_argument("--window-seconds", type=float, required=True)
+    parser.add_argument("--time-scale-seconds", type=float, required=True)
+    parser.add_argument("--hdr-timestamp-scale-to-seconds", type=float, required=True)
+    parser.add_argument("--aid-timestamp-scale-to-seconds", type=float, required=True)
+    parser.add_argument("--hdr-interval-timestamp-scale-to-seconds", type=float, required=True)
+    parser.add_argument("--aid-interval-timestamp-scale-to-seconds", type=float, required=True,
+                        help="separate frame-boundary scale; EventAid t0_us/t1_us fields are microseconds (1e-6)")
+    args = parser.parse_args(argv)
+    try:
+        report = prepare_streaming_experiment(
+            PROJECT, args.output_root, window_seconds=args.window_seconds,
+            time_scale_seconds=args.time_scale_seconds,
+            hdr_timestamp_scale_to_seconds=args.hdr_timestamp_scale_to_seconds,
+            aid_timestamp_scale_to_seconds=args.aid_timestamp_scale_to_seconds,
+            hdr_interval_timestamp_scale_to_seconds=args.hdr_interval_timestamp_scale_to_seconds,
+            aid_interval_timestamp_scale_to_seconds=args.aid_interval_timestamp_scale_to_seconds,
+        )
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        print(f"Streaming experiment preparation failed: {error}", file=sys.stderr)
+        return 1
+    print(json.dumps(report, indent=2, ensure_ascii=False, allow_nan=False))
+    print("Only new configuration files were created. No GPU, training, evaluation, SSH, or server was started.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+~~~~~~~~
+
 # scripts/probe_eval_sample.py
 
 ~~~~~~~~python
@@ -16894,16 +17256,20 @@ class PackedSampleBatch:
         events: torch.Tensor,
         event_counts: tuple[int, ...],
         targets: torch.Tensor | None,
+        event_ids: torch.Tensor | None = None,
     ) -> None:
         self.events = events
         self.event_counts = event_counts
         self.targets = targets
+        self.event_ids = event_ids
         self.sensor_size = tuple(samples[0]["sensor_size"])
         self._samples = []
         offset = 0
         for index, (sample, count) in enumerate(zip(samples, event_counts, strict=True)):
             view = dict(sample)
             view["events"] = events[offset : offset + count]
+            if event_ids is not None:
+                view["event_ids"] = event_ids[offset : offset + count]
             if targets is not None:
                 view["target"] = targets[index]
             self._samples.append(view)
@@ -16924,6 +17290,7 @@ class PackedSampleBatch:
             self.events.to(device, non_blocking=True),
             self.event_counts,
             None if self.targets is None else self.targets.to(device, non_blocking=True),
+            None if self.event_ids is None else self.event_ids.to(device, non_blocking=True),
         )
 
     def pin_memory(self) -> PackedSampleBatch:
@@ -16932,6 +17299,7 @@ class PackedSampleBatch:
             self.events.pin_memory(),
             self.event_counts,
             None if self.targets is None else self.targets.pin_memory(),
+            None if self.event_ids is None else self.event_ids.pin_memory(),
         )
 
 
@@ -16956,11 +17324,21 @@ def pack_samples(samples: list[dict[str, Any]] | PackedSampleBatch) -> PackedSam
     if any(have_targets) and not all(have_targets):
         raise ValueError("Packed samples must either all have targets or all omit them")
     targets = torch.stack([sample["target"] for sample in samples]) if all(have_targets) else None
+    have_ids = ["event_ids" in sample for sample in samples]
+    if any(have_ids) and not all(have_ids):
+        raise ValueError("Cannot mix physical-stream and legacy samples in one batch")
+    if all(have_ids):
+        for sample in samples:
+            ids = sample["event_ids"]
+            if (ids.dtype != torch.long or ids.shape != (len(sample["events"]), 2)
+                    or ids.device != sample["events"].device):
+                raise ValueError("event_ids must be same-device int64 [N,2]")
     return PackedSampleBatch(
         samples,
         torch.cat(events, dim=0),
         tuple(int(value.shape[0]) for value in events),
         targets,
+        torch.cat([sample["event_ids"] for sample in samples]) if all(have_ids) else None,
     )
 
 
@@ -17214,6 +17592,7 @@ from typing import Any, Self
 import torch
 from torch.utils.data import Sampler
 
+from .stream_state import StreamingReconstructionState, restore_stream_training_state
 from .training import TrainingState
 
 
@@ -17301,7 +17680,7 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
     expected = {"version", "independent_sequences", "last_key", "entries"}
     if not isinstance(payload, dict) or set(payload) != expected:
         raise ValueError("Training context checkpoint has an invalid schema")
-    if type(payload["version"]) is not int or payload["version"] != 1:
+    if type(payload["version"]) is not int or payload["version"] not in {1, 2}:
         raise ValueError("Unsupported training context checkpoint version")
     if (not isinstance(payload["independent_sequences"], bool)
             or payload["independent_sequences"] != independent_sequences):
@@ -17316,6 +17695,7 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
         raise ValueError("Single-frame training cannot retain multiple sequence contexts")
     seen = set()
     validated = []
+    has_streaming_state = False
     for entry in entries:
         fields = {"key", "sequence_index", "sensor_size", "recurrent", "prediction", "target"}
         if not isinstance(entry, dict) or set(entry) != fields:
@@ -17326,7 +17706,19 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
         seen.add(key)
         index = _context_index(entry["sequence_index"])
         size = _context_size(entry["sensor_size"])
-        recurrent = _context_tensor(entry["recurrent"], "recurrent", optional=True)
+        recurrent = entry["recurrent"]
+        if isinstance(recurrent, dict):
+            if payload["version"] != 2:
+                raise ValueError("Streaming recurrent context requires checkpoint version 2")
+            recurrent = restore_stream_training_state(recurrent)
+            has_streaming_state = True
+            if recurrent.sequence_index != index or (
+                recurrent.sequence_identity != key if independent_sequences
+                else recurrent.sequence_identity[0] != key[0]
+            ):
+                raise ValueError("Streaming state and training context sequence disagree")
+        else:
+            recurrent = _context_tensor(recurrent, "recurrent", optional=True)
         prediction = _context_tensor(entry["prediction"], "prediction")
         target = _context_tensor(entry["target"], "target")
         if prediction.shape != target.shape or tuple(prediction.shape[-2:]) != size:
@@ -17339,6 +17731,8 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
         })
     if entries and last_key is None:
         raise ValueError("Retained training contexts require a last_key")
+    if payload["version"] == 2 and not has_streaming_state:
+        raise ValueError("Training context version 2 requires streaming state")
     # release_finished deliberately leaves last_key intact, even if its value
     # was evicted. Requiring membership would reject valid boundary snapshots.
     return validated
@@ -17349,15 +17743,21 @@ def capture_training_state(state: TrainingState) -> dict[str, Any]:
     if not isinstance(state, TrainingState):
         raise TypeError("A checkpoint requires TrainingState")
     entries = []
+    has_streaming_state = False
     for key, value in state.values.items():
         if not isinstance(value, tuple) or len(value) != 5:
             raise ValueError("Training context value must contain five fields")
+        recurrent = value[2]
+        if isinstance(recurrent, StreamingReconstructionState):
+            recurrent = recurrent.training_payload()
+            has_streaming_state = True
         entries.append({
             "key": key, "sequence_index": value[0], "sensor_size": value[1],
-            "recurrent": value[2], "prediction": value[3], "target": value[4],
+            "recurrent": recurrent, "prediction": value[3], "target": value[4],
         })
     payload = {
-        "version": 1, "independent_sequences": state.independent_sequences,
+        "version": 2 if has_streaming_state else 1,
+        "independent_sequences": state.independent_sequences,
         "last_key": state.last_key, "entries": entries,
     }
     validated = _validated_context(payload, state.independent_sequences)
@@ -17365,6 +17765,8 @@ def capture_training_state(state: TrainingState) -> dict[str, Any]:
         for name in ("recurrent", "prediction", "target"):
             if entry[name] is not None:
                 entry[name] = entry[name].detach().to(device="cpu", copy=True)
+                if isinstance(entry[name], StreamingReconstructionState):
+                    entry[name] = entry[name].training_payload()
     payload["entries"] = validated
     return payload
 
@@ -17940,6 +18342,10 @@ def _execute_command(args: argparse.Namespace) -> None:
             resolve_path(args.report, base_dir),
         )
     elif args.command == "train":
+        from .stream_preflight import is_streaming_config
+
+        if is_streaming_config(config) and args.allow_unverified_preflight:
+            raise ValueError("Streaming training requires its verified CUDA preflight; legacy bypass is not allowed")
         resume = resolve_path(args.resume, base_dir) if args.resume else None
         if args.restart_uncheckpointed and args.allow_unverified_preflight:
             raise ValueError("Restarting uncheckpointed output requires a verified CUDA profile")
@@ -18224,6 +18630,22 @@ def crop_events(events: np.ndarray, crop: Crop) -> np.ndarray:
     return result
 
 
+def crop_events_with_ids(
+    events: np.ndarray, event_ids: np.ndarray, crop: Crop,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Apply the existing ROI while preserving the identity of each source row."""
+    if event_ids.shape != (len(events), 2) or event_ids.dtype != np.int64:
+        raise ValueError("event_ids must be int64 [N,2] source row identities")
+    keep = (
+        (events[:, 0] >= crop.left) & (events[:, 0] < crop.left + crop.width)
+        & (events[:, 1] >= crop.top) & (events[:, 1] < crop.top + crop.height)
+    )
+    result = events[keep].copy()
+    result[:, 0] -= crop.left
+    result[:, 1] -= crop.top
+    return result, event_ids[keep]
+
+
 def validate_target_normalization(
     value: dict[str, Any] | None,
 ) -> dict[str, Any]:
@@ -18380,17 +18802,29 @@ def make_sample(
     sample_id: str,
     sensor_size: tuple[int, int],
     metadata: dict[str, Any] | None = None,
+    *,
+    event_ids: np.ndarray | None = None,
 ) -> dict[str, Any]:
     if events.ndim != 2 or events.shape[1] != 4:
         raise ValueError(f"Events must have shape Nx4 [x,y,t,p], got {events.shape}")
-    event_tensor = torch.from_numpy(np.ascontiguousarray(events)).float()
-    return {
+    if event_ids is not None:
+        if events.dtype != np.float64:
+            raise ValueError("Physical event samples require float64 events")
+        if event_ids.shape != (len(events), 2) or event_ids.dtype != np.int64:
+            raise ValueError("event_ids must be int64 [N,2] source row identities")
+    event_tensor = torch.from_numpy(np.ascontiguousarray(events))
+    if event_ids is None:
+        event_tensor = event_tensor.float()
+    sample = {
         "events": event_tensor,
         "target": target,
         "sample_id": sample_id,
         "sensor_size": tuple(int(v) for v in sensor_size),
         "metadata": metadata or {},
     }
+    if event_ids is not None:
+        sample["event_ids"] = torch.from_numpy(np.ascontiguousarray(event_ids))
+    return sample
 ~~~~~~~~
 
 # src/asgcn_unet/data/eventaid_r.py
@@ -18413,9 +18847,18 @@ import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
 
+from ..stream_input import (
+    LEGACY_EVENT_TIME_CONTRACT,
+    PHYSICAL_EVENT_TIME_CONTRACT,
+    arrival_group_counts,
+    stream_time_metadata,
+    to_physical_seconds,
+    validate_event_time_contract,
+)
 from .common import (
     choose_crop,
     crop_events,
+    crop_events_with_ids,
     image_array_to_tensor,
     make_sample,
     normalize_polarity,
@@ -18462,7 +18905,16 @@ class EventAidRZipDataset(Dataset):
         target_normalization: dict[str, Any] | None = None,
         random_crop: bool = False,
         seed: int = 2026,
+        event_time_contract: str = LEGACY_EVENT_TIME_CONTRACT,
+        timestamp_scale_to_seconds: float | None = None,
+        interval_timestamp_scale_to_seconds: float | None = None,
     ) -> None:
+        self.event_time_contract = event_time_contract
+        self.timestamp_scale_to_seconds = validate_event_time_contract(
+            event_time_contract, timestamp_scale_to_seconds, max_events,
+            interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+        )
+        self.interval_timestamp_scale_to_seconds = interval_timestamp_scale_to_seconds
         self.root = Path(root).expanduser()
         self.target_channels = int(target_channels)
         self.max_events = max_events
@@ -18752,6 +19204,12 @@ class EventAidRZipDataset(Dataset):
                     if parts is not None:
                         record["part_index"] = part_indices[event_id]
                         record["sequence_id"] = f"{scene}/part-{part_indices[event_id]:03d}"
+                    if self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT:
+                        origin_row = (
+                            timestamp_rows[parts[part_indices[event_id]][0]]
+                            if parts is not None else 0
+                        )
+                        record["sequence_origin_raw"] = timestamps[origin_row]
                     samples.append(record)
         return samples, scene_info
 
@@ -18775,19 +19233,42 @@ class EventAidRZipDataset(Dataset):
         *,
         interval_t0: float,
         interval_t1: float,
-    ) -> tuple[np.ndarray, dict[str, float | int | None]]:
+        event_time_contract: str = LEGACY_EVENT_TIME_CONTRACT,
+        timestamp_scale_to_seconds: float | None = None,
+        interval_timestamp_scale_to_seconds: float | None = None,
+    ) -> tuple[np.ndarray, dict[str, Any]]:
+        scale = validate_event_time_contract(
+            event_time_contract, timestamp_scale_to_seconds, None,
+            interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+        )
+        physical = event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+        if physical:
+            assert scale is not None
+            assert interval_timestamp_scale_to_seconds is not None
+            lower, upper = to_physical_seconds(
+                [interval_t0, interval_t1], interval_timestamp_scale_to_seconds, source=source,
+            )
+            # Also validate empty source blocks: missing events cannot hide a bad clock.
+            stream_time_metadata(
+                np.empty(0, dtype=np.float64), interval_start_seconds=float(lower),
+                interval_end_seconds=float(upper), sequence_origin_seconds=float(lower),
+                timestamp_scale_to_seconds=scale, source=source,
+                interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+            )
         if not raw.strip():
-            return np.empty((0, 4), dtype=np.float32), {
+            return np.empty((0, 4), dtype=np.float64 if physical else np.float32), {
                 "event_timestamp_min": None,
                 "event_timestamp_max": None,
                 "event_timestamp_span": None,
-                "interval_t0": float(interval_t0),
-                "interval_t1": float(interval_t1),
+                "interval_t0": float(lower if physical else interval_t0),
+                "interval_t1": float(upper if physical else interval_t1),
                 "event_to_interval_span_ratio": None,
                 "event_min_offset_from_t0": None,
                 "outside_interval_count": 0,
                 "event_count": 0,
-                "strict_interval_validation": False,
+                "strict_interval_validation": physical,
+                **({"timestamp_unit": "seconds", "source_interval_t0": interval_t0,
+                    "source_interval_t1": interval_t1} if physical else {}),
             }
         try:
             rows = np.loadtxt(io.BytesIO(raw), dtype=np.float64, comments=None, ndmin=2)
@@ -18810,7 +19291,7 @@ class EventAidRZipDataset(Dataset):
             )
         event_span = float(timestamps[-1] - timestamps[0])
         interval_span = float(interval_t1 - interval_t0)
-        timestamp_diagnostics: dict[str, float | int | None] = {
+        timestamp_diagnostics: dict[str, Any] = {
             "event_timestamp_min": float(timestamps[0]),
             "event_timestamp_max": float(timestamps[-1]),
             "event_timestamp_span": event_span,
@@ -18837,10 +19318,36 @@ class EventAidRZipDataset(Dataset):
                 f"Invalid EventAid-R event block {source}: polarity values must be -1/1 or 0/1"
             )
         events = rows[:, [1, 2, 0, 3]]
-        if len(events):
+        if physical:
+            assert scale is not None
+            events[:, 2] = to_physical_seconds(events[:, 2], scale, source=source)
+            stream_time_metadata(
+                events[:, 2], interval_start_seconds=float(lower),
+                interval_end_seconds=float(upper), sequence_origin_seconds=float(lower),
+                timestamp_scale_to_seconds=scale, source=source,
+                interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+            )
+            seconds = events[:, 2]
+            timestamp_diagnostics.update({
+                "source_event_timestamp_min": float(timestamps[0]),
+                "source_event_timestamp_max": float(timestamps[-1]),
+                "source_interval_t0": interval_t0, "source_interval_t1": interval_t1,
+                "event_timestamp_min": float(seconds[0]),
+                "event_timestamp_max": float(seconds[-1]),
+                "event_timestamp_span": float(seconds[-1] - seconds[0]),
+                "interval_t0": float(lower), "interval_t1": float(upper),
+                "event_to_interval_span_ratio": (
+                    float((seconds[-1] - seconds[0]) / (upper - lower)) if upper > lower else None
+                ),
+                "event_min_offset_from_t0": float(seconds[0] - lower),
+                "outside_interval_count": 0, "strict_interval_validation": True,
+                "timestamp_unit": "seconds",
+            })
+        elif len(events):
             time_span = max(float(events[-1, 2] - events[0, 2]), 1.0)
             events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
-        events = events.astype(np.float32, copy=False)
+        if not physical:
+            events = events.astype(np.float32, copy=False)
         events[:, 3] = normalize_polarity(events[:, 3])
         return events, timestamp_diagnostics
 
@@ -18853,7 +19360,33 @@ class EventAidRZipDataset(Dataset):
             source=source,
             interval_t0=float(item["t0_us"]),
             interval_t1=float(item["t1_us"]),
+            event_time_contract=self.event_time_contract,
+            timestamp_scale_to_seconds=self.timestamp_scale_to_seconds,
+            interval_timestamp_scale_to_seconds=self.interval_timestamp_scale_to_seconds,
         )
+        event_ids = None
+        stream_time = None
+        if self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT:
+            assert self.timestamp_scale_to_seconds is not None
+            assert self.interval_timestamp_scale_to_seconds is not None
+            scale = self.timestamp_scale_to_seconds
+            frame_scale = self.interval_timestamp_scale_to_seconds
+            lower, upper, origin = to_physical_seconds(
+                [item["t0_us"], item["t1_us"], item["sequence_origin_raw"]],
+                frame_scale, source=source,
+            )
+            stream_time = stream_time_metadata(
+                events[:, 2], interval_start_seconds=float(lower),
+                interval_end_seconds=float(upper), sequence_origin_seconds=float(origin),
+                timestamp_scale_to_seconds=scale, source=source,
+                interval_timestamp_scale_to_seconds=frame_scale,
+            )
+            stream_time["source_interval_start"] = item["t0_us"]
+            stream_time["source_interval_end"] = item["t1_us"]
+            event_ids = np.column_stack((
+                np.full(len(events), item["sequence_index"], dtype=np.int64),
+                np.arange(len(events), dtype=np.int64),
+            ))
         with Image.open(io.BytesIO(zf.read(item["target_name"]))) as image:
             target = image_array_to_tensor(
                 pil_to_array(image),
@@ -18876,13 +19409,17 @@ class EventAidRZipDataset(Dataset):
         rng = np.random.default_rng(crop_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
-        events = crop_events(events, crop)
+        if event_ids is None:
+            events = crop_events(events, crop)
+        else:
+            events, event_ids = crop_events_with_ids(events, event_ids, crop)
         cropped_event_count = len(events)
         dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
-        events = stratified_subsample(events, self.max_events)
+        if event_ids is None:
+            events = stratified_subsample(events, self.max_events)
         retained_event_count = len(events)
         sample_id = f"{item['scene']}/{item['frame_id']:06d}"
-        return make_sample(
+        sample = make_sample(
             events,
             target,
             sample_id,
@@ -18912,7 +19449,18 @@ class EventAidRZipDataset(Dataset):
                     "height": crop.height,
                 },
             },
+            event_ids=event_ids,
         )
+        if event_ids is not None:
+            assert stream_time is not None
+            stream_time["arrival_group_counts"] = arrival_group_counts(events[:, 2])
+            sample["metadata"]["stream_time"] = stream_time
+            sample["metadata"]["event_time_contract"] = self.event_time_contract
+            sample["metadata"].setdefault("sequence_id", item["scene"])
+            sample["metadata"]["t0_us"] = item["t0_us"] * (frame_scale * 1_000_000)
+            sample["metadata"]["t1_us"] = item["t1_us"] * (frame_scale * 1_000_000)
+            sample["metadata"]["dt_us"] = (item["t1_us"] - item["t0_us"]) * (frame_scale * 1_000_000)
+        return sample
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()
@@ -18949,9 +19497,19 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
+from ..stream_input import (
+    LEGACY_EVENT_TIME_CONTRACT,
+    PHYSICAL_EVENT_TIME_CONTRACT,
+    arrival_group_counts,
+    hdr_boundary_policy,
+    stream_time_metadata,
+    to_physical_seconds,
+    validate_event_time_contract,
+)
 from .common import (
     choose_crop,
     crop_events,
+    crop_events_with_ids,
     image_array_to_tensor,
     normalize_polarity,
     stratified_subsample,
@@ -18965,7 +19523,9 @@ _TIMESTAMP_CHUNK_SIZE = 1_048_576
 
 
 def _recover_event_indices(
-    event_ts: h5py.Dataset, frame_timestamps: np.ndarray, path: Path
+    event_ts: h5py.Dataset, frame_timestamps: np.ndarray, path: Path,
+    *, timestamp_scale_to_seconds: float | None = None,
+    interval_timestamp_scale_to_seconds: float | None = None,
 ) -> np.ndarray:
     """Recover missing legacy indices without loading or rewriting the event stream.
 
@@ -18974,6 +19534,12 @@ def _recover_event_indices(
     These are NOT standard half-open timestamp boundaries. Existing attributes
     remain authoritative and are never repaired.
     """
+    if (timestamp_scale_to_seconds is None) != (interval_timestamp_scale_to_seconds is None):
+        raise ValueError("Physical EventHDR recovery requires both explicit timestamp scales")
+    if interval_timestamp_scale_to_seconds is not None:
+        frame_timestamps = to_physical_seconds(
+            frame_timestamps, interval_timestamp_scale_to_seconds, source=str(path),
+        )
     event_count = len(event_ts)
     if event_count == 0:
         return np.zeros(len(frame_timestamps), dtype=np.int64)
@@ -18983,6 +19549,8 @@ def _recover_event_indices(
     first_timestamp = None
     for start in range(0, event_count, _TIMESTAMP_CHUNK_SIZE):
         block = np.asarray(event_ts[start : start + _TIMESTAMP_CHUNK_SIZE])
+        if timestamp_scale_to_seconds is not None:
+            block = to_physical_seconds(block, timestamp_scale_to_seconds, source=str(path))
         if not np.all(np.isfinite(block)):
             raise _invalid_file(path, "events/ts timestamps must be finite to recover event_idx")
         if np.any(block[1:] < block[:-1]) or (
@@ -19095,7 +19663,16 @@ class EventHDRDataset(Dataset):
         seed: int = 2026,
         allowed_files: list[str] | None = None,
         file_to_scene: dict[str, str] | None = None,
+        event_time_contract: str = LEGACY_EVENT_TIME_CONTRACT,
+        timestamp_scale_to_seconds: float | None = None,
+        interval_timestamp_scale_to_seconds: float | None = None,
     ) -> None:
+        self.event_time_contract = event_time_contract
+        self.timestamp_scale_to_seconds = validate_event_time_contract(
+            event_time_contract, timestamp_scale_to_seconds, max_events,
+            interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+        )
+        self.interval_timestamp_scale_to_seconds = interval_timestamp_scale_to_seconds
         self.root = Path(root).expanduser()
         self.target_channels = int(target_channels)
         self.max_events = max_events
@@ -19243,11 +19820,18 @@ class EventHDRDataset(Dataset):
                             )
                     frames.append((key, timestamp, end_idx))
                 missing_count = sum(end is None for _, _, end in frames)
+                physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+                recovery_options = (
+                    {"timestamp_scale_to_seconds": self.timestamp_scale_to_seconds,
+                     "interval_timestamp_scale_to_seconds": self.interval_timestamp_scale_to_seconds}
+                    if physical else {}
+                )
                 recovered = (
                     _recover_event_indices(
                         events_group["ts"],
                         np.asarray([timestamp for _, timestamp, _ in frames], dtype=np.float64),
                         path,
+                        **recovery_options,
                     )
                     if missing_count
                     else None
@@ -19260,6 +19844,15 @@ class EventHDRDataset(Dataset):
                 selected_start_idx = 0
                 selected_start_timestamp: float | None = None
                 selected_sequence_index = 0
+                if physical:
+                    first_frame = float(to_physical_seconds(
+                        frames[0][1], self.interval_timestamp_scale_to_seconds, source=str(path),
+                    ))
+                    first_event = float(to_physical_seconds(
+                        events_group["ts"][0], self.timestamp_scale_to_seconds, source=str(path),
+                    )) if event_count else first_frame
+                    # A sequence origin, not per-frame min/max feature normalization.
+                    sequence_origin = min(first_event, first_frame)
                 previous_end_idx: int | None = None
                 for frame_index, (key, timestamp, stored_idx) in enumerate(frames):
                     if stored_idx is None:
@@ -19274,6 +19867,12 @@ class EventHDRDataset(Dataset):
                             path, "image event_idx values must be monotonically non-decreasing"
                         )
                     previous_end_idx = end_idx
+                    if physical:
+                        hdr_boundary_policy(
+                            events_group["ts"], end_idx, timestamp,
+                            source=f"{path}::{key}",
+                            **recovery_options,
+                        )
                     if frame_index % self.frame_stride == 0:
                         is_zero_event_interval = end_idx == selected_start_idx
                         if is_zero_event_interval:
@@ -19293,6 +19892,9 @@ class EventHDRDataset(Dataset):
                                 "zero_event_interval": is_zero_event_interval,
                             }
                         )
+                        if physical:
+                            samples[-1]["sequence_origin_seconds"] = sequence_origin
+                            samples[-1]["sequence_id"] = source_file
                         # With frame_stride > 1, aggregate every skipped event interval
                         # into the next selected output instead of silently discarding it.
                         selected_start_idx = end_idx
@@ -19390,10 +19992,51 @@ class EventHDRDataset(Dataset):
         )
         ps = normalize_polarity(raw_ps)
         events = np.column_stack((xs, ys, ts, ps))
-        if len(events):
+        physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+        event_ids = None
+        stream_time = None
+        if physical:
+            assert self.timestamp_scale_to_seconds is not None
+            assert self.interval_timestamp_scale_to_seconds is not None
+            scale = self.timestamp_scale_to_seconds
+            frame_scale = self.interval_timestamp_scale_to_seconds
+            origin = item["sequence_origin_seconds"]
+            interval_end = to_physical_seconds(item["timestamp"], frame_scale, source=source)
+            interval_start = (
+                float(origin) if item["t0"] is None
+                else float(to_physical_seconds(item["t0"], frame_scale, source=source))
+            )
+            start_policy = (
+                "sequence_origin" if item["t0"] is None
+                else hdr_boundary_policy(
+                    h5["events/ts"], start, item["t0"], source=source,
+                    timestamp_scale_to_seconds=scale,
+                    interval_timestamp_scale_to_seconds=frame_scale,
+                )
+            )
+            events[:, 2] = to_physical_seconds(ts, scale, source=source)
+            stream_time = stream_time_metadata(
+                events[:, 2], interval_start_seconds=interval_start,
+                interval_end_seconds=float(interval_end), sequence_origin_seconds=float(origin),
+                timestamp_scale_to_seconds=scale, source=source,
+                interval_timestamp_scale_to_seconds=frame_scale,
+                boundary_policy="eventhdr_stored_or_timestamp_predecessor_v1",
+                allow_predecessor_row=start_policy == "timestamp_predecessor_v1",
+            )
+            stream_time["start_boundary_policy"] = start_policy
+            stream_time["initial_interval_policy"] = "min_first_source_event_and_first_frame"
+            stream_time["source_interval_start"] = item["t0"]
+            stream_time["source_interval_end"] = item["timestamp"]
+            stream_time["late_predecessor_source_row"] = (
+                start if stream_time["late_predecessor_event_count"] else None
+            )
+            event_ids = np.column_stack((np.zeros(end - start, dtype=np.int64),
+                                         np.arange(start, end, dtype=np.int64)))
+        elif len(events):
             time_span = max(float(events[-1, 2] - events[0, 2]), 1e-9)
             events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
-        events = events.astype(np.float32, copy=False)
+        if not physical:
+            events = events.astype(np.float32, copy=False)
         raw_event_count = len(events)
         # Recurrent pixels and temporal losses must refer to the same sensor ROI
         # throughout one source sequence. The crop is deterministic per file, not
@@ -19404,10 +20047,14 @@ class EventHDRDataset(Dataset):
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         if target is not None:
             target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
-        events = crop_events(events, crop)
+        if event_ids is None:
+            events = crop_events(events, crop)
+        else:
+            events, event_ids = crop_events_with_ids(events, event_ids, crop)
         cropped_event_count = len(events)
         dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
-        events = stratified_subsample(events, self.max_events)
+        if not physical:
+            events = stratified_subsample(events, self.max_events)
         retained_event_count = len(events)
         sample_id = (
             f"{item['scene']}/{item['image_key']}"
@@ -19417,7 +20064,7 @@ class EventHDRDataset(Dataset):
         t0 = item["t0"]
         t1 = item["timestamp"]
         sample = {
-            "events": torch.from_numpy(np.ascontiguousarray(events)).float(),
+            "events": torch.from_numpy(np.ascontiguousarray(events)),
             "sample_id": sample_id,
             "sensor_size": (int(crop.height), int(crop.width)),
             "metadata": {
@@ -19446,6 +20093,21 @@ class EventHDRDataset(Dataset):
                 },
             },
         }
+        if event_ids is not None:
+            assert stream_time is not None
+            stream_time["arrival_group_counts"] = arrival_group_counts(events[:, 2])
+            sample["event_ids"] = torch.from_numpy(np.ascontiguousarray(event_ids))
+            sample["metadata"]["stream_time"] = stream_time
+            sample["metadata"]["event_time_contract"] = self.event_time_contract
+            sample["metadata"]["sequence_id"] = item["source_file"]
+            sample["metadata"]["timestamp"] = stream_time["interval_end_seconds"]
+            sample["metadata"]["t1"] = stream_time["interval_end_seconds"]
+            sample["metadata"]["t0"] = (
+                None if t0 is None else stream_time["interval_start_seconds"]
+            )
+            sample["metadata"]["dt_us"] = (
+                None if t0 is None else round((t1 - t0) * frame_scale * 1_000_000)
+            )
         if target is not None:
             sample["target"] = target
         return sample
@@ -19478,6 +20140,7 @@ import json
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from ..stream_input import LEGACY_EVENT_TIME_CONTRACT, validate_event_time_contract
 from .eventaid_r import EventAidRZipDataset
 from .eventhdr import EventHDRDataset
 
@@ -19625,6 +20288,11 @@ def _discover_eventhdr_files(
 
 def build_dataset(config: dict[str, Any], split: str = "train"):
     cfg = dict(config)
+    validate_event_time_contract(
+        cfg.get("event_time_contract", LEGACY_EVENT_TIME_CONTRACT),
+        cfg.get("timestamp_scale_to_seconds"), cfg.get("max_events", 8192),
+        interval_timestamp_scale_to_seconds=cfg.get("interval_timestamp_scale_to_seconds"),
+    )
     dataset_type = cfg.pop("type")
     expected_file_count = cfg.pop("expected_file_count", None)
     file_manifest = cfg.pop("file_manifest", None)
@@ -19909,6 +20577,9 @@ def build_diagnostic_graph(
     """
     if not isinstance(sample, dict) or not isinstance(model_config, dict):
         raise TypeError("sample and model_config must be dictionaries")
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model_config, sample=sample)
     topology_kind = _encoder_topology_kind(model_config)
     memory_budget_bytes = _integer(memory_budget_bytes, "memory_budget_bytes")
     display_edges = _integer(display_edges, "display_edges", minimum=0)
@@ -20439,6 +21110,11 @@ from .data.eventaid_r import (
     EventAidRZipDataset,
 )
 from .data.eventhdr import EventHDRDataset, _numeric_scalar_attr
+from .stream_input import (
+    LEGACY_EVENT_TIME_CONTRACT,
+    PHYSICAL_EVENT_TIME_CONTRACT,
+    validate_event_time_contract,
+)
 
 
 class DiagnosticSampleError(ValueError):
@@ -20500,6 +21176,12 @@ def _reader(cls, cfg: dict, item: dict, handle):
     reader.samples = [item]
     reader.target_channels = int(cfg.get("target_channels", 1))
     reader.max_events = cfg.get("max_events", 8192)
+    # This adapter is deliberately a legacy, single-window reader. The public
+    # entry point rejects physical streams before opening any source: those need
+    # a complete chronological prefix, which this one-item index cannot provide.
+    reader.event_time_contract = LEGACY_EVENT_TIME_CONTRACT
+    reader.timestamp_scale_to_seconds = None
+    reader.interval_timestamp_scale_to_seconds = None
     reader.crop_size = tuple(cfg["crop_size"]) if cfg.get("crop_size") else None
     reader.tone_map = cfg.get("tone_map", "log" if cls is EventHDRDataset else "none")
     reader.tone_map_mu = float(cfg.get("tone_map_mu", 5000.0))
@@ -20746,12 +21428,32 @@ def read_diagnostic_sample(
     Estimates are conservative planning estimates, not measured RSS or a hard OS
     allocation limit. Budget refusal never subsamples or substitutes source data.
     Existing configured max_events is applied exactly by the normal reader.
+    Physical/event-driven streams are refused because their causal prefix is not
+    represented by a selected single-frame source window.
     """
     if not isinstance(config, dict) or not isinstance(identity, dict):
         raise DiagnosticSampleError("config and identity must be dictionaries")
     cfg = config.get("dataset", config)
     if not isinstance(cfg, dict):
         raise DiagnosticSampleError("dataset config must be a dictionary")
+    model = config.get("model", {})
+    if not isinstance(model, dict):
+        raise DiagnosticSampleError("model config must be a dictionary")
+    time_contract = cfg.get("event_time_contract", LEGACY_EVENT_TIME_CONTRACT)
+    if (time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+            or model.get("graph_execution") == "event_driven"
+            or model.get("architecture_version") == 3):
+        raise DiagnosticSampleError(
+            "Single-frame diagnostics do not support physical_seconds_v1/event-driven streams; "
+            "a complete chronological prefix is required. No window-normalized fallback was applied."
+        )
+    try:
+        validate_event_time_contract(
+            time_contract, cfg.get("timestamp_scale_to_seconds"), cfg.get("max_events", 8192),
+            interval_timestamp_scale_to_seconds=cfg.get("interval_timestamp_scale_to_seconds"),
+        )
+    except (TypeError, ValueError) as error:
+        raise DiagnosticSampleError(str(error)) from error
     _integer(identity, "dataset_index")
     budget = _Budget(memory_budget_bytes, reserve)
     kind = cfg.get("type")
@@ -20866,6 +21568,10 @@ def _amp_retry_policy(enabled: bool) -> dict[str, Any] | None:
 
 def build_model(config: dict[str, Any]) -> ASGCNUNet:
     return ASGCNUNet(**config)
+
+
+def _requires_causal_context(model_config):
+    return bool(model_config.get("recurrent", True)) or model_config.get("graph_execution") == "event_driven"
 
 
 def _load_checkpoint(path: str | Path) -> dict[str, Any]:
@@ -21191,7 +21897,7 @@ def load_model_checkpoint(
             "state dictionaries are incompatible with the paper-core architecture."
         )
     architecture_version = model_config.get("architecture_version")
-    if architecture_version != PAPER_CORE_VERSION:
+    if architecture_version not in {PAPER_CORE_VERSION, 3}:
         raise ValueError(
             f"Checkpoint {checkpoint_path} has architecture_version="
             f"{architecture_version!r}; paper-core version {PAPER_CORE_VERSION} is "
@@ -22161,7 +22867,7 @@ def _valid_preflight_gate(value: Any) -> bool:
     if not isinstance(value, dict):
         return False
     if (
-        value.get("schema") != "asgcn_preflight_verification_v1"
+        value.get("schema") not in {"asgcn_preflight_verification_v1", "asgcn_streaming_preflight_verification_v1"}
         or value.get("status") != "verified"
         or value.get("report_eligible") is not True
     ):
@@ -22193,14 +22899,17 @@ def _valid_preflight_gate(value: Any) -> bool:
         ):
             return False
     scope = value.get("measurement_scope")
+    streaming = value.get("schema") == "asgcn_streaming_preflight_verification_v1"
     return (
         isinstance(measured_steps, int)
         and not isinstance(measured_steps, bool)
         and measured_steps >= 1
         and isinstance(value.get("gpu"), dict)
         and isinstance(scope, dict)
-        and scope.get("name") == "selected_top_density_training_steps"
-        and scope.get("topology_scope") == "complete_eventhdr_training_split"
+        and scope.get("name") == ("streaming_stateful_physical_batch_training_steps" if streaming
+                                  else "selected_top_density_training_steps")
+        and scope.get("topology_scope") == ("complete_eventhdr_training_stream" if streaming
+                                            else "complete_eventhdr_training_split")
         and scope.get("absolute_vram_guarantee") is False
         and isinstance(scope.get("statement"), str)
         and bool(scope["statement"].strip())
@@ -22335,7 +23044,7 @@ def _ann_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
         if validation is not None and isinstance(public_model_config, dict) and (
             validation.get("seed") != training_config.get("seed", 2026)
             or validation.get("recurrent")
-            != bool(public_model_config.get("recurrent", True))
+            != _requires_causal_context(public_model_config)
         ):
             reasons.append("ANN validation seed/recurrent settings differ from config")
         if not isinstance(train_config, dict):
@@ -22995,6 +23704,11 @@ def _require_finite_tensor(value: torch.Tensor, label: str, sample_id: Any) -> N
 
 def _require_finite_structure(value: Any, label: str, sample_id: Any) -> None:
     """Reject NaN/Inf anywhere in a public diagnostic or metric structure."""
+    from .stream_state import StreamingReconstructionState
+    if isinstance(value, StreamingReconstructionState):
+        if not bool(value.finite()):
+            raise FloatingPointError(f"Non-finite streaming {label}: sample={sample_id}")
+        return
     if torch.is_tensor(value):
         _require_finite_tensor(value, label, sample_id)
         return
@@ -24021,7 +24735,7 @@ def _validation_protocol(
     return {
         "version": 7,
         "seed": int(config.get("seed", 2026)),
-        "recurrent": bool(config["model"].get("recurrent", True)),
+        "recurrent": _requires_causal_context(config["model"]),
         "dataset_transform": _dataset_transform_contract(config),
         "split_manifest": _split_manifest_contract(config),
         "dataset_content": {
@@ -24139,6 +24853,11 @@ def _validate_batched(model, loader, device, max_samples, score_positions, check
             prediction, details = run_forward(samples, contexts, None)
             probe_state.commit(samples, prediction.float(), details, samples.targets.float())
 
+        streaming_profile = getattr(model, "graph_execution", None) == "event_driven"
+        if streaming_profile:
+            from .stream_inference_profile import make_stream_profile_callback
+
+            probe_forward = make_stream_profile_callback(selected, device, run_forward)
         profile_config = copy.deepcopy(section)
         if requested != "auto":
             profile_config["batch_candidates"] = [requested]
@@ -24149,6 +24868,9 @@ def _validate_batched(model, loader, device, max_samples, score_positions, check
         batch_size, workers = selection["batch_size"], selection["num_workers"]
         profile_report = selection["report"]
         profile_report["precision"] = precision
+        if streaming_profile:
+            profile_report["stream_bootstrap"] = probe_forward.report
+            profile_report["recurrent_state"] = "full_sequence_prefix_bootstrap_each_trial"
         probe_state.values.clear()
     else:
         batch_size = requested
@@ -24295,6 +25017,13 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
     set_seed(seed)
     device = resolve_device(config.get("device", "auto"))
     train_config = config["train"]
+    if config["model"].get("graph_execution") == "event_driven" and device.type == "cuda":
+        gate = config.get("preflight_gate")
+        if (not _valid_preflight_gate(gate)
+                or gate.get("schema") != "asgcn_streaming_preflight_verification_v1"
+                or gate.get("batch_size") != train_config.get("batch_size")):
+            raise ValueError("CUDA streaming training requires its verified stateful physical-batch preflight; "
+                             "static or bypassed preflights cannot authorize this new experiment")
     _enforce_training_split_status(config)
     run_dir = Path(config["output"]["run_dir"])
     resume_path = resume_from or train_config.get("resume")
@@ -24348,8 +25077,10 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
         require_all_groups=True,
     )
     val_sampling = _sampling_summary(val_dataset, val_indices)
-    recurrent_validation = bool(config["model"].get("recurrent", True))
+    recurrent_validation = _requires_causal_context(config["model"])
     validation_context_frames = train_config.get("validation_context_frames", 64)
+    if config["model"].get("graph_execution") == "event_driven" and validation_context_frames is not None:
+        raise ValueError("Stateful ASGCN validation requires train.validation_context_frames=null")
     if validation_context_frames is not None:
         validation_context_frames = int(validation_context_frames)
         if validation_context_frames < 0:
@@ -24990,6 +25721,11 @@ def _evaluate_dataset(
             # measuring a stateless one-frame call would understate residency.
             probe_state.commit(samples, prediction.float(), detail, samples.targets.float())
 
+        streaming_profile = getattr(model, "graph_execution", None) == "event_driven"
+        if streaming_profile:
+            from .stream_inference_profile import make_stream_profile_callback
+
+            probe_forward = make_stream_profile_callback(evaluation_dataset_view, device, run_forward)
         profile_config = copy.deepcopy(eval_config)
         if requested_batch_size != "auto":
             profile_config["batch_candidates"] = [requested_batch_size]
@@ -25005,6 +25741,9 @@ def _evaluate_dataset(
         profile_report = selection["report"]
         profile_report["precision"] = precision
         profile_report["recurrent_residency"] = "diagnostic_per_sequence_prediction_target_and_state"
+        if streaming_profile:
+            profile_report["stream_bootstrap"] = probe_forward.report
+            profile_report["recurrent_residency"] = "full_sequence_prefix_bootstrap_each_trial"
         probe_state.values.clear()
         del probe_state
     else:
@@ -25621,6 +26360,7 @@ def _benchmark_dataset(
     layer_spike_totals: list[float] = []
     layer_neuron_step_totals: list[int] = []
     realtime_factors: list[float] = []
+    stream_work = None
     recurrent_state = None
     current_sequence = None
     previous_sequence_index = None
@@ -25640,12 +26380,15 @@ def _benchmark_dataset(
 
     measured_state_resets = 0
     seed = int(config.get("seed", 2026))
-    recurrent = model.decoder.recurrent is not None
+    recurrent = model.decoder.recurrent is not None or getattr(model, "graph_execution", None) == "event_driven"
     warmup_indices = _representative_schedule(dataset, warmup, seed, contiguous=False)
     measured_indices = _representative_schedule(dataset, steps, seed + 1, contiguous=recurrent)
     measured_schedule: list[tuple[bool, int]] = []
     context_frames = 0
     benchmark_context_frames = config.get("eval", {}).get("recurrent_context_frames", 32)
+    if getattr(model, "graph_execution", None) == "event_driven" and benchmark_context_frames is not None:
+        raise ValueError("Stateful ASGCN benchmarking requires eval.recurrent_context_frames=null "
+                         "to replay the full causal prefix; a bounded warmup is not equivalent")
     if benchmark_context_frames is not None:
         benchmark_context_frames = int(benchmark_context_frames)
         if benchmark_context_frames < 0:
@@ -25787,6 +26530,10 @@ def _benchmark_dataset(
             recurrent_state = recurrent_state.detach()
         if measured:
             assert elapsed_ms is not None
+            if "stream_execution" in diagnostics:
+                from .stream_reporting import aggregate_stream_execution
+
+                stream_work = aggregate_stream_execution(stream_work, [diagnostics])
             latencies.append(elapsed_ms)
             raw_event_count, retained_event_count = _sample_event_counts(sample)
             raw_event_counts.append(raw_event_count)
@@ -25905,6 +26652,9 @@ def _benchmark_dataset(
         "edges": {"min": min(edge_counts), "max": max(edge_counts), "mean": statistics.fmean(edge_counts)},
     }
     result["execution"] = benchmark_execution
+    if stream_work is not None:
+        result["stream_execution"] = {**stream_work, "measured_frames_only": True,
+                                     "prefix_work_excluded": True}
     result["resource_usage"] = summarize_resource_interval(
         benchmark_resources,
         collect_runtime_resources(device=device, include_cuda=device.type == "cuda"),
@@ -26112,6 +26862,13 @@ def calibrate(
     try:
         model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
         model.eval()
+        streaming_calibration = getattr(model, "graph_execution", "static_window") == "event_driven"
+        if streaming_calibration and samples is not None and int(samples) < len(dataset):
+            raise ValueError(
+                "Event-driven calibration requires every chronological training frame. "
+                "A time-spread subset cannot provide the declared causal graph state; "
+                "omit samples for the full pass. No frames were silently dropped or replayed."
+            )
         precision, autocast_dtype = _inference_precision(
             {"precision": "fp32", "tf32": False}, device, model,
         )
@@ -26139,6 +26896,72 @@ def calibrate(
         requested_workers = loader_config.get("num_workers", 0)
         automatic_batching = requested_batch_size == "auto" or requested_workers == "auto"
 
+        # All streaming state is local to this invocation, never model-global.
+        # Profiling and the sealed final pass deliberately have separate states.
+        stream_states = {}
+        profile_context_frames = 0
+        if streaming_calibration:
+            from collections import deque
+
+            from .batching import sequence_key
+
+            stream_records = {
+                (record["source_file"], record["sequence_index"]): index
+                for index, record in enumerate(dataset.samples)
+            }
+            if len(stream_records) != len(dataset):
+                raise ValueError("Streaming calibration requires unique source/sequence-index identities")
+
+        def stream_profile_batch(packed):
+            """Measure a target batch with its real causal predecessor window.
+
+            Bootstrap is timed and accounted separately in the profile metadata.
+            Unlike cold snapshot probes, every retained predecessor event is
+            present. Context frames and their temporary maxima never enter the
+            final calibration commitment. Independent lanes are replayed in
+            physical batches; no graph/model sample-wise forward loop is used.
+            """
+            nonlocal profile_context_frames
+            pending = {}
+            warm_states = {}
+            for sample in packed:
+                key = sequence_key(sample)
+                if key in pending:
+                    raise ValueError("Streaming calibration profiling cannot batch dependent frames")
+                metadata = sample["metadata"]
+                cutoff = (metadata["stream_time"]["interval_start_seconds"]
+                          - model.stream_config["window_seconds"])
+                predecessor = metadata["sequence_index"] - 1
+                history = []
+                while predecessor >= 0:
+                    source_index = stream_records.get((metadata["source_file"], predecessor))
+                    if source_index is None:
+                        raise ValueError("Missing chronological predecessor for streaming calibration probe")
+                    context = dataset.get_topology_sample(source_index)
+                    if context["metadata"]["stream_time"]["interval_end_seconds"] < cutoff:
+                        break
+                    history.append(context)
+                    predecessor -= 1
+                pending[key] = deque(reversed(history))
+            while any(pending.values()):
+                first = next(history[0] for history in pending.values() if history)
+                shape = tuple(first["sensor_size"])
+                contexts = [history.popleft() for history in pending.values()
+                            if history and tuple(history[0]["sensor_size"]) == shape]
+                context_keys = [sequence_key(sample) for sample in contexts]
+                context_batch = move_batch(pack_calibration_samples(contexts), device)
+                _, details = model.calibrate_stream_batch(
+                    context_batch, [warm_states.get(key) for key in context_keys]
+                )
+                for key, detail in zip(context_keys, details, strict=True):
+                    warm_states[key] = detail["recurrent_state"]
+                profile_context_frames += len(contexts)
+                # Keep only raw graph context, not diagnostic activation tensors.
+                details = detail = context_batch = None
+            return model.calibrate_stream_batch(
+                packed, [warm_states.get(sequence_key(sample)) for sample in packed]
+            )
+
         def calibration_profile_loader(source, batch_lists, num_workers):
             return _data_loader(
                 source,
@@ -26163,13 +26986,29 @@ def calibrate(
                 model,
                 device,
                 section=profile_config,
-                run_batch=model.calibrate_batch,
+                run_batch=stream_profile_batch if streaming_calibration else model.calibrate_batch,
                 loader_factory=calibration_profile_loader,
-                calibration=True,
+                # The legacy calibration planner intentionally combines frames
+                # of one sequence; streaming must use independent lane probes.
+                calibration=not streaming_calibration,
             )
             batch_size = selection["batch_size"]
             num_workers = selection["num_workers"]
             calibration_batch_profile = selection["report"]
+            if streaming_calibration:
+                calibration_batch_profile.update({
+                    "calibration": True,
+                    "streaming_context_policy": "exact_causal_predecessor_window_bootstrap_per_probe",
+                    "recurrent_state": "independent_probe_window_reconstruction_not_cold_reset",
+                    "profile_context_frames": profile_context_frames,
+                    "context_bootstrap_included_in_timing": True,
+                    "profile_fps_scope": "target_frames_per_second_including_predecessor_reconstruction",
+                    "final_pass_throughput_measurement": False,
+                })
+                calibration_batch_profile["limitations"].append(
+                    "Streaming probe timings include rebuilding predecessor windows and can bias "
+                    "batch selection; they are not the final chronological calibration throughput."
+                )
         else:
             batch_size = requested_batch_size
             num_workers = requested_workers
@@ -26189,7 +27028,10 @@ def calibrate(
         # Diagnostic callbacks observe real activations, but only the full pass
         # below is permitted to contribute to the sealed calibration commitment.
         model.reset_activation_maxima()
-        calibration_sampler = ShapeBatchSampler(selected_dataset, batch_size=batch_size)
+        calibration_sampler = (
+            SequenceBatchSampler(selected_dataset, batch_size=batch_size)
+            if streaming_calibration else ShapeBatchSampler(selected_dataset, batch_size=batch_size)
+        )
         calibration_loader = _data_loader(
             selected_dataset,
             batch_size=batch_size,
@@ -26228,7 +27070,29 @@ def calibrate(
         with tqdm(total=len(calibration_indices), desc="calibrate-SNN", unit="frame") as progress:
             for batch in calibration_loader:
                 packed = move_batch(batch, device)
-                diagnostics = model.calibrate_batch(packed)
+                if streaming_calibration:
+                    keys = [sequence_key(sample) for sample in packed]
+                    if len(set(keys)) != len(keys):
+                        raise ValueError("Dependent stream frames cannot share a calibration batch")
+                    _, details = model.calibrate_stream_batch(
+                        packed, [stream_states.get(key) for key in keys]
+                    )
+                    if len(details) != len(packed):
+                        raise RuntimeError("Streaming calibration state count differs from its batch")
+                    for sample, key, detail in zip(packed, keys, details, strict=True):
+                        if key not in calibration_sampler.final_sequence_indices:
+                            raise ValueError("Dataset record/sample streaming sequence identities disagree")
+                        if sample["metadata"]["sequence_index"] == calibration_sampler.final_sequence_indices[key]:
+                            stream_states.pop(key, None)
+                        else:
+                            stream_states[key] = detail["recurrent_state"]
+                    diagnostics = {
+                        "nodes": tuple(detail["nodes"] for detail in details),
+                        "edges": torch.tensor([detail["edges"] for detail in details], device=device),
+                    }
+                    details = detail = None
+                else:
+                    diagnostics = model.calibrate_batch(packed)
                 if not isinstance(diagnostics, dict):
                     raise TypeError("Batched calibration did not report its graph topology")
                 node_counts = diagnostics["nodes"]
@@ -26257,6 +27121,8 @@ def calibrate(
             raise RuntimeError(
                 f"Calibration consumed {processed_samples} frames; expected {len(calibration_indices)}"
             )
+        if streaming_calibration and stream_states:
+            raise RuntimeError("Completed streaming calibration retained unfinished sequence state")
         if device.type == "cuda":
             torch.cuda.synchronize(device)
         resources_after = collect_runtime_resources(device=device, include_cuda=device.type == "cuda")
@@ -26276,7 +27142,19 @@ def calibrate(
             "edges": {"total": edge_total, "min": edge_min, "max": edge_max, "mean": edge_total / processed_samples},
         }
         execution_report["batching"]["observed_physical_batch_sizes"] = sorted(observed_batch_sizes)
-        execution_report["batching"]["strategy"] = "shape_buckets_of_independent_encoder_frames"
+        execution_report["batching"]["strategy"] = (
+            "chronological_independent_stream_shape_lanes" if streaming_calibration
+            else "shape_buckets_of_independent_encoder_frames"
+        )
+        if streaming_calibration:
+            execution_report["data"]["causal_context"] = {
+                "policy": "full_chronological_training_sequences_from_origin",
+                "window_seconds": model.stream_config["window_seconds"],
+                "graph_execution": "event_driven",
+                "encoder_calibration": "full_live_graph_frozen_bn_ann_maxima",
+                "profile_context_contributes_to_commitment": False,
+                "completed_sequence_states_released": True,
+            }
         calibration_performance = {
             **interval,
             "frames": processed_samples,
@@ -26356,6 +27234,8 @@ import torch
 
 from .batching import move_batch
 from .metrics import batch_frame_metrics
+from .stream_reporting import aggregate_stream_execution
+from .stream_state import recurrent_isfinite
 from .timing import StageTimer
 from .training import TrainingState
 
@@ -26423,9 +27303,16 @@ def evaluation_frames(
                   if detail["recurrent_state"] is not None]
         finite = [torch.isfinite(prediction).all(), torch.isfinite(targets).all()]
         if states:
-            finite.append(torch.isfinite(torch.cat(states)).all())
+            tensor_states = [value for value in states if isinstance(value, torch.Tensor)]
+            if tensor_states:
+                finite.append(torch.isfinite(torch.cat(tensor_states)).all())
+            finite.extend(recurrent_isfinite(value) for value in states
+                          if not isinstance(value, torch.Tensor))
         if not bool(torch.stack(finite).all()):
             raise FloatingPointError(f"Nonfinite evaluation tensors in dataset indices {indices}")
+        stream_execution = aggregate_stream_execution(statistics.get("stream_execution"), diagnostics)
+        if stream_execution is not None:
+            statistics["stream_execution"] = stream_execution
         with timer.scope("loss"):
             valid = [i for i, context in enumerate(contexts)
                      if context[1] is not None and context[2] is not None]
@@ -27693,6 +28580,9 @@ def _optional_timestamp(value: Any, name: str) -> float | None:
 
 def _encoder_topology_kind(model_config: dict) -> str:
     """Topology follows an explicit architecture, never a failed graph build."""
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model_config)
     encoder = model_config.get("encoder_kind", "graph")
     if not isinstance(encoder, str) or encoder not in {"graph", "pointwise", "identity"}:
         raise ValueError("encoder_kind must be graph, pointwise, or identity")
@@ -27743,6 +28633,9 @@ def build_graph_preview(
     """
     if not isinstance(sample, dict) or not isinstance(model_config, dict):
         raise TypeError("sample and model_config must be dictionaries")
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model_config, sample=sample)
     topology_kind = _encoder_topology_kind(model_config)
     max_graph_edges = _integer(max_graph_edges, "max_graph_edges")
     display_edges = _integer(display_edges, "display_edges", minimum=0)
@@ -28643,13 +29536,28 @@ class ASGCNUNet(nn.Module):
         encoder_kind: str = "graph",
         decoder_kind: str = "unet",
         transformer_config: dict[str, Any] | None = None,
+        graph_execution: str = "static_window",
+        stream_config: dict[str, Any] | None = None,
     ) -> None:
         super().__init__()
-        if int(architecture_version) != PAPER_CORE_VERSION:
+        if int(architecture_version) not in {PAPER_CORE_VERSION, 3}:
             raise ValueError(
                 f"architecture_version must be {PAPER_CORE_VERSION}; legacy edge-MLP "
                 "checkpoints are intentionally incompatible"
             )
+        if graph_execution not in {"static_window", "event_driven"}:
+            raise ValueError("graph_execution must be static_window or event_driven")
+        if graph_execution == "event_driven":
+            from .stream_model import validate_stream_config
+            if (architecture_version != 3 or encoder_kind != "graph" or decoder_kind != "unet"
+                    or event_sampling_factor != 1 or graph_position_dims != 3):
+                raise ValueError("Event-driven ASGCN v3 requires graph + U-Net, R=1 and x/y/time topology")
+            self.stream_config = validate_stream_config(stream_config)
+        elif stream_config is not None or architecture_version != PAPER_CORE_VERSION:
+            raise ValueError("Static-window checkpoints require v2 and no stream_config")
+        else:
+            self.stream_config = None
+        self.graph_execution = graph_execution
         if graph_operator != "spline":
             raise ValueError("graph_operator must be 'spline' for the ASGCN paper core")
         if spline_backend not in SPLINE_BACKENDS:
@@ -28693,7 +29601,7 @@ class ASGCNUNet(nn.Module):
             raise ValueError("transformer_config is only applicable to the Transformer decoder")
         if encoder_kind != "graph" and spline_backend != "torch":
             raise ValueError("Non-graph ablations require spline_backend=torch; no spline is executed")
-        self.architecture_version = PAPER_CORE_VERSION
+        self.architecture_version = int(architecture_version)
         self.encoder_kind = encoder_kind
         self.decoder_kind = decoder_kind
         self.supports_snn = encoder_kind != "identity"
@@ -28746,6 +29654,8 @@ class ASGCNUNet(nn.Module):
         self.raster_downsample = int(raster_downsample)
 
     def _graph(self, sample: dict[str, Any]) -> EventGraph:
+        if self.graph_execution == "event_driven":
+            raise ValueError("Streaming topology requires explicit prior state; use stream_forward_batch")
         if self.encoder_kind != "graph":
             from .ablation_encoders import prepare_event_container
             return prepare_event_container(
@@ -28764,6 +29674,8 @@ class ASGCNUNet(nn.Module):
         )
 
     def _packed_graph(self, packed: PackedSampleBatch):
+        if self.graph_execution == "event_driven":
+            raise ValueError("Streaming topology cannot use the legacy independent-frame builder")
         if self.encoder_kind != "graph":
             from .ablation_encoders import prepare_event_container_batch
             return prepare_event_container_batch(
@@ -28783,6 +29695,19 @@ class ASGCNUNet(nn.Module):
             raise ValueError("The identity encoder has no SNN conversion/inference path")
 
     def architecture_description(self) -> dict[str, Any]:
+        if self.graph_execution == "event_driven":
+            return {
+                "encoder_kind": "graph", "decoder_kind": "unet",
+                "encoder_layers": len(self.encoder.layers), "encoder_output_channels": self.encoder.hidden_dim,
+                "spiking_supported": True, "topology_kind": "stateful_physical_radius_graph",
+                "input_representation": "physical_seconds_all_events_causal_frame_offset_feature",
+                "graph_execution": "event_driven", "stream_config": dict(self.stream_config),
+                "rasterization": "current_window_per_cell_feature_mean",
+                "recurrent": self.decoder.recurrent is not None,
+                "training": "synchronous_full_causal_window_ann",
+                "inference": "incremental_event_local_clocks_pending_pulse_off",
+                "paper_scope": "ASGCN_reconstruction_adaptation_not_official_classification_reproduction",
+            }
         return {
             "encoder_kind": self.encoder_kind, "decoder_kind": self.decoder_kind,
             "encoder_layers": len(self.encoder.layers),
@@ -28804,6 +29729,15 @@ class ASGCNUNet(nn.Module):
         *,
         timing: Any = None,
     ) -> tuple[torch.Tensor, dict[str, Any]]:
+        if self.graph_execution == "event_driven":
+            from .stream_model import stream_forward_batch
+            if return_activations:
+                raise ValueError("Use the explicit streaming calibration path for activation observation")
+            prediction, details = stream_forward_batch(
+                self, [sample], [recurrent_state], inference_mode=inference_mode,
+                simulation_steps=simulation_steps, timing=timing,
+            )
+            return prediction, details[0]
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")
         simulation_steps = int(simulation_steps)
@@ -28916,6 +29850,10 @@ class ASGCNUNet(nn.Module):
         of equivalence to sequential batch-one parameter updates. No graph edge
         or recurrent state crosses a sample boundary.
         """
+        if self.graph_execution == "event_driven":
+            from .stream_model import stream_forward_batch
+            return stream_forward_batch(self, samples, recurrent_states, inference_mode=inference_mode,
+                                        simulation_steps=simulation_steps, timing=timing)
         if not samples:
             raise ValueError("Batches must contain at least one sample")
         sensor_size = tuple(int(value) for value in samples[0]["sensor_size"])
@@ -29060,10 +29998,20 @@ class ASGCNUNet(nn.Module):
         return list(prediction.split(1, dim=0)), diagnostics
 
     @torch.no_grad()
+    def calibrate_stream_batch(self, samples, recurrent_states=None):
+        if self.graph_execution != "event_driven":
+            raise ValueError("calibrate_stream_batch requires the event-driven architecture")
+        self._require_snn()
+        from .stream_model import stream_forward_batch
+        return stream_forward_batch(self, samples, recurrent_states, calibration=True)
+
+    @torch.no_grad()
     def calibrate_batch(
         self, samples: list[dict[str, Any]] | PackedSampleBatch
     ) -> dict[str, Any]:
         """Exact feature-wise maxima across the packed nodes of all input frames."""
+        if self.graph_execution == "event_driven":
+            raise ValueError("Stateful calibration requires chronological calibrate_stream_batch")
         self._require_snn()
         packed = pack_samples(samples)
         topology = self._packed_graph(packed)
@@ -30610,6 +31558,9 @@ def _sample_topology(
     model_config: dict[str, Any],
     dataset_index: int,
 ) -> dict[str, Any]:
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model_config, sample=sample)
     retained_events = int(sample["events"].shape[0])
     metadata = sample.get("metadata", {})
     if not isinstance(metadata, dict):
@@ -31590,6 +32541,14 @@ def training_preflight(
     resume_scan: bool = False,
     reuse_report: str | Path | None = None,
 ) -> dict[str, Any]:
+    from .stream_preflight import is_streaming_config, streaming_training_preflight
+
+    if is_streaming_config(config):
+        return streaming_training_preflight(
+            config, output_path, profile_samples=profile_samples,
+            top_density_count=top_density_count, require_cuda=require_cuda,
+            resume_scan=resume_scan, reuse_report=reuse_report,
+        )
     journals: list[ScanJournal] = []
     try:
         return _run_training_preflight(
@@ -32216,6 +33175,10 @@ def verify_training_preflight(
     report_path: str | Path,
 ) -> dict[str, Any]:
     """Re-bind a passed report to the current config, data, source, and CUDA runtime."""
+    from .stream_preflight import is_streaming_config, verify_streaming_training_preflight
+
+    if is_streaming_config(config):
+        return verify_streaming_training_preflight(config, report_path)
     validate_experiment_config(config)
     if config.get("dataset", {}).get("type") != "eventhdr":
         raise ValueError("Training preflight verification requires EventHDR")
@@ -33235,6 +34198,9 @@ class ResultViewer:
         if view.config is None:
             view.config = resolve_experiment_paths(load_json(view.config_path), view.config_path)
         config = view.config
+        from .stream_input import reject_streaming_frame_diagnostic
+
+        reject_streaming_frame_diagnostic(config["model"], config["dataset"])
         # All modes must describe the same graph/data transform before showing a
         # common graph. Only small contracts survive these report reads.
         guard = None
@@ -33902,6 +34868,9 @@ def generate_result_visualizations(
         if config_path.stat().st_size > limits.max_metadata_bytes:
             raise OfflineViewerError("Config exceeds metadata byte guard")
         config = resolve_experiment_paths(load_json(config_path), config_path)
+        from .stream_input import reject_streaming_frame_diagnostic
+
+        reject_streaming_frame_diagnostic(config["model"], config["dataset"])
         for name in ("file_manifest", "split_manifest"):
             if (
                 config["dataset"].get(name)
@@ -34255,6 +35224,9 @@ def probe_evaluation_sample(
     max_graph_edges = _strict_positive_integer(max_graph_edges, "max_graph_edges")
     _validate_snn_request(inference_mode, simulation_steps)
     validate_experiment_config(config)
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(config["model"], config["dataset"])
     set_seed(int(config.get("seed", 2026)))
     device = resolve_device(config.get("device", "auto"))
     checkpoint_path = Path(checkpoint_path)
@@ -34383,7 +35355,6 @@ def save_probe_result(path: str | Path, result: dict[str, Any]) -> None:
             raise FileExistsError(f"Probe output already exists: {path}") from None
     finally:
         temporary.unlink(missing_ok=True)
-
 ~~~~~~~~
 
 # src/asgcn_unet/scan.py
@@ -34610,6 +35581,2423 @@ class ScanJournal:
                 self.blocks.pop()
                 raise
         self.last_commit = time.monotonic()
+~~~~~~~~
+
+# src/asgcn_unet/stream_encoder.py
+
+~~~~~~~~python
+"""Incremental paper-core encoder with explicitly event-local IF clocks.
+
+This is NOT the static encoder's global-T-clock execution: only topology seeds
+and their causal feature/pulse dependants advance. A stream update contains T
+local sweeps. Pending one-sweep pulse endings are delivered on the next sweep,
+including the first sweep of the next update. Neurons outside this causal set
+keep their membrane, previous-local-tick spike, and cumulative readout unchanged.
+
+Topology indexing visits the complete edge list once per update. Learned
+projection and message aggregation visit only incident edges of affected
+destinations; SNN projection additionally excludes zero-valued sources. Indexing
+cost is reported separately, not disguised as constant-time incremental work.
+All node/sample work is tensor-batched; only dependent layers/ticks are iterated.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+import torch
+
+from .graph import ASGCNEncoder, EventGraph, PaperSplineConv, linear_open_bspline_basis
+from .ops import require_spline_backend, weighted_spline_sum
+from .stream_graph import GraphUpdate, StreamGraph
+
+
+@dataclass(frozen=True)
+class StreamEncoderState:
+    """Remappable per-node state; the function never changes a supplied state.
+
+    ``layer_outputs`` are ANN activations or SNN cumulative local spike rates.
+    ``previous_spikes`` means the previous tick of each neuron's *own* clock;
+    ``last_pulses`` instead means the previous update/sweep's transmitted pulse.
+    Their distinction is required when an inactive neuron retains local state
+    while its one-tick message pulse ends. ``local_ticks`` is [N] for each layer.
+    ``spike_sums`` stores threshold-valued spikes (not binary firing counts).
+    """
+
+    graph: StreamGraph
+    outputs: torch.Tensor
+    layer_outputs: tuple[torch.Tensor, ...]
+    membranes: tuple[torch.Tensor, ...] = ()
+    previous_spikes: tuple[torch.Tensor, ...] = ()
+    spike_sums: tuple[torch.Tensor, ...] = ()
+    local_ticks: tuple[torch.Tensor, ...] = ()
+    last_pulses: tuple[torch.Tensor, ...] = ()
+    mode: str = "ann"
+    dynamics: str | None = None
+    work: dict = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class _Incidence:
+    incoming_order: torch.Tensor
+    incoming_ptr: torch.Tensor
+    outgoing_order: torch.Tensor
+    outgoing_ptr: torch.Tensor
+
+    @classmethod
+    def build(cls, graph: EventGraph) -> _Incidence:
+        n = graph.node_features.shape[0]
+        source, destination = graph.edge_index
+
+        def index(values):
+            # Stable within each node preserves the original per-destination
+            # accumulation order in the reference torch spline backend.
+            order = torch.argsort(values, stable=True)
+            counts = torch.bincount(values, minlength=n)
+            ptr = torch.cat((counts.new_zeros(1), counts.cumsum(0)))
+            return order, ptr
+
+        incoming_order, incoming_ptr = index(destination)
+        outgoing_order, outgoing_ptr = index(source)
+        return cls(incoming_order, incoming_ptr, outgoing_order, outgoing_ptr)
+
+    @staticmethod
+    def gather(order: torch.Tensor, ptr: torch.Tensor, nodes: torch.Tensor) -> torch.Tensor:
+        """Vectorized ragged CSR ranges, without an E-length membership mask."""
+        starts = ptr[nodes]
+        counts = ptr[nodes + 1] - starts
+        repeated_starts = torch.repeat_interleave(starts, counts)
+        offsets = torch.repeat_interleave(counts.cumsum(0) - counts, counts)
+        locations = repeated_starts + torch.arange(
+            repeated_starts.numel(), device=nodes.device
+        ) - offsets
+        return order[locations]
+
+    def incoming(self, nodes: torch.Tensor) -> torch.Tensor:
+        return self.gather(self.incoming_order, self.incoming_ptr, nodes)
+
+    def dependants(self, graph: EventGraph, sources: torch.Tensor) -> torch.Tensor:
+        edges = self.gather(self.outgoing_order, self.outgoing_ptr, sources)
+        # Self is needed for the root affine even in a graph without self edges.
+        return torch.unique(torch.cat((sources, graph.edge_index[1, edges])), sorted=True)
+
+
+def _remap(old, old_indices, shape, reference, *, fill=None, dtype=None):
+    result = reference.new_zeros(shape, dtype=dtype)
+    if fill is not None:
+        result.copy_(fill.expand_as(result))
+    if old is not None:
+        retained = torch.nonzero(old_indices >= 0, as_tuple=False).flatten()
+        result[retained] = old[old_indices[retained]]
+    return result
+
+
+def _affected(seed, changed_sources, graph, incidence):
+    if not changed_sources.numel():
+        return seed
+    return torch.unique(torch.cat((seed, incidence.dependants(graph, changed_sources))), sorted=True)
+
+
+def _partial_affine(
+    layer: PaperSplineConv,
+    x: torch.Tensor,
+    graph: EventGraph,
+    destinations: torch.Tensor,
+    incidence: _Incidence | None,
+    *,
+    omit_zero_sources: bool,
+) -> tuple[torch.Tensor, int, int]:
+    """Compute complete incoming means at selected destinations, never globally.
+
+    Compact source IDs and compact destination IDs deliberately occupy separate
+    namespaces. Padding the projection to max(source_count, destination_count)
+    satisfies the existing backend's output allocation contract without
+    projecting the padding or any unaffected node.
+    """
+    if not destinations.numel():
+        return x.new_zeros((0, layer.out_channels)), 0, 0
+    if incidence is None:
+        raise RuntimeError("active destinations require a topology incidence index")
+    selected_edges = incidence.incoming(destinations)
+    source = graph.edge_index[0, selected_edges]
+    destination = graph.edge_index[1, selected_edges]
+    sources, inverse = torch.unique(source, sorted=True, return_inverse=True)
+    if omit_zero_sources:
+        active = x[sources].ne(0).any(dim=1)
+        selected_edges = selected_edges[active[inverse]]
+        source = graph.edge_index[0, selected_edges]
+        destination = graph.edge_index[1, selected_edges]
+        sources, inverse = torch.unique(source, sorted=True, return_inverse=True)
+    count = destinations.numel()
+    output = x.new_zeros((count, layer.out_channels))
+    if selected_edges.numel():
+        projected = torch.einsum("ni,kio->nko", x[sources], layer.weight)
+        if sources.numel() < count:
+            projected = torch.cat((
+                projected,
+                projected.new_zeros((count - sources.numel(), layer.kernel_size, layer.out_channels)),
+            ))
+        local_destination = torch.searchsorted(destinations, destination)
+        indices, basis = linear_open_bspline_basis(graph.edge_attr[selected_edges], layer.kernel_size)
+        chunk_size = selected_edges.numel() if layer.edge_chunk_size is None else layer.edge_chunk_size
+        output = weighted_spline_sum(
+            projected, inverse, local_destination, indices, basis, chunk_size, x.dtype,
+            backend=layer.spline_backend,
+        )[:count]
+        # Degree is the FULL live graph degree, including zero-spike sources.
+        output = output / graph.in_degree[destinations].to(x).unsqueeze(-1).clamp_min(1)
+    if layer.root is not None:
+        output = output + x[destinations] @ layer.root
+    if layer.bias is not None:
+        output = output + layer.bias
+    return output, selected_edges.numel(), sources.numel()
+
+
+def _validate(encoder, update, previous, mode, simulation_steps, dynamics):
+    if not isinstance(encoder, ASGCNEncoder):
+        raise TypeError("stream encoder requires the existing ASGCNEncoder")
+    if encoder.training or any(layer.norm.training for layer in encoder.layers):
+        raise ValueError("incremental encoder is eval-only; use full-snapshot ANN training with global BN")
+    if mode not in {"ann", "snn"}:
+        raise ValueError("mode must be ann or snn")
+    if isinstance(simulation_steps, bool) or not isinstance(simulation_steps, int) or simulation_steps < 1:
+        raise ValueError("simulation_steps must be a positive integer")
+    if dynamics not in {"literal_eq15", "standard_if"}:
+        raise ValueError("dynamics must be literal_eq15 or standard_if")
+    graph = update.state.graph
+    n = graph.node_features.shape[0]
+    old = update.old_indices
+    if old.shape != (n,) or old.dtype != torch.long or old.device != graph.node_features.device:
+        raise ValueError("old_indices must be a device-local long tensor with one entry per live node")
+    if update.changed_nodes.shape != (n,) or update.changed_nodes.dtype != torch.bool:
+        raise ValueError("changed_nodes must be a bool tensor with one entry per live node")
+    if update.changed_nodes.device != old.device:
+        raise ValueError("changed_nodes and node state must share a device")
+    if bool((old < -1).any()):
+        raise ValueError("old_indices accepts only -1 arrivals or retained indices")
+    if bool(((old < 0) & ~update.changed_nodes).any()):
+        raise ValueError("every arriving node must be marked changed")
+    if previous is None:
+        if bool((old >= 0).any()):
+            raise ValueError("retained indices require previous encoder state")
+    else:
+        if previous.mode != mode or previous.dynamics != (dynamics if mode == "snn" else None):
+            raise ValueError("stream mode/dynamics changed; begin a separate encoder state")
+        retained = old[old >= 0]
+        if bool((retained >= previous.outputs.shape[0]).any()) or retained.unique().numel() != retained.numel():
+            raise ValueError("retained encoder indices are invalid or duplicated")
+        fields = ("layer_outputs",) if mode == "ann" else (
+            "layer_outputs", "membranes", "previous_spikes", "spike_sums", "local_ticks", "last_pulses"
+        )
+        for name in fields:
+            values = getattr(previous, name)
+            if len(values) != len(encoder.layers):
+                raise ValueError(f"previous {name} does not match encoder depth")
+            for layer, value in zip(encoder.layers, values, strict=True):
+                shape = (previous.outputs.shape[0],) if name == "local_ticks" else (
+                    previous.outputs.shape[0], layer.out_channels
+                )
+                if value.shape != shape or value.device != old.device:
+                    raise ValueError(f"previous {name} has incompatible shape or device")
+    if mode == "snn" and any(not layer._snn_is_normalized for layer in encoder.layers):
+        raise RuntimeError("stream SNN requires the existing calibrated parameter normalization")
+    require_spline_backend(encoder.spline_backend, graph.node_features.device)
+
+
+@torch.no_grad()
+def update_encoder(
+    encoder: ASGCNEncoder,
+    update: GraphUpdate,
+    previous: StreamEncoderState | None = None,
+    *,
+    mode: str = "ann",
+    simulation_steps: int = 16,
+    dynamics: str = "literal_eq15",
+    active_graphs: torch.Tensor | None = None,
+) -> StreamEncoderState:
+    """Apply one explicit arrival/expiry/readout-time advance, retry-safe.
+
+    Calling again with the same ``previous`` recomputes the same transition;
+    feeding the result back as ``previous`` instead advances another local
+    update, including pending pulse endings. No wall-clock/bias ticks occur in
+    untouched neurons. Simulation steps are not input-event timestamps.
+    """
+    _validate(encoder, update, previous, mode, simulation_steps, dynamics)
+    graph = update.state.graph
+    reference = graph.node_features
+    n = reference.shape[0]
+    if active_graphs is None:
+        active_nodes = torch.ones(n, device=reference.device, dtype=torch.bool)
+    else:
+        if (active_graphs.ndim != 1 or active_graphs.dtype != torch.bool
+                or active_graphs.device != reference.device):
+            raise ValueError("active_graphs must be a same-device boolean vector")
+        active_nodes = active_graphs[update.state.node_batch]
+        if bool((update.changed_nodes & ~active_nodes).any()):
+            raise ValueError("A topology change cannot be hidden in an idle graph")
+    old = update.old_indices
+    seed = torch.nonzero(update.changed_nodes, as_tuple=False).flatten()
+    # An ANN expiry of isolated nodes or a readout-only advance can have no
+    # changed destinations at all. It requires remapping, not an edge sort.
+    incidence = None if mode == "ann" and not seed.numel() else _Incidence.build(graph)
+    outputs, membranes, previous_spikes, spike_sums, local_ticks, last_pulses = [], [], [], [], [], []
+    for i, layer in enumerate(encoder.layers):
+        shape = (n, layer.out_channels)
+        outputs.append(_remap(None if previous is None else previous.layer_outputs[i], old, shape, reference))
+        if mode == "snn":
+            membranes.append(_remap(
+                None if previous is None else previous.membranes[i], old, shape, reference,
+                fill=layer.threshold.to(reference)[None] * 0.5,
+            ))
+            previous_spikes.append(_remap(None if previous is None else previous.previous_spikes[i], old, shape, reference))
+            spike_sums.append(_remap(None if previous is None else previous.spike_sums[i], old, shape, reference))
+            local_ticks.append(_remap(None if previous is None else previous.local_ticks[i], old, (n,), reference, dtype=torch.long))
+            last_pulses.append(_remap(None if previous is None else previous.last_pulses[i], old, shape, reference))
+    updated_nodes = [0] * len(encoder.layers)
+    message_edges = [0] * len(encoder.layers)
+    projected_sources = [0] * len(encoder.layers)
+    batch_counts = torch.bincount(update.state.node_batch)
+    emitted_per_graph = [reference.new_zeros(batch_counts.shape) for _ in encoder.layers]
+    neuron_ticks_per_graph = [batch_counts.new_zeros(batch_counts.shape) for _ in encoder.layers]
+    if mode == "ann":
+        x = reference
+        changed = seed
+        for i, layer in enumerate(encoder.layers):
+            destinations = seed if i == 0 else _affected(seed, changed, graph, incidence)
+            values, edges, sources = _partial_affine(
+                layer, x, graph, destinations, incidence, omit_zero_sources=False
+            )
+            values = torch.relu(values if layer._bn_is_folded else layer.norm(values))
+            changed = destinations[values.ne(outputs[i][destinations]).any(dim=1)]
+            outputs[i][destinations] = values
+            x = outputs[i]
+            updated_nodes[i] += destinations.numel()
+            message_edges[i] += edges
+            projected_sources[i] += sources
+    else:
+        # Analog event features and the update's topology stay constant during
+        # all local sweeps. Reuse the exact first-layer current, not its spikes.
+        first_current, first_edges, first_sources = _partial_affine(
+            encoder.layers[0], reference, graph, seed, incidence, omit_zero_sources=False
+        )
+        message_edges[0] = first_edges
+        projected_sources[0] = first_sources
+        previous_supports = [
+            torch.nonzero(p.ne(0).any(dim=1), as_tuple=False).flatten() for p in last_pulses
+        ]
+        for _ in range(simulation_steps):
+            pulses = []
+            pulse_supports = []
+            for i, layer in enumerate(encoder.layers):
+                if i == 0:
+                    destinations = seed
+                    x = reference
+                else:
+                    x = pulses[i - 1]
+                    # Both an emitted pulse and an ending pulse can alter the
+                    # downstream current. Do not hold an old spike as input.
+                    changed = torch.unique(torch.cat((
+                        pulse_supports[i - 1], previous_supports[i - 1],
+                    )), sorted=True)
+                    destinations = _affected(seed, changed, graph, incidence)
+                    destinations = destinations[active_nodes[destinations]]
+                if i == 0:
+                    current, edges, sources = first_current, 0, 0
+                else:
+                    current, edges, sources = _partial_affine(
+                        layer, x, graph, destinations, incidence, omit_zero_sources=True
+                    )
+                integrated = membranes[i][destinations] + current
+                if dynamics == "literal_eq15":
+                    integrated = integrated + previous_spikes[i][destinations]
+                threshold = layer.threshold.to(integrated)[None]
+                spikes = torch.where(integrated >= threshold, threshold, 0.0)
+                emitted_per_graph[i].index_add_(0, update.state.node_batch[destinations],
+                                               spikes.ne(0).sum(dim=1).to(reference.dtype))
+                neuron_ticks_per_graph[i].index_add_(
+                    0, update.state.node_batch[destinations],
+                    torch.full_like(destinations, layer.out_channels),
+                )
+                membranes[i][destinations] = integrated - spikes
+                previous_spikes[i][destinations] = spikes
+                spike_sums[i][destinations] += spikes
+                local_ticks[i][destinations] += 1
+                outputs[i][destinations] = spike_sums[i][destinations] / local_ticks[i][destinations, None]
+                emitted = reference.new_zeros((n, layer.out_channels))
+                emitted[destinations] = spikes
+                # Other streams' arrivals do not advance this stream's clock,
+                # including its pending pulse-ending state.
+                emitted[~active_nodes] = last_pulses[i][~active_nodes]
+                pulses.append(emitted)
+                pulse_supports.append(destinations[spikes.ne(0).any(dim=1)])
+                updated_nodes[i] += destinations.numel()
+                message_edges[i] += edges
+                projected_sources[i] += sources
+            last_pulses = pulses
+            previous_supports = pulse_supports
+    return StreamEncoderState(
+        graph=update.state, outputs=outputs[-1], layer_outputs=tuple(outputs),
+        membranes=tuple(membranes), previous_spikes=tuple(previous_spikes),
+        spike_sums=tuple(spike_sums), local_ticks=tuple(local_ticks), last_pulses=tuple(last_pulses),
+        mode=mode, dynamics=dynamics if mode == "snn" else None,
+        work={
+            "clock_policy": "event_local_causal_pulses_v1" if mode == "snn" else "incremental_frozen_bn_ann_v1",
+            "update_reason": "explicit_arrival_expiry_or_readout_advance",
+            "local_sweeps": simulation_steps if mode == "snn" else 1,
+            "live_nodes": n, "live_edges": graph.edge_index.shape[1],
+            "topology_indexed_edges": graph.edge_index.shape[1] if incidence is not None else 0,
+            "updated_nodes_per_layer": updated_nodes,
+            "message_edges_per_layer": message_edges,
+            "projected_sources_per_layer": projected_sources,
+            "emitted_spikes_per_graph_per_layer": emitted_per_graph,
+            "neuron_ticks_per_graph_per_layer": neuron_ticks_per_graph,
+            "full_graph_timestep_message_passing": False,
+            "global_clock_snapshot_equivalent": False if mode == "snn" else None,
+        },
+    )
+~~~~~~~~
+
+# src/asgcn_unet/stream_graph.py
+
+~~~~~~~~python
+"""Exact append/expire topology updates for packed, independent event streams.
+
+This module does not normalize events, choose a time window, subsample events, or
+advance a decoder. Callers supply fixed-coordinate nodes and explicit per-stream
+cutoffs. A state must only be reused with the same radius/coordinate contract.
+Surviving old edges (including their attributes) are reused; radius queries are
+issued only for arrivals. No full radius graph builder is called.
+"""
+
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass
+
+import torch
+
+from .graph import EventGraph
+
+
+@dataclass(frozen=True)
+class StreamGraph:
+    graph: EventGraph
+    node_batch: torch.Tensor
+    timestamps: torch.Tensor
+
+
+@dataclass(frozen=True)
+class GraphUpdate:
+    state: StreamGraph
+    old_indices: torch.Tensor
+    changed_nodes: torch.Tensor
+
+
+def _validate_nodes(
+    features: torch.Tensor,
+    positions: torch.Tensor,
+    timestamps: torch.Tensor,
+    node_batch: torch.Tensor,
+    cutoffs: torch.Tensor,
+) -> None:
+    count = features.shape[0] if features.ndim else -1
+    if features.shape != (count, 4) or not features.is_floating_point():
+        raise ValueError("Stream features must be a floating tensor with shape [N,4]")
+    if positions.shape != (count, 4) or not positions.is_floating_point():
+        raise ValueError("Stream positions must be a floating tensor with shape [N,4]")
+    if timestamps.shape != (count,) or timestamps.dtype != torch.float64:
+        raise ValueError("Stream timestamps must have shape [N] and dtype float64")
+    if node_batch.shape != (count,) or node_batch.dtype != torch.long:
+        raise ValueError("Stream node_batch must have shape [N] and dtype long")
+    if any(value.device != features.device for value in (positions, timestamps, node_batch, cutoffs)):
+        raise ValueError("All stream tensors and cutoffs must share a device")
+    if not bool(torch.stack((
+        torch.isfinite(features).all(), torch.isfinite(positions).all(),
+        torch.isfinite(timestamps).all(),
+        ((node_batch >= 0) & (node_batch < cutoffs.numel())).all(),
+    )).all()):
+        raise ValueError("Stream nodes must be finite and have valid batch identifiers")
+
+
+def _check_guard(edge_counts: torch.Tensor, max_graph_edges: int | None) -> None:
+    if max_graph_edges is not None and bool((edge_counts > max_graph_edges).any()):
+        raise RuntimeError(
+            f"Stream radius graph exceeded max_graph_edges={max_graph_edges:,} "
+            "in at least one independent stream. No edges were truncated and the "
+            "previous state was not changed. Measure topology and accelerator memory "
+            "before changing the explicit per-stream guard."
+        )
+
+
+def _cell_lookup(sorted_rows: torch.Tensor, queries: torch.Tensor) -> torch.Tensor:
+    """Collision-free, vectorized lower_bound of lexicographically sorted rows.
+
+    Tuple coordinates are never flattened into a finite-width radix hash. The
+    loop is over logarithmic search levels, not nodes, graphs, or candidate edges.
+    Returns -1 for an unoccupied cell.
+    """
+    count = sorted_rows.shape[0]
+    low = torch.zeros(queries.shape[0], dtype=torch.long, device=queries.device)
+    high = torch.full_like(low, count)
+    for _ in range(count.bit_length()):
+        middle = (low + high) // 2
+        candidate = sorted_rows[middle.clamp_max(count - 1)]
+        equal = candidate == queries
+        prefix_equal = torch.cat((
+            torch.ones_like(equal[:, :1]), equal[:, :-1].cumprod(dim=1).bool(),
+        ), dim=1)
+        less = ((candidate < queries) & prefix_equal).any(dim=1)
+        active = low < high
+        low = torch.where(active & less, middle + 1, low)
+        high = torch.where(active & ~less, middle, high)
+    found = (low < count) & (sorted_rows[low.clamp_max(count - 1)] == queries).all(dim=1)
+    return torch.where(found, low, -1)
+
+
+def _occupied_cells(
+    positions: torch.Tensor, node_batch: torch.Tensor, batch_size: int,
+    radius: float, position_dims: int,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Build a collision-free occupied-cell index, not a graph or distance matrix.
+
+    Per-stream translation permits negative and large absolute coordinates. Cells
+    have width 2*radius, so adjacent-cell search has a full half-cell of numerical
+    slack. Explicit float64 representability checks prevent silent cell aliasing.
+    """
+    coordinates = positions[:, :position_dims].double()
+    origins = coordinates.new_full((batch_size, position_dims), float("inf"))
+    origins.scatter_reduce_(
+        0, node_batch[:, None].expand_as(coordinates), coordinates,
+        reduce="amin", include_self=True,
+    )
+    scaled = ((coordinates - origins[node_batch]) / radius) * 0.5
+    # This is a numeric-address guard, not a node/edge/time-window truncation.
+    # Beyond this range float64 cannot reliably preserve adjacent-cell geometry.
+    if not bool((torch.isfinite(scaled) & (scaled.abs() <= 2**48)).all()):
+        raise ValueError(
+            "Stream coordinate span/radius exceeds exact float64 cell addressing. "
+            "Use an explicitly justified coordinate scale/window; no graph was truncated."
+        )
+    cells = torch.floor(scaled).to(torch.long)
+    rows = torch.cat((node_batch[:, None], cells), dim=1)
+    occupied, inverse, counts = torch.unique(
+        rows, dim=0, sorted=True, return_inverse=True, return_counts=True,
+    )
+    sorted_nodes = torch.argsort(inverse, stable=True)
+    starts = counts.cumsum(0) - counts
+    return rows, occupied, sorted_nodes, torch.stack((starts, counts))
+
+
+def evolve_stream_graph(
+    previous: StreamGraph | None,
+    features: torch.Tensor,
+    positions: torch.Tensor,
+    timestamps: torch.Tensor,
+    node_batch: torch.Tensor,
+    cutoffs: torch.Tensor,
+    *,
+    radius: float,
+    position_dims: int = 3,
+    max_graph_edges: int | None,
+    chunk_size: int = 512,
+) -> GraphUpdate:
+    """Expire timestamps < cutoff and append arrivals, preserving all valid edges.
+
+    Nodes are retained in previous order, followed by nonexpired arrivals in input
+    order. ``old_indices`` maps each output node to its previous offset, or -1 for
+    an arrival. ``changed_nodes`` marks arrivals and surviving endpoints of added
+    or removed edges, even when their final degree happens to be unchanged.
+
+    Every edge is directed both ways; self edges are excluded and distance must
+    be strictly less than radius. ``edge_attr`` is distance/radius, matching the
+    spline graph contract. Edge order is not globally sorted. ``max_graph_edges``
+    is an explicit per-stream guard, never a batch-wide cap or truncation.
+    The previous tensors are never mutated, including on failure.
+    """
+    if isinstance(radius, bool) or not math.isfinite(float(radius)) or radius <= 0:
+        raise ValueError("Stream graph radius must be finite and positive")
+    radius = float(radius)
+    if isinstance(position_dims, bool) or not isinstance(position_dims, int) or not 1 <= position_dims <= 4:
+        raise ValueError("Stream position_dims must be an integer from 1 to 4")
+    if isinstance(chunk_size, bool) or not isinstance(chunk_size, int) or chunk_size < 1:
+        raise ValueError("Stream chunk_size must be a positive integer")
+    if max_graph_edges is not None and (
+        isinstance(max_graph_edges, bool) or not isinstance(max_graph_edges, int) or max_graph_edges < 1
+    ):
+        raise ValueError("max_graph_edges must be a positive integer or None")
+    if cutoffs.ndim != 1 or cutoffs.dtype != torch.float64 or not bool(torch.isfinite(cutoffs).all()):
+        raise ValueError("Stream cutoffs must be a finite float64 tensor with shape [B]")
+    _validate_nodes(features, positions, timestamps, node_batch, cutoffs)
+    device = features.device
+    old_count = 0
+    if previous is not None:
+        old_graph = previous.graph
+        _validate_nodes(
+            old_graph.node_features, old_graph.positions, previous.timestamps,
+            previous.node_batch, cutoffs,
+        )
+        if old_graph.node_features.dtype != features.dtype or old_graph.positions.dtype != positions.dtype:
+            raise ValueError("Previous and arriving stream feature/position dtypes must match")
+        old_count = old_graph.node_features.shape[0]
+        if (
+            old_graph.edge_index.device != device or old_graph.edge_attr.device != device
+            or old_graph.edge_attr.shape != (old_graph.edge_index.shape[1], 1)
+            or old_graph.edge_attr.dtype != positions.dtype
+        ):
+            raise ValueError("Previous stream edges have incompatible attributes/device")
+        if not bool(torch.stack((
+            ((old_graph.edge_index >= 0) & (old_graph.edge_index < old_count)).all(),
+            torch.isfinite(old_graph.edge_attr).all(),
+        )).all()):
+            raise ValueError("Previous stream edges contain invalid indices or attributes")
+        retained = torch.nonzero(
+            previous.timestamps >= cutoffs[previous.node_batch], as_tuple=True,
+        )[0]
+    else:
+        retained = torch.empty(0, dtype=torch.long, device=device)
+    arriving = torch.nonzero(timestamps >= cutoffs[node_batch], as_tuple=True)[0]
+    retained_count = retained.numel()
+    parts_features = [features[arriving]]
+    parts_positions = [positions[arriving]]
+    parts_timestamps = [timestamps[arriving]]
+    parts_batch = [node_batch[arriving]]
+    if previous is not None:
+        parts_features.insert(0, previous.graph.node_features[retained])
+        parts_positions.insert(0, previous.graph.positions[retained])
+        parts_timestamps.insert(0, previous.timestamps[retained])
+        parts_batch.insert(0, previous.node_batch[retained])
+    output_features = torch.cat(parts_features)
+    output_positions = torch.cat(parts_positions)
+    output_timestamps = torch.cat(parts_timestamps)
+    output_batch = torch.cat(parts_batch)
+    count = output_features.shape[0]
+    old_indices = torch.cat((retained, retained.new_full((arriving.numel(),), -1)))
+    changed = torch.arange(count, device=device) >= retained_count
+    old_to_new = torch.full((old_count,), -1, dtype=torch.long, device=device)
+    old_to_new[retained] = torch.arange(retained_count, device=device)
+    if previous is None:
+        surviving_edges = torch.empty((2, 0), dtype=torch.long, device=device)
+        surviving_attr = positions.new_empty((0, 1))
+    else:
+        remapped = old_to_new[previous.graph.edge_index]
+        survives = (remapped >= 0).all(dim=0)
+        removed_endpoints = remapped[:, ~survives].flatten()
+        changed[removed_endpoints[removed_endpoints >= 0]] = True
+        surviving_edges = remapped[:, survives]
+        surviving_attr = previous.graph.edge_attr[survives]
+    edge_counts = torch.bincount(
+        output_batch[surviving_edges[0]], minlength=cutoffs.numel(),
+    )
+    _check_guard(edge_counts, max_graph_edges)
+    edge_parts = [surviving_edges]
+    attr_parts = [surviving_attr]
+    if arriving.numel():
+        rows, occupied, sorted_nodes, boundaries = _occupied_cells(
+            output_positions, output_batch, cutoffs.numel(), radius, position_dims,
+        )
+        axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
+        offsets = torch.cartesian_prod(*([axis] * position_dims)).reshape(-1, position_dims)
+        cells_per_query = offsets.shape[0]
+        # Chunking bounds scratch only, never nodes, edges, or selected arrivals.
+        effective_chunk = min(chunk_size, max(1, 1_048_576 // max(count, 1)))
+        for start in range(retained_count, count, effective_chunk):
+            stop = min(start + effective_chunk, count)
+            query_cells = rows[start:stop, None, 1:] + offsets[None, :, :]
+            query_batches = rows[start:stop, None, :1].expand(-1, cells_per_query, -1)
+            queries = torch.cat((query_batches, query_cells), dim=2).flatten(0, 1)
+            cell_ids = _cell_lookup(occupied, queries)
+            cell_counts = boundaries[1, cell_ids.clamp_min(0)].masked_fill(cell_ids < 0, 0)
+            cell_starts = boundaries[0, cell_ids.clamp_min(0)]
+            candidate_count = int(cell_counts.sum())
+            groups = torch.repeat_interleave(
+                torch.arange(queries.shape[0], device=device), cell_counts,
+                output_size=candidate_count,
+            )
+            source = groups.div(cells_per_query, rounding_mode="floor") + start
+            starts = cell_counts.cumsum(0) - cell_counts
+            target = sorted_nodes[
+                (cell_starts - starts)[groups] + torch.arange(candidate_count, device=device)
+            ]
+            # Each unordered pair is discovered by its newer endpoint exactly once.
+            pair = target < source
+            source, target = source[pair], target[pair]
+            normalized_distances = torch.linalg.vector_norm(
+                (output_positions[source, :position_dims].double()
+                 - output_positions[target, :position_dims].double()) / radius, dim=1,
+            )
+            valid = normalized_distances < 1.0
+            source, target = source[valid], target[valid]
+            normalized_distances = normalized_distances[valid]
+            edge_counts = edge_counts + 2 * torch.bincount(
+                output_batch[source], minlength=cutoffs.numel(),
+            )
+            _check_guard(edge_counts, max_graph_edges)
+            changed[source] = True
+            changed[target] = True
+            edge_parts.append(torch.stack((torch.cat((source, target)), torch.cat((target, source)))))
+            attr = normalized_distances.to(positions.dtype).unsqueeze(1)
+            attr_parts.append(torch.cat((attr, attr)))
+    graph = EventGraph(
+        output_features, output_positions, torch.cat(edge_parts, dim=1), torch.cat(attr_parts),
+    )
+    return GraphUpdate(StreamGraph(graph, output_batch, output_timestamps), old_indices, changed)
+~~~~~~~~
+
+# src/asgcn_unet/stream_inference_profile.py
+
+~~~~~~~~python
+"""Full-prefix state bootstrap for streaming inference resource measurements.
+
+Every callback invocation owns fresh graph/IF/decoder state. The parent profiler
+times the whole callback, including CPU prefix loading and packed transfers. Its
+rates therefore describe bootstrap-inclusive diagnostic work, NOT steady-state
+inference throughput. No dataset, checkpoint, or GPU mask is modified.
+"""
+
+from __future__ import annotations
+
+import copy
+from collections import OrderedDict, deque
+from collections.abc import Callable
+from typing import Any
+
+import torch
+from torch.utils.data import Subset
+
+from .batching import PackedSampleBatch, SequenceBatchSampler, pack_samples, sequence_key
+from .training import TrainingState
+
+
+def _base_mapping(dataset):
+    base = dataset
+    selected = list(range(len(dataset)))
+    while isinstance(base, Subset):
+        indices = base.indices
+        if any(type(index) is not int or index < 0 or index >= len(base.dataset) for index in indices):
+            raise ValueError("Streaming profile Subset indices must be valid nonnegative integers")
+        selected = [indices[index] for index in selected]
+        base = base.dataset
+    if len(selected) != len(set(selected)):
+        raise ValueError("Streaming profile dataset contains duplicate source indices")
+    records = getattr(base, "samples", None)
+    if not isinstance(records, list) or len(records) != len(base):
+        raise TypeError("Streaming profile requires the original indexed dataset.samples list")
+    streams: OrderedDict[tuple[str, str], list[int]] = OrderedDict()
+    identities = {}
+    for index, record in enumerate(records):
+        identity = sequence_key(record)
+        frame = record.get("sequence_index")
+        if type(frame) is not int or frame < 0:
+            raise ValueError("Streaming profile requires chronological sequence_index metadata")
+        key = (identity, frame)
+        if key in identities:
+            raise ValueError("Streaming source contains duplicate sequence/frame identities")
+        current = streams.setdefault(identity, [])
+        if current and frame != records[current[-1]]["sequence_index"] + 1:
+            raise ValueError("Streaming source has an incomplete or unordered sequence prefix")
+        current.append(index)
+        identities[key] = index
+    source_to_local = {source: local for local, source in enumerate(selected)}
+    selected_sources = set(selected)
+    for stream in streams.values():
+        included_positions = [position for position, index in enumerate(stream) if index in selected_sources]
+        if included_positions and not set(stream[:max(included_positions) + 1]).issubset(selected_sources):
+            raise ValueError("Streaming profile Subset is missing required full-sequence prefix frames")
+    shapes = SequenceBatchSampler(dataset, 1).sample_sensor_sizes
+    lookup, prefixes = {}, {}
+    for identity, stream in streams.items():
+        for position, index in enumerate(stream):
+            if index not in source_to_local:
+                continue
+            local = source_to_local[index]
+            key = (identity, records[index]["sequence_index"])
+            lookup[key] = local
+            # Store one immutable stream list and a position, not O(F^2) prefixes.
+            prefixes[local] = (stream, position)
+    return base, source_to_local, lookup, prefixes, shapes
+
+
+class _StreamProfileCallback:
+    def __init__(self, dataset, device, run_forward: Callable):
+        self._dataset = dataset
+        self._device = torch.device(device)
+        self._run_forward = run_forward
+        self._base, self._source_to_local, self._lookup, self._prefixes, self._shapes = _base_mapping(dataset)
+        self._history: list[dict[str, Any]] = []
+
+    @property
+    def last_report(self):
+        return None if not self._history else copy.deepcopy(self._history[-1])
+
+    @property
+    def report(self):
+        return {
+            "schema": "asgcn_streaming_profile_bootstrap_v1", "report_eligible": False,
+            "bootstrap_included_in_timing": True, "steady_state_throughput": False,
+            "context_policy": "full_sequence_prefix_from_original_start_each_invocation",
+            "state_reused_between_calls": False,
+            "calls": len(self._history),
+            "full_prefix_frames": sum(row["full_prefix_frames"] for row in self._history),
+            "peak_live_states": max((row["peak_live_states"] for row in self._history), default=0),
+            "target_frames": sum(row["target_frames"] for row in self._history),
+            "state_residency": "conservative_includes_target_inputs_and_all_bootstrapped_target_stream_states",
+            "limitation": "Full-prefix replay can be expensive; rates include bootstrap and are not steady-state FPS.",
+            "invocations": copy.deepcopy(self._history),
+        }
+
+    def _target_index(self, sample):
+        metadata = sample.get("metadata", {})
+        if type(metadata.get("sequence_index")) is not int:
+            raise ValueError("Streaming profile target requires an integer sequence_index")
+        key = (sequence_key(sample), metadata.get("sequence_index"))
+        if key not in self._lookup:
+            raise ValueError("Streaming profile target is not in the validated source dataset")
+        index = self._lookup[key]
+        if tuple(sample["sensor_size"]) != self._shapes[index]:
+            raise ValueError("Streaming profile target geometry differs from the indexed dataset")
+        return index
+
+    def _forward_commit(self, packed, state):
+        contexts = state.prepare(packed)
+        prediction, diagnostics = self._run_forward(packed, contexts, timing=None)
+        if (not isinstance(prediction, torch.Tensor) or packed.targets is None
+                or prediction.shape != packed.targets.shape or len(diagnostics) != len(packed)):
+            raise RuntimeError("Streaming profile forward must produce every target reconstruction and diagnostic")
+        if any(detail.get("recurrent_state") is None for detail in diagnostics):
+            raise RuntimeError("Streaming profiling requires graph/IF state even when decoder recurrence is disabled")
+        if not bool(torch.isfinite(prediction).all()):
+            raise FloatingPointError("Streaming profile reconstruction is nonfinite")
+        state.commit(packed, prediction, diagnostics, packed.targets)
+        return prediction, diagnostics
+
+    def __call__(self, targets: PackedSampleBatch):
+        targets = pack_samples(targets)
+        # The configured logical device can be 'cuda' while tensor.device is
+        # 'cuda:<current>'. Do not select or alter that allocated device.
+        if (targets.events.device != self._device
+                and not (self._device.type == "cuda" and self._device.index is None
+                         and targets.events.device.type == "cuda")):
+            raise ValueError("Streaming profile targets must already be on the measured device")
+        if targets.targets is None:
+            raise ValueError("Streaming reconstruction profiling requires target tensors")
+        target_indices = [self._target_index(sample) for sample in targets]
+        identities = [sequence_key(sample) for sample in targets]
+        if len(identities) != len(set(identities)):
+            raise ValueError("Streaming profile target batch contains duplicate/dependent sequence identities")
+        queues = []
+        for index in target_indices:
+            stream, position = self._prefixes[index]
+            queues.append(deque(self._source_to_local[source] for source in stream[:position]))
+        # State is strictly invocation-local. Only scalar/count metadata survives
+        # below, never an inference tensor or state from an earlier trial.
+        state = TrainingState(independent_sequences=True)
+        bootstrap_frames, bootstrap_batches, peak_live_states, shape_resets = 0, 0, 0, 0
+        with torch.inference_mode():
+            while any(queues):
+                first = next(queue[0] for queue in queues if queue)
+                shape = self._shapes[first]
+                indices = [queue.popleft() for queue in queues if queue and self._shapes[queue[0]] == shape]
+                raw = [self._dataset[index] for index in indices]
+                if any(sample["events"].device.type != "cpu" for sample in raw):
+                    raise ValueError("Streaming prefix data loading must remain on CPU before packed transfer")
+                if [self._target_index(sample) for sample in raw] != indices:
+                    raise ValueError("Streaming prefix data identity changed after index validation")
+                for sample in raw:
+                    previous = state.values.get(sequence_key(sample))
+                    if previous is not None and tuple(sample["sensor_size"]) != previous[1]:
+                        shape_resets += 1
+                packed = pack_samples(raw).to(targets.events.device)
+                prefix_prediction, prefix_diagnostics = self._forward_commit(packed, state)
+                bootstrap_frames += len(packed)
+                bootstrap_batches += 1
+                peak_live_states = max(peak_live_states, len(state.values))
+                del packed, raw, prefix_prediction, prefix_diagnostics
+            for sample in targets:
+                previous = state.values.get(sequence_key(sample))
+                if previous is not None and tuple(sample["sensor_size"]) != previous[1]:
+                    shape_resets += 1
+            prediction, diagnostics = self._forward_commit(targets, state)
+            peak_live_states = max(peak_live_states, len(state.values))
+        record = {
+            "bootstrap_included_in_timing": True, "steady_state_throughput": False,
+            "full_prefix_frames": bootstrap_frames, "prefix_batches": bootstrap_batches,
+            "target_frames": len(targets), "target_indices": list(target_indices),
+            "peak_live_states": peak_live_states, "shape_change_state_resets": shape_resets,
+            "state_reused_between_calls": False,
+        }
+        self._history.append(record)
+        # Release bootstrap's cloned state before returning caller-owned results.
+        state.values.clear()
+        return prediction, diagnostics
+
+
+def make_stream_profile_callback(dataset, device, run_forward) -> Callable:
+    """Return a run_batch callback that replays full, shape-compatible prefixes.
+
+    A Subset is accepted only when every selected stream includes its original
+    prefix. Nonconsecutive profile targets themselves are supported: omitted
+    predecessor targets are loaded and replayed from that validated dataset.
+    ``callback.report`` contains metadata for the parent scheduling report.
+    """
+    if not callable(run_forward):
+        raise TypeError("run_forward must be callable")
+    return _StreamProfileCallback(dataset, device, run_forward)
+~~~~~~~~
+
+# src/asgcn_unet/stream_input.py
+
+~~~~~~~~python
+"""Explicit physical-clock input contracts; no timestamp inference or rescaling fallback.
+
+The legacy window-normalized input is unchanged. Physical streams retain every
+event in the configured ROI and use source row IDs before any model-side R sampling.
+Event timestamps and published frame boundaries require separate explicit unit
+scales. They must already share a clock origin; no offset is inferred or applied.
+"""
+
+from __future__ import annotations
+
+import math
+from numbers import Real
+from typing import Any
+
+import numpy as np
+
+LEGACY_EVENT_TIME_CONTRACT = "window_normalized_v1"
+PHYSICAL_EVENT_TIME_CONTRACT = "physical_seconds_v1"
+
+
+def reject_streaming_frame_diagnostic(model_config, dataset_config=None, sample=None):
+    """Legacy frame graph tools cannot certify a graph with persistent context."""
+    dataset_config = dataset_config or {}
+    metadata = (sample or {}).get("metadata", {})
+    timing = metadata.get("stream_time", {}) if isinstance(metadata, dict) else {}
+    if (model_config.get("architecture_version") == 3
+            or model_config.get("graph_execution") == "event_driven"
+            or dataset_config.get("event_time_contract") == PHYSICAL_EVENT_TIME_CONTRACT
+            or (isinstance(timing, dict) and timing.get("schema") == PHYSICAL_EVENT_TIME_CONTRACT)):
+        raise ValueError("This diagnostic supports only v2 static frame graphs. Event-driven v3 requires "
+                         "causal predecessor stream state, not legacy frame normalization or a reset sample. "
+                         "Use the streaming training preflight and chronological evaluation; saved PNGs "
+                         "remain viewable, but legacy graph export is not a streaming graph verification.")
+
+
+def validate_event_time_contract(
+    contract: str,
+    timestamp_scale_to_seconds: float | None,
+    max_events: int | None,
+    *,
+    interval_timestamp_scale_to_seconds: float | None = None,
+) -> float | None:
+    if not isinstance(contract, str) or contract not in {
+        LEGACY_EVENT_TIME_CONTRACT, PHYSICAL_EVENT_TIME_CONTRACT,
+    }:
+        raise ValueError(f"Unsupported event_time_contract: {contract!r}")
+    if contract == LEGACY_EVENT_TIME_CONTRACT:
+        if timestamp_scale_to_seconds is not None or interval_timestamp_scale_to_seconds is not None:
+            raise ValueError("timestamp_scale_to_seconds requires physical_seconds_v1")
+        return None
+    if max_events is not None:
+        raise ValueError("physical_seconds_v1 requires explicit max_events=null; no event cap")
+    scale = timestamp_scale_to_seconds
+    if scale is None:
+        raise ValueError("physical_seconds_v1 requires explicit timestamp_scale_to_seconds")
+    if isinstance(scale, bool) or not isinstance(scale, Real):
+        raise TypeError("timestamp_scale_to_seconds must be a real number, not bool")
+    scale = float(scale)
+    if not math.isfinite(scale) or scale <= 0:
+        raise ValueError("timestamp_scale_to_seconds must be finite and positive")
+    frame_scale = interval_timestamp_scale_to_seconds
+    if frame_scale is None:
+        raise ValueError("physical_seconds_v1 requires explicit interval_timestamp_scale_to_seconds")
+    if isinstance(frame_scale, bool) or not isinstance(frame_scale, Real):
+        raise TypeError("interval_timestamp_scale_to_seconds must be a real number, not bool")
+    if not math.isfinite(float(frame_scale)) or frame_scale <= 0:
+        raise ValueError("interval_timestamp_scale_to_seconds must be finite and positive")
+    return scale
+
+
+def to_physical_seconds(values: Any, scale: float, *, source: str) -> np.ndarray:
+    """Apply the declared source unit scale without inferring a clock offset."""
+    original = np.asarray(values, dtype=np.float64)
+    with np.errstate(over="ignore", invalid="ignore", under="ignore"):
+        result = original * scale
+    if not np.all(np.isfinite(result)):
+        raise ValueError(f"Invalid physical clock in {source}: seconds must be finite")
+    if np.any((original != 0) & (result == 0)) or (
+        original.ndim == 1 and np.any(
+            (original[1:] != original[:-1]) & (result[1:] == result[:-1])
+        )
+    ):
+        raise ValueError(f"Physical clock conversion loses timestamp resolution in {source}")
+    return result
+
+
+def arrival_group_counts(event_seconds: np.ndarray) -> tuple[int, ...]:
+    """CPU collation metadata for consecutive equal timestamps after ROI filtering.
+
+Declared scaling must not merge distinct source timestamps, as checked by
+``to_physical_seconds``. Thus these groups equal the original raw timestamp
+groups without carrying another per-event timestamp allocation to the GPU.
+"""
+    values = np.asarray(event_seconds)
+    if values.ndim != 1 or not np.all(np.isfinite(values)):
+        raise ValueError("arrival timestamps must be a finite vector")
+    if np.any(values[1:] < values[:-1]):
+        raise ValueError("arrival timestamps must be monotonically non-decreasing")
+    if len(values) == 0:
+        return ()
+    boundaries = np.concatenate(([0], np.flatnonzero(values[1:] != values[:-1]) + 1, [len(values)]))
+    return tuple(np.diff(boundaries).tolist())
+
+
+def hdr_boundary_policy(
+    timestamps: Any, index: int, boundary: float, *, source: str,
+    timestamp_scale_to_seconds: float = 1.0,
+    interval_timestamp_scale_to_seconds: float = 1.0,
+) -> str:
+    """Validate a stored/recovered boundary against its adjacent original rows.
+
+Both ordinary left/right timestamp boundaries and the published predecessor
+index are accepted, without changing any index. The predecessor convention is
+max(searchsorted(left)-1, 0), not a half-open time interval: its excluded row
+can be delivered by the next frame after that row's physical timestamp.
+"""
+    count = len(timestamps)
+    if not math.isfinite(boundary) or not 0 <= index <= count:
+        raise ValueError(f"Invalid EventHDR physical boundary in {source}")
+    boundary = float(to_physical_seconds(boundary, interval_timestamp_scale_to_seconds, source=source))
+    if count == 0:
+        return "empty_event_stream"
+    lo, hi = max(0, index - 1), min(count, index + 2)
+    neighbors = np.asarray(timestamps[lo:hi], dtype=np.float64)
+    neighbors = to_physical_seconds(neighbors, timestamp_scale_to_seconds, source=source)
+    if not np.all(np.isfinite(neighbors)) or np.any(neighbors[1:] < neighbors[:-1]):
+        raise ValueError(f"Invalid EventHDR boundary timestamp rows in {source}")
+    before = float(neighbors[index - 1 - lo]) if index else None
+    after = float(neighbors[index - lo]) if index < count else None
+    if (before is None or before < boundary) and (after is None or after >= boundary):
+        return "timestamp_left_boundary"
+    if (before is None or before <= boundary) and (after is None or after > boundary):
+        return "timestamp_right_boundary"
+    next_after = float(neighbors[index + 1 - lo]) if index + 1 < count else None
+    if after is not None and after < boundary and (
+        next_after is None or next_after >= boundary
+    ):
+        return "timestamp_predecessor_v1"
+    raise ValueError(
+        f"EventHDR physical clock/index mismatch in {source}: event_idx={index} "
+        "is neither a timestamp boundary nor the documented predecessor row"
+    )
+
+
+def stream_time_metadata(
+    event_seconds: np.ndarray,
+    *,
+    interval_start_seconds: float,
+    interval_end_seconds: float,
+    sequence_origin_seconds: float,
+    timestamp_scale_to_seconds: float,
+    interval_timestamp_scale_to_seconds: float,
+    source: str,
+    boundary_policy: str = "closed_timestamp_interval",
+    allow_predecessor_row: bool = False,
+) -> dict[str, Any]:
+    """Check every source event before cropping and record any proven late row.
+
+No epsilon, inferred unit, clock offset or dropped event repairs a mismatch.
+The initial origin is fixed per sequence from its published first boundary and
+first event, never from a later sample's min/max or its retained event count.
+"""
+    bounds = (interval_start_seconds, interval_end_seconds, sequence_origin_seconds)
+    if not all(math.isfinite(value) for value in bounds):
+        raise ValueError(f"Invalid physical interval in {source}: bounds must be finite")
+    if interval_end_seconds < interval_start_seconds or sequence_origin_seconds > interval_start_seconds:
+        raise ValueError(f"Invalid physical interval ordering in {source}")
+    event_seconds = np.asarray(event_seconds, dtype=np.float64)
+    if event_seconds.ndim != 1 or not np.all(np.isfinite(event_seconds)):
+        raise ValueError(f"Invalid physical event timestamps in {source}")
+    if np.any(event_seconds[1:] < event_seconds[:-1]):
+        raise ValueError(f"Physical event timestamps must be ordered in {source}")
+    early = event_seconds < interval_start_seconds
+    early_count = int(np.count_nonzero(early))
+    allowed_early = allow_predecessor_row and early_count == 1 and bool(early[0])
+    if (early_count and not allowed_early) or np.any(event_seconds > interval_end_seconds):
+        raise ValueError(
+            f"Physical event/frame clock mismatch in {source}: events must lie within "
+            "the declared frame interval (only a proven EventHDR predecessor row is allowed)"
+        )
+    return {
+        "schema": PHYSICAL_EVENT_TIME_CONTRACT,
+        "interval_start_seconds": float(interval_start_seconds),
+        "interval_end_seconds": float(interval_end_seconds),
+        "sequence_origin_seconds": float(sequence_origin_seconds),
+        "timestamp_scale_to_seconds": float(timestamp_scale_to_seconds),
+        "interval_timestamp_scale_to_seconds": float(interval_timestamp_scale_to_seconds),
+        "boundary_policy": boundary_policy,
+        "strict_interval_validation": True,
+        "late_predecessor_event_count": early_count,
+        "late_predecessor_seconds": (
+            float(interval_start_seconds - event_seconds[0]) if early_count else 0.0
+        ),
+        "clock_correction_applied": False,
+    }
+~~~~~~~~
+
+# src/asgcn_unet/stream_model.py
+
+~~~~~~~~python
+"""Stateful event-arrival ASGCN reconstruction, sharing the trained spline layers.
+
+ANN learning recomputes the current causal window with pooled-node BN. Inference
+uses event-local incremental updates; it is not static rate-T equivalence. Frame
+readout invokes the analog recurrent decoder once, not once per sensor event.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+from contextlib import nullcontext
+from dataclasses import fields, replace
+
+import torch
+
+from .batching import pack_samples, sequence_key
+from .graph import EventGraph
+from .stream_encoder import update_encoder
+from .stream_graph import StreamGraph, evolve_stream_graph
+from .stream_state import StreamingReconstructionState
+
+
+def validate_stream_config(value):
+    expected = {"window_seconds", "time_scale_seconds", "node_time_feature", "clock", "arrival_policy"}
+    if not isinstance(value, dict) or set(value) != expected:
+        raise ValueError("stream_config requires explicit window_seconds, time_scale_seconds, "
+                         "node_time_feature, clock and arrival_policy")
+    for name in ("window_seconds", "time_scale_seconds"):
+        item = value[name]
+        if isinstance(item, bool) or not isinstance(item, (int, float)) or not math.isfinite(item) or item <= 0:
+            raise ValueError(f"stream_config.{name} must be an explicit finite positive number")
+    if value["node_time_feature"] != "physical_frame_offset":
+        raise ValueError("Only the declared causal physical_frame_offset feature is supported")
+    if value["clock"] != "event_local_pending_off_v1":
+        raise ValueError("The streaming IF update clock must be explicitly acknowledged")
+    if value["arrival_policy"] != "simultaneous_equal_timestamp":
+        raise ValueError("Arrival grouping must preserve every distinct timestamp")
+    return dict(value)
+
+
+def stream_contract(model):
+    # This is a structural contract, not a substitute for checkpoint weight hashes.
+    values = {"version": 3, "stream": model.stream_config, "radius": model.graph_radius,
+              "position_dims": model.graph_position_dims, "sampling": model.event_sampling_factor,
+              "width": model.encoder.hidden_dim, "depth": len(model.encoder.layers),
+              "dynamics": model.snn_dynamics, "decoder": model.decoder_kind,
+              "raster_downsample": model.raster_downsample}
+    return hashlib.sha256(json.dumps(values, sort_keys=True).encode()).hexdigest()
+
+
+def _empty(device):
+    return StreamGraph(EventGraph(
+        torch.empty((0, 4), device=device), torch.empty((0, 4), device=device, dtype=torch.float64),
+        torch.empty((2, 0), device=device, dtype=torch.long), torch.empty((0, 1), device=device, dtype=torch.float64),
+    ), torch.empty(0, device=device, dtype=torch.long),
+        torch.empty(0, device=device, dtype=torch.float64))
+
+
+def _pack_previous(states, device):
+    graphs = [state.graph if state is not None else _empty(device) for state in states]
+    counts = [len(value.timestamps) for value in graphs]
+    offsets, cursor = [], 0
+    for count in counts:
+        offsets.append(cursor)
+        cursor += count
+    graph = StreamGraph(EventGraph(
+        torch.cat([value.graph.node_features for value in graphs]),
+        torch.cat([value.graph.positions for value in graphs]),
+        torch.cat([value.graph.edge_index + offset for value, offset in zip(graphs, offsets)], dim=1),
+        torch.cat([value.graph.edge_attr for value in graphs]),
+        torch.cat([value.graph.in_degree for value in graphs]),
+    ), torch.cat([torch.full((count,), lane, device=device, dtype=torch.long)
+                  for lane, count in enumerate(counts)]),
+        torch.cat([value.timestamps for value in graphs]))
+    present = [state.encoder for state in states if state is not None and state.encoder is not None]
+    if not present:
+        return graph, None
+    reference = present[0]
+    if any(cache.mode != reference.mode or cache.dynamics != reference.dynamics for cache in present):
+        raise ValueError("Cannot batch different streaming encoder modes")
+    if any(state is not None and count and state.encoder is None
+           for state, count in zip(states, counts)):
+        raise ValueError("Training graph state cannot be reused as calibrated inference state")
+    values = {"graph": graph, "work": {}}
+    for field in fields(reference):
+        if field.name in values:
+            continue
+        source = getattr(reference, field.name)
+        if isinstance(source, torch.Tensor):
+            values[field.name] = torch.cat([
+                getattr(state.encoder, field.name) if state is not None and state.encoder is not None
+                else source.new_empty((0, *source.shape[1:])) for state in states])
+        elif isinstance(source, tuple):
+            values[field.name] = tuple(torch.cat([
+                getattr(state.encoder, field.name)[index]
+                if state is not None and state.encoder is not None else item.new_empty((0, *item.shape[1:]))
+                for state in states]) for index, item in enumerate(source))
+        else:
+            values[field.name] = source
+    return graph, replace(reference, **values)
+
+
+def _split_state(graph, cache, batch_size):
+    """One batched node/edge permutation, then per-lane state views only."""
+    node_order = torch.argsort(graph.node_batch, stable=True)
+    inverse = torch.empty_like(node_order)
+    inverse[node_order] = torch.arange(node_order.numel(), device=node_order.device)
+    remapped_edges = inverse[graph.graph.edge_index]
+    edge_batch = graph.node_batch[graph.graph.edge_index[0]]
+    edge_order = torch.argsort(edge_batch, stable=True)
+    node_counts = torch.bincount(graph.node_batch, minlength=batch_size)
+    edge_counts = torch.bincount(edge_batch, minlength=batch_size)
+    # One device->host transfer for boundary metadata, not a synchronization per node/event.
+    counts = torch.stack((node_counts, edge_counts)).cpu().tolist()
+    node_values = [graph.graph.node_features[node_order], graph.graph.positions[node_order],
+                   graph.graph.in_degree[node_order], graph.timestamps[node_order]]
+    edge_values = [remapped_edges[:, edge_order], graph.graph.edge_attr[edge_order]]
+    cached = {}
+    if cache is not None:
+        for field in fields(cache):
+            value = getattr(cache, field.name)
+            if isinstance(value, torch.Tensor):
+                cached[field.name] = value[node_order]
+            elif isinstance(value, tuple):
+                cached[field.name] = tuple(item[node_order] for item in value)
+    result, start, edge_start = [], 0, 0
+    for count, edge_count in zip(*counts):
+        stop, edge_stop = start + count, edge_start + edge_count
+        lane = StreamGraph(EventGraph(
+            node_values[0][start:stop], node_values[1][start:stop],
+            edge_values[0][:, edge_start:edge_stop] - start,
+            edge_values[1][edge_start:edge_stop], node_values[2][start:stop],
+        ), graph.node_batch.new_zeros(count), node_values[3][start:stop])
+        lane_cache = None
+        if cache is not None:
+            values = {name: (value[start:stop] if isinstance(value, torch.Tensor)
+                             else tuple(item[start:stop] for item in value))
+                      for name, value in cached.items()}
+            # Work counters describe this whole physical batch and are consumed
+            # before splitting. Do not retain another lane's counter tensors in
+            # a persistent per-stream state (including across device moves).
+            lane_cache = replace(cache, graph=lane, work={}, **values)
+        result.append((lane, lane_cache))
+        start, edge_start = stop, edge_stop
+    return result
+
+
+def _metadata(model, samples, states):
+    contract = stream_contract(model)
+    records = []
+    for sample, previous in zip(samples, states):
+        metadata = sample.get("metadata", {})
+        timing = metadata.get("stream_time")
+        if not isinstance(timing, dict) or timing.get("schema") != "physical_seconds_v1":
+            raise ValueError("Event-driven ASGCN requires physical_seconds_v1 input, not normalized frames")
+        if sample["events"].dtype != torch.float64 or "event_ids" not in sample:
+            raise ValueError("Streaming events require float64 physical seconds and stable event_ids")
+        identity = sequence_key(sample)
+        index = metadata.get("sequence_index")
+        if type(index) is not int or index < 0:
+            raise ValueError("Streaming samples require chronological sequence_index")
+        keys = ("interval_start_seconds", "interval_end_seconds", "sequence_origin_seconds")
+        for name in keys:
+            item = timing.get(name)
+            if isinstance(item, bool) or not isinstance(item, (float, int)) or not math.isfinite(item):
+                raise ValueError(f"Missing or invalid physical stream clock: {name}")
+        t0, t1, origin = (float(timing[name]) for name in keys)
+        if t1 < t0:
+            raise ValueError("Streaming readout interval is reversed")
+        if origin > t0:
+            raise ValueError("Streaming origin must be known by the interval start")
+        groups = timing.get("arrival_group_counts")
+        if (not isinstance(groups, (list, tuple))
+                or any(type(item) is not int or item < 1 for item in groups)
+                or sum(groups) != len(sample["events"])):
+            raise ValueError("Streaming arrival_group_counts must cover every input event exactly once")
+        if previous is not None:
+            if not isinstance(previous, StreamingReconstructionState):
+                raise TypeError("Static decoder state cannot be reused for event-driven ASGCN")
+            if (previous.contract != contract or previous.sequence_identity != identity
+                    or previous.sequence_index + 1 != index or previous.origin_seconds != origin
+                    or previous.watermark_seconds > t1):
+                raise ValueError("Streaming state/config/clock/sequence continuity mismatch")
+        records.append((identity, index, t0, t1, origin, tuple(groups)))
+    if len({record[0] for record in records}) != len(records):
+        raise ValueError("Causally dependent frames of one stream cannot share a physical batch")
+    return records, contract
+
+
+def _prepared(model, packed, records):
+    device = packed.events.device
+    counts = torch.tensor(packed.event_counts, device=device)
+    node_batch = torch.repeat_interleave(torch.arange(len(packed), device=device), counts)
+    height, width = packed.sensor_size
+    events = packed.events
+    if not bool(torch.stack((torch.isfinite(events).all(),
+                            ((events[:, 0] >= 0) & (events[:, 0] < width)).all(),
+                            ((events[:, 1] >= 0) & (events[:, 1] < height)).all(),
+                            ((events[:, 3] == 1) | (events[:, 3] == -1)).all())).all()):
+        raise ValueError("Invalid physical sensor event values")
+    # Validate the claimed arrival grouping once on the whole physical batch.
+    # Metadata only determines scheduling; it cannot authorize coalescing two
+    # distinct timestamps or silently reversing their order.
+    groups = []
+    group_offset = 0
+    for record in records:
+        for index, count in enumerate(record[5]):
+            groups.extend([group_offset + index] * count)
+        group_offset += len(record[5])
+    group_ids = torch.tensor(groups, device=device, dtype=torch.long)
+    if len(events) > 1:
+        same_stream = node_batch[1:] == node_batch[:-1]
+        delta = events[1:, 2] - events[:-1, 2]
+        same_group = group_ids[1:] == group_ids[:-1]
+        ids = packed.event_ids
+        increasing_id = (ids[1:, 0] > ids[:-1, 0]) | (
+            (ids[1:, 0] == ids[:-1, 0]) & (ids[1:, 1] > ids[:-1, 1]))
+        if not bool(((~same_stream) | ((delta >= 0) & (same_group == (delta == 0)) & increasing_id)).all()):
+            raise ValueError("Physical event order, identity or equal-timestamp grouping is invalid")
+    x, y = events[:, 0] / max(width - 1, 1), events[:, 1] / max(height - 1, 1)
+    origin = events.new_tensor([record[4] for record in records])[node_batch]
+    interval_start = events.new_tensor([record[2] for record in records])[node_batch]
+    interval_end = events.new_tensor([record[3] for record in records])[node_batch]
+    if not bool(((events[:, 2] >= origin) & (events[:, 2] <= interval_end)).all()):
+        raise ValueError("Physical event timestamp is before its origin or after its readout (future leakage)")
+    scale = model.stream_config["time_scale_seconds"]
+    polarity = torch.where(events[:, 3] > 0, 1.0, -1.0)
+    features = torch.stack((x, y, (events[:, 2] - interval_start) / scale, polarity), dim=1).float()
+    positions = torch.stack((x, y, (events[:, 2] - origin) / scale, (polarity + 1) / 2), dim=1)
+    return features, positions, events[:, 2], node_batch
+
+
+def _update(model, previous, features, positions, timestamps, node_batch, cutoffs):
+    return evolve_stream_graph(previous, features, positions, timestamps, node_batch, cutoffs,
+                               radius=model.graph_radius, position_dims=model.graph_position_dims,
+                               max_graph_edges=model.max_graph_edges, chunk_size=model.graph_chunk_size)
+
+
+def _decoder(model, raster, sensor_size, states):
+    reference = next((state.decoder for state in states if state is not None and state.decoder is not None), None)
+    state_batch = None
+    if reference is not None:
+        state_batch = torch.cat([torch.zeros_like(reference) if state is None or state.decoder is None
+                                 else state.decoder for state in states])
+    return model.decoder(raster, sensor_size, state_batch)
+
+
+def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mode="ann",
+                         simulation_steps=16, timing=None, calibration=False):
+    from .model import rasterize_batch
+
+    if not samples or inference_mode not in {"ann", "snn"}:
+        raise ValueError("Streaming forward requires a nonempty ANN or SNN batch")
+    if type(simulation_steps) is not int or simulation_steps < 1:
+        raise ValueError("Streaming simulation_steps must be a positive integer")
+    if model.training and inference_mode != "ann":
+        raise ValueError("ASGCN conversion trains the ANN path; SNN is inference-only")
+    if model.event_sampling_factor != 1:
+        raise ValueError("The approved physical-stream contract retains all events (R=1)")
+    states = [None] * len(samples) if recurrent_states is None else recurrent_states
+    if len(states) != len(samples):
+        raise ValueError("One explicit streaming state is required per sequence")
+    packed = pack_samples(samples)
+    device = packed.events.device
+    records, contract = _metadata(model, packed, states)
+    id_endpoints, offset = [], 0
+    for count in packed.event_counts:
+        if count:
+            id_endpoints.extend((offset, offset + count - 1))
+        offset += count
+    control_ids = iter(packed.event_ids[id_endpoints].cpu().tolist())
+    last_ids = []
+    for count, previous in zip(packed.event_counts, states):
+        if count:
+            first_id, last_id = tuple(next(control_ids)), tuple(next(control_ids))
+            if previous is not None and previous.last_event_id is not None and first_id <= previous.last_event_id:
+                raise ValueError("An event identity was repeated or reordered across streaming frames")
+        else:
+            last_id = None if previous is None else previous.last_event_id
+        last_ids.append(last_id)
+    graph, cache = _pack_previous(states, device)
+    if cache is not None and (cache.mode != inference_mode or
+                             (inference_mode == "snn" and cache.dynamics != model.snn_dynamics)):
+        raise ValueError("Streaming inference dynamics cannot change inside a sequence")
+    features, positions, timestamps, node_batch = _prepared(model, packed, records)
+    window = model.stream_config["window_seconds"]
+    readouts = timestamps.new_tensor([record[3] for record in records])
+    watermarks = timestamps.new_tensor([state.watermark_seconds if state is not None else record[2]
+                                       for state, record in zip(states, records)])
+    operation_totals = {"arrival_updates": 0, "readout_updates": 0,
+                        "incoming_events": len(timestamps), "training_dense_snapshot": model.training or calibration}
+    emitted_totals = [features.new_zeros(len(packed)) for _ in model.encoder.layers]
+    tick_totals = [node_batch.new_zeros(len(packed)) for _ in model.encoder.layers]
+
+    def record_work(value):
+        for key in ("updated_nodes_per_layer", "message_edges_per_layer", "projected_sources_per_layer"):
+            previous = operation_totals.setdefault(key, [0] * len(model.encoder.layers))
+            operation_totals[key] = [a + b for a, b in zip(
+                previous, value.work.get(key, [0] * len(model.encoder.layers)), strict=True)]
+        operation_totals["topology_indexed_edges"] = (operation_totals.get("topology_indexed_edges", 0)
+                                                       + value.work.get("topology_indexed_edges", 0))
+        if inference_mode == "snn":
+            for destination, source in zip(emitted_totals, value.work["emitted_spikes_per_graph_per_layer"]):
+                destination[:len(source)].add_(source)
+            for destination, source in zip(tick_totals, value.work["neuron_ticks_per_graph_per_layer"]):
+                destination[:len(source)].add_(source)
+
+    def scope(name):
+        return timing.scope(name, gpu=device.type == "cuda") if timing is not None else nullcontext()
+
+    if model.training or calibration:
+        # ANN training/calibration observes the same fixed-coordinate sliding
+        # graph as the inference reference, but does not reuse learned caches
+        # across optimizer updates or apply local BN statistics.
+        keep = timestamps >= (readouts[node_batch] - window)
+        with scope("graph"):
+            update = _update(model, graph, features[keep], positions[keep], timestamps[keep],
+                             node_batch[keep], readouts - window)
+            graph = update.state
+        with scope("encoder"):
+            outputs, activations = model.encoder.forward_ann(graph.graph, return_activations=calibration)
+        cache = None
+    else:
+        # Equal-timestamp events form one simultaneous arrival. Wave r contains
+        # the r-th arrival of every independent stream: no causally dependent
+        # timestamps are coalesced to manufacture throughput.
+        wave_counts = [0] * max((len(record[5]) for record in records), default=0)
+        wave_ids = []
+        for record in records:
+            for wave, count in enumerate(record[5]):
+                wave_counts[wave] += count
+                wave_ids.extend([wave] * count)
+        order = torch.argsort(torch.tensor(wave_ids, device=device, dtype=torch.long), stable=True)
+        start = 0
+        for count in wave_counts:
+            indices = order[start:start + count]
+            start += count
+            arrived_batch = node_batch[indices]
+            active_graphs = torch.bincount(arrived_batch, minlength=len(packed)) > 0
+            watermarks = watermarks.scatter_reduce(0, arrived_batch, timestamps[indices],
+                                                   reduce="amax", include_self=True)
+            with scope("graph"):
+                update = _update(model, graph, features[indices], positions[indices], timestamps[indices],
+                                 arrived_batch, watermarks - window)
+                graph = update.state
+            with scope("encoder"):
+                cache = update_encoder(model.encoder, update, cache, mode=inference_mode,
+                                       simulation_steps=simulation_steps, dynamics=model.snn_dynamics,
+                                       active_graphs=active_graphs)
+                record_work(cache)
+            operation_totals["arrival_updates"] += 1
+        # Readout is an explicit clock boundary: expire old nodes and deliver
+        # pending pulse-off effects using the same local-sweep rule.
+        with scope("graph"):
+            update = _update(model, graph, features[:0], positions[:0], timestamps[:0],
+                             node_batch[:0], readouts - window)
+            graph = update.state
+        with scope("encoder"):
+            cache = update_encoder(model.encoder, update, cache, mode=inference_mode,
+                                   simulation_steps=simulation_steps, dynamics=model.snn_dynamics)
+            record_work(cache)
+        operation_totals["readout_updates"] = 1
+        outputs, activations = cache.outputs, []
+    if inference_mode == "snn":
+        outputs = outputs * model.encoder.output_activation_scale(outputs)
+    with scope("decoder"):
+        if calibration:
+            predictions, next_decoder = None, None
+        else:
+            raster = rasterize_batch(outputs, graph.graph, graph.node_batch, len(packed),
+                                     packed.sensor_size, model.raster_downsample)
+            predictions, next_decoder = _decoder(model, raster, packed.sensor_size, states)
+    lanes = _split_state(graph, cache, len(packed))
+    diagnostics = []
+    for lane_index, ((lane, lane_cache), record, previous) in enumerate(zip(lanes, records, states)):
+        last_id = last_ids[lane_index]
+        state = StreamingReconstructionState(
+            lane, lane_cache, None if next_decoder is None else next_decoder[lane_index:lane_index + 1],
+            record[4], record[3], record[1], record[0], last_id, contract,
+        )
+        degree = lane.graph.in_degree
+        count = len(lane.timestamps)
+        isolated = (degree == 0).sum()
+        if inference_mode == "snn":
+            assert lane_cache is not None
+            denominators = [value[lane_index] for value in tick_totals]
+            spikes = [value[lane_index] for value in emitted_totals]
+            rates = [spikes_count / denominator.clamp_min(1)
+                     for spikes_count, denominator in zip(spikes, denominators)]
+        else:
+            rates, denominators, spikes = [], [], []
+        diagnostics.append({
+            "architecture": model.architecture_description(), "paper_core_version": 2,
+            "nodes": count, "edges": lane.graph.edge_index.shape[1], "isolated_nodes": isolated,
+            "isolate_ratio": isolated.float() / max(count, 1),
+            "max_degree": degree.max() if count else degree.new_zeros(()),
+            "edge_feature": "fixed_physical_scalar_distance", "event_sampling_factor": 1,
+            "dataset_sampling_ratio": 1.0, "effective_sampling_ratio": 1.0,
+            "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
+            "decoder_input_lambda_applied": inference_mode == "snn", "firing_rates": rates,
+            "firing_rate_denominators": denominators, "spike_counts": spikes,
+            "activations": activations if calibration else [], "recurrent_state": state,
+            "stream_execution": dict(operation_totals),
+            "firing_statistics_scope": "current_frame_actual_local_updates_not_cumulative_window_history",
+        })
+    if calibration:
+        model.encoder.update_activation_maxima(activations,
+                                               sample_count=sum(len(lane.timestamps) > 0 for lane, _ in lanes))
+        model.calibration_attempts.add_(len(packed))
+    return predictions, diagnostics
+~~~~~~~~
+
+# src/asgcn_unet/stream_preflight.py
+
+~~~~~~~~python
+"""Separate input contracts, preparation and CUDA gates for persistent streams.
+
+Legacy independent-frame topology reports are deliberately not accepted here.
+Config preparation is standard-library-only and never probes or selects a GPU.
+"""
+
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+import math
+import time
+from pathlib import Path
+from types import SimpleNamespace
+from typing import Any
+
+REPORT_SCHEMA = "asgcn_streaming_training_preflight_v1"
+VERIFICATION_SCHEMA = "asgcn_streaming_preflight_verification_v1"
+STREAM_CLOCK = "event_local_pending_off_v1"
+STREAM_ARRIVAL_POLICY = "simultaneous_equal_timestamp"
+
+
+def is_streaming_config(config: dict[str, Any]) -> bool:
+    model = config.get("model", {})
+    return model.get("graph_execution") == "event_driven" or model.get("architecture_version") == 3
+
+
+def _positive_number(value: Any, label: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise TypeError(f"{label} must be explicitly supplied as a finite positive number")
+    result = float(value)
+    if not math.isfinite(result) or result <= 0:
+        raise ValueError(f"{label} must be explicitly supplied as a finite positive number")
+    return result
+
+
+def validate_streaming_contract(config: dict[str, Any], *, training: bool = False) -> None:
+    model, dataset = config.get("model", {}), config.get("dataset", {})
+    if model.get("architecture_version") != 3 or model.get("graph_execution") != "event_driven":
+        raise ValueError("Streaming requires architecture_version=3 and graph_execution=event_driven")
+    if model.get("encoder_kind") != "graph" or model.get("event_sampling_factor") != 1:
+        raise ValueError("Streaming requires the graph encoder and event_sampling_factor=1")
+    stream = model.get("stream_config")
+    if not isinstance(stream, dict):
+        raise TypeError("model.stream_config must explicitly define its physical time contract")
+    if set(stream) != {
+        "window_seconds", "time_scale_seconds", "node_time_feature", "clock", "arrival_policy",
+    }:
+        raise ValueError("stream_config has missing or unsupported contract fields")
+    _positive_number(stream["window_seconds"], "window_seconds")
+    _positive_number(stream["time_scale_seconds"], "time_scale_seconds")
+    if (
+        stream["node_time_feature"] != "physical_frame_offset"
+        or stream["clock"] != STREAM_CLOCK or stream["arrival_policy"] != STREAM_ARRIVAL_POLICY
+    ):
+        raise ValueError("Unsupported streaming time-feature/clock/arrival policy")
+    if dataset.get("event_time_contract") != "physical_seconds_v1":
+        raise ValueError("Streaming datasets must declare event_time_contract=physical_seconds_v1")
+    _positive_number(dataset.get("timestamp_scale_to_seconds"), "timestamp_scale_to_seconds")
+    _positive_number(dataset.get("interval_timestamp_scale_to_seconds"), "interval_timestamp_scale_to_seconds")
+    if "max_events" not in dataset or dataset["max_events"] is not None:
+        raise ValueError("Streaming requires explicit dataset.max_events=null; frame linspace caps are invalid")
+    if training and (
+        dataset.get("type") != "eventhdr" or config.get("train", {}).get("batching") != "independent_sequences"
+    ):
+        raise ValueError("Streaming training preflight requires independent EventHDR sequence batches")
+    if "train" in config and config["train"].get("validation_context_frames", "missing") is not None:
+        raise ValueError("Streaming validation_context_frames must be null for exact causal context")
+    if "eval" in config and config["eval"].get("recurrent_context_frames", "missing") is not None:
+        raise ValueError("Streaming recurrent_context_frames must be null for exact causal context")
+
+
+def _digest(value: Any) -> str:
+    return hashlib.sha256(json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False,
+    ).encode("utf-8")).hexdigest()
+
+
+def _differences(old: Any, new: Any, prefix: str = "") -> list[dict[str, Any]]:
+    if isinstance(old, dict) and isinstance(new, dict):
+        result = []
+        for key in sorted(old.keys() | new.keys()):
+            path = f"{prefix}.{key}" if prefix else key
+            if key not in old:
+                result.append({"field": path, "before_present": False, "after": new[key]})
+            elif key not in new:
+                result.append({"field": path, "before": old[key], "after_present": False})
+            else:
+                result.extend(_differences(old[key], new[key], path))
+        return result
+    return [] if old == new else [{"field": prefix, "before": old, "after": new}]
+
+
+def prepare_streaming_experiment(
+    project_root: str | Path, output_root: str | Path, *, window_seconds: float,
+    time_scale_seconds: float, hdr_timestamp_scale_to_seconds: float,
+    aid_timestamp_scale_to_seconds: float,
+    hdr_interval_timestamp_scale_to_seconds: float,
+    aid_interval_timestamp_scale_to_seconds: float,
+) -> dict[str, Any]:
+    """Create exclusive new configs; preserve every nonapproved baseline field."""
+    project = Path(project_root).resolve()
+    destination = Path(output_root)
+    destination = (destination if destination.is_absolute() else project / destination).resolve()
+    if destination == project or not destination.is_relative_to(project):
+        raise ValueError("output_root must be a new directory inside the owning project")
+    if destination.exists():
+        raise FileExistsError(f"Streaming output root already exists: {destination}")
+    window = _positive_number(window_seconds, "window_seconds")
+    scale = _positive_number(time_scale_seconds, "time_scale_seconds")
+    hdr_scale = _positive_number(hdr_timestamp_scale_to_seconds, "hdr_timestamp_scale_to_seconds")
+    aid_scale = _positive_number(aid_timestamp_scale_to_seconds, "aid_timestamp_scale_to_seconds")
+    hdr_interval_scale = _positive_number(hdr_interval_timestamp_scale_to_seconds, "hdr_interval_timestamp_scale_to_seconds")
+    aid_interval_scale = _positive_number(aid_interval_timestamp_scale_to_seconds, "aid_interval_timestamp_scale_to_seconds")
+    # Never nest a new study in a configured model's checkpoints/evaluation output,
+    # nor let it contain an existing source/data/config tree.
+    protected = [project / "src", project / "scripts", project / "configs", project / "data"]
+    for path in (project / "configs").rglob("*.json"):
+        with path.open(encoding="utf-8") as handle:
+            item = json.load(handle)
+        if not isinstance(item, dict):
+            continue
+        for section, key in (("output", "run_dir"), ("eval", "output_dir")):
+            value = item.get(section, {}).get(key)
+            if value:
+                root = Path(value)
+                protected.append((root if root.is_absolute() else project / root).resolve())
+    if any(destination.is_relative_to(path) or path.is_relative_to(destination) for path in protected):
+        raise ValueError("Streaming output root overlaps an existing experiment, source, config, or data path")
+    configs, source, differences = {}, {}, {}
+    relative = destination.relative_to(project).as_posix()
+    for kind in ("train", "hdr", "aid"):
+        base_path = project / "configs" / "ablations" / f"graph_unet-{kind}.json"
+        with base_path.open(encoding="utf-8") as handle:
+            base = json.load(handle)
+        current = copy.deepcopy(base)
+        current["model"].update({
+            "architecture_version": 3, "graph_execution": "event_driven",
+            "stream_config": {
+                "window_seconds": window, "time_scale_seconds": scale,
+                "node_time_feature": "physical_frame_offset", "clock": STREAM_CLOCK,
+                "arrival_policy": STREAM_ARRIVAL_POLICY,
+            },
+        })
+        current["dataset"].update({
+            "max_events": None, "event_time_contract": "physical_seconds_v1",
+            "timestamp_scale_to_seconds": aid_scale if kind == "aid" else hdr_scale,
+            "interval_timestamp_scale_to_seconds": aid_interval_scale if kind == "aid" else hdr_interval_scale,
+        })
+        if kind == "train":
+            current["output"]["run_dir"] = f"{relative}/train"
+            current["train"]["validation_context_frames"] = None
+        else:
+            current["eval"]["output_dir"] = f"{relative}/eval/{kind}"
+            current["eval"]["recurrent_context_frames"] = None
+        validate_streaming_contract(current, training=kind == "train")
+        configs[kind] = current
+        source[kind] = {"path": base_path.relative_to(project).as_posix(), "config_sha256": _digest(base)}
+        differences[kind] = _differences(base, current)
+    train = configs["train"]
+    if (train["model"]["graph_layers"], train["model"]["hidden_dim"],
+        train["model"]["decoder_channels"], train["train"]["batch_size"], train["train"]["epochs"]
+    ) != (6, 64, 48, 16, 40):
+        raise ValueError("Checked-in baseline differs from the approved full 6-layer/64/48/B16/40-epoch design")
+    report = {
+        "schema": "asgcn_streaming_experiment_preparation_v1", "report_eligible": False,
+        "output_root": relative, "source_configs": source, "changes": differences,
+        "training_required": "new independent training; old checkpoints are config-incompatible",
+        "execution_performed": False,
+        "warnings": [
+            "Physical timestamp units must be verified from each original dataset, not guessed.",
+            "The finite sliding window is a new input/state contract, not the previous frame graph.",
+            "No frame linspace cap remains; explicit edge guards may fail and are never raised automatically.",
+            "Existing static topology profiles and dense-frame probe indices do not certify this stream.",
+            "Event timestamp and frame-interval timestamp scales are independent and both explicitly recorded.",
+            "Validation and evaluation replay full causal context; bounded predecessor truncation is disabled.",
+        ],
+        "configs": {kind: f"{relative}/configs/{kind}.json" for kind in configs},
+        "preflight_output": f"{relative}/stream-profile.json",
+    }
+    destination.mkdir(parents=True, exist_ok=False)
+    config_directory = destination / "configs"
+    config_directory.mkdir()
+    for kind, config in configs.items():
+        with (config_directory / f"{kind}.json").open("x", encoding="utf-8") as handle:
+            json.dump(config, handle, indent=2, ensure_ascii=False, allow_nan=False)
+            handle.write("\n")
+    with (destination / "preparation.json").open("x", encoding="utf-8") as handle:
+        json.dump(report, handle, indent=2, ensure_ascii=False, allow_nan=False)
+        handle.write("\n")
+    return report
+
+
+def _topology_model(config):
+    """Only structural metadata; never allocate a full network for a graph scan."""
+    model = config["model"]
+    return SimpleNamespace(
+        stream_config=model["stream_config"], graph_radius=model["graph_radius"],
+        graph_position_dims=model["graph_position_dims"], graph_chunk_size=model["graph_chunk_size"],
+        max_graph_edges=model["max_graph_edges"], event_sampling_factor=model["event_sampling_factor"],
+        snn_dynamics=model["snn_dynamics"], decoder_kind=model["decoder_kind"],
+        raster_downsample=model["raster_downsample"],
+        encoder=SimpleNamespace(hidden_dim=model["hidden_dim"], layers=(None,) * model["graph_layers"]),
+    )
+
+
+def _scan_stream_topology(dataset, config, device, batches, *, top_density_count):
+    import torch
+    from tqdm import tqdm
+
+    from .batching import sequence_key
+    from .preflight import _load_packed_probe_batch
+    from .stream_model import _metadata, _pack_previous, _prepared, _split_state, _update
+    from .stream_state import StreamingReconstructionState
+
+    model = _topology_model(config)
+    states, records = {}, [None] * len(dataset)
+    seen = set()
+    final = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
+    with torch.no_grad():
+        for indices in tqdm(batches, desc="stream-preflight-window-topology"):
+            if any(index in seen for index in indices):
+                raise ValueError("Streaming topology schedule repeats frames")
+            samples, _ = _load_packed_probe_batch(dataset, indices, device)
+            previous = [states.get(sequence_key(sample)) for sample in samples]
+            metadata, contract = _metadata(model, samples, previous)
+            graph, _ = _pack_previous(previous, device)
+            features, positions, timestamps, node_batch = _prepared(model, samples, metadata)
+            starts = timestamps.new_tensor([record[2] for record in metadata])
+            ends = timestamps.new_tensor([record[3] for record in metadata])
+            window = model.stream_config["window_seconds"]
+            for old, record in zip(previous, metadata, strict=True):
+                if old is not None and old.watermark_seconds > record[2]:
+                    raise ValueError("Streaming topology scan requires nonoverlapping frame intervals")
+            # Every actual arrival-prefix graph is a subgraph of this union. It
+            # deliberately keeps events which will expire later inside the frame.
+            # A guard refusal here is conservative, NOT an observed prefix maximum.
+            union = _update(model, graph, features, positions, timestamps, node_batch, starts - window).state
+            union_nodes = torch.bincount(union.node_batch, minlength=len(samples))
+            union_edges = torch.bincount(
+                union.node_batch[union.graph.edge_index[0]], minlength=len(samples),
+            )
+            readout = _update(model, union, features[:0], positions[:0], timestamps[:0],
+                              node_batch[:0], ends - window).state
+            readout_nodes = torch.bincount(readout.node_batch, minlength=len(samples))
+            readout_edges = torch.bincount(
+                readout.node_batch[readout.graph.edge_index[0]], minlength=len(samples),
+            )
+            counts = torch.stack((readout_nodes, readout_edges, union_nodes, union_edges)).cpu().tolist()
+            lanes = _split_state(readout, None, len(samples))
+            for lane, (index, sample, record, (lane_graph, _)) in enumerate(
+                zip(indices, samples, metadata, lanes, strict=True)
+            ):
+                actual_nodes, actual_edges, bound_nodes, bound_edges = [values[lane] for values in counts]
+                if actual_nodes > bound_nodes or actual_edges > bound_edges:
+                    raise RuntimeError("A readout graph exceeds its conservative arrival-prefix bound")
+                records[index] = {
+                    "dataset_index": index, "sample_id": sample.get("sample_id", str(index)),
+                    "sequence_identity": list(record[0]), "sequence_index": record[1],
+                    "interval_start_seconds": record[2], "interval_end_seconds": record[3],
+                    "incoming_events": samples.event_counts[lane],
+                    "arrival_groups": len(record[5]),
+                    "readout_nodes": actual_nodes, "readout_directed_edges": actual_edges,
+                    "prefix_union_nodes_upper_bound": bound_nodes,
+                    "prefix_union_directed_edges_upper_bound": bound_edges,
+                }
+                state = StreamingReconstructionState(
+                    lane_graph, None, None, record[4], record[3], record[1], record[0], None, contract,
+                )
+                if record[1] == final[record[0]]:
+                    states.pop(record[0], None)
+                else:
+                    states[record[0]] = state.detach().clone()
+            seen.update(indices)
+            del graph, union, readout, samples, previous, features, positions, timestamps, node_batch, lanes
+    if seen != set(range(len(dataset))) or any(record is None for record in records):
+        raise ValueError("Streaming topology scan did not cover every training frame exactly once")
+    ranked = sorted(records, key=lambda row: (
+        -row["prefix_union_directed_edges_upper_bound"], -row["readout_directed_edges"], row["dataset_index"],
+    ))
+    return {
+        "scope": "complete_eventhdr_training_stream", "dataset_samples": len(dataset),
+        "scanned_samples": len(records), "scan_complete": True,
+        "arrival_prefix_peak_measured": False,
+        "prefix_bound_kind": "previous_live_window_union_all_current_frame_arrivals",
+        "statement": "Readout counts are actual; prefix counts are conservative upper bounds, not measured maxima.",
+        "max_readout_nodes": max(row["readout_nodes"] for row in records),
+        "max_readout_directed_edges": max(row["readout_directed_edges"] for row in records),
+        "max_prefix_union_nodes_upper_bound": max(row["prefix_union_nodes_upper_bound"] for row in records),
+        "max_prefix_union_directed_edges_upper_bound": max(
+            row["prefix_union_directed_edges_upper_bound"] for row in records
+        ),
+        "top_density_samples": ranked[:top_density_count], "samples": records,
+    }
+
+
+def _stream_probe_plan(batches, records, batch_size, profile_samples):
+    if not records or not batches or max(map(len, batches)) != batch_size:
+        raise ValueError("Streaming preflight cannot form the full configured physical batch")
+    if len(batches) < profile_samples:
+        raise ValueError("Fewer scheduled batches than requested streaming probes")
+    flattened = [index for batch in batches for index in batch]
+    if sorted(flattened) != list(range(len(records))):
+        raise ValueError("Streaming probe schedule must cover each frame exactly once")
+    entries = [{
+        "batch_index": number, "dataset_indices": list(indices), "batch_size": len(indices),
+        "readout_nodes": sum(records[index]["readout_nodes"] for index in indices),
+        "readout_directed_edges": sum(records[index]["readout_directed_edges"] for index in indices),
+        "prefix_union_directed_edges_upper_bound": sum(
+            records[index]["prefix_union_directed_edges_upper_bound"] for index in indices
+        ),
+    } for number, indices in enumerate(batches)]
+    ranked = sorted(entries, key=lambda entry: (
+        -entry["prefix_union_directed_edges_upper_bound"], -entry["readout_directed_edges"], entry["batch_index"],
+    ))
+    selected = {entry["batch_index"] for entry in ranked[:profile_samples]}
+    selected.add(0)
+    selected.add(next(entry["batch_index"] for entry in entries if entry["batch_size"] == batch_size))
+    selected.add(max(entries, key=lambda entry: entry["readout_nodes"])["batch_index"])
+    sparse = min((row for row in records if row["readout_nodes"] > 0),
+                 key=lambda row: row["readout_nodes"], default=None)
+    for entry in entries:
+        if any(records[index]["readout_nodes"] == 0 for index in entry["dataset_indices"]):
+            selected.add(entry["batch_index"])
+            break
+    if sparse is not None:
+        selected.add(next(entry["batch_index"] for entry in entries
+                          if sparse["dataset_index"] in entry["dataset_indices"]))
+    from .training import batching_contract
+    return {
+        "schema": "asgcn_streaming_batch_probe_plan_v1", "schedule_sha256": _digest(batches),
+        "batching_contract": batching_contract(batch_size), "requested_batch_size": batch_size,
+        "scheduled_frames": len(records), "scheduled_batches": len(batches),
+        "largest_actual_batch_size": batch_size,
+        "selected_batch_indices": sorted(selected),
+        "selected_batches": [entries[index] for index in sorted(selected)],
+        "context_policy": "chronological_training_mode_replay_from_sequence_start_no_window_truncation",
+        "replay_stop_batch": max(selected),
+    }
+
+
+def _probe_stream_training(dataset, config, device, batches, topology, plan):
+    import torch
+    from tqdm import tqdm
+
+    from .batching import sequence_key
+    from .engine import (
+        _build_optimizer,
+        _make_grad_scaler,
+        _optimizer_mode,
+        _training_step,
+        build_model,
+    )
+    from .losses import ReconstructionLoss
+    from .preflight import _load_packed_probe_batch
+    from .training import TrainingState, forward_training_loss
+    from .utils import set_seed
+
+    set_seed(int(config["seed"]))
+    model = build_model(config["model"]).to(device).train()
+    criterion = ReconstructionLoss(config["train"].get("loss_weights"))
+    optimizer = _build_optimizer(model, config["train"])
+    amp = bool(config["train"].get("amp", True)) and device.type == "cuda"
+    scaler = _make_grad_scaler(amp)
+    temporal_weight = float((config["train"].get("loss_weights") or {}).get("temporal", 0.0))
+    state = TrainingState(independent_sequences=True)
+    final = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
+    selected, measured = set(plan["selected_batch_indices"]), []
+    replayed_frames = 0
+    started = time.perf_counter()
+    for number, indices in enumerate(tqdm(batches[:plan["replay_stop_batch"] + 1], desc="stream-preflight-stateful-train")):
+        samples, input_pipeline = _load_packed_probe_batch(dataset, indices, device)
+        contexts = state.prepare(samples)
+        if number not in selected:
+            with torch.no_grad(), torch.autocast(device_type=device.type, enabled=amp):
+                prediction, diagnostics = model.forward_training_batch(samples, [entry[0] for entry in contexts])
+            target = samples.targets
+            if not bool(torch.isfinite(prediction).all()):
+                raise FloatingPointError("Non-finite reconstruction during causal predecessor replay")
+            replayed_frames += len(samples)
+        else:
+            if device.type == "cuda":
+                torch.cuda.synchronize(device)
+                torch.cuda.reset_peak_memory_stats(device)
+            step_started = time.perf_counter()
+            def forward_loss(current_samples=samples, incoming_contexts=contexts):
+                return forward_training_loss(
+                    model, criterion, current_samples, incoming_contexts, batch_mode=True, amp_enabled=amp,
+                    temporal_weight=temporal_weight,
+                )
+            payload, loss, gradient_norm, amp_info = _training_step(
+                model, optimizer, scaler, forward_loss, optimizer_mode=_optimizer_mode(config["train"]),
+                max_norm=float(config["train"]["grad_clip"]), epoch=0, step=number,
+                sample_id="stream-preflight:" + ",".join(map(str, indices)),
+            )
+            prediction, diagnostics, target = payload
+            if device.type == "cuda":
+                torch.cuda.synchronize(device)
+            elapsed = (time.perf_counter() - step_started) * 1000
+            if prediction.shape != target.shape or prediction.shape[0] != len(indices):
+                raise RuntimeError("Streaming probe reconstruction does not match the actual batch target")
+            for index, detail in zip(indices, diagnostics, strict=True):
+                expected = topology["samples"][index]
+                if detail["nodes"] != expected["readout_nodes"] or detail["edges"] != expected["readout_directed_edges"]:
+                    raise RuntimeError("Streaming model readout topology differs from the full causal scan")
+                if not detail.get("stream_execution", {}).get("training_dense_snapshot"):
+                    raise RuntimeError("Streaming preflight did not execute the declared causal-window training path")
+            measured.append({
+                "batch_index": number, "dataset_indices": list(indices), "batch_size": len(indices),
+                "incoming_contexts": sum(context[0] is not None for context in contexts),
+                "loss": loss, "gradient_norm": gradient_norm, "amp": amp_info,
+                "step_time_ms": elapsed, "frames_per_second": len(indices) * 1000 / elapsed,
+                "input_pipeline": input_pipeline, "prediction_shape": list(prediction.shape),
+                "peak_allocated_mib": torch.cuda.max_memory_allocated(device) / 1024**2 if device.type == "cuda" else None,
+                "peak_reserved_mib": torch.cuda.max_memory_reserved(device) / 1024**2 if device.type == "cuda" else None,
+                "scope": "stateful_forward_loss_backward_optimizer_includes_live_context_residency",
+            })
+        state.commit(samples, prediction, diagnostics, target)
+        state.release_finished(samples, final)
+        if number in selected:
+            del payload, forward_loss
+        del prediction, diagnostics, target, samples, contexts
+    if [row["batch_index"] for row in measured] != plan["selected_batch_indices"]:
+        raise RuntimeError("Not every selected streaming training batch completed")
+    return {
+        "passed": True, "plan": plan, "steps": measured,
+        "replayed_predecessor_frames": replayed_frames,
+        "elapsed_including_context_replay_seconds": time.perf_counter() - started,
+        "parameter_count": sum(parameter.numel() for parameter in model.parameters()),
+        "trainable_parameter_count": sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad),
+        "training_protocol_scope": "ANN causal-window learning; event-driven inference is a separate evaluation",
+    }
+
+
+def _scope():
+    return {
+        "name": "streaming_stateful_physical_batch_training_steps",
+        "topology_scope": "complete_eventhdr_training_stream", "absolute_vram_guarantee": False,
+        "statement": (
+            "Complete chronological readout topology plus conservative arrival-prefix union bounds; "
+            "selected actual stateful physical-batch forward/loss/backward/optimizer probes. "
+            "This is not an exact arrival-prefix maximum or an inference-memory/performance certification."
+        ),
+    }
+
+
+def streaming_training_preflight(
+    config, output_path, *, profile_samples=3, top_density_count=10, require_cuda=True,
+    resume_scan=False, reuse_report=None,
+):
+    import torch
+
+    from .data import build_dataset
+    from .engine import (
+        _artifact_path_label,
+        _current_source_contract,
+        _enforce_training_split_status,
+        _public_config,
+        _training_protocol,
+    )
+    from .preflight import _data_provenance, _make_batch_sampler, _runtime_provenance, _safe_failure
+    from .utils import resolve_device, save_json, validate_experiment_config
+
+    validate_experiment_config(config)
+    validate_streaming_contract(config, training=True)
+    if resume_scan or reuse_report is not None:
+        raise ValueError("Streaming preflight cannot reuse a static report or resume without serialized causal graph state; choose a new output")
+    if (type(profile_samples) is not int or type(top_density_count) is not int
+            or profile_samples < 1 or top_density_count < profile_samples):
+        raise ValueError("Streaming profile_samples/top_density_count must be positive with top_density_count >= profile_samples")
+    if require_cuda and config["train"].get("batch_size") != 16:
+        raise ValueError("The approved full streaming CUDA gate requires physical batch_size=16")
+    destination = Path(output_path)
+    if destination.exists():
+        raise FileExistsError(f"Streaming preflight output already exists: {destination}")
+    device = resolve_device(config.get("device", "auto"))
+    cuda_ready = device.type == "cuda" and torch.cuda.is_available()
+    if require_cuda and not cuda_ready:
+        raise RuntimeError("Streaming training preflight requires the explicitly allocated CUDA device")
+    public_config = _public_config(config)
+    report = {
+        "schema": REPORT_SCHEMA, "status": "running", "passed": False, "report_eligible": False,
+        "output": _artifact_path_label(destination), "measurement_scope": _scope(),
+        "request": {"require_cuda": require_cuda, "profile_samples": profile_samples, "top_density_count": top_density_count},
+        "config_provenance": {"config": public_config, "sha256": _digest(public_config)},
+        "source_provenance": _current_source_contract(), "runtime_provenance": _runtime_provenance(device),
+        "data_provenance": None, "topology": None, "batch_training_probe": None,
+        "checks": {"complete_topology_scan": False, "conservative_prefix_edge_guard": False,
+                   "stateful_forward_backward": False, "cuda_available": cuda_ready},
+        "training_protocol": _training_protocol(config, device),
+        "failure": None,
+    }
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with destination.open("x", encoding="utf-8") as handle:
+        json.dump(report, handle, indent=2, allow_nan=False)
+    dataset = None
+    try:
+        _enforce_training_split_status(config)
+        dataset = build_dataset(config["dataset"], split="train")
+        report["data_provenance"] = _data_provenance(dataset, config)
+        batches = list(_make_batch_sampler(dataset, config))
+        report["topology"] = _scan_stream_topology(
+            dataset, config, device, batches, top_density_count=top_density_count,
+        )
+        report["checks"]["complete_topology_scan"] = True
+        report["checks"]["conservative_prefix_edge_guard"] = True
+        plan = _stream_probe_plan(batches, report["topology"]["samples"], config["train"]["batch_size"], profile_samples)
+        report["batch_training_probe"] = _probe_stream_training(dataset, config, device, batches, report["topology"], plan)
+        report["checks"]["stateful_forward_backward"] = True
+        if _current_source_contract() != report["source_provenance"]:
+            raise ValueError("Executable source changed during the streaming preflight")
+        # Rehash every source without the training hash cache: path/size alone
+        # cannot detect an in-place, same-size edit during the scan or probes.
+        if _data_provenance(dataset, config) != report["data_provenance"]:
+            raise ValueError("Dataset content or provenance changed during the streaming preflight")
+        report["passed"] = True
+        report["report_eligible"] = bool(cuda_ready and require_cuda)
+        report["status"] = "passed" if report["report_eligible"] else "cpu_smoke_passed_non_reporting"
+    except KeyboardInterrupt as error:
+        report["status"] = "interrupted"
+        report["failure"] = _safe_failure(error, config, destination)
+        report["commitment_sha256"] = _digest(report)
+        save_json(destination, report)
+        raise
+    except (OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
+        report["status"] = "failed"
+        report["failure"] = _safe_failure(error, config, destination)
+        report["failure"]["scope_note"] = (
+            "A union-bound guard failure is conservative and does not prove an actual arrival prefix exceeded it. "
+            "No cap, fallback, static-profile reuse, or experiment overwrite was applied."
+        )
+    finally:
+        if dataset is not None and hasattr(dataset, "close"):
+            dataset.close()
+    report["commitment_sha256"] = _digest(report)
+    save_json(destination, report)
+    return report
+
+
+def _validated_report(report, path):
+    from .engine import _artifact_path_label
+
+    if not isinstance(report, dict) or report.get("schema") != REPORT_SCHEMA:
+        raise ValueError("Streaming training requires its own stateful preflight schema; legacy/static reports are invalid")
+    commitment = dict(report)
+    claimed = commitment.pop("commitment_sha256", None)
+    if claimed != _digest(commitment):
+        raise ValueError("Streaming preflight report commitment mismatch")
+    if (report.get("passed") is not True or report.get("report_eligible") is not True
+            or report.get("status") != "passed" or report.get("output") != _artifact_path_label(path)
+            or report.get("measurement_scope") != _scope()):
+        raise ValueError("Streaming preflight is incomplete, non-reporting, or belongs to a different output")
+    checks = report.get("checks", {})
+    if not all(checks.get(name) is True for name in (
+        "complete_topology_scan", "conservative_prefix_edge_guard", "stateful_forward_backward", "cuda_available",
+    )):
+        raise ValueError("Streaming preflight required checks did not all pass")
+    topology = report.get("topology", {})
+    if (topology.get("scan_complete") is not True or topology.get("arrival_prefix_peak_measured") is not False
+            or topology.get("prefix_bound_kind") != "previous_live_window_union_all_current_frame_arrivals"):
+        raise ValueError("Streaming topology scope or conservative prefix bound is invalid")
+    probe = report.get("batch_training_probe", {})
+    if probe.get("passed") is not True or not probe.get("steps"):
+        raise ValueError("Streaming physical-batch training probes are missing")
+    return report
+
+
+def verify_streaming_training_preflight(config, report_path):
+    import torch
+
+    from .data import build_dataset
+    from .engine import (
+        _artifact_path_label,
+        _current_source_contract,
+        _enforce_training_split_status,
+        _file_sha256,
+        _public_config,
+        _training_protocol,
+    )
+    from .preflight import _data_provenance, _make_batch_sampler, _runtime_provenance
+    from .utils import resolve_device, validate_experiment_config
+
+    validate_experiment_config(config)
+    validate_streaming_contract(config, training=True)
+    path = Path(report_path)
+    with path.open(encoding="utf-8") as handle:
+        report = _validated_report(json.load(handle), path)
+    device = resolve_device(config.get("device", "auto"))
+    if device.type != "cuda" or not torch.cuda.is_available():
+        raise RuntimeError("Streaming training preflight verification requires allocated CUDA")
+    if config["train"]["batch_size"] != 16:
+        raise ValueError("The approved streaming CUDA gate must measure physical batch_size=16")
+    public = _public_config(config)
+    if report["config_provenance"] != {"config": public, "sha256": _digest(public)}:
+        raise ValueError("Streaming preflight config differs from the current experiment")
+    if report["source_provenance"] != _current_source_contract():
+        raise ValueError("Streaming preflight executable source differs")
+    if report["runtime_provenance"] != _runtime_provenance(device):
+        raise ValueError("Streaming preflight runtime/GPU differs")
+    if report["training_protocol"] != _training_protocol(config, device):
+        raise ValueError("Streaming training protocol differs from the measured preflight")
+    _enforce_training_split_status(config)
+    dataset = build_dataset(config["dataset"], split="train")
+    try:
+        if report["data_provenance"] != _data_provenance(dataset, config):
+            raise ValueError("Streaming training data/transform/source identities differ")
+        topology = report["topology"]
+        records = topology["samples"]
+        if topology["dataset_samples"] != len(dataset) or topology["scanned_samples"] != len(dataset):
+            raise ValueError("Streaming topology scan does not cover the current full dataset")
+        if len(records) != len(dataset) or [row["dataset_index"] for row in records] != list(range(len(dataset))):
+            raise ValueError("Streaming topology record identities are incomplete or duplicated")
+        for row in records:
+            for field in ("incoming_events", "arrival_groups", "readout_nodes", "readout_directed_edges",
+                          "prefix_union_nodes_upper_bound", "prefix_union_directed_edges_upper_bound"):
+                if type(row.get(field)) is not int or row[field] < 0:
+                    raise ValueError("Streaming topology contains invalid counts")
+            if (row["readout_nodes"] > row["prefix_union_nodes_upper_bound"]
+                    or row["readout_directed_edges"] > row["prefix_union_directed_edges_upper_bound"]):
+                raise ValueError("Streaming readout counts exceed their recorded prefix bound")
+            guard = config["model"]["max_graph_edges"]
+            if guard is not None and row["prefix_union_directed_edges_upper_bound"] > guard:
+                raise ValueError("Streaming prefix bound exceeds the configured edge guard")
+        batches = list(_make_batch_sampler(dataset, config))
+        plan = _stream_probe_plan(batches, records, 16, report["request"]["profile_samples"])
+        probe = report["batch_training_probe"]
+        if probe["plan"] != plan or [row["batch_index"] for row in probe["steps"]] != plan["selected_batch_indices"]:
+            raise ValueError("Streaming measured batches differ from the current sequence schedule")
+        if max(row["batch_size"] for row in probe["steps"]) != 16:
+            raise ValueError("Streaming preflight never measured the full physical batch 16")
+        for step, selection in zip(probe["steps"], plan["selected_batches"], strict=True):
+            if step["batch_size"] != selection["batch_size"] or step["dataset_indices"] != selection["dataset_indices"]:
+                raise ValueError("Streaming probe batch identity differs from its selected plan")
+            for field in ("step_time_ms", "frames_per_second", "peak_allocated_mib", "peak_reserved_mib"):
+                _positive_number(step[field], f"streaming probe {field}")
+            if (isinstance(step["gradient_norm"], bool) or not math.isfinite(step["gradient_norm"])
+                    or step["gradient_norm"] < 0):
+                raise ValueError("Streaming probe gradient norm is invalid")
+            loss = step.get("loss")
+            if not isinstance(loss, dict) or not loss or any(
+                isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+                for value in loss.values()
+            ):
+                raise ValueError("Streaming probe reconstruction loss is missing or nonfinite")
+    finally:
+        if hasattr(dataset, "close"):
+            dataset.close()
+    return {
+        "schema": VERIFICATION_SCHEMA, "status": "verified", "report_eligible": True,
+        "report": _artifact_path_label(path), "report_sha256": _file_sha256(path),
+        "measurement_scope": report["measurement_scope"],
+        "config_sha256": report["config_provenance"]["sha256"],
+        "data_sha256": report["data_provenance"]["content"]["sha256"],
+        "source_tree_sha256": report["source_provenance"]["source_tree_sha256"],
+        "gpu": report["runtime_provenance"]["gpu"], "batch_size": 16,
+        "measured_steps": len(probe["steps"]),
+        "batch_preflight": {
+            "contract": plan["batching_contract"], "schedule_sha256": plan["schedule_sha256"],
+            "measured_batches": len(probe["steps"]), "largest_measured_batch_size": 16,
+        },
+    }
+~~~~~~~~
+
+# src/asgcn_unet/stream_reporting.py
+
+~~~~~~~~python
+"""Strict batch-scope aggregation of measured streaming execution counters."""
+
+from __future__ import annotations
+
+import copy
+from typing import Any
+
+_SCALARS = frozenset({"arrival_updates", "readout_updates", "incoming_events", "topology_indexed_edges"})
+_LAYERS = frozenset({"updated_nodes_per_layer", "message_edges_per_layer", "projected_sources_per_layer"})
+_REQUIRED = frozenset({"arrival_updates", "readout_updates", "incoming_events", "training_dense_snapshot"})
+
+
+def _validate(value: Any) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise TypeError("stream_execution must be a batch-scope dictionary")
+    if not _REQUIRED.issubset(value) or set(value) - (_SCALARS | _LAYERS | {"training_dense_snapshot"}):
+        raise ValueError("stream_execution has missing or unsupported execution fields")
+    if type(value["training_dense_snapshot"]) is not bool:
+        raise TypeError("stream_execution.training_dense_snapshot must be boolean")
+    lengths = set()
+    for key, count in value.items():
+        if key in _SCALARS and (type(count) is not int or count < 0):
+            raise ValueError(f"stream_execution.{key} must be a nonnegative integer count")
+        if key in _LAYERS:
+            if not isinstance(count, list) or not count or any(type(item) is not int or item < 0 for item in count):
+                raise ValueError(f"stream_execution.{key} must contain nonnegative per-layer integer counts")
+            lengths.add(len(count))
+    if len(lengths) > 1:
+        raise ValueError("stream_execution per-layer counter lengths differ")
+    return value
+
+
+def aggregate_stream_execution(
+    current: dict[str, Any] | None, diagnostics: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    """Validate repeated lane metadata and count one actual forward exactly once.
+
+    Scalars and corresponding layer counters are summed; execution-mode booleans
+    must remain identical. Missing counters are never fabricated as zero. Static
+    diagnostics leave a previously empty accumulator as None. Mixing static and
+    streaming diagnostics, mismatched lanes, or incompatible executions is an
+    explicit error. Neither source diagnostics nor the old aggregate are mutated.
+    """
+    if not diagnostics:
+        raise ValueError("A stream execution aggregation requires a nonempty physical batch")
+    present = ["stream_execution" in detail for detail in diagnostics]
+    if not any(present):
+        if current is not None:
+            raise ValueError("Cannot mix static diagnostics into a streaming execution aggregate")
+        return None
+    if not all(present):
+        raise ValueError("A physical batch mixes missing and present stream_execution diagnostics")
+    values = [_validate(detail["stream_execution"]) for detail in diagnostics]
+    measured = values[0]
+    if any(value != measured for value in values[1:]):
+        raise ValueError("Per-lane stream_execution differs despite its shared batch scope")
+    if current is None:
+        return {"scope": "batch_once", "physical_batches": 1, "frames": len(diagnostics),
+                **copy.deepcopy(measured)}
+    previous = {key: value for key, value in current.items() if key not in {"scope", "physical_batches", "frames"}}
+    _validate(previous)
+    if (current.get("scope") != "batch_once" or type(current.get("physical_batches")) is not int
+            or current["physical_batches"] < 1 or type(current.get("frames")) is not int or current["frames"] < 1):
+        raise ValueError("Invalid previous stream execution aggregation scope/counts")
+    if previous.keys() != measured.keys():
+        raise ValueError("Streaming execution counter coverage changed between batches")
+    if previous["training_dense_snapshot"] != measured["training_dense_snapshot"]:
+        raise ValueError("Streaming execution training_dense_snapshot changed between batches")
+    result = copy.deepcopy(current)
+    result["physical_batches"] += 1
+    result["frames"] += len(diagnostics)
+    for key in _SCALARS & measured.keys():
+        result[key] += measured[key]
+    for key in _LAYERS & measured.keys():
+        if len(previous[key]) != len(measured[key]):
+            raise ValueError("Streaming per-layer counter lengths changed between batches")
+        result[key] = [left + right for left, right in zip(previous[key], measured[key], strict=True)]
+    return result
+~~~~~~~~
+
+# src/asgcn_unet/stream_state.py
+
+~~~~~~~~python
+"""Explicit, transferable streaming reconstruction state; no model-global cache."""
+
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass, fields, replace
+from typing import Any
+
+import torch
+
+from .graph import EventGraph
+from .stream_graph import StreamGraph
+
+
+def map_graph(graph: StreamGraph, fn) -> StreamGraph:
+    value = graph.graph
+    return StreamGraph(
+        EventGraph(*(fn(getattr(value, name)) for name in
+                     ("node_features", "positions", "edge_index", "edge_attr", "in_degree"))),
+        fn(graph.node_batch), fn(graph.timestamps),
+    )
+
+
+def map_cache(cache, graph: StreamGraph, fn):
+    if cache is None:
+        return None
+    values = {}
+    for field in fields(cache):
+        value = getattr(cache, field.name)
+        if field.name == "graph":
+            value = graph
+        elif isinstance(value, torch.Tensor):
+            value = fn(value)
+        elif isinstance(value, tuple) and all(isinstance(item, torch.Tensor) for item in value):
+            value = tuple(fn(item) for item in value)
+        values[field.name] = value
+    return replace(cache, **values)
+
+
+@dataclass
+class StreamingReconstructionState:
+    graph: StreamGraph
+    encoder: Any
+    decoder: torch.Tensor | None
+    origin_seconds: float
+    watermark_seconds: float
+    sequence_index: int
+    sequence_identity: tuple[str, str]
+    last_event_id: tuple[int, int] | None
+    contract: str
+
+    def _map(self, fn):
+        graph = map_graph(self.graph, fn)
+        return replace(self, graph=graph, encoder=map_cache(self.encoder, graph, fn),
+                       decoder=None if self.decoder is None else fn(self.decoder))
+
+    def detach(self):
+        return self._map(lambda value: value.detach())
+
+    def clone(self):
+        return self._map(lambda value: value.clone())
+
+    def to(self, device=None, *, copy=False):
+        return self._map(lambda value: value.to(device=device, copy=copy))
+
+    def finite(self):
+        values = [self.graph.graph.node_features, self.graph.graph.positions,
+                  self.graph.graph.edge_attr, self.graph.timestamps]
+        if self.decoder is not None:
+            values.append(self.decoder)
+        if self.encoder is not None:
+            for field in fields(self.encoder):
+                value = getattr(self.encoder, field.name)
+                if isinstance(value, torch.Tensor) and value.is_floating_point():
+                    values.append(value)
+                elif isinstance(value, tuple):
+                    values.extend(item for item in value if isinstance(item, torch.Tensor)
+                                  and item.is_floating_point())
+        return torch.stack([torch.isfinite(value).all() for value in values]).all()
+
+    def training_payload(self):
+        # Training is synchronous ANN. Learned activation/membrane caches cannot
+        # survive an optimizer update, and must never enter its resume contract.
+        if self.encoder is not None:
+            raise ValueError("Only raw-graph ANN training state can be checkpointed here")
+        graph = self.graph.graph
+        return {
+            "schema": "asgcn_stream_training_state_v1",
+            "graph": {name: getattr(graph, name) for name in
+                      ("node_features", "positions", "edge_index", "edge_attr", "in_degree")},
+            "node_batch": self.graph.node_batch, "timestamps": self.graph.timestamps,
+            "decoder": self.decoder, "origin_seconds": self.origin_seconds,
+            "watermark_seconds": self.watermark_seconds, "sequence_index": self.sequence_index,
+            "sequence_identity": self.sequence_identity, "last_event_id": self.last_event_id,
+            "contract": self.contract,
+        }
+
+
+def recurrent_isfinite(value):
+    return value.finite() if isinstance(value, StreamingReconstructionState) else torch.isfinite(value).all()
+
+
+def restore_stream_training_state(payload):
+    expected = {"schema", "graph", "node_batch", "timestamps", "decoder", "origin_seconds",
+                "watermark_seconds", "sequence_index", "sequence_identity", "last_event_id", "contract"}
+    if not isinstance(payload, dict) or set(payload) != expected:
+        raise ValueError("Invalid streaming training state fields")
+    if payload["schema"] != "asgcn_stream_training_state_v1":
+        raise ValueError("Unsupported streaming training state schema")
+    graph_fields = ("node_features", "positions", "edge_index", "edge_attr", "in_degree")
+    if not isinstance(payload["graph"], dict) or set(payload["graph"]) != set(graph_fields):
+        raise ValueError("Invalid streaming graph fields")
+    raw_graph = payload["graph"]
+    if any(not isinstance(raw_graph[name], torch.Tensor)
+           or raw_graph[name].layout != torch.strided for name in graph_fields):
+        raise ValueError("Streaming graph fields must be dense tensors")
+    features, positions, edges, attributes, degree = (raw_graph[name] for name in graph_fields)
+    count = features.shape[0] if features.ndim else -1
+    if (features.shape != (count, 4) or features.dtype != torch.float32
+            or positions.shape != (count, 4) or positions.dtype != torch.float64
+            or edges.ndim != 2 or edges.shape[0] != 2 or edges.dtype != torch.long
+            or attributes.shape != (edges.shape[1], 1) or attributes.dtype != torch.float64
+            or degree.shape != (count,) or degree.dtype != torch.long):
+        raise ValueError("Invalid physical streaming graph tensor contract")
+    for name in ("node_batch", "timestamps"):
+        if (not isinstance(payload[name], torch.Tensor) or payload[name].shape != (count,)
+                or payload[name].layout != torch.strided):
+            raise ValueError("Invalid streaming node metadata")
+    if any(value.device != features.device for value in
+           (*raw_graph.values(), payload["node_batch"], payload["timestamps"])):
+        raise ValueError("All streaming state tensors must share a device")
+    if (payload["node_batch"].dtype != torch.long or bool((payload["node_batch"] != 0).any())
+            or payload["timestamps"].dtype != torch.float64):
+        raise ValueError("A stored streaming state must contain exactly one graph namespace")
+    if edges.numel() and (
+        bool((edges < 0).any()) or bool((edges >= count).any())
+        or bool((edges[0] == edges[1]).any())
+    ):
+        raise ValueError("Invalid streaming graph edge index")
+    if not torch.equal(degree, torch.bincount(edges[1], minlength=count)):
+        raise ValueError("Streaming graph degree does not match its edges")
+    if bool(((attributes < 0) | (attributes >= 1)).any()):
+        raise ValueError("Streaming edge distances must be in [0,1)")
+    for name in ("origin_seconds", "watermark_seconds"):
+        value = payload[name]
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+            raise ValueError("Invalid streaming clock")
+    if (payload["origin_seconds"] > payload["watermark_seconds"]
+            or bool((payload["timestamps"][1:] < payload["timestamps"][:-1]).any())
+            or bool((payload["timestamps"] < payload["origin_seconds"]).any())
+            or bool((payload["timestamps"] > payload["watermark_seconds"]).any())):
+        raise ValueError("Invalid streaming clock ordering")
+    index = payload["sequence_index"]
+    key = payload["sequence_identity"]
+    last_id = payload["last_event_id"]
+    if type(index) is not int or index < 0:
+        raise ValueError("Invalid streaming sequence index")
+    if (not isinstance(key, (tuple, list)) or len(key) != 2
+            or not all(isinstance(part, str) for part in key) or not key[0]):
+        raise ValueError("Invalid streaming sequence identity")
+    if last_id is not None and (not isinstance(last_id, (tuple, list)) or len(last_id) != 2
+                               or any(type(item) is not int or item < 0 for item in last_id)):
+        raise ValueError("Invalid streaming event identity")
+    if (not isinstance(payload["contract"], str) or len(payload["contract"]) != 64
+            or any(character not in "0123456789abcdef" for character in payload["contract"])):
+        raise ValueError("Invalid streaming model contract")
+    decoder = payload["decoder"]
+    if decoder is not None and (not isinstance(decoder, torch.Tensor) or decoder.ndim != 4
+                               or decoder.shape[0] != 1 or not decoder.is_floating_point()
+                               or decoder.layout != torch.strided
+                               or any(size < 1 for size in decoder.shape)
+                               or decoder.device != features.device):
+        raise ValueError("Invalid streaming decoder state")
+    if count and last_id is None:
+        raise ValueError("A nonempty streaming graph requires last_event_id")
+    graph = EventGraph(*(raw_graph[name] for name in graph_fields))
+    state = StreamingReconstructionState(
+        StreamGraph(graph, payload["node_batch"], payload["timestamps"]), None, decoder,
+        float(payload["origin_seconds"]), float(payload["watermark_seconds"]), index,
+        tuple(key), None if last_id is None else tuple(last_id), payload["contract"],
+    )
+    if not bool(state.finite()):
+        raise ValueError("Nonfinite streaming state")
+    return state
 ~~~~~~~~
 
 # src/asgcn_unet/timing.py
@@ -34905,6 +38293,9 @@ def _topology_contract(config: dict[str, Any], device: torch.device) -> dict[str
 def _sample_record(
     sample: dict[str, Any], model: dict[str, Any], dataset_index: int
 ) -> dict[str, Any]:
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model, sample=sample)
     retained = int(sample["events"].shape[0])
     metadata = sample.get("metadata", {})
     if not isinstance(metadata, dict):
@@ -34987,6 +38378,9 @@ def scan_evaluation_topology(
 ) -> dict[str, Any]:
     """Count exact evaluation graph edges without building a model or edge list."""
     validate_experiment_config(config)
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(config["model"], config["dataset"])
     if isinstance(start_index, bool) or not isinstance(start_index, int) or start_index < 0:
         raise ValueError("start_index must be a non-negative integer")
     if known_prefix_max_edges is not None and (
@@ -35710,6 +39104,17 @@ def validate_experiment_config(config: dict[str, Any]) -> None:
     if not isinstance(config, dict):
         raise TypeError("Experiment config must be an object")
     dataset = config.get("dataset")
+    model = config.get("model", {})
+    if isinstance(model, dict) and model.get("graph_execution") == "event_driven":
+        from .stream_model import validate_stream_config
+        validate_stream_config(model.get("stream_config"))
+        if (model.get("architecture_version") != 3 or not isinstance(dataset, dict)
+                or dataset.get("event_time_contract") != "physical_seconds_v1"
+                or "max_events" not in dataset or dataset["max_events"] is not None
+                or model.get("event_sampling_factor") != 1):
+            raise ValueError("Event-driven ASGCN requires v3 physical_seconds_v1, explicit max_events=null and R=1")
+    elif isinstance(dataset, dict) and dataset.get("event_time_contract") == "physical_seconds_v1":
+        raise ValueError("Physical stream input cannot be silently routed through a static-window model")
     if dataset is not None:
         if not isinstance(dataset, dict):
             raise TypeError("dataset must be an object")
@@ -35865,6 +39270,8 @@ def move_sample(sample: dict[str, Any], device: torch.device) -> dict[str, Any]:
     result = dict(sample)
     result["events"] = sample["events"].to(device, non_blocking=True)
     result["target"] = sample["target"].to(device, non_blocking=True)
+    if "event_ids" in sample:
+        result["event_ids"] = sample["event_ids"].to(device, non_blocking=True)
     return result
 
 
@@ -35880,6 +39287,8 @@ def move_inference_sample(
     """
     result = dict(sample)
     result["events"] = sample["events"].to(device, non_blocking=True)
+    if "event_ids" in sample:
+        result["event_ids"] = sample["event_ids"].to(device, non_blocking=True)
     return result
 
 
@@ -45117,6 +48526,63 @@ def _assert_same(actual: dict, expected: dict) -> None:
 
 def _forbid_constructor(*args, **kwargs):
     raise AssertionError("Dataset-wide constructor/index is forbidden")
+
+
+@pytest.mark.parametrize("kind", ["eventhdr", "eventaid_r_zip"])
+def test_lightweight_adapter_explicitly_initializes_legacy_clock(tmp_path, monkeypatch, kind):
+    path = (make_eventhdr(tmp_path / "hdr") if kind == "eventhdr"
+            else make_eventaid(tmp_path / "aid"))
+    cfg = _config(path.parent, kind, event_time_contract="window_normalized_v1", max_events=17)
+    identity, expected = _baseline(cfg, 1)
+    cls = EventHDRDataset if kind == "eventhdr" else EventAidRZipDataset
+    original_getitem = cls.__getitem__
+
+    def assert_legacy_contract(reader, index):
+        assert reader.event_time_contract == "window_normalized_v1"
+        assert reader.timestamp_scale_to_seconds is None
+        assert reader.interval_timestamp_scale_to_seconds is None
+        return original_getitem(reader, index)
+
+    monkeypatch.setattr(cls, "__init__", _forbid_constructor)
+    monkeypatch.setattr(cls, "__getitem__", assert_legacy_contract)
+    actual = read_diagnostic_sample({"dataset": cfg, "model": {"architecture_version": 2}},
+                                    identity, memory_budget_bytes=_BUDGET)
+    _assert_same(actual, expected)
+
+
+@pytest.mark.parametrize("kind", ["eventhdr", "eventaid_r_zip"])
+@pytest.mark.parametrize("full_config", [False, True])
+def test_physical_clock_refused_before_identity_or_source_access(monkeypatch, kind, full_config):
+    cfg = _config(Path("missing-synthetic-source"), kind, event_time_contract="physical_seconds_v1",
+                  max_events=None, timestamp_scale_to_seconds=1.0,
+                  interval_timestamp_scale_to_seconds=1e-6)
+    config = {"dataset": cfg} if full_config else cfg
+    monkeypatch.setattr("asgcn_unet.diagnostic_sample._hdr", _forbid_constructor)
+    monkeypatch.setattr("asgcn_unet.diagnostic_sample._aid", _forbid_constructor)
+    monkeypatch.setattr(torch.cuda, "init", _forbid_constructor)
+    with pytest.raises(DiagnosticSampleError, match="complete chronological prefix"):
+        read_diagnostic_sample(config, {}, memory_budget_bytes=_BUDGET)
+
+
+@pytest.mark.parametrize("kind", ["eventhdr", "eventaid_r_zip"])
+@pytest.mark.parametrize("model", [{"graph_execution": "event_driven"}, {"architecture_version": 3}])
+def test_streaming_model_refused_even_with_legacy_dataset_section(monkeypatch, kind, model):
+    cfg = _config(Path("missing-synthetic-source"), kind)
+    monkeypatch.setattr("asgcn_unet.diagnostic_sample._hdr", _forbid_constructor)
+    monkeypatch.setattr("asgcn_unet.diagnostic_sample._aid", _forbid_constructor)
+    with pytest.raises(DiagnosticSampleError, match="complete chronological prefix"):
+        read_diagnostic_sample({"dataset": cfg, "model": model}, {}, memory_budget_bytes=_BUDGET)
+
+
+@pytest.mark.parametrize("options", [
+    {"event_time_contract": "unknown_clock"},
+    {"timestamp_scale_to_seconds": 1.0},
+    {"interval_timestamp_scale_to_seconds": 1e-6},
+])
+def test_invalid_legacy_clock_options_are_not_silently_ignored(options):
+    cfg = _config(Path("missing-synthetic-source"), "eventhdr", **options)
+    with pytest.raises(DiagnosticSampleError, match="event_time_contract|requires physical_seconds_v1"):
+        read_diagnostic_sample(cfg, {}, memory_budget_bytes=_BUDGET)
 
 
 @pytest.mark.parametrize("index", [0, 1, 3])
@@ -59720,6 +63186,2551 @@ def test_training_does_not_save_per_edge_channel_messages(basis_grad):
     assert (64, 11) not in actual_shapes
     assert (1, 11) not in actual_shapes
     assert actual_bytes < reference_bytes / 2
+~~~~~~~~
+
+# tests/test_stream_calibration.py
+
+~~~~~~~~python
+"""Actual H5-shaped CPU smoke data only, not production calibration results."""
+
+import copy
+
+import pytest
+import torch
+
+from asgcn_unet import engine
+from asgcn_unet.batching import sequence_key
+from asgcn_unet.graph import EventGraph
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.utils import atomic_torch_save
+from tests.fixtures import make_eventhdr
+from tests.test_p0_engine import _eval_config, _model_config
+
+
+@pytest.fixture(autouse=True)
+def cpu_synthetic_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(2)
+    try:
+        yield
+    finally:
+        torch.set_num_threads(previous)
+
+
+def _fixture(tmp_path):
+    root = tmp_path / "physical-hdr"
+    make_eventhdr(root / "scene_a")
+    make_eventhdr(root / "scene_b")
+    model_config = _model_config()
+    # Reduced dimensions belong only to this explicitly synthetic smoke test.
+    model_config.update(architecture_version=3, graph_execution="event_driven", graph_layers=2,
+                        hidden_dim=8, graph_radius=0.3, stream_config={
+                            "window_seconds": 0.006, "time_scale_seconds": 0.01,
+                            "node_time_feature": "physical_frame_offset",
+                            "clock": "event_local_pending_off_v1",
+                            "arrival_policy": "simultaneous_equal_timestamp",
+                        })
+    torch.manual_seed(104)
+    model = ASGCNUNet(**model_config)
+    state = model.state_dict()
+    source = tmp_path / "synthetic-stream-ann.pt"
+    atomic_torch_save({"checkpoint_type": "training", "epoch": 1, "model": state,
+                       "model_state_sha256": engine._model_state_sha256(state),
+                       "model_config": model_config, "paper_core_version": engine.PAPER_CORE_VERSION}, source)
+    config = _eval_config(root, tmp_path / "unused")
+    config["dataset"].update(max_events=None, event_time_contract="physical_seconds_v1",
+                             timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=1.0)
+    config["model"] = model_config
+    config["calibration"] = {"batch_size": 2, "num_workers": 0, "persistent_workers": False}
+    return config, source
+
+
+@torch.no_grad()
+def _manual_full_causal_maxima(config, source):
+    """Independent full pairwise graph reconstruction, without stream helpers."""
+    model, _ = engine.load_model_checkpoint(source, torch.device("cpu"), config["model"])
+    model.eval()
+    model.fold_batch_norm()
+    model.reset_activation_maxima()
+    dataset = engine.build_dataset(config["dataset"], split="calibration")
+    retained = {}
+    total = incoming = live_total = 0
+    try:
+        for index in range(len(dataset)):
+            sample = dataset.get_topology_sample(index)
+            key = sequence_key(sample)
+            events = sample["events"]
+            time = sample["metadata"]["stream_time"]
+            height, width = sample["sensor_size"]
+            x, y = events[:, 0] / (width - 1), events[:, 1] / (height - 1)
+            polarity = torch.where(events[:, 3] > 0, 1., -1.)
+            scale = model.stream_config["time_scale_seconds"]
+            features = torch.stack((x, y, (events[:, 2] - time["interval_start_seconds"]) / scale, polarity), 1).float()
+            positions = torch.stack((x, y, (events[:, 2] - time["sequence_origin_seconds"]) / scale, (polarity + 1) / 2), 1)
+            timestamps = events[:, 2]
+            if key in retained:
+                old_x, old_pos, old_t = retained[key]
+                features = torch.cat((old_x, features))
+                positions = torch.cat((old_pos, positions))
+                timestamps = torch.cat((old_t, timestamps))
+            keep = timestamps >= time["interval_end_seconds"] - model.stream_config["window_seconds"]
+            features, positions, timestamps = features[keep], positions[keep], timestamps[keep]
+            retained[key] = features, positions, timestamps
+            distance = torch.linalg.vector_norm(
+                (positions[:, None, :3] - positions[None, :, :3]) / model.graph_radius, dim=2,
+            )
+            connected = (distance < 1) & ~torch.eye(len(features), dtype=torch.bool)
+            edges = torch.nonzero(connected, as_tuple=False).T.contiguous()
+            graph = EventGraph(features, positions, edges, distance[edges[0], edges[1], None])
+            _, activations = model.encoder.forward_ann(graph, return_activations=True)
+            model.encoder.update_activation_maxima(activations)
+            total += 1
+            incoming += len(events)
+            live_total += len(features)
+    finally:
+        dataset.close()
+    model.apply_parameter_normalization()
+    return model.state_dict(), total, incoming, live_total
+
+
+def test_stream_calibration_physical_lanes_match_manual_causal_graph_maxima(tmp_path, monkeypatch):
+    config, source = _fixture(tmp_path)
+    expected, total, incoming, live_total = _manual_full_causal_maxima(config, source)
+    calls = []
+    original = ASGCNUNet.calibrate_stream_batch
+
+    def tracked(self, packed, states=None):
+        assert packed.targets is None
+        assert len({sequence_key(sample) for sample in packed}) == len(packed)
+        assert not torch.is_autocast_enabled("cpu")
+        for sample, state in zip(packed, states, strict=True):
+            index = sample["metadata"]["sequence_index"]
+            assert (state is None) == (index == 0)
+            if state is not None:
+                assert state.sequence_index + 1 == index
+                assert state.encoder is None and state.decoder is None
+        calls.append(len(packed))
+        return original(self, packed, states)
+
+    def static_forbidden(*args, **kwargs):
+        raise AssertionError("physical streaming calibration cannot use independent static frames")
+
+    monkeypatch.setattr(ASGCNUNet, "calibrate_stream_batch", tracked)
+    monkeypatch.setattr(ASGCNUNet, "calibrate_batch", static_forbidden)
+    output = tmp_path / "synthetic-stream-snn.pt"
+    with torch.autocast("cpu", dtype=torch.bfloat16):
+        engine.calibrate(config, source, output, allow_unsealed_calibration=True)
+    result = torch.load(output, weights_only=False)
+    assert max(calls) == 2 and sum(calls) == total
+    assert int(result["model"]["calibration_attempts"]) == total
+    assert result["snn_calibration_samples"] == total
+    assert result["snn_calibration_summary"]["minimum_valid_samples"] == total
+    assert result["paper_core_version"] == engine.PAPER_CORE_VERSION
+    assert result["model_config"]["architecture_version"] == 3
+    assert result["model_config"]["graph_execution"] == "event_driven"
+    report = result["execution_report"]
+    assert report["data"]["used_ratio"] == 1
+    assert report["data"]["graph_statistics"]["nodes"]["total"] == live_total > incoming
+    assert report["batching"]["strategy"] == "chronological_independent_stream_shape_lanes"
+    assert report["data"]["causal_context"]["completed_sequence_states_released"] is True
+    assert result["calibration_performance"]["frames"] == total
+    for name, value in expected.items():
+        if name.endswith(("normalization_scale", "calibration_activation_max")):
+            torch.testing.assert_close(result["model"][name], value, rtol=1e-5, atol=2e-6)
+    engine.load_model_checkpoint(output, torch.device("cpu"), config["model"])
+
+
+def test_stream_profile_uses_warm_predecessors_and_does_not_contaminate_final_pass(tmp_path):
+    config, source = _fixture(tmp_path)
+    reference_path = tmp_path / "synthetic-explicit.pt"
+    engine.calibrate(config, source, reference_path, allow_unsealed_calibration=True)
+    reference = torch.load(reference_path, weights_only=False)
+    automatic = copy.deepcopy(config)
+    automatic["calibration"].update(batch_size="auto", num_workers="auto", batch_candidates=[1, 2],
+                                     worker_candidates=[0], profile_steps=1, profile_warmup=0,
+                                     profile_debug_cpu=True)
+    output = tmp_path / "synthetic-auto.pt"
+    engine.calibrate(automatic, source, output, allow_unsealed_calibration=True)
+    result = torch.load(output, weights_only=False)
+    profile = result["calibration_batch_profile"]
+    assert profile["profile_context_frames"] > 0
+    assert profile["context_bootstrap_included_in_timing"] is True
+    assert profile["final_pass_throughput_measurement"] is False
+    assert profile["calibration"] is True and profile["cuda_measured"] is False
+    assert profile["report_eligible"] is False
+    assert int(result["model"]["calibration_attempts"]) == result["snn_calibration_samples"]
+    for name, value in reference["model"].items():
+        if name.endswith(("normalization_scale", "calibration_activation_max")):
+            torch.testing.assert_close(result["model"][name], value, rtol=1e-5, atol=2e-6)
+
+
+def test_stream_subset_and_existing_output_are_rejected_without_overwrite(tmp_path):
+    config, source = _fixture(tmp_path)
+    output = tmp_path / "synthetic-snn.pt"
+    with pytest.raises(ValueError, match="every chronological"):
+        engine.calibrate(config, source, output, samples=2, allow_unsealed_calibration=True)
+    assert not output.exists()
+    engine.calibrate(config, source, output, allow_unsealed_calibration=True)
+    before = output.read_bytes()
+    with pytest.raises(FileExistsError, match="already exists"):
+        engine.calibrate(config, source, output, allow_unsealed_calibration=True)
+    assert output.read_bytes() == before
+
+
+def test_stream_checkpoint_does_not_accept_static_input_configuration(tmp_path):
+    config, source = _fixture(tmp_path)
+    wrong = copy.deepcopy(config)
+    wrong["model"] = _model_config()
+    with pytest.raises(ValueError, match="model config|model_config|model configuration|checkpoint|static-window"):
+        engine.calibrate(wrong, source, tmp_path / "forbidden.pt", allow_unsealed_calibration=True)
+~~~~~~~~
+
+# tests/test_stream_checkpoint.py
+
+~~~~~~~~python
+"""Tiny CPU-only stream snapshot/retry tests, not model quality or performance."""
+
+from __future__ import annotations
+
+import copy
+import io
+from dataclasses import replace
+
+import pytest
+import torch
+from torch import nn
+
+from asgcn_unet import engine
+from asgcn_unet.batching import pack_samples
+from asgcn_unet.checkpoint import capture_training_state, restore_training_state
+from asgcn_unet.evaluation_batches import evaluation_frames
+from asgcn_unet.graph import EventGraph
+from asgcn_unet.stream_graph import StreamGraph
+from asgcn_unet.stream_state import StreamingReconstructionState, restore_stream_training_state
+from asgcn_unet.training import TrainingState, forward_training_loss
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _cpu_synthetic_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _stream(*, index=3):
+    features = torch.tensor([[0.1, 0.2, 0.1, 1], [0.2, 0.2, 0.2, -1]], requires_grad=True)
+    positions = torch.tensor([[0.1, 0.2, 0.1, 1], [0.2, 0.2, 0.2, 0]], dtype=torch.float64)
+    graph = EventGraph(features, positions, torch.tensor([[0, 1], [1, 0]]),
+                       torch.full((2, 1), 0.5, dtype=torch.float64))
+    return StreamingReconstructionState(
+        StreamGraph(graph, torch.zeros(2, dtype=torch.long),
+                    torch.tensor([0.1, 0.2], dtype=torch.float64)),
+        None, torch.full((1, 4, 2, 2), 0.1, requires_grad=True),
+        0.0, 0.3, index, ("sequence-a", "synthetic.h5"), (0, 1), "a" * 64,
+    )
+
+
+def _store(*, independent=True):
+    store = TrainingState(independent_sequences=independent)
+    key = ("sequence-a", "synthetic.h5" if independent else "")
+    store.values[key] = (3, (16, 16), _stream(), torch.full((1, 1, 16, 16), 0.2),
+                         torch.full((1, 1, 16, 16), 0.3))
+    store.last_key = key
+    return store
+
+
+def _tensor_leaves(value):
+    if isinstance(value, torch.Tensor):
+        yield value
+    elif isinstance(value, dict):
+        for child in value.values():
+            yield from _tensor_leaves(child)
+    elif isinstance(value, (tuple, list)):
+        for child in value:
+            yield from _tensor_leaves(child)
+
+
+def _assert_exact(left, right):
+    if isinstance(left, torch.Tensor):
+        torch.testing.assert_close(left, right, rtol=0, atol=0)
+    elif isinstance(left, dict):
+        assert isinstance(right, dict) and set(left) == set(right)
+        for key in left:
+            _assert_exact(left[key], right[key])
+    elif isinstance(left, (list, tuple)):
+        assert type(left) is type(right) and len(left) == len(right)
+        for one, two in zip(left, right, strict=True):
+            _assert_exact(one, two)
+    else:
+        assert type(left) is type(right) and left == right
+
+
+@pytest.mark.parametrize("independent", [True, False])
+def test_stream_context_round_trip_is_safe_serializable_exact_and_storage_independent(independent):
+    original = _store(independent=independent)
+    payload = capture_training_state(original)
+    assert payload["version"] == 2
+    output = io.BytesIO()
+    torch.save(payload, output)
+    output.seek(0)
+    loaded = torch.load(output, weights_only=True)
+    restored = restore_training_state(loaded, independent_sequences=independent, device="cpu")
+    before = original.values[original.last_key][2].training_payload()
+    saved = payload["entries"][0]["recurrent"]
+    after = restored.values[restored.last_key][2].training_payload()
+    _assert_exact(before, saved)
+    _assert_exact(before, after)
+    for source, snapshot, resumed in zip(_tensor_leaves(before), _tensor_leaves(saved),
+                                          _tensor_leaves(after), strict=True):
+        assert len({source.data_ptr(), snapshot.data_ptr(), resumed.data_ptr()}) == 3
+        assert not snapshot.requires_grad and not resumed.requires_grad
+        assert snapshot.device.type == resumed.device.type == "cpu"
+    restored.values[restored.last_key][2].graph.graph.positions.fill_(42)
+    assert not torch.equal(after["graph"]["positions"], saved["graph"]["positions"])
+    assert torch.equal(saved["graph"]["positions"], before["graph"]["positions"])
+
+
+def test_stream_context_version_one_and_live_encoder_caches_are_rejected():
+    payload = capture_training_state(_store())
+    payload["version"] = 1
+    with pytest.raises(ValueError, match="version 2"):
+        restore_training_state(payload, independent_sequences=True, device="cpu")
+    store = _store()
+    old = store.values[store.last_key]
+    store.values[store.last_key] = (*old[:2], replace(old[2], encoder=object()), *old[3:])
+    with pytest.raises(ValueError, match="raw-graph ANN"):
+        capture_training_state(store)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("sequence_index", -1), ("sequence_index", True), ("sequence_index", 4),
+    ("sequence_identity", ("another", "synthetic.h5")),
+    ("last_event_id", (0, -1)), ("last_event_id", None),
+    ("origin_seconds", 0.4), ("watermark_seconds", 0.15),
+    ("watermark_seconds", float("nan")), ("contract", "g" * 64),
+    ("schema", "unknown"), ("timestamps", torch.tensor([0.2, 0.1], dtype=torch.float64)),
+    ("node_batch", torch.tensor([0, 1])), ("decoder", torch.zeros(1, 0, 2, 2)),
+    ("decoder", torch.full((1, 4, 2, 2), float("nan"))),
+])
+def test_corrupt_stream_context_rejected_before_transfer(field, value, monkeypatch):
+    payload = capture_training_state(_store())
+    payload["entries"][0]["recurrent"][field] = value
+    def forbidden(*args, **kwargs):
+        pytest.fail("Invalid stream context must fail before device transfer")
+    monkeypatch.setattr(torch.Tensor, "to", forbidden)
+    with pytest.raises((ValueError, TypeError)):
+        restore_training_state(payload, independent_sequences=True, device="cpu")
+
+
+@pytest.mark.parametrize("field,value", [
+    ("node_features", None), ("node_features", torch.tensor(0.0)),
+    ("node_features", torch.zeros(2, 3)),
+    ("node_features", torch.full((2, 4), float("nan"))),
+    ("positions", torch.zeros(2, 4)),
+    ("edge_index", torch.tensor([0, 1])),
+    ("edge_index", torch.tensor([[0, 1], [1, 2**60]])),
+    ("edge_index", torch.tensor([[0, 1], [0, 0]])),
+    ("edge_index", torch.tensor([[0, 1], [-1, 0]])),
+    ("in_degree", torch.tensor([2, 1])),
+    ("in_degree", torch.ones(2)),
+    ("edge_attr", torch.full((2, 1), 1.0, dtype=torch.float64)),
+])
+def test_corrupt_stream_graph_rejected_before_eventgraph_allocation(field, value):
+    payload = capture_training_state(_store())["entries"][0]["recurrent"]
+    payload["graph"][field] = value
+    with pytest.raises((ValueError, TypeError)):
+        restore_stream_training_state(payload)
+
+
+def test_version_two_still_checks_prediction_target_shapes_and_finiteness():
+    for field, value in [("prediction", None), ("target", torch.zeros(1, 1, 15, 16)),
+                          ("target", torch.full((1, 1, 16, 16), float("inf")))]:
+        payload = capture_training_state(_store())
+        payload["entries"][0][field] = value
+        with pytest.raises(ValueError):
+            restore_training_state(payload, independent_sequences=True, device="cpu")
+
+
+def _sample(index=4):
+    return {"events": torch.empty((0, 4), dtype=torch.float64),
+            "event_ids": torch.empty((0, 2), dtype=torch.long),
+            "target": torch.full((1, 16, 16), 0.3), "sensor_size": (16, 16),
+            "sample_id": f"sequence-a/{index}",
+            "metadata": {"sequence_id": "sequence-a", "source_file": "synthetic.h5",
+                         "sequence_index": index}}
+
+
+def test_amp_retry_reuses_unchanged_incoming_stream_and_commits_one_optimizer_step():
+    class SyntheticLossModel(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.weight = nn.Parameter(torch.tensor(0.25))
+            self.register_buffer("calls", torch.zeros((), dtype=torch.long))
+
+        def forward_training_batch(self, samples, states, *, timing=None):
+            self.calls.add_(1)
+            prediction = self.weight.half().float().expand(len(samples), 1, 16, 16)
+            next_state = states[0].clone()
+            next_state.decoder = next_state.decoder + torch.rand_like(next_state.decoder)
+            next_state.sequence_index += 1
+            return prediction, [{"recurrent_state": next_state}]
+
+    store = _store()
+    saved = capture_training_state(store)
+    samples = [_sample()]
+    contexts = store.prepare(samples)
+    model = SyntheticLossModel()
+    optimizer = torch.optim.Adam(model.parameters())
+    scaler = torch.amp.GradScaler("cpu", init_scale=65536.0)
+    attempts = []
+    def criterion(prediction, target):
+        loss = prediction.mean()
+        return loss, {"reconstruction": loss.detach()}
+    def closure():
+        _assert_exact(capture_training_state(store), saved)
+        result = forward_training_loss(model, criterion, samples, contexts, batch_mode=True,
+                                       amp_enabled=False, temporal_weight=0.0)
+        attempts.append(result[2][1][0]["recurrent_state"].training_payload())
+        return result
+    payload, _, _, info = engine._training_step(
+        model, optimizer, scaler, closure, optimizer_mode="adamw", max_norm=1.0,
+        epoch=1, step=0, sample_id="synthetic-stream",
+    )
+    assert info["retries"] == 1
+    assert len(attempts) == 2 and model.calls.item() == 1
+    _assert_exact(attempts[0], attempts[1])
+    _assert_exact(capture_training_state(store), saved)
+    store.commit(samples, *payload)
+    assert store.values[store.last_key][0] == 4
+    assert store.values[store.last_key][2].sequence_index == 4
+    assert int(optimizer.state[model.weight]["step"]) == 1
+
+
+@pytest.mark.parametrize("nonfinite", [False, True])
+def test_evaluation_finite_validation_supports_stream_state_without_tensor_cat(nonfinite):
+    sample = _sample(index=3)
+    bundle = _stream()
+    if nonfinite:
+        bundle.graph.graph.positions[0, 0] = float("nan")
+    def run_forward(samples, contexts, timer):
+        detail = {"recurrent_state": bundle, "nodes": 2, "edges": 2,
+                  "isolated_nodes": 0, "isolate_ratio": 0.0, "max_degree": 1}
+        return samples.targets.clone(), [detail]
+    iterator = evaluation_frames([pack_samples([sample])], [[0]], device=torch.device("cpu"),
+                                 run_forward=run_forward, independent_sequences=True,
+                                 statistics={}, timing_steps=1, timing_warmup=0)
+    if nonfinite:
+        with pytest.raises(FloatingPointError, match="Nonfinite evaluation"):
+            list(iterator)
+    else:
+        rows = list(iterator)
+        assert len(rows) == 1
+        assert isinstance(rows[0][5]["recurrent_state"], StreamingReconstructionState)
+
+
+def test_empty_graph_with_previous_last_id_can_be_restored_after_expiration():
+    payload = capture_training_state(_store())["entries"][0]["recurrent"]
+    payload["graph"] = {"node_features": torch.empty(0, 4),
+                        "positions": torch.empty(0, 4, dtype=torch.float64),
+                        "edge_index": torch.empty(2, 0, dtype=torch.long),
+                        "edge_attr": torch.empty(0, 1, dtype=torch.float64),
+                        "in_degree": torch.empty(0, dtype=torch.long)}
+    payload["timestamps"] = torch.empty(0, dtype=torch.float64)
+    payload["node_batch"] = torch.empty(0, dtype=torch.long)
+    restored = restore_stream_training_state(copy.deepcopy(payload))
+    assert len(restored.graph.timestamps) == 0 and restored.last_event_id == (0, 1)
+~~~~~~~~
+
+# tests/test_stream_diagnostic_guards.py
+
+~~~~~~~~python
+"""Legacy diagnostic boundaries, without external data or device initialization."""
+
+import pytest
+
+from asgcn_unet.diagnostic_graph import build_diagnostic_graph
+from asgcn_unet.graph_preview import _encoder_topology_kind, build_graph_preview
+from asgcn_unet.preflight import _sample_topology
+from asgcn_unet.sample_probe import probe_evaluation_sample
+from asgcn_unet.stream_input import reject_streaming_frame_diagnostic
+from asgcn_unet.topology_scan import _sample_record, scan_evaluation_topology
+from tests.test_stream_preflight import _config
+
+
+@pytest.mark.parametrize("function", [
+    lambda sample, model: build_diagnostic_graph(sample, model, memory_budget_bytes=1024),
+    lambda sample, model: build_graph_preview(sample, model, max_graph_edges=100),
+    lambda sample, model: _sample_topology(sample, model, 0),
+    lambda sample, model: _sample_record(sample, model, 0),
+])
+@pytest.mark.parametrize("model_contract", [True, False])
+def test_static_graph_tools_reject_model_or_sample_contract_before_graph_work(function, model_contract):
+    model = _config()["model"] if model_contract else {}
+    sample = {} if model_contract else {"metadata": {"stream_time": {"schema": "physical_seconds_v1"}}}
+    with pytest.raises(ValueError, match="causal predecessor stream state"):
+        function(sample, model)
+
+
+def test_legacy_topology_kind_unchanged_and_stream_kind_explicitly_refused():
+    for encoder in ("graph", "pointwise", "identity"):
+        assert _encoder_topology_kind({"encoder_kind": encoder}) == (
+            "radius_graph" if encoder == "graph" else "no_graph")
+    with pytest.raises(ValueError, match="v2 static frame"):
+        _encoder_topology_kind(_config()["model"])
+    with pytest.raises(ValueError, match="v2 static frame"):
+        reject_streaming_frame_diagnostic({}, {"event_time_contract": "physical_seconds_v1"})
+
+
+@pytest.mark.parametrize("operation", ["scan", "probe"])
+def test_single_frame_cli_implementation_refuses_before_data_device_or_output(tmp_path, monkeypatch, operation):
+    def forbidden(*args, **kwargs):
+        pytest.fail("Unsupported stream diagnostic must not allocate a device or read data")
+    for module in ("sample_probe", "topology_scan"):
+        monkeypatch.setattr(f"asgcn_unet.{module}.build_dataset", forbidden)
+        monkeypatch.setattr(f"asgcn_unet.{module}.resolve_device", forbidden)
+    with pytest.raises(ValueError, match="causal predecessor stream state"):
+        if operation == "scan":
+            scan_evaluation_topology(_config(), tmp_path / "no-output.json")
+        else:
+            probe_evaluation_sample(_config(), tmp_path / "missing.pt", sample_index=0, max_graph_edges=100)
+    assert list(tmp_path.iterdir()) == []
+~~~~~~~~
+
+# tests/test_stream_encoder.py
+
+~~~~~~~~python
+"""Small synthetic CPU references, not real-data or GPU performance evidence."""
+
+from dataclasses import replace
+
+import pytest
+import torch
+
+from asgcn_unet.graph import ASGCNEncoder, EventGraph
+from asgcn_unet.stream_encoder import StreamEncoderState, update_encoder
+from asgcn_unet.stream_graph import GraphUpdate, StreamGraph
+
+
+@pytest.fixture(autouse=True)
+def synthetic_cpu_threads():
+    prior = torch.get_num_threads()
+    torch.set_num_threads(2)
+    try:
+        yield
+    finally:
+        torch.set_num_threads(prior)
+
+
+def _update(features, pairs, *, old=None, changed=None, batch=None):
+    features = torch.as_tensor(features, dtype=torch.float32).reshape(-1, 4)
+    n = features.shape[0]
+    edge_index = torch.tensor(pairs, dtype=torch.long).reshape(-1, 2).T.contiguous()
+    # Deliberately unsorted edges exercise CSR construction without a sorted
+    # topology assumption. A constant scalar coordinate isolates encoder maths.
+    graph = EventGraph(features, features.clone(), edge_index, torch.full((len(pairs), 1), 0.3))
+    state = StreamGraph(
+        graph, torch.zeros(n, dtype=torch.long) if batch is None else torch.tensor(batch),
+        torch.arange(n, dtype=torch.float64),
+    )
+    return GraphUpdate(
+        state, torch.full((n,), -1, dtype=torch.long) if old is None else torch.tensor(old),
+        torch.ones(n, dtype=torch.bool) if changed is None else torch.tensor(changed),
+    )
+
+
+def _updates():
+    torch.manual_seed(432)
+    x = torch.rand(6, 4)
+    x[:, 3] = torch.tensor([1., -1., 1., -1., 1., -1.])
+    initial = _update(x[:5], [(1, 2), (4, 3), (0, 1), (2, 1), (3, 4), (1, 0)])
+    append = _update(
+        x, [(1, 2), (4, 3), (0, 1), (2, 1), (3, 4), (1, 0), (5, 2), (2, 5)],
+        old=[0, 1, 2, 3, 4, -1], changed=[False, False, True, False, False, True],
+    )
+    expire = _update(
+        x[[0, 2, 3, 4, 5]], [(3, 2), (2, 3), (4, 1), (1, 4)],
+        old=[0, 2, 3, 4, 5], changed=[True, True, False, False, False],
+    )
+    advance = replace(expire, old_indices=torch.arange(5), changed_nodes=torch.zeros(5, dtype=torch.bool))
+    return initial, append, expire, advance
+
+
+def _encoder(calibrated=False, *, full=False, backend="torch"):
+    torch.manual_seed(991)
+    # Reduced channels/depth are confined to this synthetic reference fixture.
+    model = ASGCNEncoder(64 if full else 5, 6 if full else 3, spline_backend=backend).eval()
+    if calibrated:
+        with torch.no_grad():
+            model.reset_activation_maxima()
+            _, activations = model.forward_ann(_updates()[0].state.graph, return_activations=True)
+            model.update_activation_maxima(activations)
+            model.fold_batch_norm()
+            model.apply_parameter_normalization()
+    return model
+
+
+def _copy_fields(state):
+    return {name: tuple(t.clone() for t in getattr(state, name)) for name in (
+        "layer_outputs", "membranes", "previous_spikes", "spike_sums", "local_ticks", "last_pulses"
+    )}
+
+
+def _assert_fields(state, expected):
+    for name, tensors in expected.items():
+        assert len(getattr(state, name)) == len(tensors)
+        for actual, reference in zip(getattr(state, name), tensors, strict=True):
+            torch.testing.assert_close(actual, reference, rtol=1e-5, atol=2e-6)
+
+
+@torch.no_grad()
+def _dense_local_reference(encoder, update, previous, steps, dynamics):
+    """Independent whole-graph affine reference with the SAME local clock rule.
+
+    This slow full-graph implementation is intentionally tests-only. It does
+    not call the production incidence index, partial affine or active frontier.
+    """
+    graph = update.state.graph
+    n = len(update.old_indices)
+    old = update.old_indices
+    keep = old >= 0
+    outputs, membranes, previous_spikes, sums, ticks, last = [], [], [], [], [], []
+    for i, layer in enumerate(encoder.layers):
+        values = {}
+        for name in ("layer_outputs", "membranes", "previous_spikes", "spike_sums", "local_ticks", "last_pulses"):
+            target = torch.zeros(n, dtype=torch.long) if name == "local_ticks" else torch.zeros(n, layer.out_channels)
+            if name == "membranes":
+                target[:] = layer.threshold * 0.5
+            if previous is not None:
+                target[keep] = getattr(previous, name)[i][old[keep]]
+            values[name] = target
+        outputs.append(values["layer_outputs"])
+        membranes.append(values["membranes"])
+        previous_spikes.append(values["previous_spikes"])
+        sums.append(values["spike_sums"])
+        ticks.append(values["local_ticks"])
+        last.append(values["last_pulses"])
+    basis = encoder._basis_cache(graph)
+    source, destination = graph.edge_index
+    for _ in range(steps):
+        pulse = []
+        for i, layer in enumerate(encoder.layers):
+            active = update.changed_nodes.clone()
+            if i == 0:
+                x = graph.node_features
+            else:
+                x = pulse[i - 1]
+                support = x.ne(0).any(1) | last[i - 1].ne(0).any(1)
+                active |= support
+                active[destination[support[source]]] = True
+            # Entire graph/entire node set is deliberately computed here.
+            current = layer.affine(x, graph.edge_index, graph.edge_attr, basis, graph.in_degree)
+            integrated = membranes[i][active] + current[active]
+            if dynamics == "literal_eq15":
+                integrated += previous_spikes[i][active]
+            spike = torch.where(integrated >= layer.threshold, layer.threshold, 0.)
+            membranes[i][active] = integrated - spike
+            previous_spikes[i][active] = spike
+            sums[i][active] += spike
+            ticks[i][active] += 1
+            outputs[i][active] = sums[i][active] / ticks[i][active, None]
+            emitted = torch.zeros(n, layer.out_channels)
+            emitted[active] = spike
+            pulse.append(emitted)
+        last = pulse
+    return StreamEncoderState(
+        update.state, outputs[-1], tuple(outputs), tuple(membranes), tuple(previous_spikes),
+        tuple(sums), tuple(ticks), tuple(last), "snn", dynamics,
+    )
+
+
+@pytest.mark.parametrize("folded", [False, True])
+@pytest.mark.parametrize("backend", ["torch", "torch_fused"])
+def test_ann_incremental_matches_full_snapshot_after_arrival_and_expiry(folded, backend):
+    encoder = _encoder(backend=backend)
+    if folded:
+        encoder.fold_batch_norm()
+    state = None
+    for update in _updates():
+        before = None if state is None else _copy_fields(state)
+        result = update_encoder(encoder, update, state)
+        expected, _ = encoder.forward_ann(update.state.graph)
+        torch.testing.assert_close(result.outputs, expected, rtol=1e-5, atol=1e-6)
+        if before is not None:
+            _assert_fields(state, before)
+        state = result
+    assert state.work["updated_nodes_per_layer"] == [0, 0, 0]
+    assert state.work["message_edges_per_layer"] == [0, 0, 0]
+    assert state.work["topology_indexed_edges"] == 0
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+@pytest.mark.parametrize("steps", [1, 4, 16])
+def test_snn_matches_independent_dense_local_clock_reference(dynamics, steps):
+    encoder = _encoder(calibrated=True)
+    state = reference = None
+    for update in _updates():
+        before = None if state is None else _copy_fields(state)
+        actual = update_encoder(encoder, update, state, mode="snn", simulation_steps=steps, dynamics=dynamics)
+        reference = _dense_local_reference(encoder, update, reference, steps, dynamics)
+        _assert_fields(actual, _copy_fields(reference))
+        if before is not None:
+            _assert_fields(state, before)
+        state = actual
+    assert state.work["global_clock_snapshot_equivalent"] is False
+
+
+@pytest.mark.parametrize("mode", ["ann", "snn"])
+def test_full_six_layer_64_channel_encoder_contract(mode):
+    encoder = _encoder(calibrated=mode == "snn", full=True)
+    assert len(encoder.layers) == 6 and all(layer.out_channels == 64 for layer in encoder.layers)
+    state = update_encoder(encoder, _updates()[0], mode=mode, simulation_steps=4)
+    assert state.outputs.shape == (5, 64)
+    assert len(state.layer_outputs) == 6
+    assert all(torch.isfinite(value).all() for value in state.layer_outputs)
+
+
+def test_ann_only_affected_incidence_is_projected(monkeypatch):
+    encoder = _encoder()
+    initial, append, *_ = _updates()
+    state = update_encoder(encoder, initial)
+    # Neither global encoder nor global layer affine may be an incremental path.
+    def forbidden(*args, **kwargs):
+        raise AssertionError("full-graph affine is not an incremental implementation")
+    monkeypatch.setattr(encoder, "forward_ann", forbidden)
+    for layer in encoder.layers:
+        monkeypatch.setattr(layer, "affine", forbidden)
+    result = update_encoder(encoder, append, state)
+    assert result.work["message_edges_per_layer"][0] == 3
+    assert result.work["message_edges_per_layer"][0] < append.state.graph.edge_index.shape[1]
+    assert result.work["projected_sources_per_layer"][0] == 3
+    for before, after in zip(state.layer_outputs, result.layer_outputs, strict=True):
+        torch.testing.assert_close(after[3:5], before[3:5], rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+def test_zero_source_edges_keep_full_degree_and_bias_root_and_pulse_end(dynamics):
+    encoder = _encoder(calibrated=True)
+    # Synthetic explicit weights exercise one persistent pulse and one zero source.
+    with torch.no_grad():
+        for layer in encoder.layers:
+            layer.weight.fill_(0.1)
+            layer.root.fill_(0.05)
+            layer.bias.fill_(0.2)
+            layer.threshold.fill_(1.)
+    initial = _update([[1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]], [(0, 2), (1, 2)])
+    state = update_encoder(encoder, initial, mode="snn", simulation_steps=1, dynamics=dynamics)
+    # Expire the zero-source edge without changing node count; degree changes 2->1.
+    changed = _update(initial.state.graph.node_features, [(0, 2)], old=[0, 1, 2], changed=[False, True, True])
+    expected = _dense_local_reference(encoder, changed, state, 4, dynamics)
+    actual = update_encoder(encoder, changed, state, mode="snn", simulation_steps=4, dynamics=dynamics)
+    _assert_fields(actual, _copy_fields(expected))
+    advance = replace(changed, changed_nodes=torch.zeros(3, dtype=torch.bool))
+    expected = _dense_local_reference(encoder, advance, actual, 1, dynamics)
+    result = update_encoder(encoder, advance, actual, mode="snn", simulation_steps=1, dynamics=dynamics)
+    _assert_fields(result, _copy_fields(expected))
+    assert torch.equal(result.local_ticks[0], actual.local_ticks[0])
+    assert torch.count_nonzero(result.last_pulses[0]) == 0
+
+
+@pytest.mark.parametrize("mode", ["ann", "snn"])
+def test_packed_disjoint_streams_match_separate_updates(mode):
+    encoder = _encoder(calibrated=mode == "snn")
+    features = torch.tensor([[0.3, 0.2, 0.1, 1.], [0.4, 0.1, 0.2, -1.]])
+    single = _update(features, [(0, 1), (1, 0)])
+    packed = _update(torch.cat((features, features)), [(0, 1), (3, 2), (1, 0), (2, 3)], batch=[0, 0, 1, 1])
+    one = update_encoder(encoder, single, mode=mode, simulation_steps=4)
+    two = update_encoder(encoder, packed, mode=mode, simulation_steps=4)
+    for name, values in _copy_fields(one).items():
+        for expected, actual in zip(values, getattr(two, name), strict=True):
+            torch.testing.assert_close(actual, torch.cat((expected, expected)), rtol=1e-5, atol=2e-6)
+
+
+@pytest.mark.parametrize("mode", ["ann", "snn"])
+def test_all_nodes_expire_and_rearrival_resets_only_new_neurons(mode):
+    encoder = _encoder(calibrated=mode == "snn")
+    state = update_encoder(encoder, _updates()[0], mode=mode, simulation_steps=4)
+    empty = _update([], [], old=[], changed=[])
+    # Empty list's inferred dtype is not the index contract.
+    empty = replace(empty, old_indices=torch.empty(0, dtype=torch.long), changed_nodes=torch.empty(0, dtype=torch.bool))
+    removed = update_encoder(encoder, empty, state, mode=mode, simulation_steps=4)
+    assert removed.outputs.shape == (0, 5)
+    fresh = update_encoder(encoder, _updates()[0], removed, mode=mode, simulation_steps=4)
+    reference = update_encoder(encoder, _updates()[0], mode=mode, simulation_steps=4)
+    _assert_fields(fresh, _copy_fields(reference))
+
+
+def test_retry_same_previous_is_deterministic_without_mutation():
+    encoder = _encoder(calibrated=True)
+    initial, append, *_ = _updates()
+    state = update_encoder(encoder, initial, mode="snn", simulation_steps=4)
+    saved = _copy_fields(state)
+    a = update_encoder(encoder, append, state, mode="snn", simulation_steps=4)
+    b = update_encoder(encoder, append, state, mode="snn", simulation_steps=4)
+    _assert_fields(a, _copy_fields(b))
+    _assert_fields(state, saved)
+
+
+@pytest.mark.parametrize("mode", ["ann", "snn"])
+def test_cpu_autocast_transition_is_finite_and_preserves_previous_state(mode):
+    encoder = _encoder(calibrated=mode == "snn")
+    initial, append, *_ = _updates()
+    state = update_encoder(encoder, initial, mode=mode, simulation_steps=4)
+    saved = _copy_fields(state)
+    with torch.autocast("cpu", dtype=torch.bfloat16):
+        first = update_encoder(encoder, append, state, mode=mode, simulation_steps=4)
+        retry = update_encoder(encoder, append, state, mode=mode, simulation_steps=4)
+    assert torch.isfinite(first.outputs).all()
+    _assert_fields(first, _copy_fields(retry))
+    _assert_fields(state, saved)
+
+
+def test_explicit_contract_failures():
+    update = _updates()[0]
+    with pytest.raises(ValueError, match="eval-only"):
+        update_encoder(_encoder().train(), update)
+    with pytest.raises(RuntimeError, match="calibrated"):
+        update_encoder(_encoder(), update, mode="snn")
+    with pytest.raises(ValueError, match="positive integer"):
+        update_encoder(_encoder(), update, simulation_steps=True)
+    with pytest.raises(ValueError, match="every arriving"):
+        update_encoder(_encoder(), replace(update, changed_nodes=torch.zeros(5, dtype=torch.bool)))
+    with pytest.raises(ValueError, match="require previous"):
+        update_encoder(_encoder(), replace(update, old_indices=torch.arange(5)))
+    encoder = _encoder(calibrated=True)
+    state = update_encoder(encoder, update, mode="snn")
+    with pytest.raises(ValueError, match="mode/dynamics"):
+        update_encoder(encoder, _updates()[1], state, mode="snn", dynamics="standard_if")
+~~~~~~~~
+
+# tests/test_stream_engine.py
+
+~~~~~~~~python
+"""Synthetic CPU integration only; no production configuration or GPU run."""
+
+from __future__ import annotations
+
+import copy
+from pathlib import Path
+
+import pytest
+import torch
+from torch.utils.data import DataLoader
+
+from asgcn_unet import engine
+from asgcn_unet.batching import pack_samples
+from asgcn_unet.model import ASGCNUNet
+from tests.test_stream_preflight import SyntheticStreams
+from tests.test_stream_preflight import _config as stream_config
+from tests.test_training_batch import _config as fixture_config
+
+
+@pytest.fixture(autouse=True)
+def cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def test_stream_train_checkpoint_calibrate_evaluate_benchmark_cpu_smoke(tmp_path):
+    config = fixture_config(tmp_path, batch_size=2)
+    config["model"].update({
+        "architecture_version": 3, "graph_execution": "event_driven", "graph_layers": 2,
+        "stream_config": {**stream_config()["model"]["stream_config"],
+                          "window_seconds": 0.004, "time_scale_seconds": 0.01},
+    })
+    config["dataset"].update({
+        "max_events": None, "event_time_contract": "physical_seconds_v1",
+        "timestamp_scale_to_seconds": 1.0, "interval_timestamp_scale_to_seconds": 1.0,
+    })
+    config["train"]["validation_context_frames"] = None
+    config["train"]["validation"] = {"batch_size": 2, "num_workers": 0}
+    ann = engine.train(config)
+    assert ann == Path(config["output"]["run_dir"]) / "best.pt"
+    loaded, metadata = engine.load_model_checkpoint(ann, torch.device("cpu"), config["model"])
+    assert loaded.graph_execution == "event_driven" and loaded.architecture_version == 3
+    assert metadata["checkpoint_type"] == "ann_inference" and metadata["epoch"] == 1
+    config["calibration"] = {"batch_size": 2, "num_workers": 0, "persistent_workers": False}
+    snn = tmp_path / "synthetic-stream-snn.pt"
+    engine.calibrate(config, ann, snn, allow_unsealed_calibration=True)
+    _, converted = engine.load_model_checkpoint(snn, torch.device("cpu"), config["model"])
+    assert converted["snn_calibration_samples"] == 7
+    evaluation = copy.deepcopy(config)
+    evaluation["dataset"]["root"] = evaluation["dataset"].pop("val_root")
+    evaluation["dataset"].pop("split_manifest")
+    evaluation["eval"] = {
+        "batch_size": 2, "num_workers": 0, "max_samples": None, "save_predictions": 1,
+        "precision": "fp32", "tf32": False, "recurrent_context_frames": None,
+        "output_dir": str(tmp_path / "synthetic-stream-eval"),
+    }
+    for checkpoint, mode in ((ann, "ann"), (snn, "snn")):
+        quality = engine.evaluate(evaluation, checkpoint, inference_mode=mode, simulation_steps=4,
+                                  allow_unsealed_checkpoint_for_non_reporting=True)
+        assert quality["quality"]["frames"] == 2 and quality["report_eligible"] is False
+        assert quality["performance"]["stream_execution"]["frames"] == 2
+        timing = engine.benchmark(evaluation, checkpoint, inference_mode=mode, simulation_steps=4,
+                                  warmup=0, steps=2, allow_unsealed_checkpoint_for_non_reporting=True)
+        assert timing["frames"] == 2 and timing["report_eligible"] is False
+        assert timing["recurrent_context_policy"] == "full_group_prefix"
+        assert timing["stream_execution"]["frames"] == 2
+        assert timing["stream_execution"]["arrival_updates"] > 0
+
+
+def test_validation_auto_profile_reconstructs_full_prefix_and_preserves_live_state(monkeypatch):
+    dataset = SyntheticStreams(frames=3)
+    model = ASGCNUNet(**stream_config()["model"]).eval()
+    loader = DataLoader(dataset, batch_size=1, collate_fn=list)
+    seen = []
+
+    def profile(data, net, device, *, run_batch, **kwargs):
+        targets = pack_samples([data[2], data[5]])
+        predictions, diagnostics = run_batch(targets)
+        assert predictions.shape == (2, 1, 16, 16)
+        assert all(detail["recurrent_state"].sequence_index == 2 for detail in diagnostics)
+        seen.append(run_batch.report)
+        return {"batch_size": 2, "num_workers": 0, "report": {}}
+
+    monkeypatch.setattr(engine, "profile_inference_batches", profile)
+    result = engine.validate(model, loader, torch.device("cpu"),
+                             batching_section={"batch_size": "auto", "num_workers": 0})
+    assert result["frames"] == 6
+    report = result["execution"]["batch_profile"]
+    assert report["stream_bootstrap"] == seen[0]
+    assert report["stream_bootstrap"]["full_prefix_frames"] == 4
+    assert report["stream_bootstrap"]["steady_state_throughput"] is False
+
+
+@pytest.mark.parametrize("gate", [None, {"schema": "asgcn_preflight_verification_v1"},
+                                 {"status": "bypassed", "report_eligible": False}])
+def test_direct_cuda_training_rejects_missing_or_static_preflight_before_output(tmp_path, monkeypatch, gate):
+    config = stream_config()
+    config["device"] = "cuda"
+    config["preflight_gate"] = gate
+    config["output"]["run_dir"] = str(tmp_path / "must-not-be-created")
+    monkeypatch.setattr(engine, "resolve_device", lambda value: torch.device("cuda"))
+    with pytest.raises(ValueError, match="verified stateful physical-batch preflight"):
+        engine._train(config, None, None, 60.0)
+    assert not Path(config["output"]["run_dir"]).exists()
+~~~~~~~~
+
+# tests/test_stream_graph.py
+
+~~~~~~~~python
+"""CPU synthetic topology tests; these are not reconstruction quality results."""
+
+from __future__ import annotations
+
+import pytest
+import torch
+
+from asgcn_unet.stream_graph import StreamGraph, evolve_stream_graph
+
+
+def _arrival(points, times=None, batches=None, *, requires_grad=False):
+    positions = torch.as_tensor(points, dtype=torch.float64).reshape(-1, 4)
+    features = positions.float().clone().requires_grad_(requires_grad)
+    count = positions.shape[0]
+    timestamps = torch.tensor(times if times is not None else [0.0] * count, dtype=torch.float64)
+    node_batch = torch.tensor(batches if batches is not None else [0] * count, dtype=torch.long)
+    return features, positions, timestamps, node_batch
+
+
+def _evolve(previous, points, times=None, batches=None, *, cutoffs=(-1.0,), radius=1.0,
+            max_graph_edges=None, chunk_size=2, position_dims=3):
+    return evolve_stream_graph(
+        previous, *_arrival(points, times, batches), torch.tensor(cutoffs, dtype=torch.float64),
+        radius=radius, max_graph_edges=max_graph_edges, chunk_size=chunk_size,
+        position_dims=position_dims,
+    )
+
+
+def _reference(state: StreamGraph, radius: float, position_dims: int = 3):
+    graph = state.graph
+    coordinates = graph.positions[:, :position_dims].double()
+    distances = torch.linalg.vector_norm(
+        (coordinates[:, None] - coordinates[None, :]) / radius, dim=-1,
+    )
+    valid = (distances < 1.0) & (state.node_batch[:, None] == state.node_batch[None, :])
+    valid.fill_diagonal_(False)
+    edges = torch.nonzero(valid, as_tuple=False).T
+    return edges, distances[valid].to(graph.positions.dtype).unsqueeze(1)
+
+
+def _assert_reference(state, radius=1.0, position_dims=3):
+    graph = state.graph
+    expected, attr = _reference(state, radius, position_dims)
+    count = graph.node_features.shape[0]
+    order = torch.argsort(graph.edge_index[0] * count + graph.edge_index[1])
+    torch.testing.assert_close(graph.edge_index[:, order], expected)
+    torch.testing.assert_close(graph.edge_attr[order], attr, rtol=0, atol=0)
+    torch.testing.assert_close(graph.in_degree, torch.bincount(expected[1], minlength=count))
+
+
+def _snapshot(state):
+    return [value.clone() for value in (
+        state.graph.node_features, state.graph.positions, state.graph.edge_index,
+        state.graph.edge_attr, state.graph.in_degree, state.node_batch, state.timestamps,
+    )]
+
+
+def _assert_unchanged(state, snapshot):
+    for actual, expected in zip((
+        state.graph.node_features, state.graph.positions, state.graph.edge_index,
+        state.graph.edge_attr, state.graph.in_degree, state.node_batch, state.timestamps,
+    ), snapshot, strict=True):
+        torch.testing.assert_close(actual, expected)
+
+
+@pytest.mark.parametrize("chunk_size", [1, 2, 512])
+def test_append_reuses_old_edges_and_remaps_cache_indices(chunk_size):
+    first = _evolve(None, [[0, 0, 0, 0], [0.25, 0, 0, 0], [4, 0, 0, 0]])
+    snapshot = _snapshot(first.state)
+    second = _evolve(first.state, [[0.5, 0, 0, 0], [5, 0, 0, 0]], chunk_size=chunk_size)
+    _assert_reference(second.state)
+    _assert_unchanged(first.state, snapshot)
+    torch.testing.assert_close(second.old_indices, torch.tensor([0, 1, 2, -1, -1]))
+    torch.testing.assert_close(second.changed_nodes, torch.tensor([True, True, False, True, True]))
+    old_edges = first.state.graph.edge_index.shape[1]
+    torch.testing.assert_close(second.state.graph.edge_index[:, :old_edges], first.state.graph.edge_index)
+    torch.testing.assert_close(second.state.graph.edge_attr[:old_edges], first.state.graph.edge_attr)
+
+
+def test_expiration_marks_lost_neighbors_and_keeps_cutoff_ties():
+    first = _evolve(None, [[0, 0, 0, 0], [0.2, 0, 0, 0], [4, 0, 0, 0]], [0, 1, 1])
+    update = _evolve(first.state, [], cutoffs=(1.0,))
+    torch.testing.assert_close(update.old_indices, torch.tensor([1, 2]))
+    torch.testing.assert_close(update.changed_nodes, torch.tensor([True, False]))
+    torch.testing.assert_close(update.state.timestamps, torch.tensor([1.0, 1.0], dtype=torch.float64))
+    _assert_reference(update.state)
+
+
+def test_neighbor_replacement_marks_changed_even_when_degree_is_unchanged():
+    first = _evolve(None, [[0, 0, 0, 0], [0.5, 0, 0, 0]], [0, 1])
+    update = _evolve(first.state, [[1, 0, 0, 0]], [2], cutoffs=(1.0,))
+    torch.testing.assert_close(update.state.graph.in_degree, torch.tensor([1, 1]))
+    assert bool(update.changed_nodes.all())
+    _assert_reference(update.state)
+
+
+def test_no_arrivals_does_not_query_cells(monkeypatch):
+    first = _evolve(None, [[0, 0, 0, 0], [0.5, 0, 0, 0]])
+    def forbidden(*args, **kwargs):
+        raise AssertionError("No cell query is needed without arrivals")
+    monkeypatch.setattr("asgcn_unet.stream_graph._occupied_cells", forbidden)
+    update = _evolve(first.state, [])
+    assert not bool(update.changed_nodes.any())
+    _assert_reference(update.state)
+
+
+def test_only_arrivals_issue_queries_and_full_graph_builder_is_never_used(monkeypatch):
+    first = _evolve(None, [[float(i) / 20, 0, 0, 0] for i in range(20)])
+    from asgcn_unet import stream_graph
+    lookup = stream_graph._cell_lookup
+    queried = []
+    def record(rows, queries):
+        queried.append(queries.shape[0])
+        return lookup(rows, queries)
+    def forbidden(*args, **kwargs):
+        raise AssertionError("A stream update must not rebuild a full radius graph")
+    monkeypatch.setattr(stream_graph, "_cell_lookup", record)
+    monkeypatch.setattr("asgcn_unet.graph.build_radius_graph", forbidden)
+    monkeypatch.setattr("asgcn_unet.graph.build_event_graph", forbidden)
+    update = _evolve(first.state, [[0.7, 0, 0, 0], [0.9, 0, 0, 0]])
+    assert sum(queried) == 2 * 27
+    _assert_reference(update.state)
+
+
+@pytest.mark.parametrize("position_dims", [1, 2, 3, 4])
+def test_reference_for_all_supported_position_dimensions(position_dims):
+    points = [[-2, 0, 0, 0], [-1.8, 0.2, 0.2, 1], [-1.7, 0.2, 0.2, 0]]
+    update = _evolve(None, points, position_dims=position_dims)
+    _assert_reference(update.state, position_dims=position_dims)
+
+
+def test_coincident_zero_feature_nodes_have_topological_degree():
+    update = _evolve(None, [[0, 0, 0, 0]] * 4)
+    assert not bool(update.state.graph.node_features.any())
+    torch.testing.assert_close(update.state.graph.in_degree, torch.full((4,), 3))
+    assert update.state.graph.edge_index.shape == (2, 12)
+    assert not bool(update.state.graph.edge_attr.any())
+    _assert_reference(update.state)
+
+
+def test_independent_batches_and_permutation():
+    points = [[0, 0, 0, 0], [0.25, 0, 0, 0], [0, 0, 0, 0], [0.25, 0, 0, 0]]
+    original = _evolve(None, points, batches=[0, 0, 1, 1], cutoffs=(-1.0, -1.0))
+    permutation = [3, 0, 2, 1]
+    shuffled = _evolve(None, [points[i] for i in permutation], batches=[1, 0, 1, 0],
+                       cutoffs=(-1.0, -1.0))
+    _assert_reference(original.state)
+    _assert_reference(shuffled.state)
+    assert original.state.graph.edge_index.shape == shuffled.state.graph.edge_index.shape == (2, 4)
+    torch.testing.assert_close(shuffled.state.graph.in_degree, torch.ones(4, dtype=torch.long))
+
+
+def test_per_batch_cutoffs_and_already_expired_arrivals():
+    first = _evolve(None, [[0, 0, 0, 0]] * 4, [0, 1, 0, 1], [0, 0, 1, 1],
+                    cutoffs=(-1.0, -1.0))
+    update = _evolve(first.state, [[0, 0, 0, 0]] * 3, [0, 2, 1], [0, 0, 1],
+                     cutoffs=(1.0, 2.0))
+    torch.testing.assert_close(update.old_indices, torch.tensor([1, -1]))
+    torch.testing.assert_close(update.state.node_batch, torch.zeros(2, dtype=torch.long))
+    torch.testing.assert_close(update.state.timestamps, torch.tensor([1.0, 2.0], dtype=torch.float64))
+    _assert_reference(update.state)
+
+
+@pytest.mark.parametrize("previous_nonempty", [False, True])
+def test_empty_and_all_expired_states(previous_nonempty):
+    first = _evolve(None, [[0, 0, 0, 0]] if previous_nonempty else [])
+    update = _evolve(first.state, [], cutoffs=(1.0,))
+    assert update.state.graph.node_features.shape == (0, 4)
+    assert update.state.graph.edge_index.shape == (2, 0)
+    assert update.state.graph.edge_attr.shape == (0, 1)
+    assert update.old_indices.numel() == update.changed_nodes.numel() == 0
+    again = _evolve(update.state, [[0, 0, 0, 0]], [2], cutoffs=(1.0,))
+    assert again.old_indices.tolist() == [-1]
+    _assert_reference(again.state)
+
+
+def test_exact_radius_boundary_excludes_equal_distance():
+    inside = torch.nextafter(torch.tensor(1.0, dtype=torch.float64), torch.tensor(0.0)).item()
+    outside = torch.nextafter(torch.tensor(1.0, dtype=torch.float64), torch.tensor(2.0)).item()
+    update = _evolve(None, [[0, 0, 0, 0], [inside, 0, 0, 0], [1, 0, 0, 0], [outside, 0, 0, 0]])
+    _assert_reference(update.state)
+    neighbors = set(update.state.graph.edge_index[1, update.state.graph.edge_index[0] == 0].tolist())
+    assert neighbors == {1}
+
+
+def test_negative_large_absolute_coordinates_have_no_hash_alias():
+    update = _evolve(None, [[-1e15, -2, -1e12, 0], [-1e15 + 0.5, -2, -1e12, 0],
+                           [1e15, 4, 1e12, 0], [1e15 + 0.5, 4, 1e12, 0]],
+                     batches=[0, 0, 1, 1], cutoffs=(-1.0, -1.0))
+    _assert_reference(update.state)
+    assert update.state.graph.edge_index.shape[1] == 4
+
+
+def test_numeric_address_overflow_fails_explicitly():
+    with pytest.raises(ValueError, match="float64 cell addressing"):
+        _evolve(None, [[-1e20, 0, 0, 0], [1e20, 0, 0, 0]])
+
+
+def test_large_finite_distance_does_not_overflow_during_radius_filter():
+    positions = torch.tensor([[0, 0, 0, 0], [1e200, 0, 0, 0]], dtype=torch.float64)
+    update = evolve_stream_graph(
+        None, torch.zeros((2, 4)), positions, torch.zeros(2, dtype=torch.float64),
+        torch.zeros(2, dtype=torch.long), torch.tensor([-1.0], dtype=torch.float64),
+        radius=2e200, max_graph_edges=None,
+    )
+    _assert_reference(update.state, 2e200)
+    assert update.state.graph.edge_index.shape[1] == 2
+
+
+def test_guard_is_per_stream_and_failure_does_not_mutate_previous():
+    first = _evolve(None, [[0, 0, 0, 0], [0.2, 0, 0, 0]], max_graph_edges=2)
+    before = _snapshot(first.state)
+    with pytest.raises(RuntimeError, match="max_graph_edges=2"):
+        _evolve(first.state, [[0.4, 0, 0, 0]], max_graph_edges=2)
+    _assert_unchanged(first.state, before)
+    update = _evolve(None, [[0, 0, 0, 0]] * 4, batches=[0, 0, 1, 1],
+                     cutoffs=(-1.0, -1.0), max_graph_edges=2)
+    assert update.state.graph.edge_index.shape[1] == 4
+    with pytest.raises(RuntimeError, match="max_graph_edges=1"):
+        _evolve(first.state, [], max_graph_edges=1)
+
+
+def test_feature_gradients_flow_through_retention_and_append():
+    first_values = _arrival([[0, 0, 0, 0], [0.5, 0, 0, 0]], [0, 1], requires_grad=True)
+    first = evolve_stream_graph(None, *first_values, torch.tensor([-1.0], dtype=torch.float64),
+                                radius=1.0, max_graph_edges=None)
+    second_values = _arrival([[0.75, 0, 0, 0]], [2], requires_grad=True)
+    second = evolve_stream_graph(first.state, *second_values, torch.tensor([1.0], dtype=torch.float64),
+                                 radius=1.0, max_graph_edges=None)
+    second.state.graph.node_features.sum().backward()
+    torch.testing.assert_close(first_values[0].grad, torch.tensor([[0.] * 4, [1.] * 4]))
+    torch.testing.assert_close(second_values[0].grad, torch.ones((1, 4)))
+
+
+def test_multiple_updates_match_brute_force_with_mixed_expiration():
+    generator = torch.Generator().manual_seed(20260910)
+    state = None
+    for step in range(6):
+        positions = torch.rand((11, 4), generator=generator, dtype=torch.float64) * 6 - 3
+        features = positions.float()
+        batches = torch.randint(0, 3, (11,), generator=generator)
+        times = torch.full((11,), float(step), dtype=torch.float64)
+        update = evolve_stream_graph(
+            state, features, positions, times, batches,
+            torch.tensor([step - 2.0, step - 1.0, step], dtype=torch.float64),
+            radius=1.75, max_graph_edges=None, chunk_size=3,
+        )
+        _assert_reference(update.state, 1.75)
+        state = update.state
+
+
+@pytest.mark.parametrize("keyword,value,message", [
+    ("radius", 0, "radius"), ("radius", float("nan"), "radius"),
+    ("position_dims", 0, "position_dims"), ("position_dims", True, "position_dims"),
+    ("chunk_size", 0, "chunk_size"), ("max_graph_edges", 0, "max_graph_edges"),
+])
+def test_invalid_configuration_is_not_silently_repaired(keyword, value, message):
+    with pytest.raises(ValueError, match=message):
+        _evolve(None, [], **{keyword: value})
+
+
+def test_invalid_node_identity_or_nonfinite_input_is_rejected():
+    with pytest.raises(ValueError, match="valid batch"):
+        _evolve(None, [[0, 0, 0, 0]], batches=[1])
+    with pytest.raises(ValueError, match="finite"):
+        _evolve(None, [[float("nan"), 0, 0, 0]])
+    with pytest.raises(ValueError, match="float64"):
+        values = _arrival([])
+        evolve_stream_graph(None, *values, torch.tensor([-1.0]), radius=1.0, max_graph_edges=None)
+~~~~~~~~
+
+# tests/test_stream_inference_profile.py
+
+~~~~~~~~python
+"""CPU synthetic bootstrap tests; none of these values are experiment results."""
+
+from __future__ import annotations
+
+import copy
+
+import pytest
+import torch
+from torch.utils.data import Subset
+
+from asgcn_unet.batching import pack_samples, sequence_key
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.stream_inference_profile import make_stream_profile_callback
+from tests.test_stream_preflight import SyntheticStreams, _config
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _model(recurrent=True):
+    values = _config()["model"]
+    values["recurrent"] = recurrent
+    torch.manual_seed(20260910)
+    return ASGCNUNet(**values).eval()
+
+
+def _runner(model, calls):
+    def run_forward(packed, contexts, timing=None):
+        assert timing is None
+        calls.append({
+            "ids": [(sequence_key(sample), sample["metadata"]["sequence_index"]) for sample in packed],
+            "contexts": [None if value[0] is None else (value[0].sequence_identity, value[0].sequence_index)
+                         for value in contexts],
+            "shape": packed.sensor_size,
+        })
+        return model.forward_batch(packed, [value[0] for value in contexts], inference_mode="ann")
+    return run_forward
+
+
+def _reference(model, dataset, target):
+    key = sequence_key(dataset[target])
+    previous = None
+    with torch.inference_mode():
+        for index in range(target + 1):
+            sample = dataset[index]
+            if sequence_key(sample) != key:
+                continue
+            prediction, diagnostics = model.forward_batch(pack_samples([sample]), [previous], inference_mode="ann")
+            previous = diagnostics[0]["recurrent_state"]
+    return prediction, previous
+
+
+def test_nonconsecutive_targets_bootstrap_every_predecessor_in_packed_waves():
+    dataset = SyntheticStreams(frames=4)
+    model = _model()
+    calls = []
+    callback = make_stream_profile_callback(dataset, "cpu", _runner(model, calls))
+    prediction, diagnostics = callback(pack_samples([dataset[3], dataset[7]]))
+    assert len(calls) == 4
+    assert all(len(call["ids"]) == 2 for call in calls)
+    assert [call["ids"][0][1] for call in calls] == [0, 1, 2, 3]
+    assert callback.last_report["full_prefix_frames"] == 6
+    assert callback.last_report["prefix_batches"] == 3
+    assert callback.last_report["peak_live_states"] == 2
+    assert callback.report["bootstrap_included_in_timing"] is True
+    assert callback.report["steady_state_throughput"] is False
+    assert prediction.shape == (2, 1, 16, 16)
+    assert all(detail["recurrent_state"].sequence_index == 3 for detail in diagnostics)
+    for call in calls[1:]:
+        for (identity, frame), context in zip(call["ids"], call["contexts"], strict=True):
+            assert context == (identity, frame - 1)
+
+
+def test_unequal_prefix_lengths_keep_each_sequence_state_separate_and_match_reference():
+    dataset = SyntheticStreams(frames=4)
+    model = _model()
+    calls = []
+    callback = make_stream_profile_callback(dataset, "cpu", _runner(model, calls))
+    prediction, _ = callback(pack_samples([dataset[1], dataset[7]]))
+    assert [len(call["ids"]) for call in calls] == [2, 1, 1, 2]
+    assert callback.last_report["full_prefix_frames"] == 4
+    assert calls[-1]["contexts"][0][1] == 0
+    assert calls[-1]["contexts"][1][1] == 2
+    first, _ = _reference(model, dataset, 1)
+    second, _ = _reference(model, dataset, 7)
+    torch.testing.assert_close(prediction, torch.cat((first, second)), rtol=1e-5, atol=1e-6)
+
+
+def test_each_callback_starts_fresh_and_report_contains_no_tensor_state():
+    dataset = SyntheticStreams()
+    calls = []
+    callback = make_stream_profile_callback(dataset, torch.device("cpu"), _runner(_model(), calls))
+    targets = pack_samples([dataset[2], dataset[5]])
+    first, _ = callback(targets)
+    split = len(calls)
+    second, _ = callback(targets)
+    torch.testing.assert_close(first, second, rtol=0, atol=0)
+    assert calls[0]["contexts"] == calls[split]["contexts"] == [None, None]
+    assert callback.report["calls"] == 2
+    assert callback.report["full_prefix_frames"] == 8
+    assert callback.report["state_reused_between_calls"] is False
+    saved = callback.last_report
+    saved["target_indices"][0] = -100
+    assert callback.last_report["target_indices"] == [2, 5]
+    def check_no_tensor(value):
+        assert not isinstance(value, torch.Tensor)
+        if isinstance(value, dict):
+            for item in value.values():
+                check_no_tensor(item)
+        elif isinstance(value, list):
+            for item in value:
+                check_no_tensor(item)
+    check_no_tensor(callback.report)
+
+
+@pytest.mark.parametrize("indices", [[0, 2], [1], [0, 1, 3, 5]])
+def test_subset_missing_any_required_prefix_fails_before_model_calls(indices):
+    dataset = Subset(SyntheticStreams(), indices)
+    with pytest.raises(ValueError, match="missing required full-sequence prefix"):
+        make_stream_profile_callback(dataset, "cpu", lambda *args, **kwargs: pytest.fail("no model call"))
+
+
+def test_nested_complete_subset_maps_targets_to_original_prefix():
+    base = SyntheticStreams(frames=4)
+    dataset = Subset(Subset(base, [0, 1, 2, 4, 5, 6]), [0, 1, 3, 4])
+    calls = []
+    callback = make_stream_profile_callback(dataset, "cpu", _runner(_model(), calls))
+    callback(pack_samples([dataset[1], dataset[3]]))
+    assert callback.last_report["target_indices"] == [1, 3]
+    assert callback.last_report["full_prefix_frames"] == 2
+    assert [call["ids"][0][1] for call in calls] == [0, 1]
+
+
+@pytest.mark.parametrize("indices", [[0, 0], [-1], [6], [True]])
+def test_invalid_subset_index_mapping_is_rejected(indices):
+    with pytest.raises(ValueError, match="indices"):
+        make_stream_profile_callback(Subset(SyntheticStreams(), indices), "cpu", lambda *args: None)
+
+
+def test_target_batch_rejects_dependent_or_unknown_sequence_frames():
+    dataset = SyntheticStreams()
+    calls = []
+    callback = make_stream_profile_callback(dataset, "cpu", _runner(_model(), calls))
+    with pytest.raises(ValueError, match="duplicate/dependent"):
+        callback(pack_samples([dataset[0], dataset[1]]))
+    unknown = dataset[0]
+    unknown["metadata"]["sequence_id"] = "outside-dataset"
+    with pytest.raises(ValueError, match="not in"):
+        callback(pack_samples([unknown]))
+    assert calls == []
+
+
+def test_decoder_recurrence_disabled_still_preserves_stream_graph_state():
+    dataset = SyntheticStreams()
+    calls = []
+    callback = make_stream_profile_callback(dataset, "cpu", _runner(_model(recurrent=False), calls))
+    _, diagnostics = callback(pack_samples([dataset[2], dataset[5]]))
+    assert all(call["contexts"][0] is not None for call in calls[1:])
+    assert all(detail["recurrent_state"].decoder is None for detail in diagnostics)
+    assert all(len(detail["recurrent_state"].graph.timestamps) > 0 for detail in diagnostics)
+
+
+def test_shape_changes_are_explicit_state_resets_without_mixing_shapes():
+    dataset = SyntheticStreams(frames=3)
+    dataset.samples[0]["sensor_size"] = (12, 12)
+    original_getitem = dataset.__class__.__getitem__
+    class Shapes(SyntheticStreams):
+        def __getitem__(self, index):
+            sample = original_getitem(self, index)
+            size = tuple(self.samples[index]["sensor_size"])
+            sample["sensor_size"] = size
+            sample["target"] = torch.full((1, *size), 0.25)
+            return sample
+    shaped = Shapes()
+    shaped.samples = copy.deepcopy(dataset.samples)
+    calls = []
+    callback = make_stream_profile_callback(shaped, "cpu", _runner(_model(), calls))
+    callback(pack_samples([shaped[2], shaped[5]]))
+    assert callback.last_report["shape_change_state_resets"] == 1
+    lane = (("synthetic-0", ""), 1)
+    next_call = next(call for call in calls if lane in call["ids"])
+    assert next_call["contexts"][next_call["ids"].index(lane)] is None
+    assert {call["shape"] for call in calls} == {(12, 12), (16, 16)}
+
+
+def test_original_source_frame_holes_are_not_treated_as_complete_prefix():
+    dataset = SyntheticStreams()
+    dataset.samples[1]["sequence_index"] = 3
+    with pytest.raises(ValueError, match="incomplete or unordered"):
+        make_stream_profile_callback(dataset, "cpu", lambda *args: None)
+
+
+def test_callback_does_not_mutate_target_samples_or_model_weights():
+    dataset = SyntheticStreams()
+    model = _model()
+    callback = make_stream_profile_callback(dataset, "cpu", _runner(model, []))
+    batch = pack_samples([dataset[2], dataset[5]])
+    events, targets = batch.events.clone(), batch.targets.clone()
+    parameters = {name: value.detach().clone() for name, value in model.named_parameters()}
+    callback(batch)
+    torch.testing.assert_close(batch.events, events)
+    torch.testing.assert_close(batch.targets, targets)
+    for name, value in model.named_parameters():
+        torch.testing.assert_close(value, parameters[name], rtol=0, atol=0)
+~~~~~~~~
+
+# tests/test_stream_input.py
+
+~~~~~~~~python
+"""CPU-only synthetic input-contract tests, not training or dataset validation."""
+
+from __future__ import annotations
+
+import io
+import zipfile
+from pathlib import Path
+
+import h5py
+import numpy as np
+import pytest
+import torch
+from PIL import Image
+
+from asgcn_unet.data import EventAidRZipDataset, EventHDRDataset, build_dataset
+from asgcn_unet.stream_input import (
+    LEGACY_EVENT_TIME_CONTRACT,
+    PHYSICAL_EVENT_TIME_CONTRACT,
+    arrival_group_counts,
+    hdr_boundary_policy,
+    stream_time_metadata,
+    to_physical_seconds,
+)
+
+PHYSICAL = {"event_time_contract": PHYSICAL_EVENT_TIME_CONTRACT, "max_events": None}
+
+
+def _physical(scale):
+    return {**PHYSICAL, "timestamp_scale_to_seconds": scale,
+            "interval_timestamp_scale_to_seconds": scale}
+
+
+def _hdr(
+    root: Path, timestamps: list[float] | np.ndarray,
+    boundaries: list[tuple[float, int | None]],
+) -> Path:
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / "synthetic.h5"
+    with h5py.File(path, "w") as h5:
+        events = h5.create_group("events")
+        size = len(timestamps)
+        events.create_dataset("ts", data=np.asarray(timestamps, dtype=np.float64))
+        events.create_dataset("xs", data=np.arange(size, dtype=np.int16) % 8)
+        events.create_dataset("ys", data=np.full(size, 3, dtype=np.int16))
+        events.create_dataset("ps", data=np.arange(size, dtype=np.int16) % 2)
+        images = h5.create_group("images")
+        for index, (timestamp, endpoint) in enumerate(boundaries):
+            image = images.create_dataset(
+                f"image{index:09d}", data=np.full((8, 8), index, dtype=np.uint16),
+            )
+            image.attrs["timestamp"] = timestamp
+            if endpoint is not None:
+                image.attrs["event_idx"] = endpoint
+    return path
+
+
+def _aid(root: Path, rows: list[str], frame_times: list[int]) -> Path:
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / "R-synthetic.zip"
+    output = io.BytesIO()
+    Image.fromarray(np.zeros((8, 8), dtype=np.uint8)).save(output, format="PNG")
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr("shape.txt", "8 8\n")
+        archive.writestr("timestamps.txt", "\n".join(map(str, frame_times)))
+        for index in range(1, len(frame_times) + 1):
+            archive.writestr(f"gt/{index:06d}_img.png", output.getvalue())
+            archive.writestr(
+                f"event/{index:06d}.txt", rows[index - 1] if index <= len(rows) else "",
+            )
+    return path
+
+
+@pytest.mark.parametrize("dataset", [EventHDRDataset, EventAidRZipDataset])
+@pytest.mark.parametrize("scale", [None, True, 0, -1, float("nan"), float("inf"), "1e-6"])
+def test_physical_contract_requires_explicit_finite_positive_scale(tmp_path, dataset, scale):
+    with pytest.raises((ValueError, TypeError), match="timestamp_scale_to_seconds"):
+        dataset(tmp_path, **PHYSICAL, timestamp_scale_to_seconds=scale,
+                interval_timestamp_scale_to_seconds=1)
+
+
+@pytest.mark.parametrize("dataset", [EventHDRDataset, EventAidRZipDataset])
+@pytest.mark.parametrize("cap", [0, -1, 8192])
+def test_physical_contract_rejects_every_non_null_cap(tmp_path, dataset, cap):
+    with pytest.raises(ValueError, match="max_events=null"):
+        dataset(tmp_path, event_time_contract=PHYSICAL_EVENT_TIME_CONTRACT,
+                timestamp_scale_to_seconds=1, max_events=cap)
+
+
+def test_factory_requires_explicit_uncapped_contract_before_reading_data(tmp_path):
+    with pytest.raises(ValueError, match="max_events=null"):
+        build_dataset({"type": "eventhdr", "root": str(tmp_path),
+                       "event_time_contract": PHYSICAL_EVENT_TIME_CONTRACT,
+                       "timestamp_scale_to_seconds": 1.0})
+    with pytest.raises(ValueError, match="requires physical_seconds"):
+        EventHDRDataset(tmp_path, timestamp_scale_to_seconds=1.0)
+    with pytest.raises(ValueError, match="Unsupported event_time_contract"):
+        EventHDRDataset(tmp_path, event_time_contract="guess_units")
+
+
+def test_hdr_physical_precision_ids_crop_and_fixed_origin(tmp_path):
+    times = 1_000_000.0 + np.arange(16, dtype=np.float64) * 1e-5
+    _hdr(tmp_path, times, [(times[8], 8), (times[-1], 16)])
+    dataset = EventHDRDataset(tmp_path, **_physical(1.0),
+                              crop_size=(4, 4))
+    try:
+        first, second = dataset[0], dataset[1]
+        assert first["events"].dtype == torch.float64
+        assert first["event_ids"].dtype == torch.int64
+        assert first["event_ids"].tolist() == [[0, value] for value in range(2, 6)]
+        assert second["event_ids"].tolist() == [[0, value] for value in range(10, 14)]
+        assert torch.equal(first["events"][:, 2], torch.from_numpy(times[2:6]))
+        assert first["metadata"]["stream_time"]["sequence_origin_seconds"] == times[0]
+        assert second["metadata"]["stream_time"]["sequence_origin_seconds"] == times[0]
+        assert second["metadata"]["stream_time"]["interval_start_seconds"] == times[8]
+        assert dataset.get_topology_sample(1)["event_ids"].tolist() == second["event_ids"].tolist()
+        assert torch.equal(dataset[1]["events"], second["events"])
+    finally:
+        dataset.close()
+
+
+def test_hdr_preserves_all_events_beyond_old_cap_and_explicit_units(tmp_path):
+    timestamps = np.arange(8201, dtype=np.float64)
+    _hdr(tmp_path, timestamps, [(8201.0, len(timestamps))])
+    dataset = build_dataset({"type": "eventhdr", "root": str(tmp_path), **_physical(1e-6)})
+    try:
+        sample = dataset[0]
+        assert len(sample["events"]) == 8201
+        assert sample["metadata"]["dataset_sampling_ratio"] == 1.0
+        assert sample["event_ids"][-1].tolist() == [0, 8200]
+        assert torch.equal(sample["events"][:, 2], torch.from_numpy(timestamps * 1e-6))
+        assert sample["metadata"]["stream_time"]["interval_end_seconds"] == 8201e-6
+    finally:
+        dataset.close()
+
+
+def test_hdr_documented_predecessor_late_delivery_is_not_clock_repair(tmp_path):
+    _hdr(tmp_path, list(range(7)), [(2.5, None), (4.5, None)])
+    dataset = EventHDRDataset(tmp_path, **_physical(1))
+    try:
+        first, second = dataset[0], dataset[1]
+        assert first["event_ids"].tolist() == [[0, 0], [0, 1]]
+        assert second["event_ids"].tolist() == [[0, 2], [0, 3]]
+        assert second["events"][:, 2].tolist() == [2, 3]
+        contract = second["metadata"]["stream_time"]
+        assert contract["interval_start_seconds"] == 2.5
+        assert contract["late_predecessor_event_count"] == 1
+        assert contract["late_predecessor_source_row"] == 2
+        assert contract["late_predecessor_seconds"] == 0.5
+        assert contract["clock_correction_applied"] is False
+    finally:
+        dataset.close()
+
+
+def test_hdr_rejects_stored_clock_mismatch_without_repair(tmp_path):
+    _hdr(tmp_path, list(range(10)), [(2.5, 8)])
+    with pytest.raises(ValueError, match="clock/index mismatch"):
+        EventHDRDataset(tmp_path, **_physical(1))
+    legacy = EventHDRDataset(tmp_path)
+    try:
+        assert legacy.samples[0]["end_idx"] == 8
+    finally:
+        legacy.close()
+
+
+def test_hdr_empty_stream_has_fixed_origin_and_does_not_drop_readouts(tmp_path):
+    _hdr(tmp_path, [], [(10, 0), (20, 0)])
+    dataset = EventHDRDataset(tmp_path, **_physical(1e-3))
+    try:
+        assert len(dataset) == 2
+        for sample in [dataset[1], dataset[0]]:
+            assert sample["events"].shape == (0, 4)
+            assert sample["events"].dtype == torch.float64
+            assert sample["event_ids"].shape == (0, 2)
+            assert sample["metadata"]["stream_time"]["sequence_origin_seconds"] == 0.01
+    finally:
+        dataset.close()
+
+
+def test_aid_physical_seconds_ids_and_fixed_origin(tmp_path):
+    _aid(tmp_path, ["1000000 0 3 1\n1000001 3 3 0\n1000999 7 3 1",
+                    "1001000 2 3 1\n1001001 5 3 0"], [1000000, 1001000, 1002000])
+    dataset = EventAidRZipDataset(tmp_path, **_physical(1e-6),
+                                  crop_size=(4, 4))
+    try:
+        first, second = dataset[0], dataset[1]
+        assert first["events"].dtype == torch.float64
+        assert first["event_ids"].tolist() == [[1, 1]]
+        assert second["event_ids"].tolist() == [[2, 0], [2, 1]]
+        assert first["events"][0, 2].item() == 1000001 * 1e-6
+        for sample in [first, second]:
+            assert sample["metadata"]["stream_time"]["sequence_origin_seconds"] == 1.0
+            assert sample["metadata"]["event_timestamp_diagnostics"]["strict_interval_validation"]
+        assert second["metadata"]["stream_time"]["interval_start_seconds"] == 1001000 * 1e-6
+    finally:
+        dataset.close()
+
+
+def test_aid_uncapped_physical_input_does_not_call_legacy_subsample(tmp_path, monkeypatch):
+    from asgcn_unet.data import eventaid_r
+    rows = "\n".join(f"{index} 0 0 1" for index in range(8201))
+    _aid(tmp_path, [rows], [0, 9000])
+    def forbidden(*args, **kwargs):
+        pytest.fail("Physical inputs must not pass through the legacy float32 subsampler")
+    monkeypatch.setattr(eventaid_r, "stratified_subsample", forbidden)
+    dataset = EventAidRZipDataset(tmp_path, **_physical(1e-6))
+    try:
+        sample = dataset[0]
+        assert len(sample["events"]) == 8201
+        assert sample["event_ids"][-1].tolist() == [1, 8200]
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("rows", ["99 0 0 1", "201 0 0 1", "0.0001 0 0 1"])
+def test_aid_physical_clock_mismatch_fails_before_crop(tmp_path, rows):
+    _aid(tmp_path, [rows], [100, 200])
+    dataset = EventAidRZipDataset(tmp_path, **_physical(1e-6),
+                                  crop_size=(2, 2))
+    try:
+        with pytest.raises(ValueError, match="clock mismatch"):
+            dataset[0]
+    finally:
+        dataset.close()
+
+
+def test_legacy_hdr_events_remain_bitwise_original_normalized_float32(tmp_path):
+    raw_times = np.asarray([10, 11, 13, 15, 19, 20], dtype=np.float64)
+    _hdr(tmp_path, raw_times, [(20, 6)])
+    dataset = EventHDRDataset(tmp_path, max_events=4)
+    try:
+        sample = dataset[0]
+        expected = np.column_stack((np.arange(6) % 8, np.full(6, 3),
+                                    (raw_times - 10) / 10, np.where(np.arange(6) % 2, 1, -1)))
+        expected = expected.astype(np.float32)[np.linspace(0, 5, 4, dtype=np.int64)]
+        assert torch.equal(sample["events"], torch.from_numpy(expected))
+        assert "event_ids" not in sample
+        assert "stream_time" not in sample["metadata"]
+    finally:
+        dataset.close()
+
+
+def test_legacy_aid_static_parser_is_unchanged_and_only_physical_is_strict():
+    raw = b"100 0 0 1\n102 1 1 0\n105 2 2 1\n"
+    legacy, diagnostics = EventAidRZipDataset._read_events(raw, interval_t0=0, interval_t1=1)
+    explicit, explicit_diagnostics = EventAidRZipDataset._read_events(
+        raw, interval_t0=0, interval_t1=1, event_time_contract=LEGACY_EVENT_TIME_CONTRACT,
+    )
+    expected = np.asarray([[0, 0, 0, 1], [1, 1, 0.4, -1], [2, 2, 1, 1]], dtype=np.float32)
+    assert np.array_equal(legacy, expected)
+    assert np.array_equal(legacy, explicit)
+    assert diagnostics == explicit_diagnostics
+    assert diagnostics["strict_interval_validation"] is False
+
+
+@pytest.mark.parametrize("timestamps,boundary,index,expected", [
+    ([0, 1, 1, 2], 1, 1, "timestamp_left_boundary"),
+    ([0, 1, 1, 2], 1, 3, "timestamp_right_boundary"),
+    ([0, 1, 1, 2], 1, 0, "timestamp_predecessor_v1"),
+    ([0, 1, 1, 2], 3, 3, "timestamp_predecessor_v1"),
+])
+def test_hdr_boundary_proof_uses_exact_original_rows(timestamps, boundary, index, expected):
+    assert hdr_boundary_policy(np.asarray(timestamps), index, boundary, source="synthetic") == expected
+
+
+def test_seconds_overflow_and_unproven_multiple_late_rows_fail():
+    with pytest.raises(ValueError, match="finite"):
+        to_physical_seconds([1e308], 10, source="synthetic")
+    with pytest.raises(ValueError, match="clock mismatch"):
+        stream_time_metadata(np.asarray([0.1, 0.2]), interval_start_seconds=1,
+                             interval_end_seconds=2, sequence_origin_seconds=0,
+                             timestamp_scale_to_seconds=1, allow_predecessor_row=True,
+                             interval_timestamp_scale_to_seconds=1,
+                             source="synthetic")
+
+
+@pytest.mark.parametrize("values,expected", [([], ()), ([1], (1,)),
+                                                        ([1, 1, 2, 3, 3], (2, 1, 2))])
+def test_equal_raw_timestamp_arrival_groups(values, expected):
+    assert arrival_group_counts(np.asarray(values, dtype=np.float64)) == expected
+
+
+@pytest.mark.parametrize("kind", ["hdr", "aid"])
+def test_arrival_groups_are_recomputed_after_roi_filtering(tmp_path, kind):
+    if kind == "hdr":
+        _hdr(tmp_path, [100, 100, 100, 200, 200, 300, 400, 400], [(400, 8)])
+        dataset = EventHDRDataset(tmp_path, **_physical(1e-6),
+                                  crop_size=(4, 4))
+    else:
+        _aid(tmp_path, [("100 0 3 1\n100 2 3 1\n100 3 3 0\n200 7 3 1\n"
+                        "200 4 3 1\n300 5 3 0\n400 7 3 1")], [100, 400])
+        dataset = EventAidRZipDataset(tmp_path, **_physical(1e-6),
+                                      crop_size=(4, 4))
+    try:
+        sample = dataset[0]
+        expected = (1, 2, 1) if kind == "hdr" else (2, 1, 1)
+        assert sample["metadata"]["stream_time"]["arrival_group_counts"] == expected
+        assert sum(expected) == len(sample["events"])
+    finally:
+        dataset.close()
+
+
+def test_clock_conversion_rejects_timestamp_merging_and_underflow():
+    with pytest.raises(ValueError, match="loses timestamp resolution"):
+        to_physical_seconds([1e-300, 2e-300], 1e-100, source="synthetic")
+
+
+def test_aid_empty_events_preserve_readout_and_arrival_shape(tmp_path):
+    _aid(tmp_path, [""], [100, 200])
+    dataset = EventAidRZipDataset(tmp_path, **_physical(1e-3))
+    try:
+        sample = dataset[0]
+        assert sample["events"].dtype == torch.float64
+        assert sample["events"].shape == (0, 4)
+        assert sample["event_ids"].shape == (0, 2)
+        assert sample["metadata"]["stream_time"]["arrival_group_counts"] == ()
+        assert sample["metadata"]["stream_time"]["source_interval_start"] == 100
+        assert sample["metadata"]["t0_us"] == 100000
+        assert sample["metadata"]["dt_us"] == 100000
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("offset", [-1, 1])
+def test_aid_parts_origin_is_fixed_from_first_published_row(tmp_path, offset):
+    from tests.test_eventaid_parts import _IDS, _PARTS, _upload_members, _write_upload
+    _write_upload(tmp_path, _upload_members())
+    dataset = EventAidRZipDataset(tmp_path, **_physical(1e-6),
+                                  target_offset=offset)
+    try:
+        for index in reversed(range(len(dataset))):
+            sample = dataset[index]
+            part = sample["metadata"]["part_index"]
+            first_frame = _PARTS[part][0]
+            origin = (1000 + _IDS.index(first_frame) * 1000) * 1e-6
+            assert sample["metadata"]["stream_time"]["sequence_origin_seconds"] == origin
+            assert sample["metadata"]["sequence_id"] == f"R-parts/part-{part:03d}"
+    finally:
+        dataset.close()
+
+
+def test_hdr_physical_index_and_sample_keep_the_same_sequence_group(tmp_path):
+    from asgcn_unet.batching import SequenceBatchSampler
+    _hdr(tmp_path, [0, 1, 2, 3], [(2, 2), (3, 4)])
+    dataset = EventHDRDataset(tmp_path, **_physical(1),
+                              file_to_scene={"synthetic.h5": "official-train-group"})
+    try:
+        sampler = SequenceBatchSampler(dataset, batch_size=2)
+        assert dataset.samples[0]["sequence_id"] == "synthetic.h5"
+        assert dataset[0]["metadata"]["sequence_id"] == "synthetic.h5"
+        assert sampler.final_sequence_indices == {("synthetic.h5", "synthetic.h5"): 1}
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("dataset", [EventHDRDataset, EventAidRZipDataset])
+@pytest.mark.parametrize("scale", [None, True, 0, -1, float("nan"), float("inf"), "1e-6"])
+def test_physical_contract_requires_separate_explicit_interval_scale(tmp_path, dataset, scale):
+    with pytest.raises((ValueError, TypeError), match="interval_timestamp_scale_to_seconds"):
+        dataset(tmp_path, **PHYSICAL, timestamp_scale_to_seconds=1,
+                interval_timestamp_scale_to_seconds=scale)
+
+
+@pytest.mark.parametrize("recovered", [False, True])
+def test_hdr_event_seconds_and_frame_microseconds_share_clock_without_reindexing(tmp_path, recovered):
+    endpoints = [None, None] if recovered else [2, 4]
+    _hdr(tmp_path, [1.0, 1.1, 1.2, 1.3],
+         [(1_200_000, endpoints[0]), (1_400_000, endpoints[1])])
+    dataset = EventHDRDataset(tmp_path, **PHYSICAL, timestamp_scale_to_seconds=1,
+                              interval_timestamp_scale_to_seconds=1e-6)
+    try:
+        first, second = dataset[0], dataset[1]
+        expected = [[0, 0]] if recovered else [[0, 0], [0, 1]]
+        assert first["event_ids"].tolist() == expected
+        assert second["metadata"]["stream_time"]["interval_start_seconds"] == 1.2
+        assert second["metadata"]["stream_time"]["sequence_origin_seconds"] == 1.0
+        assert first["metadata"]["stream_time"]["source_interval_end"] == 1_200_000
+        assert first["metadata"]["timestamp"] == 1.2
+        assert second["metadata"]["dt_us"] == 200_000
+        if recovered:
+            assert second["event_ids"].tolist() == [[0, 1], [0, 2]]
+            assert second["events"][0, 2].item() == 1.1
+            assert second["metadata"]["stream_time"]["late_predecessor_source_row"] == 1
+    finally:
+        dataset.close()
+
+
+def test_aid_txt_seconds_and_frame_microseconds_are_independently_scaled(tmp_path):
+    _aid(tmp_path, ["1.0 0 0 1\n1.001 1 1 0\n1.009 2 2 1"], [1_000_000, 1_010_000])
+    dataset = EventAidRZipDataset(tmp_path, **PHYSICAL, timestamp_scale_to_seconds=1,
+                                  interval_timestamp_scale_to_seconds=1e-6)
+    try:
+        sample = dataset[0]
+        assert sample["events"][:, 2].tolist() == [1.0, 1.001, 1.009]
+        timing = sample["metadata"]["stream_time"]
+        assert timing["interval_start_seconds"] == 1.0
+        assert timing["timestamp_scale_to_seconds"] == 1
+        assert timing["interval_timestamp_scale_to_seconds"] == 1e-6
+        assert timing["source_interval_start"] == 1_000_000
+        diagnostics = sample["metadata"]["event_timestamp_diagnostics"]
+        assert diagnostics["timestamp_unit"] == "seconds"
+        assert diagnostics["outside_interval_count"] == 0
+        assert diagnostics["event_timestamp_min"] == diagnostics["interval_t0"] == 1.0
+        assert diagnostics["source_event_timestamp_min"] == 1.0
+        assert diagnostics["source_interval_t0"] == 1_000_000
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("event_rows,frame_scale", [
+    ("1.0 0 0 1", 1.0), ("101.0 0 0 1", 1e-6),
+])
+def test_wrong_declared_unit_or_clock_offset_is_never_inferred(tmp_path, event_rows, frame_scale):
+    _aid(tmp_path, [event_rows], [1_000_000, 1_010_000])
+    dataset = EventAidRZipDataset(tmp_path, **PHYSICAL, timestamp_scale_to_seconds=1,
+                                  interval_timestamp_scale_to_seconds=frame_scale)
+    try:
+        with pytest.raises(ValueError, match="clock mismatch"):
+            dataset[0]
+    finally:
+        dataset.close()
+~~~~~~~~
+
+# tests/test_stream_model.py
+
+~~~~~~~~python
+"""CPU synthetic smoke/contract tests, never real-data performance evidence."""
+
+import copy
+
+import pytest
+import torch
+
+from asgcn_unet.batching import pack_samples
+from asgcn_unet.model import ASGCNUNet, rasterize_batch
+from asgcn_unet.stream_state import StreamingReconstructionState
+from asgcn_unet.training import TrainingState
+
+
+@pytest.fixture(autouse=True)
+def cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(2)
+    yield
+    torch.set_num_threads(previous)
+
+
+def model():
+    torch.manual_seed(101)
+    return ASGCNUNet(architecture_version=3, graph_execution="event_driven", stream_config={
+        "window_seconds": 0.025, "time_scale_seconds": 0.1,
+        "node_time_feature": "physical_frame_offset", "clock": "event_local_pending_off_v1",
+        "arrival_policy": "simultaneous_equal_timestamp",
+    }, spline_backend="torch", max_graph_edges=2000000)
+
+
+def sample(index=0, sequence="first", *, empty=False):
+    times = [0.001 + index * 0.01, 0.001 + index * 0.01, 0.003 + index * 0.01,
+             0.005 + index * 0.01]
+    events = torch.tensor([[5, 5, times[0], 1], [5, 6, times[1], -1],
+                           [6, 6, times[2], 1], [7, 6, times[3], -1]], dtype=torch.float64)
+    ids = torch.tensor([[index, row] for row in range(4)], dtype=torch.long)
+    if empty:
+        events, ids = events[:0], ids[:0]
+    return {"events": events, "event_ids": ids, "target": torch.full((1, 32, 32), 0.3),
+            "sensor_size": (32, 32), "sample_id": f"{sequence}/{index}", "metadata": {
+                "scene": sequence, "sequence_id": sequence, "sequence_index": index,
+                "dataset_sampling_ratio": 1.0, "stream_time": {
+                    "schema": "physical_seconds_v1", "interval_start_seconds": index * 0.01,
+                    "interval_end_seconds": (index + 1) * 0.01, "sequence_origin_seconds": 0.0,
+                    "arrival_group_counts": () if empty else (2, 1, 1),
+                },
+            }}
+
+
+def test_full_six_layer_64_channel_training_gradient_and_optimizer_smoke():
+    net = model().train()
+    assert len(net.encoder.layers) == 6 and net.encoder.hidden_dim == 64
+    assert sum(value.numel() for value in net.parameters()) == 4409617
+    state = TrainingState(independent_sequences=True)
+    optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
+    for index in range(2):
+        samples = pack_samples([sample(index, "a"), sample(index, "b")])
+        context = state.prepare(samples)
+        prediction, diagnostics = net.forward_training_batch(samples, [value[0] for value in context])
+        loss = (prediction - samples.targets).square().mean()
+        loss.backward()
+        for layer in net.encoder.layers:
+            assert layer.weight.grad is not None and torch.isfinite(layer.weight.grad).all()
+        assert any(value.grad is not None for value in net.decoder.parameters())
+        before = net.encoder.layers[0].weight.detach().clone()
+        optimizer.step()
+        optimizer.zero_grad(set_to_none=True)
+        assert not torch.equal(before, net.encoder.layers[0].weight)
+        state.commit(samples, prediction, diagnostics, samples.targets)
+        assert all(isinstance(value[2], StreamingReconstructionState) for value in state.values.values())
+        assert all(value[2].encoder is None for value in state.values.values())
+        assert all(len(value[2].graph.timestamps) == 4 * (index + 1) for value in state.values.values())
+
+
+@torch.no_grad()
+def test_incremental_ann_readout_matches_full_graph_and_retains_prior_nodes():
+    net = model().eval()
+    state = None
+    for index in range(5):
+        previous_decoder = None if state is None else state.decoder
+        prediction, details = net.forward_sample(sample(index), recurrent_state=state)
+        state = details["recurrent_state"]
+        assert state.encoder is not None
+        exact, _ = net.encoder.forward_ann(state.graph.graph)
+        torch.testing.assert_close(state.encoder.outputs, exact, atol=1e-6, rtol=1e-5)
+        raster = rasterize_batch(exact, state.graph.graph, state.graph.node_batch, 1, (32, 32), 4)
+        expected, _ = net.decoder(raster, (32, 32), previous_decoder)
+        torch.testing.assert_close(prediction, expected, atol=1e-6, rtol=1e-5)
+        assert bool((state.graph.timestamps >= state.watermark_seconds - 0.025).all())
+        if index:
+            assert len(state.graph.timestamps) > 4
+
+
+@torch.no_grad()
+def test_packed_independent_streams_match_single_streams():
+    batched, single = model().eval(), model().eval()
+    states, singles = [None, None], [None, None]
+    for index in range(3):
+        frames = [sample(index, "a"), sample(index, "b", empty=index == 1)]
+        prediction, details = batched.forward_batch(pack_samples(frames), states)
+        states = [item["recurrent_state"] for item in details]
+        expected = []
+        for lane in range(2):
+            output, detail = single.forward_sample(frames[lane], recurrent_state=singles[lane])
+            singles[lane] = detail["recurrent_state"]
+            expected.append(output)
+        torch.testing.assert_close(prediction, torch.cat(expected), atol=2e-6, rtol=1e-5)
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+def test_snn_conversion_and_stateful_batched_reconstruction_smoke(dynamics):
+    net = model().eval()
+    net.snn_dynamics = dynamics
+    net.fold_batch_norm()
+    _, data = net.calibrate_stream_batch([sample(0, "a"), sample(0, "b")])
+    net.calibrate_stream_batch([sample(1, "a"), sample(1, "b")],
+                               [item["recurrent_state"] for item in data])
+    net.apply_parameter_normalization()
+    prediction, first = net.forward_batch([sample(0, "a"), sample(0, "b")], inference_mode="snn",
+                                          simulation_steps=4)
+    incoming = [item["recurrent_state"] for item in first]
+    cloned = [item.clone() for item in incoming]
+    result, second = net.forward_batch([sample(1, "a"), sample(1, "b")], incoming,
+                                       inference_mode="snn", simulation_steps=4)
+    repeated, _ = net.forward_batch([sample(1, "a"), sample(1, "b")], incoming,
+                                    inference_mode="snn", simulation_steps=4)
+    assert prediction.shape == result.shape == (2, 1, 32, 32)
+    assert torch.isfinite(result).all()
+    torch.testing.assert_close(result, repeated, atol=0, rtol=0)
+    for old, saved, new in zip(incoming, cloned, second):
+        for membrane, expected in zip(old.encoder.membranes, saved.encoder.membranes):
+            torch.testing.assert_close(membrane, expected, atol=0, rtol=0)
+        assert len(new["recurrent_state"].graph.timestamps) > len(old.graph.timestamps)
+
+
+def test_future_window_normalized_input_and_static_state_rejected():
+    net = model().eval()
+    frame = sample()
+    del frame["metadata"]["stream_time"]
+    with pytest.raises(ValueError, match="physical_seconds"):
+        net.forward_sample(frame)
+    with pytest.raises(TypeError, match="Static decoder"):
+        net.forward_sample(sample(), recurrent_state=torch.zeros(1, 192, 2, 2))
+    with pytest.raises(ValueError, match="stream"):
+        net.forward_batch([sample(), sample()])
+    future = sample()
+    future["events"][-1, 2] = 0.02
+    with pytest.raises(ValueError, match="future leakage"):
+        net.forward_sample(future)
+    wrong_groups = sample()
+    wrong_groups["metadata"]["stream_time"]["arrival_group_counts"] = (4,)
+    with pytest.raises(ValueError, match="grouping"):
+        net.forward_sample(wrong_groups)
+
+
+def test_graph_requires_causal_context_even_without_decoder_memory():
+    from asgcn_unet.engine import _requires_causal_context
+    assert _requires_causal_context({"graph_execution": "event_driven", "recurrent": False})
+    assert not _requires_causal_context({"recurrent": False})
+
+
+def test_inference_state_is_not_accepted_after_contract_change():
+    net = model().eval()
+    with torch.no_grad():
+        _, data = net.forward_sample(sample())
+        net.stream_config = copy.deepcopy(net.stream_config)
+        net.stream_config["window_seconds"] = 0.05
+        with pytest.raises(ValueError, match="continuity"):
+            net.forward_sample(sample(1), recurrent_state=data["recurrent_state"])
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("dynamics", ["literal_eq15", "standard_if"])
+def test_snn_idle_lane_clock_does_not_advance_on_other_stream_arrivals(dynamics):
+    net = model().eval()
+    net.snn_dynamics = dynamics
+    net.fold_batch_norm()
+    net.calibrate_stream_batch([sample(0, "a"), sample(0, "b")])
+    net.apply_parameter_normalization()
+    separate = copy.deepcopy(net)
+    state_batch, state_single = [None, None], [None, None]
+    for index in range(3):
+        frames = [sample(index, "a"), sample(index, "b", empty=index == 1)]
+        if index != 1:
+            frames[0]["events"] = frames[0]["events"][:2]
+            frames[0]["event_ids"] = frames[0]["event_ids"][:2]
+            frames[0]["metadata"]["stream_time"]["arrival_group_counts"] = (2,)
+        prediction, details = net.forward_batch(frames, state_batch, inference_mode="snn", simulation_steps=4)
+        expected = []
+        for lane in range(2):
+            value, detail = separate.forward_sample(frames[lane], recurrent_state=state_single[lane],
+                                                    inference_mode="snn", simulation_steps=4)
+            state_single[lane] = detail["recurrent_state"]
+            expected.append(value)
+            for actual, target in zip(details[lane]["recurrent_state"].encoder.local_ticks,
+                                      state_single[lane].encoder.local_ticks):
+                torch.testing.assert_close(actual, target, atol=0, rtol=0)
+            for actual, target in zip(details[lane]["spike_counts"], detail["spike_counts"]):
+                torch.testing.assert_close(actual, target, atol=0, rtol=0)
+        state_batch = [detail["recurrent_state"] for detail in details]
+        torch.testing.assert_close(prediction, torch.cat(expected), atol=1e-6, rtol=1e-5)
+~~~~~~~~
+
+# tests/test_stream_preflight.py
+
+~~~~~~~~python
+"""Bounded CPU synthetic preflight tests, never measured research results."""
+
+from __future__ import annotations
+
+import importlib.util
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+import torch
+
+from asgcn_unet import preflight, stream_preflight
+from asgcn_unet.batching import SequenceBatchSampler
+
+PROJECT = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+@pytest.fixture
+def project(tmp_path):
+    root = tmp_path / "synthetic-project"
+    directory = root / "configs" / "ablations"
+    directory.mkdir(parents=True)
+    (root / "pyproject.toml").write_text("[project]\nname='synthetic-test-only'\n", encoding="utf-8")
+    for kind in ("train", "hdr", "aid"):
+        shutil.copyfile(PROJECT / "configs" / "ablations" / f"graph_unet-{kind}.json",
+                        directory / f"graph_unet-{kind}.json")
+    return root
+
+
+def _prepare(project, destination="runs/synthetic-stream-test", **kwargs):
+    options = {
+        "window_seconds": 0.02, "time_scale_seconds": 0.1,
+        "hdr_timestamp_scale_to_seconds": 0.5, "aid_timestamp_scale_to_seconds": 0.25,
+        "hdr_interval_timestamp_scale_to_seconds": 0.125,
+        "aid_interval_timestamp_scale_to_seconds": 1e-6,
+    }
+    options.update(kwargs)
+    return stream_preflight.prepare_streaming_experiment(project, destination, **options)
+
+
+def _config():
+    with (PROJECT / "configs" / "ablations" / "graph_unet-train.json").open(encoding="utf-8") as handle:
+        config = json.load(handle)
+    # Explicit synthetic CPU smoke configuration, separate from checked-in final configs.
+    config["device"] = "cpu"
+    config["model"].update({
+        "architecture_version": 3, "graph_execution": "event_driven", "spline_backend": "torch",
+        "hidden_dim": 4, "graph_layers": 2, "decoder_channels": 4, "graph_radius": 0.8,
+        "stream_config": {"window_seconds": 1.5, "time_scale_seconds": 10.0,
+                          "node_time_feature": "physical_frame_offset",
+                          "clock": stream_preflight.STREAM_CLOCK,
+                          "arrival_policy": stream_preflight.STREAM_ARRIVAL_POLICY},
+    })
+    config["dataset"].update({
+        "max_events": None, "event_time_contract": "physical_seconds_v1",
+        "timestamp_scale_to_seconds": 1.0, "interval_timestamp_scale_to_seconds": 1.0,
+    })
+    config["train"].update({"batch_size": 2, "epochs": 1, "amp": False, "num_workers": 0,
+                             "validation_context_frames": None})
+    return config
+
+
+class SyntheticStreams:
+    """Two independent three-frame streams, with no external files or GPU."""
+
+    def __init__(self, *, frames=3, dense_final=False):
+        self.frames = frames
+        self.dense_final = dense_final
+        self.samples = [
+            {"sequence_id": f"synthetic-{lane}", "sequence_index": frame, "sensor_size": (16, 16)}
+            for lane in range(2) for frame in range(frames)
+        ]
+        self.closed = False
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, index):
+        item = self.samples[index]
+        frame = item["sequence_index"]
+        offsets = [0.15, 0.35, 0.55, 0.85] if self.dense_final and frame == self.frames - 1 else [0.2, 0.8]
+        metadata = dict(item)
+        metadata["stream_time"] = {
+            "schema": "physical_seconds_v1", "interval_start_seconds": float(frame),
+            "interval_end_seconds": float(frame + 1), "sequence_origin_seconds": 0.0,
+            "arrival_group_counts": [1] * len(offsets),
+        }
+        return {
+            "sample_id": f"{item['sequence_id']}/{frame}", "metadata": metadata,
+            "sensor_size": (16, 16), "target": torch.full((1, 16, 16), 0.25),
+            "events": torch.tensor([[0, 0, frame + offset, 1 if n % 2 else -1] for n, offset in enumerate(offsets)], dtype=torch.float64),
+            "event_ids": torch.tensor([[0, frame * 4 + n] for n in range(len(offsets))], dtype=torch.long),
+        }
+
+    def close(self):
+        self.closed = True
+
+
+def _fixture_provenance(monkeypatch, dataset):
+    data = {"dataset_type": "synthetic_cpu_test_only", "content": {"sha256": "a" * 64},
+            "source_files": {"synthetic": True}, "transform": {}, "split_manifest": {}}
+    source = {"source_tree_sha256": "b" * 64, "synthetic_cpu_test_only": True}
+    monkeypatch.setattr("asgcn_unet.data.build_dataset", lambda *args, **kwargs: dataset)
+    monkeypatch.setattr("asgcn_unet.engine._enforce_training_split_status", lambda config: None)
+    monkeypatch.setattr(preflight, "_data_provenance", lambda *args: data)
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract", lambda: source)
+    monkeypatch.setattr("asgcn_unet.engine._dataset_source_fingerprint", lambda data: {"synthetic": True})
+
+
+def test_prepare_preserves_full_baseline_outside_explicit_contract_changes(project):
+    report = _prepare(project)
+    assert report["execution_performed"] is False and report["report_eligible"] is False
+    allowed = {"model.architecture_version", "model.graph_execution", "model.stream_config",
+               "dataset.max_events", "dataset.event_time_contract", "dataset.timestamp_scale_to_seconds",
+               "dataset.interval_timestamp_scale_to_seconds", "output.run_dir", "eval.output_dir",
+               "train.validation_context_frames", "eval.recurrent_context_frames"}
+    for kind, relative in report["configs"].items():
+        result = json.loads((project / relative).read_text(encoding="utf-8"))
+        stream_preflight.validate_streaming_contract(result, training=kind == "train")
+        assert {change["field"] for change in report["changes"][kind]} <= allowed
+        assert result["model"]["hidden_dim"] == 64 and result["model"]["graph_layers"] == 6
+        assert result["model"]["decoder_channels"] == 48
+        assert result["dataset"]["max_events"] is None
+        if kind == "train":
+            assert result["train"]["batch_size"] == 16 and result["train"]["epochs"] == 40
+            assert result["train"]["max_train_samples"] is None and result["train"]["max_val_samples"] is None
+        elif kind == "aid":
+            assert result["dataset"]["timestamp_scale_to_seconds"] == 0.25
+            assert result["dataset"]["interval_timestamp_scale_to_seconds"] == 1e-6
+            assert result["eval"]["max_graph_edges_override"] == 7475202
+
+
+@pytest.mark.parametrize("name", ["window_seconds", "time_scale_seconds", "hdr_timestamp_scale_to_seconds",
+                                  "aid_timestamp_scale_to_seconds", "hdr_interval_timestamp_scale_to_seconds",
+                                  "aid_interval_timestamp_scale_to_seconds"])
+def test_no_timestamp_or_window_default_is_invented(project, name):
+    with pytest.raises(ValueError, match=name):
+        _prepare(project, **{name: float("nan")})
+    assert not (project / "runs" / "synthetic-stream-test").exists()
+
+
+def test_prepare_refuses_existing_output_without_overwriting(project):
+    report = _prepare(project)
+    original = (project / report["configs"]["train"]).read_bytes()
+    with pytest.raises(FileExistsError):
+        _prepare(project)
+    assert (project / report["configs"]["train"]).read_bytes() == original
+
+
+@pytest.mark.parametrize("destination", ["runs/ablations/graph_unet/new", "configs/new-study", "data/new-study"])
+def test_prepare_refuses_nested_or_overlapping_experiments(project, destination):
+    with pytest.raises(ValueError, match="overlap"):
+        _prepare(project, destination)
+    assert not (project / destination).exists()
+
+
+def test_preparation_import_is_torch_free_and_has_no_execution_side_effects():
+    code = "import sys; from asgcn_unet.stream_preflight import prepare_streaming_experiment; assert 'torch' not in sys.modules"
+    result = subprocess.run([sys.executable, "-B", "-c", code], cwd=PROJECT, capture_output=True, text=True, check=False)
+    assert result.returncode == 0, result.stderr
+
+
+def test_prepare_cli_requires_all_six_explicit_time_arguments():
+    spec = importlib.util.spec_from_file_location("prepare_streaming_test", PROJECT / "scripts" / "prepare_streaming_experiment.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    with pytest.raises(SystemExit) as error:
+        module.main(["--output-root", "runs/not-created-test"])
+    assert error.value.code == 2
+
+
+def test_new_preflight_dispatch_does_not_call_legacy_topology(monkeypatch, tmp_path):
+    calls = []
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *args, **kwargs: calls.append(kwargs) or {"stream": True})
+    monkeypatch.setattr(preflight, "_run_training_preflight", lambda *args, **kwargs: pytest.fail("legacy path"))
+    assert preflight.training_preflight(_config(), tmp_path / "report.json", require_cuda=False) == {"stream": True}
+    assert calls[0]["require_cuda"] is False
+
+
+def test_legacy_preflight_dispatch_is_unchanged(monkeypatch, tmp_path):
+    monkeypatch.setattr(preflight, "_run_training_preflight", lambda *args, **kwargs: {"legacy": True})
+    assert preflight.training_preflight({"model": {"architecture_version": 2}}, tmp_path / "report.json") == {"legacy": True}
+
+
+def test_legacy_report_rejected_before_any_device_probe(monkeypatch, tmp_path):
+    path = tmp_path / "legacy.json"
+    path.write_text(json.dumps({"schema": "asgcn_training_preflight_v2", "passed": True}), encoding="utf-8")
+    monkeypatch.setattr("asgcn_unet.utils.resolve_device", lambda value: pytest.fail("must reject before GPU probe"))
+    with pytest.raises(ValueError, match="legacy/static"):
+        preflight.verify_training_preflight(_config(), path)
+
+
+def test_streaming_does_not_allow_legacy_report_reuse_or_partial_resume(tmp_path):
+    for options in ({"reuse_report": "static.json"}, {"resume_scan": True}):
+        with pytest.raises(ValueError, match="cannot reuse"):
+            preflight.training_preflight(_config(), tmp_path / "not-created.json", **options)
+    assert not (tmp_path / "not-created.json").exists()
+
+
+def test_streaming_cli_refuses_unverified_training_before_train(monkeypatch, tmp_path):
+    from asgcn_unet import cli
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(_config()), encoding="utf-8")
+    args = cli.build_parser().parse_args(["train", "--config", str(path), "--allow-unverified-preflight"])
+    monkeypatch.setattr(cli, "train", lambda *args, **kwargs: pytest.fail("training must not start"))
+    with pytest.raises(ValueError, match="legacy bypass"):
+        cli._execute_command(args)
+
+
+def test_actual_window_and_prefix_bound_are_distinct_and_retain_previous_frames():
+    dataset = SyntheticStreams()
+    config = _config()
+    batches = list(SequenceBatchSampler(dataset, 2))
+    topology = stream_preflight._scan_stream_topology(dataset, config, torch.device("cpu"), batches, top_density_count=3)
+    assert topology["scan_complete"] is True and topology["scanned_samples"] == 6
+    assert topology["arrival_prefix_peak_measured"] is False
+    assert topology["max_readout_nodes"] == 3
+    assert topology["max_prefix_union_nodes_upper_bound"] == 5
+    assert any(row["readout_nodes"] > row["incoming_events"] for row in topology["samples"])
+    plan = stream_preflight._stream_probe_plan(batches, topology["samples"], 2, 1)
+    assert plan["scheduled_frames"] == 6
+    assert 0 in plan["selected_batch_indices"]
+    assert plan["largest_actual_batch_size"] == 2
+
+
+def test_cpu_full_synthetic_scan_and_real_training_probe_never_qualifies_as_gpu_result(monkeypatch, tmp_path):
+    dataset = SyntheticStreams(frames=5, dense_final=True)
+    _fixture_provenance(monkeypatch, dataset)
+    config = _config()
+    path = tmp_path / "cpu-smoke.json"
+    report = preflight.training_preflight(config, path, profile_samples=1, top_density_count=2, require_cuda=False)
+    assert report["passed"] is True, report["failure"]
+    assert report["schema"] == stream_preflight.REPORT_SCHEMA
+    assert report["report_eligible"] is False and report["status"] == "cpu_smoke_passed_non_reporting"
+    assert dataset.closed
+    probe = report["batch_training_probe"]
+    assert probe["passed"] and probe["trainable_parameter_count"] > 0
+    assert probe["replayed_predecessor_frames"] > 0
+    assert all(step["gradient_norm"] >= 0 and step["step_time_ms"] > 0 for step in probe["steps"])
+    assert any(step["incoming_contexts"] == 2 for step in probe["steps"])
+    assert all(step["peak_allocated_mib"] is None for step in probe["steps"])
+    with pytest.raises(ValueError, match="non-reporting"):
+        preflight.verify_training_preflight(config, path)
+    with pytest.raises(FileExistsError):
+        preflight.training_preflight(config, path, require_cuda=False)
+
+
+def test_conservative_bound_guard_failure_is_not_reported_as_actual_prefix_peak(monkeypatch, tmp_path):
+    dataset = SyntheticStreams()
+    _fixture_provenance(monkeypatch, dataset)
+    config = _config()
+    config["model"]["max_graph_edges"] = 8
+    monkeypatch.setattr(stream_preflight, "_probe_stream_training", lambda *args: pytest.fail("guard must block training probe"))
+    report = preflight.training_preflight(config, tmp_path / "bound-failure.json", profile_samples=1,
+                                          top_density_count=2, require_cuda=False)
+    assert not report["passed"] and not report["report_eligible"]
+    assert "conservative" in report["failure"]["scope_note"]
+    assert dataset.closed
+
+
+@pytest.mark.parametrize("mutation_phase", [None, "scan", "probe"])
+def test_preflight_rehashes_same_size_source_content_after_cpu_probes(monkeypatch, tmp_path, mutation_phase):
+    """Real byte hashes around synthetic CPU work; no research data or GPU."""
+    from asgcn_unet import engine
+
+    source_path = tmp_path / "synthetic-source.bin"
+    initial_bytes, changed_bytes = b"synthetic-original", b"synthetic-modified"
+    assert len(initial_bytes) == len(changed_bytes)
+    source_path.write_bytes(initial_bytes)
+    initial_stat = source_path.stat()
+    dataset = SyntheticStreams()
+    dataset.root, dataset.files = tmp_path, [source_path]
+    config = _config()
+    config["dataset"].update(root=str(tmp_path), split_manifest=None)
+    initial_provenance = preflight._data_provenance(dataset, config)
+    monkeypatch.setattr("asgcn_unet.data.build_dataset", lambda *args, **kwargs: dataset)
+    monkeypatch.setattr(engine, "_enforce_training_split_status", lambda config: None)
+    monkeypatch.setattr(engine, "_current_source_contract", lambda: {"source_tree_sha256": "b" * 64})
+    original_scan = stream_preflight._scan_stream_topology
+    original_probe = stream_preflight._probe_stream_training
+
+    def change_same_size_source():
+        source_path.write_bytes(changed_bytes)
+        os.utime(source_path, ns=(initial_stat.st_atime_ns, initial_stat.st_mtime_ns))
+        assert source_path.stat().st_size == initial_stat.st_size
+        assert engine._dataset_source_fingerprint(dataset) == initial_provenance["source_files"]
+
+    def scan_then_change(*args, **kwargs):
+        result = original_scan(*args, **kwargs)
+        if mutation_phase == "scan":
+            change_same_size_source()
+        return result
+
+    def probe_then_change(*args, **kwargs):
+        result = original_probe(*args, **kwargs)
+        if mutation_phase == "probe":
+            change_same_size_source()
+        return result
+
+    monkeypatch.setattr(stream_preflight, "_scan_stream_topology", scan_then_change)
+    monkeypatch.setattr(stream_preflight, "_probe_stream_training", probe_then_change)
+    output = tmp_path / "content-integrity-cpu-smoke.json"
+    report = preflight.training_preflight(config, output, profile_samples=1,
+                                          top_density_count=2, require_cuda=False)
+    assert dataset.closed
+    assert report["data_provenance"] == initial_provenance
+    assert report["batch_training_probe"]["passed"] is True
+    assert report["report_eligible"] is False
+    assert json.loads(output.read_text(encoding="utf-8")) == report
+    if mutation_phase is None:
+        assert report["passed"] is True and report["status"] == "cpu_smoke_passed_non_reporting"
+        assert report["failure"] is None
+    else:
+        assert report["passed"] is False and report["status"] == "failed"
+        assert report["failure"]["type"] == "ValueError"
+        assert "Dataset content or provenance changed" in report["failure"]["message"]
+        assert engine._dataset_content_fingerprint(dataset) != initial_provenance["content"]
+
+
+def test_missing_or_changed_contract_fields_are_rejected():
+    for modify in (
+        lambda value: value["dataset"].update(max_events=8192),
+        lambda value: value["model"]["stream_config"].update(clock="static_T"),
+        lambda value: value["train"].update(validation_context_frames=32),
+    ):
+        config = _config()
+        modify(config)
+        with pytest.raises(ValueError):
+            stream_preflight.validate_streaming_contract(config, training=True)
+    config = _config()
+    del config["dataset"]["interval_timestamp_scale_to_seconds"]
+    with pytest.raises(TypeError, match="interval_timestamp_scale"):
+        stream_preflight.validate_streaming_contract(config, training=True)
+
+
+def test_tampered_stream_report_is_rejected_without_gpu(tmp_path):
+    report = {"schema": stream_preflight.REPORT_SCHEMA, "passed": True, "arbitrary": "original"}
+    report["commitment_sha256"] = stream_preflight._digest(report)
+    report["arbitrary"] = "modified"
+    with pytest.raises(ValueError, match="commitment mismatch"):
+        stream_preflight._validated_report(report, tmp_path / "report.json")
+
+
+def test_nonfull_requested_cuda_batch_refused_before_device_selection(monkeypatch, tmp_path):
+    monkeypatch.setattr("asgcn_unet.utils.resolve_device", lambda value: pytest.fail("GPU should not be selected"))
+    with pytest.raises(ValueError, match="physical batch_size=16"):
+        preflight.training_preflight(_config(), tmp_path / "report.json", require_cuda=True)
+~~~~~~~~
+
+# tests/test_stream_reporting.py
+
+~~~~~~~~python
+"""CPU reporting regressions with explicit synthetic counters, not research results."""
+
+from __future__ import annotations
+
+import copy
+
+import pytest
+import torch
+from torch.utils.data import DataLoader
+
+from asgcn_unet.batching import SequenceBatchSampler, pack_samples
+from asgcn_unet.evaluation_batches import evaluation_frames
+from asgcn_unet.stream_reporting import aggregate_stream_execution
+from tests.test_batching import _model
+from tests.test_evaluation_batches import DiagnosticDataset
+
+
+def _execution(multiplier=1):
+    return {"arrival_updates": 2 * multiplier, "readout_updates": multiplier,
+            "incoming_events": 7 * multiplier, "training_dense_snapshot": False,
+            "updated_nodes_per_layer": [3 * multiplier, 4 * multiplier],
+            "message_edges_per_layer": [5 * multiplier, 6 * multiplier],
+            "projected_sources_per_layer": [2 * multiplier, 3 * multiplier],
+            "topology_indexed_edges": 8 * multiplier}
+
+
+def test_batch_shared_work_counted_once_not_per_lane_and_originals_unchanged():
+    execution = _execution()
+    diagnostics = [{"stream_execution": execution} for _ in range(16)]
+    saved = copy.deepcopy(diagnostics)
+    first = aggregate_stream_execution(None, diagnostics)
+    assert first == {"scope": "batch_once", "physical_batches": 1, "frames": 16, **execution}
+    second = aggregate_stream_execution(first, [{"stream_execution": _execution(2)} for _ in range(3)])
+    assert second["physical_batches"] == 2 and second["frames"] == 19
+    assert second["arrival_updates"] == 6 and second["incoming_events"] == 21
+    assert second["message_edges_per_layer"] == [15, 18]
+    assert second["topology_indexed_edges"] == 24
+    assert second["training_dense_snapshot"] is False
+    assert first["message_edges_per_layer"] == [5, 6]
+    assert diagnostics == saved
+
+
+def test_static_diagnostics_do_not_create_stream_fields():
+    assert aggregate_stream_execution(None, [{"nodes": 5}, {"nodes": 3}]) is None
+
+
+def test_missing_optional_counters_are_not_fabricated():
+    value = {"arrival_updates": 0, "readout_updates": 0, "incoming_events": 7, "training_dense_snapshot": True}
+    total = aggregate_stream_execution(None, [{"stream_execution": value}])
+    assert "message_edges_per_layer" not in total and "topology_indexed_edges" not in total
+
+
+@pytest.mark.parametrize("field,value", [
+    ("arrival_updates", True), ("incoming_events", -1), ("topology_indexed_edges", float("nan")),
+    ("training_dense_snapshot", 0), ("updated_nodes_per_layer", [1, True]),
+    ("message_edges_per_layer", [1]), ("projected_sources_per_layer", []),
+])
+def test_invalid_counters_are_not_summed(field, value):
+    execution = _execution()
+    execution[field] = value
+    with pytest.raises((TypeError, ValueError)):
+        aggregate_stream_execution(None, [{"stream_execution": execution}])
+
+
+def test_disagreeing_lanes_and_static_stream_mixing_fail():
+    with pytest.raises(ValueError, match="Per-lane"):
+        aggregate_stream_execution(None, [{"stream_execution": _execution()}, {"stream_execution": _execution(2)}])
+    with pytest.raises(ValueError, match="missing and present"):
+        aggregate_stream_execution(None, [{"stream_execution": _execution()}, {}])
+    total = aggregate_stream_execution(None, [{"stream_execution": _execution()}])
+    with pytest.raises(ValueError, match="static"):
+        aggregate_stream_execution(total, [{}])
+
+
+def test_mode_and_layer_coverage_changes_fail_without_mutating_total():
+    total = aggregate_stream_execution(None, [{"stream_execution": _execution()}])
+    original = copy.deepcopy(total)
+    mode = _execution()
+    mode["training_dense_snapshot"] = True
+    with pytest.raises(ValueError, match="training_dense_snapshot"):
+        aggregate_stream_execution(total, [{"stream_execution": mode}])
+    missing = _execution()
+    del missing["topology_indexed_edges"]
+    with pytest.raises(ValueError, match="coverage"):
+        aggregate_stream_execution(total, [{"stream_execution": missing}])
+    shorter = _execution()
+    for key in ("updated_nodes_per_layer", "message_edges_per_layer", "projected_sources_per_layer"):
+        shorter[key] = shorter[key][:1]
+    with pytest.raises(ValueError, match="lengths changed"):
+        aggregate_stream_execution(total, [{"stream_execution": shorter}])
+    assert total == original
+
+
+@pytest.mark.parametrize("streaming", [False, True])
+def test_evaluation_aggregates_after_actual_forward_once_including_partial_tail(streaming):
+    previous_threads = torch.get_num_threads()
+    torch.set_num_threads(1)
+    try:
+        dataset = DiagnosticDataset(lengths=(2, 1))
+        sampler = SequenceBatchSampler(dataset, 2)
+        plan = list(sampler)
+        loader = DataLoader(dataset, batch_sampler=plan, collate_fn=pack_samples)
+        model = _model(recurrent=True).eval()
+        calls = []
+        def run_forward(samples, contexts, timer):
+            prediction, diagnostics = model.forward_batch(samples, [item[0] for item in contexts], timing=timer)
+            calls.append(len(samples))
+            if streaming:
+                # These are explicit reporting-only fixture counters, not claims
+                # about this static fixture model's executed operations.
+                measured = _execution(len(calls))
+                for detail in diagnostics:
+                    detail["stream_execution"] = measured
+            return prediction, diagnostics
+        statistics = {}
+        rows = list(evaluation_frames(
+            loader, plan, device=torch.device("cpu"), run_forward=run_forward,
+            independent_sequences=True, statistics=statistics, timing_steps=2, timing_warmup=0,
+            final_sequence_indices=sampler.final_sequence_indices,
+        ))
+        assert calls == [2, 1] and len(rows) == 3
+        if streaming:
+            total = statistics["stream_execution"]
+            assert total["scope"] == "batch_once" and total["physical_batches"] == 2
+            assert total["frames"] == 3 and total["incoming_events"] == 21
+            assert total["message_edges_per_layer"] == [15, 18]
+        else:
+            assert "stream_execution" not in statistics
+    finally:
+        torch.set_num_threads(previous_threads)
 ~~~~~~~~
 
 # tests/test_summarize_eval.py

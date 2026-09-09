@@ -174,6 +174,9 @@ def build_diagnostic_graph(
     """
     if not isinstance(sample, dict) or not isinstance(model_config, dict):
         raise TypeError("sample and model_config must be dictionaries")
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model_config, sample=sample)
     topology_kind = _encoder_topology_kind(model_config)
     memory_budget_bytes = _integer(memory_budget_bytes, "memory_budget_bytes")
     display_edges = _integer(display_edges, "display_edges", minimum=0)

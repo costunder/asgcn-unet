@@ -32,6 +32,9 @@ def _optional_timestamp(value: Any, name: str) -> float | None:
 
 def _encoder_topology_kind(model_config: dict) -> str:
     """Topology follows an explicit architecture, never a failed graph build."""
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model_config)
     encoder = model_config.get("encoder_kind", "graph")
     if not isinstance(encoder, str) or encoder not in {"graph", "pointwise", "identity"}:
         raise ValueError("encoder_kind must be graph, pointwise, or identity")
@@ -82,6 +85,9 @@ def build_graph_preview(
     """
     if not isinstance(sample, dict) or not isinstance(model_config, dict):
         raise TypeError("sample and model_config must be dictionaries")
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model_config, sample=sample)
     topology_kind = _encoder_topology_kind(model_config)
     max_graph_edges = _integer(max_graph_edges, "max_graph_edges")
     display_edges = _integer(display_edges, "display_edges", minimum=0)

@@ -93,6 +93,10 @@ def build_model(config: dict[str, Any]) -> ASGCNUNet:
     return ASGCNUNet(**config)
 
 
+def _requires_causal_context(model_config):
+    return bool(model_config.get("recurrent", True)) or model_config.get("graph_execution") == "event_driven"
+
+
 def _load_checkpoint(path: str | Path) -> dict[str, Any]:
     try:
         return torch.load(path, map_location="cpu", weights_only=False)
@@ -416,7 +420,7 @@ def load_model_checkpoint(
             "state dictionaries are incompatible with the paper-core architecture."
         )
     architecture_version = model_config.get("architecture_version")
-    if architecture_version != PAPER_CORE_VERSION:
+    if architecture_version not in {PAPER_CORE_VERSION, 3}:
         raise ValueError(
             f"Checkpoint {checkpoint_path} has architecture_version="
             f"{architecture_version!r}; paper-core version {PAPER_CORE_VERSION} is "
@@ -1386,7 +1390,7 @@ def _valid_preflight_gate(value: Any) -> bool:
     if not isinstance(value, dict):
         return False
     if (
-        value.get("schema") != "asgcn_preflight_verification_v1"
+        value.get("schema") not in {"asgcn_preflight_verification_v1", "asgcn_streaming_preflight_verification_v1"}
         or value.get("status") != "verified"
         or value.get("report_eligible") is not True
     ):
@@ -1418,14 +1422,17 @@ def _valid_preflight_gate(value: Any) -> bool:
         ):
             return False
     scope = value.get("measurement_scope")
+    streaming = value.get("schema") == "asgcn_streaming_preflight_verification_v1"
     return (
         isinstance(measured_steps, int)
         and not isinstance(measured_steps, bool)
         and measured_steps >= 1
         and isinstance(value.get("gpu"), dict)
         and isinstance(scope, dict)
-        and scope.get("name") == "selected_top_density_training_steps"
-        and scope.get("topology_scope") == "complete_eventhdr_training_split"
+        and scope.get("name") == ("streaming_stateful_physical_batch_training_steps" if streaming
+                                  else "selected_top_density_training_steps")
+        and scope.get("topology_scope") == ("complete_eventhdr_training_stream" if streaming
+                                            else "complete_eventhdr_training_split")
         and scope.get("absolute_vram_guarantee") is False
         and isinstance(scope.get("statement"), str)
         and bool(scope["statement"].strip())
@@ -1560,7 +1567,7 @@ def _ann_reporting_reasons(checkpoint: dict[str, Any]) -> list[str]:
         if validation is not None and isinstance(public_model_config, dict) and (
             validation.get("seed") != training_config.get("seed", 2026)
             or validation.get("recurrent")
-            != bool(public_model_config.get("recurrent", True))
+            != _requires_causal_context(public_model_config)
         ):
             reasons.append("ANN validation seed/recurrent settings differ from config")
         if not isinstance(train_config, dict):
@@ -2220,6 +2227,11 @@ def _require_finite_tensor(value: torch.Tensor, label: str, sample_id: Any) -> N
 
 def _require_finite_structure(value: Any, label: str, sample_id: Any) -> None:
     """Reject NaN/Inf anywhere in a public diagnostic or metric structure."""
+    from .stream_state import StreamingReconstructionState
+    if isinstance(value, StreamingReconstructionState):
+        if not bool(value.finite()):
+            raise FloatingPointError(f"Non-finite streaming {label}: sample={sample_id}")
+        return
     if torch.is_tensor(value):
         _require_finite_tensor(value, label, sample_id)
         return
@@ -3246,7 +3258,7 @@ def _validation_protocol(
     return {
         "version": 7,
         "seed": int(config.get("seed", 2026)),
-        "recurrent": bool(config["model"].get("recurrent", True)),
+        "recurrent": _requires_causal_context(config["model"]),
         "dataset_transform": _dataset_transform_contract(config),
         "split_manifest": _split_manifest_contract(config),
         "dataset_content": {
@@ -3364,6 +3376,11 @@ def _validate_batched(model, loader, device, max_samples, score_positions, check
             prediction, details = run_forward(samples, contexts, None)
             probe_state.commit(samples, prediction.float(), details, samples.targets.float())
 
+        streaming_profile = getattr(model, "graph_execution", None) == "event_driven"
+        if streaming_profile:
+            from .stream_inference_profile import make_stream_profile_callback
+
+            probe_forward = make_stream_profile_callback(selected, device, run_forward)
         profile_config = copy.deepcopy(section)
         if requested != "auto":
             profile_config["batch_candidates"] = [requested]
@@ -3374,6 +3391,9 @@ def _validate_batched(model, loader, device, max_samples, score_positions, check
         batch_size, workers = selection["batch_size"], selection["num_workers"]
         profile_report = selection["report"]
         profile_report["precision"] = precision
+        if streaming_profile:
+            profile_report["stream_bootstrap"] = probe_forward.report
+            profile_report["recurrent_state"] = "full_sequence_prefix_bootstrap_each_trial"
         probe_state.values.clear()
     else:
         batch_size = requested
@@ -3520,6 +3540,13 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
     set_seed(seed)
     device = resolve_device(config.get("device", "auto"))
     train_config = config["train"]
+    if config["model"].get("graph_execution") == "event_driven" and device.type == "cuda":
+        gate = config.get("preflight_gate")
+        if (not _valid_preflight_gate(gate)
+                or gate.get("schema") != "asgcn_streaming_preflight_verification_v1"
+                or gate.get("batch_size") != train_config.get("batch_size")):
+            raise ValueError("CUDA streaming training requires its verified stateful physical-batch preflight; "
+                             "static or bypassed preflights cannot authorize this new experiment")
     _enforce_training_split_status(config)
     run_dir = Path(config["output"]["run_dir"])
     resume_path = resume_from or train_config.get("resume")
@@ -3573,8 +3600,10 @@ def _train(config, resume_from, stop, checkpoint_seconds) -> Path:
         require_all_groups=True,
     )
     val_sampling = _sampling_summary(val_dataset, val_indices)
-    recurrent_validation = bool(config["model"].get("recurrent", True))
+    recurrent_validation = _requires_causal_context(config["model"])
     validation_context_frames = train_config.get("validation_context_frames", 64)
+    if config["model"].get("graph_execution") == "event_driven" and validation_context_frames is not None:
+        raise ValueError("Stateful ASGCN validation requires train.validation_context_frames=null")
     if validation_context_frames is not None:
         validation_context_frames = int(validation_context_frames)
         if validation_context_frames < 0:
@@ -4215,6 +4244,11 @@ def _evaluate_dataset(
             # measuring a stateless one-frame call would understate residency.
             probe_state.commit(samples, prediction.float(), detail, samples.targets.float())
 
+        streaming_profile = getattr(model, "graph_execution", None) == "event_driven"
+        if streaming_profile:
+            from .stream_inference_profile import make_stream_profile_callback
+
+            probe_forward = make_stream_profile_callback(evaluation_dataset_view, device, run_forward)
         profile_config = copy.deepcopy(eval_config)
         if requested_batch_size != "auto":
             profile_config["batch_candidates"] = [requested_batch_size]
@@ -4230,6 +4264,9 @@ def _evaluate_dataset(
         profile_report = selection["report"]
         profile_report["precision"] = precision
         profile_report["recurrent_residency"] = "diagnostic_per_sequence_prediction_target_and_state"
+        if streaming_profile:
+            profile_report["stream_bootstrap"] = probe_forward.report
+            profile_report["recurrent_residency"] = "full_sequence_prefix_bootstrap_each_trial"
         probe_state.values.clear()
         del probe_state
     else:
@@ -4846,6 +4883,7 @@ def _benchmark_dataset(
     layer_spike_totals: list[float] = []
     layer_neuron_step_totals: list[int] = []
     realtime_factors: list[float] = []
+    stream_work = None
     recurrent_state = None
     current_sequence = None
     previous_sequence_index = None
@@ -4865,12 +4903,15 @@ def _benchmark_dataset(
 
     measured_state_resets = 0
     seed = int(config.get("seed", 2026))
-    recurrent = model.decoder.recurrent is not None
+    recurrent = model.decoder.recurrent is not None or getattr(model, "graph_execution", None) == "event_driven"
     warmup_indices = _representative_schedule(dataset, warmup, seed, contiguous=False)
     measured_indices = _representative_schedule(dataset, steps, seed + 1, contiguous=recurrent)
     measured_schedule: list[tuple[bool, int]] = []
     context_frames = 0
     benchmark_context_frames = config.get("eval", {}).get("recurrent_context_frames", 32)
+    if getattr(model, "graph_execution", None) == "event_driven" and benchmark_context_frames is not None:
+        raise ValueError("Stateful ASGCN benchmarking requires eval.recurrent_context_frames=null "
+                         "to replay the full causal prefix; a bounded warmup is not equivalent")
     if benchmark_context_frames is not None:
         benchmark_context_frames = int(benchmark_context_frames)
         if benchmark_context_frames < 0:
@@ -5012,6 +5053,10 @@ def _benchmark_dataset(
             recurrent_state = recurrent_state.detach()
         if measured:
             assert elapsed_ms is not None
+            if "stream_execution" in diagnostics:
+                from .stream_reporting import aggregate_stream_execution
+
+                stream_work = aggregate_stream_execution(stream_work, [diagnostics])
             latencies.append(elapsed_ms)
             raw_event_count, retained_event_count = _sample_event_counts(sample)
             raw_event_counts.append(raw_event_count)
@@ -5130,6 +5175,9 @@ def _benchmark_dataset(
         "edges": {"min": min(edge_counts), "max": max(edge_counts), "mean": statistics.fmean(edge_counts)},
     }
     result["execution"] = benchmark_execution
+    if stream_work is not None:
+        result["stream_execution"] = {**stream_work, "measured_frames_only": True,
+                                     "prefix_work_excluded": True}
     result["resource_usage"] = summarize_resource_interval(
         benchmark_resources,
         collect_runtime_resources(device=device, include_cuda=device.type == "cuda"),
@@ -5337,6 +5385,13 @@ def calibrate(
     try:
         model, checkpoint = load_model_checkpoint(checkpoint_path, device, config["model"])
         model.eval()
+        streaming_calibration = getattr(model, "graph_execution", "static_window") == "event_driven"
+        if streaming_calibration and samples is not None and int(samples) < len(dataset):
+            raise ValueError(
+                "Event-driven calibration requires every chronological training frame. "
+                "A time-spread subset cannot provide the declared causal graph state; "
+                "omit samples for the full pass. No frames were silently dropped or replayed."
+            )
         precision, autocast_dtype = _inference_precision(
             {"precision": "fp32", "tf32": False}, device, model,
         )
@@ -5364,6 +5419,72 @@ def calibrate(
         requested_workers = loader_config.get("num_workers", 0)
         automatic_batching = requested_batch_size == "auto" or requested_workers == "auto"
 
+        # All streaming state is local to this invocation, never model-global.
+        # Profiling and the sealed final pass deliberately have separate states.
+        stream_states = {}
+        profile_context_frames = 0
+        if streaming_calibration:
+            from collections import deque
+
+            from .batching import sequence_key
+
+            stream_records = {
+                (record["source_file"], record["sequence_index"]): index
+                for index, record in enumerate(dataset.samples)
+            }
+            if len(stream_records) != len(dataset):
+                raise ValueError("Streaming calibration requires unique source/sequence-index identities")
+
+        def stream_profile_batch(packed):
+            """Measure a target batch with its real causal predecessor window.
+
+            Bootstrap is timed and accounted separately in the profile metadata.
+            Unlike cold snapshot probes, every retained predecessor event is
+            present. Context frames and their temporary maxima never enter the
+            final calibration commitment. Independent lanes are replayed in
+            physical batches; no graph/model sample-wise forward loop is used.
+            """
+            nonlocal profile_context_frames
+            pending = {}
+            warm_states = {}
+            for sample in packed:
+                key = sequence_key(sample)
+                if key in pending:
+                    raise ValueError("Streaming calibration profiling cannot batch dependent frames")
+                metadata = sample["metadata"]
+                cutoff = (metadata["stream_time"]["interval_start_seconds"]
+                          - model.stream_config["window_seconds"])
+                predecessor = metadata["sequence_index"] - 1
+                history = []
+                while predecessor >= 0:
+                    source_index = stream_records.get((metadata["source_file"], predecessor))
+                    if source_index is None:
+                        raise ValueError("Missing chronological predecessor for streaming calibration probe")
+                    context = dataset.get_topology_sample(source_index)
+                    if context["metadata"]["stream_time"]["interval_end_seconds"] < cutoff:
+                        break
+                    history.append(context)
+                    predecessor -= 1
+                pending[key] = deque(reversed(history))
+            while any(pending.values()):
+                first = next(history[0] for history in pending.values() if history)
+                shape = tuple(first["sensor_size"])
+                contexts = [history.popleft() for history in pending.values()
+                            if history and tuple(history[0]["sensor_size"]) == shape]
+                context_keys = [sequence_key(sample) for sample in contexts]
+                context_batch = move_batch(pack_calibration_samples(contexts), device)
+                _, details = model.calibrate_stream_batch(
+                    context_batch, [warm_states.get(key) for key in context_keys]
+                )
+                for key, detail in zip(context_keys, details, strict=True):
+                    warm_states[key] = detail["recurrent_state"]
+                profile_context_frames += len(contexts)
+                # Keep only raw graph context, not diagnostic activation tensors.
+                details = detail = context_batch = None
+            return model.calibrate_stream_batch(
+                packed, [warm_states.get(sequence_key(sample)) for sample in packed]
+            )
+
         def calibration_profile_loader(source, batch_lists, num_workers):
             return _data_loader(
                 source,
@@ -5388,13 +5509,29 @@ def calibrate(
                 model,
                 device,
                 section=profile_config,
-                run_batch=model.calibrate_batch,
+                run_batch=stream_profile_batch if streaming_calibration else model.calibrate_batch,
                 loader_factory=calibration_profile_loader,
-                calibration=True,
+                # The legacy calibration planner intentionally combines frames
+                # of one sequence; streaming must use independent lane probes.
+                calibration=not streaming_calibration,
             )
             batch_size = selection["batch_size"]
             num_workers = selection["num_workers"]
             calibration_batch_profile = selection["report"]
+            if streaming_calibration:
+                calibration_batch_profile.update({
+                    "calibration": True,
+                    "streaming_context_policy": "exact_causal_predecessor_window_bootstrap_per_probe",
+                    "recurrent_state": "independent_probe_window_reconstruction_not_cold_reset",
+                    "profile_context_frames": profile_context_frames,
+                    "context_bootstrap_included_in_timing": True,
+                    "profile_fps_scope": "target_frames_per_second_including_predecessor_reconstruction",
+                    "final_pass_throughput_measurement": False,
+                })
+                calibration_batch_profile["limitations"].append(
+                    "Streaming probe timings include rebuilding predecessor windows and can bias "
+                    "batch selection; they are not the final chronological calibration throughput."
+                )
         else:
             batch_size = requested_batch_size
             num_workers = requested_workers
@@ -5414,7 +5551,10 @@ def calibrate(
         # Diagnostic callbacks observe real activations, but only the full pass
         # below is permitted to contribute to the sealed calibration commitment.
         model.reset_activation_maxima()
-        calibration_sampler = ShapeBatchSampler(selected_dataset, batch_size=batch_size)
+        calibration_sampler = (
+            SequenceBatchSampler(selected_dataset, batch_size=batch_size)
+            if streaming_calibration else ShapeBatchSampler(selected_dataset, batch_size=batch_size)
+        )
         calibration_loader = _data_loader(
             selected_dataset,
             batch_size=batch_size,
@@ -5453,7 +5593,29 @@ def calibrate(
         with tqdm(total=len(calibration_indices), desc="calibrate-SNN", unit="frame") as progress:
             for batch in calibration_loader:
                 packed = move_batch(batch, device)
-                diagnostics = model.calibrate_batch(packed)
+                if streaming_calibration:
+                    keys = [sequence_key(sample) for sample in packed]
+                    if len(set(keys)) != len(keys):
+                        raise ValueError("Dependent stream frames cannot share a calibration batch")
+                    _, details = model.calibrate_stream_batch(
+                        packed, [stream_states.get(key) for key in keys]
+                    )
+                    if len(details) != len(packed):
+                        raise RuntimeError("Streaming calibration state count differs from its batch")
+                    for sample, key, detail in zip(packed, keys, details, strict=True):
+                        if key not in calibration_sampler.final_sequence_indices:
+                            raise ValueError("Dataset record/sample streaming sequence identities disagree")
+                        if sample["metadata"]["sequence_index"] == calibration_sampler.final_sequence_indices[key]:
+                            stream_states.pop(key, None)
+                        else:
+                            stream_states[key] = detail["recurrent_state"]
+                    diagnostics = {
+                        "nodes": tuple(detail["nodes"] for detail in details),
+                        "edges": torch.tensor([detail["edges"] for detail in details], device=device),
+                    }
+                    details = detail = None
+                else:
+                    diagnostics = model.calibrate_batch(packed)
                 if not isinstance(diagnostics, dict):
                     raise TypeError("Batched calibration did not report its graph topology")
                 node_counts = diagnostics["nodes"]
@@ -5482,6 +5644,8 @@ def calibrate(
             raise RuntimeError(
                 f"Calibration consumed {processed_samples} frames; expected {len(calibration_indices)}"
             )
+        if streaming_calibration and stream_states:
+            raise RuntimeError("Completed streaming calibration retained unfinished sequence state")
         if device.type == "cuda":
             torch.cuda.synchronize(device)
         resources_after = collect_runtime_resources(device=device, include_cuda=device.type == "cuda")
@@ -5501,7 +5665,19 @@ def calibrate(
             "edges": {"total": edge_total, "min": edge_min, "max": edge_max, "mean": edge_total / processed_samples},
         }
         execution_report["batching"]["observed_physical_batch_sizes"] = sorted(observed_batch_sizes)
-        execution_report["batching"]["strategy"] = "shape_buckets_of_independent_encoder_frames"
+        execution_report["batching"]["strategy"] = (
+            "chronological_independent_stream_shape_lanes" if streaming_calibration
+            else "shape_buckets_of_independent_encoder_frames"
+        )
+        if streaming_calibration:
+            execution_report["data"]["causal_context"] = {
+                "policy": "full_chronological_training_sequences_from_origin",
+                "window_seconds": model.stream_config["window_seconds"],
+                "graph_execution": "event_driven",
+                "encoder_calibration": "full_live_graph_frozen_bn_ann_maxima",
+                "profile_context_contributes_to_commitment": False,
+                "completed_sequence_states_released": True,
+            }
         calibration_performance = {
             **interval,
             "frames": processed_samples,

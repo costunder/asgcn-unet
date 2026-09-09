@@ -202,6 +202,9 @@ def _sample_topology(
     model_config: dict[str, Any],
     dataset_index: int,
 ) -> dict[str, Any]:
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model_config, sample=sample)
     retained_events = int(sample["events"].shape[0])
     metadata = sample.get("metadata", {})
     if not isinstance(metadata, dict):
@@ -1182,6 +1185,14 @@ def training_preflight(
     resume_scan: bool = False,
     reuse_report: str | Path | None = None,
 ) -> dict[str, Any]:
+    from .stream_preflight import is_streaming_config, streaming_training_preflight
+
+    if is_streaming_config(config):
+        return streaming_training_preflight(
+            config, output_path, profile_samples=profile_samples,
+            top_density_count=top_density_count, require_cuda=require_cuda,
+            resume_scan=resume_scan, reuse_report=reuse_report,
+        )
     journals: list[ScanJournal] = []
     try:
         return _run_training_preflight(
@@ -1808,6 +1819,10 @@ def verify_training_preflight(
     report_path: str | Path,
 ) -> dict[str, Any]:
     """Re-bind a passed report to the current config, data, source, and CUDA runtime."""
+    from .stream_preflight import is_streaming_config, verify_streaming_training_preflight
+
+    if is_streaming_config(config):
+        return verify_streaming_training_preflight(config, report_path)
     validate_experiment_config(config)
     if config.get("dataset", {}).get("type") != "eventhdr":
         raise ValueError("Training preflight verification requires EventHDR")

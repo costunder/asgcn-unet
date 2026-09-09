@@ -4,6 +4,7 @@ import json
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from ..stream_input import LEGACY_EVENT_TIME_CONTRACT, validate_event_time_contract
 from .eventaid_r import EventAidRZipDataset
 from .eventhdr import EventHDRDataset
 
@@ -151,6 +152,11 @@ def _discover_eventhdr_files(
 
 def build_dataset(config: dict[str, Any], split: str = "train"):
     cfg = dict(config)
+    validate_event_time_contract(
+        cfg.get("event_time_contract", LEGACY_EVENT_TIME_CONTRACT),
+        cfg.get("timestamp_scale_to_seconds"), cfg.get("max_events", 8192),
+        interval_timestamp_scale_to_seconds=cfg.get("interval_timestamp_scale_to_seconds"),
+    )
     dataset_type = cfg.pop("type")
     expected_file_count = cfg.pop("expected_file_count", None)
     file_manifest = cfg.pop("file_manifest", None)

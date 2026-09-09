@@ -52,6 +52,63 @@ def _forbid_constructor(*args, **kwargs):
     raise AssertionError("Dataset-wide constructor/index is forbidden")
 
 
+@pytest.mark.parametrize("kind", ["eventhdr", "eventaid_r_zip"])
+def test_lightweight_adapter_explicitly_initializes_legacy_clock(tmp_path, monkeypatch, kind):
+    path = (make_eventhdr(tmp_path / "hdr") if kind == "eventhdr"
+            else make_eventaid(tmp_path / "aid"))
+    cfg = _config(path.parent, kind, event_time_contract="window_normalized_v1", max_events=17)
+    identity, expected = _baseline(cfg, 1)
+    cls = EventHDRDataset if kind == "eventhdr" else EventAidRZipDataset
+    original_getitem = cls.__getitem__
+
+    def assert_legacy_contract(reader, index):
+        assert reader.event_time_contract == "window_normalized_v1"
+        assert reader.timestamp_scale_to_seconds is None
+        assert reader.interval_timestamp_scale_to_seconds is None
+        return original_getitem(reader, index)
+
+    monkeypatch.setattr(cls, "__init__", _forbid_constructor)
+    monkeypatch.setattr(cls, "__getitem__", assert_legacy_contract)
+    actual = read_diagnostic_sample({"dataset": cfg, "model": {"architecture_version": 2}},
+                                    identity, memory_budget_bytes=_BUDGET)
+    _assert_same(actual, expected)
+
+
+@pytest.mark.parametrize("kind", ["eventhdr", "eventaid_r_zip"])
+@pytest.mark.parametrize("full_config", [False, True])
+def test_physical_clock_refused_before_identity_or_source_access(monkeypatch, kind, full_config):
+    cfg = _config(Path("missing-synthetic-source"), kind, event_time_contract="physical_seconds_v1",
+                  max_events=None, timestamp_scale_to_seconds=1.0,
+                  interval_timestamp_scale_to_seconds=1e-6)
+    config = {"dataset": cfg} if full_config else cfg
+    monkeypatch.setattr("asgcn_unet.diagnostic_sample._hdr", _forbid_constructor)
+    monkeypatch.setattr("asgcn_unet.diagnostic_sample._aid", _forbid_constructor)
+    monkeypatch.setattr(torch.cuda, "init", _forbid_constructor)
+    with pytest.raises(DiagnosticSampleError, match="complete chronological prefix"):
+        read_diagnostic_sample(config, {}, memory_budget_bytes=_BUDGET)
+
+
+@pytest.mark.parametrize("kind", ["eventhdr", "eventaid_r_zip"])
+@pytest.mark.parametrize("model", [{"graph_execution": "event_driven"}, {"architecture_version": 3}])
+def test_streaming_model_refused_even_with_legacy_dataset_section(monkeypatch, kind, model):
+    cfg = _config(Path("missing-synthetic-source"), kind)
+    monkeypatch.setattr("asgcn_unet.diagnostic_sample._hdr", _forbid_constructor)
+    monkeypatch.setattr("asgcn_unet.diagnostic_sample._aid", _forbid_constructor)
+    with pytest.raises(DiagnosticSampleError, match="complete chronological prefix"):
+        read_diagnostic_sample({"dataset": cfg, "model": model}, {}, memory_budget_bytes=_BUDGET)
+
+
+@pytest.mark.parametrize("options", [
+    {"event_time_contract": "unknown_clock"},
+    {"timestamp_scale_to_seconds": 1.0},
+    {"interval_timestamp_scale_to_seconds": 1e-6},
+])
+def test_invalid_legacy_clock_options_are_not_silently_ignored(options):
+    cfg = _config(Path("missing-synthetic-source"), "eventhdr", **options)
+    with pytest.raises(DiagnosticSampleError, match="event_time_contract|requires physical_seconds_v1"):
+        read_diagnostic_sample(cfg, {}, memory_budget_bytes=_BUDGET)
+
+
 @pytest.mark.parametrize("index", [0, 1, 3])
 @pytest.mark.parametrize("crop,max_events,channels", [(None, None, 1), ([20, 24], 17, 3)])
 def test_hdr_exact_preprocessing_without_constructor(

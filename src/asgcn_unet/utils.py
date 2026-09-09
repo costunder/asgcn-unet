@@ -32,6 +32,17 @@ def validate_experiment_config(config: dict[str, Any]) -> None:
     if not isinstance(config, dict):
         raise TypeError("Experiment config must be an object")
     dataset = config.get("dataset")
+    model = config.get("model", {})
+    if isinstance(model, dict) and model.get("graph_execution") == "event_driven":
+        from .stream_model import validate_stream_config
+        validate_stream_config(model.get("stream_config"))
+        if (model.get("architecture_version") != 3 or not isinstance(dataset, dict)
+                or dataset.get("event_time_contract") != "physical_seconds_v1"
+                or "max_events" not in dataset or dataset["max_events"] is not None
+                or model.get("event_sampling_factor") != 1):
+            raise ValueError("Event-driven ASGCN requires v3 physical_seconds_v1, explicit max_events=null and R=1")
+    elif isinstance(dataset, dict) and dataset.get("event_time_contract") == "physical_seconds_v1":
+        raise ValueError("Physical stream input cannot be silently routed through a static-window model")
     if dataset is not None:
         if not isinstance(dataset, dict):
             raise TypeError("dataset must be an object")
@@ -187,6 +198,8 @@ def move_sample(sample: dict[str, Any], device: torch.device) -> dict[str, Any]:
     result = dict(sample)
     result["events"] = sample["events"].to(device, non_blocking=True)
     result["target"] = sample["target"].to(device, non_blocking=True)
+    if "event_ids" in sample:
+        result["event_ids"] = sample["event_ids"].to(device, non_blocking=True)
     return result
 
 
@@ -202,6 +215,8 @@ def move_inference_sample(
     """
     result = dict(sample)
     result["events"] = sample["events"].to(device, non_blocking=True)
+    if "event_ids" in sample:
+        result["event_ids"] = sample["event_ids"].to(device, non_blocking=True)
     return result
 
 

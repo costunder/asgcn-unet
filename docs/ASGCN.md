@@ -1,5 +1,10 @@
 # ASGCN-U-Net의 ASGCN paper-core 구현 범위
 
+이 문서는 기존 `architecture_version=2` 정적 프레임 그래프 경로의 범위를 설명한다.
+이 경로에는 비동기 이벤트 갱신이 없으며 기존 B/C/D 결과로 ASGCN의 비동기 효율을 주장하면 안 된다.
+새 v3 이벤트 도착·만료/지속 상태 경로는 [STREAMING_ASGCN.md](STREAMING_ASGCN.md)를 따른다.
+v3도 원 논문의 분류기를 복제한 공식 재현이 아니라 명시적 시간 계약을 둔 복원 적응이다.
+
 이 저장소는 AAAI 2025 ASGCN 논문의 공개 수식에서 확인할 수 있는 event graph와 ANN→SNN
 변환 핵심을 구현한 뒤, event-to-frame 복원용 decoder를 연결한 연구 코드다. 원 논문은 event
 classification을 다루지만 이 프로젝트의 출력은 luminance frame이다. 따라서 이 코드는 저자 공식

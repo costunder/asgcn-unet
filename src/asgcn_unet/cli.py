@@ -478,6 +478,10 @@ def _execute_command(args: argparse.Namespace) -> None:
             resolve_path(args.report, base_dir),
         )
     elif args.command == "train":
+        from .stream_preflight import is_streaming_config
+
+        if is_streaming_config(config) and args.allow_unverified_preflight:
+            raise ValueError("Streaming training requires its verified CUDA preflight; legacy bypass is not allowed")
         resume = resolve_path(args.resume, base_dir) if args.resume else None
         if args.restart_uncheckpointed and args.allow_unverified_preflight:
             raise ValueError("Restarting uncheckpointed output requires a verified CUDA profile")

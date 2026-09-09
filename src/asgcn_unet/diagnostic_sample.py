@@ -28,6 +28,11 @@ from .data.eventaid_r import (
     EventAidRZipDataset,
 )
 from .data.eventhdr import EventHDRDataset, _numeric_scalar_attr
+from .stream_input import (
+    LEGACY_EVENT_TIME_CONTRACT,
+    PHYSICAL_EVENT_TIME_CONTRACT,
+    validate_event_time_contract,
+)
 
 
 class DiagnosticSampleError(ValueError):
@@ -89,6 +94,12 @@ def _reader(cls, cfg: dict, item: dict, handle):
     reader.samples = [item]
     reader.target_channels = int(cfg.get("target_channels", 1))
     reader.max_events = cfg.get("max_events", 8192)
+    # This adapter is deliberately a legacy, single-window reader. The public
+    # entry point rejects physical streams before opening any source: those need
+    # a complete chronological prefix, which this one-item index cannot provide.
+    reader.event_time_contract = LEGACY_EVENT_TIME_CONTRACT
+    reader.timestamp_scale_to_seconds = None
+    reader.interval_timestamp_scale_to_seconds = None
     reader.crop_size = tuple(cfg["crop_size"]) if cfg.get("crop_size") else None
     reader.tone_map = cfg.get("tone_map", "log" if cls is EventHDRDataset else "none")
     reader.tone_map_mu = float(cfg.get("tone_map_mu", 5000.0))
@@ -335,12 +346,32 @@ def read_diagnostic_sample(
     Estimates are conservative planning estimates, not measured RSS or a hard OS
     allocation limit. Budget refusal never subsamples or substitutes source data.
     Existing configured max_events is applied exactly by the normal reader.
+    Physical/event-driven streams are refused because their causal prefix is not
+    represented by a selected single-frame source window.
     """
     if not isinstance(config, dict) or not isinstance(identity, dict):
         raise DiagnosticSampleError("config and identity must be dictionaries")
     cfg = config.get("dataset", config)
     if not isinstance(cfg, dict):
         raise DiagnosticSampleError("dataset config must be a dictionary")
+    model = config.get("model", {})
+    if not isinstance(model, dict):
+        raise DiagnosticSampleError("model config must be a dictionary")
+    time_contract = cfg.get("event_time_contract", LEGACY_EVENT_TIME_CONTRACT)
+    if (time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+            or model.get("graph_execution") == "event_driven"
+            or model.get("architecture_version") == 3):
+        raise DiagnosticSampleError(
+            "Single-frame diagnostics do not support physical_seconds_v1/event-driven streams; "
+            "a complete chronological prefix is required. No window-normalized fallback was applied."
+        )
+    try:
+        validate_event_time_contract(
+            time_contract, cfg.get("timestamp_scale_to_seconds"), cfg.get("max_events", 8192),
+            interval_timestamp_scale_to_seconds=cfg.get("interval_timestamp_scale_to_seconds"),
+        )
+    except (TypeError, ValueError) as error:
+        raise DiagnosticSampleError(str(error)) from error
     _integer(identity, "dataset_index")
     budget = _Budget(memory_budget_bytes, reserve)
     kind = cfg.get("type")

@@ -57,6 +57,9 @@ def _topology_contract(config: dict[str, Any], device: torch.device) -> dict[str
 def _sample_record(
     sample: dict[str, Any], model: dict[str, Any], dataset_index: int
 ) -> dict[str, Any]:
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(model, sample=sample)
     retained = int(sample["events"].shape[0])
     metadata = sample.get("metadata", {})
     if not isinstance(metadata, dict):
@@ -139,6 +142,9 @@ def scan_evaluation_topology(
 ) -> dict[str, Any]:
     """Count exact evaluation graph edges without building a model or edge list."""
     validate_experiment_config(config)
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(config["model"], config["dataset"])
     if isinstance(start_index, bool) or not isinstance(start_index, int) or start_index < 0:
         raise ValueError("start_index must be a non-negative integer")
     if known_prefix_max_edges is not None and (

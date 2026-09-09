@@ -6,6 +6,27 @@ EventHDR 전체 공개 배포본으로 학습하고 EventHDR 공식 eval과 Even
 event-to-frame 연구 코드다. ASGCN graph encoder와 recurrent U-Net decoder를 결합하고,
 ANN 및 ANN→SNN 변환 모델의 복원 품질·지연·발화율을 동일한 데이터와 평가 조건에서 비교한다.
 
+## 비동기 ASGCN 복원 경로 (새 실험)
+
+기존 `architecture_version=2`와 B/C/D 결과는 **정적 프레임 그래프** 실험이다.
+이벤트별 비동기 실행을 검증한 결과가 아니며, 원 논문의 성능 재현으로 해석하지 않는다.
+새 `architecture_version=3`, `graph_execution=event_driven` 경로는 원본 물리 시각,
+도착·만료 그래프, K-hop 부분 갱신, 지속 IF 상태와 실제 희소 메시지 연산을 U-Net 복원에 연결한다.
+기존 결과와 설정은 보존하며 새 입력 계약으로 별도 학습해야 한다.
+
+[새 입력·동역학·실행 및 검증 계약](docs/STREAMING_ASGCN.md)을 먼저 확인한다.
+모델 6층·64채널, U-Net 48채널, 40 epochs, physical B16과 전체 데이터/해상도는 유지한다.
+프레임의 8,192-event 사후 선택 cap만 승인에 따라 제거한다. GPU/실제 데이터에서 품질·속도 향상은
+별도 실측해야 하며, CPU 합성 테스트는 그 증거가 아니다. 기존 실행 명령은 자동으로 v3로 바뀌지 않는다.
+
+```bash
+python -B scripts/prepare_streaming_experiment.py --help
+```
+
+준비 명령은 새 독립 폴더에 설정만 생성한다. 물리 시간 창/좌표 scale과 두 데이터셋의
+원본 이벤트·프레임 시간 단위는 명시적으로 지정해야 하며 코드가 추정하지 않는다.
+새 전체-stream CUDA preflight를 통과하기 전에는 학습을 시작하지 않는다.
+
 구조별 비교는 [구조 비교 실험](docs/ABLATIONS.md)을 따른다. U-Net-only,
 그래프 없는 pointwise ANN/SNN + U-Net, 기존 GNN/Spiking GNN + U-Net,
 GNN/SNN 없는 Transformer-only를 독립 경로에서 학습·평가한다. 주 비교는 동일한

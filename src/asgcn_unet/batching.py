@@ -33,16 +33,20 @@ class PackedSampleBatch:
         events: torch.Tensor,
         event_counts: tuple[int, ...],
         targets: torch.Tensor | None,
+        event_ids: torch.Tensor | None = None,
     ) -> None:
         self.events = events
         self.event_counts = event_counts
         self.targets = targets
+        self.event_ids = event_ids
         self.sensor_size = tuple(samples[0]["sensor_size"])
         self._samples = []
         offset = 0
         for index, (sample, count) in enumerate(zip(samples, event_counts, strict=True)):
             view = dict(sample)
             view["events"] = events[offset : offset + count]
+            if event_ids is not None:
+                view["event_ids"] = event_ids[offset : offset + count]
             if targets is not None:
                 view["target"] = targets[index]
             self._samples.append(view)
@@ -63,6 +67,7 @@ class PackedSampleBatch:
             self.events.to(device, non_blocking=True),
             self.event_counts,
             None if self.targets is None else self.targets.to(device, non_blocking=True),
+            None if self.event_ids is None else self.event_ids.to(device, non_blocking=True),
         )
 
     def pin_memory(self) -> PackedSampleBatch:
@@ -71,6 +76,7 @@ class PackedSampleBatch:
             self.events.pin_memory(),
             self.event_counts,
             None if self.targets is None else self.targets.pin_memory(),
+            None if self.event_ids is None else self.event_ids.pin_memory(),
         )
 
 
@@ -95,11 +101,21 @@ def pack_samples(samples: list[dict[str, Any]] | PackedSampleBatch) -> PackedSam
     if any(have_targets) and not all(have_targets):
         raise ValueError("Packed samples must either all have targets or all omit them")
     targets = torch.stack([sample["target"] for sample in samples]) if all(have_targets) else None
+    have_ids = ["event_ids" in sample for sample in samples]
+    if any(have_ids) and not all(have_ids):
+        raise ValueError("Cannot mix physical-stream and legacy samples in one batch")
+    if all(have_ids):
+        for sample in samples:
+            ids = sample["event_ids"]
+            if (ids.dtype != torch.long or ids.shape != (len(sample["events"]), 2)
+                    or ids.device != sample["events"].device):
+                raise ValueError("event_ids must be same-device int64 [N,2]")
     return PackedSampleBatch(
         samples,
         torch.cat(events, dim=0),
         tuple(int(value.shape[0]) for value in events),
         targets,
+        torch.cat([sample["event_ids"] for sample in samples]) if all(have_ids) else None,
     )
 
 

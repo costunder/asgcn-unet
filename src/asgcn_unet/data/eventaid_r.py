@@ -15,9 +15,18 @@ import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
 
+from ..stream_input import (
+    LEGACY_EVENT_TIME_CONTRACT,
+    PHYSICAL_EVENT_TIME_CONTRACT,
+    arrival_group_counts,
+    stream_time_metadata,
+    to_physical_seconds,
+    validate_event_time_contract,
+)
 from .common import (
     choose_crop,
     crop_events,
+    crop_events_with_ids,
     image_array_to_tensor,
     make_sample,
     normalize_polarity,
@@ -64,7 +73,16 @@ class EventAidRZipDataset(Dataset):
         target_normalization: dict[str, Any] | None = None,
         random_crop: bool = False,
         seed: int = 2026,
+        event_time_contract: str = LEGACY_EVENT_TIME_CONTRACT,
+        timestamp_scale_to_seconds: float | None = None,
+        interval_timestamp_scale_to_seconds: float | None = None,
     ) -> None:
+        self.event_time_contract = event_time_contract
+        self.timestamp_scale_to_seconds = validate_event_time_contract(
+            event_time_contract, timestamp_scale_to_seconds, max_events,
+            interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+        )
+        self.interval_timestamp_scale_to_seconds = interval_timestamp_scale_to_seconds
         self.root = Path(root).expanduser()
         self.target_channels = int(target_channels)
         self.max_events = max_events
@@ -354,6 +372,12 @@ class EventAidRZipDataset(Dataset):
                     if parts is not None:
                         record["part_index"] = part_indices[event_id]
                         record["sequence_id"] = f"{scene}/part-{part_indices[event_id]:03d}"
+                    if self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT:
+                        origin_row = (
+                            timestamp_rows[parts[part_indices[event_id]][0]]
+                            if parts is not None else 0
+                        )
+                        record["sequence_origin_raw"] = timestamps[origin_row]
                     samples.append(record)
         return samples, scene_info
 
@@ -377,19 +401,42 @@ class EventAidRZipDataset(Dataset):
         *,
         interval_t0: float,
         interval_t1: float,
-    ) -> tuple[np.ndarray, dict[str, float | int | None]]:
+        event_time_contract: str = LEGACY_EVENT_TIME_CONTRACT,
+        timestamp_scale_to_seconds: float | None = None,
+        interval_timestamp_scale_to_seconds: float | None = None,
+    ) -> tuple[np.ndarray, dict[str, Any]]:
+        scale = validate_event_time_contract(
+            event_time_contract, timestamp_scale_to_seconds, None,
+            interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+        )
+        physical = event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+        if physical:
+            assert scale is not None
+            assert interval_timestamp_scale_to_seconds is not None
+            lower, upper = to_physical_seconds(
+                [interval_t0, interval_t1], interval_timestamp_scale_to_seconds, source=source,
+            )
+            # Also validate empty source blocks: missing events cannot hide a bad clock.
+            stream_time_metadata(
+                np.empty(0, dtype=np.float64), interval_start_seconds=float(lower),
+                interval_end_seconds=float(upper), sequence_origin_seconds=float(lower),
+                timestamp_scale_to_seconds=scale, source=source,
+                interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+            )
         if not raw.strip():
-            return np.empty((0, 4), dtype=np.float32), {
+            return np.empty((0, 4), dtype=np.float64 if physical else np.float32), {
                 "event_timestamp_min": None,
                 "event_timestamp_max": None,
                 "event_timestamp_span": None,
-                "interval_t0": float(interval_t0),
-                "interval_t1": float(interval_t1),
+                "interval_t0": float(lower if physical else interval_t0),
+                "interval_t1": float(upper if physical else interval_t1),
                 "event_to_interval_span_ratio": None,
                 "event_min_offset_from_t0": None,
                 "outside_interval_count": 0,
                 "event_count": 0,
-                "strict_interval_validation": False,
+                "strict_interval_validation": physical,
+                **({"timestamp_unit": "seconds", "source_interval_t0": interval_t0,
+                    "source_interval_t1": interval_t1} if physical else {}),
             }
         try:
             rows = np.loadtxt(io.BytesIO(raw), dtype=np.float64, comments=None, ndmin=2)
@@ -412,7 +459,7 @@ class EventAidRZipDataset(Dataset):
             )
         event_span = float(timestamps[-1] - timestamps[0])
         interval_span = float(interval_t1 - interval_t0)
-        timestamp_diagnostics: dict[str, float | int | None] = {
+        timestamp_diagnostics: dict[str, Any] = {
             "event_timestamp_min": float(timestamps[0]),
             "event_timestamp_max": float(timestamps[-1]),
             "event_timestamp_span": event_span,
@@ -439,10 +486,36 @@ class EventAidRZipDataset(Dataset):
                 f"Invalid EventAid-R event block {source}: polarity values must be -1/1 or 0/1"
             )
         events = rows[:, [1, 2, 0, 3]]
-        if len(events):
+        if physical:
+            assert scale is not None
+            events[:, 2] = to_physical_seconds(events[:, 2], scale, source=source)
+            stream_time_metadata(
+                events[:, 2], interval_start_seconds=float(lower),
+                interval_end_seconds=float(upper), sequence_origin_seconds=float(lower),
+                timestamp_scale_to_seconds=scale, source=source,
+                interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+            )
+            seconds = events[:, 2]
+            timestamp_diagnostics.update({
+                "source_event_timestamp_min": float(timestamps[0]),
+                "source_event_timestamp_max": float(timestamps[-1]),
+                "source_interval_t0": interval_t0, "source_interval_t1": interval_t1,
+                "event_timestamp_min": float(seconds[0]),
+                "event_timestamp_max": float(seconds[-1]),
+                "event_timestamp_span": float(seconds[-1] - seconds[0]),
+                "interval_t0": float(lower), "interval_t1": float(upper),
+                "event_to_interval_span_ratio": (
+                    float((seconds[-1] - seconds[0]) / (upper - lower)) if upper > lower else None
+                ),
+                "event_min_offset_from_t0": float(seconds[0] - lower),
+                "outside_interval_count": 0, "strict_interval_validation": True,
+                "timestamp_unit": "seconds",
+            })
+        elif len(events):
             time_span = max(float(events[-1, 2] - events[0, 2]), 1.0)
             events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
-        events = events.astype(np.float32, copy=False)
+        if not physical:
+            events = events.astype(np.float32, copy=False)
         events[:, 3] = normalize_polarity(events[:, 3])
         return events, timestamp_diagnostics
 
@@ -455,7 +528,33 @@ class EventAidRZipDataset(Dataset):
             source=source,
             interval_t0=float(item["t0_us"]),
             interval_t1=float(item["t1_us"]),
+            event_time_contract=self.event_time_contract,
+            timestamp_scale_to_seconds=self.timestamp_scale_to_seconds,
+            interval_timestamp_scale_to_seconds=self.interval_timestamp_scale_to_seconds,
         )
+        event_ids = None
+        stream_time = None
+        if self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT:
+            assert self.timestamp_scale_to_seconds is not None
+            assert self.interval_timestamp_scale_to_seconds is not None
+            scale = self.timestamp_scale_to_seconds
+            frame_scale = self.interval_timestamp_scale_to_seconds
+            lower, upper, origin = to_physical_seconds(
+                [item["t0_us"], item["t1_us"], item["sequence_origin_raw"]],
+                frame_scale, source=source,
+            )
+            stream_time = stream_time_metadata(
+                events[:, 2], interval_start_seconds=float(lower),
+                interval_end_seconds=float(upper), sequence_origin_seconds=float(origin),
+                timestamp_scale_to_seconds=scale, source=source,
+                interval_timestamp_scale_to_seconds=frame_scale,
+            )
+            stream_time["source_interval_start"] = item["t0_us"]
+            stream_time["source_interval_end"] = item["t1_us"]
+            event_ids = np.column_stack((
+                np.full(len(events), item["sequence_index"], dtype=np.int64),
+                np.arange(len(events), dtype=np.int64),
+            ))
         with Image.open(io.BytesIO(zf.read(item["target_name"]))) as image:
             target = image_array_to_tensor(
                 pil_to_array(image),
@@ -478,13 +577,17 @@ class EventAidRZipDataset(Dataset):
         rng = np.random.default_rng(crop_seed)
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
-        events = crop_events(events, crop)
+        if event_ids is None:
+            events = crop_events(events, crop)
+        else:
+            events, event_ids = crop_events_with_ids(events, event_ids, crop)
         cropped_event_count = len(events)
         dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
-        events = stratified_subsample(events, self.max_events)
+        if event_ids is None:
+            events = stratified_subsample(events, self.max_events)
         retained_event_count = len(events)
         sample_id = f"{item['scene']}/{item['frame_id']:06d}"
-        return make_sample(
+        sample = make_sample(
             events,
             target,
             sample_id,
@@ -514,7 +617,18 @@ class EventAidRZipDataset(Dataset):
                     "height": crop.height,
                 },
             },
+            event_ids=event_ids,
         )
+        if event_ids is not None:
+            assert stream_time is not None
+            stream_time["arrival_group_counts"] = arrival_group_counts(events[:, 2])
+            sample["metadata"]["stream_time"] = stream_time
+            sample["metadata"]["event_time_contract"] = self.event_time_contract
+            sample["metadata"].setdefault("sequence_id", item["scene"])
+            sample["metadata"]["t0_us"] = item["t0_us"] * (frame_scale * 1_000_000)
+            sample["metadata"]["t1_us"] = item["t1_us"] * (frame_scale * 1_000_000)
+            sample["metadata"]["dt_us"] = (item["t1_us"] - item["t0_us"]) * (frame_scale * 1_000_000)
+        return sample
 
     def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()

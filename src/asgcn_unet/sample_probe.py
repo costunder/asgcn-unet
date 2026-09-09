@@ -76,6 +76,9 @@ def probe_evaluation_sample(
     max_graph_edges = _strict_positive_integer(max_graph_edges, "max_graph_edges")
     _validate_snn_request(inference_mode, simulation_steps)
     validate_experiment_config(config)
+    from .stream_input import reject_streaming_frame_diagnostic
+
+    reject_streaming_frame_diagnostic(config["model"], config["dataset"])
     set_seed(int(config.get("seed", 2026)))
     device = resolve_device(config.get("device", "auto"))
     checkpoint_path = Path(checkpoint_path)
@@ -204,4 +207,3 @@ def save_probe_result(path: str | Path, result: dict[str, Any]) -> None:
             raise FileExistsError(f"Probe output already exists: {path}") from None
     finally:
         temporary.unlink(missing_ok=True)
-

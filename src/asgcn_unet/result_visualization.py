@@ -471,6 +471,9 @@ def generate_result_visualizations(
         if config_path.stat().st_size > limits.max_metadata_bytes:
             raise OfflineViewerError("Config exceeds metadata byte guard")
         config = resolve_experiment_paths(load_json(config_path), config_path)
+        from .stream_input import reject_streaming_frame_diagnostic
+
+        reject_streaming_frame_diagnostic(config["model"], config["dataset"])
         for name in ("file_manifest", "split_manifest"):
             if (
                 config["dataset"].get(name)

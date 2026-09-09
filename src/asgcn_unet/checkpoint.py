@@ -15,6 +15,7 @@ from typing import Any, Self
 import torch
 from torch.utils.data import Sampler
 
+from .stream_state import StreamingReconstructionState, restore_stream_training_state
 from .training import TrainingState
 
 
@@ -102,7 +103,7 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
     expected = {"version", "independent_sequences", "last_key", "entries"}
     if not isinstance(payload, dict) or set(payload) != expected:
         raise ValueError("Training context checkpoint has an invalid schema")
-    if type(payload["version"]) is not int or payload["version"] != 1:
+    if type(payload["version"]) is not int or payload["version"] not in {1, 2}:
         raise ValueError("Unsupported training context checkpoint version")
     if (not isinstance(payload["independent_sequences"], bool)
             or payload["independent_sequences"] != independent_sequences):
@@ -117,6 +118,7 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
         raise ValueError("Single-frame training cannot retain multiple sequence contexts")
     seen = set()
     validated = []
+    has_streaming_state = False
     for entry in entries:
         fields = {"key", "sequence_index", "sensor_size", "recurrent", "prediction", "target"}
         if not isinstance(entry, dict) or set(entry) != fields:
@@ -127,7 +129,19 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
         seen.add(key)
         index = _context_index(entry["sequence_index"])
         size = _context_size(entry["sensor_size"])
-        recurrent = _context_tensor(entry["recurrent"], "recurrent", optional=True)
+        recurrent = entry["recurrent"]
+        if isinstance(recurrent, dict):
+            if payload["version"] != 2:
+                raise ValueError("Streaming recurrent context requires checkpoint version 2")
+            recurrent = restore_stream_training_state(recurrent)
+            has_streaming_state = True
+            if recurrent.sequence_index != index or (
+                recurrent.sequence_identity != key if independent_sequences
+                else recurrent.sequence_identity[0] != key[0]
+            ):
+                raise ValueError("Streaming state and training context sequence disagree")
+        else:
+            recurrent = _context_tensor(recurrent, "recurrent", optional=True)
         prediction = _context_tensor(entry["prediction"], "prediction")
         target = _context_tensor(entry["target"], "target")
         if prediction.shape != target.shape or tuple(prediction.shape[-2:]) != size:
@@ -140,6 +154,8 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
         })
     if entries and last_key is None:
         raise ValueError("Retained training contexts require a last_key")
+    if payload["version"] == 2 and not has_streaming_state:
+        raise ValueError("Training context version 2 requires streaming state")
     # release_finished deliberately leaves last_key intact, even if its value
     # was evicted. Requiring membership would reject valid boundary snapshots.
     return validated
@@ -150,15 +166,21 @@ def capture_training_state(state: TrainingState) -> dict[str, Any]:
     if not isinstance(state, TrainingState):
         raise TypeError("A checkpoint requires TrainingState")
     entries = []
+    has_streaming_state = False
     for key, value in state.values.items():
         if not isinstance(value, tuple) or len(value) != 5:
             raise ValueError("Training context value must contain five fields")
+        recurrent = value[2]
+        if isinstance(recurrent, StreamingReconstructionState):
+            recurrent = recurrent.training_payload()
+            has_streaming_state = True
         entries.append({
             "key": key, "sequence_index": value[0], "sensor_size": value[1],
-            "recurrent": value[2], "prediction": value[3], "target": value[4],
+            "recurrent": recurrent, "prediction": value[3], "target": value[4],
         })
     payload = {
-        "version": 1, "independent_sequences": state.independent_sequences,
+        "version": 2 if has_streaming_state else 1,
+        "independent_sequences": state.independent_sequences,
         "last_key": state.last_key, "entries": entries,
     }
     validated = _validated_context(payload, state.independent_sequences)
@@ -166,6 +188,8 @@ def capture_training_state(state: TrainingState) -> dict[str, Any]:
         for name in ("recurrent", "prediction", "target"):
             if entry[name] is not None:
                 entry[name] = entry[name].detach().to(device="cpu", copy=True)
+                if isinstance(entry[name], StreamingReconstructionState):
+                    entry[name] = entry[name].training_payload()
     payload["entries"] = validated
     return payload
 

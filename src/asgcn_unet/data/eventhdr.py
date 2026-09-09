@@ -11,9 +11,19 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
+from ..stream_input import (
+    LEGACY_EVENT_TIME_CONTRACT,
+    PHYSICAL_EVENT_TIME_CONTRACT,
+    arrival_group_counts,
+    hdr_boundary_policy,
+    stream_time_metadata,
+    to_physical_seconds,
+    validate_event_time_contract,
+)
 from .common import (
     choose_crop,
     crop_events,
+    crop_events_with_ids,
     image_array_to_tensor,
     normalize_polarity,
     stratified_subsample,
@@ -27,7 +37,9 @@ _TIMESTAMP_CHUNK_SIZE = 1_048_576
 
 
 def _recover_event_indices(
-    event_ts: h5py.Dataset, frame_timestamps: np.ndarray, path: Path
+    event_ts: h5py.Dataset, frame_timestamps: np.ndarray, path: Path,
+    *, timestamp_scale_to_seconds: float | None = None,
+    interval_timestamp_scale_to_seconds: float | None = None,
 ) -> np.ndarray:
     """Recover missing legacy indices without loading or rewriting the event stream.
 
@@ -36,6 +48,12 @@ def _recover_event_indices(
     These are NOT standard half-open timestamp boundaries. Existing attributes
     remain authoritative and are never repaired.
     """
+    if (timestamp_scale_to_seconds is None) != (interval_timestamp_scale_to_seconds is None):
+        raise ValueError("Physical EventHDR recovery requires both explicit timestamp scales")
+    if interval_timestamp_scale_to_seconds is not None:
+        frame_timestamps = to_physical_seconds(
+            frame_timestamps, interval_timestamp_scale_to_seconds, source=str(path),
+        )
     event_count = len(event_ts)
     if event_count == 0:
         return np.zeros(len(frame_timestamps), dtype=np.int64)
@@ -45,6 +63,8 @@ def _recover_event_indices(
     first_timestamp = None
     for start in range(0, event_count, _TIMESTAMP_CHUNK_SIZE):
         block = np.asarray(event_ts[start : start + _TIMESTAMP_CHUNK_SIZE])
+        if timestamp_scale_to_seconds is not None:
+            block = to_physical_seconds(block, timestamp_scale_to_seconds, source=str(path))
         if not np.all(np.isfinite(block)):
             raise _invalid_file(path, "events/ts timestamps must be finite to recover event_idx")
         if np.any(block[1:] < block[:-1]) or (
@@ -157,7 +177,16 @@ class EventHDRDataset(Dataset):
         seed: int = 2026,
         allowed_files: list[str] | None = None,
         file_to_scene: dict[str, str] | None = None,
+        event_time_contract: str = LEGACY_EVENT_TIME_CONTRACT,
+        timestamp_scale_to_seconds: float | None = None,
+        interval_timestamp_scale_to_seconds: float | None = None,
     ) -> None:
+        self.event_time_contract = event_time_contract
+        self.timestamp_scale_to_seconds = validate_event_time_contract(
+            event_time_contract, timestamp_scale_to_seconds, max_events,
+            interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+        )
+        self.interval_timestamp_scale_to_seconds = interval_timestamp_scale_to_seconds
         self.root = Path(root).expanduser()
         self.target_channels = int(target_channels)
         self.max_events = max_events
@@ -305,11 +334,18 @@ class EventHDRDataset(Dataset):
                             )
                     frames.append((key, timestamp, end_idx))
                 missing_count = sum(end is None for _, _, end in frames)
+                physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+                recovery_options = (
+                    {"timestamp_scale_to_seconds": self.timestamp_scale_to_seconds,
+                     "interval_timestamp_scale_to_seconds": self.interval_timestamp_scale_to_seconds}
+                    if physical else {}
+                )
                 recovered = (
                     _recover_event_indices(
                         events_group["ts"],
                         np.asarray([timestamp for _, timestamp, _ in frames], dtype=np.float64),
                         path,
+                        **recovery_options,
                     )
                     if missing_count
                     else None
@@ -322,6 +358,15 @@ class EventHDRDataset(Dataset):
                 selected_start_idx = 0
                 selected_start_timestamp: float | None = None
                 selected_sequence_index = 0
+                if physical:
+                    first_frame = float(to_physical_seconds(
+                        frames[0][1], self.interval_timestamp_scale_to_seconds, source=str(path),
+                    ))
+                    first_event = float(to_physical_seconds(
+                        events_group["ts"][0], self.timestamp_scale_to_seconds, source=str(path),
+                    )) if event_count else first_frame
+                    # A sequence origin, not per-frame min/max feature normalization.
+                    sequence_origin = min(first_event, first_frame)
                 previous_end_idx: int | None = None
                 for frame_index, (key, timestamp, stored_idx) in enumerate(frames):
                     if stored_idx is None:
@@ -336,6 +381,12 @@ class EventHDRDataset(Dataset):
                             path, "image event_idx values must be monotonically non-decreasing"
                         )
                     previous_end_idx = end_idx
+                    if physical:
+                        hdr_boundary_policy(
+                            events_group["ts"], end_idx, timestamp,
+                            source=f"{path}::{key}",
+                            **recovery_options,
+                        )
                     if frame_index % self.frame_stride == 0:
                         is_zero_event_interval = end_idx == selected_start_idx
                         if is_zero_event_interval:
@@ -355,6 +406,9 @@ class EventHDRDataset(Dataset):
                                 "zero_event_interval": is_zero_event_interval,
                             }
                         )
+                        if physical:
+                            samples[-1]["sequence_origin_seconds"] = sequence_origin
+                            samples[-1]["sequence_id"] = source_file
                         # With frame_stride > 1, aggregate every skipped event interval
                         # into the next selected output instead of silently discarding it.
                         selected_start_idx = end_idx
@@ -452,10 +506,51 @@ class EventHDRDataset(Dataset):
         )
         ps = normalize_polarity(raw_ps)
         events = np.column_stack((xs, ys, ts, ps))
-        if len(events):
+        physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+        event_ids = None
+        stream_time = None
+        if physical:
+            assert self.timestamp_scale_to_seconds is not None
+            assert self.interval_timestamp_scale_to_seconds is not None
+            scale = self.timestamp_scale_to_seconds
+            frame_scale = self.interval_timestamp_scale_to_seconds
+            origin = item["sequence_origin_seconds"]
+            interval_end = to_physical_seconds(item["timestamp"], frame_scale, source=source)
+            interval_start = (
+                float(origin) if item["t0"] is None
+                else float(to_physical_seconds(item["t0"], frame_scale, source=source))
+            )
+            start_policy = (
+                "sequence_origin" if item["t0"] is None
+                else hdr_boundary_policy(
+                    h5["events/ts"], start, item["t0"], source=source,
+                    timestamp_scale_to_seconds=scale,
+                    interval_timestamp_scale_to_seconds=frame_scale,
+                )
+            )
+            events[:, 2] = to_physical_seconds(ts, scale, source=source)
+            stream_time = stream_time_metadata(
+                events[:, 2], interval_start_seconds=interval_start,
+                interval_end_seconds=float(interval_end), sequence_origin_seconds=float(origin),
+                timestamp_scale_to_seconds=scale, source=source,
+                interval_timestamp_scale_to_seconds=frame_scale,
+                boundary_policy="eventhdr_stored_or_timestamp_predecessor_v1",
+                allow_predecessor_row=start_policy == "timestamp_predecessor_v1",
+            )
+            stream_time["start_boundary_policy"] = start_policy
+            stream_time["initial_interval_policy"] = "min_first_source_event_and_first_frame"
+            stream_time["source_interval_start"] = item["t0"]
+            stream_time["source_interval_end"] = item["timestamp"]
+            stream_time["late_predecessor_source_row"] = (
+                start if stream_time["late_predecessor_event_count"] else None
+            )
+            event_ids = np.column_stack((np.zeros(end - start, dtype=np.int64),
+                                         np.arange(start, end, dtype=np.int64)))
+        elif len(events):
             time_span = max(float(events[-1, 2] - events[0, 2]), 1e-9)
             events[:, 2] = (events[:, 2] - events[0, 2]) / time_span
-        events = events.astype(np.float32, copy=False)
+        if not physical:
+            events = events.astype(np.float32, copy=False)
         raw_event_count = len(events)
         # Recurrent pixels and temporal losses must refer to the same sensor ROI
         # throughout one source sequence. The crop is deterministic per file, not
@@ -466,10 +561,14 @@ class EventHDRDataset(Dataset):
         crop = choose_crop(height, width, self.crop_size, self.random_crop, rng)
         if target is not None:
             target = target[:, crop.top : crop.top + crop.height, crop.left : crop.left + crop.width]
-        events = crop_events(events, crop)
+        if event_ids is None:
+            events = crop_events(events, crop)
+        else:
+            events, event_ids = crop_events_with_ids(events, event_ids, crop)
         cropped_event_count = len(events)
         dataset_sampling_ratio = uniform_cap_ratio(cropped_event_count, self.max_events)
-        events = stratified_subsample(events, self.max_events)
+        if not physical:
+            events = stratified_subsample(events, self.max_events)
         retained_event_count = len(events)
         sample_id = (
             f"{item['scene']}/{item['image_key']}"
@@ -479,7 +578,7 @@ class EventHDRDataset(Dataset):
         t0 = item["t0"]
         t1 = item["timestamp"]
         sample = {
-            "events": torch.from_numpy(np.ascontiguousarray(events)).float(),
+            "events": torch.from_numpy(np.ascontiguousarray(events)),
             "sample_id": sample_id,
             "sensor_size": (int(crop.height), int(crop.width)),
             "metadata": {
@@ -508,6 +607,21 @@ class EventHDRDataset(Dataset):
                 },
             },
         }
+        if event_ids is not None:
+            assert stream_time is not None
+            stream_time["arrival_group_counts"] = arrival_group_counts(events[:, 2])
+            sample["event_ids"] = torch.from_numpy(np.ascontiguousarray(event_ids))
+            sample["metadata"]["stream_time"] = stream_time
+            sample["metadata"]["event_time_contract"] = self.event_time_contract
+            sample["metadata"]["sequence_id"] = item["source_file"]
+            sample["metadata"]["timestamp"] = stream_time["interval_end_seconds"]
+            sample["metadata"]["t1"] = stream_time["interval_end_seconds"]
+            sample["metadata"]["t0"] = (
+                None if t0 is None else stream_time["interval_start_seconds"]
+            )
+            sample["metadata"]["dt_us"] = (
+                None if t0 is None else round((t1 - t0) * frame_scale * 1_000_000)
+            )
         if target is not None:
             sample["target"] = target
         return sample

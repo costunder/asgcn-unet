@@ -95,13 +95,28 @@ class ASGCNUNet(nn.Module):
         encoder_kind: str = "graph",
         decoder_kind: str = "unet",
         transformer_config: dict[str, Any] | None = None,
+        graph_execution: str = "static_window",
+        stream_config: dict[str, Any] | None = None,
     ) -> None:
         super().__init__()
-        if int(architecture_version) != PAPER_CORE_VERSION:
+        if int(architecture_version) not in {PAPER_CORE_VERSION, 3}:
             raise ValueError(
                 f"architecture_version must be {PAPER_CORE_VERSION}; legacy edge-MLP "
                 "checkpoints are intentionally incompatible"
             )
+        if graph_execution not in {"static_window", "event_driven"}:
+            raise ValueError("graph_execution must be static_window or event_driven")
+        if graph_execution == "event_driven":
+            from .stream_model import validate_stream_config
+            if (architecture_version != 3 or encoder_kind != "graph" or decoder_kind != "unet"
+                    or event_sampling_factor != 1 or graph_position_dims != 3):
+                raise ValueError("Event-driven ASGCN v3 requires graph + U-Net, R=1 and x/y/time topology")
+            self.stream_config = validate_stream_config(stream_config)
+        elif stream_config is not None or architecture_version != PAPER_CORE_VERSION:
+            raise ValueError("Static-window checkpoints require v2 and no stream_config")
+        else:
+            self.stream_config = None
+        self.graph_execution = graph_execution
         if graph_operator != "spline":
             raise ValueError("graph_operator must be 'spline' for the ASGCN paper core")
         if spline_backend not in SPLINE_BACKENDS:
@@ -145,7 +160,7 @@ class ASGCNUNet(nn.Module):
             raise ValueError("transformer_config is only applicable to the Transformer decoder")
         if encoder_kind != "graph" and spline_backend != "torch":
             raise ValueError("Non-graph ablations require spline_backend=torch; no spline is executed")
-        self.architecture_version = PAPER_CORE_VERSION
+        self.architecture_version = int(architecture_version)
         self.encoder_kind = encoder_kind
         self.decoder_kind = decoder_kind
         self.supports_snn = encoder_kind != "identity"
@@ -198,6 +213,8 @@ class ASGCNUNet(nn.Module):
         self.raster_downsample = int(raster_downsample)
 
     def _graph(self, sample: dict[str, Any]) -> EventGraph:
+        if self.graph_execution == "event_driven":
+            raise ValueError("Streaming topology requires explicit prior state; use stream_forward_batch")
         if self.encoder_kind != "graph":
             from .ablation_encoders import prepare_event_container
             return prepare_event_container(
@@ -216,6 +233,8 @@ class ASGCNUNet(nn.Module):
         )
 
     def _packed_graph(self, packed: PackedSampleBatch):
+        if self.graph_execution == "event_driven":
+            raise ValueError("Streaming topology cannot use the legacy independent-frame builder")
         if self.encoder_kind != "graph":
             from .ablation_encoders import prepare_event_container_batch
             return prepare_event_container_batch(
@@ -235,6 +254,19 @@ class ASGCNUNet(nn.Module):
             raise ValueError("The identity encoder has no SNN conversion/inference path")
 
     def architecture_description(self) -> dict[str, Any]:
+        if self.graph_execution == "event_driven":
+            return {
+                "encoder_kind": "graph", "decoder_kind": "unet",
+                "encoder_layers": len(self.encoder.layers), "encoder_output_channels": self.encoder.hidden_dim,
+                "spiking_supported": True, "topology_kind": "stateful_physical_radius_graph",
+                "input_representation": "physical_seconds_all_events_causal_frame_offset_feature",
+                "graph_execution": "event_driven", "stream_config": dict(self.stream_config),
+                "rasterization": "current_window_per_cell_feature_mean",
+                "recurrent": self.decoder.recurrent is not None,
+                "training": "synchronous_full_causal_window_ann",
+                "inference": "incremental_event_local_clocks_pending_pulse_off",
+                "paper_scope": "ASGCN_reconstruction_adaptation_not_official_classification_reproduction",
+            }
         return {
             "encoder_kind": self.encoder_kind, "decoder_kind": self.decoder_kind,
             "encoder_layers": len(self.encoder.layers),
@@ -256,6 +288,15 @@ class ASGCNUNet(nn.Module):
         *,
         timing: Any = None,
     ) -> tuple[torch.Tensor, dict[str, Any]]:
+        if self.graph_execution == "event_driven":
+            from .stream_model import stream_forward_batch
+            if return_activations:
+                raise ValueError("Use the explicit streaming calibration path for activation observation")
+            prediction, details = stream_forward_batch(
+                self, [sample], [recurrent_state], inference_mode=inference_mode,
+                simulation_steps=simulation_steps, timing=timing,
+            )
+            return prediction, details[0]
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")
         simulation_steps = int(simulation_steps)
@@ -368,6 +409,10 @@ class ASGCNUNet(nn.Module):
         of equivalence to sequential batch-one parameter updates. No graph edge
         or recurrent state crosses a sample boundary.
         """
+        if self.graph_execution == "event_driven":
+            from .stream_model import stream_forward_batch
+            return stream_forward_batch(self, samples, recurrent_states, inference_mode=inference_mode,
+                                        simulation_steps=simulation_steps, timing=timing)
         if not samples:
             raise ValueError("Batches must contain at least one sample")
         sensor_size = tuple(int(value) for value in samples[0]["sensor_size"])
@@ -512,10 +557,20 @@ class ASGCNUNet(nn.Module):
         return list(prediction.split(1, dim=0)), diagnostics
 
     @torch.no_grad()
+    def calibrate_stream_batch(self, samples, recurrent_states=None):
+        if self.graph_execution != "event_driven":
+            raise ValueError("calibrate_stream_batch requires the event-driven architecture")
+        self._require_snn()
+        from .stream_model import stream_forward_batch
+        return stream_forward_batch(self, samples, recurrent_states, calibration=True)
+
+    @torch.no_grad()
     def calibrate_batch(
         self, samples: list[dict[str, Any]] | PackedSampleBatch
     ) -> dict[str, Any]:
         """Exact feature-wise maxima across the packed nodes of all input frames."""
+        if self.graph_execution == "event_driven":
+            raise ValueError("Stateful calibration requires chronological calibrate_stream_batch")
         self._require_snn()
         packed = pack_samples(samples)
         topology = self._packed_graph(packed)

@@ -14,6 +14,8 @@ import torch
 
 from .batching import move_batch
 from .metrics import batch_frame_metrics
+from .stream_reporting import aggregate_stream_execution
+from .stream_state import recurrent_isfinite
 from .timing import StageTimer
 from .training import TrainingState
 
@@ -81,9 +83,16 @@ def evaluation_frames(
                   if detail["recurrent_state"] is not None]
         finite = [torch.isfinite(prediction).all(), torch.isfinite(targets).all()]
         if states:
-            finite.append(torch.isfinite(torch.cat(states)).all())
+            tensor_states = [value for value in states if isinstance(value, torch.Tensor)]
+            if tensor_states:
+                finite.append(torch.isfinite(torch.cat(tensor_states)).all())
+            finite.extend(recurrent_isfinite(value) for value in states
+                          if not isinstance(value, torch.Tensor))
         if not bool(torch.stack(finite).all()):
             raise FloatingPointError(f"Nonfinite evaluation tensors in dataset indices {indices}")
+        stream_execution = aggregate_stream_execution(statistics.get("stream_execution"), diagnostics)
+        if stream_execution is not None:
+            statistics["stream_execution"] = stream_execution
         with timer.scope("loss"):
             valid = [i for i, context in enumerate(contexts)
                      if context[1] is not None and context[2] is not None]

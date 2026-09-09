@@ -86,6 +86,22 @@ def crop_events(events: np.ndarray, crop: Crop) -> np.ndarray:
     return result
 
 
+def crop_events_with_ids(
+    events: np.ndarray, event_ids: np.ndarray, crop: Crop,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Apply the existing ROI while preserving the identity of each source row."""
+    if event_ids.shape != (len(events), 2) or event_ids.dtype != np.int64:
+        raise ValueError("event_ids must be int64 [N,2] source row identities")
+    keep = (
+        (events[:, 0] >= crop.left) & (events[:, 0] < crop.left + crop.width)
+        & (events[:, 1] >= crop.top) & (events[:, 1] < crop.top + crop.height)
+    )
+    result = events[keep].copy()
+    result[:, 0] -= crop.left
+    result[:, 1] -= crop.top
+    return result, event_ids[keep]
+
+
 def validate_target_normalization(
     value: dict[str, Any] | None,
 ) -> dict[str, Any]:
@@ -242,14 +258,26 @@ def make_sample(
     sample_id: str,
     sensor_size: tuple[int, int],
     metadata: dict[str, Any] | None = None,
+    *,
+    event_ids: np.ndarray | None = None,
 ) -> dict[str, Any]:
     if events.ndim != 2 or events.shape[1] != 4:
         raise ValueError(f"Events must have shape Nx4 [x,y,t,p], got {events.shape}")
-    event_tensor = torch.from_numpy(np.ascontiguousarray(events)).float()
-    return {
+    if event_ids is not None:
+        if events.dtype != np.float64:
+            raise ValueError("Physical event samples require float64 events")
+        if event_ids.shape != (len(events), 2) or event_ids.dtype != np.int64:
+            raise ValueError("event_ids must be int64 [N,2] source row identities")
+    event_tensor = torch.from_numpy(np.ascontiguousarray(events))
+    if event_ids is None:
+        event_tensor = event_tensor.float()
+    sample = {
         "events": event_tensor,
         "target": target,
         "sample_id": sample_id,
         "sensor_size": tuple(int(v) for v in sensor_size),
         "metadata": metadata or {},
     }
+    if event_ids is not None:
+        sample["event_ids"] = torch.from_numpy(np.ascontiguousarray(event_ids))
+    return sample

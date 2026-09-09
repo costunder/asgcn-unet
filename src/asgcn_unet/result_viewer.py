@@ -340,6 +340,9 @@ class ResultViewer:
         if view.config is None:
             view.config = resolve_experiment_paths(load_json(view.config_path), view.config_path)
         config = view.config
+        from .stream_input import reject_streaming_frame_diagnostic
+
+        reject_streaming_frame_diagnostic(config["model"], config["dataset"])
         # All modes must describe the same graph/data transform before showing a
         # common graph. Only small contracts survive these report reads.
         guard = None

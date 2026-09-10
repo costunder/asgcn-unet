@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-09T21:52:59Z",
+    "generated_utc": "2026-09-10T02:14:46Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "a12644e6e7ad1753806691e9a55af3f97ee9db9a",
-    "source_tree_at_generation": "00dbd2ec88a4709f5532707a22059ff6ed903f7b",
+    "source_commit_at_generation": "4525c904464bcc54094e2b06e87ecc553dcbc2a2",
+    "source_tree_at_generation": "86e4558de58438f04fc3a1c1c8eb210140f43f6a",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -206,9 +206,9 @@
         "sha256": "7d6636269b6b749f588c1dc9d652fa175a6c39ce27fadecad8abe6243df10314"
       },
       {
-        "bytes": 11135,
+        "bytes": 14398,
         "path": "docs/STREAMING_ASGCN.md",
-        "sha256": "1fea0e331cdb882863d08e50ac2729269b4fe26b181a23387285c21894ac8c7f"
+        "sha256": "6a6dd6f1708be1e0e502e3eda84ef036744c7a5af87c7a163b5d66e72081bc0f"
       },
       {
         "bytes": 14160,
@@ -309,6 +309,11 @@
         "bytes": 3141,
         "path": "scripts/probe_eval_sample.py",
         "sha256": "f49036b3f6a87a1a8b54ed0a98629d27dc79b393a1c03bb2da771a474f2f6195"
+      },
+      {
+        "bytes": 14326,
+        "path": "scripts/recover_streaming_preflight.py",
+        "sha256": "e2315bfbfce05c6698261a530d36c8f96f23f5e28041f78054c28714f17b579d"
       },
       {
         "bytes": 19151,
@@ -591,9 +596,9 @@
         "sha256": "f057eb57855f3928a322d4e9cfef73b8f6c90e272a8a40c2cbc87bca6f44bd3c"
       },
       {
-        "bytes": 38965,
+        "bytes": 65322,
         "path": "src/asgcn_unet/stream_preflight.py",
-        "sha256": "9a911a16fb48aecf7d12185afcecbed3a4b794932f974e3eb45e7034f6ef32d5"
+        "sha256": "6fd46a5954fa4f77439e901a018d0b8268c84790df70b361bd0f4450169c1c38"
       },
       {
         "bytes": 4376,
@@ -604,6 +609,11 @@
         "bytes": 9325,
         "path": "src/asgcn_unet/stream_state.py",
         "sha256": "a36a17b129e1924c186a7486bad9f388fe5e12fe14a20679894d4576ac2e1b7e"
+      },
+      {
+        "bytes": 13628,
+        "path": "src/asgcn_unet/stream_topology.py",
+        "sha256": "c4da32f7b5c9ec65c17b21f5ec9c450646d5a519c3637eacf88f311ef748958e"
       },
       {
         "bytes": 8826,
@@ -1071,6 +1081,16 @@
         "sha256": "7fce08d04a55f9f2d97fd4e8beb78f361cf8e4cf60d29db4f4d07362f5b2c9d5"
       },
       {
+        "bytes": 8403,
+        "path": "tests/test_stream_guard_recovery.py",
+        "sha256": "451758e8e302eecc170345bd5af16b2debd1aba4a77b6513079c6c2c043ad123"
+      },
+      {
+        "bytes": 9706,
+        "path": "tests/test_stream_guard_verification.py",
+        "sha256": "8c8144e3ac89d3d115a094bf8dc94275ae56eaf5d340be07ecc5b081edb86504"
+      },
+      {
         "bytes": 9040,
         "path": "tests/test_stream_inference_profile.py",
         "sha256": "d4648f8c39ac71601e9fa26f6d7595f623ffbaaf150b47e1c2454e7f5f141a99"
@@ -1091,9 +1111,24 @@
         "sha256": "da53edb6793d6dfd8f4ed0e38fde358d575f67ddf5a4ccb0477f769967a4ee16"
       },
       {
+        "bytes": 8740,
+        "path": "tests/test_stream_probe_memory.py",
+        "sha256": "07fb82e7a41ff09a99c1415e833eb6a0e7bd4367aee2164805f75fe9b2123225"
+      },
+      {
+        "bytes": 11463,
+        "path": "tests/test_stream_recovery.py",
+        "sha256": "fa60fd1a2f65b3f0415a0e15489c1d3daf6efdca77db790c00b71a00edc0b41d"
+      },
+      {
         "bytes": 6234,
         "path": "tests/test_stream_reporting.py",
         "sha256": "7112a34d11e3fd3d29e4031877dbdc8afd7ab88539ea4aaa8c9d8bc4004f8acd"
+      },
+      {
+        "bytes": 21215,
+        "path": "tests/test_stream_topology.py",
+        "sha256": "b541bf3afa972497be9a733b1fd5250709e009082aa5c5f794e2c136a6062a62"
       },
       {
         "bytes": 4781,
@@ -1166,9 +1201,9 @@
         "sha256": "13102c5eba21b14b23bbb932bb0d7a6822f93c34b5c4fa465cd92b01130475d0"
       }
     ],
-    "included_file_count": 230,
+    "included_file_count": 237,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "a5990634fff435e53a41358d708399f06bda6e3a3eacdba7703c14115fad1558"
+    "snapshot_sha256": "c7abf477740751a3108dd66ce4c2381ed9045c8ac237f184874c48033b32fb46"
   }
 }
 -->
@@ -6811,6 +6846,57 @@ bounds, then performs real stateful full-physical-batch CUDA training probes.
 A conservative bound is not an observed intra-frame maximum. Guard refusals never
 drop events or automatically raise memory limits. Neither sampled CUDA probes nor
 snapshot resource checks are an absolute whole-run memory guarantee.
+
+### Recovering a streaming preflight edge-guard failure
+
+The topology phase is count-only: it keeps raw positions and clocks, not complete
+edge-index/attribute tensors. Candidate-pair scratch is bounded independently of
+edge count, including a dense single occupied cell. It uses the updater's fixed
+float64 coordinates, collision-free occupied cells, and strict `norm(delta/r)<1`
+predicate. Counts above the configured model guard are still recorded.
+Unchanged prior edges reuse their exact previous counts; only pairs incident to
+arrivals or expiring nodes are queried again. This saves repeated old-old radius
+queries without caching a full edge index or approximating the graph. Partial
+progress, failing batch indices and failure stage survive an ordinary failure or
+interrupt; a partial scan never authorizes training.
+
+For an already prepared experiment, do **not** repeat preparation, overwrite the
+failed profile, or copy a v2 static dense-frame guard. Run:
+
+```bash
+python -B scripts/recover_streaming_preflight.py --experiment-root runs/streaming-v3-50ms --use-measured-edge-guard --reserve-vram-mib 1024 --cpu-threads 4
+```
+
+The path above refers to the separately chosen 50 ms experiment, not a new default
+window. The tool preserves the current CUDA allocation; it does not select a GPU,
+connect SSH, terminate sessions, start training, or start calibration. It creates
+a unique `preflight-recovery-*` subdirectory on every invocation, so the original
+configs, failed report, checkpoints and other experiments remain unchanged.
+
+`--use-measured-edge-guard` explicitly authorizes a **new config** with the larger
+of its existing guard and the measured complete-training prefix-union bound (at
+least one). It does not reduce nodes, edges, radius, window, data, resolution,
+epochs, model, or physical batch size. Ordinary `profile` without this opt-in
+still stops before its model probe when the completed count exceeds its guard.
+
+Before allocating a model, recovery compares a necessary graph/spline-basis
+storage floor for the actual packed readout batches and resident preceding streams
+with current device memory minus the requested reserve. This is only a lower
+bound: activation/autograd buffers, optimizer, decoder context and temporary
+copies require additional memory. Passing it is not proof that training fits.
+The subsequent full physical-batch CUDA probe measures input loading through
+forward/loss/backward/optimizer **and state commit/release**, plus allocator peaks
+over causal replay. Live memory reserve checks surround every replay/probe batch;
+they are snapshots, not hard GPU memory isolation. Failure never shrinks the model
+or batch, suppresses an OOM, or grants a training certificate.
+
+Only CUDA-eligible success prints the exact new config/profile training command
+and the subsequent full-data calibration command. The script does not execute
+either command. A nonempty existing training run instead requires explicit resume
+review; it is never overwritten. Matching HDR/Aid configs are generated with the
+same model guard and new evaluation output paths. The inherited static Aid guard
+is explicitly removed and recorded; a training scan does **not** certify either
+evaluation dataset or event-driven SNN inference memory.
 
 Calibration/evaluation batch and worker candidates are measured. Stateful
 inference profile trials bootstrap the causal prefix, with that preparation cost
@@ -12526,6 +12612,285 @@ def main(argv: list[str] | None = None) -> None:
 
 if __name__ == "__main__":
     main()
+~~~~~~~~
+
+# scripts/recover_streaming_preflight.py
+
+~~~~~~~~python
+"""Measure and probe a streaming edge guard without starting training or calibration."""
+
+from __future__ import annotations
+
+import argparse
+import copy
+import hashlib
+import json
+import math
+import shlex
+import sys
+import tempfile
+from pathlib import Path
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / "src"))
+
+
+def _positive_float(value: str) -> float:
+    result = float(value)
+    if not math.isfinite(result) or result <= 0:
+        raise argparse.ArgumentTypeError("must be finite and positive")
+    return result
+
+
+def _positive_integer(value: str) -> int:
+    result = int(value)
+    if result < 1:
+        raise argparse.ArgumentTypeError("must be a positive integer")
+    return result
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--experiment-root", required=True,
+                        help="prepared v3 directory containing configs/train,hdr,aid.json")
+    parser.add_argument("--use-measured-edge-guard", action="store_true", required=True,
+                        help="authorize a measured guard in new configuration files")
+    parser.add_argument("--reserve-vram-mib", required=True, type=_positive_float,
+                        help="positive free-VRAM reserve required by the CUDA preflight")
+    parser.add_argument("--cpu-threads", type=_positive_integer, default=4,
+                        help="CPU helper threads, bounded by measured allocation (default: 4)")
+    return parser
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _write_new_json(path: Path, value: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as handle:
+        json.dump(value, handle, indent=2, ensure_ascii=False, allow_nan=False)
+        handle.write("\n")
+
+
+def _overlaps(left: Path, right: Path) -> bool:
+    return left.is_relative_to(right) or right.is_relative_to(left)
+
+
+def _load_experiment_configs(experiment_root: Path) -> tuple[dict, dict]:
+    from asgcn_unet.stream_preflight import validate_streaming_contract
+    from asgcn_unet.utils import experiment_base_dir, load_json, resolve_experiment_paths
+
+    project = PROJECT.resolve()
+    if (not experiment_root.is_dir() or experiment_root == project
+            or not experiment_root.is_relative_to(project)):
+        raise ValueError("experiment-root must be an existing prepared directory inside this checkout")
+    for name in ("src", "scripts", "configs", "data"):
+        if _overlaps(experiment_root, (project / name).resolve()):
+            raise ValueError("experiment-root overlaps a source, configuration, or data directory")
+    directory = experiment_root / "configs"
+    if directory.resolve() != directory:
+        raise ValueError("Prepared configurations must remain inside this experiment")
+    configs, sources = {}, {}
+    for kind in ("train", "hdr", "aid"):
+        path = directory / f"{kind}.json"
+        if path.resolve() != path or not path.is_file():
+            raise ValueError(f"Prepared configuration is missing or outside this experiment: {path}")
+        if experiment_base_dir(path) != project:
+            raise ValueError("Prepared configurations belong to a different checkout")
+        configs[kind] = resolve_experiment_paths(load_json(path), path)
+        validate_streaming_contract(configs[kind], training=kind == "train")
+        sources[kind] = {"path": str(path), "sha256": _sha256(path)}
+        section, key = ("output", "run_dir") if kind == "train" else ("eval", "output_dir")
+        destination = Path(configs[kind][section][key]).resolve()
+        if (destination == experiment_root or not destination.is_relative_to(experiment_root)
+                or _overlaps(destination, directory)):
+            raise ValueError(f"{kind} output must belong to this experiment, outside its configs")
+        for key in ("root", "val_root"):
+            value = configs[kind]["dataset"].get(key)
+            if value and _overlaps(experiment_root, Path(value).resolve()):
+                raise ValueError("Recovery output must not overlap an input dataset directory")
+    model = configs["train"]["model"]
+    if any(configs[kind]["model"] != model for kind in ("hdr", "aid")):
+        raise ValueError("Prepared train, HDR, and Aid configurations must share the same model")
+    return configs, sources
+
+
+def _command(*arguments: str | Path) -> str:
+    return shlex.join([sys.executable, "-B", "-m", "asgcn_unet.cli", *map(str, arguments)])
+
+
+def _failure_summary(
+    report: dict | None, stage: str, error: BaseException | None = None,
+    report_path: Path | None = None,
+) -> dict:
+    read_error = None
+    if report is None and report_path is not None and report_path.is_file():
+        try:
+            with report_path.open(encoding="utf-8") as handle:
+                report = json.load(handle)
+            if not isinstance(report, dict):
+                raise TypeError("Saved preflight report is not a JSON object")
+        except (OSError, ValueError, TypeError) as failure:
+            read_error = str(failure)
+            report = None
+    failure = (report or {}).get("failure") or {}
+    topology = (report or {}).get("topology") or {}
+    return {
+        "stage": failure.get("stage", stage),
+        "probe_phase": failure.get("probe_phase"),
+        "dataset_indices": failure.get("dataset_indices"),
+        "type": type(error).__name__ if error is not None else failure.get("type"),
+        "message": (str(error) or type(error).__name__) if error is not None else failure.get(
+            "message", "Preflight did not pass its CUDA gate"),
+        "saved_report_read_error": read_error,
+        "max_readout_directed_edges": topology.get("max_readout_directed_edges"),
+        "max_prefix_union_directed_edges_upper_bound": topology.get(
+            "max_prefix_union_directed_edges_upper_bound"),
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    import torch
+
+    from asgcn_unet.resources import collect_runtime_resources
+    from asgcn_unet.stream_preflight import _differences, streaming_training_preflight
+    from asgcn_unet.utils import load_json, resolve_path
+    output_root, report, recovery, profile_path = None, None, None, None
+    stage = "validate_prepared_experiment"
+    result_code = 1
+    try:
+        experiment_root = resolve_path(args.experiment_root, PROJECT)
+        configs, sources = _load_experiment_configs(experiment_root)
+        resources = collect_runtime_resources(include_cuda=False)
+        cpu_limit = resources["cpu"].get("effective_cpu_limit")
+        cpu_threads = args.cpu_threads
+        if isinstance(cpu_limit, (int, float)) and math.isfinite(cpu_limit) and cpu_limit > 0:
+            cpu_threads = min(cpu_threads, max(1, math.floor(cpu_limit)))
+        torch.set_num_threads(cpu_threads)
+        output_root = Path(tempfile.mkdtemp(prefix="preflight-recovery-", dir=experiment_root))
+        paths = {kind: output_root / "configs" / f"{kind}.json" for kind in configs}
+        profile_path = output_root / "stream-profile.json"
+        recovery = {
+            "schema": "asgcn_streaming_preflight_recovery_v1", "status": "running",
+            "report_eligible": False, "experiment_root": str(experiment_root),
+            "output_root": str(output_root), "source_configs": sources,
+            "configs": {kind: str(path) for kind, path in paths.items()},
+            "preflight_report": str(profile_path), "changes": {}, "warnings": [],
+            "request": {"use_measured_edge_guard": True, "reserve_vram_mib": args.reserve_vram_mib,
+                        "requested_cpu_threads": args.cpu_threads, "cpu_threads": cpu_threads,
+                        "effective_cpu_limit": cpu_limit},
+            "training_executed": False, "calibration_executed": False,
+            "next_commands": [], "failure": None,
+        }
+        print(f"Recovery directory: {output_root}", flush=True)
+        print(f"CPU helper threads: {cpu_threads}; requested VRAM reserve: {args.reserve_vram_mib:g} MiB", flush=True)
+        stage = "streaming_preflight"
+        report = streaming_training_preflight(
+            copy.deepcopy(configs["train"]), profile_path, require_cuda=True,
+            measured_guard_config_output=paths["train"], reserve_vram_mib=args.reserve_vram_mib,
+        )
+        if report.get("passed") is not True or report.get("report_eligible") is not True:
+            recovery["status"] = "failed"
+            recovery["failure"] = _failure_summary(report, stage)
+        else:
+            stage = "derive_matching_evaluation_configs"
+            for source in sources.values():
+                if _sha256(Path(source["path"])) != source["sha256"]:
+                    raise ValueError("A source configuration changed during recovery")
+            train_config = load_json(paths["train"])
+            expected = copy.deepcopy(configs["train"])
+            expected["model"]["max_graph_edges"] = train_config["model"]["max_graph_edges"]
+            if train_config != expected:
+                raise ValueError("Measured training configuration changed fields other than the edge guard")
+            guard = train_config["model"]["max_graph_edges"]
+            original_guard = configs["train"]["model"]["max_graph_edges"]
+            if type(guard) is not int or guard < 1 or (original_guard is not None and guard < original_guard):
+                raise ValueError("Measured guard must be a positive integer and cannot lower the original guard")
+            recovery["changes"]["train"] = _differences(configs["train"], train_config)
+            for kind in ("hdr", "aid"):
+                current = copy.deepcopy(configs[kind])
+                current["model"]["max_graph_edges"] = guard
+                previous_override = current["eval"].get("max_graph_edges_override")
+                current["eval"]["max_graph_edges_override"] = None
+                current["eval"]["output_dir"] = str(output_root / "eval" / kind)
+                if previous_override is not None:
+                    recovery["warnings"].append(
+                        f"{kind}: removed the inherited static evaluation edge guard {previous_override}; "
+                        "it is not streaming topology evidence."
+                    )
+                _write_new_json(paths[kind], current)
+                recovery["changes"][kind] = _differences(configs[kind], current)
+            recovery["warnings"].append(
+                "The training preflight does not certify HDR/Aid evaluation or SNN memory; "
+                "their streaming evaluation remains unverified."
+            )
+            run_dir = Path(train_config["output"]["run_dir"])
+            if run_dir.exists() and (not run_dir.is_dir() or any(run_dir.iterdir())):
+                recovery["warnings"].append(
+                    "The original training run directory is nonempty. It was preserved; "
+                    "no fresh training or calibration command is provided."
+                )
+            elif train_config["train"].get("resume") is not None:
+                recovery["warnings"].append(
+                    "The training configuration requests resume. Existing checkpoints were preserved; "
+                    "a changed edge guard requires separate resume compatibility review."
+                )
+            else:
+                recovery["next_commands"] = [
+                    _command("train", "--config", paths["train"], "--preflight-report", profile_path,
+                             "--checkpoint-seconds", "300"),
+                    _command("calibrate", "--config", paths["train"], "--checkpoint", run_dir / "best.pt",
+                             "--output", output_root / "calibrated.pt", "--samples", "all"),
+                ]
+            recovery["status"], recovery["report_eligible"] = "passed", True
+            result_code = 0
+    except KeyboardInterrupt as error:
+        if recovery is not None:
+            recovery["status"] = "interrupted"
+            recovery["failure"] = _failure_summary(report, stage, error, profile_path)
+        else:
+            print(f"Recovery interrupted at {stage}", file=sys.stderr)
+        result_code = 130
+    except (OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
+        if recovery is not None:
+            recovery["status"] = "failed"
+            recovery["failure"] = _failure_summary(report, stage, error, profile_path)
+        else:
+            print(f"Recovery failed at {stage}: {error}", file=sys.stderr)
+    if recovery is not None:
+        try:
+            _write_new_json(output_root / "recovery.json", recovery)
+        except (OSError, ValueError, TypeError) as error:
+            print(f"Could not save new recovery metadata: {error}", file=sys.stderr)
+            return 1
+        print(f"Recovery metadata: {output_root / 'recovery.json'}")
+        print(f"Preflight report: {recovery['preflight_report']}")
+        if recovery["status"] == "passed":
+            print("CUDA preflight passed. Matching train/HDR/Aid configurations:")
+            for kind, path in recovery["configs"].items():
+                print(f"  {kind}: {path}")
+            for warning in recovery["warnings"]:
+                print(f"Warning: {warning}")
+            if recovery["next_commands"]:
+                print("Run training next; run calibration only after full training succeeds:")
+                for command in recovery["next_commands"]:
+                    print(command)
+        else:
+            failure = recovery["failure"]
+            print(f"Recovery {recovery['status']} at {failure['stage']}: {failure['message']}", file=sys.stderr)
+            if failure.get("probe_phase") or failure.get("dataset_indices"):
+                print(f"Probe phase: {failure.get('probe_phase')}; "
+                      f"dataset indices: {failure.get('dataset_indices')}", file=sys.stderr)
+            print(f"Count maxima: readout={failure['max_readout_directed_edges']}, "
+                  f"prefix-union upper bound={failure['max_prefix_union_directed_edges_upper_bound']}",
+                  file=sys.stderr)
+    return result_code
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 ~~~~~~~~
 
 # scripts/run.sh
@@ -37271,53 +37636,96 @@ def _topology_model(config):
     )
 
 
-def _scan_stream_topology(dataset, config, device, batches, *, top_density_count):
+def _scan_stream_topology(dataset, config, device, batches, *, top_density_count,
+                          progress=None, on_progress=None):
     import torch
     from tqdm import tqdm
 
     from .batching import sequence_key
     from .preflight import _load_packed_probe_batch
-    from .stream_model import _metadata, _pack_previous, _prepared, _split_state, _update
-    from .stream_state import StreamingReconstructionState
+    from .stream_model import _metadata, _prepared
+    from .stream_topology import count_stream_topology_update
 
     model = _topology_model(config)
     states, records = {}, [None] * len(dataset)
+    result = {} if progress is None else progress
+    result.update({
+        "scope": "complete_eventhdr_training_stream", "dataset_samples": len(dataset),
+        "scanned_samples": 0, "scan_complete": False,
+        "counting_method": "packed_float64_radius_incremental_count_only_v1",
+        "unchanged_previous_edge_counts_reused": True,
+        "full_edge_tensors_materialized": False,
+        "arrival_prefix_peak_measured": False,
+        "prefix_bound_kind": "previous_live_window_union_all_current_frame_arrivals",
+        "statement": "Readout counts are actual; prefix counts are conservative upper bounds, not measured maxima.",
+        "max_readout_nodes": 0, "max_readout_directed_edges": 0,
+        "max_prefix_union_nodes_upper_bound": 0,
+        "max_prefix_union_directed_edges_upper_bound": 0,
+        "peak_candidate_pairs": 0, "candidate_pair_budget": 1_048_576,
+        "top_density_samples": [], "samples": records, "current_batch_indices": [],
+    })
     seen = set()
     final = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
     with torch.no_grad():
         for indices in tqdm(batches, desc="stream-preflight-window-topology"):
+            result["current_batch_indices"] = list(indices)
             if any(index in seen for index in indices):
                 raise ValueError("Streaming topology schedule repeats frames")
             samples, _ = _load_packed_probe_batch(dataset, indices, device)
             previous = [states.get(sequence_key(sample)) for sample in samples]
-            metadata, contract = _metadata(model, samples, previous)
-            graph, _ = _pack_previous(previous, device)
+            # Input validation is shared; this scanner retains raw nodes/clocks,
+            # never an incomplete edge-free graph passed to a model/state API.
+            metadata, contract = _metadata(model, samples, [None] * len(samples))
             features, positions, timestamps, node_batch = _prepared(model, samples, metadata)
-            starts = timestamps.new_tensor([record[2] for record in metadata])
+            del features
+            # Inference starts from the previous watermark, not necessarily the
+            # next frame start: a proven predecessor row may precede that start
+            # after a gap. Keep the complete previous live window in the bound.
+            initial_watermarks = timestamps.new_tensor([
+                old.watermark_seconds if old is not None else record[2]
+                for old, record in zip(previous, metadata, strict=True)
+            ])
             ends = timestamps.new_tensor([record[3] for record in metadata])
             window = model.stream_config["window_seconds"]
             for old, record in zip(previous, metadata, strict=True):
-                if old is not None and old.watermark_seconds > record[2]:
-                    raise ValueError("Streaming topology scan requires nonoverlapping frame intervals")
+                if old is not None and (
+                    old.contract != contract or old.sequence_identity != record[0]
+                    or old.sequence_index + 1 != record[1] or old.origin_seconds != record[4]
+                    or old.watermark_seconds > record[2]
+                ):
+                    raise ValueError("Streaming topology clock/sequence continuity mismatch or overlapping frame intervals")
             # Every actual arrival-prefix graph is a subgraph of this union. It
             # deliberately keeps events which will expire later inside the frame.
-            # A guard refusal here is conservative, NOT an observed prefix maximum.
-            union = _update(model, graph, features, positions, timestamps, node_batch, starts - window).state
-            union_nodes = torch.bincount(union.node_batch, minlength=len(samples))
-            union_edges = torch.bincount(
-                union.node_batch[union.graph.edge_index[0]], minlength=len(samples),
+            # This count is a conservative bound, NOT an observed prefix maximum.
+            incoming_count = len(timestamps)
+            previous_edge_counts = torch.tensor(
+                [old.directed_edges if old is not None else 0 for old in previous],
+                device=device, dtype=torch.long,
             )
-            readout = _update(model, union, features[:0], positions[:0], timestamps[:0],
-                              node_batch[:0], ends - window).state
-            readout_nodes = torch.bincount(readout.node_batch, minlength=len(samples))
-            readout_edges = torch.bincount(
-                readout.node_batch[readout.graph.edge_index[0]], minlength=len(samples),
+            positions = torch.cat([old.positions for old in previous if old is not None] + [positions])
+            timestamps = torch.cat([old.timestamps for old in previous if old is not None] + [timestamps])
+            node_batch = torch.cat([
+                node_batch.new_full((len(old.timestamps),), lane)
+                for lane, old in enumerate(previous) if old is not None
+            ] + [node_batch])
+            union_keep = timestamps >= (initial_watermarks - window)[node_batch]
+            readout_keep = timestamps >= (ends - window)[node_batch]
+            is_arrival = torch.arange(len(timestamps), device=device) >= len(timestamps) - incoming_count
+            measured = count_stream_topology_update(
+                positions, node_batch, union_keep, readout_keep, is_arrival, previous_edge_counts,
+                batch_size=len(samples),
+                radius=model.graph_radius, position_dims=model.graph_position_dims,
+                chunk_size=model.graph_chunk_size,
             )
-            counts = torch.stack((readout_nodes, readout_edges, union_nodes, union_edges)).cpu().tolist()
-            lanes = _split_state(readout, None, len(samples))
-            for lane, (index, sample, record, (lane_graph, _)) in enumerate(
-                zip(indices, samples, metadata, lanes, strict=True)
-            ):
+            counts = torch.stack((measured.readout_nodes, measured.readout_directed_edges,
+                                  measured.union_nodes, measured.union_directed_edges)).cpu().tolist()
+            result["peak_candidate_pairs"] = max(result["peak_candidate_pairs"], measured.peak_candidate_pairs)
+            # Packed permutation followed by per-lane ownership only, not per-sample graph/model computation.
+            order = torch.argsort(node_batch[readout_keep], stable=True)
+            readout_positions = positions[readout_keep][order]
+            readout_times = timestamps[readout_keep][order]
+            offset = 0
+            for lane, (index, sample, record) in enumerate(zip(indices, samples, metadata, strict=True)):
                 actual_nodes, actual_edges, bound_nodes, bound_edges = [values[lane] for values in counts]
                 if actual_nodes > bound_nodes or actual_edges > bound_edges:
                     raise RuntimeError("A readout graph exceeds its conservative arrival-prefix bound")
@@ -37331,34 +37739,35 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
                     "prefix_union_nodes_upper_bound": bound_nodes,
                     "prefix_union_directed_edges_upper_bound": bound_edges,
                 }
-                state = StreamingReconstructionState(
-                    lane_graph, None, None, record[4], record[3], record[1], record[0], None, contract,
+                state = SimpleNamespace(
+                    positions=readout_positions[offset:offset + actual_nodes].clone(),
+                    timestamps=readout_times[offset:offset + actual_nodes].clone(),
+                    origin_seconds=record[4], watermark_seconds=record[3],
+                    sequence_index=record[1], sequence_identity=record[0], contract=contract,
+                    directed_edges=actual_edges,
                 )
+                offset += actual_nodes
                 if record[1] == final[record[0]]:
                     states.pop(record[0], None)
                 else:
-                    states[record[0]] = state.detach().clone()
+                    states[record[0]] = state
+                for field in ("readout_nodes", "readout_directed_edges", "prefix_union_nodes_upper_bound",
+                              "prefix_union_directed_edges_upper_bound"):
+                    result[f"max_{field}"] = max(result[f"max_{field}"], records[index][field])
             seen.update(indices)
-            del graph, union, readout, samples, previous, features, positions, timestamps, node_batch, lanes
+            result["scanned_samples"] = len(seen)
+            result["top_density_samples"] = sorted(
+                result["top_density_samples"] + [records[index] for index in indices],
+                key=lambda row: (-row["prefix_union_directed_edges_upper_bound"],
+                                 -row["readout_directed_edges"], row["dataset_index"]),
+            )[:top_density_count]
+            if on_progress is not None:
+                on_progress()
+            del samples, previous, positions, timestamps, node_batch, readout_positions, readout_times
     if seen != set(range(len(dataset))) or any(record is None for record in records):
         raise ValueError("Streaming topology scan did not cover every training frame exactly once")
-    ranked = sorted(records, key=lambda row: (
-        -row["prefix_union_directed_edges_upper_bound"], -row["readout_directed_edges"], row["dataset_index"],
-    ))
-    return {
-        "scope": "complete_eventhdr_training_stream", "dataset_samples": len(dataset),
-        "scanned_samples": len(records), "scan_complete": True,
-        "arrival_prefix_peak_measured": False,
-        "prefix_bound_kind": "previous_live_window_union_all_current_frame_arrivals",
-        "statement": "Readout counts are actual; prefix counts are conservative upper bounds, not measured maxima.",
-        "max_readout_nodes": max(row["readout_nodes"] for row in records),
-        "max_readout_directed_edges": max(row["readout_directed_edges"] for row in records),
-        "max_prefix_union_nodes_upper_bound": max(row["prefix_union_nodes_upper_bound"] for row in records),
-        "max_prefix_union_directed_edges_upper_bound": max(
-            row["prefix_union_directed_edges_upper_bound"] for row in records
-        ),
-        "top_density_samples": ranked[:top_density_count], "samples": records,
-    }
+    result.update(scan_complete=True, current_batch_indices=[])
+    return result
 
 
 def _stream_probe_plan(batches, records, batch_size, profile_samples):
@@ -37384,6 +37793,10 @@ def _stream_probe_plan(batches, records, batch_size, profile_samples):
     selected.add(0)
     selected.add(next(entry["batch_index"] for entry in entries if entry["batch_size"] == batch_size))
     selected.add(max(entries, key=lambda entry: entry["readout_nodes"])["batch_index"])
+    selected.add(max(entries, key=lambda entry: entry["readout_directed_edges"])["batch_index"])
+    resident_peak_batch = _graph_storage_floor({"samples": records}, batches)["batch_index"]
+    if resident_peak_batch is not None:
+        selected.add(resident_peak_batch)
     sparse = min((row for row in records if row["readout_nodes"] > 0),
                  key=lambda row: row["readout_nodes"], default=None)
     for entry in entries:
@@ -37406,7 +37819,7 @@ def _stream_probe_plan(batches, records, batch_size, profile_samples):
     }
 
 
-def _probe_stream_training(dataset, config, device, batches, topology, plan):
+def _probe_stream_training(dataset, config, device, batches, topology, plan, *, reserve_vram_mib=0, progress=None):
     import torch
     from tqdm import tqdm
 
@@ -37423,6 +37836,59 @@ def _probe_stream_training(dataset, config, device, batches, topology, plan):
     from .training import TrainingState, forward_training_loss
     from .utils import set_seed
 
+    if (isinstance(reserve_vram_mib, bool) or not isinstance(reserve_vram_mib, (int, float))
+            or not math.isfinite(reserve_vram_mib) or reserve_vram_mib < 0):
+        raise ValueError("reserve_vram_mib must be a finite nonnegative number")
+    if progress is not None and not isinstance(progress, dict):
+        raise TypeError("Streaming probe progress must be a dictionary")
+    progress = {} if progress is None else progress
+    measured = []
+    progress.update({
+        "passed": False, "plan": plan, "steps": measured, "current_batch_index": None,
+        "failed_batch_index": None, "phase": "initializing", "completed_batches": 0,
+        "replayed_predecessor_frames": 0, "reserve_vram_mib": float(reserve_vram_mib),
+        "peak_allocated_mib": None, "peak_reserved_mib": None,
+        "minimum_observed_device_free_mib": None,
+        "memory_scope": "model_setup_and_every_chronological_batch_input_through_state_commit_and_release",
+        "reserve_scope": "live_device_free_pre_and_post_batch_and_allocator_peak_against_device_total",
+        "reserve_is_hard_isolation": False,
+    })
+    started = time.perf_counter()
+
+    def memory_snapshot(*, check_peak=False):
+        if device.type != "cuda":
+            return {"peak_allocated_mib": None, "peak_reserved_mib": None,
+                    "device_free_mib": None, "device_total_mib": None}
+        torch.cuda.synchronize(device)
+        free, total = torch.cuda.mem_get_info(device)
+        allocated = torch.cuda.max_memory_allocated(device) / 1024**2
+        reserved = torch.cuda.max_memory_reserved(device) / 1024**2
+        free_mib, total_mib = free / 1024**2, total / 1024**2
+        progress["peak_allocated_mib"] = max(progress["peak_allocated_mib"] or 0, allocated)
+        progress["peak_reserved_mib"] = max(progress["peak_reserved_mib"] or 0, reserved)
+        minimum = progress["minimum_observed_device_free_mib"]
+        progress["minimum_observed_device_free_mib"] = free_mib if minimum is None else min(minimum, free_mib)
+        snapshot = {"peak_allocated_mib": allocated, "peak_reserved_mib": reserved,
+                    "device_free_mib": free_mib, "device_total_mib": total_mib}
+        progress["last_memory_snapshot"] = snapshot
+        if free_mib < reserve_vram_mib:
+            raise RuntimeError(
+                f"Streaming probe VRAM reserve failed during {progress['phase']}: "
+                f"live device free={free_mib:.2f} MiB < reserve={reserve_vram_mib:.2f} MiB. "
+                "No cache eviction, fallback, batch reduction, or continuation was attempted."
+            )
+        if check_peak and reserved > total_mib - reserve_vram_mib:
+            raise RuntimeError(
+                f"Streaming probe allocator peak exceeded device-total-minus-reserve during {progress['phase']}: "
+                f"peak reserved={reserved:.2f} MiB; budget={total_mib - reserve_vram_mib:.2f} MiB. "
+                "This allocator comparison does not account for other processes; live free memory is checked separately."
+            )
+        return snapshot
+
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+        torch.cuda.reset_peak_memory_stats(device)
+    memory_snapshot()
     set_seed(int(config["seed"]))
     model = build_model(config["model"]).to(device).train()
     criterion = ReconstructionLoss(config["train"].get("loss_weights"))
@@ -37432,71 +37898,89 @@ def _probe_stream_training(dataset, config, device, batches, topology, plan):
     temporal_weight = float((config["train"].get("loss_weights") or {}).get("temporal", 0.0))
     state = TrainingState(independent_sequences=True)
     final = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
-    selected, measured = set(plan["selected_batch_indices"]), []
+    selected = set(plan["selected_batch_indices"])
     replayed_frames = 0
-    started = time.perf_counter()
+    progress["phase"] = "model_setup"
+    memory_snapshot(check_peak=True)
     for number, indices in enumerate(tqdm(batches[:plan["replay_stop_batch"] + 1], desc="stream-preflight-stateful-train")):
-        samples, input_pipeline = _load_packed_probe_batch(dataset, indices, device)
-        contexts = state.prepare(samples)
-        if number not in selected:
-            with torch.no_grad(), torch.autocast(device_type=device.type, enabled=amp):
-                prediction, diagnostics = model.forward_training_batch(samples, [entry[0] for entry in contexts])
-            target = samples.targets
-            if not bool(torch.isfinite(prediction).all()):
-                raise FloatingPointError("Non-finite reconstruction during causal predecessor replay")
-            replayed_frames += len(samples)
-        else:
+        progress.update({"current_batch_index": number, "current_dataset_indices": list(indices),
+                         "phase": "before_input_load"})
+        try:
+            memory_snapshot(check_peak=True)
             if device.type == "cuda":
-                torch.cuda.synchronize(device)
                 torch.cuda.reset_peak_memory_stats(device)
             step_started = time.perf_counter()
-            def forward_loss(current_samples=samples, incoming_contexts=contexts):
-                return forward_training_loss(
-                    model, criterion, current_samples, incoming_contexts, batch_mode=True, amp_enabled=amp,
-                    temporal_weight=temporal_weight,
+            samples, input_pipeline = _load_packed_probe_batch(dataset, indices, device)
+            contexts = state.prepare(samples)
+            if number not in selected:
+                progress["phase"] = "predecessor_replay"
+                with torch.no_grad(), torch.autocast(device_type=device.type, enabled=amp):
+                    prediction, diagnostics = model.forward_training_batch(samples, [entry[0] for entry in contexts])
+                target = samples.targets
+                if not bool(torch.isfinite(prediction).all()):
+                    raise FloatingPointError("Non-finite reconstruction during causal predecessor replay")
+            else:
+                progress["phase"] = "forward_loss_backward_optimizer"
+                def forward_loss(current_samples=samples, incoming_contexts=contexts):
+                    return forward_training_loss(
+                        model, criterion, current_samples, incoming_contexts, batch_mode=True, amp_enabled=amp,
+                        temporal_weight=temporal_weight,
+                    )
+                payload, loss, gradient_norm, amp_info = _training_step(
+                    model, optimizer, scaler, forward_loss, optimizer_mode=_optimizer_mode(config["train"]),
+                    max_norm=float(config["train"]["grad_clip"]), epoch=0, step=number,
+                    sample_id="stream-preflight:" + ",".join(map(str, indices)),
                 )
-            payload, loss, gradient_norm, amp_info = _training_step(
-                model, optimizer, scaler, forward_loss, optimizer_mode=_optimizer_mode(config["train"]),
-                max_norm=float(config["train"]["grad_clip"]), epoch=0, step=number,
-                sample_id="stream-preflight:" + ",".join(map(str, indices)),
-            )
-            prediction, diagnostics, target = payload
+                prediction, diagnostics, target = payload
+                if prediction.shape != target.shape or prediction.shape[0] != len(indices):
+                    raise RuntimeError("Streaming probe reconstruction does not match the actual batch target")
+                for index, detail in zip(indices, diagnostics, strict=True):
+                    expected = topology["samples"][index]
+                    if detail["nodes"] != expected["readout_nodes"] or detail["edges"] != expected["readout_directed_edges"]:
+                        raise RuntimeError("Streaming model readout topology differs from the full causal scan")
+                    if not detail.get("stream_execution", {}).get("training_dense_snapshot"):
+                        raise RuntimeError("Streaming preflight did not execute the declared causal-window training path")
+            progress["phase"] = "state_commit_and_release"
+            state.commit(samples, prediction, diagnostics, target)
+            state.release_finished(samples, final)
             if device.type == "cuda":
                 torch.cuda.synchronize(device)
             elapsed = (time.perf_counter() - step_started) * 1000
-            if prediction.shape != target.shape or prediction.shape[0] != len(indices):
-                raise RuntimeError("Streaming probe reconstruction does not match the actual batch target")
-            for index, detail in zip(indices, diagnostics, strict=True):
-                expected = topology["samples"][index]
-                if detail["nodes"] != expected["readout_nodes"] or detail["edges"] != expected["readout_directed_edges"]:
-                    raise RuntimeError("Streaming model readout topology differs from the full causal scan")
-                if not detail.get("stream_execution", {}).get("training_dense_snapshot"):
-                    raise RuntimeError("Streaming preflight did not execute the declared causal-window training path")
-            measured.append({
-                "batch_index": number, "dataset_indices": list(indices), "batch_size": len(indices),
-                "incoming_contexts": sum(context[0] is not None for context in contexts),
-                "loss": loss, "gradient_norm": gradient_norm, "amp": amp_info,
-                "step_time_ms": elapsed, "frames_per_second": len(indices) * 1000 / elapsed,
-                "input_pipeline": input_pipeline, "prediction_shape": list(prediction.shape),
-                "peak_allocated_mib": torch.cuda.max_memory_allocated(device) / 1024**2 if device.type == "cuda" else None,
-                "peak_reserved_mib": torch.cuda.max_memory_reserved(device) / 1024**2 if device.type == "cuda" else None,
-                "scope": "stateful_forward_loss_backward_optimizer_includes_live_context_residency",
-            })
-        state.commit(samples, prediction, diagnostics, target)
-        state.release_finished(samples, final)
+            progress["phase"] = "after_state_commit_and_release"
+            snapshot = memory_snapshot(check_peak=True)
+            if number in selected:
+                measured.append({
+                    "batch_index": number, "dataset_indices": list(indices), "batch_size": len(indices),
+                    "incoming_contexts": sum(context[0] is not None for context in contexts),
+                    "loss": loss, "gradient_norm": gradient_norm, "amp": amp_info,
+                    "step_time_ms": elapsed, "frames_per_second": len(indices) * 1000 / elapsed,
+                    "input_pipeline": input_pipeline, "prediction_shape": list(prediction.shape),
+                    **snapshot,
+                    "scope": "input_load_stateful_forward_loss_backward_optimizer_state_commit_and_release",
+                })
+            else:
+                replayed_frames += len(samples)
+            progress.update({"completed_batches": number + 1, "phase": "batch_completed",
+                             "replayed_predecessor_frames": replayed_frames,
+                             "elapsed_including_context_replay_seconds": time.perf_counter() - started})
+        except (KeyboardInterrupt, OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
+            progress.update({"failed_batch_index": number, "failure_type": type(error).__name__,
+                             "elapsed_including_context_replay_seconds": time.perf_counter() - started})
+            raise
         if number in selected:
             del payload, forward_loss
         del prediction, diagnostics, target, samples, contexts
     if [row["batch_index"] for row in measured] != plan["selected_batch_indices"]:
         raise RuntimeError("Not every selected streaming training batch completed")
-    return {
-        "passed": True, "plan": plan, "steps": measured,
+    progress.update({
+        "passed": True, "phase": "completed", "current_batch_index": None, "current_dataset_indices": [],
         "replayed_predecessor_frames": replayed_frames,
         "elapsed_including_context_replay_seconds": time.perf_counter() - started,
         "parameter_count": sum(parameter.numel() for parameter in model.parameters()),
         "trainable_parameter_count": sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad),
         "training_protocol_scope": "ANN causal-window learning; event-driven inference is a separate evaluation",
-    }
+    })
+    return progress
 
 
 def _scope():
@@ -37511,9 +37995,56 @@ def _scope():
     }
 
 
+def _graph_storage_floor(topology, batches):
+    """Necessary graph/basis storage only; NOT an estimate of total training peak.
+
+    A directed edge uses int64[2] + float64[1] (24 bytes). A node uses
+    float32[4] + float64[4] + degree/time/batch int64-sized vectors (72 bytes).
+    Old persistent sequence graphs coexist with the current readout graph and
+    its long[E,2]/float64[E,2] linear spline basis (32 additional bytes per edge).
+    Activations, autograd, model/optimizer, decoder states and copies are extra.
+    """
+    records = topology["samples"]
+    final = {tuple(row["sequence_identity"]): row["sequence_index"] for row in records}
+    resident = {}
+    largest = {"bytes": 0, "batch_index": None, "dataset_indices": []}
+    for number, indices in enumerate(batches):
+        current = [(tuple(records[index]["sequence_identity"]), records[index]) for index in indices]
+        required = sum(resident.values()) + sum(
+            row["readout_directed_edges"] * 56 + row["readout_nodes"] * 72 for _, row in current
+        )
+        if required > largest["bytes"]:
+            largest = {"bytes": required, "batch_index": number, "dataset_indices": list(indices)}
+        for identity, row in current:
+            if row["sequence_index"] == final[identity]:
+                resident.pop(identity, None)
+            else:
+                resident[identity] = row["readout_directed_edges"] * 24 + row["readout_nodes"] * 72
+    return {**largest, "mib": largest["bytes"] / 1024**2,
+            "scope": "necessary_previous_raw_graphs_plus_current_readout_graph_and_linear_spline_basis",
+            "total_training_peak_estimate": False}
+
+
+def _cuda_memory_budget(device, reserve_vram_mib):
+    import torch
+
+    if device.type != "cuda":
+        return {"measured": False, "scope": "cpu_smoke_only", "reserve_vram_mib": reserve_vram_mib}
+    free, total = torch.cuda.mem_get_info(device)
+    allocated, reserved = torch.cuda.memory_allocated(device), torch.cuda.memory_reserved(device)
+    reusable = max(0, reserved - allocated)
+    return {
+        "measured": True, "free_mib": free / 1024**2, "total_mib": total / 1024**2,
+        "allocated_mib": allocated / 1024**2, "reserved_mib": reserved / 1024**2,
+        "allocator_reusable_mib": reusable / 1024**2, "reserve_vram_mib": reserve_vram_mib,
+        "available_after_reserve_mib": (free + reusable) / 1024**2 - reserve_vram_mib,
+        "scope": "current_device_snapshot_not_a_peak_guarantee",
+    }
+
+
 def streaming_training_preflight(
     config, output_path, *, profile_samples=3, top_density_count=10, require_cuda=True,
-    resume_scan=False, reuse_report=None,
+    resume_scan=False, reuse_report=None, measured_guard_config_output=None, reserve_vram_mib=0,
 ):
     import torch
 
@@ -37530,6 +38061,17 @@ def streaming_training_preflight(
 
     validate_experiment_config(config)
     validate_streaming_contract(config, training=True)
+    config = copy.deepcopy(config)
+    original_edge_guard = config["model"].get("max_graph_edges")
+    if original_edge_guard is not None and (type(original_edge_guard) is not int or original_edge_guard < 1):
+        raise ValueError("max_graph_edges must be a positive integer or None")
+    derived_path = None if measured_guard_config_output is None else Path(measured_guard_config_output)
+    if derived_path is not None:
+        _positive_number(reserve_vram_mib, "reserve_vram_mib")
+        if derived_path.exists() or derived_path.resolve() == Path(output_path).resolve():
+            raise FileExistsError("Measured-guard config must be a new file separate from the report")
+    elif reserve_vram_mib != 0:
+        raise ValueError("reserve_vram_mib requires an explicit measured-guard config output")
     if resume_scan or reuse_report is not None:
         raise ValueError("Streaming preflight cannot reuse a static report or resume without serialized causal graph state; choose a new output")
     if (type(profile_samples) is not int or type(top_density_count) is not int
@@ -37548,10 +38090,14 @@ def streaming_training_preflight(
     report = {
         "schema": REPORT_SCHEMA, "status": "running", "passed": False, "report_eligible": False,
         "output": _artifact_path_label(destination), "measurement_scope": _scope(),
-        "request": {"require_cuda": require_cuda, "profile_samples": profile_samples, "top_density_count": top_density_count},
+        "request": {"require_cuda": require_cuda, "profile_samples": profile_samples,
+                    "top_density_count": top_density_count, "use_measured_edge_guard": derived_path is not None,
+                    "reserve_vram_mib": reserve_vram_mib},
         "config_provenance": {"config": public_config, "sha256": _digest(public_config)},
         "source_provenance": _current_source_contract(), "runtime_provenance": _runtime_provenance(device),
+        "input_config_provenance": {"config": public_config, "sha256": _digest(public_config)},
         "data_provenance": None, "topology": None, "batch_training_probe": None,
+        "guard_measurement": None, "stage": "initialization",
         "checks": {"complete_topology_scan": False, "conservative_prefix_edge_guard": False,
                    "stateful_forward_backward": False, "cuda_available": cuda_ready},
         "training_protocol": _training_protocol(config, device),
@@ -37562,18 +38108,78 @@ def streaming_training_preflight(
         json.dump(report, handle, indent=2, allow_nan=False)
     dataset = None
     try:
+        report["stage"] = "dataset_identity"
         _enforce_training_split_status(config)
         dataset = build_dataset(config["dataset"], split="train")
         report["data_provenance"] = _data_provenance(dataset, config)
         batches = list(_make_batch_sampler(dataset, config))
-        report["topology"] = _scan_stream_topology(
+        report["stage"] = "count_only_topology"
+        report["topology"] = {}
+        last_saved = time.monotonic()
+        def persist_progress():
+            nonlocal last_saved
+            if time.monotonic() - last_saved >= 30:
+                save_json(destination, report)
+                last_saved = time.monotonic()
+        _scan_stream_topology(
             dataset, config, device, batches, top_density_count=top_density_count,
+            progress=report["topology"], on_progress=persist_progress,
         )
         report["checks"]["complete_topology_scan"] = True
+        report["stage"] = "measured_edge_guard"
+        topology = report["topology"]
+        original_guard = config["model"]["max_graph_edges"]
+        required = topology["max_prefix_union_directed_edges_upper_bound"]
+        measured_guard = max(original_guard or 0, required, 1)
+        storage_floor = _graph_storage_floor(topology, batches)
+        memory = _cuda_memory_budget(device, reserve_vram_mib)
+        report["guard_measurement"] = {
+            "configured_max_graph_edges": original_guard, "measured_union_required_guard": required,
+            "proposed_max_graph_edges": measured_guard, "effective_max_graph_edges": original_guard,
+            "explicit_measured_guard_requested": derived_path is not None,
+            "selection": "max(original_guard_or_zero, full_train_prefix_union_edges, 1)",
+            "topology_sha256": _digest(topology), "raw_graph_storage_floor": storage_floor,
+            "device_memory": memory, "evaluation_memory_certified": False,
+        }
+        print(f"Full stream count: {topology['scanned_samples']}/{topology['dataset_samples']} frames; "
+              f"max readout edges={topology['max_readout_directed_edges']:,}; "
+              f"conservative prefix-union edges={required:,}.", flush=True)
+        save_json(destination, report)
+        if derived_path is None and original_guard is not None and required > original_guard:
+            raise RuntimeError(
+                f"Full count-only scan completed: conservative prefix-union requires {required:,} directed edges "
+                f"but configured max_graph_edges={original_guard:,}. No model was allocated or guard changed. "
+                "Use recover_streaming_preflight.py with explicit --use-measured-edge-guard and a VRAM reserve "
+                "to create a new config and measure the unchanged physical batch."
+            )
+        report["stage"] = "raw_graph_memory_floor"
+        if memory["measured"] and storage_floor["mib"] > memory["available_after_reserve_mib"]:
+            raise RuntimeError(
+                f"Necessary graph and spline-basis storage alone is {storage_floor['mib']:.1f} MiB, exceeding "
+                f"{memory['available_after_reserve_mib']:.1f} MiB currently available after the explicit reserve. "
+                "This excludes activations/optimizer/copies; no model was allocated and no scale was reduced."
+            )
+        if derived_path is not None:
+            config["model"]["max_graph_edges"] = measured_guard
+            report["guard_measurement"]["effective_max_graph_edges"] = measured_guard
+            report["guard_measurement"]["derived_config"] = _artifact_path_label(derived_path)
+            public_config = _public_config(config)
+            report["config_provenance"] = {"config": public_config, "sha256": _digest(public_config)}
+            report["training_protocol"] = _training_protocol(config, device)
+            derived_path.parent.mkdir(parents=True, exist_ok=True)
+            with derived_path.open("x", encoding="utf-8") as handle:
+                json.dump(config, handle, indent=2, ensure_ascii=False, allow_nan=False)
+                handle.write("\n")
+            print(f"Explicit measured guard: {original_guard} -> {measured_guard}; "
+                  f"physical batch remains {config['train']['batch_size']}. Starting stateful training probes.", flush=True)
         report["checks"]["conservative_prefix_edge_guard"] = True
+        report["stage"] = "stateful_training_probe"
         plan = _stream_probe_plan(batches, report["topology"]["samples"], config["train"]["batch_size"], profile_samples)
-        report["batch_training_probe"] = _probe_stream_training(dataset, config, device, batches, report["topology"], plan)
+        report["batch_training_probe"] = {}
+        _probe_stream_training(dataset, config, device, batches, report["topology"], plan,
+                               reserve_vram_mib=reserve_vram_mib, progress=report["batch_training_probe"])
         report["checks"]["stateful_forward_backward"] = True
+        report["stage"] = "final_identity_verification"
         if _current_source_contract() != report["source_provenance"]:
             raise ValueError("Executable source changed during the streaming preflight")
         # Rehash every source without the training hash cache: path/size alone
@@ -37583,15 +38189,26 @@ def streaming_training_preflight(
         report["passed"] = True
         report["report_eligible"] = bool(cuda_ready and require_cuda)
         report["status"] = "passed" if report["report_eligible"] else "cpu_smoke_passed_non_reporting"
+        report["stage"] = "complete"
     except KeyboardInterrupt as error:
         report["status"] = "interrupted"
         report["failure"] = _safe_failure(error, config, destination)
+        report["failure"]["stage"] = report["stage"]
+        report["failure"]["probe_phase"] = (report.get("batch_training_probe") or {}).get("phase")
+        report["failure"]["dataset_indices"] = (report.get("batch_training_probe") or {}).get(
+            "current_dataset_indices", (report.get("topology") or {}).get("current_batch_indices", []),
+        )
         report["commitment_sha256"] = _digest(report)
         save_json(destination, report)
         raise
     except (OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
         report["status"] = "failed"
         report["failure"] = _safe_failure(error, config, destination)
+        report["failure"]["stage"] = report["stage"]
+        report["failure"]["probe_phase"] = (report.get("batch_training_probe") or {}).get("phase")
+        report["failure"]["dataset_indices"] = (report.get("batch_training_probe") or {}).get(
+            "current_dataset_indices", (report.get("topology") or {}).get("current_batch_indices", []),
+        )
         report["failure"]["scope_note"] = (
             "A union-bound guard failure is conservative and does not prove an actual arrival prefix exceeded it. "
             "No cap, fallback, static-profile reuse, or experiment overwrite was applied."
@@ -37630,6 +38247,157 @@ def _validated_report(report, path):
     if probe.get("passed") is not True or not probe.get("steps"):
         raise ValueError("Streaming physical-batch training probes are missing")
     return report
+
+
+def _validate_guard_measurement(report, public_config, batches):
+    """Cross-check guard selection and measured reserve evidence without CUDA calls."""
+    def number(value, label, *, positive=False):
+        if (isinstance(value, bool) or not isinstance(value, (int, float))
+                or not math.isfinite(value) or value < 0 or (positive and value == 0)):
+            raise ValueError(f"Invalid measured guard {label}")
+        return float(value)
+
+    def close(left, right):
+        return math.isclose(left, right, rel_tol=1e-9, abs_tol=1e-6)
+
+    def at_least(left, right):
+        return left >= right or close(left, right)
+
+    request = report.get("request")
+    measurement = report.get("guard_measurement")
+    original = report.get("input_config_provenance")
+    effective = report.get("config_provenance")
+    if any(not isinstance(item, dict) for item in (request, measurement, original, effective)):
+        raise ValueError("Streaming guard measurement and input/effective config provenance are required")
+    explicit = request.get("use_measured_edge_guard")
+    if type(explicit) is not bool or type(request.get("require_cuda")) is not bool:
+        raise ValueError("Streaming measured guard request flags must be explicit booleans")
+    reserve = number(request.get("reserve_vram_mib"), "requested reserve", positive=explicit)
+    if not explicit and reserve != 0:
+        raise ValueError("A VRAM reserve requires explicit measured-guard configuration")
+    original_config = original.get("config")
+    if (not isinstance(original_config, dict)
+            or original != {"config": original_config, "sha256": _digest(original_config)}
+            or effective != {"config": public_config, "sha256": _digest(public_config)}):
+        raise ValueError("Streaming input/effective config provenance is inconsistent")
+    old_guard = original_config.get("model", {}).get("max_graph_edges", "missing")
+    new_guard = public_config.get("model", {}).get("max_graph_edges", "missing")
+    for guard in (old_guard, new_guard):
+        if guard is not None and (type(guard) is not int or guard < 1):
+            raise ValueError("Streaming edge guard must be an explicit positive integer or null")
+    topology = report.get("topology")
+    if not isinstance(topology, dict) or topology.get("scan_complete") is not True:
+        raise ValueError("Measured guard requires a complete topology scan")
+    records = topology.get("samples")
+    if not isinstance(records, list) or not records:
+        raise ValueError("Measured guard topology records are missing")
+    count_fields = ("readout_nodes", "readout_directed_edges", "prefix_union_nodes_upper_bound",
+                    "prefix_union_directed_edges_upper_bound")
+    for row in records:
+        if not isinstance(row, dict) or any(type(row.get(name)) is not int or row[name] < 0
+                                            for name in count_fields):
+            raise ValueError("Measured guard topology counts must be nonnegative integers")
+        if (row["readout_nodes"] > row["prefix_union_nodes_upper_bound"]
+                or row["readout_directed_edges"] > row["prefix_union_directed_edges_upper_bound"]):
+            raise ValueError("Measured readout graph exceeds its conservative prefix bound")
+    for name in count_fields:
+        value = topology.get(f"max_{name}")
+        if type(value) is not int or value != max(row[name] for row in records):
+            raise ValueError("Cached streaming topology maxima differ from their complete records")
+    required = topology["max_prefix_union_directed_edges_upper_bound"]
+    proposed = max(old_guard or 0, required, 1)
+    expected_config = copy.deepcopy(original_config)
+    if explicit:
+        expected_config["model"]["max_graph_edges"] = proposed
+    if expected_config != public_config:
+        raise ValueError("Measured configuration must change only the explicitly authorized edge guard")
+    expected_fields = {
+        "configured_max_graph_edges": old_guard, "measured_union_required_guard": required,
+        "proposed_max_graph_edges": proposed, "effective_max_graph_edges": new_guard,
+        "explicit_measured_guard_requested": explicit,
+        "selection": "max(original_guard_or_zero, full_train_prefix_union_edges, 1)",
+        "topology_sha256": _digest(topology), "evaluation_memory_certified": False,
+    }
+    for name, expected in expected_fields.items():
+        actual = measurement.get(name, "missing")
+        if type(actual) is not type(expected) or actual != expected:
+            raise ValueError(f"Streaming guard measurement differs in {name}")
+    if new_guard is not None and required > new_guard:
+        raise ValueError("Complete streaming prefix bound exceeds the effective guard")
+    derived = measurement.get("derived_config")
+    if (explicit and (not isinstance(derived, str) or not derived)) or (not explicit and derived is not None):
+        raise ValueError("Derived guard config provenance does not match explicit authorization")
+    floor = _graph_storage_floor(topology, batches)
+    if measurement.get("raw_graph_storage_floor") != floor:
+        raise ValueError("Streaming raw-graph storage floor differs from the full sequence schedule")
+    memory = measurement.get("device_memory")
+    probe = report.get("batch_training_probe")
+    if not isinstance(memory, dict) or type(memory.get("measured")) is not bool or not isinstance(probe, dict):
+        raise ValueError("Measured guard device-memory and probe evidence are required")
+    if not close(number(memory.get("reserve_vram_mib"), "device reserve"), reserve):
+        raise ValueError("Device-memory reserve differs from its request")
+    if not close(number(probe.get("reserve_vram_mib"), "probe reserve"), reserve):
+        raise ValueError("Training-probe reserve differs from its request")
+    if (probe.get("memory_scope") != "model_setup_and_every_chronological_batch_input_through_state_commit_and_release"
+            or probe.get("reserve_scope") != "live_device_free_pre_and_post_batch_and_allocator_peak_against_device_total"
+            or probe.get("reserve_is_hard_isolation") is not False
+            or probe.get("passed") is not True or probe.get("phase") != "completed"
+            or probe.get("current_batch_index") is not None or probe.get("failed_batch_index") is not None):
+        raise ValueError("Streaming probe memory/reserve scope or completion evidence is invalid")
+    plan = probe.get("plan")
+    if (not isinstance(plan, dict) or type(probe.get("completed_batches")) is not int
+            or probe["completed_batches"] != plan.get("replay_stop_batch", -2) + 1):
+        raise ValueError("Streaming reserve observations do not cover the planned causal replay")
+    steps = probe.get("steps")
+    if not isinstance(steps, list) or not steps:
+        raise ValueError("Streaming measured training steps are missing")
+    if not memory["measured"]:
+        if (request["require_cuda"] or report.get("report_eligible") is True
+                or report.get("checks", {}).get("cuda_available") is True
+                or memory.get("scope") != "cpu_smoke_only"):
+            raise ValueError("CPU smoke memory evidence cannot certify a CUDA reserve")
+        fields = ("peak_allocated_mib", "peak_reserved_mib", "minimum_observed_device_free_mib")
+        if any(probe.get(name) is not None for name in fields) or any(
+            step.get(name) is not None for step in steps
+            for name in ("peak_allocated_mib", "peak_reserved_mib", "device_free_mib", "device_total_mib")
+        ):
+            raise ValueError("CPU smoke cannot contain invented CUDA memory measurements")
+        return
+    if memory.get("scope") != "current_device_snapshot_not_a_peak_guarantee":
+        raise ValueError("Streaming device-memory snapshot scope is invalid")
+    total = number(memory.get("total_mib"), "device total", positive=True)
+    free = number(memory.get("free_mib"), "device free")
+    allocated = number(memory.get("allocated_mib"), "current allocated")
+    reserved = number(memory.get("reserved_mib"), "current reserved")
+    reusable = number(memory.get("allocator_reusable_mib"), "allocator reusable")
+    available = memory.get("available_after_reserve_mib")
+    if (isinstance(available, bool) or not isinstance(available, (int, float))
+            or not math.isfinite(available) or not close(available, free + reusable - reserve)
+            or not close(reusable, max(0, reserved - allocated))
+            or not at_least(total, free) or not at_least(total, reserved)
+            or not at_least(reserved, allocated) or not at_least(available, floor["mib"])):
+        raise ValueError("Streaming device-memory arithmetic or raw-graph floor is inconsistent")
+    peak_allocated = number(probe.get("peak_allocated_mib"), "probe peak allocated")
+    peak_reserved = number(probe.get("peak_reserved_mib"), "probe peak reserved")
+    minimum_free = number(probe.get("minimum_observed_device_free_mib"), "minimum observed free")
+    if (not at_least(peak_reserved, peak_allocated) or not at_least(total - reserve, peak_reserved)
+            or not at_least(minimum_free, reserve) or not at_least(total, minimum_free)):
+        raise ValueError("Streaming probe peak/free memory violates the explicit reserve")
+    snapshots = [*steps, probe.get("last_memory_snapshot")]
+    for snapshot in snapshots:
+        if not isinstance(snapshot, dict):
+            raise TypeError("Streaming probe memory snapshot is missing")
+        step_total = number(snapshot.get("device_total_mib"), "snapshot total", positive=True)
+        step_free = number(snapshot.get("device_free_mib"), "snapshot free")
+        step_allocated = number(snapshot.get("peak_allocated_mib"), "snapshot allocated")
+        step_reserved = number(snapshot.get("peak_reserved_mib"), "snapshot reserved")
+        if (not close(step_total, total) or not at_least(total, step_free)
+                or not at_least(step_free, reserve) or not at_least(step_free, minimum_free)
+                or not at_least(step_reserved, step_allocated)
+                or not at_least(total - reserve, step_reserved)
+                or not at_least(peak_allocated, step_allocated)
+                or not at_least(peak_reserved, step_reserved)):
+            raise ValueError("Streaming probe snapshot contradicts the reserve or peak summaries")
 
 
 def verify_streaming_training_preflight(config, report_path):
@@ -37689,6 +38457,7 @@ def verify_streaming_training_preflight(config, report_path):
             if guard is not None and row["prefix_union_directed_edges_upper_bound"] > guard:
                 raise ValueError("Streaming prefix bound exceeds the configured edge guard")
         batches = list(_make_batch_sampler(dataset, config))
+        _validate_guard_measurement(report, public, batches)
         plan = _stream_probe_plan(batches, records, 16, report["request"]["profile_samples"])
         probe = report["batch_training_probe"]
         if probe["plan"] != plan or [row["batch_index"] for row in probe["steps"]] != plan["selected_batch_indices"]:
@@ -37998,6 +38767,272 @@ def restore_stream_training_state(payload):
     if not bool(state.finite()):
         raise ValueError("Nonfinite streaming state")
     return state
+~~~~~~~~
+
+# src/asgcn_unet/stream_topology.py
+
+~~~~~~~~python
+"""Exact, count-only packed stream topology with bounded candidate-pair scratch.
+
+This diagnostic does not construct an edge index, impose the model edge guard,
+change the radius, or drop nodes. A supplied mask identifies the readout-induced
+subgraph of the complete input union; both graphs are counted in one traversal.
+Occupied-cell storage is O(N), while each candidate-pair work tensor contains at
+most the explicit ``candidate_pair_budget`` entries, even for one dense cell.
+"""
+
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass
+from numbers import Real
+
+import torch
+
+from .stream_graph import _cell_lookup, _occupied_cells
+
+
+@dataclass(frozen=True)
+class StreamTopologyCounts:
+    union_nodes: torch.Tensor
+    union_directed_edges: torch.Tensor
+    readout_nodes: torch.Tensor
+    readout_directed_edges: torch.Tensor
+    candidate_pair_budget: int
+    peak_candidate_pairs: int
+    candidate_pairs_visited: int
+    query_chunks: int
+    candidate_chunks: int
+    peak_query_cells: int
+
+
+@dataclass
+class _Scratch:
+    candidate_pair_budget: int
+    peak_candidate_pairs: int = 0
+    candidate_pairs_visited: int = 0
+    query_chunks: int = 0
+    candidate_chunks: int = 0
+    peak_query_cells: int = 0
+
+    def counts(self, union_nodes, union_edges, readout_nodes, readout_edges):
+        return StreamTopologyCounts(
+            union_nodes, union_edges, readout_nodes, readout_edges,
+            self.candidate_pair_budget, self.peak_candidate_pairs, self.candidate_pairs_visited,
+            self.query_chunks, self.candidate_chunks, self.peak_query_cells,
+        )
+
+
+def _validate_options(radius, position_dims, chunk_size, candidate_pair_budget) -> float:
+    if (isinstance(radius, bool) or not isinstance(radius, Real)
+            or not math.isfinite(float(radius)) or radius <= 0):
+        raise ValueError("Stream topology radius must be finite and positive")
+    if isinstance(position_dims, bool) or not isinstance(position_dims, int) or not 1 <= position_dims <= 4:
+        raise ValueError("Stream topology position_dims must be an integer from 1 to 4")
+    for name, value in (("chunk_size", chunk_size), ("candidate_pair_budget", candidate_pair_budget)):
+        if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+            raise ValueError(f"Stream topology {name} must be a positive integer")
+    return float(radius)
+
+
+def _validate_mask(mask, positions, name):
+    if (not isinstance(mask, torch.Tensor) or mask.layout != torch.strided
+            or mask.shape != (positions.shape[0],) or mask.dtype != torch.bool):
+        raise ValueError(f"Stream topology {name} must have shape [N] and dtype bool")
+    if mask.device != positions.device:
+        raise ValueError("All stream topology tensors must share a device")
+
+
+def _validate_inputs(positions, node_batch, readout_mask, batch_size) -> None:
+    if not isinstance(batch_size, int) or isinstance(batch_size, bool) or batch_size < 0:
+        raise ValueError("Stream topology batch_size must be a nonnegative integer")
+    if (not isinstance(positions, torch.Tensor) or positions.layout != torch.strided
+            or positions.ndim != 2 or positions.shape[1] != 4 or not positions.is_floating_point()):
+        raise ValueError("Stream topology positions must be a floating strided tensor with shape [N,4]")
+    count = positions.shape[0]
+    if (not isinstance(node_batch, torch.Tensor) or node_batch.layout != torch.strided
+            or node_batch.shape != (count,) or node_batch.dtype != torch.long):
+        raise ValueError("Stream topology node_batch must have shape [N] and dtype long")
+    _validate_mask(readout_mask, positions, "readout_mask")
+    if node_batch.device != positions.device:
+        raise ValueError("All stream topology tensors must share a device")
+    if not bool(torch.stack((
+        torch.isfinite(positions).all(),
+        ((node_batch >= 0) & (node_batch < batch_size)).all(),
+    )).all()):
+        raise ValueError("Stream topology positions must be finite and have valid batch identifiers")
+
+
+def _selected_edge_pairs(positions, node_batch, query_mask, *, batch_size, radius,
+                         position_dims, chunk_size, scratch):
+    """Yield bounded strict-radius pairs touching the selected endpoint set.
+
+    Pairs are unordered and yielded once: when both endpoints are selected, the
+    larger input index owns the query; otherwise the selected endpoint owns it.
+    No pairs between two unselected nodes are expanded for distance evaluation.
+    """
+    query_nodes = torch.nonzero(query_mask, as_tuple=True)[0]
+    if not query_nodes.numel():
+        return
+    rows, occupied, sorted_nodes, boundaries = _occupied_cells(
+        positions, node_batch, batch_size, radius, position_dims,
+    )
+    axis = torch.tensor((-1, 0, 1), device=positions.device, dtype=torch.long)
+    offsets = torch.cartesian_prod(*([axis] * position_dims)).reshape(-1, position_dims)
+    cells_per_query = offsets.shape[0]
+    for start in range(0, query_nodes.numel(), chunk_size):
+        sources = query_nodes[start:start + chunk_size]
+        query_rows = rows[sources]
+        query_cells = query_rows[:, None, 1:] + offsets[None, :, :]
+        query_batches = query_rows[:, None, :1].expand(-1, cells_per_query, -1)
+        queries = torch.cat((query_batches, query_cells), dim=2).flatten(0, 1)
+        cell_ids = _cell_lookup(occupied, queries)
+        cell_counts = boundaries[1, cell_ids.clamp_min(0)].masked_fill(cell_ids < 0, 0)
+        cell_starts = boundaries[0, cell_ids.clamp_min(0)]
+        candidate_ends = cell_counts.cumsum(0)
+        candidate_starts = candidate_ends - cell_counts
+        candidate_count = int(candidate_ends[-1])
+        scratch.query_chunks += 1
+        scratch.peak_query_cells = max(scratch.peak_query_cells, queries.shape[0])
+        # Address bounded slices rather than expanding repeat_interleave(counts):
+        # even a single occupied cell can contain more than the scratch budget.
+        for pair_start in range(0, candidate_count, scratch.candidate_pair_budget):
+            pair_stop = min(pair_start + scratch.candidate_pair_budget, candidate_count)
+            flat = torch.arange(pair_start, pair_stop, device=positions.device)
+            groups = torch.searchsorted(candidate_ends, flat, right=True)
+            source = sources[groups.div(cells_per_query, rounding_mode="floor")]
+            target = sorted_nodes[cell_starts[groups] + flat - candidate_starts[groups]]
+            scratch.peak_candidate_pairs = max(scratch.peak_candidate_pairs, pair_stop - pair_start)
+            scratch.candidate_pairs_visited += pair_stop - pair_start
+            scratch.candidate_chunks += 1
+            pair = (source != target) & (~query_mask[target] | (target < source))
+            source, target = source[pair], target[pair]
+            # This exact float64 strict-radius predicate is shared by both
+            # counters and matches the existing evolve_stream_graph updater.
+            normalized_distances = torch.linalg.vector_norm(
+                (positions[source, :position_dims].double()
+                 - positions[target, :position_dims].double()) / radius, dim=1,
+            )
+            valid = normalized_distances < 1.0
+            yield source[valid], target[valid]
+
+
+@torch.no_grad()
+def count_stream_topology(
+    positions: torch.Tensor,
+    node_batch: torch.Tensor,
+    readout_mask: torch.Tensor,
+    *,
+    batch_size: int,
+    radius: float,
+    position_dims: int = 3,
+    chunk_size: int = 512,
+    candidate_pair_budget: int = 1_048_576,
+) -> StreamTopologyCounts:
+    """Count every strict-radius directed edge in a packed union and its readout.
+
+    Input positions follow ``evolve_stream_graph``'s [N,4] fixed-coordinate
+    contract. Distance is evaluated in float64 after division by ``radius``;
+    equality to the radius and self edges are excluded. Batch IDs are part of the
+    collision-free occupied-cell key, so independent streams cannot connect.
+
+    ``chunk_size`` bounds source queries; ``candidate_pair_budget`` separately
+    bounds expanded candidate pairs. It is a scratch budget, never an edge cap.
+    Counts remain device tensors. One candidate-total scalar per query chunk is
+    used to schedule bounded chunks; there is no per-edge/node host transfer.
+    Scratch evidence counts entries, not total allocated bytes or measured RSS.
+    """
+    radius = _validate_options(radius, position_dims, chunk_size, candidate_pair_budget)
+    _validate_inputs(positions, node_batch, readout_mask, batch_size)
+    union_nodes = torch.bincount(node_batch, minlength=batch_size)
+    readout_nodes = torch.bincount(node_batch[readout_mask], minlength=batch_size)
+    union_edges = torch.zeros_like(union_nodes)
+    readout_edges = torch.zeros_like(union_nodes)
+    scratch = _Scratch(candidate_pair_budget)
+    for source, target in _selected_edge_pairs(
+        positions, node_batch, torch.ones_like(readout_mask), batch_size=batch_size, radius=radius,
+        position_dims=position_dims, chunk_size=chunk_size, scratch=scratch,
+    ):
+        union_edges.add_(2 * torch.bincount(node_batch[source], minlength=batch_size))
+        kept = readout_mask[source] & readout_mask[target]
+        readout_edges.add_(2 * torch.bincount(node_batch[source[kept]], minlength=batch_size))
+    return scratch.counts(union_nodes, union_edges, readout_nodes, readout_edges)
+
+
+@torch.no_grad()
+def count_stream_topology_update(
+    positions: torch.Tensor,
+    node_batch: torch.Tensor,
+    union_mask: torch.Tensor,
+    readout_mask: torch.Tensor,
+    is_arrival: torch.Tensor,
+    previous_edge_counts: torch.Tensor,
+    *,
+    batch_size: int,
+    radius: float,
+    position_dims: int = 3,
+    chunk_size: int = 512,
+    candidate_pair_budget: int = 1_048_576,
+) -> StreamTopologyCounts:
+    """Reuse exact old edge counts and count only new/expired incident pairs.
+
+    Inputs contain *all* nodes from the previous readout plus all raw arrivals;
+    old nodes must not be removed before this call. ``previous_edge_counts`` is
+    the exact directed count of those old nodes under the unchanged coordinate,
+    radius and dimension contract. This cache provenance belongs to the caller;
+    verifying every old edge here would defeat incremental counting.
+
+    The caller supplies inclusive timestamp-cutoff masks and verifies arrivals
+    are not beyond the current readout watermark. This API has no timestamp or
+    watermark arguments and does not infer them from coordinates. The readout
+    must be a subset of the union; even arrivals already outside either mask are
+    allowed and never silently substituted. An old pair contributes -2 when it
+    leaves a graph, and a pair touching any arrival contributes +2 when retained.
+
+    Only arrivals or nodes excluded from readout issue cell queries. Unchanged
+    old-old survivor distances are not recalculated; dense incident work can
+    still be quadratic. Scratch and strict-distance rules match the full counter.
+    """
+    radius = _validate_options(radius, position_dims, chunk_size, candidate_pair_budget)
+    _validate_inputs(positions, node_batch, readout_mask, batch_size)
+    _validate_mask(union_mask, positions, "union_mask")
+    _validate_mask(is_arrival, positions, "is_arrival")
+    if (not isinstance(previous_edge_counts, torch.Tensor) or previous_edge_counts.layout != torch.strided
+            or previous_edge_counts.shape != (batch_size,) or previous_edge_counts.dtype != torch.long):
+        raise ValueError("Stream topology previous_edge_counts must have shape [B] and dtype long")
+    if previous_edge_counts.device != positions.device:
+        raise ValueError("All stream topology tensors must share a device")
+    old_nodes = torch.bincount(node_batch[~is_arrival], minlength=batch_size)
+    if not bool(torch.stack((
+        (~readout_mask | union_mask).all(),
+        (previous_edge_counts >= 0).all(), (previous_edge_counts % 2 == 0).all(),
+        (previous_edge_counts <= old_nodes * (old_nodes - 1)).all(),
+    )).all()):
+        raise ValueError(
+            "Stream topology requires readout_mask subset of union_mask and feasible "
+            "nonnegative even previous_edge_counts for every complete old-node stream"
+        )
+    union_nodes = torch.bincount(node_batch[union_mask], minlength=batch_size)
+    readout_nodes = torch.bincount(node_batch[readout_mask], minlength=batch_size)
+    union_edges, readout_edges = previous_edge_counts.clone(), previous_edge_counts.clone()
+    scratch = _Scratch(candidate_pair_budget)
+    query_mask = is_arrival | ~readout_mask
+    for source, target in _selected_edge_pairs(
+        positions, node_batch, query_mask, batch_size=batch_size, radius=radius,
+        position_dims=position_dims, chunk_size=chunk_size, scratch=scratch,
+    ):
+        new_pair = is_arrival[source] | is_arrival[target]
+        for mask, edges in ((union_mask, union_edges), (readout_mask, readout_edges)):
+            both = mask[source] & mask[target]
+            delta = 2 * ((new_pair & both).long() - (~new_pair & ~both).long())
+            edges.index_add_(0, node_batch[source], delta)
+    if not bool(torch.stack((
+        (readout_edges >= 0).all(), (readout_edges <= union_edges).all(),
+        (union_edges <= union_nodes * (union_nodes - 1)).all(),
+        (readout_edges <= readout_nodes * (readout_nodes - 1)).all(),
+    )).all()):
+        raise ValueError("Stream topology cached previous_edge_counts disagree with the supplied old nodes/masks")
+    return scratch.counts(union_nodes, union_edges, readout_nodes, readout_edges)
 ~~~~~~~~
 
 # src/asgcn_unet/timing.py
@@ -64388,6 +65423,408 @@ def test_invalid_node_identity_or_nonfinite_input_is_rejected():
         evolve_stream_graph(None, *values, torch.tensor([-1.0]), radius=1.0, max_graph_edges=None)
 ~~~~~~~~
 
+# tests/test_stream_guard_recovery.py
+
+~~~~~~~~python
+"""Synthetic CPU recovery tests; these do not certify server memory or training."""
+
+from __future__ import annotations
+
+import copy
+import json
+
+import pytest
+
+from asgcn_unet import stream_preflight
+from tests.test_stream_preflight import SyntheticStreams, _config, _fixture_provenance
+
+
+def _run(config, output, **kwargs):
+    return stream_preflight.streaming_training_preflight(
+        config, output, profile_samples=1, top_density_count=2, require_cuda=False, **kwargs,
+    )
+
+
+def test_small_guard_does_not_interrupt_complete_count_or_build_any_edges(monkeypatch, tmp_path):
+    dataset = SyntheticStreams()
+    _fixture_provenance(monkeypatch, dataset)
+    config = _config()
+    config["model"]["max_graph_edges"] = 8
+    monkeypatch.setattr("asgcn_unet.stream_model._update", lambda *a, **k: pytest.fail("edge builder used in scan"))
+    monkeypatch.setattr(stream_preflight, "_probe_stream_training", lambda *a, **k: pytest.fail("guard must block probe"))
+    result = _run(config, tmp_path / "failed.json")
+    assert not result["passed"]
+    assert result["topology"]["scanned_samples"] == len(dataset)
+    assert result["topology"]["scan_complete"]
+    assert result["topology"]["max_readout_directed_edges"] == 6
+    assert result["topology"]["max_prefix_union_directed_edges_upper_bound"] == 20
+    assert result["topology"]["full_edge_tensors_materialized"] is False
+    assert result["checks"]["complete_topology_scan"]
+    assert result["checks"]["conservative_prefix_edge_guard"] is False
+    assert result["failure"]["stage"] == "measured_edge_guard"
+    assert result["guard_measurement"]["effective_max_graph_edges"] == 8
+    assert config["model"]["max_graph_edges"] == 8
+
+
+def test_explicit_measured_guard_creates_new_config_and_probes_that_exact_config(monkeypatch, tmp_path):
+    import torch
+
+    original_threads = torch.get_num_threads()
+    torch.set_num_threads(1)
+    try:
+        dataset = SyntheticStreams()
+        _fixture_provenance(monkeypatch, dataset)
+        config = _config()
+        config["model"]["max_graph_edges"] = 8
+        before = copy.deepcopy(config)
+        path = tmp_path / "new-config.json"
+        result = _run(config, tmp_path / "profile.json", measured_guard_config_output=path, reserve_vram_mib=1024)
+        assert result["passed"], result["failure"]
+        assert result["report_eligible"] is False
+        assert result["batch_training_probe"]["passed"] is True
+        assert config == before
+        derived = json.loads(path.read_text(encoding="utf-8"))
+        assert derived["model"]["max_graph_edges"] == 20
+        derived["model"]["max_graph_edges"] = 8
+        assert derived == before
+        assert result["config_provenance"]["config"]["model"]["max_graph_edges"] == 20
+        assert result["input_config_provenance"]["config"]["model"]["max_graph_edges"] == 8
+        assert result["guard_measurement"]["device_memory"]["measured"] is False
+        assert result["guard_measurement"]["evaluation_memory_certified"] is False
+    finally:
+        torch.set_num_threads(original_threads)
+
+
+def test_insufficient_storage_floor_stops_before_model_or_new_config(monkeypatch, tmp_path):
+    dataset = SyntheticStreams()
+    _fixture_provenance(monkeypatch, dataset)
+    config = _config()
+    config["model"]["max_graph_edges"] = 8
+    monkeypatch.setattr(stream_preflight, "_cuda_memory_budget", lambda *a: {
+        "measured": True, "available_after_reserve_mib": 0,
+        "scope": "mocked_cpu_unit_test_not_actual_cuda_measurement",
+    })
+    monkeypatch.setattr(stream_preflight, "_probe_stream_training", lambda *a, **k: pytest.fail("unsafe probe"))
+    path = tmp_path / "not-created.json"
+    result = _run(config, tmp_path / "floor-failure.json", measured_guard_config_output=path, reserve_vram_mib=1024)
+    assert result["failure"]["stage"] == "raw_graph_memory_floor"
+    assert result["topology"]["scan_complete"]
+    assert result["guard_measurement"]["raw_graph_storage_floor"]["bytes"] > 0
+    assert not result["passed"] and not path.exists()
+
+
+@pytest.mark.parametrize("failure_type", [ValueError, KeyboardInterrupt])
+def test_partial_scan_preserved_on_error_and_interrupt(monkeypatch, tmp_path, failure_type):
+    class BrokenStreams(SyntheticStreams):
+        def __getitem__(self, index):
+            if index == 1:
+                raise failure_type("synthetic scan interruption")
+            return super().__getitem__(index)
+
+    dataset = BrokenStreams()
+    _fixture_provenance(monkeypatch, dataset)
+    path = tmp_path / "partial.json"
+    if failure_type is KeyboardInterrupt:
+        with pytest.raises(KeyboardInterrupt):
+            _run(_config(), path)
+    else:
+        _run(_config(), path)
+    report = json.loads(path.read_text(encoding="utf-8"))
+    assert report["topology"]["scanned_samples"] == 2
+    assert report["topology"]["scan_complete"] is False
+    assert report["topology"]["current_batch_indices"] == [1, 4]
+    assert report["topology"]["samples"][0]["readout_directed_edges"] == 2
+    assert report["topology"]["samples"][1] is None
+    assert report["failure"]["stage"] == "count_only_topology"
+    assert not report["passed"] and dataset.closed
+    claimed = report.pop("commitment_sha256")
+    assert claimed == stream_preflight._digest(report)
+
+
+def test_config_collision_and_missing_reserve_rejected_before_device(monkeypatch, tmp_path):
+    monkeypatch.setattr("asgcn_unet.utils.resolve_device", lambda *a: pytest.fail("device probe"))
+    config_path = tmp_path / "existing.json"
+    config_path.write_text("original", encoding="utf-8")
+    with pytest.raises(FileExistsError):
+        _run(_config(), tmp_path / "report.json", measured_guard_config_output=config_path, reserve_vram_mib=1024)
+    assert config_path.read_text(encoding="utf-8") == "original"
+    with pytest.raises(ValueError, match="reserve_vram_mib"):
+        _run(_config(), tmp_path / "report.json", measured_guard_config_output=tmp_path / "new.json")
+    assert not (tmp_path / "report.json").exists()
+
+
+def test_storage_floor_includes_other_live_sequences_and_current_basis():
+    records = [
+        {"sequence_identity": ["g", lane], "sequence_index": frame,
+         "readout_nodes": 3, "readout_directed_edges": 6}
+        for lane in ("a", "b") for frame in (0, 1)
+    ]
+    result = stream_preflight._graph_storage_floor({"samples": records}, [[0, 2], [1, 3]])
+    assert result["bytes"] == 2 * (6 * 24 + 3 * 72) + 2 * (6 * 56 + 3 * 72)
+    assert result["batch_index"] == 1
+    assert result["total_training_peak_estimate"] is False
+
+
+def test_gap_with_early_predecessor_bounds_the_real_initial_watermark():
+    import torch
+
+    from asgcn_unet.batching import SequenceBatchSampler
+
+    class GapStreams(SyntheticStreams):
+        def __getitem__(self, index):
+            sample = super().__getitem__(index)
+            if sample["metadata"]["sequence_index"] == 1:
+                timing = sample["metadata"]["stream_time"]
+                timing.update(interval_start_seconds=3.0, interval_end_seconds=4.0)
+                # One early predecessor then a normal new event, in timestamp order.
+                sample["events"][:, 2] = torch.tensor([1.2, 3.8], dtype=torch.float64)
+            return sample
+
+    dataset = GapStreams(frames=2)
+    result = stream_preflight._scan_stream_topology(
+        dataset, _config(), torch.device("cpu"), list(SequenceBatchSampler(dataset, 2)),
+        top_density_count=2,
+    )
+    row = result["samples"][1]
+    # The first actual arrival at 1.2 has cutoff -0.3, retaining old 0.2/0.8
+    # and forming six directed edges. start(3.0)-window would wrongly lose them.
+    assert row["prefix_union_nodes_upper_bound"] == 4
+    assert row["prefix_union_directed_edges_upper_bound"] == 12
+    assert row["readout_nodes"] == 1 and row["readout_directed_edges"] == 0
+
+
+@pytest.mark.parametrize("guard", [False, True, 0, -1, 1.5])
+def test_invalid_guard_is_not_silently_replaced_by_measured_value(monkeypatch, tmp_path, guard):
+    monkeypatch.setattr("asgcn_unet.utils.resolve_device", lambda *a: pytest.fail("device probe"))
+    config = _config()
+    config["model"]["max_graph_edges"] = guard
+    with pytest.raises(ValueError, match="max_graph_edges"):
+        _run(config, tmp_path / "report.json", measured_guard_config_output=tmp_path / "config.json",
+             reserve_vram_mib=1024)
+    assert not (tmp_path / "report.json").exists()
+~~~~~~~~
+
+# tests/test_stream_guard_verification.py
+
+~~~~~~~~python
+"""Synthetic CPU-only checks of report evidence; no CUDA telemetry is measured."""
+
+from __future__ import annotations
+
+import copy
+
+import pytest
+
+from asgcn_unet import stream_preflight as streaming
+
+
+def _report(*, explicit=True, cpu=False, original_guard=4):
+    old = {"model": {"max_graph_edges": original_guard, "graph_layers": 6},
+           "train": {"batch_size": 16}}
+    current = copy.deepcopy(old)
+    if explicit:
+        current["model"]["max_graph_edges"] = max(original_guard or 0, 8)
+    row = {"dataset_index": 0, "sequence_identity": ["synthetic", "part"], "sequence_index": 0,
+           "readout_nodes": 3, "readout_directed_edges": 6,
+           "prefix_union_nodes_upper_bound": 4, "prefix_union_directed_edges_upper_bound": 8}
+    topology = {"scan_complete": True, "samples": [row], **{
+        f"max_{name}": row[name] for name in (
+            "readout_nodes", "readout_directed_edges", "prefix_union_nodes_upper_bound",
+            "prefix_union_directed_edges_upper_bound")}}
+    reserve = 1024.0 if explicit else 0.0
+    memory = ({"measured": False, "scope": "cpu_smoke_only", "reserve_vram_mib": reserve}
+              if cpu else {
+                  "measured": True, "scope": "current_device_snapshot_not_a_peak_guarantee",
+                  "reserve_vram_mib": reserve, "total_mib": 16384.0, "free_mib": 12000.0,
+                  "allocated_mib": 100.0, "reserved_mib": 200.0, "allocator_reusable_mib": 100.0,
+                  "available_after_reserve_mib": 12100.0 - reserve,
+              })
+    snapshot = ({name: None for name in ("device_free_mib", "device_total_mib",
+                                        "peak_allocated_mib", "peak_reserved_mib")}
+                if cpu else {"device_free_mib": 10000.0, "device_total_mib": 16384.0,
+                             "peak_allocated_mib": 3000.0, "peak_reserved_mib": 4000.0})
+    probe = {
+        "passed": True, "phase": "completed", "current_batch_index": None,
+        "failed_batch_index": None, "completed_batches": 1, "plan": {"replay_stop_batch": 0},
+        "reserve_vram_mib": reserve, "reserve_is_hard_isolation": False,
+        "memory_scope": "model_setup_and_every_chronological_batch_input_through_state_commit_and_release",
+        "reserve_scope": "live_device_free_pre_and_post_batch_and_allocator_peak_against_device_total",
+        "peak_allocated_mib": snapshot["peak_allocated_mib"],
+        "peak_reserved_mib": snapshot["peak_reserved_mib"],
+        "minimum_observed_device_free_mib": None if cpu else 9500.0,
+        "steps": [copy.deepcopy(snapshot)],
+    }
+    if not cpu:
+        probe["last_memory_snapshot"] = copy.deepcopy(snapshot)
+    measurement = {
+        "configured_max_graph_edges": original_guard, "measured_union_required_guard": 8,
+        "proposed_max_graph_edges": max(original_guard or 0, 8),
+        "effective_max_graph_edges": current["model"]["max_graph_edges"],
+        "explicit_measured_guard_requested": explicit,
+        "selection": "max(original_guard_or_zero, full_train_prefix_union_edges, 1)",
+        "topology_sha256": streaming._digest(topology), "evaluation_memory_certified": False,
+        "raw_graph_storage_floor": streaming._graph_storage_floor(topology, [[0]]),
+        "device_memory": memory,
+    }
+    if explicit:
+        measurement["derived_config"] = "synthetic-new-config.json"
+    return {
+        "synthetic_cpu_test_only": True, "report_eligible": False,
+        "request": {"use_measured_edge_guard": explicit, "require_cuda": not cpu,
+                    "reserve_vram_mib": reserve},
+        "checks": {"cuda_available": not cpu},
+        "input_config_provenance": {"config": old, "sha256": streaming._digest(old)},
+        "config_provenance": {"config": current, "sha256": streaming._digest(current)},
+        "topology": topology, "guard_measurement": measurement, "batch_training_probe": probe,
+    }
+
+
+def _check(report):
+    # A fresh outer commitment must not make internally inconsistent evidence valid.
+    report["commitment_sha256"] = streaming._digest(report)
+    streaming._validate_guard_measurement(report, report["config_provenance"]["config"], [[0]])
+
+
+@pytest.mark.parametrize("explicit,cpu,guard", [
+    (True, False, 4), (True, False, None), (True, True, 4),
+    (False, False, 10), (False, False, None), (False, True, 10),
+])
+def test_consistent_synthetic_guard_and_memory_evidence(explicit, cpu, guard):
+    report = _report(explicit=explicit, cpu=cpu, original_guard=guard)
+    _check(report)
+    assert report["report_eligible"] is False
+
+
+@pytest.mark.parametrize("key", ["guard_measurement", "input_config_provenance"])
+def test_new_guard_evidence_cannot_be_omitted(key):
+    report = _report()
+    del report[key]
+    with pytest.raises(ValueError):
+        _check(report)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("configured_max_graph_edges", 5), ("measured_union_required_guard", 7),
+    ("proposed_max_graph_edges", 7475202), ("effective_max_graph_edges", 9),
+    ("explicit_measured_guard_requested", False), ("evaluation_memory_certified", True),
+    ("selection", "static-profile"), ("topology_sha256", "bad"), ("derived_config", None),
+])
+def test_guard_selection_and_provenance_tampering_is_rejected(field, value):
+    report = _report()
+    report["guard_measurement"][field] = value
+    with pytest.raises(ValueError):
+        _check(report)
+
+
+def test_other_model_changes_are_rejected_even_with_new_config_digest():
+    report = _report()
+    provenance = report["config_provenance"]
+    provenance["config"]["model"]["graph_layers"] = 5
+    provenance["sha256"] = streaming._digest(provenance["config"])
+    with pytest.raises(ValueError, match="only"):
+        _check(report)
+
+
+@pytest.mark.parametrize("change", ["cached-max", "count-type", "floor"])
+def test_cached_counts_and_storage_floor_are_recomputed(change):
+    report = _report()
+    if change == "cached-max":
+        report["topology"]["max_readout_nodes"] = 4
+        report["guard_measurement"]["topology_sha256"] = streaming._digest(report["topology"])
+    elif change == "count-type":
+        report["topology"]["samples"][0]["readout_nodes"] = True
+    else:
+        report["guard_measurement"]["raw_graph_storage_floor"]["bytes"] += 1
+    with pytest.raises(ValueError):
+        _check(report)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("reserve_vram_mib", 1023.0), ("allocator_reusable_mib", 99.0),
+    ("available_after_reserve_mib", 12000.0), ("allocated_mib", 201.0),
+    ("free_mib", float("nan")), ("measured", False), ("scope", "hard-guarantee"),
+])
+def test_device_snapshot_arithmetic_and_reserve_are_checked(field, value):
+    report = _report()
+    report["guard_measurement"]["device_memory"][field] = value
+    with pytest.raises(ValueError):
+        _check(report)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("reserve_vram_mib", 1023), ("minimum_observed_device_free_mib", 1023),
+    ("minimum_observed_device_free_mib", 10001), ("peak_reserved_mib", 16000),
+    ("peak_allocated_mib", 2000), ("completed_batches", 0),
+    ("reserve_is_hard_isolation", True), ("memory_scope", "forward-only"),
+    ("reserve_scope", "allocator-only"), ("phase", "failed"), ("last_memory_snapshot", None),
+])
+def test_probe_coverage_peak_and_free_memory_are_checked(field, value):
+    report = _report()
+    report["batch_training_probe"][field] = value
+    with pytest.raises((ValueError, TypeError)):
+        _check(report)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("device_free_mib", 1023), ("device_total_mib", 32000),
+    ("peak_allocated_mib", 4001), ("peak_reserved_mib", 4001),
+])
+def test_each_measured_step_is_checked_against_probe_summaries(field, value):
+    report = _report()
+    report["batch_training_probe"]["steps"][0][field] = value
+    with pytest.raises(ValueError):
+        _check(report)
+
+
+def test_cpu_evidence_cannot_be_promoted_to_cuda():
+    report = _report(cpu=True)
+    report["report_eligible"] = True
+    with pytest.raises(ValueError, match="CPU smoke"):
+        _check(report)
+
+
+def test_cpu_evidence_cannot_contain_invented_gpu_measurements():
+    report = _report(cpu=True)
+    report["batch_training_probe"]["steps"][0]["device_free_mib"] = 2000
+    with pytest.raises(ValueError, match="invented"):
+        _check(report)
+
+
+def test_float_round_trip_tolerance_is_small_and_explicit():
+    report = _report()
+    report["guard_measurement"]["device_memory"]["available_after_reserve_mib"] += 1e-8
+    _check(report)
+
+
+@pytest.mark.parametrize("explicit", [False, True])
+def test_actual_cpu_smoke_report_matches_guard_verifier(monkeypatch, tmp_path, explicit):
+    import torch
+
+    from asgcn_unet.preflight import _make_batch_sampler
+    from tests.test_stream_preflight import SyntheticStreams, _config, _fixture_provenance
+
+    previous_threads = torch.get_num_threads()
+    torch.set_num_threads(1)
+    try:
+        dataset = SyntheticStreams()
+        _fixture_provenance(monkeypatch, dataset)
+        config = _config()
+        config["model"]["max_graph_edges"] = 8 if explicit else 100
+        options = ({"measured_guard_config_output": tmp_path / "derived.json",
+                    "reserve_vram_mib": 1024} if explicit else {})
+        report = streaming.streaming_training_preflight(
+            config, tmp_path / "report.json", require_cuda=False,
+            profile_samples=1, top_density_count=2, **options,
+        )
+        assert report["passed"], report["failure"]
+        assert report["report_eligible"] is False
+        streaming._validate_guard_measurement(
+            report, report["config_provenance"]["config"], list(_make_batch_sampler(dataset, config)),
+        )
+    finally:
+        torch.set_num_threads(previous_threads)
+~~~~~~~~
+
 # tests/test_stream_inference_profile.py
 
 ~~~~~~~~python
@@ -65598,6 +67035,441 @@ def test_nonfull_requested_cuda_batch_refused_before_device_selection(monkeypatc
         preflight.training_preflight(_config(), tmp_path / "report.json", require_cuda=True)
 ~~~~~~~~
 
+# tests/test_stream_probe_memory.py
+
+~~~~~~~~python
+"""CPU-only synthetic tests of probe memory accounting, never CUDA measurements."""
+
+from __future__ import annotations
+
+from types import SimpleNamespace
+
+import pytest
+import torch
+
+from asgcn_unet import engine, preflight, stream_preflight, training, utils
+from asgcn_unet.batching import SequenceBatchSampler, pack_samples
+from tests.test_stream_preflight import SyntheticStreams, _config
+
+
+@pytest.fixture(autouse=True)
+def bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _policy_fixture(monkeypatch, *, fail_reserve=None, fail_commit=None, allocator_peak=None):
+    """Mock allocator telemetry only; all fixture tensors stay on CPU."""
+    dataset, config, progress = SyntheticStreams(), _config(), {}
+    batches = list(SequenceBatchSampler(dataset, 2))
+    plan = {"selected_batch_indices": [0, 2], "replay_stop_batch": 2}
+    topology = {"samples": [{"readout_nodes": 2, "readout_directed_edges": 0} for _ in dataset.samples]}
+    events = []
+    telemetry = {"peak": 10, "reserved": 10}
+
+    def memory_info(device):
+        events.append(("free", progress["current_batch_index"], progress["phase"]))
+        failure = (progress["current_batch_index"], progress["phase"]) == fail_reserve
+        return (50 if failure else 500) * 1024**2, 1000 * 1024**2
+
+    def reset(device):
+        events.append(("reset", progress["current_batch_index"]))
+        telemetry.update(peak=10, reserved=10)
+
+    def observe(value):
+        telemetry["peak"] = max(telemetry["peak"], value)
+        telemetry["reserved"] = max(telemetry["reserved"], value + 10)
+
+    def output(samples):
+        observe(70)
+        return samples.targets.clone(), [
+            {"nodes": 2, "edges": 0, "stream_execution": {"training_dense_snapshot": True}}
+            for _ in samples
+        ]
+
+    model = SimpleNamespace(parameters=list, forward_training_batch=lambda samples, contexts: output(samples))
+    model.to = lambda device: model
+    model.train = lambda: model
+
+    def load(dataset, indices, device):
+        number = progress["current_batch_index"]
+        events.append(("load", number))
+        observe(120)
+        return pack_samples([dataset[index] for index in indices]), {"synthetic_cpu_fixture": True}
+
+    class State:
+        def __init__(self, **kwargs):
+            pass
+
+        def prepare(self, samples):
+            return [(None, None, None)] * len(samples)
+
+        def commit(self, samples, prediction, diagnostics, target):
+            number = progress["current_batch_index"]
+            events.append(("commit", number))
+            observe([180, 300, 170][number])
+            if allocator_peak is not None and number == allocator_peak:
+                telemetry["reserved"] = 950
+            if number == fail_commit:
+                raise RuntimeError("synthetic state commit allocation failure")
+
+        def release_finished(self, samples, final):
+            events.append(("release", progress["current_batch_index"]))
+
+    def step(model, optimizer, scaler, forward_loss, **kwargs):
+        samples = forward_loss.__defaults__[0]
+        prediction, diagnostics = output(samples)
+        return (prediction, diagnostics, samples.targets), 1.0, 0.25, {"synthetic_cpu_fixture": True}
+
+    monkeypatch.setattr(engine, "build_model", lambda config: model)
+    monkeypatch.setattr(engine, "_build_optimizer", lambda *args: object())
+    monkeypatch.setattr(engine, "_make_grad_scaler", lambda *args: object())
+    monkeypatch.setattr(engine, "_training_step", step)
+    monkeypatch.setattr(training, "TrainingState", State)
+    monkeypatch.setattr(preflight, "_load_packed_probe_batch", load)
+    monkeypatch.setattr(utils, "set_seed", lambda seed: None)
+    monkeypatch.setattr(torch.cuda, "synchronize", lambda device: None)
+    monkeypatch.setattr(torch.cuda, "reset_peak_memory_stats", reset)
+    monkeypatch.setattr(torch.cuda, "mem_get_info", memory_info)
+    monkeypatch.setattr(torch.cuda, "max_memory_allocated", lambda device: telemetry["peak"] * 1024**2)
+    monkeypatch.setattr(torch.cuda, "max_memory_reserved", lambda device: telemetry["reserved"] * 1024**2)
+    args = dataset, config, torch.device("cuda"), batches, topology, plan
+    return args, progress, events
+
+
+def test_selected_peak_includes_input_and_commit_and_replay_peak_is_not_discarded(monkeypatch):
+    args, progress, events = _policy_fixture(monkeypatch)
+    report = stream_preflight._probe_stream_training(*args, reserve_vram_mib=100, progress=progress)
+    assert report is progress and report["passed"]
+    assert [step["batch_index"] for step in report["steps"]] == [0, 2]
+    assert [step["peak_allocated_mib"] for step in report["steps"]] == [180, 170]
+    assert report["peak_allocated_mib"] == 300 and report["peak_reserved_mib"] == 310
+    assert report["replayed_predecessor_frames"] == 2
+    for number in range(3):
+        assert events.index(("reset", number)) < events.index(("load", number))
+        assert events.index(("commit", number)) < events.index(("release", number))
+        assert events.index(("release", number)) < events.index(("free", number, "after_state_commit_and_release"))
+    assert all(step["scope"].endswith("state_commit_and_release") for step in report["steps"])
+    assert report["reserve_is_hard_isolation"] is False
+
+
+@pytest.mark.parametrize("phase", ["before_input_load", "after_state_commit_and_release"])
+def test_live_free_reserve_failure_stops_before_next_batch_and_keeps_completed_steps(monkeypatch, phase):
+    args, progress, events = _policy_fixture(monkeypatch, fail_reserve=(1, phase))
+    with pytest.raises(RuntimeError, match="live device free"):
+        stream_preflight._probe_stream_training(*args, reserve_vram_mib=100, progress=progress)
+    assert not progress["passed"] and progress["failed_batch_index"] == 1
+    assert progress["phase"] == phase and progress["failure_type"] == "RuntimeError"
+    assert [step["batch_index"] for step in progress["steps"]] == [0]
+    assert ("load", 2) not in events
+    assert (("load", 1) in events) == (phase == "after_state_commit_and_release")
+    assert progress["minimum_observed_device_free_mib"] == 50
+
+
+def test_allocator_peak_budget_is_separate_from_live_free_memory(monkeypatch):
+    args, progress, events = _policy_fixture(monkeypatch, allocator_peak=1)
+    with pytest.raises(RuntimeError, match="does not account for other processes"):
+        stream_preflight._probe_stream_training(*args, reserve_vram_mib=100, progress=progress)
+    assert progress["last_memory_snapshot"]["device_free_mib"] == 500
+    assert progress["last_memory_snapshot"]["peak_reserved_mib"] == 950
+    assert progress["failed_batch_index"] == 1 and ("load", 2) not in events
+
+
+def test_state_commit_failure_is_not_a_successful_probe_and_preserves_prior_steps(monkeypatch):
+    args, progress, events = _policy_fixture(monkeypatch, fail_commit=2)
+    with pytest.raises(RuntimeError, match="state commit allocation failure"):
+        stream_preflight._probe_stream_training(*args, reserve_vram_mib=100, progress=progress)
+    assert progress["failed_batch_index"] == 2 and progress["phase"] == "state_commit_and_release"
+    assert progress["completed_batches"] == 2 and not progress["passed"]
+    assert [step["batch_index"] for step in progress["steps"]] == [0]
+    assert ("release", 2) not in events
+
+
+@pytest.mark.parametrize("reserve", [-1, True, float("nan"), float("inf"), "100"])
+def test_invalid_reserve_rejected_before_device_or_model(monkeypatch, reserve):
+    monkeypatch.setattr(engine, "build_model", lambda config: pytest.fail("model must not be allocated"))
+    with pytest.raises(ValueError, match="reserve_vram_mib"):
+        stream_preflight._probe_stream_training(None, {}, torch.device("cpu"), [], {}, {}, reserve_vram_mib=reserve)
+
+
+def test_real_cpu_training_probe_progress_and_stateful_smoke():
+    dataset, config = SyntheticStreams(), _config()
+    batches = list(SequenceBatchSampler(dataset, 2))
+    topology = stream_preflight._scan_stream_topology(dataset, config, torch.device("cpu"), batches, top_density_count=2)
+    plan = {"selected_batch_indices": [0, 2], "replay_stop_batch": 2}
+    progress = {}
+    report = stream_preflight._probe_stream_training(dataset, config, torch.device("cpu"), batches,
+                                                     topology, plan, progress=progress)
+    assert report is progress and report["passed"] and report["completed_batches"] == 3
+    assert report["steps"][-1]["incoming_contexts"] == 2
+    assert report["peak_allocated_mib"] is None and report["peak_reserved_mib"] is None
+    assert all(row["loss"]["total"] >= 0 and row["step_time_ms"] > 0 for row in report["steps"])
+~~~~~~~~
+
+# tests/test_stream_recovery.py
+
+~~~~~~~~python
+"""CPU-only recovery CLI tests; CUDA preflight is mocked, not measured."""
+
+from __future__ import annotations
+
+import copy
+import importlib.util
+import json
+import shlex
+import shutil
+from pathlib import Path
+
+import pytest
+
+from asgcn_unet import resources, stream_preflight
+
+PROJECT = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture
+def recovery(monkeypatch, tmp_path):
+    spec = importlib.util.spec_from_file_location(
+        "stream_recovery_test", PROJECT / "scripts" / "recover_streaming_preflight.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    root = tmp_path / "synthetic checkout with spaces"
+    baseline = root / "configs" / "ablations"
+    baseline.mkdir(parents=True)
+    (root / "pyproject.toml").write_text("[project]\nname='synthetic-cpu-test'\n", encoding="utf-8")
+    for kind in ("train", "hdr", "aid"):
+        shutil.copyfile(PROJECT / "configs" / "ablations" / f"graph_unet-{kind}.json",
+                        baseline / f"graph_unet-{kind}.json")
+    report = stream_preflight.prepare_streaming_experiment(
+        root, "runs/prepared", window_seconds=0.02, time_scale_seconds=0.1,
+        hdr_timestamp_scale_to_seconds=1, aid_timestamp_scale_to_seconds=1,
+        hdr_interval_timestamp_scale_to_seconds=1, aid_interval_timestamp_scale_to_seconds=1e-6,
+    )
+    monkeypatch.setattr(module, "PROJECT", root)
+    monkeypatch.setattr(resources, "collect_runtime_resources",
+                        lambda **kwargs: {"cpu": {"effective_cpu_limit": 2.5}})
+    monkeypatch.setattr("torch.set_num_threads", lambda count: None)
+    return module, root / report["output_root"]
+
+
+def _arguments(root, *extra):
+    return ["--experiment-root", str(root), "--use-measured-edge-guard",
+            "--reserve-vram-mib", "1024", *extra]
+
+
+def _read(path):
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def _result(root):
+    paths = sorted(root.glob("preflight-recovery-*/recovery.json"))
+    assert len(paths) == 1
+    return _read(paths[0])
+
+
+def _mock_preflight(monkeypatch, module, *, passed=True, eligible=True, change=None):
+    calls = []
+
+    def probe(config, output, **kwargs):
+        calls.append((copy.deepcopy(config), output, kwargs))
+        saved = copy.deepcopy(config)
+        saved["model"]["max_graph_edges"] = 3_000_000
+        if change:
+            change(saved, output, kwargs)
+        if passed:
+            module._write_new_json(Path(kwargs["measured_guard_config_output"]), saved)
+        result = {
+            "passed": passed, "report_eligible": eligible,
+            "status": "passed" if passed else "failed",
+            "topology": {"max_readout_directed_edges": 2_500_000,
+                         "max_prefix_union_directed_edges_upper_bound": 3_000_000},
+            "failure": None if passed else {
+                "stage": "cuda_memory_budget", "type": "RuntimeError", "message": "Synthetic memory refusal"},
+        }
+        module._write_new_json(Path(output), result)
+        return result
+
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", probe)
+    return calls
+
+
+def test_success_derives_matching_configs_without_changing_inputs(recovery, monkeypatch, capsys):
+    module, root = recovery
+    originals = {path: path.read_bytes() for path in (root / "configs").glob("*.json")}
+    calls = _mock_preflight(monkeypatch, module)
+    assert module.main(_arguments(root)) == 0
+    result = _result(root)
+    assert all(path.read_bytes() == content for path, content in originals.items())
+    assert result["training_executed"] is False and result["calibration_executed"] is False
+    assert result["request"]["cpu_threads"] == 2
+    assert result["request"]["requested_cpu_threads"] == 4
+    config, output, options = calls[0]
+    assert options["require_cuda"] is True and options["reserve_vram_mib"] == 1024
+    assert config["train"]["batch_size"] == 16 and config["train"]["epochs"] == 40
+    assert config["model"]["graph_layers"] == 6 and config["model"]["hidden_dim"] == 64
+    assert config["dataset"]["max_events"] is None
+    assert Path(options["measured_guard_config_output"]).parent.parent == output.parent
+    train = _read(result["configs"]["train"])
+    assert train["output"]["run_dir"] == str(root / "train")
+    assert Path(train["dataset"]["root"]).is_absolute()
+    assert {entry["field"] for entry in result["changes"]["train"]} == {"model.max_graph_edges"}
+    for kind in ("hdr", "aid"):
+        derived = _read(result["configs"][kind])
+        assert derived["model"] == train["model"]
+        assert derived["eval"]["max_graph_edges_override"] is None
+        assert Path(derived["eval"]["output_dir"]) == output.parent / "eval" / kind
+    assert any("7475202" in warning for warning in result["warnings"])
+    commands = [shlex.split(command) for command in result["next_commands"]]
+    assert len(commands) == 2 and commands[0][4] == "train" and commands[1][4] == "calibrate"
+    assert commands[0][6] == result["configs"]["train"]
+    assert commands[0][8] == result["preflight_report"]
+    assert commands[1][-2:] == ["--samples", "all"]
+    text = capsys.readouterr().out
+    assert text.count(result["next_commands"][0]) == 1
+    assert text.count(result["next_commands"][1]) == 1
+    assert '"topology"' not in text
+
+
+def test_retry_always_creates_a_new_recovery_directory(recovery, monkeypatch):
+    module, root = recovery
+    _mock_preflight(monkeypatch, module, passed=False, eligible=False)
+    assert module.main(_arguments(root)) == 1
+    old = {path: path.read_bytes() for path in root.glob("preflight-recovery-*/*") if path.is_file()}
+    assert module.main(_arguments(root)) == 1
+    assert len(list(root.glob("preflight-recovery-*"))) == 2
+    assert all(path.read_bytes() == content for path, content in old.items())
+
+
+@pytest.mark.parametrize("passed,eligible", [(False, False), (True, False)])
+def test_failed_or_cpu_smoke_never_provides_training_commands(recovery, monkeypatch, capsys, passed, eligible):
+    module, root = recovery
+    _mock_preflight(monkeypatch, module, passed=passed, eligible=eligible)
+    assert module.main(_arguments(root)) == 1
+    result = _result(root)
+    assert result["next_commands"] == [] and not result["report_eligible"]
+    assert not Path(result["configs"]["hdr"]).exists()
+    text = capsys.readouterr()
+    assert "prefix-union upper bound=3000000" in text.err
+    assert "asgcn_unet.cli train" not in text.out
+
+
+def test_nonempty_original_run_is_preserved_and_gets_no_fresh_commands(recovery, monkeypatch):
+    module, root = recovery
+    run = root / "train"
+    run.mkdir()
+    sentinel = run / "existing-user-result.txt"
+    sentinel.write_text("original", encoding="utf-8")
+    _mock_preflight(monkeypatch, module)
+    assert module.main(_arguments(root)) == 0
+    assert sentinel.read_text(encoding="utf-8") == "original"
+    result = _result(root)
+    assert result["next_commands"] == []
+    assert any("nonempty" in warning for warning in result["warnings"])
+
+
+def test_explicit_opt_in_is_required_before_probe_or_output(recovery, monkeypatch):
+    module, root = recovery
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("no probe"))
+    with pytest.raises(SystemExit) as error:
+        module.main(["--experiment-root", str(root), "--reserve-vram-mib", "1024"])
+    assert error.value.code == 2
+    assert not list(root.glob("preflight-recovery-*"))
+
+
+@pytest.mark.parametrize("value", ["0", "-1", "nan", "inf"])
+def test_vram_reserve_must_be_explicit_finite_positive(recovery, value):
+    module, root = recovery
+    with pytest.raises(SystemExit):
+        module.main(["--experiment-root", str(root), "--use-measured-edge-guard",
+                     "--reserve-vram-mib", value])
+    assert not list(root.glob("preflight-recovery-*"))
+
+
+@pytest.mark.parametrize("change", ["other-output", "dataset-overlap", "model-mismatch"])
+def test_unrelated_or_incompatible_config_refused_before_probe(recovery, monkeypatch, change):
+    module, root = recovery
+    path = root / "configs" / "aid.json"
+    config = _read(path)
+    if change == "other-output":
+        config["eval"]["output_dir"] = "runs/some-other-study/eval"
+    elif change == "dataset-overlap":
+        config["dataset"]["root"] = str(root / "data")
+    else:
+        config["model"]["graph_radius"] = 0.07
+    path.write_text(json.dumps(config), encoding="utf-8")
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("no probe"))
+    assert module.main(_arguments(root)) == 1
+    assert not list(root.glob("preflight-recovery-*"))
+
+
+def test_evaluation_config_collision_does_not_overwrite_or_print_commands(recovery, monkeypatch):
+    module, root = recovery
+    sentinel = []
+
+    def precreate(config, output, kwargs):
+        path = Path(kwargs["measured_guard_config_output"]).with_name("hdr.json")
+        module._write_new_json(path, {"existing": "preserve"})
+        sentinel.append(path)
+
+    _mock_preflight(monkeypatch, module, change=precreate)
+    assert module.main(_arguments(root)) == 1
+    assert _read(sentinel[0]) == {"existing": "preserve"}
+    assert _result(root)["next_commands"] == []
+
+
+def test_unexpected_probe_config_change_is_rejected(recovery, monkeypatch):
+    module, root = recovery
+    _mock_preflight(monkeypatch, module,
+                    change=lambda config, *_: config["model"].update(graph_radius=0.07))
+    assert module.main(_arguments(root)) == 1
+    assert _result(root)["next_commands"] == []
+
+
+def test_existing_json_is_never_overwritten(recovery, tmp_path):
+    module, _ = recovery
+    path = tmp_path / "existing.json"
+    path.write_text("original", encoding="utf-8")
+    with pytest.raises(FileExistsError):
+        module._write_new_json(path, {"replacement": True})
+    assert path.read_text(encoding="utf-8") == "original"
+
+
+def test_unbounded_input_guard_becomes_a_finite_measured_guard(recovery, monkeypatch):
+    module, root = recovery
+    for path in (root / "configs").glob("*.json"):
+        config = _read(path)
+        config["model"]["max_graph_edges"] = None
+        path.write_text(json.dumps(config), encoding="utf-8")
+    _mock_preflight(monkeypatch, module)
+    assert module.main(_arguments(root)) == 0
+    for path in _result(root)["configs"].values():
+        assert _read(path)["model"]["max_graph_edges"] == 3_000_000
+
+
+@pytest.mark.parametrize("error,code", [(RuntimeError("synthetic probe failure"), 1),
+                                       (KeyboardInterrupt(), 130)])
+def test_raised_failure_recovers_saved_count_maxima(recovery, monkeypatch, capsys, error, code):
+    module, root = recovery
+
+    def interrupt(config, output, **kwargs):
+        module._write_new_json(Path(output), {
+            "topology": {"max_readout_directed_edges": 2_500_000,
+                         "max_prefix_union_directed_edges_upper_bound": 3_000_000},
+            "failure": {"stage": "stateful_training_probe"},
+        })
+        raise error
+
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", interrupt)
+    assert module.main(_arguments(root)) == code
+    result = _result(root)
+    assert result["failure"]["max_prefix_union_directed_edges_upper_bound"] == 3_000_000
+    assert result["failure"]["stage"] == "stateful_training_probe"
+    assert result["next_commands"] == []
+    assert "prefix-union upper bound=3000000" in capsys.readouterr().err
+~~~~~~~~
+
 # tests/test_stream_reporting.py
 
 ~~~~~~~~python
@@ -65731,6 +67603,394 @@ def test_evaluation_aggregates_after_actual_forward_once_including_partial_tail(
             assert "stream_execution" not in statistics
     finally:
         torch.set_num_threads(previous_threads)
+~~~~~~~~
+
+# tests/test_stream_topology.py
+
+~~~~~~~~python
+"""Bounded synthetic CPU count-kernel tests, not research performance results."""
+
+from __future__ import annotations
+
+from dataclasses import fields
+
+import pytest
+import torch
+
+from asgcn_unet import stream_graph, stream_topology
+from asgcn_unet.stream_graph import evolve_stream_graph
+from asgcn_unet.stream_topology import count_stream_topology, count_stream_topology_update
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _count(points, batches=None, mask=None, *, batch_size=1, **kwargs):
+    positions = torch.as_tensor(points, dtype=torch.float64).reshape(-1, 4)
+    count = positions.shape[0]
+    node_batch = torch.tensor([0] * count if batches is None else batches, dtype=torch.long)
+    readout = torch.tensor([True] * count if mask is None else mask, dtype=torch.bool)
+    return count_stream_topology(positions, node_batch, readout, batch_size=batch_size,
+                                 radius=kwargs.pop("radius", 1.0), **kwargs)
+
+
+def _assert_reference(positions, batches, mask, result, batch_size, radius=1.0, position_dims=3):
+    coordinates = positions[:, :position_dims].double()
+    # Only this tiny CPU test oracle materializes the N*N distance matrix.
+    distances = torch.linalg.vector_norm((coordinates[:, None] - coordinates[None, :]) / radius, dim=-1)
+    valid = (distances < 1) & (batches[:, None] == batches[None, :])
+    valid.fill_diagonal_(False)
+    sources = torch.nonzero(valid, as_tuple=True)[0]
+    kept_sources = torch.nonzero(valid & mask[:, None] & mask[None, :], as_tuple=True)[0]
+    torch.testing.assert_close(result.union_nodes, torch.bincount(batches, minlength=batch_size))
+    torch.testing.assert_close(result.readout_nodes, torch.bincount(batches[mask], minlength=batch_size))
+    torch.testing.assert_close(result.union_directed_edges, torch.bincount(batches[sources], minlength=batch_size))
+    torch.testing.assert_close(result.readout_directed_edges, torch.bincount(batches[kept_sources], minlength=batch_size))
+
+
+@pytest.mark.parametrize("position_dims", [1, 2, 3, 4])
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64])
+@pytest.mark.parametrize("chunk_size,budget", [(1, 7), (6, 19), (512, 1_048_576)])
+def test_packed_counts_match_dense_reference_and_real_updater(position_dims, dtype, chunk_size, budget):
+    generator = torch.Generator().manual_seed(912)
+    positions = torch.rand((27, 4), generator=generator, dtype=dtype) * 4 - 2
+    batches = torch.randint(0, 3, (27,), generator=generator)
+    mask = torch.rand(27, generator=generator) > 0.4
+    result = count_stream_topology(positions, batches, mask, batch_size=4, radius=1.4,
+                                   position_dims=position_dims, chunk_size=chunk_size,
+                                   candidate_pair_budget=budget)
+    _assert_reference(positions, batches, mask, result, 4, 1.4, position_dims)
+    update = evolve_stream_graph(
+        None, torch.zeros((27, 4)), positions, torch.zeros(27, dtype=torch.float64), batches,
+        torch.full((4,), -1.0, dtype=torch.float64), radius=1.4, position_dims=position_dims,
+        chunk_size=chunk_size, max_graph_edges=None,
+    )
+    edges = update.state.graph.edge_index
+    torch.testing.assert_close(result.union_directed_edges, torch.bincount(batches[edges[0]], minlength=4))
+    kept = mask[edges[0]] & mask[edges[1]]
+    torch.testing.assert_close(result.readout_directed_edges, torch.bincount(batches[edges[0, kept]], minlength=4))
+    assert result.peak_candidate_pairs <= budget
+    assert result.peak_query_cells <= chunk_size * 3**position_dims
+
+
+@pytest.mark.parametrize("budget", [1, 5, 17])
+def test_single_dense_cell_chunks_candidate_pairs_without_truncation(monkeypatch, budget):
+    count = 23
+    positions = torch.zeros((count, 4), dtype=torch.float64)
+    batches = torch.zeros(count, dtype=torch.long)
+    mask = torch.arange(count) % 3 == 0
+    observed_norm_rows = []
+    original_norm = torch.linalg.vector_norm
+
+    def bounded_norm(values, *args, **kwargs):
+        observed_norm_rows.append(values.shape[0])
+        assert values.shape[0] <= budget
+        return original_norm(values, *args, **kwargs)
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Count-only diagnostics must not construct or guard a graph")
+
+    monkeypatch.setattr(torch.linalg, "vector_norm", bounded_norm)
+    monkeypatch.setattr(torch, "repeat_interleave", forbidden)
+    monkeypatch.setattr(stream_graph, "evolve_stream_graph", forbidden)
+    monkeypatch.setattr(stream_graph, "_check_guard", forbidden)
+    monkeypatch.setattr(stream_graph.EventGraph, "__init__", forbidden)
+    result = count_stream_topology(positions, batches, mask, batch_size=1, radius=1,
+                                   chunk_size=512, candidate_pair_budget=budget)
+    kept = int(mask.sum())
+    assert result.union_directed_edges.tolist() == [count * (count - 1)]
+    assert result.readout_directed_edges.tolist() == [kept * (kept - 1)]
+    assert result.candidate_pairs_visited == count**2
+    assert result.peak_candidate_pairs == budget
+    assert result.candidate_chunks == (count**2 + budget - 1) // budget
+    assert observed_norm_rows and max(observed_norm_rows) <= budget
+    assert all(getattr(result, field.name).shape == (1,) for field in fields(result)
+               if isinstance(getattr(result, field.name), torch.Tensor))
+
+
+def test_strict_float64_boundary_and_readout_induced_subgraph():
+    inside = torch.nextafter(torch.tensor(1.0, dtype=torch.float64), torch.tensor(0.0)).item()
+    outside = torch.nextafter(torch.tensor(1.0, dtype=torch.float64), torch.tensor(2.0)).item()
+    points = [[0, 0, 0, 0], [inside, 0, 0, 0], [1, 0, 0, 0], [outside, 0, 0, 0]]
+    for index, expected in [(1, 2), (2, 0), (3, 0)]:
+        result = _count(points, mask=[i in (0, index) for i in range(4)], candidate_pair_budget=2)
+        assert result.readout_directed_edges.tolist() == [expected]
+        assert result.union_directed_edges.tolist() == [8]
+
+
+def test_negative_large_coordinates_and_identical_points_never_connect_streams():
+    points = [[-1e15, -2, -1e12, 0], [1e15, 4, 1e12, 0],
+              [-1e15 + 0.5, -2, -1e12, 0], [1e15 + 0.5, 4, 1e12, 0]]
+    result = _count(points, [0, 2, 0, 2], [True, True, False, True], batch_size=4, candidate_pair_budget=3)
+    assert result.union_nodes.tolist() == [2, 0, 2, 0]
+    assert result.union_directed_edges.tolist() == [2, 0, 2, 0]
+    assert result.readout_directed_edges.tolist() == [0, 0, 2, 0]
+    result = _count([[0, 0, 0, 0]] * 6, [0, 1, 0, 1, 0, 1], batch_size=2)
+    assert result.union_directed_edges.tolist() == [6, 6]
+
+
+@pytest.mark.parametrize("radius,coordinate", [(2e200, 1e200), (2e-200, 1e-200)])
+def test_distance_is_scaled_before_norm_without_overflow_or_underflow(radius, coordinate):
+    result = _count([[0, 0, 0, 0], [coordinate, 0, 0, 0]], radius=radius, candidate_pair_budget=1)
+    assert result.union_directed_edges.tolist() == [2]
+
+
+@pytest.mark.parametrize("batch_size", [0, 3])
+def test_empty_input_needs_no_cell_lookup(monkeypatch, batch_size):
+    monkeypatch.setattr(stream_topology, "_occupied_cells", lambda *args: pytest.fail("empty input needs no cell index"))
+    result = _count([], batch_size=batch_size)
+    assert result.union_nodes.tolist() == result.union_directed_edges.tolist() == [0] * batch_size
+    assert result.readout_nodes.tolist() == result.readout_directed_edges.tolist() == [0] * batch_size
+    assert result.peak_candidate_pairs == result.candidate_pairs_visited == result.query_chunks == 0
+
+
+def test_no_edges_or_readout_nodes_are_not_substituted():
+    result = _count([[0, 0, 0, 0], [5, 5, 5, 0]], mask=[False, False], candidate_pair_budget=1)
+    assert result.union_nodes.tolist() == [2]
+    assert result.union_directed_edges.tolist() == result.readout_nodes.tolist() == result.readout_directed_edges.tolist() == [0]
+    assert result.candidate_pairs_visited == 2  # Self candidates are examined, never edges.
+
+
+def test_inputs_are_unchanged_and_no_autograd_history_is_retained():
+    positions = torch.tensor([[0., 0, 0, 0], [0.5, 0, 0, 0]], dtype=torch.float64, requires_grad=True)
+    batches = torch.zeros(2, dtype=torch.long)
+    mask = torch.tensor([True, False])
+    before = [value.clone() for value in (positions, batches, mask)]
+    result = count_stream_topology(positions, batches, mask, batch_size=1, radius=1)
+    for actual, expected in zip((positions, batches, mask), before, strict=True):
+        torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+    assert all(not getattr(result, field.name).requires_grad for field in fields(result)
+               if isinstance(getattr(result, field.name), torch.Tensor))
+
+
+@pytest.mark.parametrize("keyword,value", [
+    ("radius", 0), ("radius", True), ("radius", float("nan")), ("radius", float("inf")),
+    ("position_dims", 0), ("position_dims", 5), ("position_dims", True),
+    ("chunk_size", 0), ("chunk_size", True), ("candidate_pair_budget", 0),
+    ("candidate_pair_budget", 1.5), ("candidate_pair_budget", True),
+    ("batch_size", -1), ("batch_size", True),
+])
+def test_invalid_configuration_is_not_repaired(keyword, value):
+    with pytest.raises(ValueError, match=keyword):
+        _count([], **{keyword: value})
+
+
+@pytest.mark.parametrize("positions,batches,mask,message", [
+    (torch.zeros(2, 3), torch.zeros(2, dtype=torch.long), torch.ones(2, dtype=torch.bool), "positions"),
+    (torch.zeros(2, 4, dtype=torch.long), torch.zeros(2, dtype=torch.long), torch.ones(2, dtype=torch.bool), "positions"),
+    (torch.zeros(2, 4), torch.zeros(2), torch.ones(2, dtype=torch.bool), "node_batch"),
+    (torch.zeros(2, 4), torch.zeros(2, dtype=torch.long), torch.ones(2), "readout_mask"),
+    (torch.zeros(2, 4), torch.tensor([0, 1]), torch.ones(2, dtype=torch.bool), "valid batch"),
+    (torch.zeros(2, 4), torch.tensor([0, -1]), torch.ones(2, dtype=torch.bool), "valid batch"),
+    (torch.full((2, 4), float("nan")), torch.zeros(2, dtype=torch.long), torch.ones(2, dtype=torch.bool), "finite"),
+])
+def test_invalid_input_is_rejected(positions, batches, mask, message):
+    with pytest.raises(ValueError, match=message):
+        count_stream_topology(positions, batches, mask, batch_size=1, radius=1)
+
+
+def test_numeric_cell_address_overflow_fails_without_truncation():
+    with pytest.raises(ValueError, match="float64 cell addressing"):
+        _count([[-1e20, 0, 0, 0], [1e20, 0, 0, 0]])
+
+
+def _assert_update_matches_full(positions, batches, union_mask, readout_mask, arrivals, cached,
+                                *, batch_size, radius=1.0, position_dims=3, budget=7, chunk_size=4):
+    result = count_stream_topology_update(
+        positions, batches, union_mask, readout_mask, arrivals, cached,
+        batch_size=batch_size, radius=radius, position_dims=position_dims,
+        chunk_size=chunk_size, candidate_pair_budget=budget,
+    )
+    expected = count_stream_topology(
+        positions[union_mask], batches[union_mask], readout_mask[union_mask],
+        batch_size=batch_size, radius=radius, position_dims=position_dims,
+        chunk_size=chunk_size, candidate_pair_budget=budget,
+    )
+    for field in ("union_nodes", "union_directed_edges", "readout_nodes", "readout_directed_edges"):
+        torch.testing.assert_close(getattr(result, field), getattr(expected, field), rtol=0, atol=0)
+    assert result.peak_candidate_pairs <= budget
+    assert result.peak_query_cells <= chunk_size * 3**position_dims
+    return result
+
+
+@pytest.mark.parametrize("position_dims", [1, 2, 3, 4])
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64])
+def test_incremental_multiple_packed_frames_gaps_expirations_and_late_arrivals(position_dims, dtype):
+    generator = torch.Generator().manual_seed(2291)
+    positions = torch.empty((0, 4), dtype=dtype)
+    batches = torch.empty(0, dtype=torch.long)
+    times = torch.empty(0, dtype=torch.float64)
+    cached = torch.zeros(4, dtype=torch.long)
+    ends = torch.zeros(4, dtype=torch.float64)
+    for step in range(6):
+        starts = ends + torch.tensor([0.0, 0.5 if step % 2 else 0.0, 2.0 if step % 2 else 0.0, 0.0])
+        ends = starts + torch.tensor([0.4, 0.3, 0.7, 0.2])
+        new_batches = torch.tensor([0, 1, 2, 0, 1, 2, 0, 1, 2])  # Lane 3 remains empty.
+        new_times = torch.cat((starts[:3] - 1.3, starts[:3] + 0.1, ends[:3]))
+        new_positions = torch.rand((9, 4), generator=generator, dtype=dtype)
+        new_positions[:, 2] = (new_times / 10).to(dtype)
+        arrivals = torch.cat((torch.zeros(len(times), dtype=torch.bool), torch.ones(9, dtype=torch.bool)))
+        positions = torch.cat((positions, new_positions))
+        times = torch.cat((times, new_times))
+        batches = torch.cat((batches, new_batches))
+        union_mask = times >= (starts - 1.0)[batches]
+        readout_mask = times >= (ends - 1.0)[batches]
+        result = _assert_update_matches_full(
+            positions, batches, union_mask, readout_mask, arrivals, cached,
+            batch_size=4, radius=0.8, position_dims=position_dims, budget=11,
+        )
+        positions, batches, times = positions[readout_mask], batches[readout_mask], times[readout_mask]
+        cached = result.readout_directed_edges
+
+
+@pytest.mark.parametrize("budget", [1, 5, 17])
+def test_incremental_dense_queries_only_changed_endpoints_and_respects_budget(monkeypatch, budget):
+    count, old_count = 23, 21
+    positions = torch.zeros((count, 4), dtype=torch.float64)
+    batches = torch.zeros(count, dtype=torch.long)
+    arrivals = torch.arange(count) >= old_count
+    union_mask = torch.ones(count, dtype=torch.bool)
+    union_mask[0] = union_mask[-1] = False  # Old expiry and an already-expired new arrival.
+    readout_mask = union_mask.clone()
+    readout_mask[1] = False
+    cached = torch.tensor([old_count * (old_count - 1)])
+    selected_count = int((arrivals | ~readout_mask).sum())
+    observed = []
+    original_norm = torch.linalg.vector_norm
+
+    def bounded_norm(values, *args, **kwargs):
+        observed.append(len(values))
+        assert len(values) <= budget
+        return original_norm(values, *args, **kwargs)
+
+    with monkeypatch.context() as patch:
+        patch.setattr(torch.linalg, "vector_norm", bounded_norm)
+        result = count_stream_topology_update(
+            positions, batches, union_mask, readout_mask, arrivals, cached,
+            batch_size=1, radius=1, chunk_size=512, candidate_pair_budget=budget,
+        )
+    assert result.union_directed_edges.tolist() == [21 * 20]
+    assert result.readout_directed_edges.tolist() == [20 * 19]
+    assert result.candidate_pairs_visited == selected_count * count < count**2
+    expected_incident_pairs = selected_count * (count - selected_count) + selected_count * (selected_count - 1) // 2
+    assert sum(observed) == expected_incident_pairs
+    assert result.peak_candidate_pairs == budget
+    assert cached.tolist() == [old_count * (old_count - 1)]
+
+
+@pytest.mark.parametrize("keep_union", [False, True])
+def test_expiration_only_and_all_old_nodes_expired(keep_union):
+    positions = torch.zeros((6, 4), dtype=torch.float64)
+    batches = torch.tensor([0, 1, 0, 1, 0, 1])
+    union_mask = torch.full((6,), keep_union, dtype=torch.bool)
+    readout_mask = torch.zeros(6, dtype=torch.bool)
+    result = _assert_update_matches_full(
+        positions, batches, union_mask, readout_mask, torch.zeros(6, dtype=torch.bool),
+        torch.tensor([6, 6]), batch_size=2,
+    )
+    assert result.readout_directed_edges.tolist() == [0, 0]
+    assert result.union_directed_edges.tolist() == ([6, 6] if keep_union else [0, 0])
+
+
+def test_incremental_preserves_equal_cutoff_ties_and_strict_radius_boundary():
+    inside = torch.nextafter(torch.tensor(1.0, dtype=torch.float64), torch.tensor(0.0)).item()
+    positions = torch.tensor([[0., 0, 0, 0], [inside, 0, 0, 0], [1., 0, 0, 0], [0., 0, 0, 0]])
+    positions = positions.double()
+    positions[1, 0] = inside  # Keep the one-ULP distinction in float64.
+    batches = torch.zeros(4, dtype=torch.long)
+    times = torch.tensor([1.0, 1.0, 2.0, 0.999], dtype=torch.float64)
+    union_mask, readout_mask = times >= 0.5, times >= 1.0
+    result = _assert_update_matches_full(
+        positions, batches, union_mask, readout_mask, torch.tensor([False, True, True, True]),
+        torch.zeros(1, dtype=torch.long), batch_size=1, position_dims=1, budget=2,
+    )
+    assert result.readout_nodes.tolist() == [3]
+    assert result.readout_directed_edges.tolist() == [4]
+
+
+def test_interleaved_arrival_identity_handles_selected_target_larger_than_source():
+    positions = torch.zeros((6, 4), dtype=torch.float64)
+    batches = torch.tensor([0, 1, 0, 1, 0, 1])
+    arrivals = torch.tensor([True, False, False, True, False, False])
+    union_mask = torch.tensor([True, True, False, True, True, True])
+    readout_mask = torch.tensor([True, False, False, True, True, True])
+    _assert_update_matches_full(positions, batches, union_mask, readout_mask, arrivals,
+                                torch.tensor([2, 2]), batch_size=2, budget=1)
+
+
+def test_unchanged_old_stream_does_not_build_index_or_recompute_distances(monkeypatch):
+    positions = torch.zeros((4, 4), dtype=torch.float64)
+    batches = torch.tensor([0, 1, 0, 1])
+    mask = torch.ones(4, dtype=torch.bool)
+    cached = torch.tensor([2, 2])
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Unchanged old pairs must use cached counts without spatial work")
+    monkeypatch.setattr(stream_topology, "_occupied_cells", forbidden)
+    monkeypatch.setattr(torch.linalg, "vector_norm", forbidden)
+    result = count_stream_topology_update(positions, batches, mask, mask, ~mask, cached,
+                                          batch_size=2, radius=1)
+    assert result.union_directed_edges.tolist() == result.readout_directed_edges.tolist() == [2, 2]
+    assert result.query_chunks == result.candidate_pairs_visited == 0
+    assert result.union_directed_edges.data_ptr() != cached.data_ptr()
+    assert result.readout_directed_edges.data_ptr() != cached.data_ptr()
+
+
+def test_incremental_empty_batch_and_first_frame_all_arrivals():
+    empty_positions = torch.empty((0, 4), dtype=torch.float64)
+    empty_batches, empty_mask = torch.empty(0, dtype=torch.long), torch.empty(0, dtype=torch.bool)
+    result = count_stream_topology_update(empty_positions, empty_batches, empty_mask, empty_mask,
+                                          empty_mask, empty_batches, batch_size=0, radius=1)
+    assert result.union_directed_edges.numel() == result.readout_directed_edges.numel() == 0
+    positions = torch.zeros((5, 4), dtype=torch.float64)
+    mask = torch.ones(5, dtype=torch.bool)
+    _assert_update_matches_full(positions, torch.zeros(5, dtype=torch.long), mask, mask, mask,
+                                torch.zeros(1, dtype=torch.long), batch_size=1)
+
+
+@pytest.mark.parametrize("cache", [torch.tensor([-2]), torch.tensor([3]), torch.tensor([8]),
+                                    torch.tensor([2.0]), torch.tensor([2, 2])])
+def test_incremental_invalid_cache_rejected(cache):
+    positions = torch.zeros((2, 4), dtype=torch.float64)
+    mask = torch.ones(2, dtype=torch.bool)
+    with pytest.raises(ValueError, match="previous_edge_counts"):
+        count_stream_topology_update(positions, torch.zeros(2, dtype=torch.long), mask, mask, ~mask,
+                                     cache, batch_size=1, radius=1)
+
+
+@pytest.mark.parametrize("field", ["union_mask", "is_arrival"])
+def test_incremental_invalid_masks_rejected(field):
+    positions = torch.zeros((2, 4), dtype=torch.float64)
+    mask = torch.ones(2, dtype=torch.bool)
+    options = {"union_mask": mask, "readout_mask": mask, "is_arrival": ~mask}
+    options[field] = torch.ones(2)
+    with pytest.raises(ValueError, match=field):
+        count_stream_topology_update(positions, torch.zeros(2, dtype=torch.long),
+                                     previous_edge_counts=torch.tensor([2]), batch_size=1, radius=1, **options)
+
+
+def test_incremental_readout_outside_union_is_not_repaired():
+    positions = torch.zeros((2, 4), dtype=torch.float64)
+    mask = torch.ones(2, dtype=torch.bool)
+    with pytest.raises(ValueError, match="subset"):
+        count_stream_topology_update(positions, torch.zeros(2, dtype=torch.long), ~mask, mask, ~mask,
+                                     torch.tensor([2]), batch_size=1, radius=1)
+
+
+def test_inconsistent_cache_failure_does_not_mutate_any_inputs():
+    positions = torch.zeros((2, 4), dtype=torch.float64, requires_grad=True)
+    batches = torch.zeros(2, dtype=torch.long)
+    mask = torch.zeros(2, dtype=torch.bool)
+    cached = torch.tensor([0])  # Feasible by cardinality, but wrong for these connected old nodes.
+    snapshots = [value.clone() for value in (positions, batches, mask, cached)]
+    with pytest.raises(ValueError, match="cached previous_edge_counts disagree"):
+        count_stream_topology_update(positions, batches, mask, mask, mask, cached, batch_size=1, radius=1)
+    for value, snapshot in zip((positions, batches, mask, cached), snapshots, strict=True):
+        torch.testing.assert_close(value, snapshot, rtol=0, atol=0)
 ~~~~~~~~
 
 # tests/test_summarize_eval.py

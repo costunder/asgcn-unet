@@ -154,6 +154,57 @@ A conservative bound is not an observed intra-frame maximum. Guard refusals neve
 drop events or automatically raise memory limits. Neither sampled CUDA probes nor
 snapshot resource checks are an absolute whole-run memory guarantee.
 
+### Recovering a streaming preflight edge-guard failure
+
+The topology phase is count-only: it keeps raw positions and clocks, not complete
+edge-index/attribute tensors. Candidate-pair scratch is bounded independently of
+edge count, including a dense single occupied cell. It uses the updater's fixed
+float64 coordinates, collision-free occupied cells, and strict `norm(delta/r)<1`
+predicate. Counts above the configured model guard are still recorded.
+Unchanged prior edges reuse their exact previous counts; only pairs incident to
+arrivals or expiring nodes are queried again. This saves repeated old-old radius
+queries without caching a full edge index or approximating the graph. Partial
+progress, failing batch indices and failure stage survive an ordinary failure or
+interrupt; a partial scan never authorizes training.
+
+For an already prepared experiment, do **not** repeat preparation, overwrite the
+failed profile, or copy a v2 static dense-frame guard. Run:
+
+```bash
+python -B scripts/recover_streaming_preflight.py --experiment-root runs/streaming-v3-50ms --use-measured-edge-guard --reserve-vram-mib 1024 --cpu-threads 4
+```
+
+The path above refers to the separately chosen 50 ms experiment, not a new default
+window. The tool preserves the current CUDA allocation; it does not select a GPU,
+connect SSH, terminate sessions, start training, or start calibration. It creates
+a unique `preflight-recovery-*` subdirectory on every invocation, so the original
+configs, failed report, checkpoints and other experiments remain unchanged.
+
+`--use-measured-edge-guard` explicitly authorizes a **new config** with the larger
+of its existing guard and the measured complete-training prefix-union bound (at
+least one). It does not reduce nodes, edges, radius, window, data, resolution,
+epochs, model, or physical batch size. Ordinary `profile` without this opt-in
+still stops before its model probe when the completed count exceeds its guard.
+
+Before allocating a model, recovery compares a necessary graph/spline-basis
+storage floor for the actual packed readout batches and resident preceding streams
+with current device memory minus the requested reserve. This is only a lower
+bound: activation/autograd buffers, optimizer, decoder context and temporary
+copies require additional memory. Passing it is not proof that training fits.
+The subsequent full physical-batch CUDA probe measures input loading through
+forward/loss/backward/optimizer **and state commit/release**, plus allocator peaks
+over causal replay. Live memory reserve checks surround every replay/probe batch;
+they are snapshots, not hard GPU memory isolation. Failure never shrinks the model
+or batch, suppresses an OOM, or grants a training certificate.
+
+Only CUDA-eligible success prints the exact new config/profile training command
+and the subsequent full-data calibration command. The script does not execute
+either command. A nonempty existing training run instead requires explicit resume
+review; it is never overwritten. Matching HDR/Aid configs are generated with the
+same model guard and new evaluation output paths. The inherited static Aid guard
+is explicitly removed and recorded; a training scan does **not** certify either
+evaluation dataset or event-driven SNN inference memory.
+
 Calibration/evaluation batch and worker candidates are measured. Stateful
 inference profile trials bootstrap the causal prefix, with that preparation cost
 explicitly included in their timing; they are not steady-state throughput claims.

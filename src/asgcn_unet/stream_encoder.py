@@ -128,6 +128,12 @@ def _partial_affine(
     """
     if not destinations.numel():
         return x.new_zeros((0, layer.out_channels)), 0, 0
+    from .implicit_radius import ImplicitRadiusGraph
+    if isinstance(graph, ImplicitRadiusGraph):
+        from .implicit_model import affine
+        values, sources, edges = affine(layer, x, graph, destinations,
+                                        omit_zero_sources=omit_zero_sources)
+        return values, edges, sources
     if incidence is None:
         raise RuntimeError("active destinations require a topology incidence index")
     selected_edges = incidence.incoming(destinations)
@@ -166,7 +172,8 @@ def _partial_affine(
 
 
 def _validate(encoder, update, previous, mode, simulation_steps, dynamics):
-    if not isinstance(encoder, ASGCNEncoder):
+    from .encoder_stage import EncoderStage
+    if not isinstance(encoder, (ASGCNEncoder, EncoderStage)):
         raise TypeError("stream encoder requires the existing ASGCNEncoder")
     if encoder.training or any(layer.norm.training for layer in encoder.layers):
         raise ValueError("incremental encoder is eval-only; use full-snapshot ANN training with global BN")
@@ -226,6 +233,7 @@ def update_encoder(
     simulation_steps: int = 16,
     dynamics: str = "literal_eq15",
     active_graphs: torch.Tensor | None = None,
+    input_changed_sources: torch.Tensor | None = None,
 ) -> StreamEncoderState:
     """Apply one explicit arrival/expiry/readout-time advance, retry-safe.
 
@@ -233,6 +241,11 @@ def update_encoder(
     feeding the result back as ``previous`` instead advances another local
     update, including pending pulse endings. No wall-clock/bias ticks occur in
     untouched neurons. Simulation steps are not input-event timestamps.
+
+    ``input_changed_sources`` identifies changed/emitted/ending external input
+    pulses. Their dependants enter the FIRST layer only; they are not topology
+    changes broadcast to every layer. Hierarchical SNN callers provide one
+    interleaved tick at a time and recompute this source mask for each tick.
     """
     _validate(encoder, update, previous, mode, simulation_steps, dynamics)
     graph = update.state.graph
@@ -249,9 +262,26 @@ def update_encoder(
             raise ValueError("A topology change cannot be hidden in an idle graph")
     old = update.old_indices
     seed = torch.nonzero(update.changed_nodes, as_tuple=False).flatten()
+    input_sources = old.new_empty(0)
+    if input_changed_sources is not None:
+        if (input_changed_sources.shape != (n,) or input_changed_sources.dtype != torch.bool
+                or input_changed_sources.device != reference.device):
+            raise ValueError("input_changed_sources must be a device-local bool vector over live nodes")
+        if bool((input_changed_sources & ~active_nodes).any()):
+            raise ValueError("An input pulse change cannot be hidden in an idle graph")
+        input_sources = torch.nonzero(input_changed_sources, as_tuple=True)[0]
     # An ANN expiry of isolated nodes or a readout-only advance can have no
     # changed destinations at all. It requires remapping, not an edge sort.
-    incidence = None if mode == "ann" and not seed.numel() else _Incidence.build(graph)
+    from .implicit_radius import ImplicitRadiusGraph
+    implicit = isinstance(graph, ImplicitRadiusGraph)
+    if mode == "ann" and not seed.numel() and not input_sources.numel():
+        incidence = None
+    elif implicit:
+        from .implicit_stream import ImplicitIncidence
+        incidence = ImplicitIncidence(graph)
+    else:
+        incidence = _Incidence.build(graph)
+    first_destinations = _affected(seed, input_sources, graph, incidence)
     outputs, membranes, previous_spikes, spike_sums, local_ticks, last_pulses = [], [], [], [], [], []
     for i, layer in enumerate(encoder.layers):
         shape = (n, layer.out_channels)
@@ -275,7 +305,7 @@ def update_encoder(
         x = reference
         changed = seed
         for i, layer in enumerate(encoder.layers):
-            destinations = seed if i == 0 else _affected(seed, changed, graph, incidence)
+            destinations = first_destinations if i == 0 else _affected(seed, changed, graph, incidence)
             values, edges, sources = _partial_affine(
                 layer, x, graph, destinations, incidence, omit_zero_sources=False
             )
@@ -290,7 +320,8 @@ def update_encoder(
         # Analog event features and the update's topology stay constant during
         # all local sweeps. Reuse the exact first-layer current, not its spikes.
         first_current, first_edges, first_sources = _partial_affine(
-            encoder.layers[0], reference, graph, seed, incidence, omit_zero_sources=False
+            encoder.layers[0], reference, graph, first_destinations, incidence,
+            omit_zero_sources=getattr(encoder, "input_is_spiking", False),
         )
         message_edges[0] = first_edges
         projected_sources[0] = first_sources
@@ -302,7 +333,7 @@ def update_encoder(
             pulse_supports = []
             for i, layer in enumerate(encoder.layers):
                 if i == 0:
-                    destinations = seed
+                    destinations = first_destinations
                     x = reference
                 else:
                     x = pulses[i - 1]
@@ -356,8 +387,8 @@ def update_encoder(
             "clock_policy": "event_local_causal_pulses_v1" if mode == "snn" else "incremental_frozen_bn_ann_v1",
             "update_reason": "explicit_arrival_expiry_or_readout_advance",
             "local_sweeps": simulation_steps if mode == "snn" else 1,
-            "live_nodes": n, "live_edges": graph.edge_index.shape[1],
-            "topology_indexed_edges": graph.edge_index.shape[1] if incidence is not None else 0,
+            "live_nodes": n, "live_edges": graph.edge_count if implicit else graph.edge_index.shape[1],
+            "topology_indexed_edges": graph.edge_index.shape[1] if incidence is not None and not implicit else 0,
             "updated_nodes_per_layer": updated_nodes,
             "message_edges_per_layer": message_edges,
             "projected_sources_per_layer": projected_sources,

@@ -15,6 +15,8 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
+from .hierarchy_contract import validate_hierarchy_config
+
 REPORT_SCHEMA = "asgcn_streaming_training_preflight_v1"
 VERIFICATION_SCHEMA = "asgcn_streaming_preflight_verification_v1"
 STREAM_CLOCK = "event_local_pending_off_v1"
@@ -23,7 +25,7 @@ STREAM_ARRIVAL_POLICY = "simultaneous_equal_timestamp"
 
 def is_streaming_config(config: dict[str, Any]) -> bool:
     model = config.get("model", {})
-    return model.get("graph_execution") == "event_driven" or model.get("architecture_version") == 3
+    return model.get("graph_execution") == "event_driven" or model.get("architecture_version") in {3, 4}
 
 
 def _positive_number(value: Any, label: str) -> float:
@@ -37,10 +39,19 @@ def _positive_number(value: Any, label: str) -> float:
 
 def validate_streaming_contract(config: dict[str, Any], *, training: bool = False) -> None:
     model, dataset = config.get("model", {}), config.get("dataset", {})
-    if model.get("architecture_version") != 3 or model.get("graph_execution") != "event_driven":
-        raise ValueError("Streaming requires architecture_version=3 and graph_execution=event_driven")
-    if model.get("encoder_kind") != "graph" or model.get("event_sampling_factor") != 1:
-        raise ValueError("Streaming requires the graph encoder and event_sampling_factor=1")
+    version = model.get("architecture_version")
+    if version not in {3, 4} or model.get("graph_execution") != "event_driven":
+        raise ValueError("Streaming requires architecture_version=3/4 and graph_execution=event_driven")
+    factor = model.get("event_sampling_factor")
+    if (model.get("encoder_kind") != "graph" or type(factor) is not int or not 1 <= factor < 2**63
+            or (version == 3 and factor != 1)):
+        raise ValueError("Streaming requires the graph encoder and explicit positive sampling factor; v3 requires R=1")
+    if version == 4:
+        validate_hierarchy_config(model.get("hierarchy_config"), model["graph_layers"])
+    elif model.get("hierarchy_config") is not None:
+        raise ValueError("hierarchy_config requires an independent architecture_version=4 study")
+    if model.get("graph_storage", "materialized") not in {"materialized", "implicit_radius"}:
+        raise ValueError("graph_storage must be materialized or implicit_radius")
     stream = model.get("stream_config")
     if not isinstance(stream, dict):
         raise TypeError("model.stream_config must explicitly define its physical time contract")
@@ -98,6 +109,9 @@ def prepare_streaming_experiment(
     aid_timestamp_scale_to_seconds: float,
     hdr_interval_timestamp_scale_to_seconds: float,
     aid_interval_timestamp_scale_to_seconds: float,
+    graph_storage: str = "materialized",
+    hierarchy_config: dict[str, Any] | None = None,
+    event_sampling_factor: int = 1,
 ) -> dict[str, Any]:
     """Create exclusive new configs; preserve every nonapproved baseline field."""
     project = Path(project_root).resolve()
@@ -108,6 +122,14 @@ def prepare_streaming_experiment(
     if destination.exists():
         raise FileExistsError(f"Streaming output root already exists: {destination}")
     window = _positive_number(window_seconds, "window_seconds")
+    if type(event_sampling_factor) is not int or not 1 <= event_sampling_factor < 2**63:
+        raise ValueError("event_sampling_factor must be an explicit positive int64 integer")
+    if hierarchy_config is None and event_sampling_factor != 1:
+        raise ValueError("R>1 requires an explicitly selected hierarchical v4 study; v3 remains R=1")
+    if hierarchy_config is not None:
+        hierarchy_config = validate_hierarchy_config(hierarchy_config, 6)
+    if graph_storage not in {"materialized", "implicit_radius"}:
+        raise ValueError("graph_storage must be materialized or implicit_radius")
     scale = _positive_number(time_scale_seconds, "time_scale_seconds")
     hdr_scale = _positive_number(hdr_timestamp_scale_to_seconds, "hdr_timestamp_scale_to_seconds")
     aid_scale = _positive_number(aid_timestamp_scale_to_seconds, "aid_timestamp_scale_to_seconds")
@@ -136,18 +158,23 @@ def prepare_streaming_experiment(
             base = json.load(handle)
         current = copy.deepcopy(base)
         current["model"].update({
-            "architecture_version": 3, "graph_execution": "event_driven",
+            "architecture_version": 4 if hierarchy_config is not None else 3, "graph_execution": "event_driven",
+            "event_sampling_factor": event_sampling_factor,
             "stream_config": {
                 "window_seconds": window, "time_scale_seconds": scale,
                 "node_time_feature": "physical_frame_offset", "clock": STREAM_CLOCK,
                 "arrival_policy": STREAM_ARRIVAL_POLICY,
             },
         })
+        if hierarchy_config is not None:
+            current["model"]["hierarchy_config"] = dict(hierarchy_config)
         current["dataset"].update({
             "max_events": None, "event_time_contract": "physical_seconds_v1",
             "timestamp_scale_to_seconds": aid_scale if kind == "aid" else hdr_scale,
             "interval_timestamp_scale_to_seconds": aid_interval_scale if kind == "aid" else hdr_interval_scale,
         })
+        if graph_storage != "materialized":
+            current["model"]["graph_storage"] = graph_storage
         if kind == "train":
             current["output"]["run_dir"] = f"{relative}/train"
             current["train"]["validation_context_frames"] = None
@@ -168,6 +195,14 @@ def prepare_streaming_experiment(
         "output_root": relative, "source_configs": source, "changes": differences,
         "training_required": "new independent training; old checkpoints are config-incompatible",
         "execution_performed": False,
+        "architecture_design": {
+            "version": train["model"]["architecture_version"], "hierarchy_config": hierarchy_config,
+            "event_sampling_factor": event_sampling_factor,
+            "sampling_scope": "sequence_global_raw_event_ordinal_not_frame_reset",
+            "paper_exact_hyperparameters": False,
+            "description": "Explicit reconstruction design; clustering placement/cells are not recovered author defaults.",
+            "new_training_required": True,
+        },
         "warnings": [
             "Physical timestamp units must be verified from each original dataset, not guessed.",
             "The finite sliding window is a new input/state contract, not the previous frame graph.",
@@ -196,26 +231,38 @@ def _topology_model(config):
     """Only structural metadata; never allocate a full network for a graph scan."""
     model = config["model"]
     return SimpleNamespace(
+        architecture_version=model["architecture_version"], hierarchy_config=model.get("hierarchy_config"),
         stream_config=model["stream_config"], graph_radius=model["graph_radius"],
         graph_position_dims=model["graph_position_dims"], graph_chunk_size=model["graph_chunk_size"],
         max_graph_edges=model["max_graph_edges"], event_sampling_factor=model["event_sampling_factor"],
         snn_dynamics=model["snn_dynamics"], decoder_kind=model["decoder_kind"],
         raster_downsample=model["raster_downsample"],
+        graph_storage=model.get("graph_storage", "materialized"),
         encoder=SimpleNamespace(hidden_dim=model["hidden_dim"], layers=(None,) * model["graph_layers"]),
     )
 
 
 def _scan_stream_topology(dataset, config, device, batches, *, top_density_count,
-                          progress=None, on_progress=None):
+                          progress=None, on_progress=None, on_batch_complete=None,
+                          resume_state=None, training_storage_budget_mib=None,
+                          pause_after_completed_batches=None):
     import torch
     from tqdm import tqdm
 
     from .batching import sequence_key
-    from .preflight import _load_packed_probe_batch
     from .stream_model import _metadata, _prepared
+    from .stream_sampling import replace_record_groups, sample_stream_batch
+    from .stream_scan_loader import iter_scan_batches
     from .stream_topology import count_stream_topology_update
 
     model = _topology_model(config)
+    if (pause_after_completed_batches is not None
+            and (type(pause_after_completed_batches) is not int
+                 or not 1 <= pause_after_completed_batches <= len(batches))):
+        raise ValueError("An early-probe scan pause must name a completed batch within the unchanged schedule")
+    hierarchical = model.architecture_version == 4
+    sampling_contract = {"factor": model.event_sampling_factor, "ordinal_origin": 0,
+                         "counter": "all_raw_events", "reset": "sequence_start_only"}
     states, records = {}, [None] * len(dataset)
     result = {} if progress is None else progress
     result.update({
@@ -232,21 +279,87 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
         "max_prefix_union_directed_edges_upper_bound": 0,
         "peak_candidate_pairs": 0, "candidate_pair_budget": 1_048_576,
         "top_density_samples": [], "samples": records, "current_batch_indices": [],
+        "architecture_version": model.architecture_version,
+        "graph_count_scope": "sampled_fine_radius_only_no_coarse_quotient_edges" if hierarchical else "fine_radius_graph",
     })
+    if hierarchical:
+        result["sampling_contract"] = sampling_contract
+        result["hierarchy_config"] = dict(model.hierarchy_config)
     seen = set()
     final = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
-    with torch.no_grad():
-        for indices in tqdm(batches, desc="stream-preflight-window-topology"):
+    completed_batches = 0
+    if resume_state is not None:
+        # Raw-state checkpoints are validated before entering this scanner.
+        # A partial JSON without live nodes is never a resume checkpoint.
+        if hierarchical and (resume_state["topology"].get("sampling_contract") != sampling_contract
+                             or resume_state["topology"].get("hierarchy_config") != model.hierarchy_config):
+            raise ValueError("v4 scan resume requires its exact sampling and hierarchy contract")
+        states = resume_state["states"]
+        if hierarchical and any(not hasattr(state, "sampling_offset") for state in states.values()):
+            raise ValueError("v4 scan resume lacks a sequence-global raw sampling offset")
+        result.clear()
+        result.update(copy.deepcopy(resume_state["topology"]))
+        records = result["samples"]
+        completed_batches = resume_state["completed_batches"]
+        seen = {index for batch in batches[:completed_batches] for index in batch}
+        _check_observed_storage_floor(result, training_storage_budget_mib, resumed=True)
+        states = {key: SimpleNamespace(**{
+            name: value.to(device) if isinstance(value, torch.Tensor) else value
+            for name, value in vars(state).items()
+        }) for key, state in states.items()}
+    result["resumed_completed_batches"] = completed_batches
+    result.pop("paused_for", None)
+    result["completed_batches"] = completed_batches
+    result.setdefault("phase_timing_ms", {})
+    for name in ("candidate_pairs_visited", "query_chunks", "candidate_chunks",
+                 "bulk_query_blocks", "bulk_pairwise_evaluations_avoided"):
+        result.setdefault(name, 0)
+    with torch.no_grad(), iter_scan_batches(
+            dataset, batches, completed_batches, device, config["train"], seed=config["seed"],
+    ) as input_batches:
+        result["input_loader_plan"] = input_batches.plan
+        for batch_index in tqdm(range(completed_batches, len(batches)), total=len(batches),
+                                initial=completed_batches, desc="stream-preflight-window-topology"):
+            indices = batches[batch_index]
+            batch_started = time.perf_counter()
             result["current_batch_indices"] = list(indices)
             if any(index in seen for index in indices):
                 raise ValueError("Streaming topology schedule repeats frames")
-            samples, _ = _load_packed_probe_batch(dataset, indices, device)
+            loaded_indices, samples, input_timing = next(input_batches)
+            if loaded_indices != list(indices):
+                raise ValueError("Prefetched input differs from the committed topology schedule")
+            graph_started = time.perf_counter()
             previous = [states.get(sequence_key(sample)) for sample in samples]
             # Input validation is shared; this scanner retains raw nodes/clocks,
             # never an incomplete edge-free graph passed to a model/state API.
             metadata, contract = _metadata(model, samples, [None] * len(samples))
             features, positions, timestamps, node_batch = _prepared(model, samples, metadata)
             del features
+            raw_counts = samples.event_counts
+            endpoints, endpoint_offset = [], 0
+            for count in raw_counts:
+                if count:
+                    endpoints.extend((endpoint_offset, endpoint_offset + count - 1))
+                endpoint_offset += count
+            endpoint_ids = iter(samples.event_ids[endpoints].cpu().tolist())
+            last_ids = []
+            for count, old in zip(raw_counts, previous, strict=True):
+                last_id = None if old is None else getattr(old, "last_event_id", None)
+                if count:
+                    first_id, next_id = tuple(next(endpoint_ids)), tuple(next(endpoint_ids))
+                    if last_id is not None and first_id <= last_id:
+                        raise ValueError("Raw event identity repeated or reordered across scan frames")
+                    last_id = next_id
+                last_ids.append(last_id)
+            sampling_offsets = tuple(0 if old is None else getattr(old, "sampling_offset", 0) for old in previous)
+            next_sampling_offsets = sampling_offsets
+            if hierarchical:
+                selected = sample_stream_batch(samples, sampling_offsets, factor=model.event_sampling_factor)
+                positions, timestamps, node_batch = (value[selected.keep_mask] for value in (positions, timestamps, node_batch))
+                samples = selected.packed
+                metadata = replace_record_groups(metadata, selected.arrival_group_counts)
+                next_sampling_offsets = selected.next_offsets
+                del selected
             # Inference starts from the previous watermark, not necessarily the
             # next frame start: a proven predecessor row may precede that start
             # after a gap. Keep the complete previous live window in the bound.
@@ -288,7 +401,11 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
             )
             counts = torch.stack((measured.readout_nodes, measured.readout_directed_edges,
                                   measured.union_nodes, measured.union_directed_edges)).cpu().tolist()
+            graph_elapsed_ms = (time.perf_counter() - graph_started) * 1000
             result["peak_candidate_pairs"] = max(result["peak_candidate_pairs"], measured.peak_candidate_pairs)
+            for name in ("candidate_pairs_visited", "query_chunks", "candidate_chunks",
+                         "bulk_query_blocks", "bulk_pairwise_evaluations_avoided"):
+                result[name] += getattr(measured, name)
             # Packed permutation followed by per-lane ownership only, not per-sample graph/model computation.
             order = torch.argsort(node_batch[readout_keep], stable=True)
             readout_positions = positions[readout_keep][order]
@@ -302,18 +419,45 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
                     "dataset_index": index, "sample_id": sample.get("sample_id", str(index)),
                     "sequence_identity": list(record[0]), "sequence_index": record[1],
                     "interval_start_seconds": record[2], "interval_end_seconds": record[3],
-                    "incoming_events": samples.event_counts[lane],
+                    "incoming_events": raw_counts[lane],
                     "arrival_groups": len(record[5]),
                     "readout_nodes": actual_nodes, "readout_directed_edges": actual_edges,
+                    "readout_mean_in_degree": actual_edges / actual_nodes if actual_nodes else 0.0,
+                    "readout_edge_density": actual_edges / (actual_nodes * (actual_nodes - 1))
+                    if actual_nodes > 1 else 0.0,
+                    "radius_geometry": {
+                        "coordinate_contract": "x_over_W_minus_1_y_over_H_minus_1_physical_time_over_scale",
+                        "sensor_size_hw": list(samples.sensor_size),
+                        "position_dims": model.graph_position_dims,
+                        "spatial_semiaxes_pixels_xy": [
+                            model.graph_radius * max(samples.sensor_size[1] - 1, 1),
+                            model.graph_radius * max(samples.sensor_size[0] - 1, 1)
+                            if model.graph_position_dims >= 2 else None,
+                        ],
+                        "temporal_semiaxis_seconds": model.graph_radius
+                        * model.stream_config["time_scale_seconds"]
+                        if model.graph_position_dims >= 3 else None,
+                        "polarity_coordinate_used": model.graph_position_dims >= 4,
+                        "window_seconds": window,
+                        "interpretation": "individual axis limits, not a rectangular connection box",
+                    },
                     "prefix_union_nodes_upper_bound": bound_nodes,
                     "prefix_union_directed_edges_upper_bound": bound_edges,
                 }
+                if hierarchical:
+                    records[index].update({
+                        "sampled_incoming_events": samples.event_counts[lane],
+                        "sampling_offset_before": sampling_offsets[lane],
+                        "sampling_offset_after": next_sampling_offsets[lane],
+                        "raw_last_event_id": None if last_ids[lane] is None else list(last_ids[lane]),
+                    })
                 state = SimpleNamespace(
                     positions=readout_positions[offset:offset + actual_nodes].clone(),
                     timestamps=readout_times[offset:offset + actual_nodes].clone(),
                     origin_seconds=record[4], watermark_seconds=record[3],
                     sequence_index=record[1], sequence_identity=record[0], contract=contract,
                     directed_edges=actual_edges,
+                    sampling_offset=next_sampling_offsets[lane], last_event_id=last_ids[lane],
                 )
                 offset += actual_nodes
                 if record[1] == final[record[0]]:
@@ -330,16 +474,54 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
                 key=lambda row: (-row["prefix_union_directed_edges_upper_bound"],
                                  -row["readout_directed_edges"], row["dataset_index"]),
             )[:top_density_count]
+            result["completed_batches"] = batch_index + 1
+            timing = result["phase_timing_ms"]
+            for name in ("dataset_loading_ms", "cpu_collate_and_pin_ms", "host_to_device_ms", "total_input_ms",
+                         "worker_decode_ms", "worker_collate_ms", "pin_memory_ms", "prefetch_wait_ms"):
+                timing[name] = timing.get(name, 0.0) + input_timing[name]
+            timing["topology_ms"] = timing.get("topology_ms", 0.0) + graph_elapsed_ms
+            timing["batch_wall_ms"] = timing.get("batch_wall_ms", 0.0) + (time.perf_counter() - batch_started) * 1000
+            storage_kind = config["model"].get("graph_storage", "materialized")
+            if storage_kind == "materialized":
+                floor = sum(row["readout_directed_edges"] * 56 + row["readout_nodes"] * 72
+                            for row in (records[index] for index in indices))
+                if floor > result.get("observed_training_storage_floor", {}).get("bytes", -1):
+                    result["observed_training_storage_floor"] = {
+                        "bytes": floor, "mib": floor / 1024**2, "batch_index": batch_index,
+                        "dataset_indices": list(indices), "graph_storage": storage_kind,
+                        "scope": "current_readout_graph_and_linear_spline_basis_only",
+                        "measured_peak": False, "prior_graphs_and_activations_included": False,
+                    }
+            if on_batch_complete is not None:
+                on_batch_complete(states, result, batch_index + 1, final)
             if on_progress is not None:
                 on_progress()
+            _check_observed_storage_floor(result, training_storage_budget_mib)
             del samples, previous, positions, timestamps, node_batch, readout_positions, readout_times
+            if batch_index + 1 == pause_after_completed_batches:
+                result["paused_for"] = "early_physical_training_probe_not_a_complete_scan"
+                return result
     if seen != set(range(len(dataset))) or any(record is None for record in records):
         raise ValueError("Streaming topology scan did not cover every training frame exactly once")
     result.update(scan_complete=True, current_batch_indices=[])
     return result
 
 
-def _stream_probe_plan(batches, records, batch_size, profile_samples):
+def _check_observed_storage_floor(topology, budget_mib, *, resumed=False):
+    floor = topology.get("observed_training_storage_floor")
+    if budget_mib is None or floor is None or floor["mib"] <= budget_mib:
+        return
+    stopping = ("Saved completed batches already prove this storage backend impossible; "
+                "no saved nodes were transferred to the GPU and no next batch was scanned. "
+                if resumed else "Stopped at the first proven-impossible batch; ")
+    raise RuntimeError(
+        f"Observed readout graph/basis storage alone requires {floor['mib']:.1f} MiB, "
+        f"exceeding total allocated-device capacity minus reserve ({budget_mib:.1f} MiB). "
+        f"{stopping}The scan is incomplete, no training was started, and no events/edges were removed."
+    )
+
+
+def _stream_probe_plan(batches, records, batch_size, profile_samples, graph_storage="materialized"):
     if not records or not batches or max(map(len, batches)) != batch_size:
         raise ValueError("Streaming preflight cannot form the full configured physical batch")
     if len(batches) < profile_samples:
@@ -363,7 +545,7 @@ def _stream_probe_plan(batches, records, batch_size, profile_samples):
     selected.add(next(entry["batch_index"] for entry in entries if entry["batch_size"] == batch_size))
     selected.add(max(entries, key=lambda entry: entry["readout_nodes"])["batch_index"])
     selected.add(max(entries, key=lambda entry: entry["readout_directed_edges"])["batch_index"])
-    resident_peak_batch = _graph_storage_floor({"samples": records}, batches)["batch_index"]
+    resident_peak_batch = _graph_storage_floor({"samples": records}, batches, graph_storage)["batch_index"]
     if resident_peak_batch is not None:
         selected.add(resident_peak_batch)
     sparse = min((row for row in records if row["readout_nodes"] > 0),
@@ -401,7 +583,7 @@ def _probe_stream_training(dataset, config, device, batches, topology, plan, *, 
         build_model,
     )
     from .losses import ReconstructionLoss
-    from .preflight import _load_packed_probe_batch
+    from .stream_scan_loader import iter_scan_batches
     from .training import TrainingState, forward_training_loss
     from .utils import set_seed
 
@@ -471,74 +653,91 @@ def _probe_stream_training(dataset, config, device, batches, topology, plan, *, 
     replayed_frames = 0
     progress["phase"] = "model_setup"
     memory_snapshot(check_peak=True)
-    for number, indices in enumerate(tqdm(batches[:plan["replay_stop_batch"] + 1], desc="stream-preflight-stateful-train")):
-        progress.update({"current_batch_index": number, "current_dataset_indices": list(indices),
-                         "phase": "before_input_load"})
-        try:
-            memory_snapshot(check_peak=True)
-            if device.type == "cuda":
-                torch.cuda.reset_peak_memory_stats(device)
-            step_started = time.perf_counter()
-            samples, input_pipeline = _load_packed_probe_batch(dataset, indices, device)
-            contexts = state.prepare(samples)
-            if number not in selected:
-                progress["phase"] = "predecessor_replay"
-                with torch.no_grad(), torch.autocast(device_type=device.type, enabled=amp):
-                    prediction, diagnostics = model.forward_training_batch(samples, [entry[0] for entry in contexts])
-                target = samples.targets
-                if not bool(torch.isfinite(prediction).all()):
-                    raise FloatingPointError("Non-finite reconstruction during causal predecessor replay")
-            else:
-                progress["phase"] = "forward_loss_backward_optimizer"
-                def forward_loss(current_samples=samples, incoming_contexts=contexts):
-                    return forward_training_loss(
-                        model, criterion, current_samples, incoming_contexts, batch_mode=True, amp_enabled=amp,
-                        temporal_weight=temporal_weight,
+    with iter_scan_batches(dataset, batches, 0, device, config["train"], seed=config["seed"]) as inputs:
+        progress["input_loader_plan"] = inputs.plan
+        for number, indices in enumerate(tqdm(batches[:plan["replay_stop_batch"] + 1], desc="stream-preflight-stateful-train")):
+            progress.update({"current_batch_index": number, "current_dataset_indices": list(indices),
+                             "phase": "before_input_load"})
+            try:
+                memory_snapshot(check_peak=True)
+                if device.type == "cuda":
+                    torch.cuda.reset_peak_memory_stats(device)
+                step_started = time.perf_counter()
+                loaded_indices, samples, input_pipeline = next(inputs)
+                if list(loaded_indices) != list(indices):
+                    raise RuntimeError("Streaming training probe loader changed the committed batch schedule")
+                contexts = state.prepare(samples)
+                if number not in selected:
+                    progress["phase"] = "predecessor_replay"
+                    with torch.no_grad(), torch.autocast(device_type=device.type, enabled=amp):
+                        prediction, diagnostics = model.forward_training_batch(samples, [entry[0] for entry in contexts])
+                    target = samples.targets
+                    if not bool(torch.isfinite(prediction).all()):
+                        raise FloatingPointError("Non-finite reconstruction during causal predecessor replay")
+                else:
+                    progress["phase"] = "forward_loss_backward_optimizer"
+                    def forward_loss(current_samples=samples, incoming_contexts=contexts):
+                        return forward_training_loss(
+                            model, criterion, current_samples, incoming_contexts, batch_mode=True, amp_enabled=amp,
+                            temporal_weight=temporal_weight,
+                        )
+                    payload, loss, gradient_norm, amp_info = _training_step(
+                        model, optimizer, scaler, forward_loss, optimizer_mode=_optimizer_mode(config["train"]),
+                        max_norm=float(config["train"]["grad_clip"]), epoch=0, step=number,
+                        sample_id="stream-preflight:" + ",".join(map(str, indices)),
                     )
-                payload, loss, gradient_norm, amp_info = _training_step(
-                    model, optimizer, scaler, forward_loss, optimizer_mode=_optimizer_mode(config["train"]),
-                    max_norm=float(config["train"]["grad_clip"]), epoch=0, step=number,
-                    sample_id="stream-preflight:" + ",".join(map(str, indices)),
-                )
-                prediction, diagnostics, target = payload
-                if prediction.shape != target.shape or prediction.shape[0] != len(indices):
-                    raise RuntimeError("Streaming probe reconstruction does not match the actual batch target")
-                for index, detail in zip(indices, diagnostics, strict=True):
-                    expected = topology["samples"][index]
-                    if detail["nodes"] != expected["readout_nodes"] or detail["edges"] != expected["readout_directed_edges"]:
-                        raise RuntimeError("Streaming model readout topology differs from the full causal scan")
-                    if not detail.get("stream_execution", {}).get("training_dense_snapshot"):
-                        raise RuntimeError("Streaming preflight did not execute the declared causal-window training path")
-            progress["phase"] = "state_commit_and_release"
-            state.commit(samples, prediction, diagnostics, target)
-            state.release_finished(samples, final)
-            if device.type == "cuda":
-                torch.cuda.synchronize(device)
-            elapsed = (time.perf_counter() - step_started) * 1000
-            progress["phase"] = "after_state_commit_and_release"
-            snapshot = memory_snapshot(check_peak=True)
+                    prediction, diagnostics, target = payload
+                    if prediction.shape != target.shape or prediction.shape[0] != len(indices):
+                        raise RuntimeError("Streaming probe reconstruction does not match the actual batch target")
+                    for index, detail in zip(indices, diagnostics, strict=True):
+                        expected = topology["samples"][index]
+                        if detail["nodes"] != expected["readout_nodes"] or detail["edges"] != expected["readout_directed_edges"]:
+                            raise RuntimeError("Streaming model readout topology differs from the full causal scan")
+                        if not detail.get("stream_execution", {}).get("training_dense_snapshot"):
+                            raise RuntimeError("Streaming preflight did not execute the declared causal-window training path")
+                progress["phase"] = "state_commit_and_release"
+                state.commit(samples, prediction, diagnostics, target)
+                state.release_finished(samples, final)
+                if device.type == "cuda":
+                    torch.cuda.synchronize(device)
+                elapsed = (time.perf_counter() - step_started) * 1000
+                progress["phase"] = "after_state_commit_and_release"
+                snapshot = memory_snapshot(check_peak=True)
+                if number in selected:
+                    hierarchy_counts = None
+                    if config["model"]["architecture_version"] == 4:
+                        hierarchy_counts = torch.stack([
+                            torch.stack((detail["hierarchy_nodes"], detail["hierarchy_edges"]))
+                            for detail in diagnostics
+                        ]).detach().cpu().tolist()
+                    measured.append({
+                        "batch_index": number, "dataset_indices": list(indices), "batch_size": len(indices),
+                        "incoming_contexts": sum(context[0] is not None for context in contexts),
+                        "loss": loss, "gradient_norm": gradient_norm, "amp": amp_info,
+                        "step_time_ms": elapsed, "frames_per_second": len(indices) * 1000 / elapsed,
+                        "input_pipeline": input_pipeline, "prediction_shape": list(prediction.shape),
+                        **snapshot,
+                        "scope": "input_load_stateful_forward_loss_backward_optimizer_state_commit_and_release",
+                        **({"hierarchy_readout": {
+                            "scope": "actual_full_model_training_forward_coarse_graphs_in_this_physical_batch",
+                            "counts": [{"nodes": values[0], "directed_edges": values[1]} for values in hierarchy_counts],
+                            "fine_counts_verified_against_counted_scan_rows": True,
+                            "topology_scan_complete": bool(topology.get("scan_complete", False)),
+                            "peak_memory_includes_hierarchy": True,
+                        }} if hierarchy_counts is not None else {}),
+                    })
+                else:
+                    replayed_frames += len(samples)
+                progress.update({"completed_batches": number + 1, "phase": "batch_completed",
+                                 "replayed_predecessor_frames": replayed_frames,
+                                 "elapsed_including_context_replay_seconds": time.perf_counter() - started})
+            except (KeyboardInterrupt, OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
+                progress.update({"failed_batch_index": number, "failure_type": type(error).__name__,
+                                 "elapsed_including_context_replay_seconds": time.perf_counter() - started})
+                raise
             if number in selected:
-                measured.append({
-                    "batch_index": number, "dataset_indices": list(indices), "batch_size": len(indices),
-                    "incoming_contexts": sum(context[0] is not None for context in contexts),
-                    "loss": loss, "gradient_norm": gradient_norm, "amp": amp_info,
-                    "step_time_ms": elapsed, "frames_per_second": len(indices) * 1000 / elapsed,
-                    "input_pipeline": input_pipeline, "prediction_shape": list(prediction.shape),
-                    **snapshot,
-                    "scope": "input_load_stateful_forward_loss_backward_optimizer_state_commit_and_release",
-                })
-            else:
-                replayed_frames += len(samples)
-            progress.update({"completed_batches": number + 1, "phase": "batch_completed",
-                             "replayed_predecessor_frames": replayed_frames,
-                             "elapsed_including_context_replay_seconds": time.perf_counter() - started})
-        except (KeyboardInterrupt, OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
-            progress.update({"failed_batch_index": number, "failure_type": type(error).__name__,
-                             "elapsed_including_context_replay_seconds": time.perf_counter() - started})
-            raise
-        if number in selected:
-            del payload, forward_loss
-        del prediction, diagnostics, target, samples, contexts
+                del payload, forward_loss
+            del prediction, diagnostics, target, samples, contexts
     if [row["batch_index"] for row in measured] != plan["selected_batch_indices"]:
         raise RuntimeError("Not every selected streaming training batch completed")
     progress.update({
@@ -564,7 +763,7 @@ def _scope():
     }
 
 
-def _graph_storage_floor(topology, batches):
+def _graph_storage_floor(topology, batches, graph_storage="materialized"):
     """Necessary graph/basis storage only; NOT an estimate of total training peak.
 
     A directed edge uses int64[2] + float64[1] (24 bytes). A node uses
@@ -574,13 +773,17 @@ def _graph_storage_floor(topology, batches):
     Activations, autograd, model/optimizer, decoder states and copies are extra.
     """
     records = topology["samples"]
+    if graph_storage not in {"materialized", "implicit_radius"}:
+        raise ValueError("Unknown graph storage in memory preflight")
+    current_edge_bytes = 56 if graph_storage == "materialized" else 0
+    resident_edge_bytes = 24 if graph_storage == "materialized" else 0
     final = {tuple(row["sequence_identity"]): row["sequence_index"] for row in records}
     resident = {}
     largest = {"bytes": 0, "batch_index": None, "dataset_indices": []}
     for number, indices in enumerate(batches):
         current = [(tuple(records[index]["sequence_identity"]), records[index]) for index in indices]
         required = sum(resident.values()) + sum(
-            row["readout_directed_edges"] * 56 + row["readout_nodes"] * 72 for _, row in current
+            row["readout_directed_edges"] * current_edge_bytes + row["readout_nodes"] * 72 for _, row in current
         )
         if required > largest["bytes"]:
             largest = {"bytes": required, "batch_index": number, "dataset_indices": list(indices)}
@@ -588,9 +791,11 @@ def _graph_storage_floor(topology, batches):
             if row["sequence_index"] == final[identity]:
                 resident.pop(identity, None)
             else:
-                resident[identity] = row["readout_directed_edges"] * 24 + row["readout_nodes"] * 72
+                resident[identity] = row["readout_directed_edges"] * resident_edge_bytes + row["readout_nodes"] * 72
     return {**largest, "mib": largest["bytes"] / 1024**2,
-            "scope": "necessary_previous_raw_graphs_plus_current_readout_graph_and_linear_spline_basis",
+            "scope": ("necessary_previous_raw_graphs_plus_current_readout_graph_and_linear_spline_basis"
+                      if graph_storage == "materialized" else
+                      "necessary_previous_and_current_raw_nodes_only_excludes_index_projection_and_scratch"),
             "total_training_peak_estimate": False}
 
 
@@ -614,6 +819,7 @@ def _cuda_memory_budget(device, reserve_vram_mib):
 def streaming_training_preflight(
     config, output_path, *, profile_samples=3, top_density_count=10, require_cuda=True,
     resume_scan=False, reuse_report=None, measured_guard_config_output=None, reserve_vram_mib=0,
+    scan_checkpoint_dir=None, resume_checkpoint=None, checkpoint_memory_budget_mib=None,
 ):
     import torch
 
@@ -643,6 +849,8 @@ def streaming_training_preflight(
         raise ValueError("reserve_vram_mib requires an explicit measured-guard config output")
     if resume_scan or reuse_report is not None:
         raise ValueError("Streaming preflight cannot reuse a static report or resume without serialized causal graph state; choose a new output")
+    if checkpoint_memory_budget_mib is not None:
+        _positive_number(checkpoint_memory_budget_mib, "checkpoint_memory_budget_mib")
     if (type(profile_samples) is not int or type(top_density_count) is not int
             or profile_samples < 1 or top_density_count < profile_samples):
         raise ValueError("Streaming profile_samples/top_density_count must be positive with top_density_count >= profile_samples")
@@ -682,25 +890,160 @@ def streaming_training_preflight(
         dataset = build_dataset(config["dataset"], split="train")
         report["data_provenance"] = _data_provenance(dataset, config)
         batches = list(_make_batch_sampler(dataset, config))
+        from .batching import sequence_key
+        from .resources import collect_runtime_resources
+        from .stream_scan_checkpoint import (
+            _digest as checkpoint_digest,
+        )
+        from .stream_scan_checkpoint import load_scan_checkpoint, save_scan_checkpoint
+
+        checkpoint_directory = (Path(scan_checkpoint_dir) if scan_checkpoint_dir is not None
+                                else destination.with_suffix(".scan-checkpoint")).resolve()
+        if checkpoint_directory.exists():
+            raise FileExistsError("New preflight must use a new checkpoint directory; resume input stays separate")
+        resource_snapshot = collect_runtime_resources(include_cuda=False)
+        available = resource_snapshot["memory"]["effective_available_bytes"]
+        if not isinstance(available, (int, float)) or available <= 0:
+            raise RuntimeError("Cannot measure RAM headroom for safe scan checkpointing")
+        available_mib = available / 1024**2
+        checkpoint_budget = (available_mib / 2 if checkpoint_memory_budget_mib is None
+                             else checkpoint_memory_budget_mib)
+        checkpoint_reserve = available_mib / 4
+        report["scan_checkpoint_resources"] = {
+            "memory_budget_mib": checkpoint_budget, "reserve_memory_mib": checkpoint_reserve,
+            "observed_headroom_mib": available_mib,
+            "policy": "half_observed_headroom_budget_quarter_reserve_unless_explicit_budget",
+            "hard_memory_isolation": False,
+        }
+        identity = {
+            "source_sha256": report["source_provenance"]["source_tree_sha256"],
+            "config_sha256": checkpoint_digest(public_config),
+            "data_sha256": checkpoint_digest(report["data_provenance"]),
+            "schedule_sha256": checkpoint_digest(batches),
+            "report_sha256": checkpoint_digest({
+                "schema": REPORT_SCHEMA, "request": report["request"],
+                "counting_method": "packed_float64_radius_incremental_count_only_v1",
+                "device_type": device.type, "torch": str(torch.__version__), "cuda": torch.version.cuda,
+            }),
+        }
+        finals = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
+        resume_state = None
+        if resume_checkpoint is not None:
+            report["stage"] = "restore_scan_checkpoint"
+            resume_state = load_scan_checkpoint(
+                resume_checkpoint, expected_identity=identity, batches=batches, sequence_final_indices=finals,
+                memory_budget_mib=checkpoint_budget, reserve_memory_mib=checkpoint_reserve,
+            )
+            report["scan_resumed_from"] = _artifact_path_label(Path(resume_checkpoint))
+            print(f"Restored completed topology batches: {resume_state['completed_batches']}/{len(batches)}",
+                  flush=True)
+        memory_before_scan = _cuda_memory_budget(device, reserve_vram_mib)
+        training_storage_budget = (memory_before_scan["total_mib"] - reserve_vram_mib
+                                   if memory_before_scan["measured"] else None)
+        report["scan_device_memory"] = memory_before_scan
         report["stage"] = "count_only_topology"
         report["topology"] = {}
-        last_saved = time.monotonic()
-        def persist_progress():
+        early_target = None
+        if config["model"]["architecture_version"] == 4:
+            early_target = next((number for number, batch in enumerate(batches)
+                                 if len(batch) == config["train"]["batch_size"]), None)
+            if early_target is None:
+                raise ValueError("v4 early probe requires the unchanged full physical batch; no smaller batch was substituted")
+        last_saved = time.monotonic() - 30
+        def save_progress_report():
+            committed = dict(report)
+            committed.pop("commitment_sha256", None)
+            committed["commitment_sha256"] = _digest(committed)
+            save_json(destination, committed)
+
+        def checkpoint_batch(states, topology, completed_batches, sequence_final_indices):
             nonlocal last_saved
-            if time.monotonic() - last_saved >= 30:
-                save_json(destination, report)
+            impossible = (training_storage_budget is not None
+                          and topology.get("observed_training_storage_floor", {}).get("mib", 0)
+                          > training_storage_budget)
+            if (time.monotonic() - last_saved >= 30 or completed_batches == len(batches) or impossible
+                    or (early_target is not None and completed_batches == early_target + 1)):
+                started = time.perf_counter()
+                manifest = save_scan_checkpoint(
+                    checkpoint_directory, identity=identity, batches=batches, completed_batches=completed_batches,
+                    states=states, topology=topology, sequence_final_indices=sequence_final_indices,
+                    memory_budget_mib=checkpoint_budget, reserve_memory_mib=checkpoint_reserve,
+                )
+                report["scan_checkpoint"] = {
+                    "path": _artifact_path_label(checkpoint_directory), "identity": identity,
+                    "completed_batches": completed_batches, "generation": manifest["generation"],
+                    "last_write_ms": (time.perf_counter() - started) * 1000,
+                }
+                save_progress_report()
                 last_saved = time.monotonic()
+
+        if early_target is not None:
+            report["stage"] = "early_physical_batch_topology"
+            if resume_state is None or resume_state["completed_batches"] < early_target + 1:
+                _scan_stream_topology(
+                    dataset, config, device, batches, top_density_count=top_density_count,
+                    progress=report["topology"], on_progress=None, on_batch_complete=checkpoint_batch,
+                    resume_state=resume_state, training_storage_budget_mib=training_storage_budget,
+                    pause_after_completed_batches=early_target + 1,
+                )
+                # The scan DataLoader is closed before a second loader/model is
+                # opened. Restore the exact committed CPU state, not an ad-hoc
+                # live reference or replayed/guessed sampling phase.
+                resume_state = load_scan_checkpoint(
+                    checkpoint_directory, expected_identity=identity, batches=batches, sequence_final_indices=finals,
+                    memory_budget_mib=checkpoint_budget, reserve_memory_mib=checkpoint_reserve,
+                )
+            else:
+                report["topology"] = copy.deepcopy(resume_state["topology"])
+                checkpoint_batch(resume_state["states"], report["topology"], resume_state["completed_batches"], finals)
+            early_config = copy.deepcopy(config)
+            early_required = max(resume_state["topology"]["samples"][index]["prefix_union_directed_edges_upper_bound"]
+                                 for batch in batches[:early_target + 1] for index in batch)
+            early_original_guard = early_config["model"]["max_graph_edges"]
+            if derived_path is not None:
+                early_config["model"]["max_graph_edges"] = max(early_original_guard or 0, early_required, 1)
+            elif early_original_guard is not None and early_required > early_original_guard:
+                raise RuntimeError(
+                    f"First physical-batch topology requires conservative guard {early_required:,}, "
+                    f"above configured {early_original_guard:,}. Exact scan state was saved; "
+                    "no model was allocated or guard changed. Explicit measured-guard recovery is required."
+                )
+            report["stage"] = "early_physical_training_probe"
+            report["early_training_probe"] = {
+                "purpose": "early_failure_detection_not_full_scan_or_representative_probe_certification",
+                "selection": "first_full_physical_batch_with_all_predecessors",
+                "physical_batch_size": config["train"]["batch_size"],
+                "source_scan_completed_batches": resume_state["completed_batches"],
+                "configured_guard": early_original_guard,
+                "effective_probe_guard": early_config["model"]["max_graph_edges"],
+                "explicit_measured_guard_requested": derived_path is not None,
+                "probe": {},
+            }
+            save_progress_report()
+            _probe_stream_training(
+                dataset, early_config, device, batches, resume_state["topology"],
+                {"selected_batch_indices": [early_target], "replay_stop_batch": early_target},
+                reserve_vram_mib=reserve_vram_mib, progress=report["early_training_probe"]["probe"],
+            )
+            report["checks"]["early_full_physical_forward_backward"] = True
+            save_progress_report()
+            report["stage"] = "count_only_topology"
         _scan_stream_topology(
             dataset, config, device, batches, top_density_count=top_density_count,
-            progress=report["topology"], on_progress=persist_progress,
+            progress=report["topology"], on_progress=None, on_batch_complete=checkpoint_batch,
+            resume_state=resume_state, training_storage_budget_mib=training_storage_budget,
         )
+        if "scan_checkpoint" not in report:
+            # A completed raw checkpoint needs no scan iterations, but the new
+            # recovery still owns a durable copy before entering expensive probes.
+            checkpoint_batch({}, report["topology"], len(batches), finals)
         report["checks"]["complete_topology_scan"] = True
         report["stage"] = "measured_edge_guard"
         topology = report["topology"]
         original_guard = config["model"]["max_graph_edges"]
         required = topology["max_prefix_union_directed_edges_upper_bound"]
         measured_guard = max(original_guard or 0, required, 1)
-        storage_floor = _graph_storage_floor(topology, batches)
+        storage_floor = _graph_storage_floor(topology, batches, config["model"].get("graph_storage", "materialized"))
         memory = _cuda_memory_budget(device, reserve_vram_mib)
         report["guard_measurement"] = {
             "configured_max_graph_edges": original_guard, "measured_union_required_guard": required,
@@ -713,11 +1056,11 @@ def streaming_training_preflight(
         print(f"Full stream count: {topology['scanned_samples']}/{topology['dataset_samples']} frames; "
               f"max readout edges={topology['max_readout_directed_edges']:,}; "
               f"conservative prefix-union edges={required:,}.", flush=True)
-        save_json(destination, report)
+        save_progress_report()
         if derived_path is None and original_guard is not None and required > original_guard:
             raise RuntimeError(
                 f"Full count-only scan completed: conservative prefix-union requires {required:,} directed edges "
-                f"but configured max_graph_edges={original_guard:,}. No model was allocated or guard changed. "
+                f"but configured max_graph_edges={original_guard:,}. No production training started or guard changed. "
                 "Use recover_streaming_preflight.py with explicit --use-measured-edge-guard and a VRAM reserve "
                 "to create a new config and measure the unchanged physical batch."
             )
@@ -726,7 +1069,7 @@ def streaming_training_preflight(
             raise RuntimeError(
                 f"Necessary graph and spline-basis storage alone is {storage_floor['mib']:.1f} MiB, exceeding "
                 f"{memory['available_after_reserve_mib']:.1f} MiB currently available after the explicit reserve. "
-                "This excludes activations/optimizer/copies; no model was allocated and no scale was reduced."
+                "This excludes activations/optimizer/copies; no production training started and no scale was reduced."
             )
         if derived_path is not None:
             config["model"]["max_graph_edges"] = measured_guard
@@ -743,7 +1086,9 @@ def streaming_training_preflight(
                   f"physical batch remains {config['train']['batch_size']}. Starting stateful training probes.", flush=True)
         report["checks"]["conservative_prefix_edge_guard"] = True
         report["stage"] = "stateful_training_probe"
-        plan = _stream_probe_plan(batches, report["topology"]["samples"], config["train"]["batch_size"], profile_samples)
+        save_progress_report()
+        plan = _stream_probe_plan(batches, report["topology"]["samples"], config["train"]["batch_size"],
+                                  profile_samples, config["model"].get("graph_storage", "materialized"))
         report["batch_training_probe"] = {}
         _probe_stream_training(dataset, config, device, batches, report["topology"], plan,
                                reserve_vram_mib=reserve_vram_mib, progress=report["batch_training_probe"])
@@ -760,22 +1105,24 @@ def streaming_training_preflight(
         report["status"] = "passed" if report["report_eligible"] else "cpu_smoke_passed_non_reporting"
         report["stage"] = "complete"
     except KeyboardInterrupt as error:
+        failed_probe = report.get("batch_training_probe") or report.get("early_training_probe", {}).get("probe") or {}
         report["status"] = "interrupted"
         report["failure"] = _safe_failure(error, config, destination)
         report["failure"]["stage"] = report["stage"]
-        report["failure"]["probe_phase"] = (report.get("batch_training_probe") or {}).get("phase")
-        report["failure"]["dataset_indices"] = (report.get("batch_training_probe") or {}).get(
+        report["failure"]["probe_phase"] = failed_probe.get("phase")
+        report["failure"]["dataset_indices"] = failed_probe.get(
             "current_dataset_indices", (report.get("topology") or {}).get("current_batch_indices", []),
         )
         report["commitment_sha256"] = _digest(report)
         save_json(destination, report)
         raise
-    except (OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
+    except (OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError, MemoryError) as error:
+        failed_probe = report.get("batch_training_probe") or report.get("early_training_probe", {}).get("probe") or {}
         report["status"] = "failed"
         report["failure"] = _safe_failure(error, config, destination)
         report["failure"]["stage"] = report["stage"]
-        report["failure"]["probe_phase"] = (report.get("batch_training_probe") or {}).get("phase")
-        report["failure"]["dataset_indices"] = (report.get("batch_training_probe") or {}).get(
+        report["failure"]["probe_phase"] = failed_probe.get("phase")
+        report["failure"]["dataset_indices"] = failed_probe.get(
             "current_dataset_indices", (report.get("topology") or {}).get("current_batch_indices", []),
         )
         report["failure"]["scope_note"] = (
@@ -816,6 +1163,55 @@ def _validated_report(report, path):
     if probe.get("passed") is not True or not probe.get("steps"):
         raise ValueError("Streaming physical-batch training probes are missing")
     return report
+
+
+def _validate_hierarchy_evidence(report, config, batches):
+    """Verify v4 sampling continuity and measured coarse graphs, never invent them."""
+    if config["model"].get("architecture_version") != 4:
+        return
+    from .stream_scan_checkpoint import _validate_prefix
+
+    topology = report["topology"]
+    expected = {"factor": config["model"]["event_sampling_factor"], "ordinal_origin": 0,
+                "counter": "all_raw_events", "reset": "sequence_start_only"}
+    if (topology.get("sampling_contract") != expected
+            or topology.get("hierarchy_config") != config["model"]["hierarchy_config"]
+            or topology.get("graph_count_scope") != "sampled_fine_radius_only_no_coarse_quotient_edges"):
+        raise ValueError("v4 topology sampling/hierarchy scope differs from the actual model")
+    records = topology["samples"]
+    finals = {}
+    for row in records:
+        key = tuple(row["sequence_identity"])
+        finals[key] = max(finals.get(key, -1), row["sequence_index"])
+    _validate_prefix({"schedule_sha256": _digest(batches)}, batches, len(batches), topology, finals)
+    early = report.get("early_training_probe", {})
+    first = next((index for index, batch in enumerate(batches) if len(batch) == config["train"]["batch_size"]), None)
+    if (first is None or early.get("physical_batch_size") != config["train"]["batch_size"]
+            or early.get("purpose") != "early_failure_detection_not_full_scan_or_representative_probe_certification"
+            or report.get("checks", {}).get("early_full_physical_forward_backward") is not True
+            or early.get("probe", {}).get("plan") != {"selected_batch_indices": [first], "replay_stop_batch": first}):
+        raise ValueError("v4 first-full-physical-batch evidence is missing or changed")
+    for probe_index, probe in enumerate((early.get("probe", {}), report.get("batch_training_probe", {}))):
+        if probe.get("passed") is not True or not probe.get("steps"):
+            raise ValueError("v4 early and representative hierarchy probes must both pass")
+        for step in probe["steps"]:
+            evidence = step.get("hierarchy_readout", {})
+            counts = evidence.get("counts")
+            if (not isinstance(counts, list) or len(counts) != step["batch_size"]
+                    or evidence.get("scope") != "actual_full_model_training_forward_coarse_graphs_in_this_physical_batch"
+                    or evidence.get("fine_counts_verified_against_counted_scan_rows") is not True
+                    or type(evidence.get("topology_scan_complete")) is not bool
+                    or (probe_index == 1 and evidence["topology_scan_complete"] is not True)
+                    or evidence.get("peak_memory_includes_hierarchy") is not True):
+                raise ValueError("v4 measured hierarchy graph/memory evidence is missing")
+            for value, index in zip(counts, step["dataset_indices"], strict=True):
+                if (not isinstance(value, dict) or set(value) != {"nodes", "directed_edges"}
+                        or any(type(item) is not int or item < 0 for item in value.values())):
+                    raise ValueError("v4 measured coarse counts must be nonnegative integers")
+                nodes, edges = value["nodes"], value["directed_edges"]
+                if (nodes > records[index]["readout_nodes"] or edges > records[index]["readout_directed_edges"]
+                        or edges % 2 or edges > nodes * max(nodes - 1, 0)):
+                    raise ValueError("v4 measured quotient topology exceeds its fine graph")
 
 
 def _validate_guard_measurement(report, public_config, batches):
@@ -860,6 +1256,7 @@ def _validate_guard_measurement(report, public_config, batches):
     records = topology.get("samples")
     if not isinstance(records, list) or not records:
         raise ValueError("Measured guard topology records are missing")
+    _validate_hierarchy_evidence(report, public_config, batches)
     count_fields = ("readout_nodes", "readout_directed_edges", "prefix_union_nodes_upper_bound",
                     "prefix_union_directed_edges_upper_bound")
     for row in records:
@@ -896,7 +1293,7 @@ def _validate_guard_measurement(report, public_config, batches):
     derived = measurement.get("derived_config")
     if (explicit and (not isinstance(derived, str) or not derived)) or (not explicit and derived is not None):
         raise ValueError("Derived guard config provenance does not match explicit authorization")
-    floor = _graph_storage_floor(topology, batches)
+    floor = _graph_storage_floor(topology, batches, public_config["model"].get("graph_storage", "materialized"))
     if measurement.get("raw_graph_storage_floor") != floor:
         raise ValueError("Streaming raw-graph storage floor differs from the full sequence schedule")
     memory = measurement.get("device_memory")

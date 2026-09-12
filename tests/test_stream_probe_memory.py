@@ -2,14 +2,15 @@
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 from types import SimpleNamespace
 
 import pytest
 import torch
 
-from asgcn_unet import engine, preflight, stream_preflight, training, utils
+from asgcn_unet import engine, stream_preflight, stream_scan_loader, training, utils
 from asgcn_unet.batching import SequenceBatchSampler, pack_samples
-from tests.test_stream_preflight import SyntheticStreams, _config
+from tests.test_stream_preflight import SyntheticStreams, _config, _fixture_cpu_ram
 
 
 @pytest.fixture(autouse=True)
@@ -59,6 +60,27 @@ def _policy_fixture(monkeypatch, *, fail_reserve=None, fail_commit=None, allocat
         observe(120)
         return pack_samples([dataset[index] for index in indices]), {"synthetic_cpu_fixture": True}
 
+    @contextmanager
+    def input_batches(current_dataset, current_batches, start_batch, device, train_config, *, seed):
+        assert current_dataset is dataset and current_batches is batches
+        assert start_batch == 0 and train_config is config["train"] and seed == config["seed"]
+
+        class Inputs:
+            def __init__(self):
+                self.plan = {"synthetic_cpu_fixture": True, "total_batches": len(current_batches)}
+                self.cursor = start_batch
+
+            def __next__(self):
+                indices = current_batches[self.cursor]
+                samples, timing = load(current_dataset, indices, device)
+                self.cursor += 1
+                return list(indices), samples, timing
+
+        try:
+            yield Inputs()
+        finally:
+            events.append(("loader_closed",))
+
     class State:
         def __init__(self, **kwargs):
             pass
@@ -88,7 +110,7 @@ def _policy_fixture(monkeypatch, *, fail_reserve=None, fail_commit=None, allocat
     monkeypatch.setattr(engine, "_make_grad_scaler", lambda *args: object())
     monkeypatch.setattr(engine, "_training_step", step)
     monkeypatch.setattr(training, "TrainingState", State)
-    monkeypatch.setattr(preflight, "_load_packed_probe_batch", load)
+    monkeypatch.setattr(stream_scan_loader, "iter_scan_batches", input_batches)
     monkeypatch.setattr(utils, "set_seed", lambda seed: None)
     monkeypatch.setattr(torch.cuda, "synchronize", lambda device: None)
     monkeypatch.setattr(torch.cuda, "reset_peak_memory_stats", reset)
@@ -113,6 +135,8 @@ def test_selected_peak_includes_input_and_commit_and_replay_peak_is_not_discarde
         assert events.index(("release", number)) < events.index(("free", number, "after_state_commit_and_release"))
     assert all(step["scope"].endswith("state_commit_and_release") for step in report["steps"])
     assert report["reserve_is_hard_isolation"] is False
+    assert report["input_loader_plan"]["synthetic_cpu_fixture"]
+    assert events[-1] == ("loader_closed",)
 
 
 @pytest.mark.parametrize("phase", ["before_input_load", "after_state_commit_and_release"])
@@ -126,6 +150,7 @@ def test_live_free_reserve_failure_stops_before_next_batch_and_keeps_completed_s
     assert ("load", 2) not in events
     assert (("load", 1) in events) == (phase == "after_state_commit_and_release")
     assert progress["minimum_observed_device_free_mib"] == 50
+    assert events[-1] == ("loader_closed",)
 
 
 def test_allocator_peak_budget_is_separate_from_live_free_memory(monkeypatch):
@@ -135,6 +160,7 @@ def test_allocator_peak_budget_is_separate_from_live_free_memory(monkeypatch):
     assert progress["last_memory_snapshot"]["device_free_mib"] == 500
     assert progress["last_memory_snapshot"]["peak_reserved_mib"] == 950
     assert progress["failed_batch_index"] == 1 and ("load", 2) not in events
+    assert events[-1] == ("loader_closed",)
 
 
 def test_state_commit_failure_is_not_a_successful_probe_and_preserves_prior_steps(monkeypatch):
@@ -145,6 +171,7 @@ def test_state_commit_failure_is_not_a_successful_probe_and_preserves_prior_step
     assert progress["completed_batches"] == 2 and not progress["passed"]
     assert [step["batch_index"] for step in progress["steps"]] == [0]
     assert ("release", 2) not in events
+    assert events[-1] == ("loader_closed",)
 
 
 @pytest.mark.parametrize("reserve", [-1, True, float("nan"), float("inf"), "100"])
@@ -154,7 +181,8 @@ def test_invalid_reserve_rejected_before_device_or_model(monkeypatch, reserve):
         stream_preflight._probe_stream_training(None, {}, torch.device("cpu"), [], {}, {}, reserve_vram_mib=reserve)
 
 
-def test_real_cpu_training_probe_progress_and_stateful_smoke():
+def test_real_cpu_training_probe_progress_and_stateful_smoke(monkeypatch):
+    _fixture_cpu_ram(monkeypatch)
     dataset, config = SyntheticStreams(), _config()
     batches = list(SequenceBatchSampler(dataset, 2))
     topology = stream_preflight._scan_stream_topology(dataset, config, torch.device("cpu"), batches, top_density_count=2)
@@ -166,3 +194,9 @@ def test_real_cpu_training_probe_progress_and_stateful_smoke():
     assert report["steps"][-1]["incoming_contexts"] == 2
     assert report["peak_allocated_mib"] is None and report["peak_reserved_mib"] is None
     assert all(row["loss"]["total"] >= 0 and row["step_time_ms"] > 0 for row in report["steps"])
+    assert report["input_loader_plan"]["schema"] == "asgcn_stream_scan_loader_plan_v1"
+    assert report["input_loader_plan"]["total_batches"] == len(batches)
+    assert report["input_loader_plan"]["physical_batch_size"] == config["train"]["batch_size"]
+    for row in report["steps"]:
+        assert row["input_pipeline"]["execution"] == "bounded_cpu_dataloader_prefetch_then_one_packed_transfer"
+        assert row["input_pipeline"]["dataset_indices"] == row["dataset_indices"]

@@ -15,6 +15,7 @@ from numbers import Real
 
 import torch
 
+from .radius_candidates import prune_cell_counts
 from .stream_graph import _cell_lookup, _occupied_cells
 
 
@@ -30,6 +31,8 @@ class StreamTopologyCounts:
     query_chunks: int
     candidate_chunks: int
     peak_query_cells: int
+    bulk_query_blocks: int = 0
+    bulk_pairwise_evaluations_avoided: int = 0
 
 
 @dataclass
@@ -40,13 +43,65 @@ class _Scratch:
     query_chunks: int = 0
     candidate_chunks: int = 0
     peak_query_cells: int = 0
+    bulk_query_blocks: int = 0
+    bulk_pairwise_evaluations_avoided: int = 0
 
     def counts(self, union_nodes, union_edges, readout_nodes, readout_edges):
         return StreamTopologyCounts(
             union_nodes, union_edges, readout_nodes, readout_edges,
             self.candidate_pair_budget, self.peak_candidate_pairs, self.candidate_pairs_visited,
             self.query_chunks, self.candidate_chunks, self.peak_query_cells,
+            self.bulk_query_blocks, self.bulk_pairwise_evaluations_avoided,
         )
+
+
+class _BulkCellCounts:
+    """Exact target-mask counts for certified wholly-inside query/cell blocks.
+
+    Selected targets belong to the larger-index selected source only. Stable
+    node ordering inside each occupied cell permits a vectorized lower_bound and
+    prefix sum rather than expanding all source/target pairs. Unselected targets
+    are counted by cell totals. Storage is O(N * mask_fields), never O(E).
+    """
+
+    def __init__(self, positions, sorted_nodes, boundaries, query_mask, masks, position_dims):
+        self.sorted_nodes, self.boundaries = sorted_nodes, boundaries
+        count, cells = len(sorted_nodes), boundaries.shape[1]
+        slots = torch.arange(count, device=positions.device)
+        cell_ids = torch.searchsorted(boundaries[0], slots, right=True) - 1
+        coordinates = positions[sorted_nodes, :position_dims].double()
+        cell_indices = cell_ids[:, None].expand_as(coordinates)
+        self.lower = coordinates.new_full((cells, position_dims), float("inf"))
+        self.upper = coordinates.new_full((cells, position_dims), -float("inf"))
+        self.lower.scatter_reduce_(0, cell_indices, coordinates, reduce="amin", include_self=True)
+        self.upper.scatter_reduce_(0, cell_indices, coordinates, reduce="amax", include_self=True)
+        sorted_masks = masks[sorted_nodes]
+        selected = query_mask[sorted_nodes, None]
+        self.prefix = torch.zeros((count + 1, masks.shape[1]), dtype=torch.long, device=positions.device)
+        self.prefix[1:] = (sorted_masks & selected).cumsum(0)
+        self.unselected = torch.zeros((cells, masks.shape[1]), dtype=torch.long, device=positions.device)
+        self.unselected.index_add_(0, cell_ids, (sorted_masks & ~selected).long())
+
+    def certified_inside(self, positions, sources, cell_ids, radius, position_dims):
+        safe = cell_ids.clamp_min(0)
+        queries = positions[sources, None, :position_dims].double()
+        farthest = torch.maximum((queries - self.lower[safe]).abs(), (queries - self.upper[safe]).abs()) / radius
+        # Ambiguous cases retain the original float64 vector_norm predicate;
+        # a wide rounding margin never relaxes the strict edge boundary.
+        limit = 1.0 - 64 * torch.finfo(torch.float64).eps
+        return (cell_ids >= 0) & (farthest.square().sum(-1) < limit * limit)
+
+    def counts(self, sources, cell_ids):
+        low = self.boundaries[0, cell_ids].clone()
+        starts = low.clone()
+        high = low + self.boundaries[1, cell_ids]
+        for _ in range(len(self.sorted_nodes).bit_length()):
+            middle = (low + high) // 2
+            before = self.sorted_nodes[middle.clamp_max(len(self.sorted_nodes) - 1)] < sources
+            active = low < high
+            low = torch.where(active & before, middle + 1, low)
+            high = torch.where(active & ~before, middle, high)
+        return self.unselected[cell_ids] + self.prefix[low] - self.prefix[starts]
 
 
 def _validate_options(radius, position_dims, chunk_size, candidate_pair_budget) -> float:
@@ -90,7 +145,7 @@ def _validate_inputs(positions, node_batch, readout_mask, batch_size) -> None:
 
 
 def _selected_edge_pairs(positions, node_batch, query_mask, *, batch_size, radius,
-                         position_dims, chunk_size, scratch):
+                         position_dims, chunk_size, scratch, bulk_masks, bulk_callback):
     """Yield bounded strict-radius pairs touching the selected endpoint set.
 
     Pairs are unordered and yielded once: when both endpoints are selected, the
@@ -103,6 +158,7 @@ def _selected_edge_pairs(positions, node_batch, query_mask, *, batch_size, radiu
     rows, occupied, sorted_nodes, boundaries = _occupied_cells(
         positions, node_batch, batch_size, radius, position_dims,
     )
+    bulk = _BulkCellCounts(positions, sorted_nodes, boundaries, query_mask, bulk_masks, position_dims)
     axis = torch.tensor((-1, 0, 1), device=positions.device, dtype=torch.long)
     offsets = torch.cartesian_prod(*([axis] * position_dims)).reshape(-1, position_dims)
     cells_per_query = offsets.shape[0]
@@ -113,11 +169,25 @@ def _selected_edge_pairs(positions, node_batch, query_mask, *, batch_size, radiu
         query_batches = query_rows[:, None, :1].expand(-1, cells_per_query, -1)
         queries = torch.cat((query_batches, query_cells), dim=2).flatten(0, 1)
         cell_ids = _cell_lookup(occupied, queries)
-        cell_counts = boundaries[1, cell_ids.clamp_min(0)].masked_fill(cell_ids < 0, 0)
+        cell_counts = prune_cell_counts(
+            positions[sources], cell_ids.reshape(-1, cells_per_query), boundaries,
+            (bulk.lower, bulk.upper), radius,
+        ).flatten()
         cell_starts = boundaries[0, cell_ids.clamp_min(0)]
+        inside = bulk.certified_inside(
+            positions, sources, cell_ids.reshape(-1, cells_per_query), radius, position_dims,
+        ).flatten()
+        certified_sources = sources[:, None].expand(-1, cells_per_query).reshape(-1)[inside]
+        certified_counts = bulk.counts(certified_sources, cell_ids[inside])
+        bulk_callback(certified_sources, certified_counts)
+        scratch.bulk_query_blocks += certified_sources.numel()
+        cell_counts = cell_counts.masked_fill(inside, 0)
         candidate_ends = cell_counts.cumsum(0)
         candidate_starts = candidate_ends - cell_counts
-        candidate_count = int(candidate_ends[-1])
+        # One host transfer per query chunk carries the fallback scratch size
+        # and aggregate skipped-predicate telemetry, never per-node/edge data.
+        candidate_count, avoided = torch.stack((candidate_ends[-1], certified_counts[:, 0].sum())).tolist()
+        scratch.bulk_pairwise_evaluations_avoided += avoided
         scratch.query_chunks += 1
         scratch.peak_query_cells = max(scratch.peak_query_cells, queries.shape[0])
         # Address bounded slices rather than expanding repeat_interleave(counts):
@@ -164,8 +234,9 @@ def count_stream_topology(
 
     ``chunk_size`` bounds source queries; ``candidate_pair_budget`` separately
     bounds expanded candidate pairs. It is a scratch budget, never an edge cap.
-    Counts remain device tensors. One candidate-total scalar per query chunk is
-    used to schedule bounded chunks; there is no per-edge/node host transfer.
+    Counts remain device tensors. One host transfer of two aggregate scalars per
+    query chunk schedules bounded scratch and records bulk-count work avoided;
+    there is no per-edge/node host transfer.
     Scratch evidence counts entries, not total allocated bytes or measured RSS.
     """
     radius = _validate_options(radius, position_dims, chunk_size, candidate_pair_budget)
@@ -175,9 +246,16 @@ def count_stream_topology(
     union_edges = torch.zeros_like(union_nodes)
     readout_edges = torch.zeros_like(union_nodes)
     scratch = _Scratch(candidate_pair_budget)
+    bulk_masks = torch.stack((torch.ones_like(readout_mask), readout_mask), dim=1)
+
+    def bulk_count(source, counts):
+        union_edges.index_add_(0, node_batch[source], 2 * counts[:, 0])
+        readout_edges.index_add_(0, node_batch[source], 2 * counts[:, 1] * readout_mask[source])
+
     for source, target in _selected_edge_pairs(
         positions, node_batch, torch.ones_like(readout_mask), batch_size=batch_size, radius=radius,
         position_dims=position_dims, chunk_size=chunk_size, scratch=scratch,
+        bulk_masks=bulk_masks, bulk_callback=bulk_count,
     ):
         union_edges.add_(2 * torch.bincount(node_batch[source], minlength=batch_size))
         kept = readout_mask[source] & readout_mask[target]
@@ -243,9 +321,25 @@ def count_stream_topology_update(
     union_edges, readout_edges = previous_edge_counts.clone(), previous_edge_counts.clone()
     scratch = _Scratch(candidate_pair_budget)
     query_mask = is_arrival | ~readout_mask
+    old = ~is_arrival
+    bulk_masks = torch.stack((torch.ones_like(old), old,
+                              old & union_mask, old & readout_mask,
+                              is_arrival & union_mask, is_arrival & readout_mask), dim=1)
+
+    def bulk_count(source, counts):
+        arriving = is_arrival[source]
+        for mask, edges, old_column, new_column in (
+            (union_mask, union_edges, 2, 4), (readout_mask, readout_edges, 3, 5),
+        ):
+            kept = mask[source]
+            added = kept * (counts[:, new_column] + arriving * counts[:, old_column])
+            removed = (~arriving) * (counts[:, 1] - kept * counts[:, old_column])
+            edges.index_add_(0, node_batch[source], 2 * (added - removed))
+
     for source, target in _selected_edge_pairs(
         positions, node_batch, query_mask, batch_size=batch_size, radius=radius,
         position_dims=position_dims, chunk_size=chunk_size, scratch=scratch,
+        bulk_masks=bulk_masks, bulk_callback=bulk_count,
     ):
         new_pair = is_arrival[source] | is_arrival[target]
         for mask, edges in ((union_mask, union_edges), (readout_mask, readout_edges)):

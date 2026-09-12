@@ -95,10 +95,10 @@ def test_single_dense_cell_chunks_candidate_pairs_without_truncation(monkeypatch
     kept = int(mask.sum())
     assert result.union_directed_edges.tolist() == [count * (count - 1)]
     assert result.readout_directed_edges.tolist() == [kept * (kept - 1)]
-    assert result.candidate_pairs_visited == count**2
-    assert result.peak_candidate_pairs == budget
-    assert result.candidate_chunks == (count**2 + budget - 1) // budget
-    assert observed_norm_rows and max(observed_norm_rows) <= budget
+    assert result.candidate_pairs_visited == result.peak_candidate_pairs == result.candidate_chunks == 0
+    assert result.bulk_query_blocks == count
+    assert result.bulk_pairwise_evaluations_avoided == count * (count - 1) // 2
+    assert observed_norm_rows == []
     assert all(getattr(result, field.name).shape == (1,) for field in fields(result)
                if isinstance(getattr(result, field.name), torch.Tensor))
 
@@ -143,7 +143,8 @@ def test_no_edges_or_readout_nodes_are_not_substituted():
     result = _count([[0, 0, 0, 0], [5, 5, 5, 0]], mask=[False, False], candidate_pair_budget=1)
     assert result.union_nodes.tolist() == [2]
     assert result.union_directed_edges.tolist() == result.readout_nodes.tolist() == result.readout_directed_edges.tolist() == [0]
-    assert result.candidate_pairs_visited == 2  # Self candidates are examined, never edges.
+    assert result.candidate_pairs_visited == 0  # Isolated cells are bulk-counted, self edges still excluded.
+    assert result.bulk_pairwise_evaluations_avoided == 0
 
 
 def test_inputs_are_unchanged_and_no_autograd_history_is_retained():
@@ -266,10 +267,12 @@ def test_incremental_dense_queries_only_changed_endpoints_and_respects_budget(mo
         )
     assert result.union_directed_edges.tolist() == [21 * 20]
     assert result.readout_directed_edges.tolist() == [20 * 19]
-    assert result.candidate_pairs_visited == selected_count * count < count**2
+    assert result.candidate_pairs_visited == 0
     expected_incident_pairs = selected_count * (count - selected_count) + selected_count * (selected_count - 1) // 2
-    assert sum(observed) == expected_incident_pairs
-    assert result.peak_candidate_pairs == budget
+    assert observed == []
+    assert result.bulk_pairwise_evaluations_avoided == expected_incident_pairs
+    assert result.bulk_query_blocks == selected_count
+    assert result.peak_candidate_pairs == 0
     assert cached.tolist() == [old_count * (old_count - 1)]
 
 

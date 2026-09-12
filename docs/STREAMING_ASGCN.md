@@ -1,5 +1,10 @@
 # Stateful event-driven ASGCN reconstruction (architecture v3)
 
+The preserved unpooled v3 contract is documented here. The new
+[hierarchical v4 ASGCN path](HIERARCHICAL_ASGCN.md) adds actual intermediate mean
+pooling, quotient edge remapping and sequence-global sampling state; it requires
+a separately prepared study and new training. Existing v3 experiments are unchanged.
+
 ## Scope and evidence
 
 This is an event-to-frame reconstruction adaptation of the public
@@ -19,6 +24,11 @@ Implemented code paths are tested with **synthetic CPU unit/integration fixtures
 Those tests are not real-data training, CUDA kernel validation, PSNR/SSIM evidence,
 an inference-speed improvement, or measured energy consumption. Actual device
 preflight and full quality/latency evaluation remain required on the allocation.
+
+An explicitly selected [implicit-radius storage backend](IMPLICIT_STREAMING_BACKEND.md)
+preserves this v3 reconstruction graph/operator while avoiding persistent full-edge
+arrays. It does not add the original paper's graph clustering/pooling or pooled-edge
+remapping, and it is not evidence of full ASGCN reproduction or a measured speedup.
 
 ## Input and spatial/temporal geometry
 
@@ -59,8 +69,11 @@ kernel size five, root transform, bias, and incoming-degree mean aggregation.
 The raster and base-48 recurrent U-Net/ConvGRU/head remain analog. The decoder runs
 once at a frame readout; an event update does not silently advance ConvGRU.
 
-`stream_graph.evolve_stream_graph` reuses surviving edges and attributes. Only new
-nodes issue radius neighbor queries. Removed edges change both affected endpoints;
+With default `graph_storage="materialized"`, `stream_graph.evolve_stream_graph`
+reuses surviving edge arrays and attributes; only new nodes issue radius queries.
+The optional `implicit_radius` backend instead retains exact node degrees/counts
+and queries incident neighbors of arrivals or expired nodes without storing E-sized
+edge arrays. In both cases removed edges change the surviving affected endpoints;
 zero-valued messages still count in the complete incoming degree. Independent
 streams use one disjoint namespace with no inter-stream edge.
 
@@ -103,9 +116,11 @@ old static T4 experiment. It is not established as optimal.
 
 ### Costs and limitations
 
-The implementation still scans/remaps some full node/edge metadata, builds spatial
-cell/CSR indices, and allocates remapped caches. These costs are exposed; an
-O(K-hop)-only wall-time or memory claim is false. Dense graphs can make the affected
+Both backends scan/remap full node metadata, build spatial cell indices and
+allocate remapped caches. The materialized backend additionally scans full edge
+metadata and builds E-sized incidence/CSR arrays; implicit storage regenerates
+bounded neighbor/message chunks instead. Neither eliminates dense O(E) message
+work or guarantees O(K-hop)-only wall time/memory. Dense graphs can make the affected
 closure nearly the whole graph. Sequential causal arrival waves cannot be merged
 without changing this IF model. Independent streams in a wave are batched on the
 device; layers/local ticks have real causal dependencies.
@@ -146,8 +161,10 @@ The lines above list CLI arguments, not shell-ready commands with guessed time
 values or GPU IDs. `python -B -m asgcn_unet.cli --help` documents the command syntax.
 Preserve the scheduler/container's actual allocation. No script chooses GPU 0/4.
 
-Streaming preflight uses a separate schema and rejects old static profiles, scan
-reuse, and the unverified-preflight bypass. It checks the whole training stream,
+Streaming preflight uses a separate schema and rejects old static profiles,
+JSON-only partial scan reuse, and the unverified-preflight bypass. New raw-state
+scan checkpoints can resume only under the exact matching contract described
+below; an old progress JSON alone cannot supply that state. It checks the whole training stream,
 records actual readout topology and separately labelled conservative prefix-union
 bounds, then performs real stateful full-physical-batch CUDA training probes.
 A conservative bound is not an observed intra-frame maximum. Guard refusals never
@@ -168,7 +185,8 @@ progress, failing batch indices and failure stage survive an ordinary failure or
 interrupt; a partial scan never authorizes training.
 
 For an already prepared experiment, do **not** repeat preparation, overwrite the
-failed profile, or copy a v2 static dense-frame guard. Run:
+failed profile, or copy a v2 static dense-frame guard. To start a new scan when
+there is no prior interrupted recovery to inspect, run:
 
 ```bash
 python -B scripts/recover_streaming_preflight.py --experiment-root runs/streaming-v3-50ms --use-measured-edge-guard --reserve-vram-mib 1024 --cpu-threads 4
@@ -179,6 +197,39 @@ window. The tool preserves the current CUDA allocation; it does not select a GPU
 connect SSH, terminate sessions, start training, or start calibration. It creates
 a unique `preflight-recovery-*` subdirectory on every invocation, so the original
 configs, failed report, checkpoints and other experiments remain unchanged.
+
+For an interrupted recovery, use `--resume-from` with its actual directory:
+
+```bash
+python -B scripts/recover_streaming_preflight.py --experiment-root runs/streaming-v3-50ms --use-measured-edge-guard --reserve-vram-mib 1024 --cpu-threads 4 --resume-from runs/streaming-v3-50ms/preflight-recovery-REPLACE_WITH_EXISTING_DIRECTORY
+```
+
+This first checks the saved recovery/profile commitments, prepared configuration
+identities, recorded source/data contract and internally consistent per-frame
+counts, without starting a CUDA probe or rescanning the dataset. A historical
+materialized graph's necessary storage can already exceed its recorded device
+capacity after the requested reserve; that diagnosis is **not** a new measurement
+of the current data, executable source or device. The actual readout edge count,
+not the conservative prefix-union bound, supplies this one-graph storage proof.
+
+Older partial JSON reports did not serialize live streams and incremental count
+state. They cannot provide exact resume, even when their configuration matches.
+The tool preserves their diagnosis and refuses before a new GPU probe or full
+scan; it never silently substitutes a frame-zero replay. Changed executable
+source also prevents raw-state migration. A matching Git commit alone is not
+sufficient; executable source bytes must match, while Git metadata is recorded
+separately. Do not rerun a proven-infeasible materialized experiment unchanged.
+
+New scans save raw scanner checkpoints under `scan-checkpoint/`, with an atomic
+`latest.json` manifest, ownership and content hashes. Recovery metadata is
+committed before the scan starts, and checkpoint progress profiles are committed
+as they are saved. A valid checkpoint is still only a candidate: current source,
+configuration, raw-data content, schedule and runtime contract must match before
+the saved causal states are loaded. Resume continues after the last committed
+batch; work after that checkpoint may be repeated. A partial or resumed scan
+never upgrades reporting eligibility without completing the full scan and CUDA
+gate. Every retry writes a separate recovery directory; prior checkpoints and
+metadata remain untouched.
 
 `--use-measured-edge-guard` explicitly authorizes a **new config** with the larger
 of its existing guard and the measured complete-training prefix-union bound (at

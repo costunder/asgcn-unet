@@ -97,7 +97,7 @@ def _context_tensor(value: Any, name: str, *, optional: bool = False) -> torch.T
     return value
 
 
-def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[str, Any]]:
+def _validated_context(payload: Any, independent_sequences: bool, *, _trusted_capture=False) -> list[dict[str, Any]]:
     if not isinstance(independent_sequences, bool):
         raise TypeError("independent_sequences must be a boolean")
     expected = {"version", "independent_sequences", "last_key", "entries"}
@@ -130,10 +130,17 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
         index = _context_index(entry["sequence_index"])
         size = _context_size(entry["sensor_size"])
         recurrent = entry["recurrent"]
-        if isinstance(recurrent, dict):
+        if isinstance(recurrent, (dict, StreamingReconstructionState)):
             if payload["version"] != 2:
                 raise ValueError("Streaming recurrent context requires checkpoint version 2")
-            recurrent = restore_stream_training_state(recurrent)
+            if isinstance(recurrent, StreamingReconstructionState):
+                if not _trusted_capture:
+                    raise ValueError("External training checkpoints must contain serialized streaming state, not live instances")
+                from .stream_state import _validate_training_capture_state
+
+                recurrent = _validate_training_capture_state(recurrent)
+            else:
+                recurrent = restore_stream_training_state(recurrent)
             has_streaming_state = True
             if recurrent.sequence_index != index or (
                 recurrent.sequence_identity != key if independent_sequences
@@ -172,7 +179,6 @@ def capture_training_state(state: TrainingState) -> dict[str, Any]:
             raise ValueError("Training context value must contain five fields")
         recurrent = value[2]
         if isinstance(recurrent, StreamingReconstructionState):
-            recurrent = recurrent.training_payload()
             has_streaming_state = True
         entries.append({
             "key": key, "sequence_index": value[0], "sensor_size": value[1],
@@ -183,7 +189,10 @@ def capture_training_state(state: TrainingState) -> dict[str, Any]:
         "independent_sequences": state.independent_sequences,
         "last_key": state.last_key, "entries": entries,
     }
-    validated = _validated_context(payload, state.independent_sequences)
+    # Trusted live instances receive full structural/finite/version checks but
+    # do not re-enumerate implicit graph edges at every checkpoint save. External
+    # payload restoration always uses strict geometric degree reconstruction.
+    validated = _validated_context(payload, state.independent_sequences, _trusted_capture=True)
     for entry in validated:
         for name in ("recurrent", "prediction", "target"):
             if entry[name] is not None:

@@ -42,15 +42,30 @@ def validate_stream_config(value):
 
 def stream_contract(model):
     # This is a structural contract, not a substitute for checkpoint weight hashes.
-    values = {"version": 3, "stream": model.stream_config, "radius": model.graph_radius,
+    values = {"version": getattr(model, "architecture_version", 3), "stream": model.stream_config, "radius": model.graph_radius,
               "position_dims": model.graph_position_dims, "sampling": model.event_sampling_factor,
               "width": model.encoder.hidden_dim, "depth": len(model.encoder.layers),
               "dynamics": model.snn_dynamics, "decoder": model.decoder_kind,
               "raster_downsample": model.raster_downsample}
+    storage = getattr(model, "graph_storage", "materialized")
+    if storage != "materialized":
+        values["graph_storage"] = storage
+    if getattr(model, "hierarchy_config", None) is not None:
+        values["hierarchy"] = model.hierarchy_config
+        values["sampling_phase"] = "persistent_sequence_ordinal"
     return hashlib.sha256(json.dumps(values, sort_keys=True).encode()).hexdigest()
 
 
-def _empty(device):
+def _empty(device, model=None):
+    if getattr(model, "graph_storage", "materialized") == "implicit_radius":
+        from .implicit_radius import ImplicitRadiusGraph
+        batch = torch.empty(0, device=device, dtype=torch.long)
+        graph = ImplicitRadiusGraph.from_counted_nodes(
+            torch.empty((0, 4), device=device), torch.empty((0, 4), device=device, dtype=torch.float64),
+            batch, batch, batch_size=1, radius=model.graph_radius,
+            position_dims=model.graph_position_dims, chunk_size=model.graph_chunk_size,
+        )
+        return StreamGraph(graph, batch, torch.empty(0, device=device, dtype=torch.float64))
     return StreamGraph(EventGraph(
         torch.empty((0, 4), device=device), torch.empty((0, 4), device=device, dtype=torch.float64),
         torch.empty((2, 0), device=device, dtype=torch.long), torch.empty((0, 1), device=device, dtype=torch.float64),
@@ -58,22 +73,38 @@ def _empty(device):
         torch.empty(0, device=device, dtype=torch.float64))
 
 
-def _pack_previous(states, device):
-    graphs = [state.graph if state is not None else _empty(device) for state in states]
+def _pack_previous(states, device, model=None):
+    graphs = [state.graph if state is not None else _empty(device, model) for state in states]
     counts = [len(value.timestamps) for value in graphs]
     offsets, cursor = [], 0
     for count in counts:
         offsets.append(cursor)
         cursor += count
-    graph = StreamGraph(EventGraph(
-        torch.cat([value.graph.node_features for value in graphs]),
-        torch.cat([value.graph.positions for value in graphs]),
-        torch.cat([value.graph.edge_index + offset for value, offset in zip(graphs, offsets)], dim=1),
-        torch.cat([value.graph.edge_attr for value in graphs]),
-        torch.cat([value.graph.in_degree for value in graphs]),
-    ), torch.cat([torch.full((count,), lane, device=device, dtype=torch.long)
-                  for lane, count in enumerate(counts)]),
-        torch.cat([value.timestamps for value in graphs]))
+    from .implicit_radius import ImplicitRadiusGraph
+    implicit = isinstance(graphs[0].graph, ImplicitRadiusGraph)
+    if any(isinstance(value.graph, ImplicitRadiusGraph) != implicit for value in graphs):
+        raise ValueError("Cannot pack streams with different graph storage")
+    packed_batch = torch.cat([torch.full((count,), lane, device=device, dtype=torch.long)
+                              for lane, count in enumerate(counts)])
+    if implicit:
+        reference_graph = graphs[0].graph
+        raw = ImplicitRadiusGraph.from_counted_nodes(
+            torch.cat([value.graph.node_features for value in graphs]),
+            torch.cat([value.graph.positions for value in graphs]), packed_batch,
+            torch.cat([value.graph.in_degree for value in graphs]), batch_size=len(states),
+            radius=reference_graph.radius, position_dims=reference_graph.position_dims,
+            chunk_size=reference_graph.chunk_size, candidate_pair_budget=reference_graph.candidate_pair_budget,
+            edge_counts=torch.cat([value.graph.edge_counts for value in graphs]),
+        )
+        graph = StreamGraph(raw, packed_batch, torch.cat([value.timestamps for value in graphs]))
+    else:
+        graph = StreamGraph(EventGraph(
+            torch.cat([value.graph.node_features for value in graphs]),
+            torch.cat([value.graph.positions for value in graphs]),
+            torch.cat([value.graph.edge_index + offset for value, offset in zip(graphs, offsets)], dim=1),
+            torch.cat([value.graph.edge_attr for value in graphs]),
+            torch.cat([value.graph.in_degree for value in graphs]),
+        ), packed_batch, torch.cat([value.timestamps for value in graphs]))
     present = [state.encoder for state in states if state is not None and state.encoder is not None]
     if not present:
         return graph, None
@@ -104,6 +135,10 @@ def _pack_previous(states, device):
 
 def _split_state(graph, cache, batch_size):
     """One batched node/edge permutation, then per-lane state views only."""
+    from .implicit_radius import ImplicitRadiusGraph
+    if isinstance(graph.graph, ImplicitRadiusGraph):
+        from .implicit_stream import split_state
+        return split_state(graph, cache, batch_size)
     node_order = torch.argsort(graph.node_batch, stable=True)
     inverse = torch.empty_like(node_order)
     inverse[node_order] = torch.arange(node_order.numel(), device=node_order.device)
@@ -235,7 +270,8 @@ def _prepared(model, packed, records):
 def _update(model, previous, features, positions, timestamps, node_batch, cutoffs):
     return evolve_stream_graph(previous, features, positions, timestamps, node_batch, cutoffs,
                                radius=model.graph_radius, position_dims=model.graph_position_dims,
-                               max_graph_edges=model.max_graph_edges, chunk_size=model.graph_chunk_size)
+                               max_graph_edges=model.max_graph_edges, chunk_size=model.graph_chunk_size,
+                               graph_storage=getattr(model, "graph_storage", "materialized"))
 
 
 def _decoder(model, raster, sensor_size, states):
@@ -257,11 +293,15 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
         raise ValueError("Streaming simulation_steps must be a positive integer")
     if model.training and inference_mode != "ann":
         raise ValueError("ASGCN conversion trains the ANN path; SNN is inference-only")
-    if model.event_sampling_factor != 1:
+    hierarchical = model.architecture_version == 4
+    if not hierarchical and model.event_sampling_factor != 1:
         raise ValueError("The approved physical-stream contract retains all events (R=1)")
     states = [None] * len(samples) if recurrent_states is None else recurrent_states
     if len(states) != len(samples):
         raise ValueError("One explicit streaming state is required per sequence")
+    if hierarchical and (model.training or calibration) and any(
+            state is not None and (state.encoder is not None or state.hierarchy is not None) for state in states):
+        raise ValueError("Hierarchical training/calibration requires raw-only training state, not learned inference caches")
     packed = pack_samples(samples)
     device = packed.events.device
     records, contract = _metadata(model, packed, states)
@@ -280,11 +320,24 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
         else:
             last_id = None if previous is None else previous.last_event_id
         last_ids.append(last_id)
-    graph, cache = _pack_previous(states, device)
+    graph, cache = _pack_previous(states, device, model)
     if cache is not None and (cache.mode != inference_mode or
                              (inference_mode == "snn" and cache.dynamics != model.snn_dynamics)):
         raise ValueError("Streaming inference dynamics cannot change inside a sequence")
     features, positions, timestamps, node_batch = _prepared(model, packed, records)
+    raw_counts = packed.event_counts
+    sampling_offsets = [0 if state is None else state.sampling_offset for state in states]
+    hierarchy = None
+    if hierarchical:
+        from .hierarchy import forward_snapshot, pack_hierarchy, split_hierarchy, update_hierarchy
+        from .stream_sampling import replace_record_groups, sample_stream_batch
+        sampled = sample_stream_batch(packed, sampling_offsets, factor=model.event_sampling_factor)
+        packed = sampled.packed
+        records = replace_record_groups(records, sampled.arrival_group_counts)
+        sampling_offsets = sampled.next_offsets
+        features, positions, timestamps, node_batch = (
+            value[sampled.keep_mask] for value in (features, positions, timestamps, node_batch))
+        hierarchy = pack_hierarchy(model, states, graph, packed.sensor_size)
     window = model.stream_config["window_seconds"]
     readouts = timestamps.new_tensor([record[3] for record in records])
     watermarks = timestamps.new_tensor([state.watermark_seconds if state is not None else record[2]
@@ -310,6 +363,34 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
     def scope(name):
         return timing.scope(name, gpu=device.type == "cuda") if timing is not None else nullcontext()
 
+    def encode_update(update, active_graphs=None):
+        nonlocal cache, hierarchy
+        if not hierarchical:
+            cache = update_encoder(model.encoder, update, cache, mode=inference_mode,
+                                   simulation_steps=simulation_steps, dynamics=model.snn_dynamics,
+                                   active_graphs=active_graphs)
+            record_work(cache)
+            return
+        from types import SimpleNamespace
+        cache, hierarchy, work = update_hierarchy(
+            model, update, cache, hierarchy, packed.sensor_size, mode=inference_mode,
+            simulation_steps=simulation_steps, active_graphs=active_graphs)
+        for prefix, suffix in work:
+            pool = prefix["pooling"]
+            totals = operation_totals.setdefault("pooling", {"updates": 0, "reused_quotient_updates": 0})
+            totals["updates"] += 1
+            totals["reused_quotient_updates"] += int(pool.get("reused_quotient_topology", False))
+            for key in ("raw_edges_visited", "raw_query_nodes", "feature_rows_updated", "materialized_edges_scanned",
+                        "quotient_chunks", "quotient_rehashes", "quotient_probe_rounds", "quotient_final_sorts"):
+                totals[key] = totals.get(key, 0) + pool.get(key, 0)
+            totals["peak_table_capacity"] = max(totals.get("peak_table_capacity", 0),
+                                                 pool.get("quotient_peak_table_capacity", 0))
+            merged = {key: prefix[key] + suffix[key] for key in (
+                "updated_nodes_per_layer", "message_edges_per_layer", "projected_sources_per_layer",
+                "emitted_spikes_per_graph_per_layer", "neuron_ticks_per_graph_per_layer")}
+            merged["topology_indexed_edges"] = prefix["topology_indexed_edges"] + suffix["topology_indexed_edges"]
+            record_work(SimpleNamespace(work=merged))
+
     if model.training or calibration:
         # ANN training/calibration observes the same fixed-coordinate sliding
         # graph as the inference reference, but does not reuse learned caches
@@ -320,7 +401,12 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
                              node_batch[keep], readouts - window)
             graph = update.state
         with scope("encoder"):
-            outputs, activations = model.encoder.forward_ann(graph.graph, return_activations=calibration)
+            if hierarchical:
+                outputs, activations, readout_graph = forward_snapshot(
+                    model, graph, packed.sensor_size, calibration=calibration)
+            else:
+                outputs, activations = model.encoder.forward_ann(graph.graph, return_activations=calibration)
+                readout_graph = graph
         cache = None
     else:
         # Equal-timestamp events form one simultaneous arrival. Wave r contains
@@ -346,10 +432,7 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
                                  arrived_batch, watermarks - window)
                 graph = update.state
             with scope("encoder"):
-                cache = update_encoder(model.encoder, update, cache, mode=inference_mode,
-                                       simulation_steps=simulation_steps, dynamics=model.snn_dynamics,
-                                       active_graphs=active_graphs)
-                record_work(cache)
+                encode_update(update, active_graphs)
             operation_totals["arrival_updates"] += 1
         # Readout is an explicit clock boundary: expire old nodes and deliver
         # pending pulse-off effects using the same local-sweep rule.
@@ -358,27 +441,30 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
                              node_batch[:0], readouts - window)
             graph = update.state
         with scope("encoder"):
-            cache = update_encoder(model.encoder, update, cache, mode=inference_mode,
-                                   simulation_steps=simulation_steps, dynamics=model.snn_dynamics)
-            record_work(cache)
+            encode_update(update)
         operation_totals["readout_updates"] = 1
-        outputs, activations = cache.outputs, []
+        outputs, activations = (hierarchy.suffix.outputs if hierarchical else cache.outputs), []
+        readout_graph = hierarchy.pool.graph if hierarchical else graph
     if inference_mode == "snn":
         outputs = outputs * model.encoder.output_activation_scale(outputs)
     with scope("decoder"):
         if calibration:
             predictions, next_decoder = None, None
         else:
-            raster = rasterize_batch(outputs, graph.graph, graph.node_batch, len(packed),
+            raster = rasterize_batch(outputs, readout_graph.graph, readout_graph.node_batch, len(packed),
                                      packed.sensor_size, model.raster_downsample)
             predictions, next_decoder = _decoder(model, raster, packed.sensor_size, states)
     lanes = _split_state(graph, cache, len(packed))
+    hierarchy_lanes = (split_hierarchy(hierarchy, lanes, len(packed))
+                       if hierarchy is not None else [None] * len(packed))
     diagnostics = []
     for lane_index, ((lane, lane_cache), record, previous) in enumerate(zip(lanes, records, states)):
         last_id = last_ids[lane_index]
         state = StreamingReconstructionState(
             lane, lane_cache, None if next_decoder is None else next_decoder[lane_index:lane_index + 1],
             record[4], record[3], record[1], record[0], last_id, contract,
+            sampling_offset=sampling_offsets[lane_index] if hierarchical else 0,
+            hierarchy=hierarchy_lanes[lane_index],
         )
         degree = lane.graph.in_degree
         count = len(lane.timestamps)
@@ -393,11 +479,17 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
             rates, denominators, spikes = [], [], []
         diagnostics.append({
             "architecture": model.architecture_description(), "paper_core_version": 2,
-            "nodes": count, "edges": lane.graph.edge_index.shape[1], "isolated_nodes": isolated,
+            "nodes": count, "edges": (lane.graph.edge_count if model.graph_storage == "implicit_radius"
+                                    else lane.graph.edge_index.shape[1]), "isolated_nodes": isolated,
             "isolate_ratio": isolated.float() / max(count, 1),
             "max_degree": degree.max() if count else degree.new_zeros(()),
-            "edge_feature": "fixed_physical_scalar_distance", "event_sampling_factor": 1,
-            "dataset_sampling_ratio": 1.0, "effective_sampling_ratio": 1.0,
+            "edge_feature": "fixed_physical_scalar_distance", "event_sampling_factor": model.event_sampling_factor,
+            "dataset_sampling_ratio": 1.0, "effective_sampling_ratio": 1.0 / model.event_sampling_factor,
+            "raw_incoming_events": raw_counts[lane_index], "sampled_incoming_events": packed.event_counts[lane_index],
+            "sampling_offset": sampling_offsets[lane_index] if hierarchical else 0,
+            "hierarchy_nodes": (readout_graph.node_batch == lane_index).sum() if hierarchical else None,
+            "hierarchy_edges": (readout_graph.node_batch[readout_graph.graph.edge_index[0]] == lane_index).sum()
+            if hierarchical else None,
             "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
             "decoder_input_lambda_applied": inference_mode == "snn", "firing_rates": rates,
             "firing_rate_denominators": denominators, "spike_counts": spikes,

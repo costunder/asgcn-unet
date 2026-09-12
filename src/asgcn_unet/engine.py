@@ -420,7 +420,7 @@ def load_model_checkpoint(
             "state dictionaries are incompatible with the paper-core architecture."
         )
     architecture_version = model_config.get("architecture_version")
-    if architecture_version not in {PAPER_CORE_VERSION, 3}:
+    if architecture_version not in {PAPER_CORE_VERSION, 3, 4}:
         raise ValueError(
             f"Checkpoint {checkpoint_path} has architecture_version="
             f"{architecture_version!r}; paper-core version {PAPER_CORE_VERSION} is "

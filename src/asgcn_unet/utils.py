@@ -36,11 +36,17 @@ def validate_experiment_config(config: dict[str, Any]) -> None:
     if isinstance(model, dict) and model.get("graph_execution") == "event_driven":
         from .stream_model import validate_stream_config
         validate_stream_config(model.get("stream_config"))
-        if (model.get("architecture_version") != 3 or not isinstance(dataset, dict)
+        if (model.get("architecture_version") not in {3, 4} or not isinstance(dataset, dict)
                 or dataset.get("event_time_contract") != "physical_seconds_v1"
                 or "max_events" not in dataset or dataset["max_events"] is not None
-                or model.get("event_sampling_factor") != 1):
+                or (model.get("architecture_version") == 3 and model.get("event_sampling_factor") != 1)):
             raise ValueError("Event-driven ASGCN requires v3 physical_seconds_v1, explicit max_events=null and R=1")
+        if model.get("architecture_version") == 4:
+            from .hierarchy import validate_hierarchy_config
+            validate_hierarchy_config(model.get("hierarchy_config"), model.get("graph_layers", 6))
+            factor = model.get("event_sampling_factor")
+            if type(factor) is not int or factor < 1:
+                raise ValueError("v4 requires an explicit positive integer event_sampling_factor")
     elif isinstance(dataset, dict) and dataset.get("event_time_contract") == "physical_seconds_v1":
         raise ValueError("Physical stream input cannot be silently routed through a static-window model")
     if dataset is not None:

@@ -6,9 +6,24 @@ import copy
 import json
 
 import pytest
+import torch
 
 from asgcn_unet import stream_preflight
-from tests.test_stream_preflight import SyntheticStreams, _config, _fixture_provenance
+from tests.test_stream_preflight import (
+    SyntheticStreams,
+    _config,
+    _fixture_cpu_ram,
+    _fixture_provenance,
+)
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads(monkeypatch):
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    _fixture_cpu_ram(monkeypatch)
+    yield
+    torch.set_num_threads(previous)
 
 
 def _run(config, output, **kwargs):
@@ -73,15 +88,23 @@ def test_insufficient_storage_floor_stops_before_model_or_new_config(monkeypatch
     config = _config()
     config["model"]["max_graph_edges"] = 8
     monkeypatch.setattr(stream_preflight, "_cuda_memory_budget", lambda *a: {
-        "measured": True, "available_after_reserve_mib": 0,
+        "measured": True, "available_after_reserve_mib": 0, "total_mib": 1024,
         "scope": "mocked_cpu_unit_test_not_actual_cuda_measurement",
     })
     monkeypatch.setattr(stream_preflight, "_probe_stream_training", lambda *a, **k: pytest.fail("unsafe probe"))
     path = tmp_path / "not-created.json"
     result = _run(config, tmp_path / "floor-failure.json", measured_guard_config_output=path, reserve_vram_mib=1024)
-    assert result["failure"]["stage"] == "raw_graph_memory_floor"
-    assert result["topology"]["scan_complete"]
-    assert result["guard_measurement"]["raw_graph_storage_floor"]["bytes"] > 0
+    assert result["failure"]["stage"] == "count_only_topology"
+    assert result["topology"]["scan_complete"] is False
+    assert result["topology"]["scanned_samples"] == 2
+    assert result["topology"]["completed_batches"] == 1
+    assert result["topology"]["observed_training_storage_floor"]["bytes"] > 0
+    assert result["topology"]["observed_training_storage_floor"]["batch_index"] == 0
+    assert result["topology"]["samples"][1] is None
+    assert result["scan_checkpoint"]["completed_batches"] == 1
+    assert result["scan_device_memory"]["total_mib"] == 1024
+    assert "first proven-impossible batch" in result["failure"]["message"]
+    assert result["checks"]["complete_topology_scan"] is False
     assert not result["passed"] and not path.exists()
 
 

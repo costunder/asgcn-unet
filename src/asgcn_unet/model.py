@@ -97,9 +97,11 @@ class ASGCNUNet(nn.Module):
         transformer_config: dict[str, Any] | None = None,
         graph_execution: str = "static_window",
         stream_config: dict[str, Any] | None = None,
+        graph_storage: str = "materialized",
+        hierarchy_config: dict[str, Any] | None = None,
     ) -> None:
         super().__init__()
-        if int(architecture_version) not in {PAPER_CORE_VERSION, 3}:
+        if int(architecture_version) not in {PAPER_CORE_VERSION, 3, 4}:
             raise ValueError(
                 f"architecture_version must be {PAPER_CORE_VERSION}; legacy edge-MLP "
                 "checkpoints are intentionally incompatible"
@@ -108,8 +110,8 @@ class ASGCNUNet(nn.Module):
             raise ValueError("graph_execution must be static_window or event_driven")
         if graph_execution == "event_driven":
             from .stream_model import validate_stream_config
-            if (architecture_version != 3 or encoder_kind != "graph" or decoder_kind != "unet"
-                    or event_sampling_factor != 1 or graph_position_dims != 3):
+            if (architecture_version not in {3, 4} or encoder_kind != "graph" or decoder_kind != "unet"
+                    or (architecture_version == 3 and event_sampling_factor != 1) or graph_position_dims != 3):
                 raise ValueError("Event-driven ASGCN v3 requires graph + U-Net, R=1 and x/y/time topology")
             self.stream_config = validate_stream_config(stream_config)
         elif stream_config is not None or architecture_version != PAPER_CORE_VERSION:
@@ -117,6 +119,18 @@ class ASGCNUNet(nn.Module):
         else:
             self.stream_config = None
         self.graph_execution = graph_execution
+        if architecture_version == 4:
+            from .hierarchy import validate_hierarchy_config
+            self.hierarchy_config = validate_hierarchy_config(hierarchy_config, graph_layers)
+        elif hierarchy_config is not None:
+            raise ValueError("A pooling hierarchy is a distinct v4 architecture, not a v2/v3 checkpoint option")
+        else:
+            self.hierarchy_config = None
+        if graph_storage not in {"materialized", "implicit_radius"}:
+            raise ValueError("graph_storage must be materialized or implicit_radius")
+        if graph_storage != "materialized" and graph_execution != "event_driven":
+            raise ValueError("Implicit radius storage requires the explicit streaming input contract")
+        self.graph_storage = graph_storage
         if graph_operator != "spline":
             raise ValueError("graph_operator must be 'spline' for the ASGCN paper core")
         if spline_backend not in SPLINE_BACKENDS:
@@ -259,8 +273,14 @@ class ASGCNUNet(nn.Module):
                 "encoder_kind": "graph", "decoder_kind": "unet",
                 "encoder_layers": len(self.encoder.layers), "encoder_output_channels": self.encoder.hidden_dim,
                 "spiking_supported": True, "topology_kind": "stateful_physical_radius_graph",
-                "input_representation": "physical_seconds_all_events_causal_frame_offset_feature",
+                "input_representation": "physical_seconds_sequence_uniform_sampling_causal_frame_offset_feature"
+                if self.architecture_version == 4 else "physical_seconds_all_events_causal_frame_offset_feature",
+                **({"architecture_version": 4, "hierarchy_config": self.hierarchy_config,
+                    "pooling": "mean_features_quotient_edges_then_convolution",
+                    "sampling": {"factor": self.event_sampling_factor, "phase": "persistent_sequence_ordinal"}}
+                   if self.architecture_version == 4 else {}),
                 "graph_execution": "event_driven", "stream_config": dict(self.stream_config),
+                "graph_storage": self.graph_storage,
                 "rasterization": "current_window_per_cell_feature_mean",
                 "recurrent": self.decoder.recurrent is not None,
                 "training": "synchronous_full_causal_window_ann",

@@ -20,9 +20,10 @@ PROJECT = Path(__file__).resolve().parents[1]
 
 
 @pytest.fixture(autouse=True)
-def _bounded_cpu_threads():
+def _bounded_cpu_threads(monkeypatch):
     previous = torch.get_num_threads()
     torch.set_num_threads(1)
+    _fixture_cpu_ram(monkeypatch)
     yield
     torch.set_num_threads(previous)
 
@@ -78,8 +79,12 @@ class SyntheticStreams:
     def __init__(self, *, frames=3, dense_final=False):
         self.frames = frames
         self.dense_final = dense_final
+        self.event_time_contract = "physical_seconds_v1"
+        self.target_channels = 1
+        self.crop_size = None
         self.samples = [
-            {"sequence_id": f"synthetic-{lane}", "sequence_index": frame, "sensor_size": (16, 16)}
+            {"sequence_id": f"synthetic-{lane}", "sequence_index": frame, "sensor_size": (16, 16),
+             "start_idx": frame * 4, "end_idx": frame * 4 + (4 if dense_final and frame == frames - 1 else 2)}
             for lane in range(2) for frame in range(frames)
         ]
         self.closed = False
@@ -108,7 +113,23 @@ class SyntheticStreams:
         self.closed = True
 
 
+def _fixture_cpu_ram(monkeypatch):
+    # Synthetic CPU fixtures are not measurements of this host or its Job Object.
+    # Production resource probes remain fail-closed and are never bypassed.
+    headroom = 128 * 1024**2
+    monkeypatch.setattr("asgcn_unet.diagnostic_resources._snapshot", lambda: {"headroom_bytes": headroom})
+    def synthetic_resources(**kwargs):
+        return {
+            "memory": {"effective_available_bytes": headroom, "process_rss_bytes": 1024**2},
+            "cpu": {"effective_cpu_limit": 4}, "allocation_limits_verified": True,
+            "synthetic_cpu_test_only": True,
+        }
+    monkeypatch.setattr("asgcn_unet.resources.collect_runtime_resources", synthetic_resources)
+    monkeypatch.setattr("asgcn_unet.stream_scan_loader.collect_runtime_resources", synthetic_resources)
+
+
 def _fixture_provenance(monkeypatch, dataset):
+    _fixture_cpu_ram(monkeypatch)
     data = {"dataset_type": "synthetic_cpu_test_only", "content": {"sha256": "a" * 64},
             "source_files": {"synthetic": True}, "transform": {}, "split_manifest": {}}
     source = {"source_tree_sha256": "b" * 64, "synthetic_cpu_test_only": True}
@@ -140,6 +161,30 @@ def test_prepare_preserves_full_baseline_outside_explicit_contract_changes(proje
             assert result["dataset"]["timestamp_scale_to_seconds"] == 0.25
             assert result["dataset"]["interval_timestamp_scale_to_seconds"] == 1e-6
             assert result["eval"]["max_graph_edges_override"] == 7475202
+
+
+def test_implicit_preparation_requires_explicit_storage_choice_and_keeps_scale(project):
+    report = _prepare(project, graph_storage="implicit_radius")
+    for kind, relative in report["configs"].items():
+        result = json.loads((project / relative).read_text(encoding="utf-8"))
+        assert result["model"]["graph_storage"] == "implicit_radius"
+        assert result["model"]["graph_radius"] == 0.08
+        assert result["model"]["event_sampling_factor"] == 1
+        assert result["model"]["graph_layers"] == 6
+        assert result["model"]["hidden_dim"] == 64
+        assert result["model"]["decoder_channels"] == 48
+        assert result["dataset"]["max_events"] is None
+        assert any(row["field"] == "model.graph_storage" for row in report["changes"][kind])
+        if kind == "train":
+            assert result["train"]["batch_size"] == 16
+            assert result["train"]["epochs"] == 40
+    assert report["execution_performed"] is False
+
+
+def test_unknown_graph_storage_is_rejected_before_preparation(project):
+    with pytest.raises(ValueError, match="graph_storage"):
+        _prepare(project, graph_storage="approximate")
+    assert not (project / "runs" / "synthetic-stream-test").exists()
 
 
 @pytest.mark.parametrize("name", ["window_seconds", "time_scale_seconds", "hdr_timestamp_scale_to_seconds",
@@ -229,6 +274,17 @@ def test_actual_window_and_prefix_bound_are_distinct_and_retain_previous_frames(
     assert topology["max_readout_nodes"] == 3
     assert topology["max_prefix_union_nodes_upper_bound"] == 5
     assert any(row["readout_nodes"] > row["incoming_events"] for row in topology["samples"])
+    assert topology["bulk_query_blocks"] > 0
+    assert topology["bulk_pairwise_evaluations_avoided"] > 0
+    for row in topology["samples"]:
+        nodes, edges = row["readout_nodes"], row["readout_directed_edges"]
+        assert row["readout_mean_in_degree"] == edges / nodes
+        assert row["readout_edge_density"] == edges / (nodes * (nodes - 1))
+        geometry = row["radius_geometry"]
+        assert geometry["sensor_size_hw"] == [16, 16]
+        assert geometry["spatial_semiaxes_pixels_xy"] == [12., 12.]
+        assert geometry["temporal_semiaxis_seconds"] == 8.
+        assert geometry["window_seconds"] == 1.5
     plan = stream_preflight._stream_probe_plan(batches, topology["samples"], 2, 1)
     assert plan["scheduled_frames"] == 6
     assert 0 in plan["selected_batch_indices"]
@@ -275,6 +331,7 @@ def test_preflight_rehashes_same_size_source_content_after_cpu_probes(monkeypatc
     """Real byte hashes around synthetic CPU work; no research data or GPU."""
     from asgcn_unet import engine
 
+    _fixture_cpu_ram(monkeypatch)
     source_path = tmp_path / "synthetic-source.bin"
     initial_bytes, changed_bytes = b"synthetic-original", b"synthetic-modified"
     assert len(initial_bytes) == len(changed_bytes)

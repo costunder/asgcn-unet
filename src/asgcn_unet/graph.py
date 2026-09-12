@@ -914,6 +914,10 @@ class ASGCNEncoder(nn.Module):
     def forward_ann(
         self, graph: EventGraph, return_activations: bool = False
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
+        from .implicit_radius import ImplicitRadiusGraph
+        if isinstance(graph, ImplicitRadiusGraph):
+            from .implicit_model import forward_ann
+            return forward_ann(self, graph, return_activations=return_activations)
         require_spline_backend(self.spline_backend, graph.node_features.device)
         hidden = graph.node_features
         activations: list[torch.Tensor] = []
@@ -942,6 +946,12 @@ class ASGCNEncoder(nn.Module):
         batch_size: int | None = None,
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
         """Run explicit IF timesteps using literal Eq. (15) or a standard-IF control."""
+        from .implicit_radius import ImplicitRadiusGraph
+        if isinstance(graph, ImplicitRadiusGraph):
+            raise TypeError(
+                "Implicit radius SNN graphs require the event-driven streaming model with its causal state; "
+                "static global-T forward_snn cannot replace the streaming local clock."
+            )
         require_spline_backend(self.spline_backend, graph.node_features.device)
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")

@@ -138,6 +138,7 @@ def evolve_stream_graph(
     position_dims: int = 3,
     max_graph_edges: int | None,
     chunk_size: int = 512,
+    graph_storage: str = "materialized",
 ) -> GraphUpdate:
     """Expire timestamps < cutoff and append arrivals, preserving all valid edges.
 
@@ -166,6 +167,16 @@ def evolve_stream_graph(
     if cutoffs.ndim != 1 or cutoffs.dtype != torch.float64 or not bool(torch.isfinite(cutoffs).all()):
         raise ValueError("Stream cutoffs must be a finite float64 tensor with shape [B]")
     _validate_nodes(features, positions, timestamps, node_batch, cutoffs)
+    if graph_storage == "implicit_radius":
+        from .implicit_stream import evolve
+        return evolve(previous, features, positions, timestamps, node_batch, cutoffs,
+                      radius=radius, position_dims=position_dims, max_graph_edges=max_graph_edges,
+                      chunk_size=chunk_size)
+    if graph_storage != "materialized":
+        raise ValueError("Unknown streaming graph storage")
+    from .implicit_radius import ImplicitRadiusGraph
+    if previous is not None and isinstance(previous.graph, ImplicitRadiusGraph):
+        raise ValueError("Cannot change graph storage inside an existing stream")
     device = features.device
     old_count = 0
     if previous is not None:
@@ -230,12 +241,15 @@ def evolve_stream_graph(
     edge_parts = [surviving_edges]
     attr_parts = [surviving_attr]
     if arriving.numel():
+        from .radius_candidates import coordinate_bounds, prune_cell_counts
+
         rows, occupied, sorted_nodes, boundaries = _occupied_cells(
             output_positions, output_batch, cutoffs.numel(), radius, position_dims,
         )
         axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
         offsets = torch.cartesian_prod(*([axis] * position_dims)).reshape(-1, position_dims)
         cells_per_query = offsets.shape[0]
+        bounds = coordinate_bounds(output_positions, sorted_nodes, boundaries, position_dims)
         # Chunking bounds scratch only, never nodes, edges, or selected arrivals.
         effective_chunk = min(chunk_size, max(1, 1_048_576 // max(count, 1)))
         for start in range(retained_count, count, effective_chunk):
@@ -244,7 +258,10 @@ def evolve_stream_graph(
             query_batches = rows[start:stop, None, :1].expand(-1, cells_per_query, -1)
             queries = torch.cat((query_batches, query_cells), dim=2).flatten(0, 1)
             cell_ids = _cell_lookup(occupied, queries)
-            cell_counts = boundaries[1, cell_ids.clamp_min(0)].masked_fill(cell_ids < 0, 0)
+            cell_counts = prune_cell_counts(
+                output_positions[start:stop], cell_ids.reshape(-1, cells_per_query),
+                boundaries, bounds, radius,
+            ).flatten()
             cell_starts = boundaries[0, cell_ids.clamp_min(0)]
             candidate_count = int(cell_counts.sum())
             groups = torch.repeat_interleave(

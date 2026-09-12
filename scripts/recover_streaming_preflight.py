@@ -7,9 +7,11 @@ import copy
 import hashlib
 import json
 import math
+import os
 import shlex
 import sys
 import tempfile
+import uuid
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -40,6 +42,8 @@ def build_parser() -> argparse.ArgumentParser:
                         help="positive free-VRAM reserve required by the CUDA preflight")
     parser.add_argument("--cpu-threads", type=_positive_integer, default=4,
                         help="CPU helper threads, bounded by measured allocation (default: 4)")
+    parser.add_argument("--resume-from",
+                        help="previous recovery directory; committed raw scanner state is required to resume")
     return parser
 
 
@@ -52,6 +56,28 @@ def _write_new_json(path: Path, value: dict) -> None:
     with path.open("x", encoding="utf-8") as handle:
         json.dump(value, handle, indent=2, ensure_ascii=False, allow_nan=False)
         handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _persist_recovery(path: Path, value: dict, previous_sha256: str | None = None) -> str:
+    """Create metadata exclusively, then replace only this invocation's unchanged file."""
+    from asgcn_unet.stream_preflight import _digest
+
+    core = dict(value)
+    core.pop("commitment_sha256", None)
+    value["commitment_sha256"] = _digest(core)
+    if previous_sha256 is None:
+        _write_new_json(path, value)
+    else:
+        if path.resolve() != path or _sha256(path) != previous_sha256:
+            raise ValueError("Recovery metadata changed outside this invocation; it was preserved")
+        pending = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")
+        _write_new_json(pending, value)
+        if path.resolve() != path or _sha256(path) != previous_sha256:
+            raise ValueError(f"Recovery metadata changed; it was preserved. Pending metadata: {pending}")
+        os.replace(pending, path)
+    return _sha256(path)
 
 
 def _overlaps(left: Path, right: Path) -> bool:
@@ -101,6 +127,16 @@ def _command(*arguments: str | Path) -> str:
     return shlex.join([sys.executable, "-B", "-m", "asgcn_unet.cli", *map(str, arguments)])
 
 
+def _inspect_resume_checkpoint(checkpoint_dir, resources):
+    from asgcn_unet.stream_scan_checkpoint import inspect_scan_checkpoint
+
+    available = resources.get("memory", {}).get("effective_available_bytes")
+    if (isinstance(available, bool) or not isinstance(available, (int, float))
+            or not math.isfinite(available) or available <= 0):
+        raise ValueError("Available RAM must be measured before inspecting a scanner checkpoint")
+    return inspect_scan_checkpoint(checkpoint_dir, memory_budget_mib=available / 1024**2)
+
+
 def _failure_summary(
     report: dict | None, stage: str, error: BaseException | None = None,
     report_path: Path | None = None,
@@ -139,6 +175,7 @@ def main(argv: list[str] | None = None) -> int:
     from asgcn_unet.stream_preflight import _differences, streaming_training_preflight
     from asgcn_unet.utils import load_json, resolve_path
     output_root, report, recovery, profile_path = None, None, None, None
+    metadata_sha256 = None
     stage = "validate_prepared_experiment"
     result_code = 1
     try:
@@ -165,12 +202,69 @@ def main(argv: list[str] | None = None) -> int:
             "training_executed": False, "calibration_executed": False,
             "next_commands": [], "failure": None,
         }
+        recovery["request"]["resume_from"] = args.resume_from
+        recovery["scan_checkpoint_dir"] = str(output_root / "scan-checkpoint")
+        stage = "persist_initial_recovery_metadata"
+        metadata_sha256 = _persist_recovery(output_root / "recovery.json", recovery)
         print(f"Recovery directory: {output_root}", flush=True)
         print(f"CPU helper threads: {cpu_threads}; requested VRAM reserve: {args.reserve_vram_mib:g} MiB", flush=True)
+        resume_checkpoint = None
+        if args.resume_from:
+            from asgcn_unet.engine import (
+                _artifact_path_label,
+                _current_source_contract,
+                _public_config,
+            )
+            from asgcn_unet.recovery_evidence import load_recovery_evidence
+
+            stage = "inspect_saved_recovery_evidence"
+            previous_dir = resolve_path(args.resume_from, PROJECT)
+            evidence, previous_profile = load_recovery_evidence(
+                previous_dir, experiment_root=experiment_root, source_configs=sources,
+                public_train_config=_public_config(configs["train"]),
+                resolved_train_config=configs["train"],
+                current_source_contract=_current_source_contract(), reserve_vram_mib=args.reserve_vram_mib,
+                profile_output_label=_artifact_path_label(previous_dir / "stream-profile.json"),
+            )
+            recovery["resume_evidence"] = evidence
+            # Preserve prior count diagnostics in a failure summary, without
+            # presenting the old report as this invocation's preflight result.
+            report = {"topology": previous_profile["topology"]}
+            floor = evidence["single_readout_storage_floor"]["graph_and_basis_mib"]
+            storage = evidence["single_readout_storage_floor"]["graph_storage"]
+            floor_label = ("one actual readout graph plus basis" if storage == "materialized"
+                           else "one implicit readout raw node set (excluding index/scratch/training)")
+            print(f"Saved scan evidence: {evidence['scanned_samples']}/{evidence['dataset_samples']} frames; "
+                  f"{floor_label} requires at least {floor:,.2f} MiB.", flush=True)
+            print("Historical evidence only: current source/data/device have not been certified by this report.", flush=True)
+            if evidence["infeasible_on_saved_device"]:
+                budget = evidence["saved_device_budget_after_requested_reserve_mib"]
+                print(f"The recorded allocation allows at most {budget:,.2f} MiB after the requested reserve; "
+                      f"the recorded {storage} graph cannot fit that allocation.", flush=True)
+            if not evidence["checkpoint_manifest_present"]:
+                raise ValueError(
+                    "The previous recovery has no committed raw scanner checkpoint. A partial JSON report "
+                    "cannot restore live streams/counters; exact resume is unavailable. No GPU probe or "
+                    "full scan was started, and no frame-zero replay was substituted."
+                )
+            if not evidence["source_matches_current"]:
+                raise ValueError(
+                    "The executable source differs from the saved run. Historical counts were inspected, "
+                    "but scanner-state migration is not authorized by a matching config alone; resume was refused."
+                )
+            stage = "inspect_saved_scanner_checkpoint"
+            resume_checkpoint = Path(evidence["checkpoint_directory"])
+            _inspect_resume_checkpoint(resume_checkpoint, resources)
+            evidence["checkpoint_integrity_verified"] = True
+            print("Committed scanner files verified. Current source/data/schedule identities will be checked "
+                  "before continuing the saved scan; no completed frames may be silently replayed.", flush=True)
         stage = "streaming_preflight"
+        if args.resume_from:
+            metadata_sha256 = _persist_recovery(output_root / "recovery.json", recovery, metadata_sha256)
         report = streaming_training_preflight(
             copy.deepcopy(configs["train"]), profile_path, require_cuda=True,
             measured_guard_config_output=paths["train"], reserve_vram_mib=args.reserve_vram_mib,
+            scan_checkpoint_dir=output_root / "scan-checkpoint", resume_checkpoint=resume_checkpoint,
         )
         if report.get("passed") is not True or report.get("report_eligible") is not True:
             recovery["status"] = "failed"
@@ -242,12 +336,15 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Recovery failed at {stage}: {error}", file=sys.stderr)
     if recovery is not None:
         try:
-            _write_new_json(output_root / "recovery.json", recovery)
+            _persist_recovery(output_root / "recovery.json", recovery, metadata_sha256)
         except (OSError, ValueError, TypeError) as error:
             print(f"Could not save new recovery metadata: {error}", file=sys.stderr)
             return 1
         print(f"Recovery metadata: {output_root / 'recovery.json'}")
-        print(f"Preflight report: {recovery['preflight_report']}")
+        if profile_path.is_file():
+            print(f"Preflight report: {recovery['preflight_report']}")
+        else:
+            print("No new preflight report was created; the failure was detected before a new scan.")
         if recovery["status"] == "passed":
             print("CUDA preflight passed. Matching train/HDR/Aid configurations:")
             for kind, path in recovery["configs"].items():

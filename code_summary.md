@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-10T02:14:46Z",
+    "generated_utc": "2026-09-12T09:23:14Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "4525c904464bcc54094e2b06e87ecc553dcbc2a2",
-    "source_tree_at_generation": "86e4558de58438f04fc3a1c1c8eb210140f43f6a",
+    "source_commit_at_generation": "9d4678a0335c7fc4350b5eb16aadde014bdae39d",
+    "source_tree_at_generation": "65cebe3dae39947952295382512f2a5440112734",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -186,6 +186,11 @@
         "sha256": "d96defb50186c60fec59e8db433067343e97193fd911b8f6e9cef017295558f3"
       },
       {
+        "bytes": 5960,
+        "path": "docs/DENSE_GRAPH_EXECUTION.md",
+        "sha256": "80ae0efaed079648844ea875d4fb05ac8d2dfeb3377b5e75bf336772df5de61c"
+      },
+      {
         "bytes": 6788,
         "path": "docs/EXECUTION_CONTRACT.md",
         "sha256": "0878cc77bbc552c7aa97c69ab01842f8fa92f02daa6308fdf252dffcbde6b31a"
@@ -194,6 +199,16 @@
         "bytes": 30628,
         "path": "docs/EXPERIMENT.md",
         "sha256": "37fd353fe5840854b0aaeb6164be8becaa3b6d25fbedab051da07cf9727acf7a"
+      },
+      {
+        "bytes": 9232,
+        "path": "docs/HIERARCHICAL_ASGCN.md",
+        "sha256": "e02a6bbbe1db2427e448d1a8e812b87da980a425e5550e550229cfb9912cf090"
+      },
+      {
+        "bytes": 12422,
+        "path": "docs/IMPLICIT_STREAMING_BACKEND.md",
+        "sha256": "17a251ee8d47afd05ab103720f8533246ac6e73a35ebf80eb8996feffb58ab40"
       },
       {
         "bytes": 18062,
@@ -206,9 +221,9 @@
         "sha256": "7d6636269b6b749f588c1dc9d652fa175a6c39ce27fadecad8abe6243df10314"
       },
       {
-        "bytes": 14398,
+        "bytes": 17877,
         "path": "docs/STREAMING_ASGCN.md",
-        "sha256": "6a6dd6f1708be1e0e502e3eda84ef036744c7a5af87c7a163b5d66e72081bc0f"
+        "sha256": "246094bb6f58baff844a01230957890ac83f868d38dd44d6496b24d2fbcb3336"
       },
       {
         "bytes": 14160,
@@ -301,9 +316,9 @@
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
-        "bytes": 2200,
+        "bytes": 3583,
         "path": "scripts/prepare_streaming_experiment.py",
-        "sha256": "eb87e15c65c3f96ed1a1a99648a10633d747001891bc901399ffff101d1552bf"
+        "sha256": "6c93c0aa8321decf068e6066e99720f05fe2fe55e08ae826571c63bacb651674"
       },
       {
         "bytes": 3141,
@@ -311,9 +326,9 @@
         "sha256": "f49036b3f6a87a1a8b54ed0a98629d27dc79b393a1c03bb2da771a474f2f6195"
       },
       {
-        "bytes": 14326,
+        "bytes": 20214,
         "path": "scripts/recover_streaming_preflight.py",
-        "sha256": "e2315bfbfce05c6698261a530d36c8f96f23f5e28041f78054c28714f17b579d"
+        "sha256": "e295fe4389cb880b63860e8c750b848be02d71aeeb9448280880bde1a428363e"
       },
       {
         "bytes": 19151,
@@ -431,9 +446,9 @@
         "sha256": "0feb248814b0af677a8caeb19468c12e576e06c6aa937a391efd59b9a8d3dd0c"
       },
       {
-        "bytes": 12423,
+        "bytes": 13100,
         "path": "src/asgcn_unet/checkpoint.py",
-        "sha256": "3cc84bb759c6528d9f16815ddcc7ba9ff6e6e3d7ddb97491559847d909acf5dc"
+        "sha256": "221d6106924d89af98dbdf2cef6a5c2defc8fb743535aa974ade1192b5dbe972"
       },
       {
         "bytes": 27298,
@@ -481,9 +496,14 @@
         "sha256": "8eb471ee15f116a301d2ecb856ac00a7618bb73333090a325341fd15edddb839"
       },
       {
-        "bytes": 249368,
+        "bytes": 900,
+        "path": "src/asgcn_unet/encoder_stage.py",
+        "sha256": "af6fc434ce4f718bb80883f04d179b1517e45f4507f4a9e14b95c7ba33b01519"
+      },
+      {
+        "bytes": 249371,
         "path": "src/asgcn_unet/engine.py",
-        "sha256": "7b6a8776281126b177f6219a4a5ee73742cea3d9e35dd9819fa1a1c3db0b5dc2"
+        "sha256": "4308f088df0bb88441c913534032c3de3713371fe5c498e2775a2209529f6654"
       },
       {
         "bytes": 8402,
@@ -491,14 +511,54 @@
         "sha256": "132034a8e6dbcaff73200c2e52b1262d1d11b06003e3cb3bf1c112f27103f63a"
       },
       {
-        "bytes": 51856,
+        "bytes": 52448,
         "path": "src/asgcn_unet/graph.py",
-        "sha256": "33a1837ff3e9f6ba397e6f739f10421843a7067f8dd243f5ac24df5637b3d6f8"
+        "sha256": "9442b9f0975dbc055222e7eeca955b50e7b9e725fe7a35cacc06e8fd26a03dda"
+      },
+      {
+        "bytes": 27261,
+        "path": "src/asgcn_unet/graph_pool.py",
+        "sha256": "0799aa6a7bcd65afc087e61115b633162f49bf34286e78d4c67feb7f99b11b03"
       },
       {
         "bytes": 9951,
         "path": "src/asgcn_unet/graph_preview.py",
         "sha256": "8d3ab2d463e901c5a0433cd83062c8ee94862b2fb5b9e08bae0fd635bd2d08f1"
+      },
+      {
+        "bytes": 8041,
+        "path": "src/asgcn_unet/hierarchy.py",
+        "sha256": "68a32d4e88cfc1af9a989915dbe456e8e1784914d51a72b02122fb20ddc8c196"
+      },
+      {
+        "bytes": 1080,
+        "path": "src/asgcn_unet/hierarchy_contract.py",
+        "sha256": "a7a2fbc936984ba2f3aa83915db05c20260b13872feb2cea5bc65cc27fed2a1b"
+      },
+      {
+        "bytes": 3436,
+        "path": "src/asgcn_unet/implicit_model.py",
+        "sha256": "4c928ffe225498a8c35e8cd65dae98badf2c2f21b57a8da3acf9e269fbc9a3ea"
+      },
+      {
+        "bytes": 3237,
+        "path": "src/asgcn_unet/implicit_projection.py",
+        "sha256": "7573732089bcc85ff359b71e171acfc5ccda9fb86b0c4c2be6a90c30238d5e88"
+      },
+      {
+        "bytes": 15650,
+        "path": "src/asgcn_unet/implicit_radius.py",
+        "sha256": "94b2bc0afde7be05b97b35a4e661f00a016f52bf4ec75e5f7ed4df5940bd3be3"
+      },
+      {
+        "bytes": 7719,
+        "path": "src/asgcn_unet/implicit_spline.py",
+        "sha256": "f18ea0defae9382d51e08303df6e9ce6ee556d46c82b0a6cd19118532ee2b7b5"
+      },
+      {
+        "bytes": 6996,
+        "path": "src/asgcn_unet/implicit_stream.py",
+        "sha256": "357053edd304f616564d68eb685a172b2f95a3df52cc73036939703b47c64a76"
       },
       {
         "bytes": 16670,
@@ -516,9 +576,9 @@
         "sha256": "203f6844e6eb5539d6fd74fdd95911138f20748bbd2913572b95b0578878f216"
       },
       {
-        "bytes": 32166,
+        "bytes": 33624,
         "path": "src/asgcn_unet/model.py",
-        "sha256": "dccaf4e172c0f68f3f0072df47f822f0b2b4d47e45bc9b229553b1f8b10e15c7"
+        "sha256": "69080dd1100aee62b79931cc52cfd3384f8f2563fa87edecdee5833cf8b4187d"
       },
       {
         "bytes": 40338,
@@ -541,9 +601,24 @@
         "sha256": "ace2df79a6dbcf5c57c8cdb487e7f581e24cc0368668abfacab56e57e4c5d499"
       },
       {
+        "bytes": 4861,
+        "path": "src/asgcn_unet/quotient_accumulator.py",
+        "sha256": "8f000e152cb52ddfda3c86d9e74fa61f98e22b028ab7084cfde090a8a6e7a607"
+      },
+      {
+        "bytes": 2233,
+        "path": "src/asgcn_unet/radius_candidates.py",
+        "sha256": "e920131a2d17d0e730c9d702a4a947fde3c972a570627237ee71ae6620eaac26"
+      },
+      {
         "bytes": 2451,
         "path": "src/asgcn_unet/recovery.py",
         "sha256": "0a6441c268620eac1c558311ec3baff5f15543b915be1f42ae3b4c11410df744"
+      },
+      {
+        "bytes": 14576,
+        "path": "src/asgcn_unet/recovery_evidence.py",
+        "sha256": "f2b747913be5fb61f849d0fef6e3af7f0b8031a716dd49b365a494c824e90701"
       },
       {
         "bytes": 20966,
@@ -571,14 +646,14 @@
         "sha256": "03f26f4638fae88c5b76c81d2bf17d10ab0b375f8cf9b0251719a21729a5b438"
       },
       {
-        "bytes": 19130,
+        "bytes": 20971,
         "path": "src/asgcn_unet/stream_encoder.py",
-        "sha256": "8c75791b64834fd12424845a47d0489c27874432c176a00db88de86aaad0bd7e"
+        "sha256": "ce5ce3725e274619e906602ef323675d49a6690b3d2cddfdf08a9d9fac51f33f"
       },
       {
-        "bytes": 13962,
+        "bytes": 14913,
         "path": "src/asgcn_unet/stream_graph.py",
-        "sha256": "6d30d01ea2a47f3903558cbf277a216f64f8890faf5ccf272c1ebb80f929a52b"
+        "sha256": "8533da699418ca582a77c99416bccad508685c8dd142049232503bde06e8fcba"
       },
       {
         "bytes": 10889,
@@ -591,14 +666,14 @@
         "sha256": "e9396b0d0f767bd21f64c4e01453d8bd37b06c876167dd58dfbf5f49abd4f242"
       },
       {
-        "bytes": 23658,
+        "bytes": 30035,
         "path": "src/asgcn_unet/stream_model.py",
-        "sha256": "f057eb57855f3928a322d4e9cfef73b8f6c90e272a8a40c2cbc87bca6f44bd3c"
+        "sha256": "ca7bec384cca78f0d68b5dd4950bfbd355cd836835a8db762ed2655f7be2cd9f"
       },
       {
-        "bytes": 65322,
+        "bytes": 92708,
         "path": "src/asgcn_unet/stream_preflight.py",
-        "sha256": "6fd46a5954fa4f77439e901a018d0b8268c84790df70b361bd0f4450169c1c38"
+        "sha256": "ed82b7a9313d2d99dd45230310896cab735b9ab05b9ae7d497d47bfe7bd900fb"
       },
       {
         "bytes": 4376,
@@ -606,14 +681,29 @@
         "sha256": "ce0c03864b2bec75961d65748177ac10a2351923f3fe54dc30320acd90014272"
       },
       {
-        "bytes": 9325,
-        "path": "src/asgcn_unet/stream_state.py",
-        "sha256": "a36a17b129e1924c186a7486bad9f388fe5e12fe14a20679894d4576ac2e1b7e"
+        "bytes": 7049,
+        "path": "src/asgcn_unet/stream_sampling.py",
+        "sha256": "47f9c386bd9f7ed7815b03b438b4fdd6cd9342ded8642721986763385a6ddf0b"
       },
       {
-        "bytes": 13628,
+        "bytes": 25402,
+        "path": "src/asgcn_unet/stream_scan_checkpoint.py",
+        "sha256": "f656052c3f24c1e447f7fb26d32c86db24cdcb23165f861251c666d4df56f6c7"
+      },
+      {
+        "bytes": 17725,
+        "path": "src/asgcn_unet/stream_scan_loader.py",
+        "sha256": "3eff1ce910d116bdad4c391cd0e0856cb087b0cb1430fa6dd0216ec26f3f981d"
+      },
+      {
+        "bytes": 21419,
+        "path": "src/asgcn_unet/stream_state.py",
+        "sha256": "aef17a2cf60e09328f004e5a77210e3ef504ac59e6ff7f605c1b3c8b68b90749"
+      },
+      {
+        "bytes": 19038,
         "path": "src/asgcn_unet/stream_topology.py",
-        "sha256": "c4da32f7b5c9ec65c17b21f5ec9c450646d5a519c3637eacf88f311ef748958e"
+        "sha256": "f5e4648f6f09127e1998dc31daf8fe2e6e7cb7f063fb99a56fb581d7729248d9"
       },
       {
         "bytes": 8826,
@@ -641,9 +731,9 @@
         "sha256": "fec44e04051e57dbd8adb098c92cbc50db5a28a6755cd89a3aa0f41b400519bf"
       },
       {
-        "bytes": 11321,
+        "bytes": 11795,
         "path": "src/asgcn_unet/utils.py",
-        "sha256": "ac2f7b04328ce5711825aa3e09756f1013251f1081267f6f581456a19ae29c0e"
+        "sha256": "0109e1c19a4658f8ad96fc008a8e7659dbd3220e5bfd5ddde30b76d0181abfed"
       },
       {
         "bytes": 8869,
@@ -891,6 +981,11 @@
         "sha256": "36aa9ad433bd87ef24bb597968c7e2f9d8fa57a439a4f2766c6001c38a1c2974"
       },
       {
+        "bytes": 21805,
+        "path": "tests/test_graph_pool.py",
+        "sha256": "165254993b3d05586ac396ef1d82b0722fa01e3622a580a50a67c8df5648d3a9"
+      },
+      {
         "bytes": 9026,
         "path": "tests/test_graph_preview.py",
         "sha256": "dca8726f50f22189399c19346f7aa1bbad57df4f79210791ccfd3fd30b2d2f60"
@@ -906,9 +1001,59 @@
         "sha256": "d523eff536603c100cd206fd5f3d3f97ddb21681f6740851ffc9a5999f890511"
       },
       {
+        "bytes": 7230,
+        "path": "tests/test_hierarchy_model.py",
+        "sha256": "7ae6b1f16173098916bfe4e0ab54ce15a49d3c83e64f402b6d944e3f79ac8233"
+      },
+      {
+        "bytes": 13014,
+        "path": "tests/test_hierarchy_preflight.py",
+        "sha256": "28b780f582a1e69bd3db702a53f58eaaee88c7e4c8deb99c4d2ceea4f6acf937"
+      },
+      {
+        "bytes": 17374,
+        "path": "tests/test_hierarchy_snn_oracle.py",
+        "sha256": "55998a5394267900a5796bc09387cf8730a79d242e48c8b1ee06b7f3aad667ff"
+      },
+      {
+        "bytes": 12889,
+        "path": "tests/test_hierarchy_stream_checkpoint.py",
+        "sha256": "c18842ea03bc38b2a6dc03be54aa2a951ef3ae19339c04b35a2420802de8ee21"
+      },
+      {
         "bytes": 4091,
         "path": "tests/test_history_reader_cleanup.py",
         "sha256": "adc822b65b3b9ad68e5db113ca7a59c976ef3e3412d7bc61bc6bd46dbfa32052"
+      },
+      {
+        "bytes": 6359,
+        "path": "tests/test_implicit_projection.py",
+        "sha256": "b87efa1f145862c0b11b75f432098bec6499e3faa80fef101f19abef4b25095b"
+      },
+      {
+        "bytes": 8464,
+        "path": "tests/test_implicit_radius.py",
+        "sha256": "644f2fbf0e0efd4960948b29c9ae614c84582a5bc299e98f6a45b5ab6bf21edf"
+      },
+      {
+        "bytes": 9499,
+        "path": "tests/test_implicit_spline.py",
+        "sha256": "60d1110247aee18bbf3ebf9e4d5e1a9079e8f08e12157e1294333a0b8cf1c54d"
+      },
+      {
+        "bytes": 9246,
+        "path": "tests/test_implicit_stream_checkpoint.py",
+        "sha256": "6c46093179d313706c2ad61eadf27f040a858d5a953aaf4e822afa7c508535cc"
+      },
+      {
+        "bytes": 5283,
+        "path": "tests/test_implicit_stream_graph.py",
+        "sha256": "e4530bb95e3ec4758241ce2bc227513ace3d38afd35840634110f0294cdca0af"
+      },
+      {
+        "bytes": 12718,
+        "path": "tests/test_implicit_stream_model.py",
+        "sha256": "f6081274265572c94e3e76d582e07dc3e37d1fd4e446b2cade5ff0d2f942491f"
       },
       {
         "bytes": 9614,
@@ -974,6 +1119,16 @@
         "bytes": 14690,
         "path": "tests/test_public_provenance.py",
         "sha256": "86a6554e8e5b7a483bc11492843de74f1155aa4b2c5da9fc59bab4b904980451"
+      },
+      {
+        "bytes": 2991,
+        "path": "tests/test_quotient_accumulator.py",
+        "sha256": "43545f7ac2adbe45f3a81790b4df63ffc42896f9b0d5251ecc23191905888bff"
+      },
+      {
+        "bytes": 4396,
+        "path": "tests/test_radius_candidate_pruning.py",
+        "sha256": "865bf5473301d28f7e12d85384af6040da8e0120499f949bb1cc6b377d3781fe"
       },
       {
         "bytes": 17682,
@@ -1081,9 +1236,9 @@
         "sha256": "7fce08d04a55f9f2d97fd4e8beb78f361cf8e4cf60d29db4f4d07362f5b2c9d5"
       },
       {
-        "bytes": 8403,
+        "bytes": 9207,
         "path": "tests/test_stream_guard_recovery.py",
-        "sha256": "451758e8e302eecc170345bd5af16b2debd1aba4a77b6513079c6c2c043ad123"
+        "sha256": "8f8088904bc79a5af008e28ef5371e7de9103c4e1e69e64b896e35fb1bf280cc"
       },
       {
         "bytes": 9706,
@@ -1106,19 +1261,19 @@
         "sha256": "0ef6b28ef315669ea5e17ba5fb0db46612694098a1e7b12703ef97ef98a0df2a"
       },
       {
-        "bytes": 18179,
+        "bytes": 21187,
         "path": "tests/test_stream_preflight.py",
-        "sha256": "da53edb6793d6dfd8f4ed0e38fde358d575f67ddf5a4ccb0477f769967a4ee16"
+        "sha256": "23baa48be78d978850f7ba4007b5f95741982c4deb10872bbad97e44a21e75d6"
       },
       {
-        "bytes": 8740,
+        "bytes": 10419,
         "path": "tests/test_stream_probe_memory.py",
-        "sha256": "07fb82e7a41ff09a99c1415e833eb6a0e7bd4367aee2164805f75fe9b2123225"
+        "sha256": "7974f33e7195292412a06a023054081a1dd575300aa7d4135665988e955b6f9e"
       },
       {
-        "bytes": 11463,
+        "bytes": 26469,
         "path": "tests/test_stream_recovery.py",
-        "sha256": "fa60fd1a2f65b3f0415a0e15489c1d3daf6efdca77db790c00b71a00edc0b41d"
+        "sha256": "b0df6f4f5f1d7d603e580b84db353b577e6614b710bbb9f4714110df7a994e83"
       },
       {
         "bytes": 6234,
@@ -1126,9 +1281,34 @@
         "sha256": "7112a34d11e3fd3d29e4031877dbdc8afd7ab88539ea4aaa8c9d8bc4004f8acd"
       },
       {
-        "bytes": 21215,
+        "bytes": 8476,
+        "path": "tests/test_stream_sampling.py",
+        "sha256": "7ac4ea37b88b0f6617bc14d764e9a893dc312710f7ec82962166ae624d5382cb"
+      },
+      {
+        "bytes": 11910,
+        "path": "tests/test_stream_scan_checkpoint.py",
+        "sha256": "6f026b32ffb26d46718579341415d1510f782e02c234e5616c49eb315dcecfdf"
+      },
+      {
+        "bytes": 8214,
+        "path": "tests/test_stream_scan_integration.py",
+        "sha256": "bf6907788e94d14f3f395b56b537068e7130bf4e1f87b77b72403747aabdb4f9"
+      },
+      {
+        "bytes": 10188,
+        "path": "tests/test_stream_scan_loader.py",
+        "sha256": "15f7314aea85db6f13f2d008c5bb24c6122f00e1487a12624f77a1ef2ba1521f"
+      },
+      {
+        "bytes": 21382,
         "path": "tests/test_stream_topology.py",
-        "sha256": "b541bf3afa972497be9a733b1fd5250709e009082aa5c5f794e2c136a6062a62"
+        "sha256": "3a7ff0c8de2fd7da49f7299d3eb0a6f337004c5df5b4dc3ecfe5d557ed73a6a3"
+      },
+      {
+        "bytes": 6641,
+        "path": "tests/test_stream_topology_bulk.py",
+        "sha256": "3b0fe856a1f11fa85dca81348785037219998bb071f189632fa7e19c896bdf61"
       },
       {
         "bytes": 4781,
@@ -1201,9 +1381,9 @@
         "sha256": "13102c5eba21b14b23bbb932bb0d7a6822f93c34b5c4fa465cd92b01130475d0"
       }
     ],
-    "included_file_count": 237,
+    "included_file_count": 273,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "c7abf477740751a3108dd66ce4c2381ed9045c8ac237f184874c48033b32fb46"
+    "snapshot_sha256": "a545d783acd780f5d4f2a8499c9177a00b116b23ef80a3a46f32de9b7348ac85"
   }
 }
 -->
@@ -5208,6 +5388,107 @@ compute latency와 firing-rate 통계다. 이를 저자 공식 재현, neuromorp
 전력·에너지 또는 통합 칩 구현 완료로 확대해 해석하면 안 된다.
 ~~~~~~~~
 
+# docs/DENSE_GRAPH_EXECUTION.md
+
+~~~~~~~~markdown
+# Dense-graph execution audit and exact optimizations
+
+This change preserves the selected node set, strict radius edges, window,
+sampling factor, model layers/channels, physical batch and training schedule.
+It is not evidence of real EventHDR/EventAid GPU speed or quality.
+
+## Why the recorded graph can be large
+
+The implemented geometry is `x/(W-1), y/(H-1), (t-origin)/time_scale`.
+Radius 0.08 is **not 0.08 pixels**. At EventAid's 1180x720 resolution its spatial
+semiaxes are 94.32 and 57.52 pixels. At a 0.05-second time scale the temporal
+semiaxis is 0.004 seconds. These are separate-axis bounds of an ellipsoid,
+not a rectangular neighborhood. A 50-ms lifetime is a separate window setting.
+
+No duplicate-edge or double-time-normalization defect was established in this
+audit. The unordered-pair ownership and reverse-edge construction are tested
+against independent dense oracles. The historical 424,096,036 directed-edge
+readout can therefore not be dismissed as merely a storage bug. Whether that
+support is the right reconstruction design still needs actual-data evidence.
+
+The [ASGCN paper](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)
+describes uniform event sampling, radius graphs and affected K-hop computation.
+Its classification results do not select the physical radius, lifetime or
+sampling factor for this reconstruction task. Those values are not changed
+automatically. In particular, graph pooling after layer four does not eliminate
+the first four layers' fine-graph work.
+
+## Exact changes in the executed paths
+
+1. **Reject impossible cell candidates before pair expansion.** Actual float64
+   member-coordinate bounds give a lower distance bound for an occupied cell.
+   Only provably outside cells are rejected, with a conservative rounding margin.
+   Boundary candidates still use the original strict float64 distance predicate.
+   This runs in materialized graph creation, implicit queries and topology scans.
+2. **Count certified complete blocks without enumerating their edges.** A
+   query-to-cell farthest-corner bound can prove that every member is inside the
+   radius. Integer prefix/cell counts then account for selected/unselected nodes,
+   arrival/expiry and readout/union masks with the original unordered ownership.
+   Mixed or uncertain cells still receive exact bounded pairwise processing.
+   This is a count-only optimization, not a substitute for learned messages.
+3. **Exclude inactive SNN sources before candidate expansion.** The complete
+   graph degree remains unchanged, including zero-spike neighbors. No spike,
+   root transform or bias update is discarded.
+4. **One neighbor pass for selected-destination inference.** Needed source
+   projections are computed on first use and reused within the call, replacing
+   the support-discovery pass followed by a second identical radius search.
+   Projection cache remains O(N*K*C), never O(E). Training keeps its differentiable
+   operator; all configured torch/torch_fused/Triton dispatch paths remain explicit.
+
+The scan now records `readout_mean_in_degree`, `readout_edge_density`, and
+`radius_geometry` per frame. `candidate_pairs_visited` counts actually expanded
+lookup candidates, including candidates rejected later. `bulk_query_blocks`
+counts certified complete blocks; `bulk_pairwise_evaluations_avoided` counts
+unordered strict-radius pairs whose individual distance evaluation was avoided.
+These are different units and must not be combined as a single edge count.
+
+## Bounded CPU diagnostics, not research results
+
+On one local two-thread float64 synthetic check (seed 762, 2,048 nodes in 16
+independent lanes, radius .08), the query visited 22,148 candidates before the
+cell-bound filter and 3,608 afterwards; both produced exactly 504 directed edges.
+Single-run query times were about 76 ms and 24 ms; this is not a steady-state
+benchmark or a GPU speedup claim.
+
+For 1,024 coincident synthetic nodes, all 1,047,552 directed edges were counted.
+Expanded candidates fell from 1,048,576 to zero; 523,776 unordered pairs were
+counted through certified blocks. Coincident nodes are a deliberately favorable
+complete-block test, not a representative EventHDR window. Spatially/time-spread
+cells may fail certification and keep their pairwise cost.
+
+Independent tests cover strict nextafter boundaries, translated coordinates,
+extreme finite scales, mixed full/boundary cells, multiple streams, source masks,
+append/expiry, full-degree normalization, output/gradient equivalence, IF clocks,
+and raw-state checkpoint continuation. CPU tests cannot validate CUDA kernels or
+establish that physical batch 16 fits a 9.5-GiB MIG slice.
+
+Final local verification on 2026-09-12: full CPU regression **3,243 passed,
+84 skipped**, including synthetic train/calibrate/evaluate/benchmark smoke and
+stateful resume tests. Ruff and Git whitespace checks passed. One existing
+PyTorch quantized-tensor deprecation warning remained. The Windows Git ownership
+exception was supplied only to the test process, not written to global config.
+No real dataset training/evaluation, CUDA/Triton execution or server run occurred.
+
+## Remaining work and safe use
+
+Dense learned message aggregation still costs O(E); backward regenerates exact
+neighbors, and early GNN layers still see the fine graph. Cache/index state and
+the U-Net still consume real memory. No 25-hour-to-X-minute promise follows from
+these diagnostics. Actual full-model forward/loss/backward/optimizer memory and
+timing, dense causal contexts and both datasets' ANN/SNN inference need allocated
+device measurements before a final study. An early probe is not full coverage.
+
+Existing reports/checkpoints and source-bound exact-resume contracts are not
+rewritten or relabelled. A checkpoint from different executable source is not
+silently accepted or replayed from zero. No SSH session, server, GPU selection,
+training job or full-dataset evaluation is started by these code changes.
+~~~~~~~~
+
 # docs/EXECUTION_CONTRACT.md
 
 ~~~~~~~~markdown
@@ -5706,6 +5987,354 @@ validation 완료 여부와 epoch를 봉인한다. 40 epoch 최종 평가를 이
 - file coverage/HDF5·ZIP decode 실패, non-finite loss/metric, 비단조 timestamp, 좌표 범위 오류,
   `max_graph_edges` 초과 또는 OOM이 발생하면 해당 sample을 조용히 제외하지 말고 run을 폐기해 원인과
   설정을 고친 뒤 새 artifact로 실행한다.
+~~~~~~~~
+
+# docs/HIERARCHICAL_ASGCN.md
+
+~~~~~~~~markdown
+# Hierarchical ASGCN reconstruction (architecture v4)
+
+## What is now connected
+
+The complete reconstruction path is:
+
+`physical events → persistent sequence-uniform sampler → sliding radius graph →
+4 spline graph convolutions → mean cluster pooling + quotient edge remapping →
+2 spline graph convolutions → raster → existing recurrent U-Net → image/loss`.
+
+All six 64-channel layers, their trainable spline/root/bias/BN parameters, the
+base-48 U-Net, and its recurrent state remain connected. `EncoderStage` is a
+non-owning view, not a copied or separately optimized encoder. The production
+preparation retains physical batch 16, 40 epochs, complete datasets/resolution,
+the chosen physical window/time scale, and radius. It never edits old studies.
+
+V4 is a new architecture requiring independent ANN training and chronological
+calibration. V2/v3 checkpoints and their measured results are not v4 results.
+Storage-only implicit/materialized parity does not justify reusing an unpooled
+checkpoint for a pooled model, even though parameter tensor shapes match.
+
+## Paper evidence versus reconstruction choices
+
+The [ASGCN paper, equations 18/19, p.1624](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)
+specifies feature averaging within clusters, remapping the original edges, and
+convolution on the resulting graph. Its sampling precedes graph construction;
+event-local graph/spike updates avoid computing unaffected destinations. It is a
+classification paper, not a U-Net HDR reconstruction specification. The checked
+primary channels did not provide verified author code or exact pool placements,
+cell sizes, coordinate units, or reconstruction hyperparameters.
+
+The following are explicitly **this reconstruction's design**, not claimed
+author settings:
+
+- One pool after layer four, leaving two learned graph convolutions afterwards.
+  This places coarsening after high-level features without removing any layer.
+- Fixed XYZ cells, including the independent sequence/batch namespace. The
+  preparation's spatial cell matches the existing raster stride (4 pixels); its
+  temporal cell equals `graph_radius * time_scale_seconds` (4 ms for radius .08
+  and scale .05 s). Neither setting silently changes the raw radius or window.
+- Coordinates are member means. The fixed sequence origin, not the moving
+  readout/window boundary, anchors temporal cell identity.
+- Coarse edges are the unique endpoint-remapped original fine edges, excluding
+  intra-cluster self-loops. They are NOT a newly constructed centroid-radius graph.
+- Each coarse edge's scalar spline pseudo-coordinate is the arithmetic mean of
+  its contributing fine-edge `distance/radius` values. This stays in the spline
+  domain without clipping a possibly larger centroid distance. It is an explicit
+  pooling edge-feature convention; the paper does not resolve it.
+
+The endpoint remapping, self-loop removal, coalescing and position mean follow
+the [PyG pooling primitive](https://github.com/pyg-team/pytorch_geometric/blob/2.0.4/torch_geometric/nn/pool/pool.py)
+used by the [AEGNN author implementation](https://github.com/uzh-rpg/aegnn/blob/d96e13b2f80f3c7515a65baf966544e0914d068d/aegnn/models/layer/max_pool.py).
+AEGNN's feature **max** is not copied: ASGCN's feature **mean** is implemented.
+
+## Sampling without frame-boundary drift
+
+`event_sampling_factor=R` selects raw sequence ordinals `0,R,2R,...`. The ordinal
+counter advances for every raw event, including discarded events and frames with
+zero selections. It survives training checkpoints, clone/detach/device moves,
+empty windows and readouts. Equal-timestamp arrival counts are recomputed after
+sampling; different timestamps are never merged. Raw IDs and chronology are
+validated before selection, so sampling cannot hide reordered or duplicate input.
+
+The default remains **R=1**, retaining all events. No new event cap, hidden subset,
+or automatic OOM sampling fallback is present. The paper's N-Cars R sweep is not
+evidence that a particular R is correct for EventHDR/EventAid. Any R>1 study must
+be explicitly selected and reported, not retroactively applied to old results.
+
+## Exact incremental pooling and SNN clocks
+
+Pool state keeps member counts, feature/position/time sums, fine-to-coarse node
+assignments, and coarse-edge contributor counts/pseudo sums. Arrival adds only
+new incident edge contributions; expiry subtracts expired contributions. A coarse
+edge disappears only when its last contributor disappears. Existing member
+feature changes update their cluster sums. Empty clusters disappear, with an
+explicit old-to-new remapping of downstream neuron caches.
+
+ANN inference has a frozen-BN full-snapshot oracle. Training/calibration recompute
+the entire current snapshot and differentiable feature means; stale learned
+caches are never carried across optimizer updates. Calibration records all six
+layers on their respective graphs. Channelwise conversion scaling commutes with
+member means, preserving the single contiguous six-layer normalization chain.
+
+SNN inference interleaves `prefix tick → current-spike mean pool → suffix tick`
+for each local sweep. Pooling cumulative spike rates as if they were instantaneous
+spikes would change the model and is not used. The final suffix's cumulative
+local rate is scaled and rasterized only for a frame readout.
+
+Structural graph changes and transient input pulse changes have separate masks.
+Only structural seeds persist across an update's T sweeps and enter every layer;
+pulse-on/off changes initially affect the first suffix layer, then propagate only
+through actual emitted/ending spikes. Repeated identical nonzero pulses still
+advance their dependants. An idle independent sequence does not advance because
+another sequence received an event. Pending pulses, previous local spikes,
+membranes and cumulative readout statistics are distinct state.
+
+## Execution costs and measurement boundaries
+
+The [dense-graph execution audit](DENSE_GRAPH_EXECUTION.md) documents the physical
+meaning of the radius, exact cell-bound/bulk-count optimizations and one-pass
+selected-neighbor inference. These reduce redundant work, not the true graph.
+
+The recommended explicit raw storage option is `graph_storage=implicit_radius`.
+It retains every selected radius edge mathematically, but regenerates bounded
+neighbor chunks rather than allocating a full raw edge/basis array. Materialized
+storage remains a compatibility/reference option; selecting its incident edges
+and validating retained edges still scans the raw edge array. Pool work counters
+make this cost explicit.
+
+Coarse-edge witnesses use a tensor open-addressed hash accumulator. Full pair
+equality resolves collisions, growth rehashes geometrically, and only incoming
+chunks are coalesced; the complete Q-key result is sorted at export rather than
+after every raw edge chunk. This removes the repeated accumulated-Q sorting
+cost. Hash-table scratch grows with Q plus the bounded chunk, not raw E. Collision
+probe rounds and capacity/rehash counters are recorded; GPU dispatch and dynamic
+shape synchronization costs still require measurement on the allocation.
+Pulse-only local ticks reuse the existing quotient edges/cells, without another
+hash build or accumulated-Q sort. Frame `stream_execution.pooling` records
+query/contributor work, accumulator rounds/capacity and quotient-reuse counts.
+
+Pooling reduces the downstream node/edge representation as part of the requested
+architecture; it does not eliminate the raw graph or the first four layers' work.
+With R=1, the previously reported 424-million-edge raw window is still a dense
+raw graph. Exact O(E) computation, node indexing/state copies and coarse-edge
+storage remain real costs. This implementation does not promise that graph fits
+a 9.5-GiB MIG slice, improves FPS, or achieves a given PSNR/SSIM.
+
+Before any final study, the allocated device must pass the actual full-model,
+physical-batch preflight and memory reserve. The complete chronological scan and
+stateful probes remain required; a successful early probe is not full coverage.
+No GPU is selected, no SSH/server is started, and no existing result is overwritten
+by configuration preparation. Prepare v4 with the explicit `--hierarchical`
+option in `scripts/prepare_streaming_experiment.py`; timestamp scales and the new
+output directory remain mandatory, and sampling defaults to R=1.
+
+## Verification status
+
+Local tests cover differentiable means/quotient edges, append/expiry/refcounts,
+feature deltas and repeated pulses, exact ANN snapshot equivalence, independent
+batched ANN/SNN execution, state clone/replay and training resume counters, all
+six layers' gradients/optimizer updates and calibration, and an independent
+scalar IF/mean-pool oracle. Synthetic fixtures are explicitly not final training.
+
+CUDA/Triton execution, full EventHDR/EventAid training/evaluation, real accelerator
+memory/throughput and reconstruction quality are not established by CPU tests.
+The classifier/head, datasets and undisclosed author choices are not reproduced;
+this is an equation-derived ASGCN **reconstruction adaptation**, now including
+its sampling and intermediate pooling path, not a claim of official reproduction.
+~~~~~~~~
+
+# docs/IMPLICIT_STREAMING_BACKEND.md
+
+~~~~~~~~markdown
+# Exact implicit-radius storage for streaming reconstruction
+
+This document explains the storage backend independently of architecture. It is
+also used by [hierarchical ASGCN v4](HIERARCHICAL_ASGCN.md); v4 adds actual pooling
+and pooled-edge remapping as a separate explicit architecture, not as an implicit
+storage fallback. References below to missing pooling describe the preserved v3.
+
+## What this change does, and does not, claim
+
+`model.graph_storage="implicit_radius"` changes how the existing architecture-v3
+streaming radius graph is stored and traversed. It does not remove edges, replace
+the graph with a zero-edge placeholder, or introduce graph pooling. The alternative
+`"materialized"` storage remains the default; existing configurations and results
+are not silently converted.
+
+For the agreed 50 ms study, the window, fixed physical time scale, all retained
+events (`R=1`, `max_events=null`), radius 0.08, six 64-channel spline layers,
+base-48 recurrent U-Net, full sensor resolution/data, physical training batch 16,
+and 40 training epochs remain unchanged. The preparation API still requires
+explicit physical time scales; selecting implicit storage does not invent or
+override those values. Changing a clock scale changes the graph and is not a
+storage optimization.
+
+This is **not a claim to reproduce the original ASGCN architecture, accuracy,
+speed, or energy results**. It remains this project's event-to-frame reconstruction
+adaptation. The original graph clustering/pooling and pooled-edge remapping
+pipeline are not implemented here. There is no pooled hierarchy or classification
+head before the raster: the unpooled graph features feed the analog reconstruction
+decoder. Adding that hierarchy requires a separate, explicit architecture design;
+its undisclosed choices must not be invented as a way to make this implementation
+fit memory. See [the v3 model contract](STREAMING_ASGCN.md) for the input/readout
+adaptations and distinction from the paper.
+
+## Preserved graph and numerical operator
+
+The implicit index uses the same collision-free occupied-cell addressing and
+strict float64 distance predicate as the materialized streaming updater:
+`norm((position_i - position_j) / radius) < 1`. Self edges are excluded; every
+accepted pair has both directed edges. The batch identifier is part of the cell
+key, so independent streams cannot acquire cross-stream edges. Nodes at the
+expiry cutoff are retained. No candidate chunk truncates the node or edge set.
+
+An incoming-neighbor query for selected destinations includes their complete
+neighborhood, not just selected sources. Cached degrees include zero-spike sources.
+Degree-one open spline weights, projection, incoming-degree mean, root transform,
+bias, BatchNorm/conversion parameters, and decoder are preserved. Coordinates are
+fixed physical input geometry, not trainable inputs to this operator; requesting
+position gradients fails explicitly.
+
+The forward and ordinary backward regenerate bounded edge/basis chunks. They do
+not retain full `edge_index`, `edge_attr`, or per-edge basis tensors for backward.
+Feature and spline-weight gradients pass through the actual node projection;
+root/bias/normalization/decoder remain in the connected training computation.
+Accumulation order can differ from the materialized implementation. The guarantee
+is exact topology and the same mathematical operator, with dtype-appropriate
+floating-point tolerances, **not bitwise equality of every training trajectory**.
+
+## Costs that remain
+
+Let N be the number of live nodes in the packed graph and E its directed edges.
+
+| Component | Stored or temporary work | Remaining limitation |
+|---|---|---|
+| Raw graph | O(N) features, float64 positions/times, lane IDs, degrees/counts | Node storage and state copies still grow with the full window |
+| Occupied-cell index | O(N) rows, sorted node IDs and cell boundaries | Index construction still uses sorting/unique over live nodes |
+| Spline projection | O(N × kernel size × channels) | No E-sized projection, but the node projection can still be large |
+| Candidate and message chunks | Explicit bounded candidate pairs and message chunks | Bounds constrain scratch, not total pairs examined or edges processed |
+| Persistent encoder/decoder state | Full retained per-node layer/IF caches and recurrent image state | Remapping, cloning, optimizer/activation buffers and decoder memory remain |
+
+The current candidate-pair budget is 1,048,576 pairs per chunk; it is a scratch
+limit, not an edge cap. Graph query chunks and spline message chunks are separately
+bounded. These values do not establish a complete RAM/VRAM peak bound. A preflight
+field that counts only necessary raw-node storage explicitly excludes the index,
+projection, scratch, activations, optimizer and decoder; it is not proof of fit.
+
+Append/expire updates reuse exact old degrees and query incident neighbors of
+arrivals or removed nodes instead of recounting unchanged old-old edges. A new
+live-node index can nevertheless require O(N) storage and whole-node indexing.
+Layer inference queries complete incoming neighborhoods of affected destinations;
+zero-valued SNN sources are omitted before learned projection, without changing
+degree normalization. Dense K-hop dependency closure may touch the entire graph.
+
+**O(E) message computation has not disappeared.** Exact dense neighborhoods still
+have to be processed, and backward recomputes them. Candidate comparisons can
+outnumber accepted edges. The portable query implementation also has a scalar
+candidate-count synchronization per query chunk and dependent layer/local-tick
+loops. Independent streams are tensor-batched, but causal arrival waves cannot be
+merged to manufacture throughput. A reported `topology_indexed_edges=0` means no
+full-E incidence/CSR array was built; it does not mean zero topology-query work.
+
+This implementation may trade lower persistent edge memory for repeated radius
+queries and kernel dispatches. It does not yet demonstrate a speedup, a particular
+FPS, or successful training on a 1g.10gb MIG allocation.
+
+## Training, calibration, and IF clocks
+
+ANN training computes the full current causal-window snapshot, with pooled-node
+BatchNorm and ordinary loss/backward/optimizer updates. Learned activation caches
+cannot be reused after changing weights or training statistics. Training context
+retains raw graph data and detached recurrent decoder state, not a stale learned
+encoder cache. Calibration observes chronological, folded-BN ANN activations
+before the existing parameter-normalization conversion is finalized.
+
+ANN inference uses frozen-BN incremental affected-node updates. V3 SNN inference
+retains local membranes, previous local spikes, cumulative spike sums/tick counts,
+and pending one-sweep pulse endings. `literal_eq15` includes the previous local
+spike; `standard_if` does not. T4 means four local sweeps per actual stream update,
+not four sensor timestamps and not four whole-graph v2 time steps. Idle lanes do
+not tick just because another lane receives events. The analog recurrent decoder
+advances once per frame readout, not once per event.
+
+The old v2 static-window checkpoints/results and their freshly initialized
+whole-graph T-clock SNN remain different experiments. Implicit storage neither
+makes their scores v3 results nor makes the new local clock equivalent to v2.
+
+## Backend selection, provenance, and recovery
+
+`scripts/prepare_streaming_experiment.py` exposes explicit
+`--graph-storage implicit_radius`. It requires a new, nonoverlapping `--output-root`
+inside the checkout and the same explicit raw-event/frame-interval clock scales.
+Only a new configuration tree is prepared; preparation does not start training,
+evaluation, SSH, a server, or a GPU operation. Existing output roots are rejected.
+This document deliberately provides no server execution command or instruction
+to rerun the lengthy scan.
+
+`graph_storage` and `spline_backend` are separate settings. The checked-in full
+baseline preparation inherits its explicit `spline_backend="triton"`; choosing
+implicit storage does not silently replace it with torch. `torch`, `torch_fused`,
+and `triton` route to their named message backend. Triton directly receives each
+regenerated bounded chunk, requires a supported CUDA environment, and fails when
+unavailable. As in the existing Triton operator, requested higher-order derivatives
+use documented differentiable tensor arithmetic; that path does not have the
+ordinary-backward saved-memory bound. Actual CUDA/Triton execution is unverified
+by the CPU evidence below.
+
+The storage kind is part of the v3 stream/model provenance. Existing materialized
+state cannot be fed into an implicit sequence, or vice versa. The implicit raw
+training-state payload uses its own representation metadata and stores nodes,
+degrees, counts and clocks, not fabricated edge arrays. Untrusted restore verifies
+the exact geometric degrees using bounded neighbor queries; a merely plausible
+degree sum is not sufficient. Old checkpoints/configs are not silently relabelled.
+
+The old `ad1b0af` partial progress JSON did not contain the live raw stream states.
+It therefore cannot resume that scan exactly at its displayed cursor. Counts and
+completed-row metadata do not reconstruct live nodes, positions, clocks and lane
+state. The new raw-state scan checkpoint mechanism requires matching source,
+configuration, dataset, batch schedule and report identity; it does not recover
+information absent from an older JSON or authorize a cross-version state migration.
+Preserve that partial report and all experiments. Do not automatically restart
+another roughly 25-hour scan or describe a fresh scan as a resumed one.
+
+## Verification recorded for this change
+
+The final frozen-source local regression run passed **2,939 tests**, with **84
+environment-dependent skips** and one existing PyTorch quantized-tensor
+deprecation warning. `ruff check src scripts tests` and `git diff --check` passed.
+This was a one-thread CPU test run, not server/GPU or real-data certification.
+No commit or push was performed as part of this verification.
+
+Both count-only scanning and chronological training probes now use the configured
+CPU DataLoader workers and prefetch settings, retaining the full physical batch
+schedule. The loader checks a host-memory plan before spawning, uses an isolated
+explicit RNG seed, records decode/collate versus consumer-wait/transfer timings,
+and closes only its own workers. It never changes a worker count, batch, or data
+scope to make a failed plan pass. Raw-state scan checkpoints bind the completed
+batch cursor, source, configuration, data and schedule; prefetched-but-unconsumed
+batches do not advance that cursor. These tests do not establish server throughput.
+
+The backend's 76 small synthetic CPU unit tests and 19 small-input CPU integration
+tests passed. The integration models kept the full six layers, width 64, base-48
+decoder and 4,409,617 parameters; only synthetic test inputs were small. They
+checked exact directed topology/pseudo-coordinates, chunk bounds, first/higher
+derivatives, casts and selected/masked sums; actual model outputs/loss/all-parameter
+gradients and optimizer steps; calibration; ANN and both SNN T4 local clocks/spike
+counts; expiry, empty/cold states, later arrivals, lane independence, cloned-state
+replay, incompatible storage-state rejection, and explicit refusal to run an
+implicit graph through the static global-T SNN API. These fixtures are not a reduced
+production model or dataset and do not replace full-scale testing.
+
+To repeat only these local CPU checks from the repository's Windows checkout:
+
+```powershell
+.venv/Scripts/python.exe -B -c "import tempfile, pytest, torch; torch.set_num_threads(1); raise SystemExit(pytest.main(['-q','-p','no:cacheprovider','--basetemp',tempfile.mkdtemp(prefix='asgcn-implicit-cpu-'),'tests/test_implicit_radius.py','tests/test_implicit_spline.py','tests/test_implicit_stream_graph.py','tests/test_implicit_stream_model.py']))"
+```
+
+No real-data full training or evaluation, CUDA/Triton run, allocated-device memory
+measurement, PSNR/SSIM validation, FPS improvement, or energy result is established
+by these tests. Source/config/data provenance, an explicitly assigned accelerator,
+safe full-scale resource evidence, and new matched quality/latency measurements
+are still required before making those claims.
 ~~~~~~~~
 
 # docs/PERF.md
@@ -6693,6 +7322,11 @@ bash scripts/run.sh eval
 ~~~~~~~~markdown
 # Stateful event-driven ASGCN reconstruction (architecture v3)
 
+The preserved unpooled v3 contract is documented here. The new
+[hierarchical v4 ASGCN path](HIERARCHICAL_ASGCN.md) adds actual intermediate mean
+pooling, quotient edge remapping and sequence-global sampling state; it requires
+a separately prepared study and new training. Existing v3 experiments are unchanged.
+
 ## Scope and evidence
 
 This is an event-to-frame reconstruction adaptation of the public
@@ -6712,6 +7346,11 @@ Implemented code paths are tested with **synthetic CPU unit/integration fixtures
 Those tests are not real-data training, CUDA kernel validation, PSNR/SSIM evidence,
 an inference-speed improvement, or measured energy consumption. Actual device
 preflight and full quality/latency evaluation remain required on the allocation.
+
+An explicitly selected [implicit-radius storage backend](IMPLICIT_STREAMING_BACKEND.md)
+preserves this v3 reconstruction graph/operator while avoiding persistent full-edge
+arrays. It does not add the original paper's graph clustering/pooling or pooled-edge
+remapping, and it is not evidence of full ASGCN reproduction or a measured speedup.
 
 ## Input and spatial/temporal geometry
 
@@ -6752,8 +7391,11 @@ kernel size five, root transform, bias, and incoming-degree mean aggregation.
 The raster and base-48 recurrent U-Net/ConvGRU/head remain analog. The decoder runs
 once at a frame readout; an event update does not silently advance ConvGRU.
 
-`stream_graph.evolve_stream_graph` reuses surviving edges and attributes. Only new
-nodes issue radius neighbor queries. Removed edges change both affected endpoints;
+With default `graph_storage="materialized"`, `stream_graph.evolve_stream_graph`
+reuses surviving edge arrays and attributes; only new nodes issue radius queries.
+The optional `implicit_radius` backend instead retains exact node degrees/counts
+and queries incident neighbors of arrivals or expired nodes without storing E-sized
+edge arrays. In both cases removed edges change the surviving affected endpoints;
 zero-valued messages still count in the complete incoming degree. Independent
 streams use one disjoint namespace with no inter-stream edge.
 
@@ -6796,9 +7438,11 @@ old static T4 experiment. It is not established as optimal.
 
 ### Costs and limitations
 
-The implementation still scans/remaps some full node/edge metadata, builds spatial
-cell/CSR indices, and allocates remapped caches. These costs are exposed; an
-O(K-hop)-only wall-time or memory claim is false. Dense graphs can make the affected
+Both backends scan/remap full node metadata, build spatial cell indices and
+allocate remapped caches. The materialized backend additionally scans full edge
+metadata and builds E-sized incidence/CSR arrays; implicit storage regenerates
+bounded neighbor/message chunks instead. Neither eliminates dense O(E) message
+work or guarantees O(K-hop)-only wall time/memory. Dense graphs can make the affected
 closure nearly the whole graph. Sequential causal arrival waves cannot be merged
 without changing this IF model. Independent streams in a wave are batched on the
 device; layers/local ticks have real causal dependencies.
@@ -6839,8 +7483,10 @@ The lines above list CLI arguments, not shell-ready commands with guessed time
 values or GPU IDs. `python -B -m asgcn_unet.cli --help` documents the command syntax.
 Preserve the scheduler/container's actual allocation. No script chooses GPU 0/4.
 
-Streaming preflight uses a separate schema and rejects old static profiles, scan
-reuse, and the unverified-preflight bypass. It checks the whole training stream,
+Streaming preflight uses a separate schema and rejects old static profiles,
+JSON-only partial scan reuse, and the unverified-preflight bypass. New raw-state
+scan checkpoints can resume only under the exact matching contract described
+below; an old progress JSON alone cannot supply that state. It checks the whole training stream,
 records actual readout topology and separately labelled conservative prefix-union
 bounds, then performs real stateful full-physical-batch CUDA training probes.
 A conservative bound is not an observed intra-frame maximum. Guard refusals never
@@ -6861,7 +7507,8 @@ progress, failing batch indices and failure stage survive an ordinary failure or
 interrupt; a partial scan never authorizes training.
 
 For an already prepared experiment, do **not** repeat preparation, overwrite the
-failed profile, or copy a v2 static dense-frame guard. Run:
+failed profile, or copy a v2 static dense-frame guard. To start a new scan when
+there is no prior interrupted recovery to inspect, run:
 
 ```bash
 python -B scripts/recover_streaming_preflight.py --experiment-root runs/streaming-v3-50ms --use-measured-edge-guard --reserve-vram-mib 1024 --cpu-threads 4
@@ -6872,6 +7519,39 @@ window. The tool preserves the current CUDA allocation; it does not select a GPU
 connect SSH, terminate sessions, start training, or start calibration. It creates
 a unique `preflight-recovery-*` subdirectory on every invocation, so the original
 configs, failed report, checkpoints and other experiments remain unchanged.
+
+For an interrupted recovery, use `--resume-from` with its actual directory:
+
+```bash
+python -B scripts/recover_streaming_preflight.py --experiment-root runs/streaming-v3-50ms --use-measured-edge-guard --reserve-vram-mib 1024 --cpu-threads 4 --resume-from runs/streaming-v3-50ms/preflight-recovery-REPLACE_WITH_EXISTING_DIRECTORY
+```
+
+This first checks the saved recovery/profile commitments, prepared configuration
+identities, recorded source/data contract and internally consistent per-frame
+counts, without starting a CUDA probe or rescanning the dataset. A historical
+materialized graph's necessary storage can already exceed its recorded device
+capacity after the requested reserve; that diagnosis is **not** a new measurement
+of the current data, executable source or device. The actual readout edge count,
+not the conservative prefix-union bound, supplies this one-graph storage proof.
+
+Older partial JSON reports did not serialize live streams and incremental count
+state. They cannot provide exact resume, even when their configuration matches.
+The tool preserves their diagnosis and refuses before a new GPU probe or full
+scan; it never silently substitutes a frame-zero replay. Changed executable
+source also prevents raw-state migration. A matching Git commit alone is not
+sufficient; executable source bytes must match, while Git metadata is recorded
+separately. Do not rerun a proven-infeasible materialized experiment unchanged.
+
+New scans save raw scanner checkpoints under `scan-checkpoint/`, with an atomic
+`latest.json` manifest, ownership and content hashes. Recovery metadata is
+committed before the scan starts, and checkpoint progress profiles are committed
+as they are saved. A valid checkpoint is still only a candidate: current source,
+configuration, raw-data content, schedule and runtime contract must match before
+the saved causal states are loaded. Resume continues after the last committed
+batch; work after that checkpoint may be repeated. A partial or resumed scan
+never upgrades reporting eligibility without completing the full scan and CUDA
+gate. Every retry writes a separate recovery directory; prior checkpoints and
+metadata remain untouched.
 
 `--use-measured-edge-guard` explicitly authorizes a **new config** with the larger
 of its existing guard and the measured complete-training prefix-union bound (at
@@ -12497,7 +13177,14 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", required=True, help="new independent directory inside this checkout")
     parser.add_argument("--window-seconds", type=float, required=True)
+    parser.add_argument("--graph-storage", choices=("materialized", "implicit_radius"), default="materialized",
+                        help="explicit storage backend; implicit_radius retains every radius edge without storing E tensors")
     parser.add_argument("--time-scale-seconds", type=float, required=True)
+    parser.add_argument("--hierarchical", action="store_true",
+                        help="explicit v4 reconstruction design: pool after layer 4; spatial cell=raster stride; "
+                             "temporal cell=radius*time scale; not verified author hyperparameters")
+    parser.add_argument("--event-sampling-factor", type=int, default=1,
+                        help="explicit sequence-global uniform ordinal R (default 1 retains every raw event)")
     parser.add_argument("--hdr-timestamp-scale-to-seconds", type=float, required=True)
     parser.add_argument("--aid-timestamp-scale-to-seconds", type=float, required=True)
     parser.add_argument("--hdr-interval-timestamp-scale-to-seconds", type=float, required=True)
@@ -12505,6 +13192,15 @@ def main(argv: list[str] | None = None) -> int:
                         help="separate frame-boundary scale; EventAid t0_us/t1_us fields are microseconds (1e-6)")
     args = parser.parse_args(argv)
     try:
+        hierarchy_config = None
+        if args.hierarchical:
+            with (PROJECT / "configs" / "ablations" / "graph_unet-train.json").open(encoding="utf-8") as handle:
+                baseline_model = json.load(handle)["model"]
+            hierarchy_config = {
+                "after_layer": 4, "spatial_cell_pixels": baseline_model["raster_downsample"],
+                "temporal_cell_seconds": baseline_model["graph_radius"] * args.time_scale_seconds,
+                "edge_pseudo": "mean_fine_distance_over_radius",
+            }
         report = prepare_streaming_experiment(
             PROJECT, args.output_root, window_seconds=args.window_seconds,
             time_scale_seconds=args.time_scale_seconds,
@@ -12512,6 +13208,8 @@ def main(argv: list[str] | None = None) -> int:
             aid_timestamp_scale_to_seconds=args.aid_timestamp_scale_to_seconds,
             hdr_interval_timestamp_scale_to_seconds=args.hdr_interval_timestamp_scale_to_seconds,
             aid_interval_timestamp_scale_to_seconds=args.aid_interval_timestamp_scale_to_seconds,
+            graph_storage=args.graph_storage,
+            hierarchy_config=hierarchy_config, event_sampling_factor=args.event_sampling_factor,
         )
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(f"Streaming experiment preparation failed: {error}", file=sys.stderr)
@@ -12626,9 +13324,11 @@ import copy
 import hashlib
 import json
 import math
+import os
 import shlex
 import sys
 import tempfile
+import uuid
 from pathlib import Path
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -12659,6 +13359,8 @@ def build_parser() -> argparse.ArgumentParser:
                         help="positive free-VRAM reserve required by the CUDA preflight")
     parser.add_argument("--cpu-threads", type=_positive_integer, default=4,
                         help="CPU helper threads, bounded by measured allocation (default: 4)")
+    parser.add_argument("--resume-from",
+                        help="previous recovery directory; committed raw scanner state is required to resume")
     return parser
 
 
@@ -12671,6 +13373,28 @@ def _write_new_json(path: Path, value: dict) -> None:
     with path.open("x", encoding="utf-8") as handle:
         json.dump(value, handle, indent=2, ensure_ascii=False, allow_nan=False)
         handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _persist_recovery(path: Path, value: dict, previous_sha256: str | None = None) -> str:
+    """Create metadata exclusively, then replace only this invocation's unchanged file."""
+    from asgcn_unet.stream_preflight import _digest
+
+    core = dict(value)
+    core.pop("commitment_sha256", None)
+    value["commitment_sha256"] = _digest(core)
+    if previous_sha256 is None:
+        _write_new_json(path, value)
+    else:
+        if path.resolve() != path or _sha256(path) != previous_sha256:
+            raise ValueError("Recovery metadata changed outside this invocation; it was preserved")
+        pending = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")
+        _write_new_json(pending, value)
+        if path.resolve() != path or _sha256(path) != previous_sha256:
+            raise ValueError(f"Recovery metadata changed; it was preserved. Pending metadata: {pending}")
+        os.replace(pending, path)
+    return _sha256(path)
 
 
 def _overlaps(left: Path, right: Path) -> bool:
@@ -12720,6 +13444,16 @@ def _command(*arguments: str | Path) -> str:
     return shlex.join([sys.executable, "-B", "-m", "asgcn_unet.cli", *map(str, arguments)])
 
 
+def _inspect_resume_checkpoint(checkpoint_dir, resources):
+    from asgcn_unet.stream_scan_checkpoint import inspect_scan_checkpoint
+
+    available = resources.get("memory", {}).get("effective_available_bytes")
+    if (isinstance(available, bool) or not isinstance(available, (int, float))
+            or not math.isfinite(available) or available <= 0):
+        raise ValueError("Available RAM must be measured before inspecting a scanner checkpoint")
+    return inspect_scan_checkpoint(checkpoint_dir, memory_budget_mib=available / 1024**2)
+
+
 def _failure_summary(
     report: dict | None, stage: str, error: BaseException | None = None,
     report_path: Path | None = None,
@@ -12758,6 +13492,7 @@ def main(argv: list[str] | None = None) -> int:
     from asgcn_unet.stream_preflight import _differences, streaming_training_preflight
     from asgcn_unet.utils import load_json, resolve_path
     output_root, report, recovery, profile_path = None, None, None, None
+    metadata_sha256 = None
     stage = "validate_prepared_experiment"
     result_code = 1
     try:
@@ -12784,12 +13519,69 @@ def main(argv: list[str] | None = None) -> int:
             "training_executed": False, "calibration_executed": False,
             "next_commands": [], "failure": None,
         }
+        recovery["request"]["resume_from"] = args.resume_from
+        recovery["scan_checkpoint_dir"] = str(output_root / "scan-checkpoint")
+        stage = "persist_initial_recovery_metadata"
+        metadata_sha256 = _persist_recovery(output_root / "recovery.json", recovery)
         print(f"Recovery directory: {output_root}", flush=True)
         print(f"CPU helper threads: {cpu_threads}; requested VRAM reserve: {args.reserve_vram_mib:g} MiB", flush=True)
+        resume_checkpoint = None
+        if args.resume_from:
+            from asgcn_unet.engine import (
+                _artifact_path_label,
+                _current_source_contract,
+                _public_config,
+            )
+            from asgcn_unet.recovery_evidence import load_recovery_evidence
+
+            stage = "inspect_saved_recovery_evidence"
+            previous_dir = resolve_path(args.resume_from, PROJECT)
+            evidence, previous_profile = load_recovery_evidence(
+                previous_dir, experiment_root=experiment_root, source_configs=sources,
+                public_train_config=_public_config(configs["train"]),
+                resolved_train_config=configs["train"],
+                current_source_contract=_current_source_contract(), reserve_vram_mib=args.reserve_vram_mib,
+                profile_output_label=_artifact_path_label(previous_dir / "stream-profile.json"),
+            )
+            recovery["resume_evidence"] = evidence
+            # Preserve prior count diagnostics in a failure summary, without
+            # presenting the old report as this invocation's preflight result.
+            report = {"topology": previous_profile["topology"]}
+            floor = evidence["single_readout_storage_floor"]["graph_and_basis_mib"]
+            storage = evidence["single_readout_storage_floor"]["graph_storage"]
+            floor_label = ("one actual readout graph plus basis" if storage == "materialized"
+                           else "one implicit readout raw node set (excluding index/scratch/training)")
+            print(f"Saved scan evidence: {evidence['scanned_samples']}/{evidence['dataset_samples']} frames; "
+                  f"{floor_label} requires at least {floor:,.2f} MiB.", flush=True)
+            print("Historical evidence only: current source/data/device have not been certified by this report.", flush=True)
+            if evidence["infeasible_on_saved_device"]:
+                budget = evidence["saved_device_budget_after_requested_reserve_mib"]
+                print(f"The recorded allocation allows at most {budget:,.2f} MiB after the requested reserve; "
+                      f"the recorded {storage} graph cannot fit that allocation.", flush=True)
+            if not evidence["checkpoint_manifest_present"]:
+                raise ValueError(
+                    "The previous recovery has no committed raw scanner checkpoint. A partial JSON report "
+                    "cannot restore live streams/counters; exact resume is unavailable. No GPU probe or "
+                    "full scan was started, and no frame-zero replay was substituted."
+                )
+            if not evidence["source_matches_current"]:
+                raise ValueError(
+                    "The executable source differs from the saved run. Historical counts were inspected, "
+                    "but scanner-state migration is not authorized by a matching config alone; resume was refused."
+                )
+            stage = "inspect_saved_scanner_checkpoint"
+            resume_checkpoint = Path(evidence["checkpoint_directory"])
+            _inspect_resume_checkpoint(resume_checkpoint, resources)
+            evidence["checkpoint_integrity_verified"] = True
+            print("Committed scanner files verified. Current source/data/schedule identities will be checked "
+                  "before continuing the saved scan; no completed frames may be silently replayed.", flush=True)
         stage = "streaming_preflight"
+        if args.resume_from:
+            metadata_sha256 = _persist_recovery(output_root / "recovery.json", recovery, metadata_sha256)
         report = streaming_training_preflight(
             copy.deepcopy(configs["train"]), profile_path, require_cuda=True,
             measured_guard_config_output=paths["train"], reserve_vram_mib=args.reserve_vram_mib,
+            scan_checkpoint_dir=output_root / "scan-checkpoint", resume_checkpoint=resume_checkpoint,
         )
         if report.get("passed") is not True or report.get("report_eligible") is not True:
             recovery["status"] = "failed"
@@ -12861,12 +13653,15 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Recovery failed at {stage}: {error}", file=sys.stderr)
     if recovery is not None:
         try:
-            _write_new_json(output_root / "recovery.json", recovery)
+            _persist_recovery(output_root / "recovery.json", recovery, metadata_sha256)
         except (OSError, ValueError, TypeError) as error:
             print(f"Could not save new recovery metadata: {error}", file=sys.stderr)
             return 1
         print(f"Recovery metadata: {output_root / 'recovery.json'}")
-        print(f"Preflight report: {recovery['preflight_report']}")
+        if profile_path.is_file():
+            print(f"Preflight report: {recovery['preflight_report']}")
+        else:
+            print("No new preflight report was created; the failure was detected before a new scan.")
         if recovery["status"] == "passed":
             print("CUDA preflight passed. Matching train/HDR/Aid configurations:")
             for kind, path in recovery["configs"].items():
@@ -18039,7 +18834,7 @@ def _context_tensor(value: Any, name: str, *, optional: bool = False) -> torch.T
     return value
 
 
-def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[str, Any]]:
+def _validated_context(payload: Any, independent_sequences: bool, *, _trusted_capture=False) -> list[dict[str, Any]]:
     if not isinstance(independent_sequences, bool):
         raise TypeError("independent_sequences must be a boolean")
     expected = {"version", "independent_sequences", "last_key", "entries"}
@@ -18072,10 +18867,17 @@ def _validated_context(payload: Any, independent_sequences: bool) -> list[dict[s
         index = _context_index(entry["sequence_index"])
         size = _context_size(entry["sensor_size"])
         recurrent = entry["recurrent"]
-        if isinstance(recurrent, dict):
+        if isinstance(recurrent, (dict, StreamingReconstructionState)):
             if payload["version"] != 2:
                 raise ValueError("Streaming recurrent context requires checkpoint version 2")
-            recurrent = restore_stream_training_state(recurrent)
+            if isinstance(recurrent, StreamingReconstructionState):
+                if not _trusted_capture:
+                    raise ValueError("External training checkpoints must contain serialized streaming state, not live instances")
+                from .stream_state import _validate_training_capture_state
+
+                recurrent = _validate_training_capture_state(recurrent)
+            else:
+                recurrent = restore_stream_training_state(recurrent)
             has_streaming_state = True
             if recurrent.sequence_index != index or (
                 recurrent.sequence_identity != key if independent_sequences
@@ -18114,7 +18916,6 @@ def capture_training_state(state: TrainingState) -> dict[str, Any]:
             raise ValueError("Training context value must contain five fields")
         recurrent = value[2]
         if isinstance(recurrent, StreamingReconstructionState):
-            recurrent = recurrent.training_payload()
             has_streaming_state = True
         entries.append({
             "key": key, "sequence_index": value[0], "sensor_size": value[1],
@@ -18125,7 +18926,10 @@ def capture_training_state(state: TrainingState) -> dict[str, Any]:
         "independent_sequences": state.independent_sequences,
         "last_key": state.last_key, "entries": entries,
     }
-    validated = _validated_context(payload, state.independent_sequences)
+    # Trusted live instances receive full structural/finite/version checks but
+    # do not re-enumerate implicit graph edges at every checkpoint save. External
+    # payload restoration always uses strict geometric degree reconstruction.
+    validated = _validated_context(payload, state.independent_sequences, _trusted_capture=True)
     for entry in validated:
         for name in ("recurrent", "prediction", "target"):
             if entry[name] is not None:
@@ -21837,6 +22641,34 @@ def read_diagnostic_sample(
     return sample
 ~~~~~~~~
 
+# src/asgcn_unet/encoder_stage.py
+
+~~~~~~~~python
+"""Non-owning views of the SAME trained spline layers across a pooling boundary."""
+
+from .graph import ASGCNEncoder
+
+
+class EncoderStage:
+    def __init__(self, encoder, start, stop, *, input_is_spiking=False):
+        if not isinstance(encoder, ASGCNEncoder) or not 0 <= start < stop <= len(encoder.layers):
+            raise ValueError("A stage must select a nonempty contiguous range of the ASGCN encoder")
+        self.encoder = encoder
+        self.layers = tuple(encoder.layers[start:stop])
+        self.spline_backend = encoder.spline_backend
+        self.input_is_spiking = input_is_spiking
+
+    @property
+    def training(self):
+        return self.encoder.training
+
+    def _basis_cache(self, graph):
+        return ASGCNEncoder._basis_cache(self, graph)
+
+    def forward_ann(self, graph, return_activations=False):
+        return ASGCNEncoder.forward_ann(self, graph, return_activations)
+~~~~~~~~
+
 # src/asgcn_unet/engine.py
 
 ~~~~~~~~python
@@ -22262,7 +23094,7 @@ def load_model_checkpoint(
             "state dictionaries are incompatible with the paper-core architecture."
         )
     architecture_version = model_config.get("architecture_version")
-    if architecture_version not in {PAPER_CORE_VERSION, 3}:
+    if architecture_version not in {PAPER_CORE_VERSION, 3, 4}:
         raise ValueError(
             f"Checkpoint {checkpoint_path} has architecture_version="
             f"{architecture_version!r}; paper-core version {PAPER_CORE_VERSION} is "
@@ -28675,6 +29507,10 @@ class ASGCNEncoder(nn.Module):
     def forward_ann(
         self, graph: EventGraph, return_activations: bool = False
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
+        from .implicit_radius import ImplicitRadiusGraph
+        if isinstance(graph, ImplicitRadiusGraph):
+            from .implicit_model import forward_ann
+            return forward_ann(self, graph, return_activations=return_activations)
         require_spline_backend(self.spline_backend, graph.node_features.device)
         hidden = graph.node_features
         activations: list[torch.Tensor] = []
@@ -28703,6 +29539,12 @@ class ASGCNEncoder(nn.Module):
         batch_size: int | None = None,
     ) -> tuple[torch.Tensor, list[torch.Tensor]]:
         """Run explicit IF timesteps using literal Eq. (15) or a standard-IF control."""
+        from .implicit_radius import ImplicitRadiusGraph
+        if isinstance(graph, ImplicitRadiusGraph):
+            raise TypeError(
+                "Implicit radius SNN graphs require the event-driven streaming model with its causal state; "
+                "static global-T forward_snn cannot replace the streaming local clock."
+            )
         require_spline_backend(self.spline_backend, graph.node_features.device)
         if isinstance(simulation_steps, bool) or int(simulation_steps) != simulation_steps:
             raise ValueError("simulation_steps must be an integer")
@@ -28906,6 +29748,446 @@ class ASGCNEncoder(nn.Module):
         if not self.layers[-1]._snn_is_normalized:
             raise RuntimeError("Output activation scale is available after Eq. (6) conversion")
         return self.layers[-1].normalization_scale.to(reference)
+~~~~~~~~
+
+# src/asgcn_unet/graph_pool.py
+
+~~~~~~~~python
+"""Fixed-cell mean pooling and exact quotient remapping of existing raw edges.
+
+Training builds a differentiable full snapshot. Inference keeps cluster sums and
+quotient contributor counts, querying only added/removed incident raw edges on
+the implicit backend. The materialized compatibility backend must scan its edge
+array to select incident edges; that O(E) cost is explicitly counted in ``work``.
+No radius graph is constructed from cluster centroids and no edge is clipped.
+"""
+
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass, replace
+from numbers import Real
+
+import torch
+
+from .graph import EventGraph
+from .implicit_radius import ImplicitRadiusGraph
+from .stream_graph import GraphUpdate, StreamGraph
+
+
+@dataclass(frozen=True)
+class PoolState:
+    raw_graph: StreamGraph
+    raw_features: torch.Tensor
+    raw_to_cluster: torch.Tensor
+    cluster_keys: torch.Tensor
+    counts: torch.Tensor
+    feature_sums: torch.Tensor
+    position_sums: torch.Tensor
+    timestamp_sums: torch.Tensor
+    graph: StreamGraph
+    edge_refcounts: torch.Tensor
+    edge_pseudo_sums: torch.Tensor
+    config: dict
+    sensor_size: tuple[int, int]
+    time_scale_seconds: float
+    work: dict
+
+
+def _configuration(config, sensor_size, time_scale_seconds):
+    required = {"spatial_cell_pixels", "temporal_cell_seconds"}
+    if not isinstance(config, dict) or not required <= config.keys() or config.keys() - required - {"edge_chunk_size"}:
+        raise ValueError("Pool config requires explicit spatial_cell_pixels and temporal_cell_seconds")
+    values = {}
+    for name in required:
+        value = config[name]
+        if isinstance(value, bool) or not isinstance(value, Real) or not math.isfinite(value) or value <= 0:
+            raise ValueError(f"Pool {name} must be finite and positive")
+        values[name] = float(value)
+    chunk = config.get("edge_chunk_size", 65_536)
+    if isinstance(chunk, bool) or not isinstance(chunk, int) or chunk < 1:
+        raise ValueError("Pool edge_chunk_size must be a positive integer scratch bound")
+    values["edge_chunk_size"] = chunk
+    if (not isinstance(sensor_size, (tuple, list)) or len(sensor_size) != 2
+            or any(isinstance(item, bool) or not isinstance(item, int) or item < 1 for item in sensor_size)):
+        raise ValueError("Pool sensor_size must contain positive integer height and width")
+    if (isinstance(time_scale_seconds, bool) or not isinstance(time_scale_seconds, Real)
+            or not math.isfinite(time_scale_seconds) or time_scale_seconds <= 0):
+        raise ValueError("Pool time_scale_seconds must be finite and positive")
+    return values, tuple(sensor_size), float(time_scale_seconds)
+
+
+def _validate_raw(raw, features):
+    if not isinstance(raw, StreamGraph) or not isinstance(raw.graph, (EventGraph, ImplicitRadiusGraph)):
+        raise TypeError("Pooling requires a raw StreamGraph with explicit materialized or implicit storage")
+    graph, positions = raw.graph, raw.graph.positions
+    count = positions.shape[0]
+    if (not isinstance(features, torch.Tensor) or features.layout != torch.strided
+            or features.ndim != 2 or features.shape[0] != count or features.shape[1] < 1
+            or not features.is_floating_point() or features.device != positions.device):
+        raise ValueError("Pool features must be a floating [N,C] tensor on the raw graph device")
+    if (positions.shape != (count, 4) or not positions.is_floating_point()
+            or raw.node_batch.shape != (count,) or raw.node_batch.dtype != torch.long
+            or raw.timestamps.shape != (count,) or raw.timestamps.dtype != torch.float64
+            or raw.node_batch.device != positions.device or raw.timestamps.device != positions.device):
+        raise ValueError("Invalid raw pooling geometry, timestamps, or batch identifiers")
+    checks = [torch.isfinite(features).all(), torch.isfinite(positions).all(),
+              torch.isfinite(raw.timestamps).all(), (raw.node_batch >= 0).all()]
+    if isinstance(graph, ImplicitRadiusGraph):
+        graph.validate_integrity()
+        checks.append((raw.node_batch == graph.node_batch).all())
+    else:
+        edges, pseudo = graph.edge_index, graph.edge_attr
+        if (edges.ndim != 2 or edges.shape[0] != 2 or edges.dtype != torch.long
+                or edges.device != positions.device or pseudo.shape != (edges.shape[1], 1)
+                or pseudo.device != positions.device or not pseudo.is_floating_point()):
+            raise ValueError("Invalid materialized raw edge shape/dtype/device")
+        valid_ids = (edges >= 0) & (edges < count)
+        if not bool(valid_ids.all()):
+            raise ValueError("Raw pooling edge contains an invalid node index")
+        checks.extend((torch.isfinite(pseudo).all(), ((pseudo >= 0) & (pseudo <= 1)).all(),
+                       (raw.node_batch[edges[0]] == raw.node_batch[edges[1]]).all()))
+    if not bool(torch.stack(checks).all()):
+        raise ValueError("Raw pooling inputs must be finite, with bounded pseudo coordinates and disjoint streams")
+
+
+def _keys(raw, nodes, config, sensor_size, time_scale_seconds):
+    positions = raw.graph.positions[nodes, :3].double()
+    height, width = sensor_size
+    scales = positions.new_tensor((max(width - 1, 1) / config["spatial_cell_pixels"],
+                                   max(height - 1, 1) / config["spatial_cell_pixels"],
+                                   time_scale_seconds / config["temporal_cell_seconds"]))
+    # t is already measured from each stream's FIXED origin. Never subtract a
+    # moving window minimum or frame boundary when assigning cluster identities.
+    scaled = positions * scales
+    if not bool((torch.isfinite(scaled) & (scaled.abs() <= 2**48)).all()):
+        raise ValueError("Pool cell addressing exceeds the exact float64 range; no cells were clipped")
+    return torch.cat((raw.node_batch[nodes, None], torch.floor(scaled).to(torch.long)), dim=1)
+
+
+def _new_work(raw):
+    return {"raw_edges_visited": 0, "raw_query_nodes": 0, "materialized_edges_scanned": 0,
+            "materialized_validation_edges": raw.graph.edge_index.shape[1] if isinstance(raw.graph, EventGraph) else 0,
+            "feature_rows_updated": 0, "whole_raw_edge_reenumeration": False}
+
+
+def _edge_chunks(raw, chunk_size, work, incident=None):
+    """Visit each stored directed edge once, or only selected incident edges.
+
+    Implicit radius graphs are symmetric. Selected incoming queries plus reverse
+    directions whose source is not selected cover an incident edge exactly once.
+    Arbitrary materialized graphs are never reinterpreted as radius graphs.
+    """
+    graph = raw.graph
+    if incident is not None and not incident.numel():
+        return
+    if isinstance(graph, ImplicitRadiusGraph):
+        if incident is not None:
+            work["raw_query_nodes"] += incident.numel()
+            selected = torch.zeros(len(raw.timestamps), dtype=torch.bool, device=raw.timestamps.device)
+            selected[incident] = True
+        for source, destination, pseudo in graph.iter_directed_neighbors(incident):
+            for start in range(0, source.numel(), chunk_size):
+                src, dst, value = source[start:start + chunk_size], destination[start:start + chunk_size], pseudo[start:start + chunk_size]
+                work["raw_edges_visited"] += src.numel()
+                yield src, dst, value
+                if incident is not None:
+                    reverse = ~selected[src]
+                    reverse_source, reverse_destination = dst[reverse], src[reverse]
+                    work["raw_edges_visited"] += reverse_source.numel()
+                    yield reverse_source, reverse_destination, value[reverse]
+    else:
+        if incident is not None:
+            selected = torch.zeros(len(raw.timestamps), dtype=torch.bool, device=raw.timestamps.device)
+            selected[incident] = True
+            work["raw_query_nodes"] += incident.numel()
+        work["materialized_edges_scanned"] += graph.edge_index.shape[1]
+        work["whole_raw_edge_reenumeration"] = True
+        for start in range(0, graph.edge_index.shape[1], chunk_size):
+            source, destination = graph.edge_index[:, start:start + chunk_size]
+            pseudo = graph.edge_attr[start:start + chunk_size]
+            if incident is not None:
+                keep = selected[source] | selected[destination]
+                source, destination, pseudo = source[keep], destination[keep], pseudo[keep]
+            work["raw_edges_visited"] += source.numel()
+            yield source, destination, pseudo
+
+
+def _empty_edges(reference):
+    return (reference.new_empty((0, 2), dtype=torch.long), reference.new_empty(0, dtype=torch.long),
+            reference.new_empty((0, 1), dtype=torch.float64))
+
+
+def _contributions(raw, raw_to_cluster, pairs, refcounts, sums, config, work, *, incident=None, sign=1):
+    if incident is not None and not incident.numel():
+        return pairs, refcounts, sums
+    from .quotient_accumulator import QuotientAccumulator
+    accumulator = QuotientAccumulator(pairs, refcounts, sums)
+    for source, destination, pseudo in _edge_chunks(raw, config["edge_chunk_size"], work, incident):
+        src, dst = raw_to_cluster[source], raw_to_cluster[destination]
+        nonself = src != dst
+        new_pairs = torch.stack((src[nonself], dst[nonself]), dim=1)
+        new_counts = torch.full((len(new_pairs),), sign, dtype=torch.long, device=src.device)
+        accumulator.add(new_pairs, new_counts, pseudo[nonself].double() * sign)
+    return accumulator.finish(work)
+
+
+def _finish(raw, features, raw_to_cluster, keys, counts, feature_sums, position_sums,
+            timestamp_sums, pairs, refs, pseudo_sums, config, sensor_size, time_scale_seconds, work):
+    if bool((counts <= 0).any()) or bool((refs <= 0).any()):
+        raise ValueError("Pooled cluster/contributor counts must be positive; raw update must be append/expire consistent")
+    means = (feature_sums / counts[:, None]).to(features.dtype)
+    positions = (position_sums / counts[:, None]).to(raw.graph.positions.dtype)
+    times = timestamp_sums / counts
+    pseudo = pseudo_sums / refs[:, None]
+    if not bool(torch.stack((torch.isfinite(means).all(), torch.isfinite(positions).all(),
+                            torch.isfinite(times).all(), torch.isfinite(pseudo).all(),
+                            ((pseudo >= 0) & (pseudo <= 1)).all())).all()):
+        raise FloatingPointError("Nonfinite or out-of-range pooled mean; no edge pseudo coordinate was clipped")
+    edges = pairs.t().contiguous()
+    graph = EventGraph(means, positions, edges, pseudo.to(raw.graph.positions.dtype))
+    stream = StreamGraph(graph, keys[:, 0], times)
+    work.update({"pooled_nodes": len(keys), "pooled_edges": len(pairs)})
+    work["topology_changed_nodes"] = torch.ones(len(keys), dtype=torch.bool, device=keys.device)
+    work["input_changed_sources"] = torch.zeros(len(keys), dtype=torch.bool, device=keys.device)
+    return PoolState(raw, features, raw_to_cluster, keys, counts, feature_sums, position_sums,
+                     timestamp_sums, stream, refs, pseudo_sums, config, sensor_size, time_scale_seconds, work)
+
+
+def pool_graph(raw_stream_graph, features, config, sensor_size, time_scale_seconds):
+    """Fresh Eq.18 means and Eq.19 quotient snapshot, differentiable in features.
+
+    Float64 sums reduce long-lived subtraction error; feature means are returned
+    in the input feature dtype. Edge pseudo is the arithmetic mean of contributor
+    raw distance/radius values, not a centroid radius query or recomputed distance.
+    """
+    config, sensor_size, time_scale_seconds = _configuration(config, sensor_size, time_scale_seconds)
+    _validate_raw(raw_stream_graph, features)
+    nodes = torch.arange(len(features), device=features.device)
+    keys, inverse, counts = torch.unique(_keys(raw_stream_graph, nodes, config, sensor_size, time_scale_seconds),
+                                         dim=0, sorted=True, return_inverse=True, return_counts=True)
+    feature_sums = features.new_zeros((len(keys), features.shape[1]), dtype=torch.float64).index_add(0, inverse, features.double())
+    position_sums = features.new_zeros((len(keys), 4), dtype=torch.float64).index_add(0, inverse, raw_stream_graph.graph.positions.double())
+    timestamp_sums = features.new_zeros(len(keys), dtype=torch.float64).index_add(0, inverse, raw_stream_graph.timestamps)
+    work = _new_work(raw_stream_graph)
+    work["feature_rows_updated"] = len(features)
+    pairs, refs, sums = _contributions(raw_stream_graph, inverse, *_empty_edges(features), config, work)
+    return _finish(raw_stream_graph, features, inverse, keys, counts, feature_sums, position_sums,
+                   timestamp_sums, pairs, refs, sums, config, sensor_size, time_scale_seconds, work)
+
+
+def _active_mask(active_sources, count, device):
+    mask = torch.zeros(count, dtype=torch.bool, device=device)
+    if active_sources is None:
+        return mask
+    if not isinstance(active_sources, torch.Tensor) or active_sources.device != device or active_sources.ndim != 1:
+        raise ValueError("active_sources must be a same-device node mask or unique long node IDs")
+    if active_sources.dtype == torch.bool and active_sources.shape == (count,):
+        return active_sources
+    if active_sources.dtype != torch.long or not bool(((active_sources >= 0) & (active_sources < count)).all()):
+        raise ValueError("active_sources contains invalid node IDs")
+    if active_sources.unique().numel() != active_sources.numel():
+        raise ValueError("active_sources node IDs must be unique")
+    mask[active_sources] = True
+    return mask
+
+
+def _validate_materialized_retained_edges(previous, current, retained, retained_old):
+    """Compatibility-only O(E) validation; arbitrary E is not a radius oracle."""
+    old_graph, graph = previous.raw_graph.graph, current.graph
+    mapping = retained_old.new_full((len(previous.raw_features),), -1)
+    mapping[retained_old] = retained
+    remapped = mapping[old_graph.edge_index]
+    old_keep = (remapped >= 0).all(dim=0)
+    is_old = torch.zeros(len(current.timestamps), dtype=torch.bool, device=retained.device)
+    is_old[retained] = True
+    new_keep = is_old[graph.edge_index].all(dim=0)
+    old_edges, old_pseudo = remapped[:, old_keep], old_graph.edge_attr[old_keep]
+    new_edges, new_pseudo = graph.edge_index[:, new_keep], graph.edge_attr[new_keep]
+    if old_edges.shape != new_edges.shape:
+        raise ValueError("Retained materialized raw edges changed; pooling requires append/expire updates")
+
+    def ordered(edges, pseudo):
+        order = torch.arange(edges.shape[1], device=edges.device)
+        # Constant three-column lexicographic sort, never Python per-edge work.
+        for value in (pseudo[:, 0], edges[1], edges[0]):
+            order = order[torch.argsort(value[order], stable=True)]
+        return edges[:, order], pseudo[order]
+
+    old_edges, old_pseudo = ordered(old_edges, old_pseudo)
+    new_edges, new_pseudo = ordered(new_edges, new_pseudo)
+    if not torch.equal(old_edges, new_edges) or not torch.equal(old_pseudo, new_pseudo):
+        raise ValueError("Retained materialized raw edge attributes changed; pooling requires append/expire updates")
+    return old_edges.shape[1] + new_edges.shape[1]
+
+
+def _changed_destinations(previous, state, old_cluster_indices, active_raw):
+    topology_changed = old_cluster_indices < 0
+    old_to_new = state.raw_to_cluster.new_full((len(previous.counts),), -1)
+    retained = torch.nonzero(old_cluster_indices >= 0, as_tuple=True)[0]
+    old_to_new[old_cluster_indices[retained]] = retained
+    input_changed = torch.zeros_like(topology_changed)
+    input_changed[retained] = (state.graph.graph.node_features[retained]
+                               != previous.graph.graph.node_features[old_cluster_indices[retained]]).any(dim=1)
+    input_changed[state.raw_to_cluster[active_raw]] = True
+    topology_changed[retained] |= (state.graph.graph.positions[retained]
+                                   != previous.graph.graph.positions[old_cluster_indices[retained]]).any(dim=1)
+    # Compare actual quotient edge presence/mean, not just contributor counts.
+    old_pairs = old_to_new[previous.graph.graph.edge_index].t()
+    old_survives = (old_pairs >= 0).all(dim=1)
+    removed_endpoints = old_pairs[~old_survives].flatten()
+    topology_changed[removed_endpoints[removed_endpoints >= 0]] = True
+    old_pairs = old_pairs[old_survives]
+    new_pairs = state.graph.graph.edge_index.t()
+    pairs, inverse = torch.unique(torch.cat((old_pairs, new_pairs)), dim=0, sorted=True, return_inverse=True)
+    old_n = len(old_pairs)
+    presence = state.counts.new_zeros((len(pairs), 2))
+    presence[inverse[:old_n], 0] = 1
+    presence[inverse[old_n:], 1] = 1
+    values = state.position_sums.new_zeros((len(pairs), 2))
+    values[inverse[:old_n], 0] = previous.graph.graph.edge_attr[old_survives, 0].double()
+    values[inverse[old_n:], 1] = state.graph.graph.edge_attr[:, 0].double()
+    edge_changed = (presence[:, 0] != presence[:, 1]) | (values[:, 0] != values[:, 1])
+    topology_changed[pairs[edge_changed].flatten()] = True
+    # These causes must remain separate for event-local SNN clocks: persistent
+    # structural seeds are not interchangeable with a one-sweep input/pulse.
+    state.work["topology_changed_nodes"] = topology_changed
+    state.work["input_changed_sources"] = input_changed
+    changed = topology_changed | input_changed
+    # Features/pulses affect the root transform and all outgoing quotient edges.
+    if new_pairs.numel():
+        changed[new_pairs[input_changed[new_pairs[:, 0]], 1]] = True
+    return changed
+
+
+def update_pool(raw_update, features, previous_pool, config, sensor_size, time_scale_seconds, active_sources=None):
+    """Exact append/expire pool update and downstream GraphUpdate seeds.
+
+    Retained raw coordinates/topology must be unchanged; prefix features may
+    change. ``active_sources`` identifies current raw pulse rows and forces a
+    cluster/root/neighbor update even when repeated pulse values compare equal.
+    ``state.work`` exposes separate same-device bool masks:
+    ``topology_changed_nodes`` persists structural seeds; ``input_changed_sources``
+    is a one-sweep feature/pulse cause. The returned GraphUpdate keeps the union
+    with outgoing input dependants for compatibility; local-clock SNN consumers
+    must use the separated masks instead of treating that union as topology.
+    Previous state tensors are never modified. Fresh training must use pool_graph
+    so no learned prefix from an earlier optimizer step is reused.
+    """
+    if not isinstance(raw_update, GraphUpdate):
+        raise TypeError("update_pool requires the actual raw GraphUpdate")
+    raw = raw_update.state
+    config, sensor_size, time_scale_seconds = _configuration(config, sensor_size, time_scale_seconds)
+    _validate_raw(raw, features)
+    active = _active_mask(active_sources, len(features), features.device)
+    if previous_pool is None:
+        state = pool_graph(raw, features, config, sensor_size, time_scale_seconds)
+        state.work["input_changed_sources"][state.raw_to_cluster[active]] = True
+        old_indices = state.counts.new_full((len(state.counts),), -1)
+        return state, GraphUpdate(state.graph, old_indices, torch.ones_like(old_indices, dtype=torch.bool))
+    if not isinstance(previous_pool, PoolState):
+        raise TypeError("previous_pool must be a PoolState or None")
+    previous = previous_pool
+    if (previous.config != config or previous.sensor_size != sensor_size
+            or previous.time_scale_seconds != time_scale_seconds
+            or previous.raw_features.shape[1:] != features.shape[1:]
+            or previous.raw_features.dtype != features.dtype or previous.raw_features.device != features.device
+            or type(previous.raw_graph.graph) is not type(raw.graph)
+            or previous.raw_graph.graph.positions.dtype != raw.graph.positions.dtype):
+        raise ValueError("Pool configuration, raw representation, or feature contract changed")
+    if isinstance(raw.graph, ImplicitRadiusGraph) and (
+            raw.graph.radius != previous.raw_graph.graph.radius
+            or raw.graph.position_dims != previous.raw_graph.graph.position_dims):
+        raise ValueError("Raw implicit radius geometry contract changed during pooling")
+    old = raw_update.old_indices
+    old_count = len(previous.raw_features)
+    if (old.shape != (len(features),) or old.dtype != torch.long or old.device != features.device
+            or not bool(((old >= -1) & (old < old_count)).all())):
+        raise ValueError("Invalid raw old_indices mapping for pool update")
+    retained = torch.nonzero(old >= 0, as_tuple=True)[0]
+    arriving = torch.nonzero(old < 0, as_tuple=True)[0]
+    retained_old = old[retained]
+    if retained_old.unique().numel() != retained_old.numel():
+        raise ValueError("A retained raw node was duplicated in the pool update")
+    if not bool(torch.stack((
+        (raw.graph.positions[retained] == previous.raw_graph.graph.positions[retained_old]).all(),
+        (raw.timestamps[retained] == previous.raw_graph.timestamps[retained_old]).all(),
+        (raw.node_batch[retained] == previous.raw_graph.node_batch[retained_old]).all(),
+    )).all()):
+        raise ValueError("Retained raw geometry or stream identity changed; pool update is not append/expire")
+    if raw.graph is previous.raw_graph.graph and torch.equal(old, torch.arange(len(features), device=old.device)):
+        # Local SNN sweeps change pulses, not topology. Keep the exact existing
+        # quotient and cell IDs rather than sorting/re-hashing Q for each tick.
+        changed_rows = torch.nonzero(features.ne(previous.raw_features).any(dim=1), as_tuple=True)[0]
+        feature_sums = previous.feature_sums.index_add(
+            0, previous.raw_to_cluster[changed_rows],
+            features[changed_rows].double() - previous.raw_features[changed_rows].double())
+        means = (feature_sums / previous.counts[:, None]).to(features.dtype)
+        coarse = previous.graph.graph
+        graph = StreamGraph(EventGraph(means, coarse.positions, coarse.edge_index, coarse.edge_attr, coarse.in_degree),
+                            previous.graph.node_batch, previous.graph.timestamps)
+        topology = torch.zeros(len(previous.counts), device=old.device, dtype=torch.bool)
+        input_changed = means.ne(coarse.node_features).any(dim=1)
+        input_changed[previous.raw_to_cluster[active]] = True
+        changed = input_changed.clone()
+        source, destination = coarse.edge_index
+        changed[destination[input_changed[source]]] = True
+        work = _new_work(raw)
+        work.update(feature_rows_updated=len(changed_rows), reused_quotient_topology=True,
+                    pooled_nodes=len(previous.counts), pooled_edges=coarse.edge_index.shape[1],
+                    topology_changed_nodes=topology, input_changed_sources=input_changed)
+        state = replace(previous, raw_graph=raw, raw_features=features, feature_sums=feature_sums, graph=graph, work=work)
+        return state, GraphUpdate(graph, torch.arange(len(previous.counts), device=old.device), changed)
+    checked_edges = (_validate_materialized_retained_edges(previous, raw, retained, retained_old)
+                     if isinstance(raw.graph, EventGraph) else 0)
+    removed_mask = torch.ones(old_count, dtype=torch.bool, device=features.device)
+    removed_mask[retained_old] = False
+    removed = torch.nonzero(removed_mask, as_tuple=True)[0]
+    keys, union_inverse = torch.unique(torch.cat((previous.cluster_keys,
+        _keys(raw, arriving, config, sensor_size, time_scale_seconds))), dim=0, sorted=True, return_inverse=True)
+    old_clusters = union_inverse[:len(previous.counts)]
+    arrival_clusters = union_inverse[len(previous.counts):]
+    raw_clusters = old.new_empty(len(features))
+    raw_clusters[retained] = old_clusters[previous.raw_to_cluster[retained_old]]
+    raw_clusters[arriving] = arrival_clusters
+    previous_raw_clusters = old_clusters[previous.raw_to_cluster]
+    counts = old.new_zeros(len(keys)).index_add(0, old_clusters, previous.counts)
+    counts.index_add_(0, previous_raw_clusters[removed], -torch.ones_like(removed))
+    counts.index_add_(0, arrival_clusters, torch.ones_like(arriving))
+    feature_sums = previous.feature_sums.new_zeros((len(keys), features.shape[1])).index_add(0, old_clusters, previous.feature_sums)
+    position_sums = previous.position_sums.new_zeros((len(keys), 4)).index_add(0, old_clusters, previous.position_sums)
+    timestamp_sums = previous.timestamp_sums.new_zeros(len(keys)).index_add(0, old_clusters, previous.timestamp_sums)
+    feature_sums = feature_sums.index_add(0, previous_raw_clusters[removed], -previous.raw_features[removed].double())
+    feature_sums = feature_sums.index_add(0, arrival_clusters, features[arriving].double())
+    changed_rows = (features[retained] != previous.raw_features[retained_old]).any(dim=1)
+    changed_raw = retained[changed_rows]
+    feature_sums = feature_sums.index_add(0, raw_clusters[changed_raw],
+                                         features[changed_raw].double() - previous.raw_features[old[changed_raw]].double())
+    position_sums = position_sums.index_add(0, previous_raw_clusters[removed], -previous.raw_graph.graph.positions[removed].double())
+    position_sums = position_sums.index_add(0, arrival_clusters, raw.graph.positions[arriving].double())
+    timestamp_sums = timestamp_sums.index_add(0, previous_raw_clusters[removed], -previous.raw_graph.timestamps[removed])
+    timestamp_sums = timestamp_sums.index_add(0, arrival_clusters, raw.timestamps[arriving])
+    work = _new_work(raw)
+    work["materialized_retained_edges_checked"] = checked_edges
+    work["feature_rows_updated"] = len(removed) + len(arriving) + len(changed_raw)
+    pairs = old_clusters[previous.graph.graph.edge_index].t()
+    pairs, refs, sums = _contributions(previous.raw_graph, previous_raw_clusters, pairs,
+        previous.edge_refcounts, previous.edge_pseudo_sums, config, work, incident=removed, sign=-1)
+    pairs, refs, sums = _contributions(raw, raw_clusters, pairs, refs, sums, config, work, incident=arriving)
+    alive = counts > 0
+    if bool((counts < 0).any()) or (pairs.numel() and not bool(alive[pairs].all())):
+        raise ValueError("Pool empty-cluster/edge reference counts are inconsistent")
+    remap = old.new_full((len(keys),), -1)
+    alive_indices = torch.nonzero(alive, as_tuple=True)[0]
+    remap[alive_indices] = torch.arange(alive_indices.numel(), device=features.device)
+    old_by_union = old.new_full((len(keys),), -1)
+    old_by_union[old_clusters] = torch.arange(len(previous.counts), device=features.device)
+    state = _finish(raw, features, remap[raw_clusters], keys[alive], counts[alive], feature_sums[alive],
+                    position_sums[alive], timestamp_sums[alive], remap[pairs], refs, sums,
+                    config, sensor_size, time_scale_seconds, work)
+    old_cluster_indices = old_by_union[alive]
+    changed = _changed_destinations(previous, state, old_cluster_indices, active)
+    return state, GraphUpdate(state.graph, old_cluster_indices, changed)
 ~~~~~~~~
 
 # src/asgcn_unet/graph_preview.py
@@ -29124,6 +30406,890 @@ def build_graph_preview(
             "No inference or quality evaluation was performed."
         )
     return GraphPreview(payload, graph.edge_index, node_count)
+~~~~~~~~
+
+# src/asgcn_unet/hierarchy.py
+
+~~~~~~~~python
+"""ASGCN Eq18/19 in the trained and event-local inference paths.
+
+Clustering parameters/placement are explicit reconstruction design choices,
+not undisclosed author hyperparameters. No weights are copied or bypassed.
+"""
+
+from dataclasses import dataclass, fields, replace
+from types import SimpleNamespace
+
+import torch
+
+from .encoder_stage import EncoderStage
+from .hierarchy_contract import (
+    validate_hierarchy_config,  # noqa: F401 - public compatibility re-export
+)
+from .stream_encoder import update_encoder
+from .stream_graph import GraphUpdate
+from .stream_state import map_cache, map_graph
+
+
+def pool_config(model):
+    return {key: model.hierarchy_config[key] for key in ("spatial_cell_pixels", "temporal_cell_seconds")}
+
+
+def stages(model):
+    boundary = model.hierarchy_config["after_layer"]
+    return (EncoderStage(model.encoder, 0, boundary),
+            EncoderStage(model.encoder, boundary, len(model.encoder.layers), input_is_spiking=True))
+
+
+def forward_snapshot(model, graph, sensor_size, *, calibration=False):
+    from .graph_pool import pool_graph
+    prefix, suffix = stages(model)
+    hidden, before = prefix.forward_ann(graph.graph, calibration)
+    pool = pool_graph(graph, hidden, pool_config(model), sensor_size=sensor_size,
+                      time_scale_seconds=model.stream_config["time_scale_seconds"])
+    output, after = suffix.forward_ann(pool.graph.graph, calibration)
+    return output, before + after, pool.graph
+
+
+@dataclass(frozen=True)
+class HierarchyState:
+    pool: object
+    suffix: object
+
+    def map(self, fn, raw_graph):
+        coarse = map_graph(self.pool.graph, fn)
+        values = {field.name: fn(getattr(self.pool, field.name))
+                  for field in fields(self.pool) if isinstance(getattr(self.pool, field.name), torch.Tensor)}
+        pool = replace(self.pool, raw_graph=raw_graph, graph=coarse, work={}, **values)
+        return HierarchyState(pool, map_cache(self.suffix, coarse, fn))
+
+    def tensors(self):
+        for field in fields(self.pool):
+            value = getattr(self.pool, field.name)
+            if isinstance(value, torch.Tensor):
+                yield value
+        yield self.pool.graph.graph.node_features
+        yield self.pool.graph.graph.positions
+        yield self.pool.graph.graph.edge_attr
+        if self.suffix is not None:
+            for field in fields(self.suffix):
+                value = getattr(self.suffix, field.name)
+                if isinstance(value, torch.Tensor):
+                    yield value
+                elif isinstance(value, tuple):
+                    yield from (item for item in value if isinstance(item, torch.Tensor))
+
+
+def update_hierarchy(model, update, prefix_cache, previous, sensor_size, *, mode, simulation_steps,
+                     active_graphs=None):
+    from .graph_pool import update_pool
+    prefix, suffix = stages(model)
+    pool = None if previous is None else previous.pool
+    suffix_cache = None if previous is None else previous.suffix
+    work = []
+    coarse_seed = None
+    # Dependent local ticks must be interleaved across the pool, not executed
+    # as all prefix ticks followed by pooled cumulative rates and suffix ticks.
+    for tick in range(simulation_steps if mode == "snn" else 1):
+        raw_update = update if tick == 0 else GraphUpdate(
+            update.state, torch.arange(len(update.old_indices), device=update.old_indices.device), update.changed_nodes)
+        prefix_cache = update_encoder(prefix, raw_update, prefix_cache, mode=mode, simulation_steps=1,
+                                      dynamics=model.snn_dynamics, active_graphs=active_graphs)
+        features = prefix_cache.last_pulses[-1] if mode == "snn" else prefix_cache.outputs
+        active_sources = None
+        if mode == "snn":
+            active_sources = features.ne(0).any(dim=1)
+            if active_graphs is not None:
+                active_sources = active_sources & active_graphs[update.state.node_batch]
+        pool, coarse_update = update_pool(
+            raw_update, features, pool, pool_config(model), sensor_size=sensor_size,
+            time_scale_seconds=model.stream_config["time_scale_seconds"], active_sources=active_sources)
+        if tick == 0:
+            coarse_seed = pool.work["topology_changed_nodes"]
+        coarse_update = replace(coarse_update, changed_nodes=pool.work["topology_changed_nodes"] | coarse_seed)
+        suffix_cache = update_encoder(suffix, coarse_update, suffix_cache, mode=mode, simulation_steps=1,
+                                      dynamics=model.snn_dynamics, active_graphs=active_graphs,
+                                      input_changed_sources=pool.work["input_changed_sources"])
+        pool_work = {key: value for key, value in pool.work.items() if not isinstance(value, torch.Tensor)}
+        work.append(({**prefix_cache.work, "pooling": pool_work}, suffix_cache.work))
+    return prefix_cache, HierarchyState(pool, suffix_cache), work
+
+
+def pack_hierarchy(model, states, raw_graph, sensor_size):
+    from .graph_pool import pool_graph
+    from .stream_model import _empty, _pack_previous
+    existing = [state.hierarchy if state is not None else None for state in states]
+    if not any(item is not None for item in existing):
+        return None
+    if any(state is not None and len(state.graph.timestamps) and state.hierarchy is None for state in states):
+        raise ValueError("Training/raw-only state cannot be reused as hierarchical inference state")
+    pools = []
+    for item in existing:
+        pools.append(item.pool if item is not None else pool_graph(
+            _empty(raw_graph.timestamps.device, model),
+            raw_graph.graph.node_features.new_empty((0, model.encoder.hidden_dim)), pool_config(model),
+            sensor_size=sensor_size, time_scale_seconds=model.stream_config["time_scale_seconds"]))
+    coarse, suffix = _pack_previous([
+        SimpleNamespace(graph=pool.graph, encoder=None if item is None else item.suffix)
+        for pool, item in zip(pools, existing)], raw_graph.timestamps.device)
+    values = {}
+    for key in ("raw_features", "counts", "feature_sums", "position_sums", "timestamp_sums",
+                "edge_refcounts", "edge_pseudo_sums"):
+        values[key] = torch.cat([getattr(pool, key) for pool in pools])
+    keys, assignments, offset = [], [], 0
+    for lane, pool in enumerate(pools):
+        key = pool.cluster_keys.clone()
+        key[:, 0] = lane
+        keys.append(key)
+        assignments.append(pool.raw_to_cluster + offset)
+        offset += len(pool.counts)
+    values.update(cluster_keys=torch.cat(keys), raw_to_cluster=torch.cat(assignments))
+    return HierarchyState(replace(pools[0], raw_graph=raw_graph, graph=coarse, work={}, **values), suffix)
+
+
+def split_hierarchy(value, raw_lanes, batch_size):
+    from .stream_model import _split_state
+    coarse_lanes = _split_state(value.pool.graph, value.suffix, batch_size)
+    result = []
+    pool = value.pool
+    for lane, ((raw, _prefix), (coarse, suffix)) in enumerate(zip(raw_lanes, coarse_lanes)):
+        raw_nodes = torch.nonzero(pool.raw_graph.node_batch == lane, as_tuple=True)[0]
+        nodes = torch.nonzero(pool.graph.node_batch == lane, as_tuple=True)[0]
+        edge_ids = torch.nonzero(pool.graph.node_batch[pool.graph.graph.edge_index[0]] == lane, as_tuple=True)[0]
+        inverse = torch.full_like(pool.counts, -1)
+        inverse[nodes] = torch.arange(len(nodes), device=nodes.device)
+        values = {key: getattr(pool, key)[nodes] for key in
+                  ("counts", "feature_sums", "position_sums", "timestamp_sums")}
+        values.update({key: getattr(pool, key)[edge_ids] for key in ("edge_refcounts", "edge_pseudo_sums")})
+        keys = pool.cluster_keys[nodes].clone()
+        keys[:, 0] = 0
+        result.append(HierarchyState(replace(
+            pool, raw_graph=raw, graph=coarse, raw_features=pool.raw_features[raw_nodes],
+            raw_to_cluster=inverse[pool.raw_to_cluster[raw_nodes]], cluster_keys=keys, work={}, **values), suffix))
+    return result
+~~~~~~~~
+
+# src/asgcn_unet/hierarchy_contract.py
+
+~~~~~~~~python
+"""Standard-library-only validation for the explicit v4 reconstruction design."""
+
+import math
+
+
+def validate_hierarchy_config(value, depth):
+    required = {"after_layer", "spatial_cell_pixels", "temporal_cell_seconds", "edge_pseudo"}
+    if not isinstance(value, dict) or set(value) != required:
+        raise ValueError("v4 requires explicit after_layer, spatial_cell_pixels, temporal_cell_seconds, edge_pseudo")
+    if type(value["after_layer"]) is not int or not 1 <= value["after_layer"] < depth:
+        raise ValueError("Pooling must have trained graph convolutions both before and after it")
+    for key in ("spatial_cell_pixels", "temporal_cell_seconds"):
+        item = value[key]
+        if isinstance(item, bool) or not isinstance(item, (int, float)) or not math.isfinite(item) or item <= 0:
+            raise ValueError(f"hierarchy_config.{key} must be positive and finite")
+    if value["edge_pseudo"] != "mean_fine_distance_over_radius":
+        raise ValueError("Coarse edges require the declared bounded fine-edge mean pseudo coordinate")
+    return dict(value)
+~~~~~~~~
+
+# src/asgcn_unet/implicit_model.py
+
+~~~~~~~~python
+"""Exact spline layers over streamed radius neighborhoods, without full edge storage.
+
+This changes storage/execution, not sampling, pooling or the IF clock contract.
+It does not claim original-paper reproduction or measured accelerator speed.
+"""
+
+from __future__ import annotations
+
+import torch
+
+from .graph import _safe_batch_norm
+from .implicit_spline import implicit_weighted_spline_sum
+from .ops import require_spline_backend
+
+
+def affine(layer, x, graph, destinations=None, *, omit_zero_sources=False):
+    require_spline_backend(layer.spline_backend, x.device)
+    # Projection is per node/control point, never per edge. Zero-valued SNN
+    # sources are removed BEFORE projection; they still contribute to degree.
+    active_sources = x.ne(0).any(dim=1) if omit_zero_sources else None
+    if destinations is not None and not torch.is_grad_enabled():
+        from .implicit_projection import selected_spline_sum
+
+        output, projected_sources, edges = selected_spline_sum(
+            layer, x, graph, destinations, active_sources=active_sources,
+        )
+        degree = graph.in_degree[destinations]
+        output = output / degree.to(output.dtype).clamp_min(1).unsqueeze(1)
+        if layer.root is not None:
+            output = output + x[destinations] @ layer.root
+        if layer.bias is not None:
+            output = output + layer.bias
+        return output, projected_sources, edges
+    edges = graph.edge_count
+    if destinations is not None:
+        used = torch.zeros(len(x), dtype=torch.bool, device=x.device)
+        edges = 0
+        for source, _destination, _distance in graph.iter_directed_neighbors(
+                destinations, active_sources=active_sources):
+            used[source] = True
+            edges += len(source)
+        support = torch.nonzero(used, as_tuple=True)[0]
+    elif active_sources is not None:
+        support = torch.nonzero(active_sources, as_tuple=True)[0]
+    else:
+        support = None
+    if support is not None:
+        values = torch.einsum("ni,kio->nko", x[support], layer.weight)
+        projected = values.new_zeros((len(x), layer.kernel_size, layer.out_channels))
+        projected = projected.index_copy(0, support, values)
+    else:
+        support = None
+        projected = torch.einsum("ni,kio->nko", x, layer.weight)
+    output = implicit_weighted_spline_sum(
+        projected, graph, selected_dest=destinations,
+        edge_chunk_size=layer.edge_chunk_size or graph.candidate_pair_budget,
+        output_dtype=x.dtype, backend=layer.spline_backend,
+        active_sources=active_sources,
+    )
+    degree = graph.in_degree if destinations is None else graph.in_degree[destinations]
+    output = output / degree.to(output.dtype).clamp_min(1).unsqueeze(1)
+    own = x if destinations is None else x[destinations]
+    if layer.root is not None:
+        output = output + own @ layer.root
+    if layer.bias is not None:
+        output = output + layer.bias
+    return output, len(x) if support is None else len(support), edges
+
+
+def forward_ann(encoder, graph, *, return_activations=False):
+    hidden, activations = graph.node_features, []
+    for layer in encoder.layers:
+        values, _, _ = affine(layer, hidden, graph)
+        values = values if layer._bn_is_folded else _safe_batch_norm(layer.norm, values)
+        hidden = torch.relu(values)
+        if return_activations:
+            activations.append(hidden)
+    return hidden, activations
+~~~~~~~~
+
+# src/asgcn_unet/implicit_projection.py
+
+~~~~~~~~python
+"""One-pass selected-neighbor projection/aggregation for no-grad inference.
+
+Each needed source is projected once, on its first encountered message chunk.
+No support-discovery radius pass or E-sized topology cache is retained. The
+O(N*K*C) projection cache is bounded by nodes, as in the original implementation;
+only bounded message chunks and an O(N) seen-source mask are added. This is not
+a training shortcut: gradient-enabled callers use the ordinary autograd path.
+"""
+
+from __future__ import annotations
+
+import torch
+
+from .implicit_spline import _message_chunks
+from .ops import _triton_ops, require_spline_backend
+
+
+def selected_spline_sum(layer, x, graph, destinations, *, active_sources=None):
+    """Return the unnormalized sum and actual projected-source/message counts.
+
+    The configured spline backend, message cast boundaries and full incoming
+    degree remain unchanged. Lazy matrix products can have a different row
+    count; comparisons require dtype-appropriate tolerance, not bitwise equality.
+    """
+    if torch.is_grad_enabled():
+        raise RuntimeError("Selected lazy projection is inference-only; use the autograd spline path")
+    require_spline_backend(layer.spline_backend, x.device)
+    graph.validate_integrity()
+    index = graph.index
+    index.validate_destinations(destinations)
+    seen = torch.zeros(len(x), dtype=torch.bool, device=x.device)
+    output = x.new_zeros((destinations.numel(), layer.out_channels))
+    projected = None
+    projected_sources = message_edges = 0
+    chunk_size = layer.edge_chunk_size or graph.candidate_pair_budget
+    native = _triton_ops() if layer.spline_backend == "triton" else None
+    for source, destination, indices, basis in _message_chunks(
+            index, destinations, active_sources, layer.kernel_size, chunk_size):
+        if not source.numel():
+            continue
+        unseen = torch.unique(source[~seen[source]], sorted=True)
+        if unseen.numel():
+            values = torch.einsum("ni,kio->nko", x[unseen], layer.weight)
+            if projected is None:
+                # Allocate in actual projection dtype, including explicit AMP.
+                projected = values.new_zeros((len(x), layer.kernel_size, layer.out_channels))
+            projected[unseen] = values
+            seen[unseen] = True
+            projected_sources += unseen.numel()
+        if projected is None:
+            raise RuntimeError("Nonempty message chunk has no initialized source projection")
+        message_edges += source.numel()
+        if native is not None:
+            native.spline_forward(projected, source, destination, indices, basis, output, chunk_size)
+        elif layer.spline_backend == "torch_fused":
+            values = projected[source[:, None], indices]
+            messages = values * basis[:, :, None].to(values.dtype)
+            output.index_add_(0, destination, messages.to(x.dtype).sum(dim=1))
+        else:
+            for active_basis in range(2):
+                values = projected[source, indices[:, active_basis]]
+                messages = values * basis[:, active_basis, None].to(values.dtype)
+                output.index_add_(0, destination, messages.to(x.dtype))
+    return output, projected_sources, message_edges
+~~~~~~~~
+
+# src/asgcn_unet/implicit_radius.py
+
+~~~~~~~~python
+"""Exact radius adjacency stored as O(N) nodes and a cached occupied-cell index.
+
+There is deliberately no ``edge_index`` placeholder: consumers must explicitly
+support this representation. Neighbors are regenerated in bounded chunks, without
+changing the strict float64 radius predicate, node set, or independent streams.
+The index is immutable geometry, not a differentiable coordinate operator.
+"""
+
+from __future__ import annotations
+
+import math
+from numbers import Real
+
+import torch
+
+from .radius_candidates import coordinate_bounds, prune_cell_counts
+
+
+def _positive_integer(value, name):
+    if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+        raise ValueError(f"{name} must be a positive integer")
+
+
+def _validate_geometry(positions, node_batch, batch_size, radius, position_dims,
+                       chunk_size, candidate_pair_budget):
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 0:
+        raise ValueError("batch_size must be a nonnegative integer")
+    if isinstance(radius, bool) or not isinstance(radius, Real) or not math.isfinite(radius) or radius <= 0:
+        raise ValueError("radius must be finite and positive")
+    if isinstance(position_dims, bool) or not isinstance(position_dims, int) or not 1 <= position_dims <= 4:
+        raise ValueError("position_dims must be an integer from 1 to 4")
+    _positive_integer(chunk_size, "chunk_size")
+    _positive_integer(candidate_pair_budget, "candidate_pair_budget")
+    if (not isinstance(positions, torch.Tensor) or positions.layout != torch.strided
+            or positions.ndim != 2 or positions.shape[1] != 4 or not positions.is_floating_point()):
+        raise ValueError("positions must be a floating strided tensor with shape [N,4]")
+    if positions.requires_grad:
+        raise ValueError("Implicit radius positions are fixed input geometry; position gradients are unsupported")
+    if (not isinstance(node_batch, torch.Tensor) or node_batch.layout != torch.strided
+            or node_batch.shape != (positions.shape[0],) or node_batch.dtype != torch.long
+            or node_batch.device != positions.device):
+        raise ValueError("node_batch must be a long [N] tensor on the positions device")
+    if not bool(torch.stack((torch.isfinite(positions).all(),
+                            ((node_batch >= 0) & (node_batch < batch_size)).all())).all()):
+        raise ValueError("positions must be finite and node_batch must identify an independent stream")
+
+
+def _version(tensor):
+    # Inference-mode tensors intentionally have no PyTorch version counter. They
+    # are still immutable by contract; ordinary/autograd tensors are checked.
+    return None if torch.is_inference(tensor) else tensor._version
+
+
+class ImplicitRadiusIndex:
+    """An index-only builder, reusable across layers, ticks, and backward.
+
+    Building the index does not enumerate edges. The caller owns the tensors and
+    must not mutate geometry while the index is alive (including inference mode).
+    All streams share a tensor index; no Python per-stream graph loop is used.
+    """
+
+    def __init__(self, positions, node_batch, *, batch_size, radius, position_dims=3,
+                 chunk_size=512, candidate_pair_budget=1_048_576):
+        _validate_geometry(positions, node_batch, batch_size, radius, position_dims,
+                           chunk_size, candidate_pair_budget)
+        self.positions, self.node_batch = positions, node_batch
+        self.batch_size, self.radius = batch_size, float(radius)
+        self.position_dims, self.chunk_size = position_dims, chunk_size
+        self.candidate_pair_budget = candidate_pair_budget
+        self._versions = (_version(positions), _version(node_batch))
+        if positions.shape[0]:
+            # Lazy import avoids graph/stream_graph dispatch import cycles.
+            from .stream_graph import _occupied_cells
+
+            self._rows, self._occupied, self._sorted_nodes, self._boundaries = _occupied_cells(
+                positions, node_batch, batch_size, self.radius, position_dims,
+            )
+        else:
+            self._rows = node_batch.new_empty((0, position_dims + 1))
+            self._occupied = self._rows
+            self._sorted_nodes = node_batch.new_empty(0)
+            self._boundaries = node_batch.new_empty((2, 0))
+        axis = node_batch.new_tensor((-1, 0, 1))
+        self._offsets = torch.cartesian_prod(*([axis] * position_dims)).reshape(-1, position_dims)
+        self._bounds = coordinate_bounds(positions, self._sorted_nodes, self._boundaries, position_dims)
+
+    def validate_integrity(self):
+        if self._versions != (_version(self.positions), _version(self.node_batch)):
+            raise RuntimeError("Implicit radius geometry was modified after its index was built")
+
+    def validate_destinations(self, destinations):
+        if (not isinstance(destinations, torch.Tensor) or destinations.layout != torch.strided
+                or destinations.ndim != 1 or destinations.dtype != torch.long
+                or destinations.device != self.positions.device):
+            raise ValueError("destinations must be a long vector on the graph device")
+        if not bool(((destinations >= 0) & (destinations < self.positions.shape[0])).all()):
+            raise ValueError("destinations contain an invalid node index")
+        if destinations.unique().numel() != destinations.numel():
+            raise ValueError("destinations must be unique")
+
+    def iter_directed_neighbors(self, destinations=None, *, stats=None, active_sources=None):
+        """Yield source, destination, distance/radius for all incoming neighbors.
+
+        Destination selection never restricts sources or the full degree. Each
+        directed pair appears exactly once. Candidate scratch is bounded even for
+        a dense cell; chunking does not cap/truncate edges. A scalar candidate
+        count is required per query chunk by this portable implementation.
+        An optional source mask restricts MESSAGE queries, not graph degrees.
+        Inactive sources are excluded before pair expansion/distance work.
+        """
+        from .stream_graph import _cell_lookup
+
+        self.validate_integrity()
+        if destinations is None:
+            destinations = torch.arange(self.positions.shape[0], device=self.positions.device)
+        else:
+            self.validate_destinations(destinations)
+        if stats is not None:
+            for name in ("query_chunks", "candidate_chunks", "candidate_pairs_visited", "peak_candidate_pairs"):
+                stats.setdefault(name, 0)
+        sorted_nodes, boundaries = self._sorted_nodes, self._boundaries
+        if active_sources is not None:
+            if (not isinstance(active_sources, torch.Tensor) or active_sources.layout != torch.strided
+                    or active_sources.shape != (self.positions.shape[0],)
+                    or active_sources.dtype != torch.bool or active_sources.device != self.positions.device):
+                raise ValueError("active_sources must be a bool [N] tensor on the graph device")
+            active = active_sources[sorted_nodes]
+            prefix = torch.cat((self.node_batch.new_zeros(1), active.long().cumsum(0)))
+            starts = prefix[boundaries[0]]
+            counts = prefix[boundaries[0] + boundaries[1]] - starts
+            boundaries = torch.stack((starts, counts))
+            sorted_nodes = sorted_nodes[active]
+        if not sorted_nodes.numel():
+            return
+        cells_per_query = self._offsets.shape[0]
+        for query_start in range(0, destinations.numel(), self.chunk_size):
+            selected = destinations[query_start:query_start + self.chunk_size]
+            query_rows = self._rows[selected, None, :].expand(-1, cells_per_query, -1).clone()
+            query_rows[:, :, 1:] += self._offsets
+            cell_ids = _cell_lookup(self._occupied, query_rows.reshape(-1, self.position_dims + 1))
+            safe_ids = cell_ids.clamp_min(0)
+            counts = prune_cell_counts(
+                self.positions[selected], cell_ids.reshape(-1, cells_per_query),
+                boundaries, self._bounds, self.radius,
+            ).flatten()
+            cell_starts = boundaries[0, safe_ids]
+            ends = counts.cumsum(0)
+            starts = ends - counts
+            candidates = int(ends[-1])
+            if stats is not None:
+                stats["query_chunks"] += 1
+                stats["candidate_pairs_visited"] += candidates
+            for start in range(0, candidates, self.candidate_pair_budget):
+                stop = min(start + self.candidate_pair_budget, candidates)
+                flat = torch.arange(start, stop, device=self.positions.device)
+                groups = torch.searchsorted(ends, flat, right=True)
+                destination = selected[groups // cells_per_query]
+                source = sorted_nodes[cell_starts[groups] + flat - starts[groups]]
+                nonself = source != destination
+                source, destination = source[nonself], destination[nonself]
+                distances = torch.linalg.vector_norm(
+                    (self.positions[source, :self.position_dims].double()
+                     - self.positions[destination, :self.position_dims].double()) / self.radius, dim=1,
+                )
+                keep = distances < 1
+                if stats is not None:
+                    stats["candidate_chunks"] += 1
+                    stats["peak_candidate_pairs"] = max(stats["peak_candidate_pairs"], stop - start)
+                yield source[keep], destination[keep], distances[keep].to(self.positions.dtype)[:, None]
+
+
+class ImplicitRadiusGraph:
+    """Explicit adjacency representation with exact cached node degrees/counts.
+
+    ``from_counted_nodes`` trusts the caller's geometric degree calculation after
+    checking cardinality consistency. Untrusted checkpoint restoration must also
+    reconstruct/verify the geometry. The occupied-cell index is built lazily so
+    pack/split/clone operations do not enumerate edges or unnecessarily index them.
+    """
+
+    @classmethod
+    def from_counted_nodes(cls, node_features, positions, node_batch, in_degree, *,
+                           batch_size, radius, position_dims=3, chunk_size=512,
+                           candidate_pair_budget=1_048_576, edge_counts=None,
+                           index=None, max_graph_edges=None):
+        _validate_geometry(positions, node_batch, batch_size, radius, position_dims,
+                           chunk_size, candidate_pair_budget)
+        count = positions.shape[0]
+        if (not isinstance(node_features, torch.Tensor) or node_features.layout != torch.strided
+                or node_features.shape != (count, 4) or not node_features.is_floating_point()
+                or node_features.device != positions.device):
+            raise ValueError("node_features must be a floating [N,4] tensor on the graph device")
+        if (not isinstance(in_degree, torch.Tensor) or in_degree.layout != torch.strided
+                or in_degree.shape != (count,) or in_degree.dtype != torch.long
+                or in_degree.device != positions.device):
+            raise ValueError("in_degree must be a long [N] tensor on the graph device")
+        calculated = node_batch.new_zeros(batch_size).index_add_(0, node_batch, in_degree)
+        if edge_counts is None:
+            edge_counts = calculated
+        if (not isinstance(edge_counts, torch.Tensor) or edge_counts.layout != torch.strided
+                or edge_counts.shape != (batch_size,) or edge_counts.dtype != torch.long
+                or edge_counts.device != positions.device):
+            raise ValueError("edge_counts must be a long [B] tensor on the graph device")
+        node_counts = torch.bincount(node_batch, minlength=batch_size)
+        if not bool(torch.stack((
+            torch.isfinite(node_features).all(), (in_degree >= 0).all(),
+            (in_degree < node_counts[node_batch]).all(), (edge_counts >= 0).all(),
+            (edge_counts % 2 == 0).all(), (calculated == edge_counts).all(),
+        )).all()):
+            raise ValueError("Invalid implicit graph features, node degrees, or directed edge counts")
+        if max_graph_edges is not None:
+            _positive_integer(max_graph_edges, "max_graph_edges")
+            if bool((edge_counts > max_graph_edges).any()):
+                raise RuntimeError(f"Stream radius graph exceeded max_graph_edges={max_graph_edges:,}; no edges were truncated")
+        if index is not None:
+            if (not isinstance(index, ImplicitRadiusIndex) or index.positions is not positions
+                    or index.node_batch is not node_batch or index.batch_size != batch_size
+                    or index.radius != float(radius) or index.position_dims != position_dims
+                    or index.chunk_size != chunk_size or index.candidate_pair_budget != candidate_pair_budget):
+                raise ValueError("Provided implicit radius index does not match graph geometry/configuration")
+            index.validate_integrity()
+        result = cls()
+        result.node_features, result.positions, result.node_batch = node_features, positions, node_batch
+        result.in_degree, result.edge_counts = in_degree, edge_counts
+        result.edge_count = int(edge_counts.sum())
+        result.batch_size, result.radius, result.position_dims = batch_size, float(radius), position_dims
+        result.chunk_size, result.candidate_pair_budget = chunk_size, candidate_pair_budget
+        result._index = index
+        result._versions = (_version(positions), _version(node_batch), _version(in_degree), _version(edge_counts))
+        return result
+
+    def validate_integrity(self):
+        if self._versions != tuple(_version(value) for value in (
+                self.positions, self.node_batch, self.in_degree, self.edge_counts)):
+            raise RuntimeError("Implicit radius geometry/degrees were modified after graph creation")
+
+    @property
+    def index(self):
+        self.validate_integrity()
+        if self._index is None:
+            self._index = ImplicitRadiusIndex(
+                self.positions, self.node_batch, batch_size=self.batch_size, radius=self.radius,
+                position_dims=self.position_dims, chunk_size=self.chunk_size,
+                candidate_pair_budget=self.candidate_pair_budget,
+            )
+        return self._index
+
+    def iter_directed_neighbors(self, destinations=None, *, stats=None, active_sources=None):
+        return self.index.iter_directed_neighbors(destinations, stats=stats, active_sources=active_sources)
+
+
+def build_implicit_radius_graph(node_features, positions, node_batch, *, batch_size,
+                                radius, position_dims=3, chunk_size=512,
+                                candidate_pair_budget=1_048_576, max_graph_edges=None):
+    """Count exact degrees once without retaining any edge-size tensor."""
+    index = ImplicitRadiusIndex(
+        positions, node_batch, batch_size=batch_size, radius=radius, position_dims=position_dims,
+        chunk_size=chunk_size, candidate_pair_budget=candidate_pair_budget,
+    )
+    degree = node_batch.new_zeros(positions.shape[0])
+    for _, destination, _ in index.iter_directed_neighbors():
+        degree.index_add_(0, destination, torch.ones_like(destination))
+    return ImplicitRadiusGraph.from_counted_nodes(
+        node_features, positions, node_batch, degree, batch_size=batch_size, radius=radius,
+        position_dims=position_dims, chunk_size=chunk_size,
+        candidate_pair_budget=candidate_pair_budget, index=index, max_graph_edges=max_graph_edges,
+    )
+~~~~~~~~
+
+# src/asgcn_unet/implicit_spline.py
+
+~~~~~~~~python
+"""Spline aggregation with O(N) saved topology and recomputed edge chunks.
+
+Projection, root/bias, full-degree normalization, and BN remain with the caller.
+Ordinary first-order backward retains no E-sized endpoints or basis tensors.
+Higher derivatives can retain their own autograd graph and do not have that bound.
+Coordinates are fixed non-gradient input geometry. Different accumulation order
+requires dtype-appropriate tolerances, not a bitwise-equivalence claim.
+"""
+
+from __future__ import annotations
+
+import torch
+
+from .implicit_radius import ImplicitRadiusGraph, _positive_integer
+from .ops import _triton_ops, require_spline_backend
+
+
+def _message_chunks(index, selected_dest, active_sources, kernel_size, edge_chunk_size):
+    local_map = None
+    if selected_dest is not None:
+        local_map = index.node_batch.new_full((index.positions.shape[0],), -1)
+        local_map[selected_dest] = torch.arange(selected_dest.numel(), device=selected_dest.device)
+    for source, destination, pseudo in index.iter_directed_neighbors(
+            selected_dest, active_sources=active_sources):
+        for start in range(0, source.numel(), edge_chunk_size):
+            stop = min(start + edge_chunk_size, source.numel())
+            local_destination = destination[start:stop]
+            if local_map is not None:
+                local_destination = local_map[local_destination]
+            # Identical degree-1 formula to linear_open_bspline_basis. The index
+            # already guarantees finite pseudo in [0,1], so do not repeat its
+            # host-synchronizing validation reductions for every edge chunk.
+            scaled = pseudo[start:stop, 0] * float(kernel_size - 1)
+            cell = torch.floor(scaled)
+            left = cell.to(torch.long).remainder(kernel_size)
+            indices = torch.stack((left, (left + 1).remainder(kernel_size)), dim=-1)
+            right_weight = scaled - cell
+            basis = torch.stack((1.0 - right_weight, right_weight), dim=-1)
+            yield source[start:stop], local_destination, indices, basis
+
+
+class _ImplicitSplineSum(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, projected, index, selected_dest, active_sources, edge_chunk_size, output_dtype, backend):
+        ctx.projected_shape, ctx.projected_dtype = projected.shape, projected.dtype
+        ctx.index, ctx.edge_chunk_size, ctx.backend = index, edge_chunk_size, backend
+        ctx.has_selection, ctx.has_active_sources = selected_dest is not None, active_sources is not None
+        saved = (index.positions, index.node_batch)
+        if selected_dest is not None:
+            saved += (selected_dest,)
+        if active_sources is not None:
+            saved += (active_sources,)
+        ctx.save_for_backward(*saved)
+        count = projected.shape[0] if selected_dest is None else selected_dest.numel()
+        output = torch.zeros((count, projected.shape[2]), dtype=output_dtype, device=projected.device)
+        native = _triton_ops() if backend == "triton" else None
+        for source, destination, indices, basis in _message_chunks(
+                index, selected_dest, active_sources, projected.shape[1], edge_chunk_size):
+            if native is not None:
+                native.spline_forward(projected, source, destination, indices, basis, output, edge_chunk_size)
+            elif backend == "torch_fused":
+                values = projected[source[:, None], indices]
+                messages = values * basis[:, :, None].to(values.dtype)
+                output.index_add_(0, destination, messages.to(output_dtype).sum(dim=1))
+            else:
+                for active_basis in range(2):
+                    values = projected[source, indices[:, active_basis]]
+                    messages = values * basis[:, active_basis, None].to(values.dtype)
+                    output.index_add_(0, destination, messages.to(output_dtype))
+        return output
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        saved = ctx.saved_tensors  # Enforce PyTorch version checks on geometry/masks.
+        selected_dest = saved[2] if ctx.has_selection else None
+        active_sources = saved[2 + int(ctx.has_selection)] if ctx.has_active_sources else None
+        grad_projected = torch.zeros(ctx.projected_shape, dtype=ctx.projected_dtype, device=grad_output.device)
+        # As with the existing explicit Triton operator, higher-order derivatives
+        # use differentiable tensor arithmetic, explicitly documented above.
+        native = _triton_ops() if ctx.backend == "triton" and not torch.is_grad_enabled() else None
+        for source, destination, indices, basis in _message_chunks(
+                ctx.index, selected_dest, active_sources, ctx.projected_shape[1], ctx.edge_chunk_size):
+            if native is not None:
+                native.spline_backward(
+                    grad_output, source, destination, indices, basis, grad_projected,
+                    None, None, ctx.projected_shape, ctx.projected_dtype, ctx.edge_chunk_size,
+                )
+            else:
+                messages = grad_output[destination].to(ctx.projected_dtype)
+                for active_basis in range(2):
+                    weighted = messages * basis[:, active_basis, None].to(ctx.projected_dtype)
+                    grad_projected.index_put_((source, indices[:, active_basis]), weighted, accumulate=True)
+        return grad_projected, None, None, None, None, None, None
+
+
+def implicit_weighted_spline_sum(projected, graph, selected_dest=None, *, edge_chunk_size=65_536,
+                                 output_dtype=None, backend="torch", active_sources=None):
+    """Unnormalized incoming message sum; optionally omit inactive source messages.
+
+    ``active_sources`` does not change graph topology or the normalization degree.
+    Omitted sources have zero message derivative. Selected output rows retain the
+    supplied unique destination order. Each configured backend executes itself;
+    unsupported CUDA/Triton settings fail explicitly, without a torch fallback.
+    CUDA performance and peak memory still require representative measurement.
+    """
+    if not isinstance(graph, ImplicitRadiusGraph):
+        raise TypeError("implicit_weighted_spline_sum requires ImplicitRadiusGraph")
+    graph.validate_integrity()
+    if (not isinstance(projected, torch.Tensor) or projected.layout != torch.strided
+            or projected.ndim != 3 or projected.shape[0] != graph.positions.shape[0]
+            or projected.shape[1] < 2 or projected.shape[2] < 1
+            or not projected.is_floating_point() or projected.device != graph.positions.device):
+        raise ValueError("projected must be a floating [N,K>=2,C>=1] tensor on the graph device")
+    _positive_integer(edge_chunk_size, "edge_chunk_size")
+    output_dtype = projected.dtype if output_dtype is None else output_dtype
+    if output_dtype not in {torch.float16, torch.bfloat16, torch.float32, torch.float64}:
+        raise ValueError("output_dtype must be a real floating-point dtype")
+    require_spline_backend(backend, projected.device)
+    index = graph.index
+    if selected_dest is not None:
+        index.validate_destinations(selected_dest)
+    if active_sources is not None and (
+            not isinstance(active_sources, torch.Tensor) or active_sources.layout != torch.strided
+            or active_sources.shape != (projected.shape[0],) or active_sources.dtype != torch.bool
+            or active_sources.device != projected.device):
+        raise ValueError("active_sources must be a bool [N] tensor on the graph device")
+    return _ImplicitSplineSum.apply(
+        projected, index, selected_dest, active_sources, edge_chunk_size, output_dtype, backend,
+    )
+~~~~~~~~
+
+# src/asgcn_unet/implicit_stream.py
+
+~~~~~~~~python
+"""Append/expire exact implicit radius graphs without a materialized edge list."""
+
+from __future__ import annotations
+
+import torch
+
+from .implicit_radius import ImplicitRadiusGraph, ImplicitRadiusIndex
+
+
+def evolve(previous, features, positions, timestamps, node_batch, cutoffs, *,
+           radius, position_dims, max_graph_edges, chunk_size):
+    from .stream_graph import GraphUpdate, StreamGraph, _check_guard, _validate_nodes
+
+    if previous is not None and not isinstance(previous.graph, ImplicitRadiusGraph):
+        raise ValueError("Cannot change graph storage inside an existing stream")
+    arriving = torch.nonzero(timestamps >= cutoffs[node_batch], as_tuple=True)[0]
+    if previous is None:
+        retained = arriving.new_empty(0)
+        removed = arriving.new_empty(0)
+        old_count = 0
+    else:
+        _validate_nodes(previous.graph.node_features, previous.graph.positions,
+                        previous.timestamps, previous.node_batch, cutoffs)
+        old_graph = previous.graph
+        if (old_graph.radius != radius or old_graph.position_dims != position_dims
+                or old_graph.node_features.dtype != features.dtype
+                or old_graph.positions.dtype != positions.dtype):
+            raise ValueError("Implicit stream geometry/dtype changed")
+        old_count = len(previous.timestamps)
+        survives = previous.timestamps >= cutoffs[previous.node_batch]
+        retained = torch.nonzero(survives, as_tuple=True)[0]
+        removed = torch.nonzero(~survives, as_tuple=True)[0]
+    def join(name, incoming):
+        values = [incoming[arriving]]
+        if previous is not None:
+            old = getattr(previous, name) if name in {"timestamps", "node_batch"} else getattr(previous.graph, name)
+            values.insert(0, old[retained])
+        return torch.cat(values)
+    new_features = join("node_features", features)
+    new_positions = join("positions", positions)
+    new_times = join("timestamps", timestamps)
+    new_batch = join("node_batch", node_batch)
+    n, retained_count = len(new_times), len(retained)
+    old_indices = torch.cat((retained, arriving.new_full((len(arriving),), -1)))
+    changed = torch.arange(n, device=features.device) >= retained_count
+    old_to_new = arriving.new_full((old_count,), -1)
+    old_to_new[retained] = torch.arange(retained_count, device=features.device)
+    degree = arriving.new_zeros(n)
+    if previous is not None:
+        degree[:retained_count] = previous.graph.in_degree[retained]
+        # Query only removed destinations. Each surviving source loses exactly
+        # one incoming neighbor per returned (source, removed) pair.
+        for source, _destination, _distance in previous.graph.iter_directed_neighbors(removed):
+            surviving_source = old_to_new[source]
+            surviving_source = surviving_source[surviving_source >= 0]
+            degree.index_add_(0, surviving_source, -torch.ones_like(surviving_source))
+            changed[surviving_source] = True
+    index = None
+    if len(arriving):
+        index = ImplicitRadiusIndex(new_positions, new_batch, batch_size=len(cutoffs),
+                                    radius=radius, position_dims=position_dims, chunk_size=chunk_size)
+        destinations = torch.arange(retained_count, n, device=features.device)
+        for source, destination, _distance in index.iter_directed_neighbors(destinations):
+            degree.index_add_(0, destination, torch.ones_like(destination))
+            # Both directions between two arrivals are already enumerated by
+            # the destination query. Only old sources need the reverse update.
+            old_sources = source[source < retained_count]
+            degree.index_add_(0, old_sources, torch.ones_like(old_sources))
+            changed[old_sources] = True
+    edge_counts = degree.new_zeros(len(cutoffs))
+    edge_counts.index_add_(0, new_batch, degree)
+    _check_guard(edge_counts, max_graph_edges)
+    graph = ImplicitRadiusGraph.from_counted_nodes(
+        new_features, new_positions, new_batch, degree, batch_size=len(cutoffs),
+        radius=radius, position_dims=position_dims, chunk_size=chunk_size,
+        edge_counts=edge_counts, index=index,
+    )
+    return GraphUpdate(StreamGraph(graph, new_batch, new_times), old_indices, changed)
+
+
+class ImplicitIncidence:
+    """Bounded incident-neighbor queries; no E-sized sort or CSR expansion."""
+
+    def __init__(self, graph):
+        self.graph = graph
+
+    def dependants(self, graph, sources):
+        selected = torch.zeros(len(graph.node_features), device=sources.device, dtype=torch.bool)
+        selected[sources] = True
+        # The graph is symmetric: querying incoming neighbors of changed sources
+        # returns exactly their outgoing dependants, without constructing E.
+        for neighbor, _destination, _distance in graph.iter_directed_neighbors(sources):
+            selected[neighbor] = True
+        return torch.nonzero(selected, as_tuple=True)[0]
+
+
+def split_state(graph, cache, batch_size):
+    """One packed node permutation followed by lane-owned views and metadata."""
+    from dataclasses import fields, replace
+
+    from .stream_graph import StreamGraph
+
+    order = torch.argsort(graph.node_batch, stable=True)
+    node_counts = torch.bincount(graph.node_batch, minlength=batch_size)
+    counts = torch.stack((node_counts, graph.graph.edge_counts)).cpu().tolist()
+    features = graph.graph.node_features[order]
+    positions = graph.graph.positions[order]
+    degrees = graph.graph.in_degree[order]
+    timestamps = graph.timestamps[order]
+    cached = {}
+    if cache is not None:
+        for item in fields(cache):
+            value = getattr(cache, item.name)
+            if isinstance(value, torch.Tensor):
+                cached[item.name] = value[order]
+            elif isinstance(value, tuple):
+                cached[item.name] = tuple(tensor[order] for tensor in value)
+    result, start = [], 0
+    for lane_id, (count, _edge_count) in enumerate(zip(*counts, strict=True)):
+        stop = start + count
+        batch = graph.node_batch.new_zeros(count)
+        raw = ImplicitRadiusGraph.from_counted_nodes(
+            features[start:stop], positions[start:stop], batch, degrees[start:stop],
+            batch_size=1, radius=graph.graph.radius, position_dims=graph.graph.position_dims,
+            chunk_size=graph.graph.chunk_size, candidate_pair_budget=graph.graph.candidate_pair_budget,
+            edge_counts=graph.graph.edge_counts[lane_id:lane_id + 1],
+        )
+        lane = StreamGraph(raw, batch, timestamps[start:stop])
+        lane_cache = None
+        if cache is not None:
+            values = {key: value[start:stop] if isinstance(value, torch.Tensor)
+                      else tuple(tensor[start:stop] for tensor in value)
+                      for key, value in cached.items()}
+            lane_cache = replace(cache, graph=lane, work={}, **values)
+        result.append((lane, lane_cache))
+        start = stop
+    return result
 ~~~~~~~~
 
 # src/asgcn_unet/inference_profile.py
@@ -29903,9 +32069,11 @@ class ASGCNUNet(nn.Module):
         transformer_config: dict[str, Any] | None = None,
         graph_execution: str = "static_window",
         stream_config: dict[str, Any] | None = None,
+        graph_storage: str = "materialized",
+        hierarchy_config: dict[str, Any] | None = None,
     ) -> None:
         super().__init__()
-        if int(architecture_version) not in {PAPER_CORE_VERSION, 3}:
+        if int(architecture_version) not in {PAPER_CORE_VERSION, 3, 4}:
             raise ValueError(
                 f"architecture_version must be {PAPER_CORE_VERSION}; legacy edge-MLP "
                 "checkpoints are intentionally incompatible"
@@ -29914,8 +32082,8 @@ class ASGCNUNet(nn.Module):
             raise ValueError("graph_execution must be static_window or event_driven")
         if graph_execution == "event_driven":
             from .stream_model import validate_stream_config
-            if (architecture_version != 3 or encoder_kind != "graph" or decoder_kind != "unet"
-                    or event_sampling_factor != 1 or graph_position_dims != 3):
+            if (architecture_version not in {3, 4} or encoder_kind != "graph" or decoder_kind != "unet"
+                    or (architecture_version == 3 and event_sampling_factor != 1) or graph_position_dims != 3):
                 raise ValueError("Event-driven ASGCN v3 requires graph + U-Net, R=1 and x/y/time topology")
             self.stream_config = validate_stream_config(stream_config)
         elif stream_config is not None or architecture_version != PAPER_CORE_VERSION:
@@ -29923,6 +32091,18 @@ class ASGCNUNet(nn.Module):
         else:
             self.stream_config = None
         self.graph_execution = graph_execution
+        if architecture_version == 4:
+            from .hierarchy import validate_hierarchy_config
+            self.hierarchy_config = validate_hierarchy_config(hierarchy_config, graph_layers)
+        elif hierarchy_config is not None:
+            raise ValueError("A pooling hierarchy is a distinct v4 architecture, not a v2/v3 checkpoint option")
+        else:
+            self.hierarchy_config = None
+        if graph_storage not in {"materialized", "implicit_radius"}:
+            raise ValueError("graph_storage must be materialized or implicit_radius")
+        if graph_storage != "materialized" and graph_execution != "event_driven":
+            raise ValueError("Implicit radius storage requires the explicit streaming input contract")
+        self.graph_storage = graph_storage
         if graph_operator != "spline":
             raise ValueError("graph_operator must be 'spline' for the ASGCN paper core")
         if spline_backend not in SPLINE_BACKENDS:
@@ -30065,8 +32245,14 @@ class ASGCNUNet(nn.Module):
                 "encoder_kind": "graph", "decoder_kind": "unet",
                 "encoder_layers": len(self.encoder.layers), "encoder_output_channels": self.encoder.hidden_dim,
                 "spiking_supported": True, "topology_kind": "stateful_physical_radius_graph",
-                "input_representation": "physical_seconds_all_events_causal_frame_offset_feature",
+                "input_representation": "physical_seconds_sequence_uniform_sampling_causal_frame_offset_feature"
+                if self.architecture_version == 4 else "physical_seconds_all_events_causal_frame_offset_feature",
+                **({"architecture_version": 4, "hierarchy_config": self.hierarchy_config,
+                    "pooling": "mean_features_quotient_edges_then_convolution",
+                    "sampling": {"factor": self.event_sampling_factor, "phase": "persistent_sequence_ordinal"}}
+                   if self.architecture_version == 4 else {}),
                 "graph_execution": "event_driven", "stream_config": dict(self.stream_config),
+                "graph_storage": self.graph_storage,
                 "rasterization": "current_window_per_cell_feature_mean",
                 "recurrent": self.decoder.recurrent is not None,
                 "training": "synchronous_full_causal_window_ann",
@@ -33640,6 +35826,162 @@ def verify_training_preflight(
 __all__ = ["training_preflight", "verify_training_preflight"]
 ~~~~~~~~
 
+# src/asgcn_unet/quotient_accumulator.py
+
+~~~~~~~~python
+"""Bounded tensor hash accumulation of coarse-edge witnesses, never raw E storage.
+
+Only each incoming chunk is coalesced. Existing Q keys are rehashed on geometric
+capacity growth and sorted once on export, not sorted afresh for every E chunk.
+Hash collisions are resolved by full two-column key equality, never truncated.
+"""
+
+import torch
+
+
+class QuotientAccumulator:
+    def __init__(self, pairs, counts, sums):
+        self.device = pairs.device
+        self.capacity = 0
+        self.used = 0
+        self.rehashes = 0
+        self.probe_rounds = 0
+        self.chunks = 0
+        self.keys = pairs.new_empty((0, 2))
+        self.counts = counts.new_empty(0)
+        self.sums = sums.new_empty((0, 1))
+        self._reserve(len(pairs))
+        self._insert_unique(pairs, counts, sums)
+
+    def _slots(self, pairs):
+        # Signed int64 wraparound is intentional hash arithmetic. Stored full
+        # keys, not hashes, decide equality; large node IDs cannot alias edges.
+        mixed = (pairs[:, 0] * -7046029254386353131) ^ (pairs[:, 1] * -4417276706812531889)
+        mixed = (mixed ^ (mixed >> 30)) * -4658895280553007687
+        mixed = (mixed ^ (mixed >> 27)) * -7723592293110705685
+        return (mixed ^ (mixed >> 31)) & (self.capacity - 1)
+
+    def _reserve(self, maximum_keys):
+        capacity = max(16, self.capacity)
+        while capacity < 2 * maximum_keys:
+            capacity *= 2
+        if capacity == self.capacity:
+            return
+        occupied = self.keys[:, 0] >= 0
+        keys, counts, sums = self.keys[occupied], self.counts[occupied], self.sums[occupied]
+        self.capacity = capacity
+        self.keys = torch.full((capacity, 2), -1, dtype=torch.long, device=self.device)
+        self.counts = torch.zeros(capacity, dtype=torch.long, device=self.device)
+        self.sums = torch.zeros((capacity, 1), dtype=torch.float64, device=self.device)
+        self.used = 0
+        self.rehashes += 1
+        self._insert_unique(keys, counts, sums)
+
+    def _insert_unique(self, pairs, counts, sums):
+        pending = torch.arange(len(pairs), device=self.device)
+        slots = self._slots(pairs)
+        rounds = 0
+        while pending.numel():
+            rounds += 1
+            if rounds > self.capacity:
+                raise RuntimeError("Quotient hash table unexpectedly exhausted; no edges were dropped")
+            self.probe_rounds += 1
+            current = self.keys[slots]
+            matched = (current == pairs[pending]).all(dim=1)
+            matched_slots = slots[matched]
+            self.counts.index_add_(0, matched_slots, counts[pending[matched]])
+            self.sums.index_add_(0, matched_slots, sums[pending[matched]])
+            empty = torch.nonzero(current[:, 0] < 0, as_tuple=True)[0]
+            # Concurrent candidates for one empty slot choose one winner.
+            # The temporary reduction is chunk-sized, not table/Q-sized.
+            unique_slots, inverse = torch.unique(slots[empty], return_inverse=True)
+            winners = torch.full((len(unique_slots),), len(pending), dtype=torch.long, device=self.device)
+            winners.scatter_reduce_(0, inverse, empty, reduce="amin", include_self=True)
+            chosen = pending[winners]
+            self.keys[unique_slots] = pairs[chosen]
+            self.counts[unique_slots] = counts[chosen]
+            self.sums[unique_slots] = sums[chosen]
+            self.used += len(chosen)
+            done = matched.clone()
+            done[winners] = True
+            pending = pending[~done]
+            slots = (slots[~done] + 1) & (self.capacity - 1)
+
+    def add(self, pairs, counts, sums):
+        if not len(pairs):
+            return
+        self.chunks += 1
+        unique, inverse = torch.unique(pairs, dim=0, sorted=True, return_inverse=True)
+        compact_counts = counts.new_zeros(len(unique)).index_add_(0, inverse, counts)
+        compact_sums = sums.new_zeros((len(unique), 1)).index_add_(0, inverse, sums)
+        self._reserve(self.used + len(unique))
+        self._insert_unique(unique, compact_counts, compact_sums)
+
+    def finish(self, work):
+        live = (self.keys[:, 0] >= 0) & (self.counts != 0)
+        pairs, counts, sums = self.keys[live], self.counts[live], self.sums[live]
+        order = torch.argsort(pairs[:, 1], stable=True)
+        order = order[torch.argsort(pairs[order, 0], stable=True)]
+        work["quotient_accumulator"] = "tensor_open_addressed_full_pair_equality_v1"
+        for key, value in (("quotient_chunks", self.chunks), ("quotient_rehashes", self.rehashes),
+                           ("quotient_probe_rounds", self.probe_rounds), ("quotient_final_sorts", 1)):
+            work[key] = work.get(key, 0) + value
+        work["quotient_peak_table_capacity"] = max(work.get("quotient_peak_table_capacity", 0), self.capacity)
+        return pairs[order], counts[order], sums[order]
+~~~~~~~~
+
+# src/asgcn_unet/radius_candidates.py
+
+~~~~~~~~python
+"""Conservative cell bounds for exact radius queries, not a graph sparsifier.
+
+Bounds come from actual member coordinates, never rounded cell corners. They
+only reject blocks which cannot contain a radius edge. The final float64 strict
+distance predicate remains authoritative. All storage is node/cell sized.
+"""
+
+from __future__ import annotations
+
+import torch
+
+
+def coordinate_bounds(positions, sorted_nodes, boundaries, position_dims):
+    """Return actual float64 [occupied cells, dimensions] minima and maxima."""
+    count = boundaries.shape[1]
+    lower = torch.full((count, position_dims), float("inf"),
+                       device=positions.device, dtype=torch.float64)
+    upper = torch.full_like(lower, -float("inf"))
+    if not sorted_nodes.numel():
+        return lower, upper
+    ranks = torch.arange(sorted_nodes.numel(), device=positions.device)
+    cell_ids = torch.searchsorted(boundaries[0].contiguous(), ranks, right=True) - 1
+    coordinates = positions[sorted_nodes, :position_dims].double()
+    index = cell_ids[:, None].expand_as(coordinates)
+    lower.scatter_reduce_(0, index, coordinates, reduce="amin", include_self=True)
+    upper.scatter_reduce_(0, index, coordinates, reduce="amax", include_self=True)
+    return lower, upper
+
+
+def prune_cell_counts(query_positions, cell_ids, boundaries, bounds, radius):
+    """Exclude only provably distant [query, neighboring cell] blocks.
+
+    The minimum box distance is a lower bound for every member distance. A
+    float64 margin makes near-boundary classification conservative even when
+    the norm reduction's rounding differs. It admits extra candidates, not
+    fewer edges. Scaled distances avoid radius-squared overflow.
+    """
+    if not boundaries.shape[1]:
+        return torch.zeros_like(cell_ids)
+    lower, upper = bounds
+    safe = cell_ids.clamp_min(0)
+    queries = query_positions[:, None, :lower.shape[1]].double()
+    gap = torch.maximum(lower[safe] - queries, queries - upper[safe]).clamp_min(0)
+    squared_lower_bound = (gap / radius).square().sum(dim=-1)
+    margin = 64 * torch.finfo(torch.float64).eps
+    possible = (cell_ids >= 0) & (squared_lower_bound <= 1.0 + margin)
+    return torch.where(possible, boundaries[1, safe], 0)
+~~~~~~~~
+
 # src/asgcn_unet/recovery.py
 
 ~~~~~~~~python
@@ -33696,6 +36038,233 @@ def archive_uncheckpointed_run(
     destination = container / target.name
     target.rename(destination)
     return destination
+~~~~~~~~
+
+# src/asgcn_unet/recovery_evidence.py
+
+~~~~~~~~python
+"""Read committed prior diagnostics without loading datasets or initializing CUDA.
+
+A partial report is not a scanner checkpoint or a passed preflight. Historical
+source/data/device identities are recorded, never assumed to match a new run.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import re
+from pathlib import Path
+
+
+def _digest(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"),
+                                    ensure_ascii=False, allow_nan=False).encode()).hexdigest()
+
+
+def _object(value, name):
+    if not isinstance(value, dict):
+        raise TypeError(f"{name} must be a JSON object")
+    return value
+
+
+def _load(path):
+    with path.open(encoding="utf-8") as handle:
+        return _object(json.load(handle), path.name)
+
+
+def _sha256(value):
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
+
+
+def _source_contract(value):
+    value = _object(value, "Executable source contract")
+    commit, dirty = value.get("git_commit"), value.get("git_source_dirty")
+    if (not _sha256(value.get("source_tree_sha256"))
+            or (commit is not None and (not isinstance(commit, str)
+                                       or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", commit) is None))
+            or (dirty is not None and type(dirty) is not bool)):
+        raise ValueError("Executable source contract is malformed")
+
+
+def load_recovery_evidence(previous_dir, *, experiment_root, source_configs, public_train_config,
+                           resolved_train_config, current_source_contract, reserve_vram_mib,
+                           profile_output_label):
+    """Return validated historical diagnostics and the original partial report."""
+    previous, experiment = Path(previous_dir).resolve(), Path(experiment_root).resolve()
+    if (not previous.is_dir() or previous.parent != experiment
+            or not previous.name.startswith("preflight-recovery-")):
+        raise ValueError("resume-from must name a previous recovery directory in this experiment")
+    if (isinstance(reserve_vram_mib, bool) or not isinstance(reserve_vram_mib, (int, float))
+            or not math.isfinite(reserve_vram_mib) or reserve_vram_mib <= 0):
+        raise ValueError("Recovery evidence requires an explicit finite positive VRAM reserve")
+    recovery_path, profile_path = previous / "recovery.json", previous / "stream-profile.json"
+    if recovery_path.resolve().parent != previous or profile_path.resolve().parent != previous:
+        raise ValueError("Saved recovery/profile files must remain in their recovery directory")
+    recovery, profile = _load(recovery_path), _load(profile_path)
+    if recovery.get("schema") != "asgcn_streaming_preflight_recovery_v1":
+        raise ValueError("Unsupported saved recovery schema")
+    if (recovery.get("experiment_root") != str(experiment)
+            or recovery.get("output_root") != str(previous)
+            or recovery.get("preflight_report") != str(profile_path)):
+        raise ValueError("Saved recovery directory and profile identities disagree")
+    if recovery.get("training_executed") is not False or recovery.get("calibration_executed") is not False:
+        raise ValueError("Saved recovery must explicitly record that it did not start training/calibration")
+    if recovery.get("source_configs") != source_configs:
+        raise ValueError("Current raw configuration paths/hashes differ from the previous recovery")
+    declared = recovery.get("configs")
+    if declared != {kind: str(previous / "configs" / f"{kind}.json") for kind in ("train", "hdr", "aid")}:
+        raise ValueError("Saved derived config paths do not belong to the previous recovery")
+    for kind, source in source_configs.items():
+        expected = experiment / "configs" / f"{kind}.json"
+        if (source.get("path") != str(expected) or not _sha256(source.get("sha256"))
+                or hashlib.sha256(expected.read_bytes()).hexdigest() != source["sha256"]):
+            raise ValueError("Current raw configuration content changed during evidence inspection")
+    recovery_sealed = "commitment_sha256" in recovery
+    if recovery_sealed:
+        core = dict(recovery)
+        if core.pop("commitment_sha256") != _digest(core):
+            raise ValueError("Saved recovery commitment mismatch")
+    if profile.get("schema") != "asgcn_streaming_training_preflight_v1":
+        raise ValueError("Previous profile must be a physical streaming report, not a static profile")
+    core = dict(profile)
+    if core.pop("commitment_sha256", None) != _digest(core):
+        raise ValueError("Saved partial profile has no valid commitment; uncommitted progress cannot authorize resume")
+    incomplete_statuses = {"running", "interrupted", "failed"}
+    if (profile.get("status") not in incomplete_statuses
+            or profile.get("passed") is not False or profile.get("report_eligible") is not False
+            or recovery.get("status") not in incomplete_statuses
+            or recovery.get("report_eligible") is not False):
+        raise ValueError("resume-from requires an incomplete, non-reporting recovery")
+    if recovery.get("status") == "running" and not recovery_sealed:
+        raise ValueError("Running recovery metadata requires a valid commitment before checkpoint resume")
+    if profile.get("output") != profile_output_label:
+        raise ValueError("Saved profile output identity differs from the referenced file")
+    if profile.get("input_config_provenance") != {
+        "config": public_train_config, "sha256": _digest(public_train_config),
+    }:
+        raise ValueError("Saved input config provenance differs from this prepared experiment")
+    effective = _object(profile.get("config_provenance"), "Effective config provenance")
+    old_config = _object(effective.get("config"), "Effective configuration")
+    if effective.get("sha256") != _digest(old_config):
+        raise ValueError("Saved effective configuration commitment is invalid")
+    old_model = _object(old_config.get("model"), "Saved model")
+    guard = old_model.get("max_graph_edges", "missing")
+    if guard is not None and (type(guard) is not int or guard <= 0):
+        raise ValueError("Saved effective edge guard is invalid")
+    normalized = {**old_config, "model": {**_object(old_config.get("model"), "Saved model"),
+                  "max_graph_edges": public_train_config["model"]["max_graph_edges"]}}
+    if normalized != public_train_config:
+        raise ValueError("Saved effective config changed fields other than its measured edge guard")
+    saved_train_path = previous / "configs" / "train.json"
+    if saved_train_path.exists():
+        if saved_train_path.resolve() != saved_train_path:
+            raise ValueError("Saved training configuration must remain in the previous recovery")
+        expected_train = {**resolved_train_config, "model": {**resolved_train_config["model"],
+                          "max_graph_edges": guard}}
+        if _load(saved_train_path) != expected_train:
+            raise ValueError("Saved training config file differs from its committed effective configuration")
+    model = public_train_config["model"]
+    storage = model.get("graph_storage", "materialized")
+    if (model.get("architecture_version") not in {3, 4} or model.get("graph_execution") != "event_driven"
+            or model.get("encoder_kind") != "graph" or storage not in {"materialized", "implicit_radius"}):
+        raise ValueError("Saved memory evidence requires a recognized v3/v4 streaming graph backend")
+    if model["architecture_version"] == 4:
+        from .hierarchy_contract import validate_hierarchy_config
+        validate_hierarchy_config(model.get("hierarchy_config"), model["graph_layers"])
+        factor = model.get("event_sampling_factor")
+        if type(factor) is not int or not 1 <= factor < 2**63:
+            raise ValueError("Saved v4 evidence requires the explicit sampling factor")
+    recorded_source = profile.get("source_provenance")
+    _source_contract(recorded_source)
+    _source_contract(current_source_contract)
+    data = _object(profile.get("data_provenance"), "Raw data provenance")
+    content = _object(data.get("content"), "Raw data content provenance")
+    if not _sha256(content.get("sha256")):
+        raise ValueError("Saved raw data content provenance is missing or malformed")
+    topology = _object(profile.get("topology"), "Topology")
+    if model["architecture_version"] == 4 and (
+            topology.get("hierarchy_config") != model["hierarchy_config"]
+            or topology.get("sampling_contract") != {"factor": model["event_sampling_factor"], "ordinal_origin": 0,
+                                                     "counter": "all_raw_events", "reset": "sequence_start_only"}):
+        raise ValueError("Saved v4 topology lacks the exact sampling/hierarchy contract")
+    if (not isinstance(topology.get("samples"), list)
+            or topology.get("arrival_prefix_peak_measured") is not False
+            or topology.get("prefix_bound_kind") != "previous_live_window_union_all_current_frame_arrivals"):
+        raise ValueError("Saved actual readout and conservative prefix-union scopes are invalid")
+    rows = []
+    fields = ("readout_nodes", "readout_directed_edges", "prefix_union_nodes_upper_bound",
+              "prefix_union_directed_edges_upper_bound")
+    for index, row in enumerate(topology["samples"]):
+        if row is None:
+            continue
+        if (not isinstance(row, dict) or type(row.get("dataset_index")) is not int
+                or row["dataset_index"] != index
+                or any(type(row.get(name)) is not int or row[name] < 0 for name in fields)):
+            raise ValueError("Saved per-frame topology contains invalid identities/counts")
+        if (row["readout_nodes"] > row["prefix_union_nodes_upper_bound"]
+                or row["readout_directed_edges"] > row["prefix_union_directed_edges_upper_bound"]):
+            raise ValueError("Saved readout topology exceeds its conservative bound")
+        rows.append(row)
+    if not rows:
+        raise ValueError("Saved profile has no completed topology records to inspect")
+    for name in fields:
+        cached = topology.get(f"max_{name}")
+        if type(cached) is not int or cached != max(row[name] for row in rows):
+            raise ValueError("Saved topology maxima disagree with the committed per-frame records")
+    scanned, total = topology.get("scanned_samples"), topology.get("dataset_samples")
+    if (type(scanned) is not int or type(total) is not int or total != len(topology["samples"])
+            or not 0 <= scanned <= len(rows) <= total or type(topology.get("scan_complete")) is not bool
+            or (topology["scan_complete"] and scanned != total)):
+        raise ValueError("Saved scan coverage is inconsistent with its records")
+    edge_bytes, edge_basis_bytes = (24, 56) if storage == "materialized" else (0, 0)
+    densest = max(rows, key=lambda row: row["readout_directed_edges"] * edge_basis_bytes + row["readout_nodes"] * 72)
+    graph_bytes = densest["readout_directed_edges"] * edge_bytes + densest["readout_nodes"] * 72
+    graph_basis_bytes = densest["readout_directed_edges"] * edge_basis_bytes + densest["readout_nodes"] * 72
+    gpu = _object(profile.get("runtime_provenance"), "Runtime provenance").get("gpu") or {}
+    capacity = _object(gpu, "Saved GPU").get("total_memory_mib")
+    if capacity is not None and (isinstance(capacity, bool) or not isinstance(capacity, (int, float))
+                                 or not math.isfinite(capacity) or capacity <= 0):
+        raise ValueError("Saved GPU capacity is invalid")
+    budget = None if capacity is None else capacity - reserve_vram_mib
+    checkpoint = previous / "scan-checkpoint"
+    if checkpoint.resolve() != checkpoint:
+        raise ValueError("Saved scanner checkpoint must remain in its recovery directory")
+    return {
+        "schema": "asgcn_saved_recovery_evidence_v1", "report_eligible": False,
+        "scope": "historical_partial_scan_diagnosis_only", "exact_resume_performed": False,
+        "architecture_version": model["architecture_version"],
+        "hierarchy_memory_certified": False,
+        "current_data_revalidated": False, "current_device_revalidated": False,
+        "source_matches_current": recorded_source["source_tree_sha256"] == current_source_contract["source_tree_sha256"],
+        "source_metadata_matches_current": recorded_source == current_source_contract,
+        "recorded_source_provenance": recorded_source, "current_source_provenance": current_source_contract,
+        "recorded_data_sha256": content["sha256"],
+        "previous_recovery": str(previous), "previous_profile": str(profile_path),
+        "profile_sha256": hashlib.sha256(profile_path.read_bytes()).hexdigest(),
+        "recovery_sha256": hashlib.sha256(recovery_path.read_bytes()).hexdigest(),
+        "recovery_commitment_validated": recovery_sealed, "profile_commitment_validated": True,
+        "scanned_samples": scanned, "dataset_samples": total, "scan_complete": topology["scan_complete"],
+        "max_readout_directed_edges": topology["max_readout_directed_edges"],
+        "max_prefix_union_directed_edges_upper_bound": topology["max_prefix_union_directed_edges_upper_bound"],
+        "single_readout_storage_floor": {
+            "graph_storage": storage, "edge_storage_materialized": storage == "materialized",
+            "dataset_index": densest["dataset_index"], "graph_bytes": graph_bytes,
+            "graph_and_basis_bytes": graph_basis_bytes, "graph_and_basis_mib": graph_basis_bytes / 1024**2,
+            "formula": ("56 * actual_readout_edges + 72 * readout_nodes" if storage == "materialized"
+                        else "72 * readout_nodes"),
+            "scope": ("one_materialized_readout_graph_and_basis_excludes_other_graphs_and_training_costs"
+                      if storage == "materialized" else
+                      "one_implicit_readout_raw_nodes_only_excludes_index_projection_scratch_and_training_costs"),
+            "measured_peak_vram": False,
+        },
+        "saved_device_total_mib": capacity, "requested_reserve_vram_mib": reserve_vram_mib,
+        "saved_device_budget_after_requested_reserve_mib": budget,
+        "infeasible_on_saved_device": None if budget is None else graph_basis_bytes / 1024**2 > budget,
+        "checkpoint_directory": str(checkpoint), "checkpoint_manifest_present": (checkpoint / "latest.json").is_file(),
+        "checkpoint_integrity_verified": False,
+    }, profile
 ~~~~~~~~
 
 # src/asgcn_unet/resources.py
@@ -36081,6 +38650,12 @@ def _partial_affine(
     """
     if not destinations.numel():
         return x.new_zeros((0, layer.out_channels)), 0, 0
+    from .implicit_radius import ImplicitRadiusGraph
+    if isinstance(graph, ImplicitRadiusGraph):
+        from .implicit_model import affine
+        values, sources, edges = affine(layer, x, graph, destinations,
+                                        omit_zero_sources=omit_zero_sources)
+        return values, edges, sources
     if incidence is None:
         raise RuntimeError("active destinations require a topology incidence index")
     selected_edges = incidence.incoming(destinations)
@@ -36119,7 +38694,8 @@ def _partial_affine(
 
 
 def _validate(encoder, update, previous, mode, simulation_steps, dynamics):
-    if not isinstance(encoder, ASGCNEncoder):
+    from .encoder_stage import EncoderStage
+    if not isinstance(encoder, (ASGCNEncoder, EncoderStage)):
         raise TypeError("stream encoder requires the existing ASGCNEncoder")
     if encoder.training or any(layer.norm.training for layer in encoder.layers):
         raise ValueError("incremental encoder is eval-only; use full-snapshot ANN training with global BN")
@@ -36179,6 +38755,7 @@ def update_encoder(
     simulation_steps: int = 16,
     dynamics: str = "literal_eq15",
     active_graphs: torch.Tensor | None = None,
+    input_changed_sources: torch.Tensor | None = None,
 ) -> StreamEncoderState:
     """Apply one explicit arrival/expiry/readout-time advance, retry-safe.
 
@@ -36186,6 +38763,11 @@ def update_encoder(
     feeding the result back as ``previous`` instead advances another local
     update, including pending pulse endings. No wall-clock/bias ticks occur in
     untouched neurons. Simulation steps are not input-event timestamps.
+
+    ``input_changed_sources`` identifies changed/emitted/ending external input
+    pulses. Their dependants enter the FIRST layer only; they are not topology
+    changes broadcast to every layer. Hierarchical SNN callers provide one
+    interleaved tick at a time and recompute this source mask for each tick.
     """
     _validate(encoder, update, previous, mode, simulation_steps, dynamics)
     graph = update.state.graph
@@ -36202,9 +38784,26 @@ def update_encoder(
             raise ValueError("A topology change cannot be hidden in an idle graph")
     old = update.old_indices
     seed = torch.nonzero(update.changed_nodes, as_tuple=False).flatten()
+    input_sources = old.new_empty(0)
+    if input_changed_sources is not None:
+        if (input_changed_sources.shape != (n,) or input_changed_sources.dtype != torch.bool
+                or input_changed_sources.device != reference.device):
+            raise ValueError("input_changed_sources must be a device-local bool vector over live nodes")
+        if bool((input_changed_sources & ~active_nodes).any()):
+            raise ValueError("An input pulse change cannot be hidden in an idle graph")
+        input_sources = torch.nonzero(input_changed_sources, as_tuple=True)[0]
     # An ANN expiry of isolated nodes or a readout-only advance can have no
     # changed destinations at all. It requires remapping, not an edge sort.
-    incidence = None if mode == "ann" and not seed.numel() else _Incidence.build(graph)
+    from .implicit_radius import ImplicitRadiusGraph
+    implicit = isinstance(graph, ImplicitRadiusGraph)
+    if mode == "ann" and not seed.numel() and not input_sources.numel():
+        incidence = None
+    elif implicit:
+        from .implicit_stream import ImplicitIncidence
+        incidence = ImplicitIncidence(graph)
+    else:
+        incidence = _Incidence.build(graph)
+    first_destinations = _affected(seed, input_sources, graph, incidence)
     outputs, membranes, previous_spikes, spike_sums, local_ticks, last_pulses = [], [], [], [], [], []
     for i, layer in enumerate(encoder.layers):
         shape = (n, layer.out_channels)
@@ -36228,7 +38827,7 @@ def update_encoder(
         x = reference
         changed = seed
         for i, layer in enumerate(encoder.layers):
-            destinations = seed if i == 0 else _affected(seed, changed, graph, incidence)
+            destinations = first_destinations if i == 0 else _affected(seed, changed, graph, incidence)
             values, edges, sources = _partial_affine(
                 layer, x, graph, destinations, incidence, omit_zero_sources=False
             )
@@ -36243,7 +38842,8 @@ def update_encoder(
         # Analog event features and the update's topology stay constant during
         # all local sweeps. Reuse the exact first-layer current, not its spikes.
         first_current, first_edges, first_sources = _partial_affine(
-            encoder.layers[0], reference, graph, seed, incidence, omit_zero_sources=False
+            encoder.layers[0], reference, graph, first_destinations, incidence,
+            omit_zero_sources=getattr(encoder, "input_is_spiking", False),
         )
         message_edges[0] = first_edges
         projected_sources[0] = first_sources
@@ -36255,7 +38855,7 @@ def update_encoder(
             pulse_supports = []
             for i, layer in enumerate(encoder.layers):
                 if i == 0:
-                    destinations = seed
+                    destinations = first_destinations
                     x = reference
                 else:
                     x = pulses[i - 1]
@@ -36309,8 +38909,8 @@ def update_encoder(
             "clock_policy": "event_local_causal_pulses_v1" if mode == "snn" else "incremental_frozen_bn_ann_v1",
             "update_reason": "explicit_arrival_expiry_or_readout_advance",
             "local_sweeps": simulation_steps if mode == "snn" else 1,
-            "live_nodes": n, "live_edges": graph.edge_index.shape[1],
-            "topology_indexed_edges": graph.edge_index.shape[1] if incidence is not None else 0,
+            "live_nodes": n, "live_edges": graph.edge_count if implicit else graph.edge_index.shape[1],
+            "topology_indexed_edges": graph.edge_index.shape[1] if incidence is not None and not implicit else 0,
             "updated_nodes_per_layer": updated_nodes,
             "message_edges_per_layer": message_edges,
             "projected_sources_per_layer": projected_sources,
@@ -36465,6 +39065,7 @@ def evolve_stream_graph(
     position_dims: int = 3,
     max_graph_edges: int | None,
     chunk_size: int = 512,
+    graph_storage: str = "materialized",
 ) -> GraphUpdate:
     """Expire timestamps < cutoff and append arrivals, preserving all valid edges.
 
@@ -36493,6 +39094,16 @@ def evolve_stream_graph(
     if cutoffs.ndim != 1 or cutoffs.dtype != torch.float64 or not bool(torch.isfinite(cutoffs).all()):
         raise ValueError("Stream cutoffs must be a finite float64 tensor with shape [B]")
     _validate_nodes(features, positions, timestamps, node_batch, cutoffs)
+    if graph_storage == "implicit_radius":
+        from .implicit_stream import evolve
+        return evolve(previous, features, positions, timestamps, node_batch, cutoffs,
+                      radius=radius, position_dims=position_dims, max_graph_edges=max_graph_edges,
+                      chunk_size=chunk_size)
+    if graph_storage != "materialized":
+        raise ValueError("Unknown streaming graph storage")
+    from .implicit_radius import ImplicitRadiusGraph
+    if previous is not None and isinstance(previous.graph, ImplicitRadiusGraph):
+        raise ValueError("Cannot change graph storage inside an existing stream")
     device = features.device
     old_count = 0
     if previous is not None:
@@ -36557,12 +39168,15 @@ def evolve_stream_graph(
     edge_parts = [surviving_edges]
     attr_parts = [surviving_attr]
     if arriving.numel():
+        from .radius_candidates import coordinate_bounds, prune_cell_counts
+
         rows, occupied, sorted_nodes, boundaries = _occupied_cells(
             output_positions, output_batch, cutoffs.numel(), radius, position_dims,
         )
         axis = torch.tensor((-1, 0, 1), device=device, dtype=torch.long)
         offsets = torch.cartesian_prod(*([axis] * position_dims)).reshape(-1, position_dims)
         cells_per_query = offsets.shape[0]
+        bounds = coordinate_bounds(output_positions, sorted_nodes, boundaries, position_dims)
         # Chunking bounds scratch only, never nodes, edges, or selected arrivals.
         effective_chunk = min(chunk_size, max(1, 1_048_576 // max(count, 1)))
         for start in range(retained_count, count, effective_chunk):
@@ -36571,7 +39185,10 @@ def evolve_stream_graph(
             query_batches = rows[start:stop, None, :1].expand(-1, cells_per_query, -1)
             queries = torch.cat((query_batches, query_cells), dim=2).flatten(0, 1)
             cell_ids = _cell_lookup(occupied, queries)
-            cell_counts = boundaries[1, cell_ids.clamp_min(0)].masked_fill(cell_ids < 0, 0)
+            cell_counts = prune_cell_counts(
+                output_positions[start:stop], cell_ids.reshape(-1, cells_per_query),
+                boundaries, bounds, radius,
+            ).flatten()
             cell_starts = boundaries[0, cell_ids.clamp_min(0)]
             candidate_count = int(cell_counts.sum())
             groups = torch.repeat_interleave(
@@ -37056,15 +39673,30 @@ def validate_stream_config(value):
 
 def stream_contract(model):
     # This is a structural contract, not a substitute for checkpoint weight hashes.
-    values = {"version": 3, "stream": model.stream_config, "radius": model.graph_radius,
+    values = {"version": getattr(model, "architecture_version", 3), "stream": model.stream_config, "radius": model.graph_radius,
               "position_dims": model.graph_position_dims, "sampling": model.event_sampling_factor,
               "width": model.encoder.hidden_dim, "depth": len(model.encoder.layers),
               "dynamics": model.snn_dynamics, "decoder": model.decoder_kind,
               "raster_downsample": model.raster_downsample}
+    storage = getattr(model, "graph_storage", "materialized")
+    if storage != "materialized":
+        values["graph_storage"] = storage
+    if getattr(model, "hierarchy_config", None) is not None:
+        values["hierarchy"] = model.hierarchy_config
+        values["sampling_phase"] = "persistent_sequence_ordinal"
     return hashlib.sha256(json.dumps(values, sort_keys=True).encode()).hexdigest()
 
 
-def _empty(device):
+def _empty(device, model=None):
+    if getattr(model, "graph_storage", "materialized") == "implicit_radius":
+        from .implicit_radius import ImplicitRadiusGraph
+        batch = torch.empty(0, device=device, dtype=torch.long)
+        graph = ImplicitRadiusGraph.from_counted_nodes(
+            torch.empty((0, 4), device=device), torch.empty((0, 4), device=device, dtype=torch.float64),
+            batch, batch, batch_size=1, radius=model.graph_radius,
+            position_dims=model.graph_position_dims, chunk_size=model.graph_chunk_size,
+        )
+        return StreamGraph(graph, batch, torch.empty(0, device=device, dtype=torch.float64))
     return StreamGraph(EventGraph(
         torch.empty((0, 4), device=device), torch.empty((0, 4), device=device, dtype=torch.float64),
         torch.empty((2, 0), device=device, dtype=torch.long), torch.empty((0, 1), device=device, dtype=torch.float64),
@@ -37072,22 +39704,38 @@ def _empty(device):
         torch.empty(0, device=device, dtype=torch.float64))
 
 
-def _pack_previous(states, device):
-    graphs = [state.graph if state is not None else _empty(device) for state in states]
+def _pack_previous(states, device, model=None):
+    graphs = [state.graph if state is not None else _empty(device, model) for state in states]
     counts = [len(value.timestamps) for value in graphs]
     offsets, cursor = [], 0
     for count in counts:
         offsets.append(cursor)
         cursor += count
-    graph = StreamGraph(EventGraph(
-        torch.cat([value.graph.node_features for value in graphs]),
-        torch.cat([value.graph.positions for value in graphs]),
-        torch.cat([value.graph.edge_index + offset for value, offset in zip(graphs, offsets)], dim=1),
-        torch.cat([value.graph.edge_attr for value in graphs]),
-        torch.cat([value.graph.in_degree for value in graphs]),
-    ), torch.cat([torch.full((count,), lane, device=device, dtype=torch.long)
-                  for lane, count in enumerate(counts)]),
-        torch.cat([value.timestamps for value in graphs]))
+    from .implicit_radius import ImplicitRadiusGraph
+    implicit = isinstance(graphs[0].graph, ImplicitRadiusGraph)
+    if any(isinstance(value.graph, ImplicitRadiusGraph) != implicit for value in graphs):
+        raise ValueError("Cannot pack streams with different graph storage")
+    packed_batch = torch.cat([torch.full((count,), lane, device=device, dtype=torch.long)
+                              for lane, count in enumerate(counts)])
+    if implicit:
+        reference_graph = graphs[0].graph
+        raw = ImplicitRadiusGraph.from_counted_nodes(
+            torch.cat([value.graph.node_features for value in graphs]),
+            torch.cat([value.graph.positions for value in graphs]), packed_batch,
+            torch.cat([value.graph.in_degree for value in graphs]), batch_size=len(states),
+            radius=reference_graph.radius, position_dims=reference_graph.position_dims,
+            chunk_size=reference_graph.chunk_size, candidate_pair_budget=reference_graph.candidate_pair_budget,
+            edge_counts=torch.cat([value.graph.edge_counts for value in graphs]),
+        )
+        graph = StreamGraph(raw, packed_batch, torch.cat([value.timestamps for value in graphs]))
+    else:
+        graph = StreamGraph(EventGraph(
+            torch.cat([value.graph.node_features for value in graphs]),
+            torch.cat([value.graph.positions for value in graphs]),
+            torch.cat([value.graph.edge_index + offset for value, offset in zip(graphs, offsets)], dim=1),
+            torch.cat([value.graph.edge_attr for value in graphs]),
+            torch.cat([value.graph.in_degree for value in graphs]),
+        ), packed_batch, torch.cat([value.timestamps for value in graphs]))
     present = [state.encoder for state in states if state is not None and state.encoder is not None]
     if not present:
         return graph, None
@@ -37118,6 +39766,10 @@ def _pack_previous(states, device):
 
 def _split_state(graph, cache, batch_size):
     """One batched node/edge permutation, then per-lane state views only."""
+    from .implicit_radius import ImplicitRadiusGraph
+    if isinstance(graph.graph, ImplicitRadiusGraph):
+        from .implicit_stream import split_state
+        return split_state(graph, cache, batch_size)
     node_order = torch.argsort(graph.node_batch, stable=True)
     inverse = torch.empty_like(node_order)
     inverse[node_order] = torch.arange(node_order.numel(), device=node_order.device)
@@ -37249,7 +39901,8 @@ def _prepared(model, packed, records):
 def _update(model, previous, features, positions, timestamps, node_batch, cutoffs):
     return evolve_stream_graph(previous, features, positions, timestamps, node_batch, cutoffs,
                                radius=model.graph_radius, position_dims=model.graph_position_dims,
-                               max_graph_edges=model.max_graph_edges, chunk_size=model.graph_chunk_size)
+                               max_graph_edges=model.max_graph_edges, chunk_size=model.graph_chunk_size,
+                               graph_storage=getattr(model, "graph_storage", "materialized"))
 
 
 def _decoder(model, raster, sensor_size, states):
@@ -37271,11 +39924,15 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
         raise ValueError("Streaming simulation_steps must be a positive integer")
     if model.training and inference_mode != "ann":
         raise ValueError("ASGCN conversion trains the ANN path; SNN is inference-only")
-    if model.event_sampling_factor != 1:
+    hierarchical = model.architecture_version == 4
+    if not hierarchical and model.event_sampling_factor != 1:
         raise ValueError("The approved physical-stream contract retains all events (R=1)")
     states = [None] * len(samples) if recurrent_states is None else recurrent_states
     if len(states) != len(samples):
         raise ValueError("One explicit streaming state is required per sequence")
+    if hierarchical and (model.training or calibration) and any(
+            state is not None and (state.encoder is not None or state.hierarchy is not None) for state in states):
+        raise ValueError("Hierarchical training/calibration requires raw-only training state, not learned inference caches")
     packed = pack_samples(samples)
     device = packed.events.device
     records, contract = _metadata(model, packed, states)
@@ -37294,11 +39951,24 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
         else:
             last_id = None if previous is None else previous.last_event_id
         last_ids.append(last_id)
-    graph, cache = _pack_previous(states, device)
+    graph, cache = _pack_previous(states, device, model)
     if cache is not None and (cache.mode != inference_mode or
                              (inference_mode == "snn" and cache.dynamics != model.snn_dynamics)):
         raise ValueError("Streaming inference dynamics cannot change inside a sequence")
     features, positions, timestamps, node_batch = _prepared(model, packed, records)
+    raw_counts = packed.event_counts
+    sampling_offsets = [0 if state is None else state.sampling_offset for state in states]
+    hierarchy = None
+    if hierarchical:
+        from .hierarchy import forward_snapshot, pack_hierarchy, split_hierarchy, update_hierarchy
+        from .stream_sampling import replace_record_groups, sample_stream_batch
+        sampled = sample_stream_batch(packed, sampling_offsets, factor=model.event_sampling_factor)
+        packed = sampled.packed
+        records = replace_record_groups(records, sampled.arrival_group_counts)
+        sampling_offsets = sampled.next_offsets
+        features, positions, timestamps, node_batch = (
+            value[sampled.keep_mask] for value in (features, positions, timestamps, node_batch))
+        hierarchy = pack_hierarchy(model, states, graph, packed.sensor_size)
     window = model.stream_config["window_seconds"]
     readouts = timestamps.new_tensor([record[3] for record in records])
     watermarks = timestamps.new_tensor([state.watermark_seconds if state is not None else record[2]
@@ -37324,6 +39994,34 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
     def scope(name):
         return timing.scope(name, gpu=device.type == "cuda") if timing is not None else nullcontext()
 
+    def encode_update(update, active_graphs=None):
+        nonlocal cache, hierarchy
+        if not hierarchical:
+            cache = update_encoder(model.encoder, update, cache, mode=inference_mode,
+                                   simulation_steps=simulation_steps, dynamics=model.snn_dynamics,
+                                   active_graphs=active_graphs)
+            record_work(cache)
+            return
+        from types import SimpleNamespace
+        cache, hierarchy, work = update_hierarchy(
+            model, update, cache, hierarchy, packed.sensor_size, mode=inference_mode,
+            simulation_steps=simulation_steps, active_graphs=active_graphs)
+        for prefix, suffix in work:
+            pool = prefix["pooling"]
+            totals = operation_totals.setdefault("pooling", {"updates": 0, "reused_quotient_updates": 0})
+            totals["updates"] += 1
+            totals["reused_quotient_updates"] += int(pool.get("reused_quotient_topology", False))
+            for key in ("raw_edges_visited", "raw_query_nodes", "feature_rows_updated", "materialized_edges_scanned",
+                        "quotient_chunks", "quotient_rehashes", "quotient_probe_rounds", "quotient_final_sorts"):
+                totals[key] = totals.get(key, 0) + pool.get(key, 0)
+            totals["peak_table_capacity"] = max(totals.get("peak_table_capacity", 0),
+                                                 pool.get("quotient_peak_table_capacity", 0))
+            merged = {key: prefix[key] + suffix[key] for key in (
+                "updated_nodes_per_layer", "message_edges_per_layer", "projected_sources_per_layer",
+                "emitted_spikes_per_graph_per_layer", "neuron_ticks_per_graph_per_layer")}
+            merged["topology_indexed_edges"] = prefix["topology_indexed_edges"] + suffix["topology_indexed_edges"]
+            record_work(SimpleNamespace(work=merged))
+
     if model.training or calibration:
         # ANN training/calibration observes the same fixed-coordinate sliding
         # graph as the inference reference, but does not reuse learned caches
@@ -37334,7 +40032,12 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
                              node_batch[keep], readouts - window)
             graph = update.state
         with scope("encoder"):
-            outputs, activations = model.encoder.forward_ann(graph.graph, return_activations=calibration)
+            if hierarchical:
+                outputs, activations, readout_graph = forward_snapshot(
+                    model, graph, packed.sensor_size, calibration=calibration)
+            else:
+                outputs, activations = model.encoder.forward_ann(graph.graph, return_activations=calibration)
+                readout_graph = graph
         cache = None
     else:
         # Equal-timestamp events form one simultaneous arrival. Wave r contains
@@ -37360,10 +40063,7 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
                                  arrived_batch, watermarks - window)
                 graph = update.state
             with scope("encoder"):
-                cache = update_encoder(model.encoder, update, cache, mode=inference_mode,
-                                       simulation_steps=simulation_steps, dynamics=model.snn_dynamics,
-                                       active_graphs=active_graphs)
-                record_work(cache)
+                encode_update(update, active_graphs)
             operation_totals["arrival_updates"] += 1
         # Readout is an explicit clock boundary: expire old nodes and deliver
         # pending pulse-off effects using the same local-sweep rule.
@@ -37372,27 +40072,30 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
                              node_batch[:0], readouts - window)
             graph = update.state
         with scope("encoder"):
-            cache = update_encoder(model.encoder, update, cache, mode=inference_mode,
-                                   simulation_steps=simulation_steps, dynamics=model.snn_dynamics)
-            record_work(cache)
+            encode_update(update)
         operation_totals["readout_updates"] = 1
-        outputs, activations = cache.outputs, []
+        outputs, activations = (hierarchy.suffix.outputs if hierarchical else cache.outputs), []
+        readout_graph = hierarchy.pool.graph if hierarchical else graph
     if inference_mode == "snn":
         outputs = outputs * model.encoder.output_activation_scale(outputs)
     with scope("decoder"):
         if calibration:
             predictions, next_decoder = None, None
         else:
-            raster = rasterize_batch(outputs, graph.graph, graph.node_batch, len(packed),
+            raster = rasterize_batch(outputs, readout_graph.graph, readout_graph.node_batch, len(packed),
                                      packed.sensor_size, model.raster_downsample)
             predictions, next_decoder = _decoder(model, raster, packed.sensor_size, states)
     lanes = _split_state(graph, cache, len(packed))
+    hierarchy_lanes = (split_hierarchy(hierarchy, lanes, len(packed))
+                       if hierarchy is not None else [None] * len(packed))
     diagnostics = []
     for lane_index, ((lane, lane_cache), record, previous) in enumerate(zip(lanes, records, states)):
         last_id = last_ids[lane_index]
         state = StreamingReconstructionState(
             lane, lane_cache, None if next_decoder is None else next_decoder[lane_index:lane_index + 1],
             record[4], record[3], record[1], record[0], last_id, contract,
+            sampling_offset=sampling_offsets[lane_index] if hierarchical else 0,
+            hierarchy=hierarchy_lanes[lane_index],
         )
         degree = lane.graph.in_degree
         count = len(lane.timestamps)
@@ -37407,11 +40110,17 @@ def stream_forward_batch(model, samples, recurrent_states=None, *, inference_mod
             rates, denominators, spikes = [], [], []
         diagnostics.append({
             "architecture": model.architecture_description(), "paper_core_version": 2,
-            "nodes": count, "edges": lane.graph.edge_index.shape[1], "isolated_nodes": isolated,
+            "nodes": count, "edges": (lane.graph.edge_count if model.graph_storage == "implicit_radius"
+                                    else lane.graph.edge_index.shape[1]), "isolated_nodes": isolated,
             "isolate_ratio": isolated.float() / max(count, 1),
             "max_degree": degree.max() if count else degree.new_zeros(()),
-            "edge_feature": "fixed_physical_scalar_distance", "event_sampling_factor": 1,
-            "dataset_sampling_ratio": 1.0, "effective_sampling_ratio": 1.0,
+            "edge_feature": "fixed_physical_scalar_distance", "event_sampling_factor": model.event_sampling_factor,
+            "dataset_sampling_ratio": 1.0, "effective_sampling_ratio": 1.0 / model.event_sampling_factor,
+            "raw_incoming_events": raw_counts[lane_index], "sampled_incoming_events": packed.event_counts[lane_index],
+            "sampling_offset": sampling_offsets[lane_index] if hierarchical else 0,
+            "hierarchy_nodes": (readout_graph.node_batch == lane_index).sum() if hierarchical else None,
+            "hierarchy_edges": (readout_graph.node_batch[readout_graph.graph.edge_index[0]] == lane_index).sum()
+            if hierarchical else None,
             "snn_dynamics": model.snn_dynamics if inference_mode == "snn" else None,
             "decoder_input_lambda_applied": inference_mode == "snn", "firing_rates": rates,
             "firing_rate_denominators": denominators, "spike_counts": spikes,
@@ -37446,6 +40155,8 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
+from .hierarchy_contract import validate_hierarchy_config
+
 REPORT_SCHEMA = "asgcn_streaming_training_preflight_v1"
 VERIFICATION_SCHEMA = "asgcn_streaming_preflight_verification_v1"
 STREAM_CLOCK = "event_local_pending_off_v1"
@@ -37454,7 +40165,7 @@ STREAM_ARRIVAL_POLICY = "simultaneous_equal_timestamp"
 
 def is_streaming_config(config: dict[str, Any]) -> bool:
     model = config.get("model", {})
-    return model.get("graph_execution") == "event_driven" or model.get("architecture_version") == 3
+    return model.get("graph_execution") == "event_driven" or model.get("architecture_version") in {3, 4}
 
 
 def _positive_number(value: Any, label: str) -> float:
@@ -37468,10 +40179,19 @@ def _positive_number(value: Any, label: str) -> float:
 
 def validate_streaming_contract(config: dict[str, Any], *, training: bool = False) -> None:
     model, dataset = config.get("model", {}), config.get("dataset", {})
-    if model.get("architecture_version") != 3 or model.get("graph_execution") != "event_driven":
-        raise ValueError("Streaming requires architecture_version=3 and graph_execution=event_driven")
-    if model.get("encoder_kind") != "graph" or model.get("event_sampling_factor") != 1:
-        raise ValueError("Streaming requires the graph encoder and event_sampling_factor=1")
+    version = model.get("architecture_version")
+    if version not in {3, 4} or model.get("graph_execution") != "event_driven":
+        raise ValueError("Streaming requires architecture_version=3/4 and graph_execution=event_driven")
+    factor = model.get("event_sampling_factor")
+    if (model.get("encoder_kind") != "graph" or type(factor) is not int or not 1 <= factor < 2**63
+            or (version == 3 and factor != 1)):
+        raise ValueError("Streaming requires the graph encoder and explicit positive sampling factor; v3 requires R=1")
+    if version == 4:
+        validate_hierarchy_config(model.get("hierarchy_config"), model["graph_layers"])
+    elif model.get("hierarchy_config") is not None:
+        raise ValueError("hierarchy_config requires an independent architecture_version=4 study")
+    if model.get("graph_storage", "materialized") not in {"materialized", "implicit_radius"}:
+        raise ValueError("graph_storage must be materialized or implicit_radius")
     stream = model.get("stream_config")
     if not isinstance(stream, dict):
         raise TypeError("model.stream_config must explicitly define its physical time contract")
@@ -37529,6 +40249,9 @@ def prepare_streaming_experiment(
     aid_timestamp_scale_to_seconds: float,
     hdr_interval_timestamp_scale_to_seconds: float,
     aid_interval_timestamp_scale_to_seconds: float,
+    graph_storage: str = "materialized",
+    hierarchy_config: dict[str, Any] | None = None,
+    event_sampling_factor: int = 1,
 ) -> dict[str, Any]:
     """Create exclusive new configs; preserve every nonapproved baseline field."""
     project = Path(project_root).resolve()
@@ -37539,6 +40262,14 @@ def prepare_streaming_experiment(
     if destination.exists():
         raise FileExistsError(f"Streaming output root already exists: {destination}")
     window = _positive_number(window_seconds, "window_seconds")
+    if type(event_sampling_factor) is not int or not 1 <= event_sampling_factor < 2**63:
+        raise ValueError("event_sampling_factor must be an explicit positive int64 integer")
+    if hierarchy_config is None and event_sampling_factor != 1:
+        raise ValueError("R>1 requires an explicitly selected hierarchical v4 study; v3 remains R=1")
+    if hierarchy_config is not None:
+        hierarchy_config = validate_hierarchy_config(hierarchy_config, 6)
+    if graph_storage not in {"materialized", "implicit_radius"}:
+        raise ValueError("graph_storage must be materialized or implicit_radius")
     scale = _positive_number(time_scale_seconds, "time_scale_seconds")
     hdr_scale = _positive_number(hdr_timestamp_scale_to_seconds, "hdr_timestamp_scale_to_seconds")
     aid_scale = _positive_number(aid_timestamp_scale_to_seconds, "aid_timestamp_scale_to_seconds")
@@ -37567,18 +40298,23 @@ def prepare_streaming_experiment(
             base = json.load(handle)
         current = copy.deepcopy(base)
         current["model"].update({
-            "architecture_version": 3, "graph_execution": "event_driven",
+            "architecture_version": 4 if hierarchy_config is not None else 3, "graph_execution": "event_driven",
+            "event_sampling_factor": event_sampling_factor,
             "stream_config": {
                 "window_seconds": window, "time_scale_seconds": scale,
                 "node_time_feature": "physical_frame_offset", "clock": STREAM_CLOCK,
                 "arrival_policy": STREAM_ARRIVAL_POLICY,
             },
         })
+        if hierarchy_config is not None:
+            current["model"]["hierarchy_config"] = dict(hierarchy_config)
         current["dataset"].update({
             "max_events": None, "event_time_contract": "physical_seconds_v1",
             "timestamp_scale_to_seconds": aid_scale if kind == "aid" else hdr_scale,
             "interval_timestamp_scale_to_seconds": aid_interval_scale if kind == "aid" else hdr_interval_scale,
         })
+        if graph_storage != "materialized":
+            current["model"]["graph_storage"] = graph_storage
         if kind == "train":
             current["output"]["run_dir"] = f"{relative}/train"
             current["train"]["validation_context_frames"] = None
@@ -37599,6 +40335,14 @@ def prepare_streaming_experiment(
         "output_root": relative, "source_configs": source, "changes": differences,
         "training_required": "new independent training; old checkpoints are config-incompatible",
         "execution_performed": False,
+        "architecture_design": {
+            "version": train["model"]["architecture_version"], "hierarchy_config": hierarchy_config,
+            "event_sampling_factor": event_sampling_factor,
+            "sampling_scope": "sequence_global_raw_event_ordinal_not_frame_reset",
+            "paper_exact_hyperparameters": False,
+            "description": "Explicit reconstruction design; clustering placement/cells are not recovered author defaults.",
+            "new_training_required": True,
+        },
         "warnings": [
             "Physical timestamp units must be verified from each original dataset, not guessed.",
             "The finite sliding window is a new input/state contract, not the previous frame graph.",
@@ -37627,26 +40371,38 @@ def _topology_model(config):
     """Only structural metadata; never allocate a full network for a graph scan."""
     model = config["model"]
     return SimpleNamespace(
+        architecture_version=model["architecture_version"], hierarchy_config=model.get("hierarchy_config"),
         stream_config=model["stream_config"], graph_radius=model["graph_radius"],
         graph_position_dims=model["graph_position_dims"], graph_chunk_size=model["graph_chunk_size"],
         max_graph_edges=model["max_graph_edges"], event_sampling_factor=model["event_sampling_factor"],
         snn_dynamics=model["snn_dynamics"], decoder_kind=model["decoder_kind"],
         raster_downsample=model["raster_downsample"],
+        graph_storage=model.get("graph_storage", "materialized"),
         encoder=SimpleNamespace(hidden_dim=model["hidden_dim"], layers=(None,) * model["graph_layers"]),
     )
 
 
 def _scan_stream_topology(dataset, config, device, batches, *, top_density_count,
-                          progress=None, on_progress=None):
+                          progress=None, on_progress=None, on_batch_complete=None,
+                          resume_state=None, training_storage_budget_mib=None,
+                          pause_after_completed_batches=None):
     import torch
     from tqdm import tqdm
 
     from .batching import sequence_key
-    from .preflight import _load_packed_probe_batch
     from .stream_model import _metadata, _prepared
+    from .stream_sampling import replace_record_groups, sample_stream_batch
+    from .stream_scan_loader import iter_scan_batches
     from .stream_topology import count_stream_topology_update
 
     model = _topology_model(config)
+    if (pause_after_completed_batches is not None
+            and (type(pause_after_completed_batches) is not int
+                 or not 1 <= pause_after_completed_batches <= len(batches))):
+        raise ValueError("An early-probe scan pause must name a completed batch within the unchanged schedule")
+    hierarchical = model.architecture_version == 4
+    sampling_contract = {"factor": model.event_sampling_factor, "ordinal_origin": 0,
+                         "counter": "all_raw_events", "reset": "sequence_start_only"}
     states, records = {}, [None] * len(dataset)
     result = {} if progress is None else progress
     result.update({
@@ -37663,21 +40419,87 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
         "max_prefix_union_directed_edges_upper_bound": 0,
         "peak_candidate_pairs": 0, "candidate_pair_budget": 1_048_576,
         "top_density_samples": [], "samples": records, "current_batch_indices": [],
+        "architecture_version": model.architecture_version,
+        "graph_count_scope": "sampled_fine_radius_only_no_coarse_quotient_edges" if hierarchical else "fine_radius_graph",
     })
+    if hierarchical:
+        result["sampling_contract"] = sampling_contract
+        result["hierarchy_config"] = dict(model.hierarchy_config)
     seen = set()
     final = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
-    with torch.no_grad():
-        for indices in tqdm(batches, desc="stream-preflight-window-topology"):
+    completed_batches = 0
+    if resume_state is not None:
+        # Raw-state checkpoints are validated before entering this scanner.
+        # A partial JSON without live nodes is never a resume checkpoint.
+        if hierarchical and (resume_state["topology"].get("sampling_contract") != sampling_contract
+                             or resume_state["topology"].get("hierarchy_config") != model.hierarchy_config):
+            raise ValueError("v4 scan resume requires its exact sampling and hierarchy contract")
+        states = resume_state["states"]
+        if hierarchical and any(not hasattr(state, "sampling_offset") for state in states.values()):
+            raise ValueError("v4 scan resume lacks a sequence-global raw sampling offset")
+        result.clear()
+        result.update(copy.deepcopy(resume_state["topology"]))
+        records = result["samples"]
+        completed_batches = resume_state["completed_batches"]
+        seen = {index for batch in batches[:completed_batches] for index in batch}
+        _check_observed_storage_floor(result, training_storage_budget_mib, resumed=True)
+        states = {key: SimpleNamespace(**{
+            name: value.to(device) if isinstance(value, torch.Tensor) else value
+            for name, value in vars(state).items()
+        }) for key, state in states.items()}
+    result["resumed_completed_batches"] = completed_batches
+    result.pop("paused_for", None)
+    result["completed_batches"] = completed_batches
+    result.setdefault("phase_timing_ms", {})
+    for name in ("candidate_pairs_visited", "query_chunks", "candidate_chunks",
+                 "bulk_query_blocks", "bulk_pairwise_evaluations_avoided"):
+        result.setdefault(name, 0)
+    with torch.no_grad(), iter_scan_batches(
+            dataset, batches, completed_batches, device, config["train"], seed=config["seed"],
+    ) as input_batches:
+        result["input_loader_plan"] = input_batches.plan
+        for batch_index in tqdm(range(completed_batches, len(batches)), total=len(batches),
+                                initial=completed_batches, desc="stream-preflight-window-topology"):
+            indices = batches[batch_index]
+            batch_started = time.perf_counter()
             result["current_batch_indices"] = list(indices)
             if any(index in seen for index in indices):
                 raise ValueError("Streaming topology schedule repeats frames")
-            samples, _ = _load_packed_probe_batch(dataset, indices, device)
+            loaded_indices, samples, input_timing = next(input_batches)
+            if loaded_indices != list(indices):
+                raise ValueError("Prefetched input differs from the committed topology schedule")
+            graph_started = time.perf_counter()
             previous = [states.get(sequence_key(sample)) for sample in samples]
             # Input validation is shared; this scanner retains raw nodes/clocks,
             # never an incomplete edge-free graph passed to a model/state API.
             metadata, contract = _metadata(model, samples, [None] * len(samples))
             features, positions, timestamps, node_batch = _prepared(model, samples, metadata)
             del features
+            raw_counts = samples.event_counts
+            endpoints, endpoint_offset = [], 0
+            for count in raw_counts:
+                if count:
+                    endpoints.extend((endpoint_offset, endpoint_offset + count - 1))
+                endpoint_offset += count
+            endpoint_ids = iter(samples.event_ids[endpoints].cpu().tolist())
+            last_ids = []
+            for count, old in zip(raw_counts, previous, strict=True):
+                last_id = None if old is None else getattr(old, "last_event_id", None)
+                if count:
+                    first_id, next_id = tuple(next(endpoint_ids)), tuple(next(endpoint_ids))
+                    if last_id is not None and first_id <= last_id:
+                        raise ValueError("Raw event identity repeated or reordered across scan frames")
+                    last_id = next_id
+                last_ids.append(last_id)
+            sampling_offsets = tuple(0 if old is None else getattr(old, "sampling_offset", 0) for old in previous)
+            next_sampling_offsets = sampling_offsets
+            if hierarchical:
+                selected = sample_stream_batch(samples, sampling_offsets, factor=model.event_sampling_factor)
+                positions, timestamps, node_batch = (value[selected.keep_mask] for value in (positions, timestamps, node_batch))
+                samples = selected.packed
+                metadata = replace_record_groups(metadata, selected.arrival_group_counts)
+                next_sampling_offsets = selected.next_offsets
+                del selected
             # Inference starts from the previous watermark, not necessarily the
             # next frame start: a proven predecessor row may precede that start
             # after a gap. Keep the complete previous live window in the bound.
@@ -37719,7 +40541,11 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
             )
             counts = torch.stack((measured.readout_nodes, measured.readout_directed_edges,
                                   measured.union_nodes, measured.union_directed_edges)).cpu().tolist()
+            graph_elapsed_ms = (time.perf_counter() - graph_started) * 1000
             result["peak_candidate_pairs"] = max(result["peak_candidate_pairs"], measured.peak_candidate_pairs)
+            for name in ("candidate_pairs_visited", "query_chunks", "candidate_chunks",
+                         "bulk_query_blocks", "bulk_pairwise_evaluations_avoided"):
+                result[name] += getattr(measured, name)
             # Packed permutation followed by per-lane ownership only, not per-sample graph/model computation.
             order = torch.argsort(node_batch[readout_keep], stable=True)
             readout_positions = positions[readout_keep][order]
@@ -37733,18 +40559,45 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
                     "dataset_index": index, "sample_id": sample.get("sample_id", str(index)),
                     "sequence_identity": list(record[0]), "sequence_index": record[1],
                     "interval_start_seconds": record[2], "interval_end_seconds": record[3],
-                    "incoming_events": samples.event_counts[lane],
+                    "incoming_events": raw_counts[lane],
                     "arrival_groups": len(record[5]),
                     "readout_nodes": actual_nodes, "readout_directed_edges": actual_edges,
+                    "readout_mean_in_degree": actual_edges / actual_nodes if actual_nodes else 0.0,
+                    "readout_edge_density": actual_edges / (actual_nodes * (actual_nodes - 1))
+                    if actual_nodes > 1 else 0.0,
+                    "radius_geometry": {
+                        "coordinate_contract": "x_over_W_minus_1_y_over_H_minus_1_physical_time_over_scale",
+                        "sensor_size_hw": list(samples.sensor_size),
+                        "position_dims": model.graph_position_dims,
+                        "spatial_semiaxes_pixels_xy": [
+                            model.graph_radius * max(samples.sensor_size[1] - 1, 1),
+                            model.graph_radius * max(samples.sensor_size[0] - 1, 1)
+                            if model.graph_position_dims >= 2 else None,
+                        ],
+                        "temporal_semiaxis_seconds": model.graph_radius
+                        * model.stream_config["time_scale_seconds"]
+                        if model.graph_position_dims >= 3 else None,
+                        "polarity_coordinate_used": model.graph_position_dims >= 4,
+                        "window_seconds": window,
+                        "interpretation": "individual axis limits, not a rectangular connection box",
+                    },
                     "prefix_union_nodes_upper_bound": bound_nodes,
                     "prefix_union_directed_edges_upper_bound": bound_edges,
                 }
+                if hierarchical:
+                    records[index].update({
+                        "sampled_incoming_events": samples.event_counts[lane],
+                        "sampling_offset_before": sampling_offsets[lane],
+                        "sampling_offset_after": next_sampling_offsets[lane],
+                        "raw_last_event_id": None if last_ids[lane] is None else list(last_ids[lane]),
+                    })
                 state = SimpleNamespace(
                     positions=readout_positions[offset:offset + actual_nodes].clone(),
                     timestamps=readout_times[offset:offset + actual_nodes].clone(),
                     origin_seconds=record[4], watermark_seconds=record[3],
                     sequence_index=record[1], sequence_identity=record[0], contract=contract,
                     directed_edges=actual_edges,
+                    sampling_offset=next_sampling_offsets[lane], last_event_id=last_ids[lane],
                 )
                 offset += actual_nodes
                 if record[1] == final[record[0]]:
@@ -37761,16 +40614,54 @@ def _scan_stream_topology(dataset, config, device, batches, *, top_density_count
                 key=lambda row: (-row["prefix_union_directed_edges_upper_bound"],
                                  -row["readout_directed_edges"], row["dataset_index"]),
             )[:top_density_count]
+            result["completed_batches"] = batch_index + 1
+            timing = result["phase_timing_ms"]
+            for name in ("dataset_loading_ms", "cpu_collate_and_pin_ms", "host_to_device_ms", "total_input_ms",
+                         "worker_decode_ms", "worker_collate_ms", "pin_memory_ms", "prefetch_wait_ms"):
+                timing[name] = timing.get(name, 0.0) + input_timing[name]
+            timing["topology_ms"] = timing.get("topology_ms", 0.0) + graph_elapsed_ms
+            timing["batch_wall_ms"] = timing.get("batch_wall_ms", 0.0) + (time.perf_counter() - batch_started) * 1000
+            storage_kind = config["model"].get("graph_storage", "materialized")
+            if storage_kind == "materialized":
+                floor = sum(row["readout_directed_edges"] * 56 + row["readout_nodes"] * 72
+                            for row in (records[index] for index in indices))
+                if floor > result.get("observed_training_storage_floor", {}).get("bytes", -1):
+                    result["observed_training_storage_floor"] = {
+                        "bytes": floor, "mib": floor / 1024**2, "batch_index": batch_index,
+                        "dataset_indices": list(indices), "graph_storage": storage_kind,
+                        "scope": "current_readout_graph_and_linear_spline_basis_only",
+                        "measured_peak": False, "prior_graphs_and_activations_included": False,
+                    }
+            if on_batch_complete is not None:
+                on_batch_complete(states, result, batch_index + 1, final)
             if on_progress is not None:
                 on_progress()
+            _check_observed_storage_floor(result, training_storage_budget_mib)
             del samples, previous, positions, timestamps, node_batch, readout_positions, readout_times
+            if batch_index + 1 == pause_after_completed_batches:
+                result["paused_for"] = "early_physical_training_probe_not_a_complete_scan"
+                return result
     if seen != set(range(len(dataset))) or any(record is None for record in records):
         raise ValueError("Streaming topology scan did not cover every training frame exactly once")
     result.update(scan_complete=True, current_batch_indices=[])
     return result
 
 
-def _stream_probe_plan(batches, records, batch_size, profile_samples):
+def _check_observed_storage_floor(topology, budget_mib, *, resumed=False):
+    floor = topology.get("observed_training_storage_floor")
+    if budget_mib is None or floor is None or floor["mib"] <= budget_mib:
+        return
+    stopping = ("Saved completed batches already prove this storage backend impossible; "
+                "no saved nodes were transferred to the GPU and no next batch was scanned. "
+                if resumed else "Stopped at the first proven-impossible batch; ")
+    raise RuntimeError(
+        f"Observed readout graph/basis storage alone requires {floor['mib']:.1f} MiB, "
+        f"exceeding total allocated-device capacity minus reserve ({budget_mib:.1f} MiB). "
+        f"{stopping}The scan is incomplete, no training was started, and no events/edges were removed."
+    )
+
+
+def _stream_probe_plan(batches, records, batch_size, profile_samples, graph_storage="materialized"):
     if not records or not batches or max(map(len, batches)) != batch_size:
         raise ValueError("Streaming preflight cannot form the full configured physical batch")
     if len(batches) < profile_samples:
@@ -37794,7 +40685,7 @@ def _stream_probe_plan(batches, records, batch_size, profile_samples):
     selected.add(next(entry["batch_index"] for entry in entries if entry["batch_size"] == batch_size))
     selected.add(max(entries, key=lambda entry: entry["readout_nodes"])["batch_index"])
     selected.add(max(entries, key=lambda entry: entry["readout_directed_edges"])["batch_index"])
-    resident_peak_batch = _graph_storage_floor({"samples": records}, batches)["batch_index"]
+    resident_peak_batch = _graph_storage_floor({"samples": records}, batches, graph_storage)["batch_index"]
     if resident_peak_batch is not None:
         selected.add(resident_peak_batch)
     sparse = min((row for row in records if row["readout_nodes"] > 0),
@@ -37832,7 +40723,7 @@ def _probe_stream_training(dataset, config, device, batches, topology, plan, *, 
         build_model,
     )
     from .losses import ReconstructionLoss
-    from .preflight import _load_packed_probe_batch
+    from .stream_scan_loader import iter_scan_batches
     from .training import TrainingState, forward_training_loss
     from .utils import set_seed
 
@@ -37902,74 +40793,91 @@ def _probe_stream_training(dataset, config, device, batches, topology, plan, *, 
     replayed_frames = 0
     progress["phase"] = "model_setup"
     memory_snapshot(check_peak=True)
-    for number, indices in enumerate(tqdm(batches[:plan["replay_stop_batch"] + 1], desc="stream-preflight-stateful-train")):
-        progress.update({"current_batch_index": number, "current_dataset_indices": list(indices),
-                         "phase": "before_input_load"})
-        try:
-            memory_snapshot(check_peak=True)
-            if device.type == "cuda":
-                torch.cuda.reset_peak_memory_stats(device)
-            step_started = time.perf_counter()
-            samples, input_pipeline = _load_packed_probe_batch(dataset, indices, device)
-            contexts = state.prepare(samples)
-            if number not in selected:
-                progress["phase"] = "predecessor_replay"
-                with torch.no_grad(), torch.autocast(device_type=device.type, enabled=amp):
-                    prediction, diagnostics = model.forward_training_batch(samples, [entry[0] for entry in contexts])
-                target = samples.targets
-                if not bool(torch.isfinite(prediction).all()):
-                    raise FloatingPointError("Non-finite reconstruction during causal predecessor replay")
-            else:
-                progress["phase"] = "forward_loss_backward_optimizer"
-                def forward_loss(current_samples=samples, incoming_contexts=contexts):
-                    return forward_training_loss(
-                        model, criterion, current_samples, incoming_contexts, batch_mode=True, amp_enabled=amp,
-                        temporal_weight=temporal_weight,
+    with iter_scan_batches(dataset, batches, 0, device, config["train"], seed=config["seed"]) as inputs:
+        progress["input_loader_plan"] = inputs.plan
+        for number, indices in enumerate(tqdm(batches[:plan["replay_stop_batch"] + 1], desc="stream-preflight-stateful-train")):
+            progress.update({"current_batch_index": number, "current_dataset_indices": list(indices),
+                             "phase": "before_input_load"})
+            try:
+                memory_snapshot(check_peak=True)
+                if device.type == "cuda":
+                    torch.cuda.reset_peak_memory_stats(device)
+                step_started = time.perf_counter()
+                loaded_indices, samples, input_pipeline = next(inputs)
+                if list(loaded_indices) != list(indices):
+                    raise RuntimeError("Streaming training probe loader changed the committed batch schedule")
+                contexts = state.prepare(samples)
+                if number not in selected:
+                    progress["phase"] = "predecessor_replay"
+                    with torch.no_grad(), torch.autocast(device_type=device.type, enabled=amp):
+                        prediction, diagnostics = model.forward_training_batch(samples, [entry[0] for entry in contexts])
+                    target = samples.targets
+                    if not bool(torch.isfinite(prediction).all()):
+                        raise FloatingPointError("Non-finite reconstruction during causal predecessor replay")
+                else:
+                    progress["phase"] = "forward_loss_backward_optimizer"
+                    def forward_loss(current_samples=samples, incoming_contexts=contexts):
+                        return forward_training_loss(
+                            model, criterion, current_samples, incoming_contexts, batch_mode=True, amp_enabled=amp,
+                            temporal_weight=temporal_weight,
+                        )
+                    payload, loss, gradient_norm, amp_info = _training_step(
+                        model, optimizer, scaler, forward_loss, optimizer_mode=_optimizer_mode(config["train"]),
+                        max_norm=float(config["train"]["grad_clip"]), epoch=0, step=number,
+                        sample_id="stream-preflight:" + ",".join(map(str, indices)),
                     )
-                payload, loss, gradient_norm, amp_info = _training_step(
-                    model, optimizer, scaler, forward_loss, optimizer_mode=_optimizer_mode(config["train"]),
-                    max_norm=float(config["train"]["grad_clip"]), epoch=0, step=number,
-                    sample_id="stream-preflight:" + ",".join(map(str, indices)),
-                )
-                prediction, diagnostics, target = payload
-                if prediction.shape != target.shape or prediction.shape[0] != len(indices):
-                    raise RuntimeError("Streaming probe reconstruction does not match the actual batch target")
-                for index, detail in zip(indices, diagnostics, strict=True):
-                    expected = topology["samples"][index]
-                    if detail["nodes"] != expected["readout_nodes"] or detail["edges"] != expected["readout_directed_edges"]:
-                        raise RuntimeError("Streaming model readout topology differs from the full causal scan")
-                    if not detail.get("stream_execution", {}).get("training_dense_snapshot"):
-                        raise RuntimeError("Streaming preflight did not execute the declared causal-window training path")
-            progress["phase"] = "state_commit_and_release"
-            state.commit(samples, prediction, diagnostics, target)
-            state.release_finished(samples, final)
-            if device.type == "cuda":
-                torch.cuda.synchronize(device)
-            elapsed = (time.perf_counter() - step_started) * 1000
-            progress["phase"] = "after_state_commit_and_release"
-            snapshot = memory_snapshot(check_peak=True)
+                    prediction, diagnostics, target = payload
+                    if prediction.shape != target.shape or prediction.shape[0] != len(indices):
+                        raise RuntimeError("Streaming probe reconstruction does not match the actual batch target")
+                    for index, detail in zip(indices, diagnostics, strict=True):
+                        expected = topology["samples"][index]
+                        if detail["nodes"] != expected["readout_nodes"] or detail["edges"] != expected["readout_directed_edges"]:
+                            raise RuntimeError("Streaming model readout topology differs from the full causal scan")
+                        if not detail.get("stream_execution", {}).get("training_dense_snapshot"):
+                            raise RuntimeError("Streaming preflight did not execute the declared causal-window training path")
+                progress["phase"] = "state_commit_and_release"
+                state.commit(samples, prediction, diagnostics, target)
+                state.release_finished(samples, final)
+                if device.type == "cuda":
+                    torch.cuda.synchronize(device)
+                elapsed = (time.perf_counter() - step_started) * 1000
+                progress["phase"] = "after_state_commit_and_release"
+                snapshot = memory_snapshot(check_peak=True)
+                if number in selected:
+                    hierarchy_counts = None
+                    if config["model"]["architecture_version"] == 4:
+                        hierarchy_counts = torch.stack([
+                            torch.stack((detail["hierarchy_nodes"], detail["hierarchy_edges"]))
+                            for detail in diagnostics
+                        ]).detach().cpu().tolist()
+                    measured.append({
+                        "batch_index": number, "dataset_indices": list(indices), "batch_size": len(indices),
+                        "incoming_contexts": sum(context[0] is not None for context in contexts),
+                        "loss": loss, "gradient_norm": gradient_norm, "amp": amp_info,
+                        "step_time_ms": elapsed, "frames_per_second": len(indices) * 1000 / elapsed,
+                        "input_pipeline": input_pipeline, "prediction_shape": list(prediction.shape),
+                        **snapshot,
+                        "scope": "input_load_stateful_forward_loss_backward_optimizer_state_commit_and_release",
+                        **({"hierarchy_readout": {
+                            "scope": "actual_full_model_training_forward_coarse_graphs_in_this_physical_batch",
+                            "counts": [{"nodes": values[0], "directed_edges": values[1]} for values in hierarchy_counts],
+                            "fine_counts_verified_against_counted_scan_rows": True,
+                            "topology_scan_complete": bool(topology.get("scan_complete", False)),
+                            "peak_memory_includes_hierarchy": True,
+                        }} if hierarchy_counts is not None else {}),
+                    })
+                else:
+                    replayed_frames += len(samples)
+                progress.update({"completed_batches": number + 1, "phase": "batch_completed",
+                                 "replayed_predecessor_frames": replayed_frames,
+                                 "elapsed_including_context_replay_seconds": time.perf_counter() - started})
+            except (KeyboardInterrupt, OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
+                progress.update({"failed_batch_index": number, "failure_type": type(error).__name__,
+                                 "elapsed_including_context_replay_seconds": time.perf_counter() - started})
+                raise
             if number in selected:
-                measured.append({
-                    "batch_index": number, "dataset_indices": list(indices), "batch_size": len(indices),
-                    "incoming_contexts": sum(context[0] is not None for context in contexts),
-                    "loss": loss, "gradient_norm": gradient_norm, "amp": amp_info,
-                    "step_time_ms": elapsed, "frames_per_second": len(indices) * 1000 / elapsed,
-                    "input_pipeline": input_pipeline, "prediction_shape": list(prediction.shape),
-                    **snapshot,
-                    "scope": "input_load_stateful_forward_loss_backward_optimizer_state_commit_and_release",
-                })
-            else:
-                replayed_frames += len(samples)
-            progress.update({"completed_batches": number + 1, "phase": "batch_completed",
-                             "replayed_predecessor_frames": replayed_frames,
-                             "elapsed_including_context_replay_seconds": time.perf_counter() - started})
-        except (KeyboardInterrupt, OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
-            progress.update({"failed_batch_index": number, "failure_type": type(error).__name__,
-                             "elapsed_including_context_replay_seconds": time.perf_counter() - started})
-            raise
-        if number in selected:
-            del payload, forward_loss
-        del prediction, diagnostics, target, samples, contexts
+                del payload, forward_loss
+            del prediction, diagnostics, target, samples, contexts
     if [row["batch_index"] for row in measured] != plan["selected_batch_indices"]:
         raise RuntimeError("Not every selected streaming training batch completed")
     progress.update({
@@ -37995,7 +40903,7 @@ def _scope():
     }
 
 
-def _graph_storage_floor(topology, batches):
+def _graph_storage_floor(topology, batches, graph_storage="materialized"):
     """Necessary graph/basis storage only; NOT an estimate of total training peak.
 
     A directed edge uses int64[2] + float64[1] (24 bytes). A node uses
@@ -38005,13 +40913,17 @@ def _graph_storage_floor(topology, batches):
     Activations, autograd, model/optimizer, decoder states and copies are extra.
     """
     records = topology["samples"]
+    if graph_storage not in {"materialized", "implicit_radius"}:
+        raise ValueError("Unknown graph storage in memory preflight")
+    current_edge_bytes = 56 if graph_storage == "materialized" else 0
+    resident_edge_bytes = 24 if graph_storage == "materialized" else 0
     final = {tuple(row["sequence_identity"]): row["sequence_index"] for row in records}
     resident = {}
     largest = {"bytes": 0, "batch_index": None, "dataset_indices": []}
     for number, indices in enumerate(batches):
         current = [(tuple(records[index]["sequence_identity"]), records[index]) for index in indices]
         required = sum(resident.values()) + sum(
-            row["readout_directed_edges"] * 56 + row["readout_nodes"] * 72 for _, row in current
+            row["readout_directed_edges"] * current_edge_bytes + row["readout_nodes"] * 72 for _, row in current
         )
         if required > largest["bytes"]:
             largest = {"bytes": required, "batch_index": number, "dataset_indices": list(indices)}
@@ -38019,9 +40931,11 @@ def _graph_storage_floor(topology, batches):
             if row["sequence_index"] == final[identity]:
                 resident.pop(identity, None)
             else:
-                resident[identity] = row["readout_directed_edges"] * 24 + row["readout_nodes"] * 72
+                resident[identity] = row["readout_directed_edges"] * resident_edge_bytes + row["readout_nodes"] * 72
     return {**largest, "mib": largest["bytes"] / 1024**2,
-            "scope": "necessary_previous_raw_graphs_plus_current_readout_graph_and_linear_spline_basis",
+            "scope": ("necessary_previous_raw_graphs_plus_current_readout_graph_and_linear_spline_basis"
+                      if graph_storage == "materialized" else
+                      "necessary_previous_and_current_raw_nodes_only_excludes_index_projection_and_scratch"),
             "total_training_peak_estimate": False}
 
 
@@ -38045,6 +40959,7 @@ def _cuda_memory_budget(device, reserve_vram_mib):
 def streaming_training_preflight(
     config, output_path, *, profile_samples=3, top_density_count=10, require_cuda=True,
     resume_scan=False, reuse_report=None, measured_guard_config_output=None, reserve_vram_mib=0,
+    scan_checkpoint_dir=None, resume_checkpoint=None, checkpoint_memory_budget_mib=None,
 ):
     import torch
 
@@ -38074,6 +40989,8 @@ def streaming_training_preflight(
         raise ValueError("reserve_vram_mib requires an explicit measured-guard config output")
     if resume_scan or reuse_report is not None:
         raise ValueError("Streaming preflight cannot reuse a static report or resume without serialized causal graph state; choose a new output")
+    if checkpoint_memory_budget_mib is not None:
+        _positive_number(checkpoint_memory_budget_mib, "checkpoint_memory_budget_mib")
     if (type(profile_samples) is not int or type(top_density_count) is not int
             or profile_samples < 1 or top_density_count < profile_samples):
         raise ValueError("Streaming profile_samples/top_density_count must be positive with top_density_count >= profile_samples")
@@ -38113,25 +41030,160 @@ def streaming_training_preflight(
         dataset = build_dataset(config["dataset"], split="train")
         report["data_provenance"] = _data_provenance(dataset, config)
         batches = list(_make_batch_sampler(dataset, config))
+        from .batching import sequence_key
+        from .resources import collect_runtime_resources
+        from .stream_scan_checkpoint import (
+            _digest as checkpoint_digest,
+        )
+        from .stream_scan_checkpoint import load_scan_checkpoint, save_scan_checkpoint
+
+        checkpoint_directory = (Path(scan_checkpoint_dir) if scan_checkpoint_dir is not None
+                                else destination.with_suffix(".scan-checkpoint")).resolve()
+        if checkpoint_directory.exists():
+            raise FileExistsError("New preflight must use a new checkpoint directory; resume input stays separate")
+        resource_snapshot = collect_runtime_resources(include_cuda=False)
+        available = resource_snapshot["memory"]["effective_available_bytes"]
+        if not isinstance(available, (int, float)) or available <= 0:
+            raise RuntimeError("Cannot measure RAM headroom for safe scan checkpointing")
+        available_mib = available / 1024**2
+        checkpoint_budget = (available_mib / 2 if checkpoint_memory_budget_mib is None
+                             else checkpoint_memory_budget_mib)
+        checkpoint_reserve = available_mib / 4
+        report["scan_checkpoint_resources"] = {
+            "memory_budget_mib": checkpoint_budget, "reserve_memory_mib": checkpoint_reserve,
+            "observed_headroom_mib": available_mib,
+            "policy": "half_observed_headroom_budget_quarter_reserve_unless_explicit_budget",
+            "hard_memory_isolation": False,
+        }
+        identity = {
+            "source_sha256": report["source_provenance"]["source_tree_sha256"],
+            "config_sha256": checkpoint_digest(public_config),
+            "data_sha256": checkpoint_digest(report["data_provenance"]),
+            "schedule_sha256": checkpoint_digest(batches),
+            "report_sha256": checkpoint_digest({
+                "schema": REPORT_SCHEMA, "request": report["request"],
+                "counting_method": "packed_float64_radius_incremental_count_only_v1",
+                "device_type": device.type, "torch": str(torch.__version__), "cuda": torch.version.cuda,
+            }),
+        }
+        finals = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
+        resume_state = None
+        if resume_checkpoint is not None:
+            report["stage"] = "restore_scan_checkpoint"
+            resume_state = load_scan_checkpoint(
+                resume_checkpoint, expected_identity=identity, batches=batches, sequence_final_indices=finals,
+                memory_budget_mib=checkpoint_budget, reserve_memory_mib=checkpoint_reserve,
+            )
+            report["scan_resumed_from"] = _artifact_path_label(Path(resume_checkpoint))
+            print(f"Restored completed topology batches: {resume_state['completed_batches']}/{len(batches)}",
+                  flush=True)
+        memory_before_scan = _cuda_memory_budget(device, reserve_vram_mib)
+        training_storage_budget = (memory_before_scan["total_mib"] - reserve_vram_mib
+                                   if memory_before_scan["measured"] else None)
+        report["scan_device_memory"] = memory_before_scan
         report["stage"] = "count_only_topology"
         report["topology"] = {}
-        last_saved = time.monotonic()
-        def persist_progress():
+        early_target = None
+        if config["model"]["architecture_version"] == 4:
+            early_target = next((number for number, batch in enumerate(batches)
+                                 if len(batch) == config["train"]["batch_size"]), None)
+            if early_target is None:
+                raise ValueError("v4 early probe requires the unchanged full physical batch; no smaller batch was substituted")
+        last_saved = time.monotonic() - 30
+        def save_progress_report():
+            committed = dict(report)
+            committed.pop("commitment_sha256", None)
+            committed["commitment_sha256"] = _digest(committed)
+            save_json(destination, committed)
+
+        def checkpoint_batch(states, topology, completed_batches, sequence_final_indices):
             nonlocal last_saved
-            if time.monotonic() - last_saved >= 30:
-                save_json(destination, report)
+            impossible = (training_storage_budget is not None
+                          and topology.get("observed_training_storage_floor", {}).get("mib", 0)
+                          > training_storage_budget)
+            if (time.monotonic() - last_saved >= 30 or completed_batches == len(batches) or impossible
+                    or (early_target is not None and completed_batches == early_target + 1)):
+                started = time.perf_counter()
+                manifest = save_scan_checkpoint(
+                    checkpoint_directory, identity=identity, batches=batches, completed_batches=completed_batches,
+                    states=states, topology=topology, sequence_final_indices=sequence_final_indices,
+                    memory_budget_mib=checkpoint_budget, reserve_memory_mib=checkpoint_reserve,
+                )
+                report["scan_checkpoint"] = {
+                    "path": _artifact_path_label(checkpoint_directory), "identity": identity,
+                    "completed_batches": completed_batches, "generation": manifest["generation"],
+                    "last_write_ms": (time.perf_counter() - started) * 1000,
+                }
+                save_progress_report()
                 last_saved = time.monotonic()
+
+        if early_target is not None:
+            report["stage"] = "early_physical_batch_topology"
+            if resume_state is None or resume_state["completed_batches"] < early_target + 1:
+                _scan_stream_topology(
+                    dataset, config, device, batches, top_density_count=top_density_count,
+                    progress=report["topology"], on_progress=None, on_batch_complete=checkpoint_batch,
+                    resume_state=resume_state, training_storage_budget_mib=training_storage_budget,
+                    pause_after_completed_batches=early_target + 1,
+                )
+                # The scan DataLoader is closed before a second loader/model is
+                # opened. Restore the exact committed CPU state, not an ad-hoc
+                # live reference or replayed/guessed sampling phase.
+                resume_state = load_scan_checkpoint(
+                    checkpoint_directory, expected_identity=identity, batches=batches, sequence_final_indices=finals,
+                    memory_budget_mib=checkpoint_budget, reserve_memory_mib=checkpoint_reserve,
+                )
+            else:
+                report["topology"] = copy.deepcopy(resume_state["topology"])
+                checkpoint_batch(resume_state["states"], report["topology"], resume_state["completed_batches"], finals)
+            early_config = copy.deepcopy(config)
+            early_required = max(resume_state["topology"]["samples"][index]["prefix_union_directed_edges_upper_bound"]
+                                 for batch in batches[:early_target + 1] for index in batch)
+            early_original_guard = early_config["model"]["max_graph_edges"]
+            if derived_path is not None:
+                early_config["model"]["max_graph_edges"] = max(early_original_guard or 0, early_required, 1)
+            elif early_original_guard is not None and early_required > early_original_guard:
+                raise RuntimeError(
+                    f"First physical-batch topology requires conservative guard {early_required:,}, "
+                    f"above configured {early_original_guard:,}. Exact scan state was saved; "
+                    "no model was allocated or guard changed. Explicit measured-guard recovery is required."
+                )
+            report["stage"] = "early_physical_training_probe"
+            report["early_training_probe"] = {
+                "purpose": "early_failure_detection_not_full_scan_or_representative_probe_certification",
+                "selection": "first_full_physical_batch_with_all_predecessors",
+                "physical_batch_size": config["train"]["batch_size"],
+                "source_scan_completed_batches": resume_state["completed_batches"],
+                "configured_guard": early_original_guard,
+                "effective_probe_guard": early_config["model"]["max_graph_edges"],
+                "explicit_measured_guard_requested": derived_path is not None,
+                "probe": {},
+            }
+            save_progress_report()
+            _probe_stream_training(
+                dataset, early_config, device, batches, resume_state["topology"],
+                {"selected_batch_indices": [early_target], "replay_stop_batch": early_target},
+                reserve_vram_mib=reserve_vram_mib, progress=report["early_training_probe"]["probe"],
+            )
+            report["checks"]["early_full_physical_forward_backward"] = True
+            save_progress_report()
+            report["stage"] = "count_only_topology"
         _scan_stream_topology(
             dataset, config, device, batches, top_density_count=top_density_count,
-            progress=report["topology"], on_progress=persist_progress,
+            progress=report["topology"], on_progress=None, on_batch_complete=checkpoint_batch,
+            resume_state=resume_state, training_storage_budget_mib=training_storage_budget,
         )
+        if "scan_checkpoint" not in report:
+            # A completed raw checkpoint needs no scan iterations, but the new
+            # recovery still owns a durable copy before entering expensive probes.
+            checkpoint_batch({}, report["topology"], len(batches), finals)
         report["checks"]["complete_topology_scan"] = True
         report["stage"] = "measured_edge_guard"
         topology = report["topology"]
         original_guard = config["model"]["max_graph_edges"]
         required = topology["max_prefix_union_directed_edges_upper_bound"]
         measured_guard = max(original_guard or 0, required, 1)
-        storage_floor = _graph_storage_floor(topology, batches)
+        storage_floor = _graph_storage_floor(topology, batches, config["model"].get("graph_storage", "materialized"))
         memory = _cuda_memory_budget(device, reserve_vram_mib)
         report["guard_measurement"] = {
             "configured_max_graph_edges": original_guard, "measured_union_required_guard": required,
@@ -38144,11 +41196,11 @@ def streaming_training_preflight(
         print(f"Full stream count: {topology['scanned_samples']}/{topology['dataset_samples']} frames; "
               f"max readout edges={topology['max_readout_directed_edges']:,}; "
               f"conservative prefix-union edges={required:,}.", flush=True)
-        save_json(destination, report)
+        save_progress_report()
         if derived_path is None and original_guard is not None and required > original_guard:
             raise RuntimeError(
                 f"Full count-only scan completed: conservative prefix-union requires {required:,} directed edges "
-                f"but configured max_graph_edges={original_guard:,}. No model was allocated or guard changed. "
+                f"but configured max_graph_edges={original_guard:,}. No production training started or guard changed. "
                 "Use recover_streaming_preflight.py with explicit --use-measured-edge-guard and a VRAM reserve "
                 "to create a new config and measure the unchanged physical batch."
             )
@@ -38157,7 +41209,7 @@ def streaming_training_preflight(
             raise RuntimeError(
                 f"Necessary graph and spline-basis storage alone is {storage_floor['mib']:.1f} MiB, exceeding "
                 f"{memory['available_after_reserve_mib']:.1f} MiB currently available after the explicit reserve. "
-                "This excludes activations/optimizer/copies; no model was allocated and no scale was reduced."
+                "This excludes activations/optimizer/copies; no production training started and no scale was reduced."
             )
         if derived_path is not None:
             config["model"]["max_graph_edges"] = measured_guard
@@ -38174,7 +41226,9 @@ def streaming_training_preflight(
                   f"physical batch remains {config['train']['batch_size']}. Starting stateful training probes.", flush=True)
         report["checks"]["conservative_prefix_edge_guard"] = True
         report["stage"] = "stateful_training_probe"
-        plan = _stream_probe_plan(batches, report["topology"]["samples"], config["train"]["batch_size"], profile_samples)
+        save_progress_report()
+        plan = _stream_probe_plan(batches, report["topology"]["samples"], config["train"]["batch_size"],
+                                  profile_samples, config["model"].get("graph_storage", "materialized"))
         report["batch_training_probe"] = {}
         _probe_stream_training(dataset, config, device, batches, report["topology"], plan,
                                reserve_vram_mib=reserve_vram_mib, progress=report["batch_training_probe"])
@@ -38191,22 +41245,24 @@ def streaming_training_preflight(
         report["status"] = "passed" if report["report_eligible"] else "cpu_smoke_passed_non_reporting"
         report["stage"] = "complete"
     except KeyboardInterrupt as error:
+        failed_probe = report.get("batch_training_probe") or report.get("early_training_probe", {}).get("probe") or {}
         report["status"] = "interrupted"
         report["failure"] = _safe_failure(error, config, destination)
         report["failure"]["stage"] = report["stage"]
-        report["failure"]["probe_phase"] = (report.get("batch_training_probe") or {}).get("phase")
-        report["failure"]["dataset_indices"] = (report.get("batch_training_probe") or {}).get(
+        report["failure"]["probe_phase"] = failed_probe.get("phase")
+        report["failure"]["dataset_indices"] = failed_probe.get(
             "current_dataset_indices", (report.get("topology") or {}).get("current_batch_indices", []),
         )
         report["commitment_sha256"] = _digest(report)
         save_json(destination, report)
         raise
-    except (OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError) as error:
+    except (OSError, ValueError, TypeError, KeyError, RuntimeError, FloatingPointError, MemoryError) as error:
+        failed_probe = report.get("batch_training_probe") or report.get("early_training_probe", {}).get("probe") or {}
         report["status"] = "failed"
         report["failure"] = _safe_failure(error, config, destination)
         report["failure"]["stage"] = report["stage"]
-        report["failure"]["probe_phase"] = (report.get("batch_training_probe") or {}).get("phase")
-        report["failure"]["dataset_indices"] = (report.get("batch_training_probe") or {}).get(
+        report["failure"]["probe_phase"] = failed_probe.get("phase")
+        report["failure"]["dataset_indices"] = failed_probe.get(
             "current_dataset_indices", (report.get("topology") or {}).get("current_batch_indices", []),
         )
         report["failure"]["scope_note"] = (
@@ -38247,6 +41303,55 @@ def _validated_report(report, path):
     if probe.get("passed") is not True or not probe.get("steps"):
         raise ValueError("Streaming physical-batch training probes are missing")
     return report
+
+
+def _validate_hierarchy_evidence(report, config, batches):
+    """Verify v4 sampling continuity and measured coarse graphs, never invent them."""
+    if config["model"].get("architecture_version") != 4:
+        return
+    from .stream_scan_checkpoint import _validate_prefix
+
+    topology = report["topology"]
+    expected = {"factor": config["model"]["event_sampling_factor"], "ordinal_origin": 0,
+                "counter": "all_raw_events", "reset": "sequence_start_only"}
+    if (topology.get("sampling_contract") != expected
+            or topology.get("hierarchy_config") != config["model"]["hierarchy_config"]
+            or topology.get("graph_count_scope") != "sampled_fine_radius_only_no_coarse_quotient_edges"):
+        raise ValueError("v4 topology sampling/hierarchy scope differs from the actual model")
+    records = topology["samples"]
+    finals = {}
+    for row in records:
+        key = tuple(row["sequence_identity"])
+        finals[key] = max(finals.get(key, -1), row["sequence_index"])
+    _validate_prefix({"schedule_sha256": _digest(batches)}, batches, len(batches), topology, finals)
+    early = report.get("early_training_probe", {})
+    first = next((index for index, batch in enumerate(batches) if len(batch) == config["train"]["batch_size"]), None)
+    if (first is None or early.get("physical_batch_size") != config["train"]["batch_size"]
+            or early.get("purpose") != "early_failure_detection_not_full_scan_or_representative_probe_certification"
+            or report.get("checks", {}).get("early_full_physical_forward_backward") is not True
+            or early.get("probe", {}).get("plan") != {"selected_batch_indices": [first], "replay_stop_batch": first}):
+        raise ValueError("v4 first-full-physical-batch evidence is missing or changed")
+    for probe_index, probe in enumerate((early.get("probe", {}), report.get("batch_training_probe", {}))):
+        if probe.get("passed") is not True or not probe.get("steps"):
+            raise ValueError("v4 early and representative hierarchy probes must both pass")
+        for step in probe["steps"]:
+            evidence = step.get("hierarchy_readout", {})
+            counts = evidence.get("counts")
+            if (not isinstance(counts, list) or len(counts) != step["batch_size"]
+                    or evidence.get("scope") != "actual_full_model_training_forward_coarse_graphs_in_this_physical_batch"
+                    or evidence.get("fine_counts_verified_against_counted_scan_rows") is not True
+                    or type(evidence.get("topology_scan_complete")) is not bool
+                    or (probe_index == 1 and evidence["topology_scan_complete"] is not True)
+                    or evidence.get("peak_memory_includes_hierarchy") is not True):
+                raise ValueError("v4 measured hierarchy graph/memory evidence is missing")
+            for value, index in zip(counts, step["dataset_indices"], strict=True):
+                if (not isinstance(value, dict) or set(value) != {"nodes", "directed_edges"}
+                        or any(type(item) is not int or item < 0 for item in value.values())):
+                    raise ValueError("v4 measured coarse counts must be nonnegative integers")
+                nodes, edges = value["nodes"], value["directed_edges"]
+                if (nodes > records[index]["readout_nodes"] or edges > records[index]["readout_directed_edges"]
+                        or edges % 2 or edges > nodes * max(nodes - 1, 0)):
+                    raise ValueError("v4 measured quotient topology exceeds its fine graph")
 
 
 def _validate_guard_measurement(report, public_config, batches):
@@ -38291,6 +41396,7 @@ def _validate_guard_measurement(report, public_config, batches):
     records = topology.get("samples")
     if not isinstance(records, list) or not records:
         raise ValueError("Measured guard topology records are missing")
+    _validate_hierarchy_evidence(report, public_config, batches)
     count_fields = ("readout_nodes", "readout_directed_edges", "prefix_union_nodes_upper_bound",
                     "prefix_union_directed_edges_upper_bound")
     for row in records:
@@ -38327,7 +41433,7 @@ def _validate_guard_measurement(report, public_config, batches):
     derived = measurement.get("derived_config")
     if (explicit and (not isinstance(derived, str) or not derived)) or (not explicit and derived is not None):
         raise ValueError("Derived guard config provenance does not match explicit authorization")
-    floor = _graph_storage_floor(topology, batches)
+    floor = _graph_storage_floor(topology, batches, public_config["model"].get("graph_storage", "materialized"))
     if measurement.get("raw_graph_storage_floor") != floor:
         raise ValueError("Streaming raw-graph storage floor differs from the full sequence schedule")
     memory = measurement.get("device_memory")
@@ -38580,6 +41686,924 @@ def aggregate_stream_execution(
     return result
 ~~~~~~~~
 
+# src/asgcn_unet/stream_sampling.py
+
+~~~~~~~~python
+"""Sequence-global ordinal sampling after full raw-stream validation.
+
+This module does not validate raw event chronology or cross-frame identities:
+the streaming caller must validate *all raw events* before calling it. Sampling
+must never hide a malformed event or replace the raw last-event ID in state.
+Only the explicit factor changes event selection; clocks, targets, geometry and
+the physical batch remain unchanged. Counters count every raw event, not just
+selected events, and belong to the sequence rather than the frame/batch lane.
+"""
+
+from __future__ import annotations
+
+from collections.abc import Sequence
+from dataclasses import dataclass
+from typing import Any
+
+import torch
+
+from .batching import PackedSampleBatch
+
+
+@dataclass(frozen=True)
+class StreamSamplingResult:
+    packed: PackedSampleBatch
+    keep_mask: torch.Tensor
+    next_offsets: tuple[int, ...]
+    arrival_group_counts: tuple[tuple[int, ...], ...]
+
+
+def _integer(value: Any, name: str, *, minimum: int = 0) -> int:
+    if type(value) is not int or value < minimum:
+        raise ValueError(f"{name} must be an integer >= {minimum}")
+    return value
+
+
+def _groups(value: Any, name: str) -> tuple[int, ...]:
+    if not isinstance(value, (list, tuple)):
+        raise TypeError(f"{name} must be a list/tuple of positive integer counts")
+    return tuple(_integer(count, name, minimum=1) for count in value)
+
+
+def _retained_count(count: int, prior: int, factor: int) -> int:
+    first = (-prior) % factor
+    return 0 if first >= count else 1 + (count - 1 - first) // factor
+
+
+def sample_stream_batch(
+    packed: PackedSampleBatch, prior_offsets: Sequence[int], *, factor: int,
+) -> StreamSamplingResult:
+    """Keep raw sequence ordinals ``(prior + local_ordinal) % factor == 0``.
+
+    ``prior_offsets`` are Python integer counts of previously validated *raw*
+    events for each independent sequence in packed order. They need not fit in
+    int64: Python modulo is applied before constructing tensor indices, avoiding
+    counter overflow on long sequences. ``factor`` must fit positive int64 for
+    the tensor remainder operation. Neither argument has an inferred default.
+
+    Arrival groups are recomputed arithmetically from already-validated raw
+    equal-timestamp groups, without host reads of GPU tensors or per-lane tensor
+    forwards. Empty selections retain their sample/target and updated raw count.
+    R=1 returns the original packed object, preserving the existing v3 data path.
+    """
+    _integer(factor, "factor", minimum=1)
+    if factor > torch.iinfo(torch.long).max:
+        raise ValueError("factor exceeds the int64 tensor-index range")
+    if not isinstance(packed, PackedSampleBatch) or not len(packed):
+        raise TypeError("Sampling requires a nonempty PackedSampleBatch")
+    if (not isinstance(prior_offsets, Sequence) or isinstance(prior_offsets, (str, bytes))
+            or len(prior_offsets) != len(packed)):
+        raise ValueError("prior_offsets must contain one raw count per packed sequence")
+    prior = tuple(_integer(value, "prior_offsets") for value in prior_offsets)
+    counts = tuple(_integer(value, "event_counts") for value in packed.event_counts)
+    if len(counts) != len(packed) or sum(counts) != len(packed.events):
+        raise ValueError("Packed event_counts do not cover the raw packed events")
+    if packed.events.ndim != 2 or packed.events.shape[1] != 4 or packed.events.dtype != torch.float64:
+        raise ValueError("Sampling requires validated float64 physical events [N,4]")
+    if (packed.event_ids is None or packed.event_ids.dtype != torch.long
+            or packed.event_ids.shape != (len(packed.events), 2)
+            or packed.event_ids.device != packed.events.device):
+        raise ValueError("Sampling requires raw same-device int64 event_ids [N,2]")
+
+    updated_samples, selected_groups = [], []
+    for sample, count, offset in zip(packed, counts, prior, strict=True):
+        metadata = sample.get("metadata")
+        timing = metadata.get("stream_time") if isinstance(metadata, dict) else None
+        if not isinstance(timing, dict) or timing.get("schema") != "physical_seconds_v1":
+            raise ValueError("Sampling requires validated physical_seconds_v1 metadata")
+        groups = _groups(timing.get("arrival_group_counts"), "arrival_group_counts")
+        if sum(groups) != count:
+            raise ValueError("Raw arrival_group_counts must cover every raw event")
+        current, selected = offset, []
+        for size in groups:
+            retained = _retained_count(size, current, factor)
+            if retained:
+                selected.append(retained)
+            current += size
+        selected_groups.append(tuple(selected))
+        updated_samples.append({
+            **sample, "metadata": {
+                **metadata, "stream_time": {**timing, "arrival_group_counts": tuple(selected)},
+            },
+        })
+
+    next_offsets = tuple(offset + count for offset, count in zip(prior, counts, strict=True))
+    arrival_groups = tuple(selected_groups)
+    if factor == 1:
+        return StreamSamplingResult(
+            packed, torch.ones(len(packed.events), device=packed.events.device, dtype=torch.bool),
+            next_offsets, arrival_groups,
+        )
+
+    # All independent lanes share one tensor selection. Metadata loops above
+    # contain no tensor work, device synchronization or graph/model execution.
+    device = packed.events.device
+    sizes = torch.tensor(counts, device=device, dtype=torch.long)
+    lane = torch.repeat_interleave(torch.arange(len(packed), device=device), sizes)
+    starts = sizes.cumsum(0) - sizes
+    local_ordinal = torch.arange(len(packed.events), device=device) - starts[lane]
+    phase = torch.tensor([(-offset) % factor for offset in prior], device=device, dtype=torch.long)
+    keep = local_ordinal.remainder(factor) == phase[lane]
+    selected_counts = tuple(_retained_count(count, offset, factor)
+                            for offset, count in zip(prior, counts, strict=True))
+    sampled = PackedSampleBatch(
+        updated_samples, packed.events[keep], selected_counts, packed.targets, packed.event_ids[keep],
+    )
+    return StreamSamplingResult(sampled, keep, next_offsets, arrival_groups)
+
+
+def replace_record_groups(records: Sequence[tuple], groups: Sequence[tuple[int, ...]]) -> list[tuple]:
+    """Copy six-field ``stream_model._metadata`` records with sampled groups.
+
+    Sequence identity/index and all three physical clocks are retained exactly.
+    This helper does not mutate raw records or infer/revalidate their chronology.
+    """
+    if len(records) != len(groups):
+        raise ValueError("One sampled arrival-group sequence is required per metadata record")
+    result = []
+    for record, counts in zip(records, groups, strict=True):
+        if not isinstance(record, tuple) or len(record) != 6:
+            raise ValueError("Expected six-field streaming metadata records")
+        result.append((*record[:5], _groups(counts, "sampled arrival_group_counts")))
+    return result
+~~~~~~~~
+
+# src/asgcn_unet/stream_scan_checkpoint.py
+
+~~~~~~~~python
+"""Exact count-only scan checkpoints, never model/training checkpoints.
+
+Identity binds source/config/data/schedule and immutable report identity, not
+changing progress JSON. Cursor means completed physical batches. Callers must
+pass the last complete state, never a partially mutated batch. Old JSON without
+raw lane state cannot be migrated. RAM checks are planning, not hard isolation.
+Importing this module does not import torch or initialize an accelerator.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import os
+import re
+import stat
+import zipfile
+from pathlib import Path
+from types import SimpleNamespace
+from uuid import uuid4
+
+from .artifact_lock import exclusive_artifact_writer
+
+SCHEMA = "asgcn_stream_scan_checkpoint_v1"
+IDENTITY_FIELDS = {"source_sha256", "config_sha256", "data_sha256", "schedule_sha256", "report_sha256"}
+STATE_FIELDS = {"positions", "timestamps", "origin_seconds", "watermark_seconds", "sequence_index",
+                "sequence_identity", "contract", "directed_edges"}
+OPTIONAL_STATE_FIELDS = {"sampling_offset", "last_event_id"}
+
+
+def _encoded(value):
+    return json.JSONEncoder(sort_keys=True, separators=(",", ":"), ensure_ascii=False,
+                            allow_nan=False).iterencode(value)
+
+
+def _digest(value):
+    digest = hashlib.sha256()
+    for piece in _encoded(value):
+        digest.update(piece.encode("utf-8"))
+    return digest.hexdigest()
+
+
+def _identity(value):
+    if (not isinstance(value, dict) or set(value) != IDENTITY_FIELDS
+            or any(not isinstance(item, str) or not re.fullmatch("[0-9a-f]{64}", item)
+                   for item in value.values())):
+        raise ValueError("Scan checkpoint requires exact source/config/data/schedule/report SHA256 identity")
+    return dict(value)
+
+
+def _bytes(value, name, *, zero=False):
+    if (isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+            or value < 0 or (not zero and value == 0)):
+        raise ValueError(f"{name} must be an explicit finite nonnegative/positive MiB budget")
+    result = int(value * 1024**2)
+    if not zero and result < 1:
+        raise ValueError(f"{name} must allow at least one byte")
+    return result
+
+
+def _regular(path):
+    if path.is_symlink() or not stat.S_ISREG(path.lstat().st_mode):
+        raise ValueError(f"Scan checkpoint requires a regular non-symlink file: {path.name}")
+    return path
+
+
+def _directory(path):
+    result = Path(path).absolute()
+    if result == result.parent or result.is_symlink() or result.resolve() != result:
+        raise ValueError("Scan checkpoint requires an explicit non-symlink directory")
+    return result
+
+
+def _read_json(path, budget):
+    _regular(path)
+    if path.stat().st_size > budget:
+        raise MemoryError("Scan checkpoint JSON exceeds the explicit memory budget")
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def _write_json(path, value):
+    with path.open("x", encoding="utf-8") as handle:
+        for piece in _encoded(value):
+            handle.write(piece)
+        handle.flush()
+        os.fsync(handle.fileno())
+
+
+def _file_record(path):
+    digest = hashlib.sha256()
+    with _regular(path).open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return {"filename": path.name, "size_bytes": path.stat().st_size, "sha256": digest.hexdigest()}
+
+
+def _headroom(required, budget, reserve):
+    from .diagnostic_resources import _snapshot
+
+    if required > budget:
+        raise MemoryError(f"Scan checkpoint needs {required:,} planned CPU bytes; budget={budget:,}. No state was reduced.")
+    measured = _snapshot()
+    if required + reserve > measured["headroom_bytes"]:
+        raise MemoryError("Insufficient measured CPU RAM headroom for exact scan checkpoint plus reserve")
+    return {"required_bytes": required, "budget_bytes": budget, "reserve_bytes": reserve,
+            "headroom_bytes": measured["headroom_bytes"], "hard_memory_isolation": False,
+            "scope": "incremental_checkpoint_tensors_and_conservative_JSON_workspace_not_full_process_peak"}
+
+
+def _owner(directory, identity, budget, *, create=False):
+    path = directory / "owner.json"
+    expected = {"schema": SCHEMA + "_owner", "identity": identity, "identity_sha256": _digest(identity)}
+    if create and not directory.exists():
+        directory.mkdir(parents=True, exist_ok=False)
+        _write_json(path, expected)
+    if not path.exists():
+        raise ValueError("No exact raw-state scan checkpoint owner exists; partial JSON cannot be resumed or migrated")
+    if _read_json(path, budget) != expected:
+        raise ValueError("Scan checkpoint directory belongs to a different experiment identity")
+
+
+def inspect_scan_checkpoint(checkpoint_dir, *, expected_identity=None, memory_budget_mib):
+    """Verify manifest and immutable file hashes without importing/loading torch."""
+    directory, budget = _directory(checkpoint_dir), _bytes(memory_budget_mib, "memory_budget_mib")
+    if not (directory / "latest.json").exists():
+        raise ValueError("No committed raw-state scan checkpoint; old partial JSON is not resumable")
+    manifest = _read_json(directory / "latest.json", budget)
+    fields = {"schema", "identity", "identity_sha256", "generation", "completed_batches",
+              "metadata", "tensors", "commitment_sha256"}
+    if not isinstance(manifest, dict) or set(manifest) != fields or manifest["schema"] != SCHEMA:
+        raise ValueError("Invalid scan checkpoint manifest schema")
+    identity = _identity(manifest["identity"])
+    if expected_identity is not None and identity != _identity(expected_identity):
+        raise ValueError("Scan checkpoint source/config/data/schedule/report identity mismatch")
+    _owner(directory, identity, budget)
+    commitment = {key: value for key, value in manifest.items() if key != "commitment_sha256"}
+    if manifest["identity_sha256"] != _digest(identity) or manifest["commitment_sha256"] != _digest(commitment):
+        raise ValueError("Scan checkpoint manifest commitment mismatch")
+    if not isinstance(manifest["generation"], str) or not re.fullmatch("[0-9a-f]{32}", manifest["generation"]):
+        raise ValueError("Invalid scan checkpoint generation")
+    if type(manifest["completed_batches"]) is not int or manifest["completed_batches"] < 0:
+        raise ValueError("Invalid completed scan batch cursor")
+    for field, suffix in (("metadata", ".json"), ("tensors", ".pt")):
+        record = manifest[field]
+        if (not isinstance(record, dict) or set(record) != {"filename", "size_bytes", "sha256"}
+                or record["filename"] != manifest["generation"] + suffix
+                or type(record["size_bytes"]) is not int or record["size_bytes"] < 0
+                or record["size_bytes"] > budget):
+            raise ValueError("Invalid or over-budget scan checkpoint file record")
+        if _file_record(directory / record["filename"]) != record:
+            raise ValueError(f"Scan checkpoint {field} file hash/size mismatch")
+    return manifest
+
+
+def _finals(value):
+    if not isinstance(value, dict):
+        raise TypeError("sequence_final_indices must map sequence identities to final indices")
+    result = []
+    for key, index in value.items():
+        if (not isinstance(key, tuple) or len(key) != 2 or not all(isinstance(part, str) for part in key)
+                or not key[0] or type(index) is not int or index < 0):
+            raise ValueError("Invalid sequence final-index contract")
+        result.append([list(key), index])
+    return sorted(result)
+
+
+def _validate_prefix(identity, batches, completed, topology, final_indices):
+    if not isinstance(batches, (list, tuple)) or any(not isinstance(batch, (list, tuple)) or not batch for batch in batches):
+        raise ValueError("Scan checkpoint requires the complete physical-batch schedule")
+    if _digest(batches) != identity["schedule_sha256"]:
+        raise ValueError("Scan checkpoint schedule commitment mismatch")
+    if type(completed) is not int or not 0 <= completed <= len(batches):
+        raise ValueError("Scan checkpoint cursor is outside the complete batch schedule")
+    flattened = [index for batch in batches for index in batch]
+    if any(type(index) is not int for index in flattened) or sorted(flattened) != list(range(len(flattened))):
+        raise ValueError("Scan checkpoint schedule must cover every dataset index exactly once")
+    if not isinstance(topology, dict) or not isinstance(topology.get("samples"), list):
+        raise TypeError("Scan checkpoint needs exact topology records, not a summary-only JSON")
+    records = topology["samples"]
+    seen = {index for batch in batches[:completed] for index in batch}
+    if (len(records) != len(flattened) or topology.get("dataset_samples") != len(records)
+            or topology.get("scanned_samples") != len(seen)
+            or (topology.get("scan_complete") is True and completed != len(batches))):
+        raise ValueError("Topology report and completed batch cursor disagree")
+    latest = {}
+    sampling = topology.get("sampling_contract")
+    if sampling is not None and (
+            not isinstance(sampling, dict) or set(sampling) != {"factor", "ordinal_origin", "counter", "reset"}
+            or type(sampling["factor"]) is not int or not 1 <= sampling["factor"] < 2**63
+            or sampling["ordinal_origin"] != 0 or sampling["counter"] != "all_raw_events"
+            or sampling["reset"] != "sequence_start_only"):
+        raise ValueError("Invalid exact scan sampling contract")
+    for number, batch in enumerate(batches):
+        batch_keys = set()
+        for index in batch:
+            record = records[index]
+            if number >= completed:
+                if record is not None:
+                    raise ValueError("Topology contains records past its completed batch cursor")
+                continue
+            if not isinstance(record, dict) or record.get("dataset_index") != index:
+                raise ValueError("Missing/mismatched completed topology record")
+            key = record.get("sequence_identity")
+            if (not isinstance(key, (list, tuple)) or len(key) != 2
+                    or not all(isinstance(part, str) for part in key)):
+                raise ValueError("Invalid topology sequence identity")
+            key = tuple(key)
+            seq_index = record.get("sequence_index")
+            if (key not in final_indices or type(seq_index) is not int or not 0 <= seq_index <= final_indices[key]
+                    or key in batch_keys or (key in latest and seq_index != latest[key]["sequence_index"] + 1)):
+                raise ValueError("Completed topology does not follow independent chronological sequences")
+            start, end = record.get("interval_start_seconds"), record.get("interval_end_seconds")
+            if (any(isinstance(item, bool) or not isinstance(item, (int, float)) or not math.isfinite(item)
+                    for item in (start, end)) or end < start
+                    or (key in latest and latest[key]["interval_end_seconds"] > start)):
+                raise ValueError("Completed topology has invalid/overlapping physical clocks")
+            if sampling is not None:
+                prior = latest[key]["sampling_offset_after"] if key in latest else 0
+                incoming = record.get("incoming_events")
+                selected = record.get("sampled_incoming_events")
+                before, after = record.get("sampling_offset_before"), record.get("sampling_offset_after")
+                if (any(type(value) is not int or value < 0 for value in (incoming, selected, before, after))
+                        or before != prior or after != prior + incoming):
+                    raise ValueError("Exact scan sampling counter is missing or discontinuous")
+                first = (-before) % sampling["factor"]
+                expected_selected = 0 if first >= incoming else 1 + (incoming - 1 - first) // sampling["factor"]
+                if selected != expected_selected:
+                    raise ValueError("Exact scan sampled count differs from sequence-global ordinal selection")
+                last_id = _last_id(record.get("raw_last_event_id"))
+                previous_id = _last_id(latest[key].get("raw_last_event_id")) if key in latest else None
+                if ((incoming and (last_id is None or (previous_id is not None and last_id <= previous_id)))
+                        or (not incoming and last_id != previous_id)):
+                    raise ValueError("Exact scan raw event identity endpoint is missing or discontinuous")
+            batch_keys.add(key)
+            latest[key] = record
+            for name in ("readout_nodes", "readout_directed_edges", "prefix_union_nodes_upper_bound",
+                         "prefix_union_directed_edges_upper_bound"):
+                if type(record.get(name)) is not int or record[name] < 0:
+                    raise ValueError("Invalid exact topology node/edge count")
+            nodes, edges = record["readout_nodes"], record["readout_directed_edges"]
+            if (edges % 2 or edges > nodes * max(nodes - 1, 0)
+                    or nodes > record["prefix_union_nodes_upper_bound"]
+                    or edges > record["prefix_union_directed_edges_upper_bound"]
+                    or record["prefix_union_directed_edges_upper_bound"] % 2
+                    or record["prefix_union_directed_edges_upper_bound"] > record["prefix_union_nodes_upper_bound"]
+                    * max(record["prefix_union_nodes_upper_bound"] - 1, 0)):
+                raise ValueError("Impossible exact topology node/edge counts")
+    return {key: row for key, row in latest.items() if row["sequence_index"] < final_indices[key]}
+
+
+def _last_id(value):
+    if value is not None and (not isinstance(value, (list, tuple)) or len(value) != 2
+                              or any(type(item) is not int or item < 0 for item in value)):
+        raise ValueError("Invalid raw scan last_event_id")
+    return None if value is None else tuple(value)
+
+
+def _validate_state(key, fields, positions, timestamps, row):
+    import torch
+
+    count = row["readout_nodes"]
+    base_fields = STATE_FIELDS - {"positions", "timestamps"}
+    if (not isinstance(fields, dict) or not base_fields <= set(fields) <= base_fields | OPTIONAL_STATE_FIELDS
+            or tuple(fields["sequence_identity"]) != key or fields["sequence_index"] != row["sequence_index"]
+            or type(fields["sequence_index"]) is not int or type(fields["directed_edges"]) is not int
+            or fields["directed_edges"] != row["readout_directed_edges"]
+            or fields["watermark_seconds"] != row["interval_end_seconds"]
+            or not isinstance(fields["contract"], str) or not re.fullmatch("[0-9a-f]{64}", fields["contract"])):
+        raise ValueError("Raw scan lane state disagrees with its latest completed topology record")
+    offset = fields.get("sampling_offset", 0)
+    if (type(offset) is not int or offset < 0
+            or ("sampling_offset_after" in row and ("sampling_offset" not in fields or offset != row["sampling_offset_after"]))):
+        raise ValueError("Raw scan sampling_offset disagrees with its committed raw count")
+    last_id = _last_id(fields.get("last_event_id"))
+    if "raw_last_event_id" in row and ("last_event_id" not in fields or last_id != _last_id(row["raw_last_event_id"])):
+        raise ValueError("Raw scan last_event_id disagrees with its committed endpoint")
+    if (not isinstance(positions, torch.Tensor) or not isinstance(timestamps, torch.Tensor)
+            or positions.dtype != torch.float64 or timestamps.dtype != torch.float64
+            or positions.shape != (count, 4) or timestamps.shape != (count,)
+            or positions.device.type != "cpu" or timestamps.device.type != "cpu"
+            or positions.layout != torch.strided or timestamps.layout != torch.strided
+            or positions.requires_grad or timestamps.requires_grad):
+        raise ValueError("Raw scan state requires CPU float64 positions[N,4] and timestamps[N]")
+    origin, watermark = fields["origin_seconds"], fields["watermark_seconds"]
+    if any(isinstance(item, bool) or not isinstance(item, (int, float)) or not math.isfinite(item)
+           for item in (origin, watermark)) or origin > watermark or origin > row["interval_start_seconds"]:
+        raise ValueError("Invalid raw scan state physical clock")
+    if not bool(torch.stack((torch.isfinite(positions).all(), torch.isfinite(timestamps).all(),
+                            (timestamps >= origin).all(), (timestamps <= watermark).all(),
+                            (timestamps[1:] >= timestamps[:-1]).all())).all()):
+        raise ValueError("Raw scan state contains nonfinite/reversed/out-of-range physical timestamps")
+
+
+def save_scan_checkpoint(checkpoint_dir, *, identity, batches, completed_batches, states, topology,
+                         sequence_final_indices, memory_budget_mib, reserve_memory_mib=0):
+    """Commit exactly one complete batch prefix; keep the previous commit on failure."""
+    identity = _identity(identity)
+    budget, reserve = _bytes(memory_budget_mib, "memory_budget_mib"), _bytes(reserve_memory_mib, "reserve_memory_mib", zero=True)
+    finals = _finals(sequence_final_indices)
+    live = _validate_prefix(identity, batches, completed_batches, topology, sequence_final_indices)
+    if not isinstance(states, dict) or set(states) != set(live):
+        raise ValueError("Raw scan checkpoint must contain every unfinished lane and no completed lanes")
+    metadata = {"schema": SCHEMA + "_state", "identity": identity, "completed_batches": completed_batches,
+                "sequence_final_indices": finals, "topology": topology, "states": []}
+    tensor_bytes = 0
+    for key in sorted(states):
+        state = states[key]
+        names = set(vars(state))
+        if not STATE_FIELDS <= names <= STATE_FIELDS | OPTIONAL_STATE_FIELDS:
+            raise ValueError("Only exact raw count-only scan state can be checkpointed")
+        fields = {name: getattr(state, name) for name in sorted(names - {"positions", "timestamps"})}
+        fields["sequence_identity"] = list(fields["sequence_identity"])
+        metadata["states"].append({"key": list(key), "fields": fields, "nodes": live[key]["readout_nodes"]})
+        tensor_bytes += live[key]["readout_nodes"] * 40
+    metadata_bytes = sum(len(piece.encode("utf-8")) for piece in _encoded(metadata))
+    _headroom(2 * tensor_bytes + 8 * metadata_bytes, budget, reserve)
+    import torch
+
+    tensors = {}
+    for index, (key, state) in enumerate(sorted(states.items())):
+        count = live[key]["readout_nodes"]
+        if (not isinstance(state.positions, torch.Tensor) or not isinstance(state.timestamps, torch.Tensor)
+                or state.positions.shape != (count, 4) or state.timestamps.shape != (count,)
+                or state.positions.dtype != torch.float64 or state.timestamps.dtype != torch.float64
+                or state.positions.layout != torch.strided or state.timestamps.layout != torch.strided
+                or state.positions.requires_grad or state.timestamps.requires_grad):
+            raise ValueError("Raw scan source tensor shape/dtype must match the budgeted topology before copying")
+        positions = state.positions.detach().to(device="cpu", copy=True).contiguous()
+        timestamps = state.timestamps.detach().to(device="cpu", copy=True).contiguous()
+        _validate_state(key, metadata["states"][index]["fields"], positions, timestamps, live[key])
+        tensors[f"positions_{index}"] = positions
+        tensors[f"timestamps_{index}"] = timestamps
+    directory = _directory(checkpoint_dir)
+    with exclusive_artifact_writer(directory):
+        _owner(directory, identity, budget, create=True)
+        previous = inspect_scan_checkpoint(directory, expected_identity=identity, memory_budget_mib=memory_budget_mib) if (directory / "latest.json").exists() else None
+        if previous is not None and completed_batches < previous["completed_batches"]:
+            raise ValueError("Scan checkpoint cursor cannot move backwards")
+        generation = uuid4().hex
+        tensor_path, metadata_path = directory / f"{generation}.pt", directory / f"{generation}.json"
+        # Unique orphan files on interruption are ignored, never cleaned by glob.
+        with tensor_path.open("xb") as handle:
+            torch.save(tensors, handle)
+            handle.flush()
+            os.fsync(handle.fileno())
+        _write_json(metadata_path, metadata)
+        manifest = {"schema": SCHEMA, "identity": identity, "identity_sha256": _digest(identity),
+                    "generation": generation, "completed_batches": completed_batches,
+                    "metadata": _file_record(metadata_path), "tensors": _file_record(tensor_path)}
+        manifest["commitment_sha256"] = _digest(manifest)
+        temporary = directory / f"{generation}.manifest.tmp"
+        _write_json(temporary, manifest)
+        os.replace(temporary, directory / "latest.json")
+        if previous is not None:
+            for field in ("metadata", "tensors"):
+                old_path = directory / previous[field]["filename"]
+                if _file_record(old_path) != previous[field]:
+                    raise ValueError("Previous checkpoint changed after publication; it was preserved")
+                old_path.unlink()
+        return manifest
+
+
+def load_scan_checkpoint(checkpoint_dir, *, expected_identity, batches, sequence_final_indices,
+                         memory_budget_mib, reserve_memory_mib=0):
+    """Restore CPU-owned exact states; no source migration or missing-state fallback."""
+    identity = _identity(expected_identity)
+    budget, reserve = _bytes(memory_budget_mib, "memory_budget_mib"), _bytes(reserve_memory_mib, "reserve_memory_mib", zero=True)
+    directory = _directory(checkpoint_dir)
+    with exclusive_artifact_writer(directory):
+        manifest = inspect_scan_checkpoint(directory, expected_identity=identity, memory_budget_mib=memory_budget_mib)
+        metadata_path, tensor_path = (directory / manifest[name]["filename"] for name in ("metadata", "tensors"))
+        _headroom(8 * manifest["metadata"]["size_bytes"] + 2 * manifest["tensors"]["size_bytes"], budget, reserve)
+        metadata = _read_json(metadata_path, budget)
+        expected = {"schema", "identity", "completed_batches", "sequence_final_indices", "topology", "states"}
+        if (not isinstance(metadata, dict) or set(metadata) != expected or metadata["schema"] != SCHEMA + "_state"
+                or metadata["identity"] != identity or metadata["completed_batches"] != manifest["completed_batches"]
+                or metadata["sequence_final_indices"] != _finals(sequence_final_indices)):
+            raise ValueError("Invalid/mismatched scan checkpoint state metadata")
+        live = _validate_prefix(identity, batches, metadata["completed_batches"], metadata["topology"], sequence_final_indices)
+        rows = metadata["states"]
+        if (not isinstance(rows, list) or any(not isinstance(row, dict) or set(row) != {"key", "fields", "nodes"}
+                                            for row in rows)):
+            raise ValueError("Invalid raw scan lane metadata")
+        keys = [tuple(row["key"]) for row in rows]
+        if len(keys) != len(set(keys)) or set(keys) != set(live):
+            raise ValueError("Raw scan checkpoint is missing an unfinished lane or duplicates a lane")
+        if any(type(row["nodes"]) is not int or row["nodes"] != live[key]["readout_nodes"]
+               for row, key in zip(rows, keys, strict=True)):
+            raise ValueError("Raw scan state node counts differ from completed topology")
+        with zipfile.ZipFile(tensor_path) as archive:
+            members = archive.infolist()
+            if any(member.compress_type != zipfile.ZIP_STORED for member in members):
+                raise ValueError("Compressed scan tensor archives are not accepted")
+            if sum(member.file_size for member in members) > budget:
+                raise MemoryError("Scan tensor archive exceeds the explicit CPU memory budget")
+        import torch
+
+        tensors = torch.load(tensor_path, map_location="cpu", weights_only=True, mmap=True)
+        if not isinstance(tensors, dict) or set(tensors) != {f"{name}_{index}" for index in range(len(rows))
+                                                           for name in ("positions", "timestamps")}:
+            raise ValueError("Scan checkpoint contains unexpected tensors or missing raw state")
+        states = {}
+        for index, (key, row) in enumerate(zip(keys, rows, strict=True)):
+            positions, timestamps = tensors[f"positions_{index}"], tensors[f"timestamps_{index}"]
+            _validate_state(key, row["fields"], positions, timestamps, live[key])
+            fields = dict(row["fields"], sequence_identity=key)
+            fields.setdefault("sampling_offset", 0)
+            fields["last_event_id"] = _last_id(fields.get("last_event_id"))
+            states[key] = SimpleNamespace(**fields, positions=positions.clone(), timestamps=timestamps.clone())
+        return {"states": states, "topology": metadata["topology"],
+                "completed_batches": metadata["completed_batches"], "manifest": manifest}
+~~~~~~~~
+
+# src/asgcn_unet/stream_scan_loader.py
+
+~~~~~~~~python
+"""Bounded CPU prefetch for an unchanged, resumable physical scan schedule.
+
+Memory planning is conservative accounting, not OS memory isolation or a measured
+peak. Decode/collate work may overlap consumer computation; wait time is separate.
+"""
+
+from __future__ import annotations
+
+import math
+import os
+import random
+import time
+from contextlib import ExitStack
+from dataclasses import dataclass
+from pathlib import Path
+
+import h5py
+import numpy as np
+import torch
+from torch.utils.data import DataLoader, Dataset
+
+from .batching import PackedSampleBatch, move_batch, pack_samples
+from .resources import collect_runtime_resources
+from .stream_input import PHYSICAL_EVENT_TIME_CONTRACT
+
+
+def _integer(value, name, minimum=0):
+    if type(value) is not int or value < minimum:
+        raise ValueError(f"{name} must be an integer >= {minimum}")
+    return value
+
+
+def _positive(value, name):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
+        raise ValueError(f"{name} must be measured, finite and positive")
+    return value
+
+
+def _cpu_tensors(value):
+    if isinstance(value, torch.Tensor) and value.device.type != "cpu":
+        raise ValueError("Scan dataset workers and collation must return CPU tensors only")
+    if isinstance(value, dict):
+        for item in value.values():
+            _cpu_tensors(item)
+    elif isinstance(value, (tuple, list)):
+        for item in value:
+            _cpu_tensors(item)
+
+
+class _TimedDataset(Dataset):
+    def __init__(self, dataset):
+        self.dataset = dataset
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, index):
+        started = time.perf_counter()
+        sample = self.dataset[index]
+        _cpu_tensors(sample)
+        elapsed = (time.perf_counter() - started) * 1000
+        return index, sample, elapsed
+
+
+@dataclass
+class _TimedPacked:
+    indices: list[int]
+    packed: PackedSampleBatch
+    decode_ms: float
+    collate_ms: float
+    pin_ms: float = 0.0
+
+    def pin_memory(self):
+        started = time.perf_counter()
+        self.packed = self.packed.pin_memory()
+        self.pin_ms = (time.perf_counter() - started) * 1000
+        return self
+
+
+def _collate_scan(samples):
+    started = time.perf_counter()
+    indices, records, elapsed = zip(*samples, strict=True)
+    packed = pack_samples(list(records))
+    return _TimedPacked(list(indices), packed, sum(elapsed), (time.perf_counter() - started) * 1000)
+
+
+def _initialize_cpu_worker(worker_id):
+    # Spawn, never fork a parent with an initialized CUDA runtime. Torch's worker
+    # loop is CPU-only; cap intra-op threads, not the configured worker count.
+    if torch.cuda.is_initialized():
+        raise RuntimeError("A scan decoding worker unexpectedly inherited CUDA state")
+    torch.set_num_threads(1)
+    seed = torch.initial_seed() % 2**32
+    random.seed(seed)
+    np.random.seed(seed)
+
+
+class _RemainingBatches:
+    def __init__(self, batches, start):
+        self.batches, self.start = batches, start
+
+    def __iter__(self):
+        for number in range(self.start, len(self.batches)):
+            yield list(self.batches[number])
+
+    def __len__(self):
+        return len(self.batches) - self.start
+
+
+def _sample_memory_bounds(dataset):
+    """Bound full EventHDR intervals from indexed spans/image metadata, not crops.
+
+    No event values or image pixels are read. 48 bytes/event are exact packed
+    float64[4]+int64[2] tensor storage; 40 additional bytes allow Python arrival
+    group entries. Transient decoding uses an explicitly conservative 256 bytes
+    per raw event plus full-resolution target conversion buffers.
+    """
+    if getattr(dataset, "event_time_contract", None) != PHYSICAL_EVENT_TIME_CONTRACT:
+        raise ValueError("Scan loader memory planning requires the physical EventHDR input contract")
+    records = getattr(dataset, "samples", None)
+    if not isinstance(records, list) or len(records) != len(dataset):
+        raise ValueError("Scan loader requires complete indexed dataset.samples metadata")
+    channels = _integer(getattr(dataset, "target_channels", None), "target_channels", 1)
+    crop = getattr(dataset, "crop_size", None)
+    bounds = []
+    with ExitStack() as stack:
+        handles = {}
+        for record in records:
+            start = _integer(record.get("start_idx"), "event start_idx")
+            end = _integer(record.get("end_idx"), "event end_idx")
+            if end < start:
+                raise ValueError("Raw EventHDR interval ends before it starts")
+            shape = record.get("sensor_size") or record.get("shape")
+            if shape is None:
+                path = Path(record["path"])
+                if path not in handles:
+                    handles[path] = stack.enter_context(h5py.File(path, "r"))
+                image = handles[path]["images"][record["image_key"]]
+                if not isinstance(image, h5py.Dataset) or image.ndim not in (2, 3):
+                    raise ValueError("EventHDR memory planning requires HxW or HxWxC target metadata")
+                shape = image.shape[:2]
+                source_channels = image.shape[2] if image.ndim == 3 else 1
+                native_bytes = image.dtype.itemsize * math.prod(image.shape)
+            else:
+                # Indexed geometry is also used by synthetic CPU tests; when
+                # supplied it must describe the uncropped source dimensions.
+                source_channels = _integer(record.get("source_channels", channels), "source_channels", 1)
+                native_bytes = math.prod(shape) * source_channels * _integer(
+                    record.get("source_dtype_bytes", 4), "source_dtype_bytes", 1)
+            if not isinstance(shape, (tuple, list)) or len(shape) != 2:
+                raise ValueError("Source sensor_size must contain full height and width")
+            height, width = (_integer(value, "source dimension", 1) for value in shape)
+            cropped_height, cropped_width = height, width
+            if crop is not None:
+                if not isinstance(crop, (tuple, list)) or len(crop) != 2:
+                    raise ValueError("crop_size must contain positive height and width")
+                cropped_height = min(height, _integer(crop[0], "crop height", 1))
+                cropped_width = min(width, _integer(crop[1], "crop width", 1))
+            events = end - start
+            target_bytes = 4 * channels * cropped_height * cropped_width
+            full_target_bytes = 4 * max(channels, source_channels) * height * width
+            metadata_bytes = 65536 + len(repr(record).encode("utf-8"))
+            payload = events * 88 + target_bytes + metadata_bytes
+            scratch = events * 256 + full_target_bytes * 4 + native_bytes + metadata_bytes
+            bounds.append((payload, scratch))
+    return bounds
+
+
+def _make_plan(dataset, batches, start, device, train_config, resources, memory_budget_mib, reserve_memory_mib):
+    workers = _integer(train_config.get("num_workers", 0), "train.num_workers")
+    persistent = train_config.get("persistent_workers")
+    if persistent is not None and type(persistent) is not bool:
+        raise ValueError("train.persistent_workers must be a boolean or None")
+    persistent = (True if persistent is None else persistent) if workers else False
+    prefetch = train_config.get("prefetch_factor")
+    if prefetch is not None:
+        _integer(prefetch, "train.prefetch_factor", 1)
+    prefetch = (2 if prefetch is None else prefetch) if workers else None
+    pin = train_config.get("pin_memory", device.type == "cuda")
+    if type(pin) is not bool or (pin and device.type != "cuda"):
+        raise ValueError("train.pin_memory must be boolean and pinned loading requires the CUDA consumer")
+    plan = {
+        "schema": "asgcn_stream_scan_loader_plan_v1", "dataset_samples": len(dataset),
+        "total_batches": len(batches), "start_batch": start, "remaining_batches": len(batches) - start,
+        "num_workers": workers, "persistent_workers": persistent, "prefetch_factor": prefetch,
+        "pin_memory": pin, "multiprocessing_context": "spawn" if workers else None,
+        "worker_torch_threads": 1, "physical_batch_size": train_config["batch_size"],
+        "schedule_changed": False, "cursor_scope": "consumed_batches_not_prefetched_dispatched_indices",
+        "hard_memory_isolation": False, "measured_peak_memory": False,
+    }
+    if start == len(batches):
+        return {**plan, "workers_started": False, "planned_host_bytes": 0, "resources": resources}
+    if os.name == "nt" and resources.get("allocation_limits_verified") is not True:
+        raise RuntimeError("Windows Job CPU/RAM allocation limits are not measured; scan loading was refused")
+    cpu = _positive(resources.get("cpu", {}).get("effective_cpu_limit"), "effective CPU allocation")
+    main_threads = torch.get_num_threads()
+    if workers + main_threads > math.floor(cpu):
+        raise RuntimeError(
+            f"Scan input needs {workers} workers plus {main_threads} parent Torch threads, exceeding "
+            f"the measured {cpu:g}-core allocation; no worker or batch size was reduced")
+    memory = resources.get("memory", {})
+    available = _positive(memory.get("effective_available_bytes"), "available RAM")
+    rss = _positive(memory.get("process_rss_bytes"), "parent process RSS")
+    budget = available / 2 if memory_budget_mib is None else _positive(memory_budget_mib, "memory_budget_mib") * 1024**2
+    reserve = available / 4 if reserve_memory_mib is None else _positive(reserve_memory_mib, "reserve_memory_mib") * 1024**2
+    bounds = _sample_memory_bounds(dataset)
+    payload = max(sum(bounds[index][0] for index in batches[number]) for number in range(start, len(batches)))
+    scratch = max(sum(bounds[index][1] for index in batches[number]) for number in range(start, len(batches)))
+    slots = workers * prefetch if workers else 0
+    copies = slots * (2 + int(pin)) + 2 + workers
+    worker_baseline = workers * rss
+    required = payload * copies + scratch * max(workers, 1) + worker_baseline
+    plan.update({
+        "resources": resources, "workers_started": False, "main_torch_threads": main_threads,
+        "prefetch_slots": slots, "max_batch_payload_bound_bytes": payload,
+        "max_batch_decode_scratch_estimate_bytes": scratch, "payload_copy_slots": copies,
+        "worker_baseline_estimate_bytes": worker_baseline,
+        "worker_baseline_scope": "conservative_parent_RSS_replication_not_measured_worker_RSS",
+        "planned_host_bytes": required, "memory_budget_bytes": budget, "reserve_memory_bytes": reserve,
+        "memory_scope": "input_queues_decode_collate_pin_and_worker_baselines_excludes_scanner_and_CUDA",
+    })
+    if required > budget or required + reserve > available:
+        raise RuntimeError(
+            f"Prefetched scan input plan requires {required / 1024**2:.1f} MiB with "
+            f"{reserve / 1024**2:.1f} MiB reserve; budget={budget / 1024**2:.1f} MiB, "
+            f"available={available / 1024**2:.1f} MiB. No worker, prefetch, batch or data was reduced")
+    return plan
+
+
+class ScanBatchIterator:
+    """Use as a context manager; cleanup affects only this DataLoader's workers."""
+
+    def __init__(self, dataset, batches, start_batch, device, train_config, *, seed, resource_snapshot=None,
+                 memory_budget_mib=None, reserve_memory_mib=None):
+        self.device = torch.device(device)
+        _integer(seed, "scan loader seed")
+        self.generator = torch.Generator(device="cpu").manual_seed(seed)
+        physical = _integer(train_config.get("batch_size"), "train.batch_size", 1)
+        self.batches = tuple(tuple(batch) for batch in batches)
+        _integer(start_batch, "start_batch")
+        if start_batch > len(self.batches):
+            raise ValueError("start_batch exceeds the complete schedule")
+        seen = set()
+        for batch in self.batches:
+            if not batch or len(batch) > physical:
+                raise ValueError("Scan schedule contains an empty/oversized physical batch")
+            for index in batch:
+                _integer(index, "dataset index")
+                if index >= len(dataset) or index in seen:
+                    raise ValueError("Scan schedule has an out-of-range or duplicate dataset index")
+                seen.add(index)
+        if seen != set(range(len(dataset))):
+            raise ValueError("Scan schedule must cover the entire dataset exactly once")
+        resources = collect_runtime_resources(include_cuda=False) if resource_snapshot is None else resource_snapshot
+        self.plan = _make_plan(dataset, self.batches, start_batch, self.device, train_config,
+                               resources, memory_budget_mib, reserve_memory_mib)
+        self.plan.update({
+            "isolated_loader_seed": seed,
+            "rng_scope": "private_loader_generator_only_dataset_random_operations_are_not_isolated",
+        })
+        self.dataset, self.start, self.cursor = dataset, start_batch, start_batch
+        self.loader, self.iterator, self.closed = None, None, False
+
+    def __enter__(self):
+        if self.closed or self.iterator is not None:
+            raise RuntimeError("Scan loader cannot be reopened or entered twice")
+        if self.start == len(self.batches):
+            self.iterator = iter(())
+            return self
+        options = {
+            "dataset": _TimedDataset(self.dataset), "batch_sampler": _RemainingBatches(self.batches, self.start),
+            "collate_fn": _collate_scan, "num_workers": self.plan["num_workers"],
+            "pin_memory": self.plan["pin_memory"],
+            "generator": self.generator,
+        }
+        if self.plan["num_workers"]:
+            options.update(persistent_workers=self.plan["persistent_workers"],
+                           prefetch_factor=self.plan["prefetch_factor"], multiprocessing_context="spawn",
+                           worker_init_fn=_initialize_cpu_worker)
+        self.loader = DataLoader(**options)
+        self.iterator = iter(self.loader)
+        self.plan["workers_started"] = bool(self.plan["num_workers"])
+        return self
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.iterator is None or self.closed:
+            raise RuntimeError("Scan batches require an open context manager")
+        started = time.perf_counter()
+        value = next(self.iterator)
+        loaded = time.perf_counter()
+        expected = list(self.batches[self.cursor])
+        if value.indices != expected:
+            raise RuntimeError("DataLoader changed the committed scan schedule order")
+        tensor_bytes = sum(tensor.numel() * tensor.element_size() for tensor in
+                           (value.packed.events, value.packed.event_ids, value.packed.targets)
+                           if tensor is not None)
+        if tensor_bytes > self.plan["max_batch_payload_bound_bytes"]:
+            raise RuntimeError("Decoded input exceeds its metadata-derived memory plan; no batch was committed")
+        resources = collect_runtime_resources(include_cuda=False)
+        available = _positive(resources.get("memory", {}).get("effective_available_bytes"), "live available RAM")
+        if available < self.plan["reserve_memory_bytes"]:
+            raise RuntimeError("Prefetched scan input crossed its live RAM reserve; no batch was committed")
+        if self.device.type == "cuda":
+            torch.cuda.synchronize(self.device)
+        transfer_started = time.perf_counter()
+        packed = move_batch(value.packed, self.device)
+        if self.device.type == "cuda":
+            torch.cuda.synchronize(self.device)
+        transferred = time.perf_counter()
+        self.cursor += 1
+        return expected, packed, {
+            "execution": "bounded_cpu_dataloader_prefetch_then_one_packed_transfer",
+            "producer_location": "worker_process" if self.plan["num_workers"] else "main_process",
+            "actual_packed_tensor_bytes": tensor_bytes,
+            "dataset_indices": expected, "physical_batch_size": len(packed),
+            "event_counts": list(packed.event_counts), "events_shape": list(packed.events.shape),
+            "target_shape": None if packed.targets is None else list(packed.targets.shape),
+            "pin_memory": self.plan["pin_memory"], "non_blocking_transfer": self.device.type == "cuda",
+            "dataset_loading_ms": value.decode_ms, "cpu_collate_and_pin_ms": value.collate_ms + value.pin_ms,
+            "worker_decode_ms": value.decode_ms, "worker_collate_ms": value.collate_ms,
+            "pin_memory_ms": value.pin_ms, "prefetch_wait_ms": (loaded - started) * 1000,
+            "host_to_device_ms": (transferred - transfer_started) * 1000,
+            "total_input_ms": (transferred - started) * 1000,
+            "timing_scope": "consumer_wait_and_transfer_wall_time_worker_decode_collate_overlap_not_additive",
+        }
+
+    def close(self):
+        if self.closed:
+            return
+        self.closed = True
+        # Framework shutdown signals/joins only workers owned by this iterator;
+        # never enumerate or signal user/parent/server processes.
+        shutdown = getattr(self.iterator, "_shutdown_workers", None)
+        if shutdown is not None:
+            shutdown()
+        self.iterator, self.loader = None, None
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+        return False
+
+
+def iter_scan_batches(dataset, batches, start_batch, device, train_config, *, seed, **options):
+    """Return a context-managed packed iterator with a pre-spawn resource plan."""
+    return ScanBatchIterator(dataset, batches, start_batch, device, train_config, seed=seed, **options)
+~~~~~~~~
+
 # src/asgcn_unet/stream_state.py
 
 ~~~~~~~~python
@@ -38598,7 +42622,21 @@ from .stream_graph import StreamGraph
 
 
 def map_graph(graph: StreamGraph, fn) -> StreamGraph:
+    from .implicit_radius import ImplicitRadiusGraph
+
     value = graph.graph
+    if isinstance(value, ImplicitRadiusGraph):
+        value.validate_integrity()
+        if not torch.equal(value.node_batch, graph.node_batch):
+            raise ValueError("Implicit graph and stream node namespaces disagree")
+        node_batch = fn(graph.node_batch)
+        mapped = ImplicitRadiusGraph.from_counted_nodes(
+            fn(value.node_features), fn(value.positions), node_batch, fn(value.in_degree),
+            batch_size=value.batch_size, radius=value.radius, position_dims=value.position_dims,
+            chunk_size=value.chunk_size, candidate_pair_budget=value.candidate_pair_budget,
+            edge_counts=fn(value.edge_counts),
+        )
+        return StreamGraph(mapped, node_batch, fn(graph.timestamps))
     return StreamGraph(
         EventGraph(*(fn(getattr(value, name)) for name in
                      ("node_features", "positions", "edge_index", "edge_attr", "in_degree"))),
@@ -38633,11 +42671,14 @@ class StreamingReconstructionState:
     sequence_identity: tuple[str, str]
     last_event_id: tuple[int, int] | None
     contract: str
+    sampling_offset: int = 0
+    hierarchy: Any = None
 
     def _map(self, fn):
         graph = map_graph(self.graph, fn)
         return replace(self, graph=graph, encoder=map_cache(self.encoder, graph, fn),
-                       decoder=None if self.decoder is None else fn(self.decoder))
+                       decoder=None if self.decoder is None else fn(self.decoder),
+                       hierarchy=None if self.hierarchy is None else self.hierarchy.map(fn, graph))
 
     def detach(self):
         return self._map(lambda value: value.detach())
@@ -38649,8 +42690,12 @@ class StreamingReconstructionState:
         return self._map(lambda value: value.to(device=device, copy=copy))
 
     def finite(self):
-        values = [self.graph.graph.node_features, self.graph.graph.positions,
-                  self.graph.graph.edge_attr, self.graph.timestamps]
+        from .implicit_radius import ImplicitRadiusGraph
+
+        graph = self.graph.graph
+        values = [graph.node_features, graph.positions, self.graph.timestamps]
+        if not isinstance(graph, ImplicitRadiusGraph):
+            values.append(graph.edge_attr)
         if self.decoder is not None:
             values.append(self.decoder)
         if self.encoder is not None:
@@ -38661,14 +42706,43 @@ class StreamingReconstructionState:
                 elif isinstance(value, tuple):
                     values.extend(item for item in value if isinstance(item, torch.Tensor)
                                   and item.is_floating_point())
+        if self.hierarchy is not None:
+            values.extend(self.hierarchy.tensors())
         return torch.stack([torch.isfinite(value).all() for value in values]).all()
 
     def training_payload(self):
         # Training is synchronous ANN. Learned activation/membrane caches cannot
         # survive an optimizer update, and must never enter its resume contract.
-        if self.encoder is not None:
+        if self.encoder is not None or self.hierarchy is not None:
             raise ValueError("Only raw-graph ANN training state can be checkpointed here")
+        offset = _validate_sampling_offset(self.sampling_offset)
+        raw_state = self._raw_training_payload()
+        if offset == 0:
+            return raw_state
+        return {"schema": "asgcn_stream_training_state_v3", "sampling_offset": offset,
+                "raw_state": raw_state}
+
+    def _raw_training_payload(self):
+        from .implicit_radius import ImplicitRadiusGraph
+
         graph = self.graph.graph
+        if isinstance(graph, ImplicitRadiusGraph):
+            graph.validate_integrity()
+            if graph.batch_size != 1 or not torch.equal(graph.node_batch, self.graph.node_batch):
+                raise ValueError("A stored implicit stream state must contain exactly one graph namespace")
+            return {
+                "schema": "asgcn_stream_training_state_v2",
+                "graph": {name: getattr(graph, name) for name in
+                          ("node_features", "positions", "in_degree", "edge_counts")},
+                "geometry": {"representation": "implicit_radius_v1", "batch_size": graph.batch_size,
+                             "radius": graph.radius, "position_dims": graph.position_dims,
+                             "chunk_size": graph.chunk_size, "candidate_pair_budget": graph.candidate_pair_budget},
+                "node_batch": self.graph.node_batch, "timestamps": self.graph.timestamps,
+                "decoder": self.decoder, "origin_seconds": self.origin_seconds,
+                "watermark_seconds": self.watermark_seconds, "sequence_index": self.sequence_index,
+                "sequence_identity": self.sequence_identity, "last_event_id": self.last_event_id,
+                "contract": self.contract,
+            }
         return {
             "schema": "asgcn_stream_training_state_v1",
             "graph": {name: getattr(graph, name) for name in
@@ -38685,7 +42759,31 @@ def recurrent_isfinite(value):
     return value.finite() if isinstance(value, StreamingReconstructionState) else torch.isfinite(value).all()
 
 
+def _validate_sampling_offset(value):
+    if type(value) is not int or value < 0:
+        raise ValueError("Streaming sampling_offset must be a nonnegative integer")
+    return value
+
+
+def _unwrap_stream_training_payload(payload):
+    """Keep legacy raw-state validation intact; never accept nested wrappers."""
+    if not isinstance(payload, dict) or payload.get("schema") != "asgcn_stream_training_state_v3":
+        return payload, 0
+    if set(payload) != {"schema", "sampling_offset", "raw_state"}:
+        raise ValueError("Invalid streaming sampling state fields")
+    offset = _validate_sampling_offset(payload["sampling_offset"])
+    raw_state = payload["raw_state"]
+    if (not isinstance(raw_state, dict) or not isinstance(raw_state.get("schema"), str)
+            or raw_state["schema"] not in
+            {"asgcn_stream_training_state_v1", "asgcn_stream_training_state_v2"}):
+        raise ValueError("Streaming sampling state requires a legacy v1/v2 raw_state")
+    return raw_state, offset
+
+
 def restore_stream_training_state(payload):
+    payload, sampling_offset = _unwrap_stream_training_payload(payload)
+    if isinstance(payload, dict) and payload.get("schema") == "asgcn_stream_training_state_v2":
+        return replace(_restore_implicit_stream_training_state(payload), sampling_offset=sampling_offset)
     expected = {"schema", "graph", "node_batch", "timestamps", "decoder", "origin_seconds",
                 "watermark_seconds", "sequence_index", "sequence_identity", "last_event_id", "contract"}
     if not isinstance(payload, dict) or set(payload) != expected:
@@ -38763,9 +42861,131 @@ def restore_stream_training_state(payload):
         StreamGraph(graph, payload["node_batch"], payload["timestamps"]), None, decoder,
         float(payload["origin_seconds"]), float(payload["watermark_seconds"]), index,
         tuple(key), None if last_id is None else tuple(last_id), payload["contract"],
+        sampling_offset=sampling_offset,
     )
     if not bool(state.finite()):
         raise ValueError("Nonfinite streaming state")
+    return state
+
+
+def _validate_training_capture_state(state):
+    """Validate a live instance for capture without recounting its trusted graph.
+
+    Only the private capture path supplies instances. External dictionaries use
+    restore_stream_training_state and always recount exact geometric degrees.
+    """
+    from .implicit_radius import ImplicitRadiusGraph
+
+    if not isinstance(state, StreamingReconstructionState):
+        raise TypeError("Trusted capture requires a live StreamingReconstructionState instance")
+    payload, sampling_offset = _unwrap_stream_training_payload(state.training_payload())
+    if isinstance(state.graph.graph, ImplicitRadiusGraph):
+        restored = _restore_implicit_stream_training_state(payload, _capture_graph=state.graph.graph)
+    else:
+        restored = restore_stream_training_state(payload)
+    return replace(restored, sampling_offset=sampling_offset)
+
+
+def _restore_implicit_stream_training_state(payload, *, _capture_graph=None):
+    """Recount exact geometric degrees in bounded chunks; never trust cached E.
+
+    No materialized edge list or zero-edge placeholder is constructed. This is
+    checkpoint validation, not a change to the model's graph or window contract.
+    """
+    from .implicit_radius import ImplicitRadiusGraph
+
+    expected = {"schema", "graph", "geometry", "node_batch", "timestamps", "decoder", "origin_seconds",
+                "watermark_seconds", "sequence_index", "sequence_identity", "last_event_id", "contract"}
+    if set(payload) != expected:
+        raise ValueError("Invalid implicit streaming training state fields")
+    raw = payload["graph"]
+    graph_fields = {"node_features", "positions", "in_degree", "edge_counts"}
+    if not isinstance(raw, dict) or set(raw) != graph_fields:
+        raise ValueError("Invalid implicit graph fields; materialized edge placeholders are forbidden")
+    if any(not isinstance(raw[name], torch.Tensor) or raw[name].layout != torch.strided for name in graph_fields):
+        raise ValueError("Implicit graph fields must be dense tensors")
+    features, positions, degree, edge_counts = (raw[name] for name in
+                                             ("node_features", "positions", "in_degree", "edge_counts"))
+    count = features.shape[0] if features.ndim else -1
+    if (features.shape != (count, 4) or features.dtype != torch.float32
+            or positions.shape != (count, 4) or positions.dtype != torch.float64
+            or positions.requires_grad or degree.shape != (count,) or degree.dtype != torch.long
+            or edge_counts.shape != (1,) or edge_counts.dtype != torch.long):
+        raise ValueError("Invalid implicit physical streaming tensor shape/dtype")
+    geometry = payload["geometry"]
+    geometry_fields = {"representation", "batch_size", "radius", "position_dims", "chunk_size", "candidate_pair_budget"}
+    if (not isinstance(geometry, dict) or set(geometry) != geometry_fields
+            or geometry["representation"] != "implicit_radius_v1"
+            or type(geometry["batch_size"]) is not int or geometry["batch_size"] != 1):
+        raise ValueError("Invalid implicit radius graph representation/namespace")
+    node_batch, timestamps = payload["node_batch"], payload["timestamps"]
+    if any(not isinstance(value, torch.Tensor) or value.layout != torch.strided or value.shape != (count,)
+           for value in (node_batch, timestamps)):
+        raise ValueError("Invalid implicit streaming node metadata")
+    if (node_batch.dtype != torch.long or timestamps.dtype != torch.float64
+            or bool((node_batch != 0).any())):
+        raise ValueError("A stored implicit stream must contain one graph namespace and float64 timestamps")
+    if any(value.device != features.device for value in (*raw.values(), node_batch, timestamps)):
+        raise ValueError("All implicit streaming tensors must share a device")
+    for name in ("origin_seconds", "watermark_seconds"):
+        value = payload[name]
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+            raise ValueError("Invalid implicit streaming clock")
+    if (payload["origin_seconds"] > payload["watermark_seconds"]
+            or not bool(torch.isfinite(timestamps).all())
+            or bool((timestamps[1:] < timestamps[:-1]).any())
+            or bool((timestamps < payload["origin_seconds"]).any())
+            or bool((timestamps > payload["watermark_seconds"]).any())):
+        raise ValueError("Invalid implicit streaming clock ordering")
+    index, key, last_id = payload["sequence_index"], payload["sequence_identity"], payload["last_event_id"]
+    if type(index) is not int or index < 0:
+        raise ValueError("Invalid implicit streaming sequence index")
+    if (not isinstance(key, (tuple, list)) or len(key) != 2
+            or not all(isinstance(part, str) for part in key) or not key[0]):
+        raise ValueError("Invalid implicit streaming sequence identity")
+    if last_id is not None and (not isinstance(last_id, (tuple, list)) or len(last_id) != 2
+                               or any(type(item) is not int or item < 0 for item in last_id)):
+        raise ValueError("Invalid implicit streaming event identity")
+    if count and last_id is None:
+        raise ValueError("A nonempty implicit stream requires last_event_id")
+    if (not isinstance(payload["contract"], str) or len(payload["contract"]) != 64
+            or any(character not in "0123456789abcdef" for character in payload["contract"])):
+        raise ValueError("Invalid implicit streaming model contract")
+    decoder = payload["decoder"]
+    if decoder is not None and (not isinstance(decoder, torch.Tensor) or decoder.ndim != 4
+                               or decoder.shape[0] != 1 or not decoder.is_floating_point()
+                               or decoder.layout != torch.strided or any(size < 1 for size in decoder.shape)
+                               or decoder.device != features.device or not bool(torch.isfinite(decoder).all())):
+        raise ValueError("Invalid implicit streaming decoder state")
+    graph = ImplicitRadiusGraph.from_counted_nodes(
+        features, positions, node_batch, degree, batch_size=1,
+        radius=geometry["radius"], position_dims=geometry["position_dims"],
+        chunk_size=geometry["chunk_size"], candidate_pair_budget=geometry["candidate_pair_budget"],
+        edge_counts=edge_counts,
+    )
+    if _capture_graph is None:
+        counted_degree = torch.zeros_like(degree)
+        for _source, destination, _distance in graph.iter_directed_neighbors():
+            counted_degree.index_add_(0, destination, torch.ones_like(destination))
+        if not torch.equal(counted_degree, degree):
+            raise ValueError("Implicit streaming degree/counts do not match exact radius geometry")
+    else:
+        # Runtime graphs are constructed/count-updated by the exact graph engine.
+        # Verify ownership/version, not just matching user-supplied count values.
+        if (not isinstance(_capture_graph, ImplicitRadiusGraph)
+                or any(getattr(_capture_graph, name) is not raw[name] for name in graph_fields)
+                or _capture_graph.node_batch is not node_batch
+                or any(getattr(_capture_graph, name) != geometry[name] for name in
+                       ("batch_size", "radius", "position_dims", "chunk_size", "candidate_pair_budget"))):
+            raise ValueError("Trusted capture graph does not own these exact runtime tensors/geometry")
+        _capture_graph.validate_integrity()
+    state = StreamingReconstructionState(
+        StreamGraph(graph, node_batch, timestamps), None, decoder,
+        float(payload["origin_seconds"]), float(payload["watermark_seconds"]), index,
+        tuple(key), None if last_id is None else tuple(last_id), payload["contract"],
+    )
+    if not bool(state.finite()):
+        raise ValueError("Nonfinite implicit streaming state")
     return state
 ~~~~~~~~
 
@@ -38789,6 +43009,7 @@ from numbers import Real
 
 import torch
 
+from .radius_candidates import prune_cell_counts
 from .stream_graph import _cell_lookup, _occupied_cells
 
 
@@ -38804,6 +43025,8 @@ class StreamTopologyCounts:
     query_chunks: int
     candidate_chunks: int
     peak_query_cells: int
+    bulk_query_blocks: int = 0
+    bulk_pairwise_evaluations_avoided: int = 0
 
 
 @dataclass
@@ -38814,13 +43037,65 @@ class _Scratch:
     query_chunks: int = 0
     candidate_chunks: int = 0
     peak_query_cells: int = 0
+    bulk_query_blocks: int = 0
+    bulk_pairwise_evaluations_avoided: int = 0
 
     def counts(self, union_nodes, union_edges, readout_nodes, readout_edges):
         return StreamTopologyCounts(
             union_nodes, union_edges, readout_nodes, readout_edges,
             self.candidate_pair_budget, self.peak_candidate_pairs, self.candidate_pairs_visited,
             self.query_chunks, self.candidate_chunks, self.peak_query_cells,
+            self.bulk_query_blocks, self.bulk_pairwise_evaluations_avoided,
         )
+
+
+class _BulkCellCounts:
+    """Exact target-mask counts for certified wholly-inside query/cell blocks.
+
+    Selected targets belong to the larger-index selected source only. Stable
+    node ordering inside each occupied cell permits a vectorized lower_bound and
+    prefix sum rather than expanding all source/target pairs. Unselected targets
+    are counted by cell totals. Storage is O(N * mask_fields), never O(E).
+    """
+
+    def __init__(self, positions, sorted_nodes, boundaries, query_mask, masks, position_dims):
+        self.sorted_nodes, self.boundaries = sorted_nodes, boundaries
+        count, cells = len(sorted_nodes), boundaries.shape[1]
+        slots = torch.arange(count, device=positions.device)
+        cell_ids = torch.searchsorted(boundaries[0], slots, right=True) - 1
+        coordinates = positions[sorted_nodes, :position_dims].double()
+        cell_indices = cell_ids[:, None].expand_as(coordinates)
+        self.lower = coordinates.new_full((cells, position_dims), float("inf"))
+        self.upper = coordinates.new_full((cells, position_dims), -float("inf"))
+        self.lower.scatter_reduce_(0, cell_indices, coordinates, reduce="amin", include_self=True)
+        self.upper.scatter_reduce_(0, cell_indices, coordinates, reduce="amax", include_self=True)
+        sorted_masks = masks[sorted_nodes]
+        selected = query_mask[sorted_nodes, None]
+        self.prefix = torch.zeros((count + 1, masks.shape[1]), dtype=torch.long, device=positions.device)
+        self.prefix[1:] = (sorted_masks & selected).cumsum(0)
+        self.unselected = torch.zeros((cells, masks.shape[1]), dtype=torch.long, device=positions.device)
+        self.unselected.index_add_(0, cell_ids, (sorted_masks & ~selected).long())
+
+    def certified_inside(self, positions, sources, cell_ids, radius, position_dims):
+        safe = cell_ids.clamp_min(0)
+        queries = positions[sources, None, :position_dims].double()
+        farthest = torch.maximum((queries - self.lower[safe]).abs(), (queries - self.upper[safe]).abs()) / radius
+        # Ambiguous cases retain the original float64 vector_norm predicate;
+        # a wide rounding margin never relaxes the strict edge boundary.
+        limit = 1.0 - 64 * torch.finfo(torch.float64).eps
+        return (cell_ids >= 0) & (farthest.square().sum(-1) < limit * limit)
+
+    def counts(self, sources, cell_ids):
+        low = self.boundaries[0, cell_ids].clone()
+        starts = low.clone()
+        high = low + self.boundaries[1, cell_ids]
+        for _ in range(len(self.sorted_nodes).bit_length()):
+            middle = (low + high) // 2
+            before = self.sorted_nodes[middle.clamp_max(len(self.sorted_nodes) - 1)] < sources
+            active = low < high
+            low = torch.where(active & before, middle + 1, low)
+            high = torch.where(active & ~before, middle, high)
+        return self.unselected[cell_ids] + self.prefix[low] - self.prefix[starts]
 
 
 def _validate_options(radius, position_dims, chunk_size, candidate_pair_budget) -> float:
@@ -38864,7 +43139,7 @@ def _validate_inputs(positions, node_batch, readout_mask, batch_size) -> None:
 
 
 def _selected_edge_pairs(positions, node_batch, query_mask, *, batch_size, radius,
-                         position_dims, chunk_size, scratch):
+                         position_dims, chunk_size, scratch, bulk_masks, bulk_callback):
     """Yield bounded strict-radius pairs touching the selected endpoint set.
 
     Pairs are unordered and yielded once: when both endpoints are selected, the
@@ -38877,6 +43152,7 @@ def _selected_edge_pairs(positions, node_batch, query_mask, *, batch_size, radiu
     rows, occupied, sorted_nodes, boundaries = _occupied_cells(
         positions, node_batch, batch_size, radius, position_dims,
     )
+    bulk = _BulkCellCounts(positions, sorted_nodes, boundaries, query_mask, bulk_masks, position_dims)
     axis = torch.tensor((-1, 0, 1), device=positions.device, dtype=torch.long)
     offsets = torch.cartesian_prod(*([axis] * position_dims)).reshape(-1, position_dims)
     cells_per_query = offsets.shape[0]
@@ -38887,11 +43163,25 @@ def _selected_edge_pairs(positions, node_batch, query_mask, *, batch_size, radiu
         query_batches = query_rows[:, None, :1].expand(-1, cells_per_query, -1)
         queries = torch.cat((query_batches, query_cells), dim=2).flatten(0, 1)
         cell_ids = _cell_lookup(occupied, queries)
-        cell_counts = boundaries[1, cell_ids.clamp_min(0)].masked_fill(cell_ids < 0, 0)
+        cell_counts = prune_cell_counts(
+            positions[sources], cell_ids.reshape(-1, cells_per_query), boundaries,
+            (bulk.lower, bulk.upper), radius,
+        ).flatten()
         cell_starts = boundaries[0, cell_ids.clamp_min(0)]
+        inside = bulk.certified_inside(
+            positions, sources, cell_ids.reshape(-1, cells_per_query), radius, position_dims,
+        ).flatten()
+        certified_sources = sources[:, None].expand(-1, cells_per_query).reshape(-1)[inside]
+        certified_counts = bulk.counts(certified_sources, cell_ids[inside])
+        bulk_callback(certified_sources, certified_counts)
+        scratch.bulk_query_blocks += certified_sources.numel()
+        cell_counts = cell_counts.masked_fill(inside, 0)
         candidate_ends = cell_counts.cumsum(0)
         candidate_starts = candidate_ends - cell_counts
-        candidate_count = int(candidate_ends[-1])
+        # One host transfer per query chunk carries the fallback scratch size
+        # and aggregate skipped-predicate telemetry, never per-node/edge data.
+        candidate_count, avoided = torch.stack((candidate_ends[-1], certified_counts[:, 0].sum())).tolist()
+        scratch.bulk_pairwise_evaluations_avoided += avoided
         scratch.query_chunks += 1
         scratch.peak_query_cells = max(scratch.peak_query_cells, queries.shape[0])
         # Address bounded slices rather than expanding repeat_interleave(counts):
@@ -38938,8 +43228,9 @@ def count_stream_topology(
 
     ``chunk_size`` bounds source queries; ``candidate_pair_budget`` separately
     bounds expanded candidate pairs. It is a scratch budget, never an edge cap.
-    Counts remain device tensors. One candidate-total scalar per query chunk is
-    used to schedule bounded chunks; there is no per-edge/node host transfer.
+    Counts remain device tensors. One host transfer of two aggregate scalars per
+    query chunk schedules bounded scratch and records bulk-count work avoided;
+    there is no per-edge/node host transfer.
     Scratch evidence counts entries, not total allocated bytes or measured RSS.
     """
     radius = _validate_options(radius, position_dims, chunk_size, candidate_pair_budget)
@@ -38949,9 +43240,16 @@ def count_stream_topology(
     union_edges = torch.zeros_like(union_nodes)
     readout_edges = torch.zeros_like(union_nodes)
     scratch = _Scratch(candidate_pair_budget)
+    bulk_masks = torch.stack((torch.ones_like(readout_mask), readout_mask), dim=1)
+
+    def bulk_count(source, counts):
+        union_edges.index_add_(0, node_batch[source], 2 * counts[:, 0])
+        readout_edges.index_add_(0, node_batch[source], 2 * counts[:, 1] * readout_mask[source])
+
     for source, target in _selected_edge_pairs(
         positions, node_batch, torch.ones_like(readout_mask), batch_size=batch_size, radius=radius,
         position_dims=position_dims, chunk_size=chunk_size, scratch=scratch,
+        bulk_masks=bulk_masks, bulk_callback=bulk_count,
     ):
         union_edges.add_(2 * torch.bincount(node_batch[source], minlength=batch_size))
         kept = readout_mask[source] & readout_mask[target]
@@ -39017,9 +43315,25 @@ def count_stream_topology_update(
     union_edges, readout_edges = previous_edge_counts.clone(), previous_edge_counts.clone()
     scratch = _Scratch(candidate_pair_budget)
     query_mask = is_arrival | ~readout_mask
+    old = ~is_arrival
+    bulk_masks = torch.stack((torch.ones_like(old), old,
+                              old & union_mask, old & readout_mask,
+                              is_arrival & union_mask, is_arrival & readout_mask), dim=1)
+
+    def bulk_count(source, counts):
+        arriving = is_arrival[source]
+        for mask, edges, old_column, new_column in (
+            (union_mask, union_edges, 2, 4), (readout_mask, readout_edges, 3, 5),
+        ):
+            kept = mask[source]
+            added = kept * (counts[:, new_column] + arriving * counts[:, old_column])
+            removed = (~arriving) * (counts[:, 1] - kept * counts[:, old_column])
+            edges.index_add_(0, node_batch[source], 2 * (added - removed))
+
     for source, target in _selected_edge_pairs(
         positions, node_batch, query_mask, batch_size=batch_size, radius=radius,
         position_dims=position_dims, chunk_size=chunk_size, scratch=scratch,
+        bulk_masks=bulk_masks, bulk_callback=bulk_count,
     ):
         new_pair = is_arrival[source] | is_arrival[target]
         for mask, edges in ((union_mask, union_edges), (readout_mask, readout_edges)):
@@ -40143,11 +44457,17 @@ def validate_experiment_config(config: dict[str, Any]) -> None:
     if isinstance(model, dict) and model.get("graph_execution") == "event_driven":
         from .stream_model import validate_stream_config
         validate_stream_config(model.get("stream_config"))
-        if (model.get("architecture_version") != 3 or not isinstance(dataset, dict)
+        if (model.get("architecture_version") not in {3, 4} or not isinstance(dataset, dict)
                 or dataset.get("event_time_contract") != "physical_seconds_v1"
                 or "max_events" not in dataset or dataset["max_events"] is not None
-                or model.get("event_sampling_factor") != 1):
+                or (model.get("architecture_version") == 3 and model.get("event_sampling_factor") != 1)):
             raise ValueError("Event-driven ASGCN requires v3 physical_seconds_v1, explicit max_events=null and R=1")
+        if model.get("architecture_version") == 4:
+            from .hierarchy import validate_hierarchy_config
+            validate_hierarchy_config(model.get("hierarchy_config"), model.get("graph_layers", 6))
+            factor = model.get("event_sampling_factor")
+            if type(factor) is not int or factor < 1:
+                raise ValueError("v4 requires an explicit positive integer event_sampling_factor")
     elif isinstance(dataset, dict) and dataset.get("event_time_contract") == "physical_seconds_v1":
         raise ValueError("Physical stream input cannot be silently routed through a static-window model")
     if dataset is not None:
@@ -53686,6 +58006,375 @@ def test_cuda_exact_graph_topology_and_position_gradients() -> None:
     assert radius_graph_topology(actual, 0.4, chunk_size=7) == expected_topology
 ~~~~~~~~
 
+# tests/test_graph_pool.py
+
+~~~~~~~~python
+"""Small synthetic CPU pooling tests; no production training/performance claims."""
+
+import pytest
+import torch
+
+from asgcn_unet.graph import EventGraph, PaperSplineConv
+from asgcn_unet.graph_pool import PoolState, pool_graph, update_pool
+from asgcn_unet.implicit_radius import ImplicitRadiusIndex
+from asgcn_unet.stream_graph import GraphUpdate, StreamGraph, evolve_stream_graph
+
+CONFIG = {"spatial_cell_pixels": 4., "temporal_cell_seconds": .004, "edge_chunk_size": 3}
+SENSOR = (33, 33)
+SCALE = .05
+
+
+@pytest.fixture(autouse=True)
+def _cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _update(previous, rows, *, storage="implicit_radius", cutoffs=(-1., -1.), radius=.25):
+    values = torch.tensor(rows, dtype=torch.float64).reshape(-1, 5)
+    positions = torch.stack((values[:, 0] / 32, values[:, 1] / 32, values[:, 2] / SCALE,
+                             (values[:, 3] + 1) / 2), dim=1)
+    return evolve_stream_graph(previous, positions.float(), positions, values[:, 2], values[:, 4].long(),
+                               torch.tensor(cutoffs, dtype=torch.float64), radius=radius, max_graph_edges=None,
+                               chunk_size=2, graph_storage=storage)
+
+
+def _features(count, *, seed=12, dtype=torch.float64):
+    return torch.randn((count, 64), dtype=dtype, generator=torch.Generator().manual_seed(seed))
+
+
+def _raw_edges(raw):
+    if isinstance(raw.graph, EventGraph):
+        return raw.graph.edge_index, raw.graph.edge_attr
+    chunks = list(raw.graph.iter_directed_neighbors())
+    if not chunks:
+        return torch.empty((2, 0), dtype=torch.long), torch.empty((0, 1), dtype=torch.float64)
+    source, destination, pseudo = (torch.cat(parts) for parts in zip(*chunks))
+    return torch.stack((source, destination)), pseudo
+
+
+@pytest.mark.parametrize("storage", ["implicit_radius", "materialized"])
+def test_pulse_only_tick_reuses_existing_quotient_without_sort_or_hash(monkeypatch, storage):
+    from asgcn_unet import quotient_accumulator
+    raw = _update(None, [[1, 1, .001, 1, 0], [2, 1, .002, -1, 0], [5, 1, .001, 1, 0]], storage=storage).state
+    pool = pool_graph(raw, _features(3), CONFIG, SENSOR, SCALE)
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Unchanged quotient must not be rebuilt")
+    monkeypatch.setattr(quotient_accumulator, "QuotientAccumulator", forbidden)
+    features = pool.raw_features.clone()
+    features[0] += .5
+    update = GraphUpdate(raw, torch.arange(3), torch.zeros(3, dtype=torch.bool))
+    changed, _ = update_pool(update, features, pool, CONFIG, SENSOR, SCALE)
+    _assert_oracle(changed)
+    assert changed.graph.graph.edge_index is pool.graph.graph.edge_index
+    assert changed.graph.graph.edge_attr is pool.graph.graph.edge_attr
+    assert changed.work["reused_quotient_topology"]
+    assert changed.work["raw_edges_visited"] == 0
+    assert not changed.work["topology_changed_nodes"].any()
+
+
+def _assert_oracle(pool):
+    raw, graph = pool.raw_graph, pool.graph.graph
+    edges, pseudo = _raw_edges(raw)
+    keys = torch.cat((raw.node_batch[:, None], torch.floor(raw.graph.positions[:, :3]
+                      * raw.graph.positions.new_tensor((8., 8., SCALE / .004))).long()), dim=1)
+    expected_keys, inverse, counts = torch.unique(keys, dim=0, return_inverse=True, return_counts=True)
+    torch.testing.assert_close(pool.cluster_keys, expected_keys, atol=0, rtol=0)
+    torch.testing.assert_close(pool.raw_to_cluster, inverse, atol=0, rtol=0)
+    torch.testing.assert_close(pool.counts, counts, atol=0, rtol=0)
+    for cluster in range(len(counts)):  # Small CPU oracle only, not implementation.
+        selected = inverse == cluster
+        torch.testing.assert_close(graph.node_features[cluster], pool.raw_features[selected].double().mean(0).to(pool.raw_features.dtype))
+        torch.testing.assert_close(graph.positions[cluster], raw.graph.positions[selected].mean(0))
+        torch.testing.assert_close(pool.graph.timestamps[cluster], raw.timestamps[selected].mean())
+    contributors = {}
+    for edge, value in zip(edges.t().tolist(), pseudo[:, 0].tolist()):
+        pair = (int(inverse[edge[0]]), int(inverse[edge[1]]))
+        if pair[0] != pair[1]:
+            contributors.setdefault(pair, []).append(value)
+    assert list(map(tuple, graph.edge_index.t().tolist())) == sorted(contributors)
+    for number, pair in enumerate(sorted(contributors)):
+        values = contributors[pair]
+        assert pool.edge_refcounts[number] == len(values)
+        torch.testing.assert_close(pool.edge_pseudo_sums[number, 0], torch.tensor(sum(values), dtype=torch.float64))
+        torch.testing.assert_close(graph.edge_attr[number, 0], torch.tensor(sum(values) / len(values), dtype=graph.edge_attr.dtype))
+    torch.testing.assert_close(graph.in_degree, torch.bincount(graph.edge_index[1], minlength=len(counts)))
+    assert bool((pool.graph.node_batch[graph.edge_index[0]] == pool.graph.node_batch[graph.edge_index[1]]).all())
+
+
+@pytest.mark.parametrize("storage", ["implicit_radius", "materialized"])
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64])
+def test_snapshot_means_quotient_counts_and_pseudo_match_existing_raw_edges(storage, dtype):
+    raw = _update(None, [[1, 1, .001, 1, 0], [2, 1, .002, -1, 0],
+                         [5, 1, .001, 1, 0], [6, 2, .002, 1, 0],
+                         [1, 1, .001, 1, 1], [5, 1, .001, 1, 1]], storage=storage).state
+    pool = pool_graph(raw, _features(6, dtype=dtype), CONFIG, SENSOR, SCALE)
+    assert isinstance(pool, PoolState)
+    assert pool.graph.graph.node_features.shape == (4, 64)
+    _assert_oracle(pool)
+    expected_cost = raw.graph.edge_index.shape[1] if storage == "materialized" else 0
+    assert pool.work["materialized_edges_scanned"] == expected_cost
+    if storage == "implicit_radius":
+        assert not pool.work["whole_raw_edge_reenumeration"]
+    centroid_distance = torch.linalg.vector_norm(pool.graph.graph.positions[0, :3] - pool.graph.graph.positions[1, :3]) / .25
+    assert not torch.isclose(pool.graph.graph.edge_attr[0, 0], centroid_distance, rtol=1e-6, atol=1e-8)
+
+
+def test_arbitrary_materialized_multiedges_self_loops_and_missing_pairs_are_not_radius_rebuilt():
+    positions = torch.tensor([[0., 0, 0, 0], [.03, 0, 0, 0], [.13, 0, 0, 0], [.3, 0, 0, 0]], dtype=torch.float64)
+    edges = torch.tensor([[0, 0, 0, 1, 2, 3], [0, 1, 2, 2, 0, 3]])
+    pseudo = torch.tensor([[0.], [.2], [.3], [.7], [.8], [0.]], dtype=torch.float64)
+    raw = StreamGraph(EventGraph(torch.zeros((4, 4)), positions, edges, pseudo),
+                      torch.zeros(4, dtype=torch.long), torch.zeros(4, dtype=torch.float64))
+    pool = pool_graph(raw, _features(4), CONFIG, SENSOR, SCALE)
+    assert pool.graph.graph.edge_index.tolist() == [[0, 1], [1, 0]]
+    assert pool.edge_refcounts.tolist() == [2, 1]
+    torch.testing.assert_close(pool.graph.graph.edge_attr[:, 0], torch.tensor([.5, .8], dtype=torch.float64))
+    assert pool.graph.graph.in_degree.tolist() == [1, 1, 0]
+    _assert_oracle(pool)
+
+
+@pytest.mark.parametrize("storage", ["implicit_radius", "materialized"])
+def test_incremental_append_expire_replacement_and_empty_clusters_match_fresh_snapshot(storage):
+    steps = [
+        ([[1, 1, .001, 1, 0], [2, 1, .002, -1, 0], [5, 1, .002, 1, 0],
+          [6, 1, .003, -1, 0], [1, 1, .001, 1, 1]], (-1., -1.)),
+        ([[3, 1, .003, 1, 0], [5, 2, .006, -1, 0], [5, 1, .005, 1, 1]], (.002, .001)),
+        ([], (.002, .002)),
+        ([[1, 1, .010, -1, 0], [2, 1, .010, 1, 0]], (.005, .006)),
+        ([], (.02, .02)),
+        ([[1, 1, .03, -1, 1], [5, 1, .03, 1, 1]], (.02, .02)),
+    ]
+    raw, previous = None, None
+    for number, (rows, cutoffs) in enumerate(steps):
+        update = _update(raw, rows, storage=storage, cutoffs=cutoffs)
+        features = _features(len(update.state.timestamps), seed=number)
+        state, pooled_update = update_pool(update, features, previous, CONFIG, SENSOR, SCALE)
+        fresh = pool_graph(update.state, features, CONFIG, SENSOR, SCALE)
+        _assert_oracle(state)
+        for field in ("cluster_keys", "counts", "raw_to_cluster", "feature_sums", "position_sums", "timestamp_sums", "edge_refcounts", "edge_pseudo_sums"):
+            torch.testing.assert_close(getattr(state, field), getattr(fresh, field), rtol=1e-11, atol=1e-12, msg=field)
+        torch.testing.assert_close(state.graph.graph.edge_index, fresh.graph.graph.edge_index)
+        torch.testing.assert_close(state.graph.graph.edge_attr, fresh.graph.graph.edge_attr)
+        if previous is not None:
+            expected_old = []
+            old_keys = list(map(tuple, previous.cluster_keys.tolist()))
+            for key in map(tuple, state.cluster_keys.tolist()):
+                expected_old.append(old_keys.index(key) if key in old_keys else -1)
+            assert pooled_update.old_indices.tolist() == expected_old
+        assert pooled_update.changed_nodes.shape == state.counts.shape
+        raw, previous = update.state, state
+
+
+def test_feature_only_update_uses_deltas_and_never_requeries_raw_topology(monkeypatch):
+    first = _update(None, [[1, 1, .001, 1, 0], [2, 1, .001, 1, 0], [5, 1, .001, 1, 0], [24, 1, .001, 1, 0]])
+    features = _features(4)
+    initial, _ = update_pool(first, features, None, CONFIG, SENSOR, SCALE)
+    update = _update(first.state, [], cutoffs=(-1., -1.))
+    changed_features = features.clone()
+    changed_features[0] += .125
+    original_features = initial.feature_sums.clone()
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Feature-only pooling must reuse topology without any raw edge query")
+
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors", forbidden)
+    state, change = update_pool(update, changed_features, initial, CONFIG, SENSOR, SCALE)
+    assert state.work["raw_edges_visited"] == state.work["raw_query_nodes"] == 0
+    assert state.work["feature_rows_updated"] == 1
+    assert change.changed_nodes.tolist() == [True, True, False]
+    assert state.work["topology_changed_nodes"].tolist() == [False, False, False]
+    assert state.work["input_changed_sources"].tolist() == [True, False, False]
+    torch.testing.assert_close(initial.feature_sums, original_features, rtol=0, atol=0)
+    torch.testing.assert_close(state.graph.graph.node_features[0], changed_features[:2].mean(0))
+
+
+def test_implicit_topology_queries_only_added_removed_incident_nodes(monkeypatch):
+    first = _update(None, [[1, 1, .001, 1, 0], [2, 1, .002, 1, 0], [5, 1, .002, 1, 0], [6, 1, .002, 1, 0]])
+    initial = pool_graph(first.state, _features(4), CONFIG, SENSOR, SCALE)
+    update = _update(first.state, [[3, 1, .003, 1, 0]], cutoffs=(.002, -1.))
+    original = ImplicitRadiusIndex.iter_directed_neighbors
+    sizes = []
+
+    def selected_only(index, destinations=None, **kwargs):
+        assert destinations is not None, "Incremental pooling must not re-enumerate unchanged raw edges"
+        sizes.append(destinations.numel())
+        return original(index, destinations, **kwargs)
+
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors", selected_only)
+    state, _ = update_pool(update, _features(4), initial, CONFIG, SENSOR, SCALE)
+    assert sizes == [1, 1]
+    assert state.work["raw_query_nodes"] == 2
+    assert state.work["materialized_edges_scanned"] == 0
+
+
+def test_repeated_equal_pulses_still_seed_root_and_outgoing_cluster_neighbors():
+    first = _update(None, [[1, 1, .001, 1, 0], [5, 1, .001, 1, 0], [24, 1, .001, 1, 0]])
+    features = torch.ones((3, 64))
+    initial = pool_graph(first.state, features, CONFIG, SENSOR, SCALE)
+    identity = GraphUpdate(first.state, torch.arange(3), torch.zeros(3, dtype=torch.bool))
+    unchanged, quiet = update_pool(identity, features, initial, CONFIG, SENSOR, SCALE)
+    assert not bool(quiet.changed_nodes.any())
+    assert not bool(unchanged.work["topology_changed_nodes"].any())
+    assert not bool(unchanged.work["input_changed_sources"].any())
+    for active in (torch.tensor([0]), torch.tensor([True, False, False])):
+        state, pulse = update_pool(identity, features, unchanged, CONFIG, SENSOR, SCALE, active_sources=active)
+        assert pulse.changed_nodes.tolist() == [True, True, False]
+        assert state.work["topology_changed_nodes"].tolist() == [False, False, False]
+        assert state.work["input_changed_sources"].tolist() == [True, False, False]
+        torch.testing.assert_close(state.graph.graph.node_features, initial.graph.graph.node_features, rtol=0, atol=0)
+        assert state.work["raw_edges_visited"] == 0
+
+
+def test_removed_contributor_changes_edge_mean_even_when_quotient_degree_is_unchanged():
+    first = _update(None, [[1, 1, .001, 1, 0], [2, 1, .002, 1, 0], [5, 1, .002, 1, 0]])
+    initial = pool_graph(first.state, torch.ones((3, 64)), CONFIG, SENSOR, SCALE)
+    update = _update(first.state, [], cutoffs=(.002, -1.))
+    state, change = update_pool(update, torch.ones((2, 64)), initial, CONFIG, SENSOR, SCALE)
+    torch.testing.assert_close(state.graph.graph.in_degree, initial.graph.graph.in_degree, rtol=0, atol=0)
+    assert not torch.equal(state.graph.graph.edge_attr, initial.graph.graph.edge_attr)
+    assert change.changed_nodes.tolist() == [True, True]
+    assert state.work["topology_changed_nodes"].tolist() == [True, True]
+    assert not bool(state.work["input_changed_sources"].any())
+    _assert_oracle(state)
+
+
+def test_full_snapshot_mean_gradient_reaches_all_prefix_features_and_post_pool_spline_parameters():
+    raw = _update(None, [[1, 1, .001, 1, 0], [2, 1, .001, 1, 0], [5, 1, .001, 1, 0], [6, 1, .001, 1, 0]]).state
+    features = _features(4, dtype=torch.float32).requires_grad_()
+    state = pool_graph(raw, features, CONFIG, SENSOR, SCALE)
+    layer = PaperSplineConv(64, 64, spline_backend="torch").eval()
+    graph = state.graph.graph
+    output, _ = layer(graph.node_features, graph.edge_index, graph.edge_attr, in_degree=graph.in_degree)
+    loss = (output - .3).square().mean()
+    loss.backward()
+    assert features.grad is not None and bool(torch.isfinite(features.grad).all())
+    assert bool((features.grad.abs().sum(1) > 0).all())
+    torch.testing.assert_close(features.grad[0], features.grad[1], rtol=0, atol=0)
+    torch.testing.assert_close(features.grad[2], features.grad[3], rtol=0, atol=0)
+    for parameter in layer.parameters():
+        assert parameter.grad is not None and bool(torch.isfinite(parameter.grad).all())
+    previous = layer.weight.detach().clone()
+    torch.optim.SGD(layer.parameters(), lr=.01).step()
+    assert not torch.equal(previous, layer.weight)
+
+
+def test_snapshot_double_gradcheck_and_zero_valued_features_remain_real_topology():
+    raw = _update(None, [[1, 1, .001, 1, 0], [2, 1, .001, 1, 0], [5, 1, .001, 1, 0]]).state
+    features = torch.zeros((3, 64), dtype=torch.float64, requires_grad=True)
+    state = pool_graph(raw, features, CONFIG, SENSOR, SCALE)
+    assert state.graph.graph.edge_index.shape == (2, 2)
+    assert state.edge_refcounts.tolist() == [2, 2]
+    assert not bool(state.graph.graph.node_features.any())
+    operation = lambda value: pool_graph(raw, value, CONFIG, SENSOR, SCALE).graph.graph.node_features
+    assert torch.autograd.gradcheck(operation, (features,), fast_mode=True)
+
+
+@pytest.mark.parametrize("storage", ["implicit_radius", "materialized"])
+def test_empty_graph_and_all_expired_graph(storage):
+    empty = _update(None, [], storage=storage)
+    state, change = update_pool(empty, torch.empty((0, 64)), None, CONFIG, SENSOR, SCALE)
+    assert state.graph.graph.node_features.shape == (0, 64)
+    assert state.graph.graph.edge_index.shape == (2, 0)
+    assert change.old_indices.numel() == change.changed_nodes.numel() == 0
+    first = _update(empty.state, [[1, 1, .001, 1, 0]], storage=storage)
+    state, _ = update_pool(first, torch.ones((1, 64)), state, CONFIG, SENSOR, SCALE)
+    expired = _update(first.state, [], storage=storage, cutoffs=(.1, .1))
+    state, _ = update_pool(expired, torch.empty((0, 64)), state, CONFIG, SENSOR, SCALE)
+    assert state.counts.numel() == state.edge_refcounts.numel() == 0
+
+
+@pytest.mark.parametrize("wrong", [{}, {"spatial_cell_pixels": 4, "temporal_cell_seconds": 0},
+                                   {"spatial_cell_pixels": True, "temporal_cell_seconds": .004},
+                                   {**CONFIG, "radius": .2}, {**CONFIG, "edge_chunk_size": 0}])
+def test_invalid_or_unapproved_pool_contract_fails(wrong):
+    raw = _update(None, []).state
+    with pytest.raises(ValueError):
+        pool_graph(raw, torch.empty((0, 64)), wrong, SENSOR, SCALE)
+
+
+def test_changed_config_and_rewritten_retained_geometry_fail_without_mutating_state():
+    first = _update(None, [[1, 1, .001, 1, 0], [5, 1, .001, 1, 0]])
+    features = _features(2)
+    state = pool_graph(first.state, features, CONFIG, SENSOR, SCALE)
+    identity = GraphUpdate(first.state, torch.arange(2), torch.zeros(2, dtype=torch.bool))
+    with pytest.raises(ValueError, match="contract changed"):
+        update_pool(identity, features, state, {**CONFIG, "spatial_cell_pixels": 8}, SENSOR, SCALE)
+    with pytest.raises(ValueError, match="duplicated"):
+        update_pool(GraphUpdate(first.state, torch.tensor([0, 0]), identity.changed_nodes), features,
+                    state, CONFIG, SENSOR, SCALE)
+    with pytest.raises(ValueError, match="active_sources"):
+        update_pool(identity, features, state, CONFIG, SENSOR, SCALE, active_sources=torch.tensor([2]))
+    changed_raw = _update(None, [[2, 1, .001, 1, 0], [5, 1, .001, 1, 0]])
+    with pytest.raises(ValueError, match="Retained raw geometry"):
+        update_pool(GraphUpdate(changed_raw.state, torch.arange(2), identity.changed_nodes), features,
+                    state, CONFIG, SENSOR, SCALE)
+    changed_radius = _update(None, [[1, 1, .001, 1, 0], [5, 1, .001, 1, 0]], radius=.1)
+    with pytest.raises(ValueError, match="radius geometry contract"):
+        update_pool(GraphUpdate(changed_radius.state, torch.arange(2), identity.changed_nodes), features,
+                    state, CONFIG, SENSOR, SCALE)
+    torch.testing.assert_close(state.raw_features, features, rtol=0, atol=0)
+
+
+def test_materialized_old_old_edge_changes_are_rejected_instead_of_reusing_stale_contributors():
+    first = _update(None, [[1, 1, .001, 1, 0], [5, 1, .001, 1, 0]], storage="materialized")
+    features = _features(2)
+    state = pool_graph(first.state, features, CONFIG, SENSOR, SCALE)
+    old = first.state.graph
+    changed_graph = EventGraph(old.node_features, old.positions, old.edge_index, old.edge_attr * .5)
+    changed = StreamGraph(changed_graph, first.state.node_batch, first.state.timestamps)
+    update = GraphUpdate(changed, torch.arange(2), torch.ones(2, dtype=torch.bool))
+    with pytest.raises(ValueError, match="Retained materialized raw edge attributes"):
+        update_pool(update, features, state, CONFIG, SENSOR, SCALE)
+
+
+def test_centroid_only_change_is_structural_but_same_feature_is_not_an_input_pulse():
+    first = _update(None, [[1, 1, .001, 1, 0], [2, 1, .001, 1, 0]])
+    state = pool_graph(first.state, torch.ones((2, 64)), CONFIG, SENSOR, SCALE)
+    update = _update(first.state, [[3, 1, .001, 1, 0]])
+    pooled, changed = update_pool(update, torch.ones((3, 64)), state, CONFIG, SENSOR, SCALE)
+    assert pooled.graph.graph.edge_index.numel() == 0
+    assert pooled.work["topology_changed_nodes"].tolist() == [True]
+    assert pooled.work["input_changed_sources"].tolist() == [False]
+    assert changed.changed_nodes.tolist() == [True]
+
+
+def test_cold_start_separates_new_topology_from_explicit_active_pulse_sources():
+    update = _update(None, [[1, 1, .001, 1, 0], [5, 1, .001, 1, 0]])
+    state, changed = update_pool(update, torch.ones((2, 64)), None, CONFIG, SENSOR, SCALE,
+                                 active_sources=torch.tensor([1]))
+    assert state.work["topology_changed_nodes"].tolist() == [True, True]
+    assert state.work["input_changed_sources"].tolist() == [False, True]
+    assert changed.changed_nodes.tolist() == [True, True]
+    for key in ("topology_changed_nodes", "input_changed_sources"):
+        assert state.work[key].dtype == torch.bool and state.work[key].device == state.counts.device
+
+
+@pytest.mark.parametrize("seed", list(range(5)))
+def test_small_random_stream_updates_match_fresh_means_counts_and_edge_attributes(seed):
+    generator = torch.Generator().manual_seed(seed)
+    raw, previous = None, None
+    for step in range(12):
+        amount = (step * 3 + seed) % 7
+        pixels = torch.randint(0, 16, (amount, 2), generator=generator)
+        times = step * .002 + torch.randint(0, 3, (amount,), generator=generator).double() * .0003
+        batches = torch.randint(0, 3, (amount,), generator=generator)
+        rows = torch.cat((pixels, times[:, None], torch.ones((amount, 1)), batches[:, None]), dim=1)
+        update = _update(raw, rows.tolist(), cutoffs=(step * .002 - .006,) * 3)
+        features = _features(len(update.state.timestamps), seed=step + seed)
+        state, _ = update_pool(update, features, previous, CONFIG, SENSOR, SCALE)
+        fresh = pool_graph(update.state, features, CONFIG, SENSOR, SCALE)
+        for field in ("cluster_keys", "counts", "raw_to_cluster", "edge_refcounts"):
+            torch.testing.assert_close(getattr(state, field), getattr(fresh, field), rtol=0, atol=0)
+        for field in ("feature_sums", "position_sums", "timestamp_sums", "edge_pseudo_sums"):
+            torch.testing.assert_close(getattr(state, field), getattr(fresh, field), rtol=1e-11, atol=1e-12)
+        torch.testing.assert_close(state.graph.graph.edge_index, fresh.graph.graph.edge_index, rtol=0, atol=0)
+        torch.testing.assert_close(state.graph.graph.edge_attr, fresh.graph.graph.edge_attr, rtol=1e-11, atol=1e-12)
+        raw, previous = update.state, state
+~~~~~~~~
+
 # tests/test_graph_preview.py
 
 ~~~~~~~~python
@@ -54830,6 +59519,1009 @@ def test_download_cli_rejects_lexical_symlink_root(
     assert client.calls == []
 ~~~~~~~~
 
+# tests/test_hierarchy_model.py
+
+~~~~~~~~python
+"""Full 6x64/base48 parameter CPU synthetic integration, not GPU/quality evidence."""
+
+import copy
+
+import pytest
+import torch
+
+from asgcn_unet.batching import pack_samples
+from asgcn_unet.hierarchy import forward_snapshot
+from asgcn_unet.model import ASGCNUNet, rasterize_batch
+from asgcn_unet.training import TrainingState
+from tests.test_implicit_stream_model import _assert_cache
+from tests.test_stream_model import sample
+
+
+def model(storage="implicit_radius", factor=1):
+    torch.manual_seed(101)
+    return ASGCNUNet(
+        architecture_version=4, graph_execution="event_driven", graph_storage=storage,
+        event_sampling_factor=factor, stream_config={
+            "window_seconds": .025, "time_scale_seconds": .1,
+            "node_time_feature": "physical_frame_offset", "clock": "event_local_pending_off_v1",
+            "arrival_policy": "simultaneous_equal_timestamp"},
+        hierarchy_config={"after_layer": 4, "spatial_cell_pixels": 2, "temporal_cell_seconds": .008,
+                          "edge_pseudo": "mean_fine_distance_over_radius"})
+
+
+@pytest.fixture(autouse=True)
+def bounded_cpu():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+@pytest.mark.parametrize("storage", ["materialized", "implicit_radius"])
+def test_training_full_depth_gradients_and_optimizer_through_pool(storage):
+    net = model(storage).train()
+    assert len(net.encoder.layers) == 6 and net.encoder.hidden_dim == 64
+    assert sum(parameter.numel() for parameter in net.parameters()) == 4_409_617
+    optimizer = torch.optim.Adam(net.parameters(), lr=.001)
+    state = TrainingState(independent_sequences=True)
+    for index in range(2):
+        batch = pack_samples([sample(index, "a"), sample(index, "b")])
+        contexts = state.prepare(batch)
+        prediction, details = net.forward_training_batch(batch, [item[0] for item in contexts])
+        loss = (prediction - batch.targets).square().mean()
+        loss.backward()
+        for name, parameter in net.named_parameters():
+            assert parameter.grad is not None, name
+            assert torch.isfinite(parameter.grad).all(), name
+        before = [layer.weight.detach().clone() for layer in net.encoder.layers]
+        optimizer.step()
+        for layer, previous in zip(net.encoder.layers, before):
+            assert not torch.equal(layer.weight, previous)
+        assert all(item["recurrent_state"].encoder is None and item["recurrent_state"].hierarchy is None
+                   for item in details)
+        assert all(item["sampling_offset"] == 4 * (index + 1) for item in details)
+        state.commit(batch, prediction, details, batch.targets)
+        optimizer.zero_grad(set_to_none=True)
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("storage", ["materialized", "implicit_radius"])
+def test_incremental_ann_matches_fresh_hierarchy_at_each_readout(storage):
+    net = model(storage).eval()
+    state = None
+    for index in range(7):
+        decoder = None if state is None else state.decoder
+        prediction, details = net.forward_sample(sample(index, empty=index in {2, 3, 4}), recurrent_state=state)
+        state = details["recurrent_state"]
+        expected, _, graph = forward_snapshot(net, state.graph, (32, 32))
+        torch.testing.assert_close(state.hierarchy.suffix.outputs, expected, atol=2e-6, rtol=2e-5)
+        torch.testing.assert_close(state.hierarchy.pool.graph.graph.positions, graph.graph.positions)
+        raster = rasterize_batch(expected, graph.graph, graph.node_batch, 1, (32, 32), 4)
+        reference, _ = net.decoder(raster, (32, 32), decoder)
+        torch.testing.assert_close(prediction, reference, atol=2e-6, rtol=2e-5)
+
+
+def calibrated(storage, dynamics, factor=1):
+    net = model(storage, factor).eval()
+    net.snn_dynamics = dynamics
+    net.fold_batch_norm()
+    states = [None, None]
+    for index in range(2):
+        _, details = net.calibrate_stream_batch([sample(index, "a"), sample(index, "b")], states)
+        states = [item["recurrent_state"] for item in details]
+    net.apply_parameter_normalization()
+    return net
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("storage", ["materialized", "implicit_radius"])
+@pytest.mark.parametrize("mode,dynamics", [("ann", "literal_eq15"), ("snn", "literal_eq15"), ("snn", "standard_if")])
+def test_independent_batch_clocks_sampling_clone_and_expiry(storage, mode, dynamics):
+    net = calibrated(storage, dynamics, factor=3) if mode == "snn" else model(storage, 3).eval()
+    single = copy.deepcopy(net)
+    states, singles = [None, None], [None, None]
+    for index in range(6):
+        frames = [sample(index, "a", empty=index == 3), sample(index, "b", empty=index in {1, 2, 3, 4})]
+        snapshots = [None if item is None else item.clone() for item in states]
+        result, details = net.forward_batch(frames, states, inference_mode=mode, simulation_steps=4)
+        if mode == "snn":
+            assert details[0]["stream_execution"]["pooling"]["reused_quotient_updates"] > 0
+        repeated, _ = net.forward_batch(frames, snapshots, inference_mode=mode, simulation_steps=4)
+        torch.testing.assert_close(result, repeated, atol=0, rtol=0)
+        expected = []
+        for lane in range(2):
+            prediction, detail = single.forward_sample(frames[lane], recurrent_state=singles[lane],
+                                                        inference_mode=mode, simulation_steps=4)
+            singles[lane] = detail["recurrent_state"]
+            actual = details[lane]["recurrent_state"]
+            _assert_cache(actual.encoder, singles[lane].encoder)
+            _assert_cache(actual.hierarchy.suffix, singles[lane].hierarchy.suffix)
+            assert actual.sampling_offset == singles[lane].sampling_offset
+            assert bool(actual.finite())
+            expected.append(prediction)
+        torch.testing.assert_close(result, torch.cat(expected), atol=3e-6, rtol=3e-5)
+        states = [item["recurrent_state"] for item in details]
+
+
+@torch.no_grad()
+def test_calibration_observes_six_layers_on_both_sides_of_pool():
+    net = model().eval()
+    net.fold_batch_norm()
+    net.encoder.reset_activation_maxima()
+    _, details = net.calibrate_stream_batch([sample(0, "a"), sample(0, "b")])
+    activations = details[0]["activations"]
+    assert len(activations) == 6
+    assert activations[0].shape[0] == 8
+    assert activations[4].shape[0] < activations[3].shape[0]
+    assert (net.encoder.calibration_samples_seen == 2).all()
+    for layer, hidden in zip(net.encoder.layers, activations):
+        torch.testing.assert_close(layer.calibration_activation_max, hidden.amax(dim=0))
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("calibration", [False, True])
+def test_inference_caches_cannot_leak_into_training_or_calibration(calibration):
+    net = model().eval()
+    _, details = net.forward_sample(sample())
+    state = details["recurrent_state"]
+    if calibration:
+        with pytest.raises(ValueError, match="raw-only training state"):
+            net.calibrate_stream_batch([sample(1)], [state])
+    else:
+        net.train()
+        with pytest.raises(ValueError, match="raw-only training state"):
+            net.forward_training_batch([sample(1)], [state])
+~~~~~~~~
+
+# tests/test_hierarchy_preflight.py
+
+~~~~~~~~python
+"""CPU-only synthetic v4 preparation, exact scan resume and real-model probes."""
+
+from __future__ import annotations
+
+import copy
+import importlib.util
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+import torch
+
+from asgcn_unet import stream_preflight as preflight
+from asgcn_unet import stream_scan_checkpoint as checkpoint
+from asgcn_unet.batching import SequenceBatchSampler, sequence_key
+from tests.test_stream_preflight import (
+    PROJECT,
+    SyntheticStreams,
+    _config,
+    _fixture_cpu_ram,
+    _fixture_provenance,
+    _prepare,
+)
+from tests.test_stream_preflight import (
+    project as project,  # noqa: PLC0414 - pytest fixture re-export
+)
+
+
+@pytest.fixture(autouse=True)
+def bounded_cpu(monkeypatch):
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    _fixture_cpu_ram(monkeypatch)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _hierarchy(*, factor=3):
+    config = _config()
+    config["model"].update({"architecture_version": 4, "event_sampling_factor": factor,
+                            "graph_storage": "implicit_radius", "hierarchy_config": {
+                                "after_layer": 1, "spatial_cell_pixels": 4,
+                                "temporal_cell_seconds": 0.5,
+                                "edge_pseudo": "mean_fine_distance_over_radius"}})
+    return config
+
+
+def _save_scan(tmp_path, dataset, config, *, stop=1):
+    batches = list(SequenceBatchSampler(dataset, config["train"]["batch_size"]))
+    identity = {field: "a" * 64 for field in checkpoint.IDENTITY_FIELDS}
+    identity.update(config_sha256=checkpoint._digest(config), schedule_sha256=checkpoint._digest(batches))
+    finals = {sequence_key(item): item["sequence_index"] for item in dataset.samples}
+    path = tmp_path / "raw-scan"
+    def save(states, topology, completed, final_indices):
+        checkpoint.save_scan_checkpoint(path, identity=identity, batches=batches,
+                                        completed_batches=completed, states=states, topology=topology,
+                                        sequence_final_indices=final_indices, memory_budget_mib=32)
+    result = preflight._scan_stream_topology(dataset, config, torch.device("cpu"), batches,
+                                             top_density_count=2, on_batch_complete=save,
+                                             pause_after_completed_batches=stop)
+    restored = checkpoint.load_scan_checkpoint(path, expected_identity=identity, batches=batches,
+                                               sequence_final_indices=finals, memory_budget_mib=32)
+    return result, restored, batches, identity, path, finals
+
+
+def test_preparation_v4_is_explicit_preserves_full_model_and_records_design(project):
+    hierarchy = {"after_layer": 4, "spatial_cell_pixels": 4, "temporal_cell_seconds": 0.008,
+                 "edge_pseudo": "mean_fine_distance_over_radius"}
+    report = _prepare(project, hierarchy_config=hierarchy, event_sampling_factor=10, graph_storage="implicit_radius")
+    assert report["architecture_design"]["paper_exact_hyperparameters"] is False
+    assert report["architecture_design"]["new_training_required"] is True
+    for kind, path in report["configs"].items():
+        config = json.loads((project / path).read_text(encoding="utf-8"))
+        assert config["model"]["architecture_version"] == 4
+        assert config["model"]["event_sampling_factor"] == 10
+        assert config["model"]["hierarchy_config"] == hierarchy
+        assert config["dataset"]["max_events"] is None
+        assert (config["model"]["graph_layers"], config["model"]["hidden_dim"], config["model"]["decoder_channels"]) == (6, 64, 48)
+        if kind == "train":
+            assert (config["train"]["batch_size"], config["train"]["epochs"]) == (16, 40)
+    with pytest.raises(ValueError, match="v3 remains R=1"):
+        _prepare(project, "runs/invalid-no-hierarchy", event_sampling_factor=2)
+
+
+def test_v4_preparation_and_validator_stay_torch_free(project):
+    code = (
+        "import sys; from asgcn_unet.stream_preflight import prepare_streaming_experiment; "
+        f"prepare_streaming_experiment({str(project)!r}, 'runs/torch-free', window_seconds=1, time_scale_seconds=1, "
+        "hdr_timestamp_scale_to_seconds=1, aid_timestamp_scale_to_seconds=1, "
+        "hdr_interval_timestamp_scale_to_seconds=1, aid_interval_timestamp_scale_to_seconds=1, "
+        "hierarchy_config={'after_layer':4,'spatial_cell_pixels':4,'temporal_cell_seconds':0.1,"
+        "'edge_pseudo':'mean_fine_distance_over_radius'},event_sampling_factor=2); "
+        "assert 'torch' not in sys.modules"
+    )
+    subprocess.run([sys.executable, "-B", "-c", code], check=True, capture_output=True, text=True)
+
+
+def test_cli_explicit_hierarchy_uses_recorded_raster_and_radius_design(monkeypatch, project):
+    spec = importlib.util.spec_from_file_location("prepare_hierarchy_test", PROJECT / "scripts" / "prepare_streaming_experiment.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    monkeypatch.setattr(module, "PROJECT", project)
+    arguments = ["--output-root", "runs/cli-hierarchy", "--window-seconds", "1", "--time-scale-seconds", "2",
+                 "--hdr-timestamp-scale-to-seconds", "1", "--aid-timestamp-scale-to-seconds", "1",
+                 "--hdr-interval-timestamp-scale-to-seconds", "1", "--aid-interval-timestamp-scale-to-seconds", "1",
+                 "--hierarchical", "--event-sampling-factor", "7"]
+    assert module.main(arguments) == 0
+    baseline = json.loads((project / "configs/ablations/graph_unet-train.json").read_text())["model"]
+    config = json.loads((project / "runs/cli-hierarchy/configs/train.json").read_text())
+    assert config["model"]["hierarchy_config"] == {
+        "after_layer": 4, "spatial_cell_pixels": baseline["raster_downsample"],
+        "temporal_cell_seconds": baseline["graph_radius"] * 2, "edge_pseudo": "mean_fine_distance_over_radius"}
+
+
+def test_sequence_sampling_counts_and_exact_checkpoint_resume_match_uninterrupted(tmp_path):
+    dataset, config = SyntheticStreams(), _hierarchy()
+    partial, restored, batches, identity, path, finals = _save_scan(tmp_path, dataset, config)
+    assert not partial["scan_complete"] and partial["scanned_samples"] == 2
+    assert all(state.sampling_offset == 2 and state.last_event_id == (0, 1) for state in restored["states"].values())
+    resumed = preflight._scan_stream_topology(dataset, config, torch.device("cpu"), batches,
+                                             top_density_count=2, resume_state=restored)
+    complete = preflight._scan_stream_topology(dataset, config, torch.device("cpu"), batches, top_density_count=2)
+    assert resumed["samples"] == complete["samples"] and resumed["scan_complete"]
+    rows = complete["samples"][:3]
+    assert [row["incoming_events"] for row in rows] == [2, 2, 2]
+    assert [row["sampled_incoming_events"] for row in rows] == [1, 1, 0]
+    assert [row["sampling_offset_after"] for row in rows] == [2, 4, 6]
+    assert [row["readout_nodes"] for row in rows] == [1, 1, 1]
+    changed = dict(identity, config_sha256="c" * 64)
+    with pytest.raises(ValueError, match="identity mismatch"):
+        checkpoint.load_scan_checkpoint(path, expected_identity=changed, batches=batches,
+                                        sequence_final_indices=finals, memory_budget_mib=32)
+
+
+def test_sampler_does_not_hide_invalid_unselected_raw_event():
+    class InvalidRaw(SyntheticStreams):
+        def __getitem__(self, index):
+            sample = super().__getitem__(index)
+            sample["events"][1, 3] = 0  # R=3 would discard this row, but raw validation runs first.
+            return sample
+    dataset = InvalidRaw()
+    with pytest.raises(ValueError, match="Invalid physical sensor event"):
+        preflight._scan_stream_topology(dataset, _hierarchy(), torch.device("cpu"),
+                                        list(SequenceBatchSampler(dataset, 2)), top_density_count=2)
+
+
+def test_raw_cross_frame_identity_is_checked_before_sampling():
+    class RepeatedRaw(SyntheticStreams):
+        def __getitem__(self, index):
+            sample = super().__getitem__(index)
+            if sample["metadata"]["sequence_index"] == 1:
+                sample["event_ids"][0, 1] = 0  # Unselected ordinal 2 repeats a raw ID from frame 0.
+            return sample
+    dataset = RepeatedRaw()
+    with pytest.raises(ValueError, match="Raw event identity"):
+        preflight._scan_stream_topology(dataset, _hierarchy(), torch.device("cpu"),
+                                        list(SequenceBatchSampler(dataset, 2)), top_density_count=2)
+
+
+@pytest.mark.parametrize("mutation", ["offset", "missing_offset", "last_id", "record_count"])
+def test_checkpoint_rejects_sampling_state_tampering(tmp_path, mutation):
+    dataset, config = SyntheticStreams(), _hierarchy()
+    _, restored, batches, identity, _, finals = _save_scan(tmp_path, dataset, config)
+    state = next(iter(restored["states"].values()))
+    if mutation == "offset":
+        state.sampling_offset += 1
+    elif mutation == "missing_offset":
+        del state.sampling_offset
+    elif mutation == "last_id":
+        state.last_event_id = (0, 0)
+    else:
+        restored["topology"]["samples"][0]["sampled_incoming_events"] = 0
+    with pytest.raises(ValueError, match="sampling_offset|last_event_id|sampled count"):
+        checkpoint.save_scan_checkpoint(tmp_path / "invalid", identity=identity, batches=batches,
+                                        completed_batches=1, states=restored["states"], topology=restored["topology"],
+                                        sequence_final_indices=finals, memory_budget_mib=32)
+
+
+def test_real_cpu_v4_early_gate_then_full_scan_and_representative_probe(monkeypatch, tmp_path):
+    dataset, config = SyntheticStreams(), _hierarchy()
+    _fixture_provenance(monkeypatch, dataset)
+    report = preflight.streaming_training_preflight(config, tmp_path / "v4-smoke.json", require_cuda=False,
+                                                    profile_samples=1, top_density_count=2)
+    assert report["passed"], report.get("failure")
+    assert report["report_eligible"] is False
+    assert report["topology"]["scan_complete"] and report["topology"]["scanned_samples"] == len(dataset)
+    assert report["early_training_probe"]["probe"]["passed"]
+    assert report["early_training_probe"]["physical_batch_size"] == 2
+    assert report["early_training_probe"]["probe"]["steps"][0]["hierarchy_readout"]["topology_scan_complete"] is False
+    assert report["topology"]["resumed_completed_batches"] == 1
+    assert report["batch_training_probe"]["passed"]
+    batches = list(SequenceBatchSampler(dataset, 2))
+    preflight._validate_hierarchy_evidence(report, config, batches)
+    tampered = copy.deepcopy(report)
+    tampered["topology"]["samples"][0]["sampling_offset_after"] += 1
+    with pytest.raises(ValueError, match="sampling counter"):
+        preflight._validate_hierarchy_evidence(tampered, config, batches)
+    tampered = copy.deepcopy(report)
+    tampered["batch_training_probe"]["steps"][0].pop("hierarchy_readout")
+    with pytest.raises(ValueError, match="hierarchy graph/memory evidence"):
+        preflight._validate_hierarchy_evidence(tampered, config, batches)
+    for step in report["batch_training_probe"]["steps"]:
+        assert step["hierarchy_readout"]["peak_memory_includes_hierarchy"]
+        assert step["hierarchy_readout"]["topology_scan_complete"] is True
+        assert len(step["hierarchy_readout"]["counts"]) == step["batch_size"]
+        assert step["peak_allocated_mib"] is None  # CPU smoke is not a VRAM measurement.
+
+
+def test_early_gate_failure_keeps_committed_raw_state_and_does_not_scan_next_batch(monkeypatch, tmp_path):
+    dataset, config = SyntheticStreams(), _hierarchy()
+    _fixture_provenance(monkeypatch, dataset)
+    def fail_probe(*args, **kwargs):
+        kwargs["progress"].update(passed=False, phase="synthetic_before_forward_failure")
+        raise RuntimeError("synthetic early allocation failure")
+    monkeypatch.setattr(preflight, "_probe_stream_training", fail_probe)
+    report = preflight.streaming_training_preflight(config, tmp_path / "failed-smoke.json", require_cuda=False,
+                                                    profile_samples=1, top_density_count=2)
+    assert not report["passed"] and report["failure"]["stage"] == "early_physical_training_probe"
+    assert report["failure"]["probe_phase"] == "synthetic_before_forward_failure"
+    assert report["scan_checkpoint"]["completed_batches"] == 1
+    assert report["topology"]["scanned_samples"] == 2 and not report["topology"]["scan_complete"]
+    checkpoint_path = Path(report["scan_checkpoint"]["path"])
+    # Artifact labels may be redacted; the owned on-disk directory is deterministic.
+    if not checkpoint_path.exists():
+        checkpoint_path = tmp_path / "failed-smoke.scan-checkpoint"
+    assert checkpoint_path.exists()
+    assert dataset.closed
+~~~~~~~~
+
+# tests/test_hierarchy_snn_oracle.py
+
+~~~~~~~~python
+"""Independent tiny CPU clock equations; not throughput or model-quality evidence.
+
+The oracle uses explicit root-only affine equations and handwritten cluster
+membership. It never calls the encoder, pooling, or hierarchy update helpers.
+This isolates pulse timing from the separate quotient-edge tests.
+"""
+
+from __future__ import annotations
+
+import copy
+from types import SimpleNamespace
+
+import pytest
+import torch
+
+from asgcn_unet.graph import ASGCNEncoder, EventGraph
+from asgcn_unet.hierarchy import (
+    forward_snapshot,
+    pack_hierarchy,
+    split_hierarchy,
+    stages,
+    update_hierarchy,
+)
+from asgcn_unet.stream_graph import GraphUpdate, StreamGraph
+from asgcn_unet.stream_model import _pack_previous, _split_state
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _one_cpu_thread():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _model(coefficients=(0.6, 0.4), biases=None, *, boundary=1, dynamics="standard_if"):
+    # Explicit synthetic width, no production model/config is changed.
+    with torch.random.fork_rng():
+        torch.manual_seed(409)
+        encoder = ASGCNEncoder(1, len(coefficients), spline_kernel_size=2).eval()
+    biases = [0.0] * len(coefficients) if biases is None else biases
+    with torch.no_grad():
+        for layer, coefficient, bias in zip(encoder.layers, coefficients, biases, strict=True):
+            layer.weight.zero_()
+            layer.root.zero_()
+            layer.root[0, 0] = coefficient
+            layer.bias.fill_(bias)
+            layer.norm.weight.copy_(torch.sqrt(layer.norm.running_var + layer.norm.eps))
+            layer.norm.bias.zero_()
+            layer.norm.running_mean.zero_()
+            # A controlled unit conversion is part of this numerical fixture.
+            layer.calibration_activation_max.fill_(1.0)
+        encoder.calibration_samples_seen.fill_(1)
+        encoder.fold_batch_norm()
+        encoder.apply_parameter_normalization()
+    return SimpleNamespace(
+        encoder=encoder, snn_dynamics=dynamics,
+        hierarchy_config={"after_layer": boundary, "spatial_cell_pixels": 4,
+                          "temporal_cell_seconds": 1,
+                          "edge_pseudo": "mean_fine_distance_over_radius"},
+        stream_config={"time_scale_seconds": 1},
+    )
+
+
+def _graph(*, lanes=1):
+    features = torch.tensor([[1.0, 0, 0, 0], [0.35, 0, 0, 0]]).repeat(lanes, 1)
+    positions = torch.tensor([[0.1, 0.1, 0.1, 0], [0.2, 0.1, 0.1, 1]],
+                             dtype=torch.float64).repeat(lanes, 1)
+    # Both raw nodes of each lane belong to one declared fixed cell. No edges
+    # means the independent oracle can use x @ root + bias directly.
+    graph = EventGraph(features, positions, torch.empty(2, 0, dtype=torch.long),
+                       torch.empty(0, 1, dtype=torch.float64))
+    return StreamGraph(graph, torch.arange(lanes).repeat_interleave(2),
+                       torch.full((2 * lanes,), 0.1, dtype=torch.float64))
+
+
+def _update(graph, *, initial=False, raw_seed=None):
+    count = len(graph.timestamps)
+    return GraphUpdate(
+        graph, torch.full((count,), -1, dtype=torch.long) if initial else torch.arange(count),
+        torch.full((count,), initial, dtype=torch.bool) if raw_seed is None else raw_seed,
+    )
+
+
+def _oracle_initial(model, graph):
+    boundary = model.hierarchy_config["after_layer"]
+    raw_n = len(graph.timestamps)
+    coarse_n = raw_n // 2
+    result = {name: [] for name in ("membranes", "previous_spikes", "spike_sums",
+                                    "local_ticks", "last_pulses", "layer_outputs")}
+    for index, layer in enumerate(model.encoder.layers):
+        count = raw_n if index < boundary else coarse_n
+        for name, tensors in result.items():
+            value = torch.zeros(count, dtype=torch.long) if name == "local_ticks" else torch.zeros(count, 1)
+            if name == "membranes":
+                value[:] = layer.threshold * 0.5
+            tensors.append(value)
+    result["pooled_last"] = torch.zeros(coarse_n, 1)
+    return result
+
+
+@torch.no_grad()
+def _oracle(model, graph, previous, *, steps, raw_seed, topology_seed, active_graphs=None):
+    """Direct IF equations with topology clocks separate from input pulses."""
+    state = _oracle_initial(model, graph) if previous is None else copy.deepcopy(previous)
+    boundary = model.hierarchy_config["after_layer"]
+    active_graphs = torch.ones(len(graph.timestamps) // 2, dtype=torch.bool) if active_graphs is None else active_graphs
+    raw_active = active_graphs.repeat_interleave(2)
+    for _tick in range(steps):
+        old_pulses = state["last_pulses"]
+        new_pulses = []
+        for index, layer in enumerate(model.encoder.layers):
+            if index == 0:
+                x = graph.graph.node_features
+                active = raw_seed & raw_active
+            elif index == boundary:
+                # Handwritten Eq18 for the known two-member cells.
+                x = new_pulses[-1].reshape(-1, 2, 1).mean(dim=1)
+                input_support = x.ne(0).any(1) | state["pooled_last"].ne(0).any(1)
+                active = (topology_seed | input_support) & active_graphs
+                pooled_now = x
+            else:
+                x = new_pulses[-1]
+                pulse_support = x.ne(0).any(1) | old_pulses[index - 1].ne(0).any(1)
+                base = raw_seed if index < boundary else topology_seed
+                active = (base | pulse_support) & (raw_active if index < boundary else active_graphs)
+            current = x @ layer.root + layer.bias
+            integrated = state["membranes"][index][active] + current[active]
+            if model.snn_dynamics == "literal_eq15":
+                integrated += state["previous_spikes"][index][active]
+            spike = torch.where(integrated >= layer.threshold, layer.threshold, 0.0)
+            state["membranes"][index][active] = integrated - spike
+            state["previous_spikes"][index][active] = spike
+            state["spike_sums"][index][active] += spike
+            state["local_ticks"][index][active] += 1
+            state["layer_outputs"][index][active] = (
+                state["spike_sums"][index][active] / state["local_ticks"][index][active, None])
+            emitted = torch.zeros_like(state["last_pulses"][index])
+            emitted[active] = spike
+            lane_active = raw_active if index < boundary else active_graphs
+            emitted[~lane_active] = old_pulses[index][~lane_active]
+            new_pulses.append(emitted)
+        state["last_pulses"] = new_pulses
+        state["pooled_last"] = pooled_now
+    return state
+
+
+def _assert_equations(prefix, hierarchy, expected):
+    for field in ("membranes", "previous_spikes", "spike_sums", "local_ticks",
+                  "last_pulses", "layer_outputs"):
+        actual = getattr(prefix, field) + getattr(hierarchy.suffix, field)
+        for index, (got, wanted) in enumerate(zip(actual, expected[field], strict=True)):
+            torch.testing.assert_close(got, wanted, atol=2e-6, rtol=2e-6,
+                                       msg=f"layer {index} {field}: independent local-clock equation")
+
+
+@pytest.mark.parametrize("dynamics", ["standard_if", "literal_eq15"])
+@pytest.mark.parametrize("depth,boundary", [(2, 1), (6, 3)])
+def test_arrival_interleaves_prefix_pool_suffix_and_repeated_equal_pulses(dynamics, depth, boundary):
+    model = _model((0.6,) + (0.7,) * (depth - 1), boundary=boundary, dynamics=dynamics)
+    graph = _graph()
+    expected = _oracle(model, graph, None, steps=5, raw_seed=torch.ones(2, dtype=torch.bool),
+                       topology_seed=torch.ones(1, dtype=torch.bool))
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph, initial=True), None, None,
+                                           (8, 8), mode="snn", simulation_steps=5)
+    _assert_equations(prefix, hierarchy, expected)
+    torch.testing.assert_close(hierarchy.pool.graph.graph.node_features, expected["pooled_last"])
+
+
+@pytest.mark.parametrize("dynamics", ["standard_if", "literal_eq15"])
+@pytest.mark.parametrize("depth", [2, 3])
+def test_readout_pulse_off_is_one_input_change_not_persistent_or_broadcast_topology(dynamics, depth):
+    model = _model((0.6,) + (0.0,) * (depth - 1),
+                   biases=[0.0] + [0.21] * (depth - 1), dynamics=dynamics)
+    graph = _graph()
+    expected = _oracle(model, graph, None, steps=1, raw_seed=torch.ones(2, dtype=torch.bool),
+                       topology_seed=torch.ones(1, dtype=torch.bool))
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph, initial=True), None, None,
+                                           (8, 8), mode="snn", simulation_steps=1)
+    _assert_equations(prefix, hierarchy, expected)
+    expected = _oracle(model, graph, expected, steps=4, raw_seed=torch.zeros(2, dtype=torch.bool),
+                       topology_seed=torch.zeros(1, dtype=torch.bool))
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph), prefix, hierarchy,
+                                           (8, 8), mode="snn", simulation_steps=4)
+    _assert_equations(prefix, hierarchy, expected)
+
+
+@pytest.mark.parametrize("dynamics", ["standard_if", "literal_eq15"])
+def test_idle_lane_keeps_membranes_ticks_and_pending_pulses_while_other_lane_advances(dynamics):
+    model = _model((0.6, 0.7, 0.4), dynamics=dynamics)
+    graph = _graph(lanes=2)
+    expected = _oracle(model, graph, None, steps=1, raw_seed=torch.ones(4, dtype=torch.bool),
+                       topology_seed=torch.ones(2, dtype=torch.bool))
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph, initial=True), None, None,
+                                           (8, 8), mode="snn", simulation_steps=1)
+    _assert_equations(prefix, hierarchy, expected)
+    incoming = copy.deepcopy(expected)
+    expected = _oracle(model, graph, expected, steps=4, raw_seed=torch.zeros(4, dtype=torch.bool),
+                       topology_seed=torch.zeros(2, dtype=torch.bool), active_graphs=torch.tensor([True, False]))
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph), prefix, hierarchy, (8, 8),
+                                           mode="snn", simulation_steps=4,
+                                           active_graphs=torch.tensor([True, False]))
+    _assert_equations(prefix, hierarchy, expected)
+    for field in ("membranes", "local_ticks", "last_pulses"):
+        for index, values in enumerate(expected[field]):
+            idle = slice(2, 4) if index == 0 else slice(1, 2)
+            torch.testing.assert_close(values[idle], incoming[field][index][idle], atol=0, rtol=0)
+
+
+@torch.no_grad()
+def test_six_layer_bn_folding_normalization_and_mean_pool_have_one_continuous_scale_chain():
+    model = _model((0.6, 0.7, 0.8, 0.9, 1.1, 1.2), boundary=3)
+    # Fresh unconverted parameters with nontrivial BN at all six layers.
+    for index, layer in enumerate(model.encoder.layers):
+        layer._bn_is_folded = False
+        layer._snn_is_normalized = False
+        layer.bn_bypassed.fill_(False)
+        layer.snn_normalized.fill_(False)
+        layer.norm.weight.fill_(1.0 + 0.1 * index)
+        layer.norm.bias.fill_(0.1 + 0.01 * index)
+        layer.norm.running_mean.fill_(0.02 * index)
+        layer.norm.running_var.fill_(0.8 + 0.1 * index)
+    graph = _graph()
+    hidden = graph.graph.node_features
+    expected_activations = []
+    for index, layer in enumerate(model.encoder.layers):
+        if index == 3:
+            hidden = hidden.reshape(1, 2, 1).mean(1)
+        affine = hidden @ layer.root + layer.bias
+        hidden = torch.relu((affine - layer.norm.running_mean)
+                            * layer.norm.weight / torch.sqrt(layer.norm.running_var + layer.norm.eps)
+                            + layer.norm.bias)
+        expected_activations.append(hidden.clone())
+    expected = hidden.clone()
+    actual, activations, _ = forward_snapshot(model, graph, (8, 8), calibration=True)
+    torch.testing.assert_close(actual, expected)
+    for got, wanted in zip(activations, expected_activations, strict=True):
+        torch.testing.assert_close(got, wanted)
+    model.encoder.fold_batch_norm()
+    folded, _, _ = forward_snapshot(model, graph, (8, 8))
+    torch.testing.assert_close(folded, expected)
+    # Explicit non-unit channel scales isolate accidental reset/double-scaling
+    # at the pooling boundary from calibration-data selection.
+    for index, layer in enumerate(model.encoder.layers):
+        layer.calibration_activation_max.fill_(index + 2.0)
+    model.encoder.apply_parameter_normalization()
+    normalized, _, _ = forward_snapshot(model, graph, (8, 8))
+    torch.testing.assert_close(normalized * model.encoder.output_activation_scale(normalized), expected)
+    prefix, suffix = stages(model)
+    assert prefix.layers[-1] is model.encoder.layers[2]
+    assert suffix.layers[0] is model.encoder.layers[3]
+    assert suffix.input_is_spiking
+
+
+@pytest.mark.parametrize("dynamics", ["standard_if", "literal_eq15"])
+def test_equal_pooled_pulses_each_tick_are_not_suppressed_when_topology_is_unchanged(dynamics):
+    model = _model((1.0, 0.25), dynamics=dynamics)
+    graph = _graph()
+    graph.graph.node_features[:, 0] = 1.0
+    raw_seed = torch.ones(2, dtype=torch.bool)
+    expected = _oracle(model, graph, None, steps=1, raw_seed=raw_seed,
+                       topology_seed=torch.ones(1, dtype=torch.bool))
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph, initial=True), None, None,
+                                           (8, 8), mode="snn", simulation_steps=1)
+    expected = _oracle(model, graph, expected, steps=4, raw_seed=raw_seed,
+                       topology_seed=torch.zeros(1, dtype=torch.bool))
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph, raw_seed=raw_seed), prefix,
+                                           hierarchy, (8, 8), mode="snn", simulation_steps=4)
+    assert not hierarchy.pool.work["topology_changed_nodes"].any()
+    assert hierarchy.pool.graph.graph.node_features.item() == 1.0
+    assert expected["local_ticks"][1].item() == 5
+    _assert_equations(prefix, hierarchy, expected)
+
+
+@pytest.mark.parametrize("dynamics", ["standard_if", "literal_eq15"])
+def test_pack_split_retry_preserves_the_independent_pulse_clock_equations(dynamics):
+    model = _model((0.6, 0.7, 0.4), dynamics=dynamics)
+    graph = _graph(lanes=2)
+    expected = _oracle(model, graph, None, steps=3, raw_seed=torch.ones(4, dtype=torch.bool),
+                       topology_seed=torch.ones(2, dtype=torch.bool))
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph, initial=True), None, None,
+                                           (8, 8), mode="snn", simulation_steps=3)
+    raw_lanes = _split_state(graph, prefix, 2)
+    coarse_lanes = split_hierarchy(hierarchy, raw_lanes, 2)
+    states = [SimpleNamespace(graph=raw, encoder=cache, hierarchy=coarse)
+              for (raw, cache), coarse in zip(raw_lanes, coarse_lanes, strict=True)]
+    packed_raw, packed_prefix = _pack_previous(states, torch.device("cpu"))
+    packed_hierarchy = pack_hierarchy(model, states, packed_raw, (8, 8))
+    _assert_equations(packed_prefix, packed_hierarchy, expected)
+    assert packed_hierarchy.pool.raw_graph is packed_raw
+    assert packed_hierarchy.suffix.graph is packed_hierarchy.pool.graph
+    incoming = copy.deepcopy(expected)
+    expected = _oracle(model, graph, expected, steps=4, raw_seed=torch.zeros(4, dtype=torch.bool),
+                       topology_seed=torch.zeros(2, dtype=torch.bool))
+    old_pool_features = packed_hierarchy.pool.graph.graph.node_features.clone()
+    old_sums = packed_hierarchy.pool.feature_sums.clone()
+    for _retry in range(2):
+        actual_prefix, actual_hierarchy, _ = update_hierarchy(
+            model, _update(packed_raw), packed_prefix, packed_hierarchy, (8, 8),
+            mode="snn", simulation_steps=4)
+        _assert_equations(actual_prefix, actual_hierarchy, expected)
+        _assert_equations(packed_prefix, packed_hierarchy, incoming)
+        torch.testing.assert_close(packed_hierarchy.pool.graph.graph.node_features,
+                                   old_pool_features, atol=0, rtol=0)
+        torch.testing.assert_close(packed_hierarchy.pool.feature_sums, old_sums, atol=0, rtol=0)
+
+
+@torch.no_grad()
+def test_ann_six_layer_feature_only_change_reaches_suffix_without_coarse_topology_change():
+    model = _model((0.6, 0.7, 0.8, 0.9, 1.1, 1.2), boundary=3)
+    graph = _graph()
+    prefix, hierarchy, _ = update_hierarchy(model, _update(graph, initial=True), None, None,
+                                           (8, 8), mode="ann", simulation_steps=1)
+    changed = _graph()
+    changed.graph.node_features[:, 0] *= 1.5
+    prefix, hierarchy, _ = update_hierarchy(
+        model, _update(changed, raw_seed=torch.ones(2, dtype=torch.bool)), prefix,
+        hierarchy, (8, 8), mode="ann", simulation_steps=1)
+    assert not hierarchy.pool.work["topology_changed_nodes"].any()
+    hidden = changed.graph.node_features
+    for index, layer in enumerate(model.encoder.layers):
+        if index == 3:
+            hidden = hidden.reshape(1, 2, 1).mean(1)
+        hidden = torch.relu(hidden @ layer.root + layer.bias)
+        actual = prefix.layer_outputs[index] if index < 3 else hierarchy.suffix.layer_outputs[index - 3]
+        torch.testing.assert_close(actual, hidden)
+~~~~~~~~
+
+# tests/test_hierarchy_stream_checkpoint.py
+
+~~~~~~~~python
+"""Tiny one-thread CPU state/schema tests, not model or performance validation."""
+
+from __future__ import annotations
+
+import copy
+import io
+from dataclasses import dataclass, field, replace
+
+import pytest
+import torch
+
+from asgcn_unet.checkpoint import capture_training_state, restore_training_state
+from asgcn_unet.graph import EventGraph
+from asgcn_unet.hierarchy import HierarchyState
+from asgcn_unet.implicit_radius import ImplicitRadiusIndex, build_implicit_radius_graph
+from asgcn_unet.stream_encoder import StreamEncoderState
+from asgcn_unet.stream_graph import StreamGraph
+from asgcn_unet.stream_state import StreamingReconstructionState, restore_stream_training_state
+from asgcn_unet.training import TrainingState
+
+
+@pytest.fixture(autouse=True, scope="module")
+def _one_cpu_thread():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _state(storage="materialized", *, sampling_offset=0):
+    positions = torch.tensor([[0.1, 0.1, 0.1, 0], [0.2, 0.1, 0.1, 1],
+                              [0.8, 0.8, 0.2, 1]], dtype=torch.float64)
+    features = positions.float().clone().requires_grad_()
+    node_batch = torch.zeros(3, dtype=torch.long)
+    if storage == "implicit":
+        graph = build_implicit_radius_graph(
+            features, positions, node_batch, batch_size=1, radius=0.3,
+            position_dims=3, chunk_size=2, candidate_pair_budget=3,
+        )
+    else:
+        graph = EventGraph(features, positions, torch.tensor([[0, 1], [1, 0]]),
+                           torch.full((2, 1), 1 / 3, dtype=torch.float64))
+    # The original nine positional arguments remain source-compatible.
+    state = StreamingReconstructionState(
+        StreamGraph(graph, node_batch, torch.tensor([0.1, 0.1, 0.2], dtype=torch.float64)),
+        None, torch.ones(1, 4, 2, 2, requires_grad=True),
+        0.0, 0.3, 2, ("synthetic-a", "source.h5"), (0, 2), "a" * 64,
+    )
+    return replace(state, sampling_offset=sampling_offset)
+
+
+def _store(state):
+    store = TrainingState(independent_sequences=True)
+    key = state.sequence_identity
+    store.values[key] = (state.sequence_index, (4, 4), state,
+                         torch.zeros(1, 1, 4, 4), torch.ones(1, 1, 4, 4))
+    store.last_key = key
+    return store
+
+
+@dataclass(frozen=True)
+class _SyntheticPoolCache:
+    """Minimal pool protocol fixture; no pooling result or model is simulated."""
+
+    raw_graph: StreamGraph
+    graph: StreamGraph
+    feature_sums: torch.Tensor
+    counts: torch.Tensor
+    work: dict = field(default_factory=dict)
+
+
+def _with_caches(state):
+    raw = state.graph
+    coarse = StreamGraph(
+        EventGraph(torch.ones(2, 4, requires_grad=True),
+                   raw.graph.positions[:2].clone(), torch.tensor([[0, 1], [1, 0]]),
+                   torch.full((2, 1), 0.25, dtype=torch.float64)),
+        torch.zeros(2, dtype=torch.long), raw.timestamps[:2].clone(),
+    )
+    prefix = StreamEncoderState(
+        raw, torch.ones(3, 4, requires_grad=True),
+        (torch.ones(3, 4, requires_grad=True),),
+        local_ticks=(torch.ones(3, dtype=torch.long),),
+    )
+    suffix = StreamEncoderState(
+        coarse, torch.ones(2, 4, requires_grad=True),
+        (torch.ones(2, 4, requires_grad=True),),
+        local_ticks=(torch.ones(2, dtype=torch.long),),
+    )
+    pool = _SyntheticPoolCache(raw, coarse, torch.ones(2, 4, requires_grad=True),
+                               torch.tensor([2, 1]))
+    return replace(state, encoder=prefix, hierarchy=HierarchyState(pool, suffix))
+
+
+@pytest.mark.parametrize("storage,version", [("materialized", 1), ("implicit", 2)])
+def test_zero_sampling_offset_keeps_legacy_payload_fields_and_defaults(storage, version):
+    original = _state(storage)
+    assert original.sampling_offset == 0 and original.hierarchy is None
+    payload = original.training_payload()
+    assert payload["schema"] == f"asgcn_stream_training_state_v{version}"
+    assert "sampling_offset" not in payload and "raw_state" not in payload
+    restored = restore_stream_training_state(payload)
+    assert restored.sampling_offset == 0 and restored.hierarchy is None
+    assert set(restored.training_payload()) == set(payload)
+
+
+@pytest.mark.parametrize("storage", ["materialized", "implicit"])
+@pytest.mark.parametrize("operation", ["clone", "detach", "to"])
+def test_mapping_preserves_counter_and_maps_raw_prefix_and_coarse_suffix_separately(
+    storage, operation, monkeypatch,
+):
+    original = _with_caches(_state(storage, sampling_offset=2**70 + 7))
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors",
+                        lambda *args, **kwargs: pytest.fail("mapping must not enumerate edges"))
+    mapped = original.to("cpu", copy=True) if operation == "to" else getattr(original, operation)()
+    assert mapped.sampling_offset == original.sampling_offset
+    assert type(mapped.sampling_offset) is int
+    assert mapped.encoder.graph is mapped.graph
+    assert mapped.hierarchy.pool.raw_graph is mapped.graph
+    assert mapped.hierarchy.suffix.graph is mapped.hierarchy.pool.graph
+    assert len(mapped.encoder.outputs) == 3 and len(mapped.hierarchy.suffix.outputs) == 2
+    assert mapped.hierarchy is not original.hierarchy
+    before = tuple(original.hierarchy.tensors())
+    after = tuple(mapped.hierarchy.tensors())
+    for source, destination in zip(before, after, strict=True):
+        torch.testing.assert_close(source, destination, rtol=0, atol=0)
+        assert destination.device.type == "cpu"
+        if operation == "detach":
+            assert not destination.requires_grad
+        else:
+            assert source.data_ptr() != destination.data_ptr()
+    assert bool(mapped.finite())
+
+
+@pytest.mark.parametrize("location", ["pool_sum", "coarse_position", "coarse_edge",
+                                      "suffix_output", "suffix_layer", "prefix_layer"])
+def test_finite_includes_both_hierarchy_and_raw_prefix_caches(location):
+    state = _with_caches(_state(sampling_offset=17))
+    tensors = {
+        "pool_sum": state.hierarchy.pool.feature_sums,
+        "coarse_position": state.hierarchy.pool.graph.graph.positions,
+        "coarse_edge": state.hierarchy.pool.graph.graph.edge_attr,
+        "suffix_output": state.hierarchy.suffix.outputs,
+        "suffix_layer": state.hierarchy.suffix.layer_outputs[0],
+        "prefix_layer": state.encoder.layer_outputs[0],
+    }
+    assert bool(state.finite())
+    with torch.no_grad():
+        tensors[location].reshape(-1)[0] = float("nan")
+    assert not bool(state.finite())
+
+
+@pytest.mark.parametrize("field", ["encoder", "hierarchy"])
+def test_training_capture_rejects_either_learned_cache(field):
+    state = replace(_state(sampling_offset=5), **{field: object()})
+    with pytest.raises(ValueError, match="raw-graph ANN"):
+        state.training_payload()
+    with pytest.raises(ValueError, match="raw-graph ANN"):
+        capture_training_state(_store(state))
+
+
+@pytest.mark.parametrize("storage,version", [("materialized", 1), ("implicit", 2)])
+def test_v3_safe_serialization_round_trip_preserves_exact_counter_and_contract(storage, version):
+    original = _state(storage, sampling_offset=2**70 + 7)
+    payload = capture_training_state(_store(original))
+    assert payload["version"] == 2  # Independent outer training-context protocol.
+    wrapper = payload["entries"][0]["recurrent"]
+    assert set(wrapper) == {"schema", "sampling_offset", "raw_state"}
+    assert wrapper["schema"] == "asgcn_stream_training_state_v3"
+    assert wrapper["sampling_offset"] == original.sampling_offset
+    assert wrapper["raw_state"]["schema"] == f"asgcn_stream_training_state_v{version}"
+    output = io.BytesIO()
+    torch.save(payload, output)
+    output.seek(0)
+    loaded = torch.load(output, weights_only=True)
+    restored = restore_training_state(loaded, independent_sequences=True, device="cpu")
+    actual = restored.values[restored.last_key][2]
+    assert actual.sampling_offset == original.sampling_offset
+    assert actual.contract == original.contract
+    assert actual.sequence_identity == original.sequence_identity
+    assert actual.encoder is None and actual.hierarchy is None
+    assert not actual.decoder.requires_grad
+    saved_features = wrapper["raw_state"]["graph"]["node_features"]
+    assert len({original.graph.graph.node_features.data_ptr(), saved_features.data_ptr(),
+                actual.graph.graph.node_features.data_ptr()}) == 3
+    torch.testing.assert_close(actual.graph.graph.node_features,
+                               original.graph.graph.node_features, rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("offset", [-1, True, False, 1.0, "1", None, float("inf"), torch.tensor(1)])
+def test_invalid_counter_rejected_in_capture_and_before_restore_transfer(offset, monkeypatch):
+    original = _state(sampling_offset=1)
+    payload = capture_training_state(_store(original))
+    with pytest.raises(ValueError, match="sampling_offset"):
+        replace(original, sampling_offset=offset).training_payload()
+    with pytest.raises(ValueError, match="sampling_offset"):
+        capture_training_state(_store(replace(original, sampling_offset=offset)))
+    payload["entries"][0]["recurrent"]["sampling_offset"] = offset
+    monkeypatch.setattr(torch.Tensor, "to", lambda *args, **kwargs:
+                        pytest.fail("invalid sampling counter must fail before transfer"))
+    with pytest.raises(ValueError, match="sampling_offset"):
+        restore_training_state(payload, independent_sequences=True, device="cpu")
+
+
+@pytest.mark.parametrize("corruption", ["extra", "missing", "nested", "unknown_raw",
+                                      "nonstring_raw", "live_raw"])
+def test_v3_wrapper_strict_fields_and_no_recursive_or_live_raw_state(corruption):
+    original = _state(sampling_offset=7)
+    payload = copy.deepcopy(original.training_payload())
+    if corruption == "extra":
+        payload["hierarchy"] = None
+    elif corruption == "missing":
+        del payload["sampling_offset"]
+    elif corruption == "nested":
+        payload["raw_state"] = copy.deepcopy(payload)
+    elif corruption == "unknown_raw":
+        payload["raw_state"]["schema"] = "unknown"
+    elif corruption == "nonstring_raw":
+        payload["raw_state"]["schema"] = []
+    else:
+        payload["raw_state"] = original
+    with pytest.raises(ValueError, match="fields|v1/v2"):
+        restore_stream_training_state(payload)
+
+
+@pytest.mark.parametrize("storage", ["materialized", "implicit"])
+@pytest.mark.parametrize("corruption", ["contract", "raw_extra", "degree", "clock"])
+def test_v3_wrapper_does_not_bypass_legacy_raw_state_validation(storage, corruption):
+    payload = copy.deepcopy(_state(storage, sampling_offset=7).training_payload())
+    raw = payload["raw_state"]
+    if corruption == "contract":
+        raw["contract"] = "g" * 64
+    elif corruption == "raw_extra":
+        raw["sampling_offset"] = 7
+    elif corruption == "degree":
+        raw["graph"]["in_degree"].zero_()
+        if storage == "implicit":
+            raw["graph"]["edge_counts"].zero_()
+    else:
+        raw["watermark_seconds"] = 0.05
+    with pytest.raises(ValueError):
+        restore_stream_training_state(payload)
+
+
+def test_v3_implicit_trusted_capture_preserves_counter_without_recount_external_restore_recounts(
+    monkeypatch,
+):
+    original = _state("implicit", sampling_offset=37)
+    method = ImplicitRadiusIndex.iter_directed_neighbors
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors", lambda *args, **kwargs:
+                        pytest.fail("trusted capture must not enumerate implicit edges"))
+    payload = capture_training_state(_store(original))
+    assert payload["entries"][0]["recurrent"]["sampling_offset"] == 37
+    calls = []
+
+    def counted(self, *args, **kwargs):
+        calls.append(len(self.positions))
+        yield from method(self, *args, **kwargs)
+
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors", counted)
+    restored = restore_training_state(payload, independent_sequences=True, device="cpu")
+    assert calls == [3]
+    assert restored.values[restored.last_key][2].sampling_offset == 37
+
+
+def test_v3_trusted_capture_still_rejects_mutated_implicit_graph():
+    original = _state("implicit", sampling_offset=37)
+    original.graph.graph.in_degree.zero_()
+    original.graph.graph.edge_counts.zero_()
+    with pytest.raises(RuntimeError, match="modified"):
+        capture_training_state(_store(original))
+
+
+def test_explicit_zero_v3_wrapper_restores_but_canonical_write_keeps_legacy_schema():
+    raw = _state().training_payload()
+    restored = restore_stream_training_state({"schema": "asgcn_stream_training_state_v3",
+                                             "raw_state": raw, "sampling_offset": 0})
+    assert restored.sampling_offset == 0
+    assert restored.training_payload()["schema"] == "asgcn_stream_training_state_v1"
+~~~~~~~~
+
 # tests/test_history_reader_cleanup.py
 
 ~~~~~~~~python
@@ -54945,6 +60637,1092 @@ def test_scan_keeps_original_error_if_cleanup_also_fails(
         scanner.scan_history(tmp_path, [])
     assert isinstance(error.value.__cause__, subprocess.TimeoutExpired)
     assert process.events == ["wait", "terminate", "wait", "kill", "wait"]
+~~~~~~~~
+
+# tests/test_implicit_projection.py
+
+~~~~~~~~python
+"""Small CPU inference parity/work tests; not accelerator throughput evidence."""
+
+import copy
+
+import pytest
+import torch
+
+from asgcn_unet.graph import PaperSplineConv
+from asgcn_unet.implicit_model import affine
+from asgcn_unet.implicit_projection import selected_spline_sum
+from asgcn_unet.implicit_radius import build_implicit_radius_graph
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _fixture(dtype, backend, source_mode):
+    generator = torch.Generator().manual_seed(905)
+    positions = torch.rand((13, 4), generator=generator, dtype=torch.float64)
+    positions[-1, :3] = 10.0  # An isolated destination/source, not a hidden subset.
+    batches = torch.arange(13) % 2
+    graph = build_implicit_radius_graph(
+        torch.zeros_like(positions), positions, batches, batch_size=2,
+        radius=1.0, chunk_size=3, candidate_pair_budget=7,
+    )
+    x = torch.randn((13, 4), generator=generator, dtype=dtype)
+    if source_mode == "sparse":
+        x[torch.arange(13) % 3 != 0] = 0
+    elif source_mode == "zero":
+        x.zero_()
+    layer = PaperSplineConv(4, 3, edge_chunk_size=2, spline_backend=backend).to(dtype)
+    return graph, x, layer
+
+
+@pytest.mark.parametrize("dtype", [torch.float64, torch.float32, torch.float16, torch.bfloat16])
+@pytest.mark.parametrize("backend", ["torch", "torch_fused"])
+@pytest.mark.parametrize("selection", [[8, 1, 4, 12], [], [12]])
+@pytest.mark.parametrize("source_mode", ["all", "sparse", "zero"])
+def test_selected_one_pass_matches_autograd_path_and_actual_work(
+        dtype, backend, selection, source_mode, monkeypatch):
+    graph, x, layer = _fixture(dtype, backend, source_mode)
+    selected = torch.tensor(selection, dtype=torch.long)
+    omit_zero = source_mode != "all"
+    # Gradient-enabled selected affine retains the original two-pass path.
+    expected, sources, edges = affine(layer, x, graph, selected, omit_zero_sources=omit_zero)
+    calls = []
+    original = graph.index.iter_directed_neighbors
+
+    def neighbors(*args, **kwargs):
+        calls.append(True)
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(graph.index, "iter_directed_neighbors", neighbors)
+    with torch.no_grad():
+        actual, actual_sources, actual_edges = affine(
+            layer, x, graph, selected, omit_zero_sources=omit_zero,
+        )
+    tolerance = {torch.float64: 2e-12, torch.float32: 2e-6,
+                 torch.float16: 2e-3, torch.bfloat16: 2e-2}[dtype]
+    torch.testing.assert_close(actual, expected, rtol=tolerance, atol=tolerance)
+    assert len(calls) == 1  # No extra support-discovery radius pass, even when empty.
+    assert actual_sources == sources and actual_edges == edges
+    assert actual.shape == (len(selection), 3)
+
+
+def test_each_source_projected_once_across_repeated_message_chunks(monkeypatch):
+    graph, x, layer = _fixture(torch.float64, "torch", "all")
+    selected = torch.arange(13)
+    original = torch.einsum
+    projected_rows = []
+
+    def projection(equation, features, weight):
+        assert equation == "ni,kio->nko"
+        projected_rows.extend(features.tolist())
+        return original(equation, features, weight)
+
+    monkeypatch.setattr(torch, "einsum", projection)
+    with torch.no_grad():
+        _, sources, edges = affine(layer, x, graph, selected)
+    assert edges > sources and len(projected_rows) == sources
+    assert len({tuple(row) for row in projected_rows}) == sources
+    assert tuple(x[-1].tolist()) not in {tuple(row) for row in projected_rows}
+
+
+@pytest.mark.parametrize("backend", ["torch", "torch_fused"])
+def test_training_feature_weight_root_bias_gradients_still_match_materialized(backend):
+    graph, x, layer = _fixture(torch.float64, backend, "all")
+    x.requires_grad_()
+    reference_x = x.detach().clone().requires_grad_()
+    reference_layer = copy.deepcopy(layer)
+    chunks = list(graph.iter_directed_neighbors())
+    source, destination, pseudo = (torch.cat(parts) for parts in zip(*chunks))
+    selected = torch.tensor([8, 1, 4, 12])
+    actual, _, _ = affine(layer, x, graph, selected)
+    expected = reference_layer.affine(
+        reference_x, torch.stack((source, destination)), pseudo, in_degree=graph.in_degree,
+    )[selected]
+    torch.testing.assert_close(actual, expected, rtol=2e-12, atol=2e-12)
+    actual.square().sum().backward()
+    expected.square().sum().backward()
+    torch.testing.assert_close(x.grad, reference_x.grad, rtol=2e-12, atol=2e-12)
+    for name in ("weight", "root", "bias"):
+        actual_parameter = getattr(layer, name)
+        reference_parameter = getattr(reference_layer, name)
+        assert actual_parameter.grad is not None
+        torch.testing.assert_close(actual_parameter.grad, reference_parameter.grad,
+                                   rtol=2e-12, atol=2e-12)
+
+
+@pytest.mark.parametrize("backend", ["torch", "torch_fused"])
+def test_cpu_autocast_preserves_projection_and_message_casts(backend):
+    graph, x, layer = _fixture(torch.float32, backend, "sparse")
+    selected = torch.tensor([8, 1, 4, 12])
+    with torch.autocast("cpu", dtype=torch.bfloat16):
+        expected, _, _ = affine(layer, x, graph, selected, omit_zero_sources=True)
+        with torch.no_grad():
+            actual, _, _ = affine(layer, x, graph, selected, omit_zero_sources=True)
+    assert actual.dtype == expected.dtype
+    torch.testing.assert_close(actual, expected, rtol=.02, atol=.02)
+
+
+def test_lazy_projection_cannot_silently_detach_training_or_change_backend():
+    graph, x, layer = _fixture(torch.float64, "torch", "all")
+    selected = torch.tensor([1, 4])
+    with pytest.raises(RuntimeError, match="inference-only"):
+        selected_spline_sum(layer, x, graph, selected)
+    layer.spline_backend = "triton"
+    with torch.no_grad(), pytest.raises(ValueError, match="requires CUDA"):
+        affine(layer, x, graph, selected)
+
+
+def test_geometry_integrity_and_selection_validation_are_preserved():
+    graph, x, layer = _fixture(torch.float64, "torch", "all")
+    with torch.no_grad(), pytest.raises(ValueError, match="unique"):
+        affine(layer, x, graph, torch.tensor([1, 1]))
+    graph.positions.add_(0)
+    with torch.no_grad(), pytest.raises(RuntimeError, match="modified"):
+        affine(layer, x, graph, torch.tensor([1]))
+~~~~~~~~
+
+# tests/test_implicit_radius.py
+
+~~~~~~~~python
+"""Small synthetic CPU checks; no actual-data/CUDA performance claims."""
+
+import pytest
+import torch
+
+from asgcn_unet import stream_graph
+from asgcn_unet.implicit_radius import ImplicitRadiusGraph, build_implicit_radius_graph
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _build(positions, batches=None, *, batch_size=3, **kwargs):
+    count = positions.shape[0]
+    if batches is None:
+        batches = torch.zeros(count, dtype=torch.long)
+    return build_implicit_radius_graph(torch.zeros((count, 4), dtype=positions.dtype), positions, batches,
+                                       batch_size=batch_size, radius=kwargs.pop("radius", 1.), **kwargs)
+
+
+def _edges(graph, selected=None, stats=None):
+    chunks = list(graph.iter_directed_neighbors(selected, stats=stats))
+    if not chunks:
+        return torch.empty((2, 0), dtype=torch.long), graph.positions.new_empty((0, 1))
+    source, destination, pseudo = (torch.cat(parts) for parts in zip(*chunks))
+    order = torch.argsort(source * graph.positions.shape[0] + destination)
+    return torch.stack((source[order], destination[order])), pseudo[order]
+
+
+@pytest.mark.parametrize("dtype", [torch.float64, torch.float32])
+@pytest.mark.parametrize("dims", [1, 2, 3, 4])
+@pytest.mark.parametrize("budget", [3, 1_048_576])
+def test_exact_packed_topology_matches_materialized_reference(dtype, dims, budget):
+    generator = torch.Generator().manual_seed(43)
+    positions = torch.rand((19, 4), generator=generator, dtype=dtype) * 4 - 2
+    batches = torch.randint(0, 3, (19,), generator=generator)
+    graph = _build(positions, batches, batch_size=4, radius=1.5, position_dims=dims,
+                   chunk_size=4, candidate_pair_budget=budget)
+    edges, pseudo = _edges(graph)
+    # This test-only tiny oracle may allocate full E; the implementation may not.
+    reference = stream_graph.evolve_stream_graph(
+        None, graph.node_features, positions, torch.zeros(19, dtype=torch.float64), batches,
+        torch.full((4,), -1., dtype=torch.float64), radius=1.5, position_dims=dims,
+        max_graph_edges=None,
+    ).state.graph
+    order = torch.argsort(reference.edge_index[0] * 19 + reference.edge_index[1])
+    torch.testing.assert_close(edges, reference.edge_index[:, order])
+    torch.testing.assert_close(pseudo, reference.edge_attr[order], rtol=0, atol=0)
+    torch.testing.assert_close(graph.in_degree, torch.bincount(edges[1], minlength=19))
+    torch.testing.assert_close(graph.edge_counts, torch.bincount(batches[edges[0]], minlength=4))
+    assert graph.edge_count == edges.shape[1]
+    assert isinstance(graph.edge_count, int)
+    assert not hasattr(graph, "edge_index") and not hasattr(graph, "edge_attr")
+
+
+@pytest.mark.parametrize("budget", [1, 5, 17])
+def test_dense_cell_candidate_scratch_is_bounded_and_edges_never_truncated(budget, monkeypatch):
+    positions = torch.zeros((13, 4), dtype=torch.float64)
+    observed = []
+    original = torch.linalg.vector_norm
+
+    def norm(values, *args, **kwargs):
+        observed.append(values.shape[0])
+        assert values.shape[0] <= budget
+        return original(values, *args, **kwargs)
+
+    monkeypatch.setattr(torch.linalg, "vector_norm", norm)
+    graph = _build(positions, candidate_pair_budget=budget)
+    stats = {}
+    edges, _ = _edges(graph, stats=stats)
+    assert edges.shape[1] == graph.edge_count == 13 * 12
+    assert stats["peak_candidate_pairs"] == budget
+    assert stats["candidate_pairs_visited"] == 13**2
+    assert observed
+
+
+def test_selected_destinations_include_all_sources_and_no_cross_stream_edges():
+    positions = torch.zeros((6, 4), dtype=torch.float64)
+    batches = torch.tensor([0, 1, 0, 1, 0, 1])
+    graph = _build(positions, batches)
+    selected = torch.tensor([4, 1])
+    edges, _ = _edges(graph, selected)
+    assert set(map(tuple, edges.t().tolist())) == {(0, 4), (2, 4), (3, 1), (5, 1)}
+    assert graph.in_degree.tolist() == [2] * 6
+    assert _edges(graph, selected[:0])[0].shape == (2, 0)
+
+
+def test_strict_boundary_and_large_translated_coordinates():
+    positions = torch.zeros((4, 4), dtype=torch.float64)
+    positions[:, 0] = torch.tensor([0., torch.nextafter(torch.tensor(1., dtype=torch.float64),
+                                                      torch.tensor(0., dtype=torch.float64)), 1., 2.])
+    graph = _build(positions, position_dims=1)
+    pairs = set(map(tuple, _edges(graph)[0].t().tolist()))
+    assert (0, 1) in pairs and (0, 2) not in pairs and (2, 3) not in pairs
+    shifted = positions.clone()
+    shifted[:, 0] = torch.tensor([-1e12, -1e12 + .25, -1e12 + 1., -1e12 + 3.], dtype=torch.float64)
+    shifted_graph = _build(shifted, position_dims=1)
+    assert set(map(tuple, _edges(shifted_graph)[0].t().tolist())) == {(0, 1), (1, 0), (1, 2), (2, 1)}
+
+
+def test_index_is_cached_and_counted_factory_is_lazy_without_recount(monkeypatch):
+    original = stream_graph._occupied_cells
+    calls = []
+
+    def occupied(*args, **kwargs):
+        calls.append(True)
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(stream_graph, "_occupied_cells", occupied)
+    positions = torch.zeros((5, 4), dtype=torch.float64)
+    graph = _build(positions)
+    assert len(calls) == 1
+    _edges(graph)
+    _edges(graph, torch.tensor([2]))
+    assert len(calls) == 1
+    restored = ImplicitRadiusGraph.from_counted_nodes(
+        graph.node_features, positions, graph.node_batch, graph.in_degree,
+        batch_size=3, radius=1., edge_counts=graph.edge_counts,
+    )
+    assert restored._index is None and len(calls) == 1
+    assert restored.edge_count == 20
+    _edges(restored)
+    assert len(calls) == 2
+    cached = ImplicitRadiusGraph.from_counted_nodes(
+        graph.node_features, positions, graph.node_batch, graph.in_degree,
+        batch_size=3, radius=1., index=graph.index,
+    )
+    assert cached.index is graph.index and len(calls) == 2
+
+
+@pytest.mark.parametrize("batch_size", [0, 3])
+def test_empty_graph_is_explicit_and_valid(batch_size):
+    graph = _build(torch.empty((0, 4), dtype=torch.float64), batch_size=batch_size)
+    assert graph.edge_count == 0 and graph.edge_counts.tolist() == [0] * batch_size
+    assert _edges(graph)[0].shape == (2, 0)
+
+
+def test_inference_mode_tensors_work_without_version_counter():
+    with torch.inference_mode():
+        graph = _build(torch.zeros((3, 4), dtype=torch.float64))
+        assert graph.edge_count == 6
+        assert _edges(graph)[0].shape == (2, 6)
+
+
+@pytest.mark.parametrize("field", ["positions", "node_batch", "in_degree", "edge_counts"])
+def test_mutation_fails_before_using_stale_index_or_degrees(field):
+    graph = _build(torch.zeros((3, 4), dtype=torch.float64))
+    getattr(graph, field).add_(0)
+    with pytest.raises(RuntimeError, match="modified"):
+        _edges(graph)
+
+
+@pytest.mark.parametrize("kwargs", [{"radius": 0}, {"radius": float("nan")}, {"radius": True},
+                                    {"position_dims": 0}, {"position_dims": True},
+                                    {"chunk_size": 0}, {"candidate_pair_budget": 0}, {"batch_size": -1}])
+def test_invalid_configuration_is_rejected(kwargs):
+    with pytest.raises(ValueError):
+        _build(torch.zeros((3, 4)), **kwargs)
+
+
+def test_invalid_geometry_selection_and_counts_fail_explicitly():
+    positions = torch.zeros((3, 4), dtype=torch.float64)
+    with pytest.raises(ValueError, match="position gradients"):
+        _build(positions.clone().requires_grad_())
+    with pytest.raises(ValueError, match="independent stream"):
+        _build(positions, torch.tensor([0, 0, 3]))
+    graph = _build(positions)
+    for selected in (torch.tensor([0, 0]), torch.tensor([-1]), torch.tensor([3]), torch.tensor([0.] )):
+        with pytest.raises(ValueError):
+            _edges(graph, selected)
+    for degrees in (torch.tensor([-1, 1, 2]), torch.tensor([3, 1, 2]), torch.tensor([1, 1, 1])):
+        with pytest.raises(ValueError, match="degrees"):
+            ImplicitRadiusGraph.from_counted_nodes(graph.node_features, positions, graph.node_batch,
+                                                   degrees, batch_size=3, radius=1.)
+    with pytest.raises(RuntimeError, match="no edges were truncated"):
+        _build(positions, max_graph_edges=5)
+    with pytest.raises(ValueError, match="coordinate span"):
+        _build(torch.tensor([[0., 0, 0, 0], [1e30, 0, 0, 0]], dtype=torch.float64))
+~~~~~~~~
+
+# tests/test_implicit_spline.py
+
+~~~~~~~~python
+"""Small CPU operator/autograd tests; not full-model or CUDA validation."""
+
+import pytest
+import torch
+
+from asgcn_unet.graph import linear_open_bspline_basis
+from asgcn_unet.implicit_radius import build_implicit_radius_graph
+from asgcn_unet.implicit_spline import implicit_weighted_spline_sum
+from asgcn_unet.ops import weighted_spline_sum
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _fixture(dtype=torch.float64, count=11):
+    generator = torch.Generator().manual_seed(902)
+    positions = torch.rand((count, 4), generator=generator, dtype=dtype)
+    batches = torch.arange(count) % 2
+    graph = build_implicit_radius_graph(torch.zeros_like(positions), positions, batches,
+                                        batch_size=3, radius=1., chunk_size=3, candidate_pair_budget=7)
+    chunks = list(graph.iter_directed_neighbors())
+    if chunks:
+        source, destination, pseudo = (torch.cat(parts) for parts in zip(*chunks))
+    else:
+        source, destination = batches[:0], batches[:0]
+        pseudo = positions.new_empty((0, 1))
+    indices, basis = linear_open_bspline_basis(pseudo, 5)
+    return graph, source, destination, indices, basis
+
+
+def _reference(projected, fixture, selected=None, active=None, output_dtype=None, backend="torch"):
+    _, source, destination, indices, basis = fixture
+    if active is not None:
+        keep = active[source]
+        source, destination, indices, basis = source[keep], destination[keep], indices[keep], basis[keep]
+    output = weighted_spline_sum(projected, source, destination, indices, basis, 4,
+                                 projected.dtype if output_dtype is None else output_dtype, backend=backend)
+    return output if selected is None else output[selected]
+
+
+@pytest.mark.parametrize("dtype", [torch.float64, torch.float32])
+@pytest.mark.parametrize("backend", ["torch", "torch_fused"])
+@pytest.mark.parametrize("selection", ["all", "reordered", "empty"])
+@pytest.mark.parametrize("mask_sources", [False, True])
+def test_sum_and_projected_gradients_match_materialized(dtype, backend, selection, mask_sources):
+    fixture = _fixture(dtype)
+    graph = fixture[0]
+    selected = None if selection == "all" else torch.tensor([8, 1, 4] if selection == "reordered" else [], dtype=torch.long)
+    active = torch.arange(11) % 3 == 0 if mask_sources else None
+    generator = torch.Generator().manual_seed(903)
+    projected = torch.randn((11, 5, 4), generator=generator, dtype=dtype, requires_grad=True)
+    reference_projected = projected.detach().clone().requires_grad_()
+    actual = implicit_weighted_spline_sum(projected, graph, selected, active_sources=active,
+                                          edge_chunk_size=3, backend=backend)
+    expected = _reference(reference_projected, fixture, selected, active, backend=backend)
+    tolerance = 2e-12 if dtype == torch.float64 else 2e-6
+    torch.testing.assert_close(actual, expected, rtol=tolerance, atol=tolerance)
+    cotangent = torch.randn(actual.shape, generator=generator, dtype=dtype)
+    (actual * cotangent).sum().backward()
+    (expected * cotangent).sum().backward()
+    torch.testing.assert_close(projected.grad, reference_projected.grad, rtol=tolerance, atol=tolerance)
+    if active is not None:
+        assert not bool(projected.grad[~active].any())
+
+
+@pytest.mark.parametrize("backend", ["torch", "torch_fused"])
+def test_feature_kernel_root_bias_gradients_and_optimizer_update_match(backend):
+    fixture = _fixture()
+    graph = fixture[0]
+    generator = torch.Generator().manual_seed(904)
+    parameters = [torch.randn(shape, generator=generator, dtype=torch.float64).requires_grad_()
+                  for shape in ((11, 4), (5, 4, 3), (4, 3), (3,))]
+    reference_parameters = [value.detach().clone().requires_grad_() for value in parameters]
+    target = torch.randn((11, 3), generator=generator, dtype=torch.float64)
+
+    def forward(values, implicit):
+        features, weight, root, bias = values
+        projected = torch.einsum("ni,kio->nko", features, weight)
+        summed = (implicit_weighted_spline_sum(projected, graph, backend=backend, edge_chunk_size=4)
+                  if implicit else _reference(projected, fixture, backend=backend))
+        affine = summed / graph.in_degree.clamp_min(1)[:, None] + features @ root + bias
+        return torch.nn.functional.leaky_relu(affine, negative_slope=.1)
+
+    output = forward(parameters, True)
+    reference = forward(reference_parameters, False)
+    torch.testing.assert_close(output, reference, rtol=1e-11, atol=1e-11)
+    (output - target).square().mean().backward()
+    (reference - target).square().mean().backward()
+    for value, reference_value in zip(parameters, reference_parameters):
+        assert value.grad is not None and bool(torch.isfinite(value.grad).all()) and bool(value.grad.abs().sum() > 0)
+        torch.testing.assert_close(value.grad, reference_value.grad, rtol=1e-11, atol=1e-11)
+    torch.optim.SGD(parameters, lr=.02).step()
+    torch.optim.SGD(reference_parameters, lr=.02).step()
+    for value, reference_value in zip(parameters, reference_parameters):
+        torch.testing.assert_close(value, reference_value, rtol=1e-11, atol=1e-11)
+
+
+def test_saved_context_contains_only_node_geometry_and_optional_node_masks():
+    graph = _fixture(count=15)[0]
+    selected = torch.tensor([8, 2, 5])
+    active = torch.arange(15) % 2 == 0
+    projected = torch.ones((15, 5, 2), dtype=torch.float64, requires_grad=True)
+    output = implicit_weighted_spline_sum(projected, graph, selected, active_sources=active)
+    saved = output.grad_fn.saved_tensors
+    assert len(saved) == 4
+    assert [value.shape for value in saved] == [(15, 4), (15,), (3,), (15,)]
+    assert saved[0] is graph.positions and saved[1] is graph.node_batch
+    assert all(value is not projected for value in saved)
+    output.sum().backward()
+
+
+def test_backward_regenerates_neighbors_without_rebuilding_index(monkeypatch):
+    graph = _fixture()[0]
+    index = graph.index
+    calls = []
+    original = index.iter_directed_neighbors
+
+    def neighbors(*args, **kwargs):
+        calls.append(True)
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(index, "iter_directed_neighbors", neighbors)
+    projected = torch.ones((11, 5, 2), dtype=torch.float64, requires_grad=True)
+    output = implicit_weighted_spline_sum(projected, graph)
+    assert len(calls) == 1
+    output.sum().backward()
+    assert len(calls) == 2 and graph.index is index
+
+
+def test_small_double_gradcheck_and_gradgradcheck():
+    graph = _fixture(count=3)[0]
+    projected = torch.randn((3, 5, 1), dtype=torch.float64, requires_grad=True)
+    operation = lambda value: implicit_weighted_spline_sum(value, graph, edge_chunk_size=2)
+    assert torch.autograd.gradcheck(operation, (projected,), fast_mode=True)
+    assert torch.autograd.gradgradcheck(operation, (projected,), fast_mode=True)
+
+
+@pytest.mark.parametrize("backend", ["torch", "torch_fused"])
+@pytest.mark.parametrize("dtype", [torch.float16, torch.bfloat16, torch.float32])
+def test_message_cast_boundaries_and_float32_accumulation(dtype, backend):
+    fixture = _fixture()
+    projected = torch.randn((11, 5, 3), dtype=dtype, requires_grad=True)
+    clone = projected.detach().clone().requires_grad_()
+    actual = implicit_weighted_spline_sum(projected, fixture[0], backend=backend, output_dtype=torch.float32)
+    expected = _reference(clone, fixture, backend=backend, output_dtype=torch.float32)
+    torch.testing.assert_close(actual, expected, rtol=1e-5, atol=1e-5)
+    actual.sum().backward()
+    expected.sum().backward()
+    tolerance = .02 if dtype == torch.bfloat16 else .003 if dtype == torch.float16 else 1e-6
+    torch.testing.assert_close(projected.grad, clone.grad, rtol=tolerance, atol=tolerance)
+
+
+def test_empty_graph_and_inference_mode():
+    graph = _fixture(count=0)[0]
+    projected = torch.empty((0, 5, 2), dtype=torch.float64, requires_grad=True)
+    output = implicit_weighted_spline_sum(projected, graph)
+    output.sum().backward()
+    assert output.shape == (0, 2) and projected.grad.shape == projected.shape
+    with torch.inference_mode():
+        inference_graph = _fixture(count=3)[0]
+        result = implicit_weighted_spline_sum(torch.ones((3, 5, 2), dtype=torch.float64), inference_graph)
+        assert bool(torch.isfinite(result).all())
+
+
+def test_backend_and_masks_are_not_silently_reinterpreted():
+    graph = _fixture()[0]
+    projected = torch.ones((11, 5, 2), dtype=torch.float64)
+    with pytest.raises(ValueError, match="requires CUDA"):
+        implicit_weighted_spline_sum(projected, graph, backend="triton")
+    with pytest.raises(ValueError, match="Unknown spline_backend"):
+        implicit_weighted_spline_sum(projected, graph, backend="auto")
+    with pytest.raises(ValueError, match="active_sources"):
+        implicit_weighted_spline_sum(projected, graph, active_sources=torch.ones(11))
+    with pytest.raises(ValueError, match="unique"):
+        implicit_weighted_spline_sum(projected, graph, torch.tensor([0, 0]))
+
+
+def test_geometry_mutation_between_forward_and_backward_is_rejected():
+    graph = _fixture()[0]
+    projected = torch.ones((11, 5, 2), dtype=torch.float64, requires_grad=True)
+    output = implicit_weighted_spline_sum(projected, graph)
+    graph.positions.add_(0)
+    with pytest.raises(RuntimeError, match="modified"):
+        output.sum().backward()
+~~~~~~~~
+
+# tests/test_implicit_stream_checkpoint.py
+
+~~~~~~~~python
+"""CPU synthetic implicit state/checkpoint tests, not performance measurements."""
+
+from __future__ import annotations
+
+import copy
+import io
+from dataclasses import replace
+
+import pytest
+import torch
+
+from asgcn_unet.checkpoint import capture_training_state, restore_training_state
+from asgcn_unet.implicit_radius import (
+    ImplicitRadiusGraph,
+    ImplicitRadiusIndex,
+    build_implicit_radius_graph,
+)
+from asgcn_unet.stream_graph import StreamGraph
+from asgcn_unet.stream_state import StreamingReconstructionState, restore_stream_training_state
+from asgcn_unet.training import TrainingState
+
+
+@pytest.fixture(autouse=True)
+def _cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _state(*, empty=False):
+    positions = torch.tensor([[0.1, 0.1, 0.1, 0], [0.2, 0.1, 0.1, 1],
+                              [0.8, 0.8, 0.2, 1]], dtype=torch.float64)
+    features = positions.float().clone().requires_grad_()
+    timestamps = torch.tensor([0.1, 0.1, 0.2], dtype=torch.float64)
+    if empty:
+        positions, features, timestamps = positions[:0], features[:0], timestamps[:0]
+    batch = torch.zeros(len(positions), dtype=torch.long)
+    graph = build_implicit_radius_graph(features, positions, batch, batch_size=1, radius=0.3,
+                                        position_dims=3, chunk_size=2, candidate_pair_budget=3)
+    return StreamingReconstructionState(
+        StreamGraph(graph, batch, timestamps), None, torch.ones(1, 4, 2, 2, requires_grad=True),
+        0.0, 0.3, 2, ("synthetic-a", "source.h5"), (0, 2), "a" * 64,
+    )
+
+
+def _store(state):
+    store = TrainingState(independent_sequences=True)
+    key = state.sequence_identity
+    store.values[key] = (state.sequence_index, (8, 8), state,
+                         torch.zeros(1, 1, 8, 8), torch.ones(1, 1, 8, 8))
+    store.last_key = key
+    return store
+
+
+def _same(actual, expected):
+    assert isinstance(actual.graph.graph, ImplicitRadiusGraph)
+    for name in ("node_features", "positions", "in_degree", "edge_counts"):
+        torch.testing.assert_close(getattr(actual.graph.graph, name), getattr(expected.graph.graph, name), rtol=0, atol=0)
+    torch.testing.assert_close(actual.graph.node_batch, expected.graph.node_batch, rtol=0, atol=0)
+    torch.testing.assert_close(actual.graph.timestamps, expected.graph.timestamps, rtol=0, atol=0)
+    torch.testing.assert_close(actual.decoder, expected.decoder, rtol=0, atol=0)
+    assert actual.contract == expected.contract and actual.sequence_identity == expected.sequence_identity
+    assert actual.graph.graph.edge_count == expected.graph.graph.edge_count
+
+
+@pytest.mark.parametrize("operation", ["detach", "clone", "to"])
+def test_implicit_map_operations_preserve_geometry_without_enumerating_edges(monkeypatch, operation):
+    original = _state()
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors", lambda *args, **kwargs: pytest.fail("mapping must not enumerate edges"))
+    actual = original.to("cpu", copy=True) if operation == "to" else getattr(original, operation)()
+    _same(actual, original)
+    assert actual.graph.graph._index is None
+    assert not hasattr(actual.graph.graph, "edge_index") and not hasattr(actual.graph.graph, "edge_attr")
+    if operation == "detach":
+        assert not actual.graph.graph.node_features.requires_grad and not actual.decoder.requires_grad
+    else:
+        assert actual.graph.graph.positions.data_ptr() != original.graph.graph.positions.data_ptr()
+        assert actual.graph.graph.in_degree.data_ptr() != original.graph.graph.in_degree.data_ptr()
+
+
+@pytest.mark.parametrize("empty", [False, True])
+def test_v2_safe_serialization_and_strict_restore_preserve_all_states(empty):
+    original = _state(empty=empty)
+    snapshot = capture_training_state(_store(original))
+    raw = snapshot["entries"][0]["recurrent"]
+    assert raw["schema"] == "asgcn_stream_training_state_v2"
+    assert set(raw["graph"]) == {"node_features", "positions", "in_degree", "edge_counts"}
+    assert raw["geometry"]["representation"] == "implicit_radius_v1"
+    output = io.BytesIO()
+    torch.save(snapshot, output)
+    output.seek(0)
+    restored = restore_training_state(torch.load(output, weights_only=True), independent_sequences=True, device="cpu")
+    actual = restored.values[restored.last_key][2]
+    _same(actual, original)
+    assert actual.graph.graph.positions.data_ptr() != original.graph.graph.positions.data_ptr() or empty
+    assert not actual.graph.graph.node_features.requires_grad and not actual.decoder.requires_grad
+
+
+def test_capture_checks_trusted_live_state_without_recounting_but_external_load_recounts(monkeypatch):
+    original = _state()
+    method = ImplicitRadiusIndex.iter_directed_neighbors
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors", lambda *args, **kwargs: pytest.fail("capture must be O(N), not O(E)"))
+    payload = capture_training_state(_store(original))
+    calls = []
+
+    def counted(self, *args, **kwargs):
+        calls.append(self.positions.shape[0])
+        yield from method(self, *args, **kwargs)
+
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors", counted)
+    restore_training_state(payload, independent_sequences=True, device="cpu")
+    assert calls == [3]
+
+
+def test_external_payload_cannot_request_trusted_live_instance_skip():
+    original = _state()
+    payload = capture_training_state(_store(original))
+    payload["entries"][0]["recurrent"] = original
+    with pytest.raises(ValueError, match="serialized streaming state"):
+        restore_training_state(payload, independent_sequences=True, device="cpu")
+
+
+def test_capture_detects_mutated_runtime_degree_versions_and_rejects_encoder_cache():
+    original = _state()
+    original.graph.graph.in_degree.zero_()
+    original.graph.graph.edge_counts.zero_()
+    with pytest.raises(RuntimeError, match="modified"):
+        capture_training_state(_store(original))
+    with pytest.raises(ValueError, match="raw-graph ANN"):
+        capture_training_state(_store(replace(_state(), encoder=object())))
+
+
+def test_geometrically_wrong_but_cardinality_consistent_degree_is_rejected():
+    raw = copy.deepcopy(_state().detach().training_payload())
+    raw["graph"]["in_degree"].zero_()
+    raw["graph"]["edge_counts"].zero_()
+    with pytest.raises(ValueError, match="exact radius geometry"):
+        restore_stream_training_state(raw)
+    raw = copy.deepcopy(_state().detach().training_payload())
+    raw["graph"]["in_degree"] = torch.tensor([1, 0, 1])
+    with pytest.raises(ValueError, match="exact radius geometry"):
+        restore_stream_training_state(raw)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("radius", 0.0), ("radius", float("nan")), ("position_dims", 0),
+    ("chunk_size", 0), ("candidate_pair_budget", 0), ("batch_size", 2),
+    ("representation", "materialized"),
+])
+def test_invalid_geometry_contract_is_rejected(field, value):
+    raw = copy.deepcopy(_state().detach().training_payload())
+    raw["geometry"][field] = value
+    with pytest.raises((ValueError, TypeError)):
+        restore_stream_training_state(raw)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("node_features", torch.zeros(3, 3)), ("positions", torch.zeros(3, 4)),
+    ("positions", torch.full((3, 4), float("nan"), dtype=torch.float64)),
+    ("in_degree", torch.tensor([1, 1, -1])), ("edge_counts", torch.tensor([3])),
+    ("edge_counts", torch.tensor([2.0])),
+])
+def test_invalid_graph_tensor_contract_is_rejected(field, value):
+    raw = copy.deepcopy(_state().detach().training_payload())
+    raw["graph"][field] = value
+    with pytest.raises((ValueError, TypeError)):
+        restore_stream_training_state(raw)
+
+
+@pytest.mark.parametrize("field,value", [
+    ("timestamps", torch.tensor([0.2, 0.1, 0.1], dtype=torch.float64)),
+    ("watermark_seconds", 0.05), ("origin_seconds", float("nan")),
+    ("node_batch", torch.tensor([0, 1, 0])), ("sequence_index", True),
+    ("sequence_identity", ("", "source.h5")), ("last_event_id", None),
+    ("contract", "g" * 64), ("decoder", torch.full((1, 4, 2, 2), float("nan"))),
+])
+def test_invalid_clock_identity_or_decoder_rejected(field, value):
+    raw = copy.deepcopy(_state().detach().training_payload())
+    raw[field] = value
+    with pytest.raises((ValueError, TypeError)):
+        restore_stream_training_state(raw)
+
+
+def test_no_materialized_edge_placeholder_or_cross_schema_fallback():
+    raw = copy.deepcopy(_state().detach().training_payload())
+    raw["graph"]["edge_index"] = torch.empty(2, 0, dtype=torch.long)
+    with pytest.raises(ValueError, match="placeholders"):
+        restore_stream_training_state(raw)
+    raw = copy.deepcopy(_state().detach().training_payload())
+    raw["schema"] = "asgcn_stream_training_state_v1"
+    with pytest.raises(ValueError, match="fields"):
+        restore_stream_training_state(raw)
+
+
+def test_finite_checks_positions_and_features_without_edge_attributes():
+    original = _state()
+    assert bool(original.finite())
+    original.graph.graph.node_features.detach()[0, 0] = float("nan")
+    assert not bool(original.finite())
+    original = _state()
+    original.graph.graph.positions[0, 0] = float("inf")
+    assert not bool(original.finite())
+~~~~~~~~
+
+# tests/test_implicit_stream_graph.py
+
+~~~~~~~~python
+"""Small CPU append/expire topology integration checks, not dataset measurements."""
+
+import pytest
+import torch
+
+from asgcn_unet.implicit_radius import ImplicitRadiusGraph, ImplicitRadiusIndex
+from asgcn_unet.stream_graph import evolve_stream_graph
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _update(previous, positions, times, batches, cutoffs, *, storage, radius=1., dims=3, guard=None):
+    positions = torch.as_tensor(positions, dtype=torch.float64).reshape(-1, 4)
+    return evolve_stream_graph(
+        previous, positions.float().clone(), positions, torch.tensor(times, dtype=torch.float64),
+        torch.tensor(batches, dtype=torch.long), torch.tensor(cutoffs, dtype=torch.float64),
+        radius=radius, position_dims=dims, max_graph_edges=guard, chunk_size=3, graph_storage=storage,
+    )
+
+
+def _assert_same(actual, expected):
+    graph, reference = actual.state.graph, expected.state.graph
+    assert isinstance(graph, ImplicitRadiusGraph)
+    assert "edge_index" not in vars(graph) and "edge_attr" not in vars(graph)
+    for name in ("node_features", "positions", "in_degree"):
+        torch.testing.assert_close(getattr(graph, name), getattr(reference, name), rtol=0, atol=0)
+    for name in ("node_batch", "timestamps"):
+        torch.testing.assert_close(getattr(actual.state, name), getattr(expected.state, name), rtol=0, atol=0)
+    torch.testing.assert_close(actual.old_indices, expected.old_indices, rtol=0, atol=0)
+    torch.testing.assert_close(actual.changed_nodes, expected.changed_nodes, rtol=0, atol=0)
+    chunks = list(graph.iter_directed_neighbors())  # Tiny test oracle only.
+    if chunks:
+        source, destination, pseudo = (torch.cat(values) for values in zip(*chunks))
+        edges = torch.stack((source, destination))
+    else:
+        edges = graph.node_batch.new_empty((2, 0))
+        pseudo = graph.positions.new_empty((0, 1))
+    count = len(graph.node_features)
+    order = torch.argsort(edges[0] * count + edges[1])
+    reference_order = torch.argsort(reference.edge_index[0] * count + reference.edge_index[1])
+    torch.testing.assert_close(edges[:, order], reference.edge_index[:, reference_order], rtol=0, atol=0)
+    torch.testing.assert_close(pseudo[order], reference.edge_attr[reference_order], rtol=0, atol=0)
+    assert graph.edge_count == reference.edge_index.shape[1]
+
+
+@pytest.mark.parametrize("dims", [1, 2, 3, 4])
+def test_real_updater_matches_materialized_on_arrivals_expiry_gaps_and_empty_lanes(dims):
+    # Coincident nodes, replaced neighbors with unchanged net degree, mixed lane
+    # expiry, cutoff ties, rejected already-expired arrivals, all-empty, restart.
+    frames = [
+        ([[0., 0, 0, 0], [.5, 0, 0, 0], [0., 0, 0, 0], [.5, 0, 0, 0]],
+         [0, 1, 0, 1], [0, 0, 1, 1], [-1, -1, -1]),
+        ([[1., 0, 0, 0], [0., 0, 0, 0]], [2, 0], [0, 1], [1, 1, -1]),
+        ([], [], [], [1, 2, 0]),
+        ([[1., 0, 0, 0], [1., 0, 0, 0], [.5, 0, 0, 0]], [3, 3, 3], [2, 2, 0], [2, 2, 3]),
+        ([], [], [], [10, 10, 10]),
+        ([[0., 0, 0, 0], [.25, 0, 0, 0]], [11, 11], [1, 1], [10, 10, 10]),
+    ]
+    states = [None, None]
+    for points, times, batches, cutoffs in frames:
+        updates = [_update(state, points, times, batches, cutoffs, storage=storage, dims=dims)
+                   for state, storage in zip(states, ("implicit_radius", "materialized"))]
+        _assert_same(*updates)
+        states = [update.state for update in updates]
+
+
+def test_incremental_queries_only_expiries_and_arrivals_not_unchanged_old_pairs(monkeypatch):
+    first = _update(None, [[0., 0, 0, 0]] * 9, [0] + [1] * 8, [0] * 9, [-1], storage="implicit_radius")
+    before_degree = first.state.graph.in_degree.clone()
+    original = ImplicitRadiusIndex.iter_directed_neighbors
+    queried = []
+
+    def neighbors(index, destinations=None, **kwargs):
+        assert destinations is not None, "The updater must not query every old-old edge"
+        queried.append(destinations.numel())
+        return original(index, destinations, **kwargs)
+
+    monkeypatch.setattr(ImplicitRadiusIndex, "iter_directed_neighbors", neighbors)
+    second = _update(first.state, [[.25, 0, 0, 0]], [2], [0], [1], storage="implicit_radius")
+    assert queried == [1, 1]
+    torch.testing.assert_close(first.state.graph.in_degree, before_degree, rtol=0, atol=0)
+    assert second.state.graph.edge_count == 9 * 8
+    assert bool(second.changed_nodes.all())
+
+
+def test_graph_guard_and_storage_contract_failure_preserve_previous():
+    states = [_update(None, [[0., 0, 0, 0], [.25, 0, 0, 0]], [0, 0], [0, 0], [-1], storage=storage).state
+              for storage in ("implicit_radius", "materialized")]
+    before_degree = states[0].graph.in_degree.clone()
+    with pytest.raises(RuntimeError, match="max_graph_edges"):
+        _update(states[0], [[.5, 0, 0, 0]], [1], [0], [-1], storage="implicit_radius", guard=2)
+    torch.testing.assert_close(states[0].graph.in_degree, before_degree, rtol=0, atol=0)
+    for state, wrong_storage in zip(states, ("materialized", "implicit_radius")):
+        with pytest.raises(ValueError, match="storage"):
+            _update(state, [], [], [], [-1], storage=wrong_storage)
+~~~~~~~~
+
+# tests/test_implicit_stream_model.py
+
+~~~~~~~~python
+"""Full-parameter model parity on tiny CPU fixtures; not training/quality evidence."""
+
+import copy
+from dataclasses import fields
+
+import pytest
+import torch
+
+from asgcn_unet.batching import pack_samples
+from asgcn_unet.implicit_radius import ImplicitRadiusGraph
+from asgcn_unet.training import TrainingState
+from tests.test_stream_model import model, sample
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_and_explicit_storage(monkeypatch):
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+
+    def no_materialized_attributes(self, name):
+        if name in {"edge_index", "edge_attr"}:
+            raise AssertionError(f"Implicit model path attempted materialized {name}")
+        raise AttributeError(name)
+
+    monkeypatch.setattr(ImplicitRadiusGraph, "__getattr__", no_materialized_attributes, raising=False)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _pair(*, calibrated=False, dynamics="literal_eq15"):
+    reference = model().eval()
+    reference.snn_dynamics = dynamics
+    if calibrated:
+        reference.fold_batch_norm()
+        with torch.no_grad():
+            _, details = reference.calibrate_stream_batch([sample(0, "a"), sample(0, "b")])
+            reference.calibrate_stream_batch([sample(1, "a"), sample(1, "b")],
+                                              [item["recurrent_state"] for item in details])
+            reference.apply_parameter_normalization()
+    implicit = copy.deepcopy(reference)
+    implicit.graph_storage = "implicit_radius"
+    assert len(implicit.encoder.layers) == 6 and implicit.encoder.hidden_dim == 64
+    assert sum(parameter.numel() for parameter in implicit.parameters()) == 4_409_617
+    return implicit, reference
+
+
+def _assert_graph(actual, expected):
+    graph, reference = actual.graph, expected.graph
+    assert isinstance(graph, ImplicitRadiusGraph)
+    for name in ("node_features", "positions", "in_degree"):
+        torch.testing.assert_close(getattr(graph, name), getattr(reference, name), rtol=0, atol=0)
+    torch.testing.assert_close(actual.timestamps, expected.timestamps, rtol=0, atol=0)
+    torch.testing.assert_close(actual.node_batch, expected.node_batch, rtol=0, atol=0)
+    assert graph.edge_count == reference.edge_index.shape[1]
+
+
+def _assert_cache(actual, expected):
+    assert (actual is None) == (expected is None)
+    if actual is None:
+        return
+    for field in fields(actual):
+        value, reference = getattr(actual, field.name), getattr(expected, field.name)
+        if isinstance(value, torch.Tensor):
+            torch.testing.assert_close(value, reference, rtol=2e-5, atol=2e-6, msg=field.name)
+        elif isinstance(value, tuple):
+            for item, target in zip(value, reference, strict=True):
+                tolerance = 0. if not item.is_floating_point() or field.name in {
+                    "previous_spikes", "spike_sums", "last_pulses"} else 2e-6
+                torch.testing.assert_close(item, target, rtol=0. if tolerance == 0 else 2e-5,
+                                           atol=tolerance, msg=field.name)
+
+
+def _assert_states(actual, expected):
+    _assert_graph(actual.graph, expected.graph)
+    _assert_cache(actual.encoder, expected.encoder)
+    assert bool(actual.finite()) and bool(expected.finite())
+    if actual.decoder is not None:
+        torch.testing.assert_close(actual.decoder, expected.decoder, rtol=2e-5, atol=2e-6)
+    for name in ("origin_seconds", "watermark_seconds", "sequence_index", "sequence_identity", "last_event_id"):
+        assert getattr(actual, name) == getattr(expected, name)
+    assert actual.contract != expected.contract  # Never reinterpret old storage provenance.
+
+
+def test_full_depth_training_loss_every_parameter_gradient_and_optimizer_parity():
+    implicit, reference = _pair()
+    implicit.train()
+    reference.train()
+    nets = [implicit, reference]
+    states = [TrainingState(independent_sequences=True) for _ in nets]
+    optimizers = [torch.optim.SGD(net.parameters(), lr=.001) for net in nets]
+    for index in range(2):
+        frames = pack_samples([sample(index, "a"), sample(index, "b")])
+        outputs, losses, details = [], [], []
+        for net, state in zip(nets, states):
+            contexts = state.prepare(frames)
+            prediction, diagnostic = net.forward_training_batch(frames, [value[0] for value in contexts])
+            loss = (prediction - frames.targets).square().mean()
+            loss.backward()
+            outputs.append(prediction)
+            losses.append(loss)
+            details.append(diagnostic)
+        torch.testing.assert_close(outputs[0], outputs[1], rtol=2e-5, atol=2e-6)
+        torch.testing.assert_close(losses[0], losses[1], rtol=2e-5, atol=2e-6)
+        for (name, value), (other_name, expected) in zip(implicit.named_parameters(), reference.named_parameters(), strict=True):
+            assert name == other_name
+            assert value.grad is not None and expected.grad is not None, name
+            assert bool(torch.isfinite(value.grad).all()), name
+            torch.testing.assert_close(value.grad, expected.grad, rtol=2e-4, atol=2e-5, msg=name)
+        before = [layer.weight.detach().clone() for layer in implicit.encoder.layers]
+        for optimizer in optimizers:
+            optimizer.step()
+        for layer, old in zip(implicit.encoder.layers, before):
+            assert not torch.equal(layer.weight, old)
+        for (name, value), (_, expected) in zip(implicit.named_parameters(), reference.named_parameters(), strict=True):
+            torch.testing.assert_close(value, expected, rtol=2e-5, atol=2e-6, msg=name)
+        for actual, expected in zip(details[0], details[1]):
+            _assert_states(actual["recurrent_state"], expected["recurrent_state"])
+            assert actual["recurrent_state"].encoder is None
+        for state, prediction, diagnostic, optimizer in zip(states, outputs, details, optimizers):
+            state.commit(frames, prediction, diagnostic, frames.targets)
+            optimizer.zero_grad(set_to_none=True)
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("mode,dynamics", [("ann", "literal_eq15"), ("snn", "literal_eq15"), ("snn", "standard_if")])
+def test_incremental_full_model_outputs_and_local_clocks_match_across_expiry_and_empty_frames(mode, dynamics):
+    implicit, reference = _pair(calibrated=mode == "snn", dynamics=dynamics)
+    states = [[None, None], [None, None]]
+    for index in range(6):
+        # Last step starts a fresh independent lane while its neighbor continues.
+        frames = [sample(index, "a"), sample(index, "b", empty=index in {1, 4})]
+        if index == 5:
+            frames[0] = sample(0, "fresh")
+            states[0][0] = states[1][0] = None
+        outputs, diagnostics = [], []
+        for net, incoming in zip((implicit, reference), states):
+            prediction, details = net.forward_batch(frames, incoming, inference_mode=mode, simulation_steps=4)
+            outputs.append(prediction)
+            diagnostics.append(details)
+        torch.testing.assert_close(outputs[0], outputs[1], rtol=2e-5, atol=2e-6)
+        for actual, expected in zip(*diagnostics):
+            _assert_states(actual["recurrent_state"], expected["recurrent_state"])
+            assert actual["nodes"] == expected["nodes"] and actual["edges"] == expected["edges"]
+            for key in ("spike_counts", "firing_rate_denominators"):
+                for value, target in zip(actual[key], expected[key], strict=True):
+                    torch.testing.assert_close(value, target, rtol=0, atol=0, msg=key)
+        states = [[detail["recurrent_state"] for detail in result] for result in diagnostics]
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("mode,dynamics", [("ann", "literal_eq15"), ("snn", "literal_eq15"), ("snn", "standard_if")])
+def test_implicit_batch_independence_and_cloned_state_replay(mode, dynamics):
+    net, _ = _pair(calibrated=mode == "snn", dynamics=dynamics)
+    separate = copy.deepcopy(net)
+    states, single_states = [None, None], [None, None]
+    for index in range(3):
+        frames = [sample(index, "a"), sample(index, "b", empty=index == 1)]
+        frames[0]["events"] = frames[0]["events"][:2]
+        frames[0]["event_ids"] = frames[0]["event_ids"][:2]
+        frames[0]["metadata"]["stream_time"]["arrival_group_counts"] = (2,)
+        snapshots = [None if state is None else state.clone() for state in states]
+        output, details = net.forward_batch(frames, states, inference_mode=mode, simulation_steps=4)
+        repeated, _repeated_details = net.forward_batch(frames, snapshots, inference_mode=mode, simulation_steps=4)
+        torch.testing.assert_close(output, repeated, rtol=0, atol=0)
+        expected = []
+        for lane in range(2):
+            prediction, detail = separate.forward_sample(frames[lane], recurrent_state=single_states[lane],
+                                                          inference_mode=mode, simulation_steps=4)
+            single_states[lane] = detail["recurrent_state"]
+            _assert_cache(details[lane]["recurrent_state"].encoder, single_states[lane].encoder)
+            if states[lane] is not None:
+                _assert_cache(states[lane].encoder, snapshots[lane].encoder)
+                torch.testing.assert_close(states[lane].decoder, snapshots[lane].decoder, rtol=0, atol=0)
+            expected.append(prediction)
+        torch.testing.assert_close(output, torch.cat(expected), rtol=2e-5, atol=2e-6)
+        states = [detail["recurrent_state"] for detail in details]
+
+
+@torch.no_grad()
+def test_calibration_uses_the_same_full_six_layer_activations_and_conversion():
+    implicit, reference = _pair()
+    implicit.fold_batch_norm()
+    reference.fold_batch_norm()
+    states = [[None, None], [None, None]]
+    for index in range(2):
+        frames = [sample(index, "a"), sample(index, "b")]
+        results = [net.calibrate_stream_batch(frames, incoming)[1]
+                   for net, incoming in zip((implicit, reference), states)]
+        for layer, expected in zip(implicit.encoder.layers, reference.encoder.layers):
+            torch.testing.assert_close(layer.calibration_activation_max, expected.calibration_activation_max,
+                                       rtol=2e-5, atol=2e-6)
+        states = [[detail["recurrent_state"] for detail in result] for result in results]
+    implicit.apply_parameter_normalization()
+    reference.apply_parameter_normalization()
+    for (name, value), (_, expected) in zip(implicit.named_parameters(), reference.named_parameters(), strict=True):
+        torch.testing.assert_close(value, expected, rtol=2e-5, atol=2e-6, msg=name)
+
+
+@torch.no_grad()
+def test_model_rejects_reusing_state_from_other_storage_contract():
+    implicit, reference = _pair()
+    _, implicit_details = implicit.forward_sample(sample())
+    _, reference_details = reference.forward_sample(sample())
+    for net, wrong in ((implicit, reference_details), (reference, implicit_details)):
+        with pytest.raises(ValueError, match="continuity"):
+            net.forward_sample(sample(1), recurrent_state=wrong["recurrent_state"])
+
+
+@torch.no_grad()
+def test_static_global_t_encoder_rejects_implicit_local_clock_graph():
+    implicit, _ = _pair()
+    _, details = implicit.forward_sample(sample())
+    with pytest.raises(TypeError, match="static global-T.*local clock"):
+        implicit.encoder.forward_snn(details["recurrent_state"].graph.graph, simulation_steps=4)
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("mode,dynamics", [("ann", "literal_eq15"), ("snn", "literal_eq15"), ("snn", "standard_if")])
+def test_all_empty_cold_start_all_nodes_expire_and_later_arrivals_match(mode, dynamics):
+    implicit, reference = _pair(calibrated=mode == "snn", dynamics=dynamics)
+    states = [[None, None], [None, None]]
+    for index in range(6):
+        frames = [sample(index, sequence, empty=index not in {1, 5}) for sequence in ("a", "b")]
+        outputs, results = [], []
+        for net, incoming in zip((implicit, reference), states):
+            prediction, details = net.forward_batch(frames, incoming, inference_mode=mode, simulation_steps=4)
+            outputs.append(prediction)
+            results.append(details)
+        torch.testing.assert_close(outputs[0], outputs[1], rtol=2e-5, atol=2e-6)
+        for actual, expected in zip(*results):
+            _assert_states(actual["recurrent_state"], expected["recurrent_state"])
+            if index in {0, 4}:
+                assert actual["nodes"] == expected["nodes"] == 0
+                assert actual["edges"] == expected["edges"] == 0
+            elif index in {1, 5}:
+                assert actual["nodes"] == expected["nodes"] == 4
+        states = [[detail["recurrent_state"] for detail in result] for result in results]
 ~~~~~~~~
 
 # tests/test_inference_profile.py
@@ -59715,6 +66493,175 @@ def test_noninspect_cli_redaction_failure_suppresses_details_and_traceback(
     )
     assert str(tmp_path.resolve()) not in message
     assert error.value.__suppress_context__ is True
+~~~~~~~~
+
+# tests/test_quotient_accumulator.py
+
+~~~~~~~~python
+"""Small CPU collision/streaming witnesses, not accelerator performance evidence."""
+
+import pytest
+import torch
+
+from asgcn_unet.quotient_accumulator import QuotientAccumulator
+
+
+def empty():
+    return QuotientAccumulator(torch.empty((0, 2), dtype=torch.long), torch.empty(0, dtype=torch.long),
+                               torch.empty((0, 1), dtype=torch.float64))
+
+
+@pytest.mark.parametrize("collisions", [False, True])
+def test_collision_resolution_growth_duplicate_sums_and_removal(monkeypatch, collisions):
+    if collisions:
+        monkeypatch.setattr(QuotientAccumulator, "_slots", lambda self, pairs: pairs.new_zeros(len(pairs)))
+    table = empty()
+    expected = {}
+    for step in range(8):
+        pairs = torch.tensor([[step, other] for other in range(6)] + [[step, 0], [2**60, step]], dtype=torch.long)
+        counts = torch.ones(len(pairs), dtype=torch.long)
+        sums = torch.arange(len(pairs), dtype=torch.float64)[:, None] / 16
+        table.add(pairs, counts, sums)
+        for pair, value in zip(map(tuple, pairs.tolist()), sums[:, 0].tolist()):
+            old_count, old_sum = expected.get(pair, (0, 0.))
+            expected[pair] = old_count + 1, old_sum + value
+    deleted = next(iter(expected))
+    count, value = expected.pop(deleted)
+    table.add(torch.tensor([deleted]), torch.tensor([-count]), torch.tensor([[-value]], dtype=torch.float64))
+    work = {}
+    pairs, counts, sums = table.finish(work)
+    assert list(map(tuple, pairs.tolist())) == sorted(expected)
+    assert counts.tolist() == [expected[pair][0] for pair in sorted(expected)]
+    torch.testing.assert_close(sums[:, 0], torch.tensor([expected[pair][1] for pair in sorted(expected)], dtype=torch.float64))
+    assert work["quotient_final_sorts"] == 1 and table.rehashes < table.chunks
+
+
+def test_many_chunks_do_not_sort_accumulated_keys_again(monkeypatch):
+    table = empty()
+    original_unique = torch.unique
+    examined = []
+    def unique(value, *args, **kwargs):
+        if value.ndim == 2:
+            examined.append(len(value))
+        return original_unique(value, *args, **kwargs)
+    monkeypatch.setattr(torch, "unique", unique)
+    for step in range(64):
+        pairs = torch.tensor([[step, step + 1], [step, step + 2]], dtype=torch.long)
+        table.add(pairs, torch.ones(2, dtype=torch.long), torch.ones((2, 1), dtype=torch.float64))
+    work = {}
+    pairs, _, _ = table.finish(work)
+    assert len(pairs) == 128
+    assert max(examined) == 2
+    assert work["quotient_final_sorts"] == 1
+    assert table.capacity <= 4 * (len(pairs) + 2)
+
+
+def test_zero_and_negative_counts_are_not_silently_forgiven():
+    table = empty()
+    table.add(torch.tensor([[1, 2], [1, 2], [2, 3]]), torch.tensor([1, -1, -1]),
+              torch.tensor([[.1], [-.1], [-.2]], dtype=torch.float64))
+    pairs, counts, sums = table.finish({})
+    assert pairs.tolist() == [[2, 3]] and counts.tolist() == [-1]
+    torch.testing.assert_close(sums, torch.tensor([[-.2]], dtype=torch.float64))
+~~~~~~~~
+
+# tests/test_radius_candidate_pruning.py
+
+~~~~~~~~python
+"""Small synthetic CPU oracles; no dataset/CUDA throughput certification."""
+
+import pytest
+import torch
+
+from asgcn_unet import implicit_radius
+from asgcn_unet.implicit_radius import ImplicitRadiusIndex, build_implicit_radius_graph
+
+
+@pytest.fixture(autouse=True)
+def _cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _pairs(index, selection=None, active=None):
+    stats = {}
+    chunks = list(index.iter_directed_neighbors(selection, active_sources=active, stats=stats))
+    pairs = set()
+    for source, destination, _ in chunks:
+        pairs.update(zip(source.tolist(), destination.tolist(), strict=True))
+    assert len(pairs) == sum(len(source) for source, _, _ in chunks)
+    return pairs, stats
+
+
+@pytest.mark.parametrize("dims", [1, 2, 3, 4])
+@pytest.mark.parametrize("dtype", [torch.float32, torch.float64])
+@pytest.mark.parametrize("radius", [0.08, 1.0, 2e-200, 2e200])
+def test_pruned_and_source_filtered_queries_match_independent_dense_oracle(dims, dtype, radius):
+    # Very large/small positions require float64; fp32 cases still test the
+    # same scales with representable zero geometry instead of overflow input.
+    generator = torch.Generator().manual_seed(256)
+    scale = radius if dtype == torch.float64 or radius == 1.0 or radius == .08 else 0.
+    positions = (torch.rand((23, 4), generator=generator, dtype=dtype) * 6 - 3) * scale
+    batches = torch.arange(23) % 3
+    index = ImplicitRadiusIndex(positions, batches, batch_size=4, radius=radius,
+                                position_dims=dims, chunk_size=5, candidate_pair_budget=7)
+    selected = torch.tensor([21, 1, 16, 2, 8])
+    active = torch.arange(23) % 4 == 1
+    actual, stats = _pairs(index, selected, active)
+    distances = torch.linalg.vector_norm(
+        (positions[:, None, :dims].double() - positions[None, :, :dims].double()) / radius,
+        dim=-1,
+    )
+    selected_mask = torch.zeros(23, dtype=torch.bool)
+    selected_mask[selected] = True
+    keep = ((distances < 1) & (batches[:, None] == batches[None, :])
+            & active[:, None] & selected_mask[None, :])
+    keep.fill_diagonal_(False)
+    expected = set(map(tuple, torch.nonzero(keep).tolist()))
+    assert actual == expected
+    assert stats["peak_candidate_pairs"] <= 7
+
+
+def test_bounds_prune_work_without_changing_edges(monkeypatch):
+    generator = torch.Generator().manual_seed(762)
+    positions = torch.rand((512, 4), generator=generator, dtype=torch.float64)
+    batches = torch.arange(512) % 4
+    index = ImplicitRadiusIndex(positions, batches, batch_size=4, radius=.08)
+    actual, pruned = _pairs(index)
+
+    def unpruned(queries, ids, boundaries, bounds, radius):
+        return torch.where(ids >= 0, boundaries[1, ids.clamp_min(0)], 0)
+
+    monkeypatch.setattr(implicit_radius, "prune_cell_counts", unpruned)
+    expected, original = _pairs(index)
+    assert actual == expected
+    assert pruned["candidate_pairs_visited"] < original["candidate_pairs_visited"] // 2
+
+
+def test_zero_spikes_are_excluded_before_distance_work_but_full_degree_is_unchanged():
+    positions = torch.zeros((128, 4), dtype=torch.float64)
+    graph = build_implicit_radius_graph(positions.clone(), positions, torch.zeros(128, dtype=torch.long),
+                                        batch_size=1, radius=1., candidate_pair_budget=11)
+    original_degrees = graph.in_degree.clone()
+    active = torch.zeros(128, dtype=torch.bool)
+    active[7] = True
+    pairs, stats = _pairs(graph.index, active=active)
+    assert pairs == {(7, target) for target in range(128) if target != 7}
+    assert stats["candidate_pairs_visited"] == 128  # Not 128*128 then a post-filter.
+    torch.testing.assert_close(graph.in_degree, original_degrees)
+    assert graph.edge_count == 128 * 127
+    pairs, stats = _pairs(graph.index, active=torch.zeros_like(active))
+    assert not pairs and stats["candidate_pairs_visited"] == stats["query_chunks"] == 0
+
+
+def test_source_mask_is_validated_even_on_empty_graph():
+    index = ImplicitRadiusIndex(torch.empty((0, 4)), torch.empty(0, dtype=torch.long),
+                                batch_size=0, radius=1.)
+    for active in (torch.empty(0), torch.ones(1, dtype=torch.bool), [False]):
+        with pytest.raises(ValueError, match="active_sources"):
+            list(index.iter_directed_neighbors(active_sources=active))
 ~~~~~~~~
 
 # tests/test_recovery.py
@@ -65434,9 +72381,24 @@ import copy
 import json
 
 import pytest
+import torch
 
 from asgcn_unet import stream_preflight
-from tests.test_stream_preflight import SyntheticStreams, _config, _fixture_provenance
+from tests.test_stream_preflight import (
+    SyntheticStreams,
+    _config,
+    _fixture_cpu_ram,
+    _fixture_provenance,
+)
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu_threads(monkeypatch):
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    _fixture_cpu_ram(monkeypatch)
+    yield
+    torch.set_num_threads(previous)
 
 
 def _run(config, output, **kwargs):
@@ -65501,15 +72463,23 @@ def test_insufficient_storage_floor_stops_before_model_or_new_config(monkeypatch
     config = _config()
     config["model"]["max_graph_edges"] = 8
     monkeypatch.setattr(stream_preflight, "_cuda_memory_budget", lambda *a: {
-        "measured": True, "available_after_reserve_mib": 0,
+        "measured": True, "available_after_reserve_mib": 0, "total_mib": 1024,
         "scope": "mocked_cpu_unit_test_not_actual_cuda_measurement",
     })
     monkeypatch.setattr(stream_preflight, "_probe_stream_training", lambda *a, **k: pytest.fail("unsafe probe"))
     path = tmp_path / "not-created.json"
     result = _run(config, tmp_path / "floor-failure.json", measured_guard_config_output=path, reserve_vram_mib=1024)
-    assert result["failure"]["stage"] == "raw_graph_memory_floor"
-    assert result["topology"]["scan_complete"]
-    assert result["guard_measurement"]["raw_graph_storage_floor"]["bytes"] > 0
+    assert result["failure"]["stage"] == "count_only_topology"
+    assert result["topology"]["scan_complete"] is False
+    assert result["topology"]["scanned_samples"] == 2
+    assert result["topology"]["completed_batches"] == 1
+    assert result["topology"]["observed_training_storage_floor"]["bytes"] > 0
+    assert result["topology"]["observed_training_storage_floor"]["batch_index"] == 0
+    assert result["topology"]["samples"][1] is None
+    assert result["scan_checkpoint"]["completed_batches"] == 1
+    assert result["scan_device_memory"]["total_mib"] == 1024
+    assert "first proven-impossible batch" in result["failure"]["message"]
+    assert result["checks"]["complete_topology_scan"] is False
     assert not result["passed"] and not path.exists()
 
 
@@ -66696,9 +73666,10 @@ PROJECT = Path(__file__).resolve().parents[1]
 
 
 @pytest.fixture(autouse=True)
-def _bounded_cpu_threads():
+def _bounded_cpu_threads(monkeypatch):
     previous = torch.get_num_threads()
     torch.set_num_threads(1)
+    _fixture_cpu_ram(monkeypatch)
     yield
     torch.set_num_threads(previous)
 
@@ -66754,8 +73725,12 @@ class SyntheticStreams:
     def __init__(self, *, frames=3, dense_final=False):
         self.frames = frames
         self.dense_final = dense_final
+        self.event_time_contract = "physical_seconds_v1"
+        self.target_channels = 1
+        self.crop_size = None
         self.samples = [
-            {"sequence_id": f"synthetic-{lane}", "sequence_index": frame, "sensor_size": (16, 16)}
+            {"sequence_id": f"synthetic-{lane}", "sequence_index": frame, "sensor_size": (16, 16),
+             "start_idx": frame * 4, "end_idx": frame * 4 + (4 if dense_final and frame == frames - 1 else 2)}
             for lane in range(2) for frame in range(frames)
         ]
         self.closed = False
@@ -66784,7 +73759,23 @@ class SyntheticStreams:
         self.closed = True
 
 
+def _fixture_cpu_ram(monkeypatch):
+    # Synthetic CPU fixtures are not measurements of this host or its Job Object.
+    # Production resource probes remain fail-closed and are never bypassed.
+    headroom = 128 * 1024**2
+    monkeypatch.setattr("asgcn_unet.diagnostic_resources._snapshot", lambda: {"headroom_bytes": headroom})
+    def synthetic_resources(**kwargs):
+        return {
+            "memory": {"effective_available_bytes": headroom, "process_rss_bytes": 1024**2},
+            "cpu": {"effective_cpu_limit": 4}, "allocation_limits_verified": True,
+            "synthetic_cpu_test_only": True,
+        }
+    monkeypatch.setattr("asgcn_unet.resources.collect_runtime_resources", synthetic_resources)
+    monkeypatch.setattr("asgcn_unet.stream_scan_loader.collect_runtime_resources", synthetic_resources)
+
+
 def _fixture_provenance(monkeypatch, dataset):
+    _fixture_cpu_ram(monkeypatch)
     data = {"dataset_type": "synthetic_cpu_test_only", "content": {"sha256": "a" * 64},
             "source_files": {"synthetic": True}, "transform": {}, "split_manifest": {}}
     source = {"source_tree_sha256": "b" * 64, "synthetic_cpu_test_only": True}
@@ -66816,6 +73807,30 @@ def test_prepare_preserves_full_baseline_outside_explicit_contract_changes(proje
             assert result["dataset"]["timestamp_scale_to_seconds"] == 0.25
             assert result["dataset"]["interval_timestamp_scale_to_seconds"] == 1e-6
             assert result["eval"]["max_graph_edges_override"] == 7475202
+
+
+def test_implicit_preparation_requires_explicit_storage_choice_and_keeps_scale(project):
+    report = _prepare(project, graph_storage="implicit_radius")
+    for kind, relative in report["configs"].items():
+        result = json.loads((project / relative).read_text(encoding="utf-8"))
+        assert result["model"]["graph_storage"] == "implicit_radius"
+        assert result["model"]["graph_radius"] == 0.08
+        assert result["model"]["event_sampling_factor"] == 1
+        assert result["model"]["graph_layers"] == 6
+        assert result["model"]["hidden_dim"] == 64
+        assert result["model"]["decoder_channels"] == 48
+        assert result["dataset"]["max_events"] is None
+        assert any(row["field"] == "model.graph_storage" for row in report["changes"][kind])
+        if kind == "train":
+            assert result["train"]["batch_size"] == 16
+            assert result["train"]["epochs"] == 40
+    assert report["execution_performed"] is False
+
+
+def test_unknown_graph_storage_is_rejected_before_preparation(project):
+    with pytest.raises(ValueError, match="graph_storage"):
+        _prepare(project, graph_storage="approximate")
+    assert not (project / "runs" / "synthetic-stream-test").exists()
 
 
 @pytest.mark.parametrize("name", ["window_seconds", "time_scale_seconds", "hdr_timestamp_scale_to_seconds",
@@ -66905,6 +73920,17 @@ def test_actual_window_and_prefix_bound_are_distinct_and_retain_previous_frames(
     assert topology["max_readout_nodes"] == 3
     assert topology["max_prefix_union_nodes_upper_bound"] == 5
     assert any(row["readout_nodes"] > row["incoming_events"] for row in topology["samples"])
+    assert topology["bulk_query_blocks"] > 0
+    assert topology["bulk_pairwise_evaluations_avoided"] > 0
+    for row in topology["samples"]:
+        nodes, edges = row["readout_nodes"], row["readout_directed_edges"]
+        assert row["readout_mean_in_degree"] == edges / nodes
+        assert row["readout_edge_density"] == edges / (nodes * (nodes - 1))
+        geometry = row["radius_geometry"]
+        assert geometry["sensor_size_hw"] == [16, 16]
+        assert geometry["spatial_semiaxes_pixels_xy"] == [12., 12.]
+        assert geometry["temporal_semiaxis_seconds"] == 8.
+        assert geometry["window_seconds"] == 1.5
     plan = stream_preflight._stream_probe_plan(batches, topology["samples"], 2, 1)
     assert plan["scheduled_frames"] == 6
     assert 0 in plan["selected_batch_indices"]
@@ -66951,6 +73977,7 @@ def test_preflight_rehashes_same_size_source_content_after_cpu_probes(monkeypatc
     """Real byte hashes around synthetic CPU work; no research data or GPU."""
     from asgcn_unet import engine
 
+    _fixture_cpu_ram(monkeypatch)
     source_path = tmp_path / "synthetic-source.bin"
     initial_bytes, changed_bytes = b"synthetic-original", b"synthetic-modified"
     assert len(initial_bytes) == len(changed_bytes)
@@ -67042,14 +74069,15 @@ def test_nonfull_requested_cuda_batch_refused_before_device_selection(monkeypatc
 
 from __future__ import annotations
 
+from contextlib import contextmanager
 from types import SimpleNamespace
 
 import pytest
 import torch
 
-from asgcn_unet import engine, preflight, stream_preflight, training, utils
+from asgcn_unet import engine, stream_preflight, stream_scan_loader, training, utils
 from asgcn_unet.batching import SequenceBatchSampler, pack_samples
-from tests.test_stream_preflight import SyntheticStreams, _config
+from tests.test_stream_preflight import SyntheticStreams, _config, _fixture_cpu_ram
 
 
 @pytest.fixture(autouse=True)
@@ -67099,6 +74127,27 @@ def _policy_fixture(monkeypatch, *, fail_reserve=None, fail_commit=None, allocat
         observe(120)
         return pack_samples([dataset[index] for index in indices]), {"synthetic_cpu_fixture": True}
 
+    @contextmanager
+    def input_batches(current_dataset, current_batches, start_batch, device, train_config, *, seed):
+        assert current_dataset is dataset and current_batches is batches
+        assert start_batch == 0 and train_config is config["train"] and seed == config["seed"]
+
+        class Inputs:
+            def __init__(self):
+                self.plan = {"synthetic_cpu_fixture": True, "total_batches": len(current_batches)}
+                self.cursor = start_batch
+
+            def __next__(self):
+                indices = current_batches[self.cursor]
+                samples, timing = load(current_dataset, indices, device)
+                self.cursor += 1
+                return list(indices), samples, timing
+
+        try:
+            yield Inputs()
+        finally:
+            events.append(("loader_closed",))
+
     class State:
         def __init__(self, **kwargs):
             pass
@@ -67128,7 +74177,7 @@ def _policy_fixture(monkeypatch, *, fail_reserve=None, fail_commit=None, allocat
     monkeypatch.setattr(engine, "_make_grad_scaler", lambda *args: object())
     monkeypatch.setattr(engine, "_training_step", step)
     monkeypatch.setattr(training, "TrainingState", State)
-    monkeypatch.setattr(preflight, "_load_packed_probe_batch", load)
+    monkeypatch.setattr(stream_scan_loader, "iter_scan_batches", input_batches)
     monkeypatch.setattr(utils, "set_seed", lambda seed: None)
     monkeypatch.setattr(torch.cuda, "synchronize", lambda device: None)
     monkeypatch.setattr(torch.cuda, "reset_peak_memory_stats", reset)
@@ -67153,6 +74202,8 @@ def test_selected_peak_includes_input_and_commit_and_replay_peak_is_not_discarde
         assert events.index(("release", number)) < events.index(("free", number, "after_state_commit_and_release"))
     assert all(step["scope"].endswith("state_commit_and_release") for step in report["steps"])
     assert report["reserve_is_hard_isolation"] is False
+    assert report["input_loader_plan"]["synthetic_cpu_fixture"]
+    assert events[-1] == ("loader_closed",)
 
 
 @pytest.mark.parametrize("phase", ["before_input_load", "after_state_commit_and_release"])
@@ -67166,6 +74217,7 @@ def test_live_free_reserve_failure_stops_before_next_batch_and_keeps_completed_s
     assert ("load", 2) not in events
     assert (("load", 1) in events) == (phase == "after_state_commit_and_release")
     assert progress["minimum_observed_device_free_mib"] == 50
+    assert events[-1] == ("loader_closed",)
 
 
 def test_allocator_peak_budget_is_separate_from_live_free_memory(monkeypatch):
@@ -67175,6 +74227,7 @@ def test_allocator_peak_budget_is_separate_from_live_free_memory(monkeypatch):
     assert progress["last_memory_snapshot"]["device_free_mib"] == 500
     assert progress["last_memory_snapshot"]["peak_reserved_mib"] == 950
     assert progress["failed_batch_index"] == 1 and ("load", 2) not in events
+    assert events[-1] == ("loader_closed",)
 
 
 def test_state_commit_failure_is_not_a_successful_probe_and_preserves_prior_steps(monkeypatch):
@@ -67185,6 +74238,7 @@ def test_state_commit_failure_is_not_a_successful_probe_and_preserves_prior_step
     assert progress["completed_batches"] == 2 and not progress["passed"]
     assert [step["batch_index"] for step in progress["steps"]] == [0]
     assert ("release", 2) not in events
+    assert events[-1] == ("loader_closed",)
 
 
 @pytest.mark.parametrize("reserve", [-1, True, float("nan"), float("inf"), "100"])
@@ -67194,7 +74248,8 @@ def test_invalid_reserve_rejected_before_device_or_model(monkeypatch, reserve):
         stream_preflight._probe_stream_training(None, {}, torch.device("cpu"), [], {}, {}, reserve_vram_mib=reserve)
 
 
-def test_real_cpu_training_probe_progress_and_stateful_smoke():
+def test_real_cpu_training_probe_progress_and_stateful_smoke(monkeypatch):
+    _fixture_cpu_ram(monkeypatch)
     dataset, config = SyntheticStreams(), _config()
     batches = list(SequenceBatchSampler(dataset, 2))
     topology = stream_preflight._scan_stream_topology(dataset, config, torch.device("cpu"), batches, top_density_count=2)
@@ -67206,6 +74261,12 @@ def test_real_cpu_training_probe_progress_and_stateful_smoke():
     assert report["steps"][-1]["incoming_contexts"] == 2
     assert report["peak_allocated_mib"] is None and report["peak_reserved_mib"] is None
     assert all(row["loss"]["total"] >= 0 and row["step_time_ms"] > 0 for row in report["steps"])
+    assert report["input_loader_plan"]["schema"] == "asgcn_stream_scan_loader_plan_v1"
+    assert report["input_loader_plan"]["total_batches"] == len(batches)
+    assert report["input_loader_plan"]["physical_batch_size"] == config["train"]["batch_size"]
+    for row in report["steps"]:
+        assert row["input_pipeline"]["execution"] == "bounded_cpu_dataloader_prefetch_then_one_packed_transfer"
+        assert row["input_pipeline"]["dataset_indices"] == row["dataset_indices"]
 ~~~~~~~~
 
 # tests/test_stream_recovery.py
@@ -67468,6 +74529,271 @@ def test_raised_failure_recovers_saved_count_maxima(recovery, monkeypatch, capsy
     assert result["failure"]["stage"] == "stateful_training_probe"
     assert result["next_commands"] == []
     assert "prefix-union upper bound=3000000" in capsys.readouterr().err
+
+
+def _saved_recovery(module, root, *, readout_edges=424096036, union_edges=440677422):
+    """Synthetic saved metadata only; no event dataset or GPU is used."""
+    from asgcn_unet.engine import _artifact_path_label, _public_config
+
+    prior = root / "preflight-recovery-prior"
+    prior.mkdir()
+    configs, sources = module._load_experiment_configs(root)
+    public = _public_config(configs["train"])
+    source = {"source_tree_sha256": "a" * 64, "git_commit": "b" * 40, "git_source_dirty": False}
+    row = {"dataset_index": 0, "readout_nodes": 25000, "readout_directed_edges": readout_edges,
+           "prefix_union_nodes_upper_bound": 26000, "prefix_union_directed_edges_upper_bound": union_edges}
+    topology = {
+        "samples": [row, None], "scanned_samples": 1, "dataset_samples": 2, "scan_complete": False,
+        "arrival_prefix_peak_measured": False,
+        "prefix_bound_kind": "previous_live_window_union_all_current_frame_arrivals",
+        **{f"max_{key}": value for key, value in row.items() if key != "dataset_index"},
+    }
+    profile_path = prior / "stream-profile.json"
+    profile = {
+        "schema": "asgcn_streaming_training_preflight_v1", "synthetic_cpu_test_only": True,
+        "status": "interrupted", "stage": "count_only_topology", "passed": False, "report_eligible": False,
+        "output": _artifact_path_label(profile_path), "source_provenance": source,
+        "input_config_provenance": {"config": public, "sha256": stream_preflight._digest(public)},
+        "config_provenance": {"config": copy.deepcopy(public), "sha256": stream_preflight._digest(public)},
+        "data_provenance": {"content": {"sha256": "c" * 64}}, "topology": topology,
+        "runtime_provenance": {"gpu": {"name": "synthetic MIG", "total_memory_mib": 9728.0}},
+    }
+    profile["commitment_sha256"] = stream_preflight._digest(profile)
+    module._write_new_json(profile_path, profile)
+    metadata = {
+        "schema": "asgcn_streaming_preflight_recovery_v1", "experiment_root": str(root),
+        "output_root": str(prior), "preflight_report": str(profile_path), "source_configs": sources,
+        "configs": {kind: str(prior / "configs" / f"{kind}.json") for kind in ("train", "hdr", "aid")},
+        "status": "interrupted", "report_eligible": False,
+        "training_executed": False, "calibration_executed": False,
+    }
+    module._write_new_json(prior / "recovery.json", metadata)
+    return prior, source
+
+
+def _resumed_result(root, prior):
+    paths = [path for path in root.glob("preflight-recovery-*/recovery.json") if path.parent != prior]
+    assert len(paths) == 1
+    return _read(paths[0])
+
+
+def _change_saved_profile(prior, change, *, reseal=True):
+    path = prior / "stream-profile.json"
+    value = _read(path)
+    value.pop("commitment_sha256", None)
+    change(value)
+    if reseal:
+        value["commitment_sha256"] = stream_preflight._digest(value)
+    path.write_text(json.dumps(value), encoding="utf-8")
+
+
+def test_resume_old_partial_detects_impossible_saved_allocation_without_cuda_or_rescan(recovery, monkeypatch, capsys):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root)
+    original = {path: path.read_bytes() for path in prior.iterdir()}
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract",
+                        lambda: {**source, "source_tree_sha256": "d" * 64})
+    monkeypatch.setattr("torch.cuda.is_available", lambda: pytest.fail("evidence inspection must not query CUDA"))
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("no rescan"))
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    result = _resumed_result(root, prior)
+    evidence = result["resume_evidence"]
+    assert evidence["source_matches_current"] is False
+    assert evidence["current_data_revalidated"] is False
+    assert evidence["current_device_revalidated"] is False
+    assert evidence["report_eligible"] is False and evidence["exact_resume_performed"] is False
+    assert evidence["infeasible_on_saved_device"] is True
+    assert evidence["saved_device_budget_after_requested_reserve_mib"] == 8704
+    assert evidence["single_readout_storage_floor"]["graph_and_basis_bytes"] == 424096036 * 56 + 25000 * 72
+    assert not Path(result["preflight_report"]).exists() and result["next_commands"] == []
+    assert all(path.read_bytes() == content for path, content in original.items())
+    core = dict(result)
+    assert core.pop("commitment_sha256") == stream_preflight._digest(core)
+    output = capsys.readouterr()
+    assert "recorded allocation allows at most 8,704.00 MiB" in output.out
+    assert "no committed raw scanner checkpoint" in output.err
+
+
+def test_large_conservative_union_is_not_used_as_actual_graph_memory(recovery, monkeypatch):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root, readout_edges=6)
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract", lambda: source)
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("no raw state"))
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    result = _resumed_result(root, prior)
+    assert result["resume_evidence"]["infeasible_on_saved_device"] is False
+    assert result["resume_evidence"]["single_readout_storage_floor"]["graph_and_basis_bytes"] == 6 * 56 + 25000 * 72
+    assert "no committed raw scanner checkpoint" in result["failure"]["message"]
+
+
+@pytest.mark.parametrize("corruption", ["commitment", "cached-count", "source-contract", "model", "data-hash", "eligible"])
+def test_resume_rejects_corrupt_or_incompatible_saved_evidence_before_probe(recovery, monkeypatch, corruption):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root)
+    def change(profile):
+        if corruption == "cached-count":
+            profile["topology"]["max_readout_directed_edges"] += 2
+        elif corruption == "source-contract":
+            profile["source_provenance"]["source_tree_sha256"] = "invalid"
+        elif corruption == "model":
+            value = profile["config_provenance"]["config"]
+            value["model"]["graph_radius"] = 0.07
+            profile["config_provenance"]["sha256"] = stream_preflight._digest(value)
+        elif corruption == "data-hash":
+            profile["data_provenance"]["content"]["sha256"] = "invalid"
+        elif corruption == "eligible":
+            profile["report_eligible"] = True
+    _change_saved_profile(prior, change, reseal=corruption != "commitment")
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract", lambda: source)
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("no unsafe probe"))
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    result = _resumed_result(root, prior)
+    assert result["failure"]["stage"] == "inspect_saved_recovery_evidence"
+    assert result["next_commands"] == []
+
+
+def test_resume_rejects_changed_raw_configuration_bytes(recovery, monkeypatch):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root)
+    path = root / "configs" / "train.json"
+    path.write_text(path.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract", lambda: source)
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("changed identity"))
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    assert "raw configuration" in _resumed_result(root, prior)["failure"]["message"]
+
+
+def test_resume_checkpoint_candidate_is_forwarded_only_after_integrity_inspection(recovery, monkeypatch):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root, readout_edges=6, union_edges=8)
+    module._write_new_json(prior / "scan-checkpoint" / "latest.json", {"synthetic": True})
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract", lambda: source)
+    inspected = []
+    monkeypatch.setattr(module, "_inspect_resume_checkpoint", lambda path, resource: inspected.append(path))
+    calls = _mock_preflight(monkeypatch, module, passed=False, eligible=False)
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    result = _resumed_result(root, prior)
+    assert inspected == [prior / "scan-checkpoint"]
+    assert calls[0][2]["resume_checkpoint"] == prior / "scan-checkpoint"
+    assert calls[0][2]["scan_checkpoint_dir"] == Path(result["output_root"]) / "scan-checkpoint"
+    assert result["resume_evidence"]["checkpoint_integrity_verified"] is True
+    assert result["resume_evidence"]["exact_resume_performed"] is False
+    assert not result["report_eligible"] and not result["next_commands"]
+
+
+def test_checkpoint_source_migration_is_not_inferred_from_matching_config(recovery, monkeypatch):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root)
+    module._write_new_json(prior / "scan-checkpoint" / "latest.json", {"synthetic": True})
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract",
+                        lambda: {**source, "source_tree_sha256": "d" * 64})
+    monkeypatch.setattr(module, "_inspect_resume_checkpoint", lambda *a: pytest.fail("no cross-source restore"))
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("no rescan"))
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    assert "source differs" in _resumed_result(root, prior)["failure"]["message"]
+
+
+def test_saved_derived_configuration_content_must_match_its_report(recovery, monkeypatch):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root)
+    configs, _ = module._load_experiment_configs(root)
+    changed = copy.deepcopy(configs["train"])
+    changed["model"]["graph_radius"] = 0.07
+    module._write_new_json(prior / "configs" / "train.json", changed)
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract", lambda: source)
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("no changed config"))
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    assert "config file differs" in _resumed_result(root, prior)["failure"]["message"]
+
+
+def test_identical_source_bytes_do_not_require_git_metadata_migration(recovery, monkeypatch):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root, readout_edges=6, union_edges=8)
+    module._write_new_json(prior / "scan-checkpoint" / "latest.json", {"synthetic": True})
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract",
+                        lambda: {**source, "git_commit": "f" * 40})
+    monkeypatch.setattr(module, "_inspect_resume_checkpoint", lambda *a: None)
+    calls = _mock_preflight(monkeypatch, module, passed=False, eligible=False)
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    result = _resumed_result(root, prior)
+    assert result["resume_evidence"]["source_matches_current"] is True
+    assert result["resume_evidence"]["source_metadata_matches_current"] is False
+    assert len(calls) == 1
+
+
+def test_committed_running_metadata_exists_before_preflight(recovery, monkeypatch):
+    module, root = recovery
+
+    def inspect_startup(config, output, kwargs):
+        metadata = _read(Path(output).parent / "recovery.json")
+        core = dict(metadata)
+        assert core.pop("commitment_sha256") == stream_preflight._digest(core)
+        assert metadata["status"] == "running" and metadata["report_eligible"] is False
+        assert metadata["next_commands"] == []
+
+    _mock_preflight(monkeypatch, module, change=inspect_startup)
+    assert module.main(_arguments(root)) == 0
+    final = _result(root)
+    core = dict(final)
+    assert core.pop("commitment_sha256") == stream_preflight._digest(core)
+    assert final["status"] == "passed"
+
+
+def test_external_change_to_owned_metadata_is_not_overwritten(recovery, monkeypatch, capsys):
+    module, root = recovery
+    sentinel = []
+
+    def external_change(config, output, kwargs):
+        path = Path(output).parent / "recovery.json"
+        path.write_text('{"external": "preserve"}', encoding="utf-8")
+        sentinel.append(path)
+
+    _mock_preflight(monkeypatch, module, change=external_change)
+    assert module.main(_arguments(root)) == 1
+    assert _read(sentinel[0]) == {"external": "preserve"}
+    assert "asgcn_unet.cli train" not in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("sealed", [True, False])
+def test_running_recovery_requires_committed_metadata_before_checkpoint_resume(recovery, monkeypatch, sealed):
+    module, root = recovery
+    prior, source = _saved_recovery(module, root, readout_edges=6, union_edges=8)
+    path = prior / "recovery.json"
+    metadata = _read(path)
+    metadata["status"] = "running"
+    if sealed:
+        metadata["commitment_sha256"] = stream_preflight._digest(metadata)
+    path.write_text(json.dumps(metadata), encoding="utf-8")
+    _change_saved_profile(prior, lambda value: value.update(status="running"))
+    module._write_new_json(prior / "scan-checkpoint" / "latest.json", {"synthetic": True})
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract", lambda: source)
+    monkeypatch.setattr(module, "_inspect_resume_checkpoint", lambda *args: None)
+    calls = _mock_preflight(monkeypatch, module, passed=False, eligible=False)
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    result = _resumed_result(root, prior)
+    assert len(calls) == int(sealed)
+    assert result["report_eligible"] is False and result["next_commands"] == []
+    if not sealed:
+        assert "Running recovery metadata requires" in result["failure"]["message"]
+
+
+def test_implicit_saved_graph_never_uses_materialized_edge_storage_floor(recovery, monkeypatch, capsys):
+    module, root = recovery
+    for path in (root / "configs").glob("*.json"):
+        config = _read(path)
+        config["model"]["graph_storage"] = "implicit_radius"
+        path.write_text(json.dumps(config), encoding="utf-8")
+    prior, source = _saved_recovery(module, root)
+    monkeypatch.setattr("asgcn_unet.engine._current_source_contract", lambda: source)
+    monkeypatch.setattr(stream_preflight, "streaming_training_preflight", lambda *a, **k: pytest.fail("no raw state"))
+    assert module.main(_arguments(root, "--resume-from", str(prior))) == 1
+    evidence = _resumed_result(root, prior)["resume_evidence"]
+    floor = evidence["single_readout_storage_floor"]
+    assert floor["graph_storage"] == "implicit_radius" and floor["edge_storage_materialized"] is False
+    assert floor["graph_and_basis_bytes"] == 25000 * 72
+    assert evidence["infeasible_on_saved_device"] is False
+    output = capsys.readouterr().out
+    assert "excluding index/scratch/training" in output and "cannot fit" not in output
 ~~~~~~~~
 
 # tests/test_stream_reporting.py
@@ -67605,6 +74931,852 @@ def test_evaluation_aggregates_after_actual_forward_once_including_partial_tail(
         torch.set_num_threads(previous_threads)
 ~~~~~~~~
 
+# tests/test_stream_sampling.py
+
+~~~~~~~~python
+"""CPU-only synthetic tests; no production data/model reductions."""
+
+from __future__ import annotations
+
+from copy import deepcopy
+
+import pytest
+import torch
+
+from asgcn_unet.batching import pack_samples
+from asgcn_unet.stream_sampling import replace_record_groups, sample_stream_batch
+
+
+@pytest.fixture(autouse=True)
+def bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _sample(name, times, *, first_id=0, frame=0):
+    events = torch.tensor([[index % 8, index % 8, time, 1 if index % 2 else -1]
+                           for index, time in enumerate(times)], dtype=torch.float64).reshape(-1, 4)
+    groups = []
+    for index, time in enumerate(times):
+        if index and time == times[index - 1]:
+            groups[-1] += 1
+        else:
+            groups.append(1)
+    return {
+        "sample_id": f"{name}/{frame}", "sensor_size": (8, 8),
+        "events": events, "target": torch.full((1, 8, 8), 0.25),
+        "event_ids": torch.tensor([[0, first_id + index] for index in range(len(times))],
+                                  dtype=torch.long).reshape(-1, 2),
+        "metadata": {"sequence_id": name, "sequence_index": frame, "group": "synthetic",
+                     "stream_time": {"schema": "physical_seconds_v1", "sequence_origin_seconds": 0.,
+                                     "interval_start_seconds": 0., "interval_end_seconds": 10.,
+                                     "arrival_group_counts": groups}},
+    }
+
+
+def test_r1_preserves_packed_identity_every_event_and_raw_counter():
+    packed = pack_samples([_sample("a", [1, 1, 2]), _sample("b", [])])
+    result = sample_stream_batch(packed, [7, 4], factor=1)
+    assert result.packed is packed and result.keep_mask.tolist() == [True] * 3
+    assert result.next_offsets == (10, 4) and result.arrival_group_counts == ((2, 1), ())
+
+
+def test_independent_lanes_use_global_ordinals_and_recompute_equal_time_groups():
+    packed = pack_samples([_sample("a", [1, 1, 1, 2, 2, 3, 3, 3]),
+                           _sample("b", [1, 1, 2, 2, 2], first_id=100)])
+    metadata_before = deepcopy([sample["metadata"] for sample in packed])
+    result = sample_stream_batch(packed, [0, 2], factor=3)
+    assert result.packed.event_counts == (3, 2)
+    assert result.packed.event_ids[:, 1].tolist() == [0, 3, 6, 101, 104]
+    assert result.arrival_group_counts == ((1, 1, 1), (1, 1))
+    assert result.next_offsets == (8, 7)
+    assert result.packed.targets is packed.targets and result.packed.sensor_size == packed.sensor_size
+    assert [sample["metadata"] for sample in packed] == metadata_before
+    torch.testing.assert_close(result.packed.events, packed.events[result.keep_mask], rtol=0, atol=0)
+    for index, sample in enumerate(result.packed):
+        assert sample["metadata"]["stream_time"]["arrival_group_counts"] == result.arrival_group_counts[index]
+        assert sample["metadata"]["sequence_id"] == packed[index]["metadata"]["sequence_id"]
+
+
+def test_no_selected_events_keeps_frame_target_and_advances_raw_offset():
+    packed = pack_samples([_sample("a", [1, 1], first_id=1), _sample("b", [])])
+    result = sample_stream_batch(packed, [1, 8], factor=4)
+    assert len(result.packed) == 2 and result.packed.event_counts == (0, 0)
+    assert result.packed.events.shape == (0, 4) and result.packed.event_ids.shape == (0, 2)
+    assert result.packed.targets is packed.targets
+    assert result.next_offsets == (3, 8) and result.arrival_group_counts == ((), ())
+    next_frame = sample_stream_batch(pack_samples([_sample("a", [2, 2], first_id=3, frame=1)]),
+                                    [result.next_offsets[0]], factor=4)
+    assert next_frame.packed.event_ids[:, 1].tolist() == [4] and next_frame.next_offsets == (5,)
+
+
+def test_all_empty_lanes_preserve_raw_offsets_without_inventing_arrivals():
+    packed = pack_samples([_sample("a", []), _sample("b", [])])
+    result = sample_stream_batch(packed, [3, 8], factor=7)
+    assert result.packed.event_counts == (0, 0) and result.keep_mask.shape == (0,)
+    assert result.next_offsets == (3, 8) and result.arrival_group_counts == ((), ())
+    assert result.packed.targets is packed.targets
+
+
+def test_packed_selection_matches_independent_lanes_without_shared_phase():
+    samples = [_sample("a", [1] * 9), _sample("b", [2] * 6, first_id=100), _sample("c", [])]
+    offsets = [8, 1, 23]
+    batched = sample_stream_batch(pack_samples(samples), offsets, factor=4)
+    singles = [sample_stream_batch(pack_samples([sample]), [prior], factor=4)
+               for sample, prior in zip(samples, offsets, strict=True)]
+    torch.testing.assert_close(batched.packed.events, torch.cat([result.packed.events for result in singles]))
+    torch.testing.assert_close(batched.packed.event_ids, torch.cat([result.packed.event_ids for result in singles]))
+    assert batched.next_offsets == tuple(result.next_offsets[0] for result in singles)
+    assert batched.arrival_group_counts == tuple(result.arrival_group_counts[0] for result in singles)
+
+
+@pytest.mark.parametrize("factor", [1, 2, 3, 7, 100])
+def test_event_identity_selection_is_invariant_to_frame_partition(factor):
+    times = [1, 1, 1, 2, 2, 3, 4, 4, 5, 5, 5, 5]
+    full = sample_stream_batch(pack_samples([_sample("a", times)]), [0], factor=factor)
+    parts, offset = [], 0
+    for number, (start, stop) in enumerate([(0, 2), (2, 2), (2, 5), (5, 9), (9, 12)]):
+        result = sample_stream_batch(pack_samples([_sample("a", times[start:stop], first_id=start, frame=number)]),
+                                     [offset], factor=factor)
+        parts.append(result.packed.event_ids)
+        offset = result.next_offsets[0]
+    torch.testing.assert_close(torch.cat(parts), full.packed.event_ids, rtol=0, atol=0)
+    assert offset == len(times)
+
+
+def test_large_python_counters_do_not_overflow_tensor_ordinals():
+    prior = 2**100 + 9
+    packed = pack_samples([_sample("a", [1] * 11)])
+    result = sample_stream_batch(packed, [prior], factor=7)
+    assert result.keep_mask.tolist() == [(prior + index) % 7 == 0 for index in range(11)]
+    assert result.next_offsets == (prior + 11,)
+
+
+def test_int64_factor_boundary_does_not_add_overflowing_residues():
+    factor = torch.iinfo(torch.long).max
+    packed = pack_samples([_sample("a", [1] * 5)])
+    result = sample_stream_batch(packed, [factor - 2], factor=factor)
+    assert result.keep_mask.tolist() == [False, False, True, False, False]
+
+
+@pytest.mark.parametrize("prior", [[], [0, 1], [-1], [True], [0.0], [None], "0"])
+def test_invalid_offsets_fail_explicitly(prior):
+    with pytest.raises(ValueError, match="prior_offsets"):
+        sample_stream_batch(pack_samples([_sample("a", [1])]), prior, factor=2)
+
+
+@pytest.mark.parametrize("factor", [0, -1, True, 1.0, None, 2**63])
+def test_invalid_factor_is_not_replaced_with_default(factor):
+    with pytest.raises(ValueError, match="factor"):
+        sample_stream_batch(pack_samples([_sample("a", [1])]), [0], factor=factor)
+
+
+@pytest.mark.parametrize("groups", [[0, 2], [True, 1], [1], None])
+def test_invalid_raw_group_metadata_cannot_authorize_sampling(groups):
+    sample = _sample("a", [1, 1])
+    sample["metadata"]["stream_time"]["arrival_group_counts"] = groups
+    with pytest.raises((ValueError, TypeError), match="arrival_group_counts"):
+        sample_stream_batch(pack_samples([sample]), [0], factor=3)
+
+
+def test_selection_preserves_gradients_for_only_selected_raw_rows():
+    packed = pack_samples([_sample("a", [1] * 6), _sample("b", [2] * 4)])
+    packed.events.requires_grad_(True)
+    result = sample_stream_batch(packed, [1, 0], factor=3)
+    result.packed.events.square().sum().backward()
+    expected = 2 * packed.events.detach() * result.keep_mask[:, None]
+    torch.testing.assert_close(packed.events.grad, expected, rtol=0, atol=0)
+
+
+def test_record_helper_changes_only_group_counts():
+    records = [(('synthetic', 'a'), 2, 1., 2., 0., (2, 3)), (('synthetic', 'b'), 4, 3., 4., 0., (1,))]
+    original = deepcopy(records)
+    updated = replace_record_groups(records, ((1, 1), ()))
+    assert records == original and updated is not records
+    assert [row[:5] for row in updated] == [row[:5] for row in original]
+    assert [row[5] for row in updated] == [(1, 1), ()]
+    with pytest.raises(ValueError, match="One sampled"):
+        replace_record_groups(records, ())
+    with pytest.raises(ValueError, match="six-field"):
+        replace_record_groups([(0,)], [()])
+~~~~~~~~
+
+# tests/test_stream_scan_checkpoint.py
+
+~~~~~~~~python
+"""Bounded CPU synthetic scan recovery tests; never research measurements."""
+
+from __future__ import annotations
+
+import copy
+import json
+import subprocess
+import sys
+from pathlib import Path
+from types import SimpleNamespace
+
+import pytest
+import torch
+
+from asgcn_unet import stream_scan_checkpoint as checkpoint
+from asgcn_unet.artifact_lock import ArtifactWriterBusyError, exclusive_artifact_writer
+
+
+@pytest.fixture(autouse=True)
+def _bounded_cpu(monkeypatch):
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    monkeypatch.setattr("asgcn_unet.diagnostic_resources._snapshot", lambda: {"headroom_bytes": 64 * 1024**2})
+    yield
+    torch.set_num_threads(previous)
+
+
+def _fixture(completed=1):
+    batches = [[0, 3], [1, 4], [2, 5]]
+    identity = {name: "a" * 64 for name in checkpoint.IDENTITY_FIELDS}
+    identity["schedule_sha256"] = checkpoint._digest(batches)
+    finals = {("lane-a", "source-a"): 2, ("lane-b", "source-b"): 2}
+    records = [None] * 6
+    states = {}
+    for frame in range(completed):
+        for lane, key in enumerate(finals):
+            index = frame + lane * 3
+            records[index] = {"dataset_index": index, "sample_id": f"{key[0]}/{frame}",
+                              "sequence_identity": list(key), "sequence_index": frame,
+                              "interval_start_seconds": float(frame), "interval_end_seconds": float(frame + 1),
+                              "readout_nodes": 2, "readout_directed_edges": 2,
+                              "prefix_union_nodes_upper_bound": 3, "prefix_union_directed_edges_upper_bound": 6}
+            if frame == finals[key]:
+                states.pop(key, None)
+            else:
+                times = torch.tensor([frame + 0.25, frame + 0.75], dtype=torch.float64)
+                positions = torch.tensor([[0.1, 0.2, frame + 0.25, 0.0],
+                                          [0.2, 0.2, frame + 0.75, 1.0]], dtype=torch.float64)
+                states[key] = SimpleNamespace(positions=positions, timestamps=times,
+                                              origin_seconds=0.0, watermark_seconds=float(frame + 1),
+                                              sequence_index=frame, sequence_identity=key, contract="b" * 64,
+                                              directed_edges=2)
+    topology = {"samples": records, "dataset_samples": 6, "scanned_samples": 2 * completed,
+                "scan_complete": completed == 3, "current_batch_indices": [2, 5]}
+    return {"identity": identity, "batches": batches, "completed_batches": completed,
+            "states": states, "topology": topology, "sequence_final_indices": finals,
+            "memory_budget_mib": 8, "reserve_memory_mib": 1}
+
+
+def _load(path, values, **overrides):
+    options = {"expected_identity": values["identity"], "batches": values["batches"],
+               "sequence_final_indices": values["sequence_final_indices"],
+               "memory_budget_mib": values["memory_budget_mib"], "reserve_memory_mib": values["reserve_memory_mib"]}
+    options.update(overrides)
+    return checkpoint.load_scan_checkpoint(path, **options)
+
+
+def test_roundtrip_preserves_exact_state_counts_cursor_and_owns_cpu_storage(tmp_path, monkeypatch):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    manifest = checkpoint.save_scan_checkpoint(path, **values)
+    original_load = torch.load
+    calls = []
+
+    def checked_load(*args, **kwargs):
+        calls.append(kwargs)
+        return original_load(*args, **kwargs)
+
+    monkeypatch.setattr(torch, "load", checked_load)
+    restored = _load(path, values)
+    assert restored["completed_batches"] == 1 and restored["manifest"] == manifest
+    assert restored["topology"] == values["topology"]
+    assert calls == [{"map_location": "cpu", "weights_only": True, "mmap": True}]
+    for key, original in values["states"].items():
+        actual = restored["states"][key]
+        assert torch.equal(actual.positions, original.positions)
+        assert torch.equal(actual.timestamps, original.timestamps)
+        assert actual.positions.data_ptr() != original.positions.data_ptr()
+        assert actual.directed_edges == original.directed_edges and actual.sequence_identity == key
+        assert actual.contract == original.contract and actual.positions.device.type == "cpu"
+    # mmap storage is not retained by returned clones, so rotating the generation works on Windows too.
+    checkpoint.save_scan_checkpoint(path, **_fixture(2))
+    assert not (path / manifest["tensors"]["filename"]).exists()
+    assert _load(path, values)["completed_batches"] == 2
+
+
+def test_finished_lanes_are_absent_and_complete_empty_state_is_valid(tmp_path):
+    values = _fixture(3)
+    checkpoint.save_scan_checkpoint(tmp_path / "complete", **values)
+    restored = _load(tmp_path / "complete", values)
+    assert restored["states"] == {} and restored["completed_batches"] == 3
+
+
+@pytest.mark.parametrize("changed", sorted(checkpoint.IDENTITY_FIELDS))
+def test_changed_source_config_data_schedule_or_report_refuses_before_torch_load(tmp_path, monkeypatch, changed):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    checkpoint.save_scan_checkpoint(path, **values)
+    identity = dict(values["identity"], **{changed: "c" * 64})
+    monkeypatch.setattr(torch, "load", lambda *args, **kwargs: pytest.fail("torch.load must not run"))
+    with pytest.raises(ValueError, match="identity mismatch"):
+        _load(path, values, expected_identity=identity)
+
+
+@pytest.mark.parametrize("field", ["metadata", "tensors"])
+def test_payload_hash_tampering_refused_before_torch_load(tmp_path, monkeypatch, field):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    manifest = checkpoint.save_scan_checkpoint(path, **values)
+    file = path / manifest[field]["filename"]
+    data = bytearray(file.read_bytes())
+    data[len(data) // 2] ^= 1
+    file.write_bytes(data)
+    monkeypatch.setattr(torch, "load", lambda *args, **kwargs: pytest.fail("unverified tensor load"))
+    with pytest.raises(ValueError, match="hash/size mismatch"):
+        _load(path, values)
+
+
+@pytest.mark.parametrize("mutation", ["missing_lane", "wrong_edges", "wrong_clock", "wrong_shape", "past_cursor", "nan"])
+def test_invalid_snapshot_is_not_published(tmp_path, mutation):
+    values = _fixture()
+    key = next(iter(values["states"]))
+    state = values["states"][key]
+    if mutation == "missing_lane":
+        values["states"].pop(key)
+    elif mutation == "wrong_edges":
+        state.directed_edges = 0
+    elif mutation == "wrong_clock":
+        state.watermark_seconds = 2.0
+    elif mutation == "wrong_shape":
+        state.positions = state.positions[:1]
+    elif mutation == "past_cursor":
+        values["topology"]["samples"][1] = dict(values["topology"]["samples"][0], dataset_index=1)
+    else:
+        state.timestamps[0] = float("nan")
+    with pytest.raises((ValueError, TypeError)):
+        checkpoint.save_scan_checkpoint(tmp_path / "invalid", **values)
+    assert not (tmp_path / "invalid" / "latest.json").exists()
+
+
+def test_failed_atomic_publication_preserves_previous_commit_and_unrelated_files(tmp_path, monkeypatch):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    original = checkpoint.save_scan_checkpoint(path, **values)
+    sentinel = path / "unrelated-experiment.txt"
+    sentinel.write_text("preserve me", encoding="utf-8")
+
+    def interrupted(*args):
+        raise KeyboardInterrupt("synthetic interruption before atomic publication")
+
+    monkeypatch.setattr(checkpoint.os, "replace", interrupted)
+    with pytest.raises(KeyboardInterrupt):
+        checkpoint.save_scan_checkpoint(path, **_fixture(2))
+    assert checkpoint.inspect_scan_checkpoint(path, memory_budget_mib=8) == original
+    assert _load(path, values)["completed_batches"] == 1
+    assert sentinel.read_text(encoding="utf-8") == "preserve me"
+
+
+def test_owned_generation_rotation_preserves_other_files_and_refuses_cursor_rewind(tmp_path):
+    path = tmp_path / "checkpoint"
+    old = checkpoint.save_scan_checkpoint(path, **_fixture(1))
+    sentinel = path / "other.pt"
+    sentinel.write_bytes(b"not our generation")
+    checkpoint.save_scan_checkpoint(path, **_fixture(2))
+    assert not (path / old["metadata"]["filename"]).exists()
+    assert not (path / old["tensors"]["filename"]).exists()
+    assert sentinel.read_bytes() == b"not our generation"
+    with pytest.raises(ValueError, match="backwards"):
+        checkpoint.save_scan_checkpoint(path, **_fixture(1))
+
+
+def test_foreign_directory_and_old_partial_json_are_not_resumed_or_overwritten(tmp_path):
+    path = tmp_path / "foreign"
+    path.mkdir()
+    partial = path / "partial.json"
+    partial.write_text('{"scanned_samples": 700}', encoding="utf-8")
+    with pytest.raises(ValueError, match="partial JSON"):
+        checkpoint.save_scan_checkpoint(path, **_fixture())
+    with pytest.raises(ValueError, match="old partial JSON"):
+        _load(path, _fixture())
+    assert partial.read_text(encoding="utf-8") == '{"scanned_samples": 700}'
+
+
+def test_low_ram_and_declared_budget_refuse_before_copy_or_load(tmp_path, monkeypatch):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    checkpoint.save_scan_checkpoint(path, **values)
+    monkeypatch.setattr(torch, "load", lambda *args, **kwargs: pytest.fail("over-budget tensor load"))
+    with pytest.raises((MemoryError, ValueError), match="budget"):
+        _load(path, values, memory_budget_mib=0.001)
+    monkeypatch.setattr("asgcn_unet.diagnostic_resources._snapshot", lambda: {"headroom_bytes": 100})
+    with pytest.raises(MemoryError, match="headroom"):
+        _load(path, values)
+    with pytest.raises(MemoryError, match="headroom"):
+        checkpoint.save_scan_checkpoint(tmp_path / "new", **values)
+
+
+def test_final_sequence_contract_and_schedule_are_required_for_exact_resume(tmp_path):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    checkpoint.save_scan_checkpoint(path, **values)
+    finals = dict(values["sequence_final_indices"])
+    finals[next(iter(finals))] += 1
+    with pytest.raises(ValueError, match="metadata"):
+        _load(path, values, sequence_final_indices=finals)
+    with pytest.raises(ValueError, match="schedule"):
+        _load(path, values, batches=list(reversed(values["batches"])))
+
+
+def test_active_writer_refused_without_deleting_its_lock(tmp_path):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    checkpoint.save_scan_checkpoint(path, **values)
+    with exclusive_artifact_writer(path) as lock:
+        with pytest.raises(ArtifactWriterBusyError):
+            checkpoint.save_scan_checkpoint(path, **values)
+        assert lock.exists()
+
+
+def test_import_and_integrity_inspection_do_not_import_torch(tmp_path):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    checkpoint.save_scan_checkpoint(path, **values)
+    code = ("import sys; from asgcn_unet.stream_scan_checkpoint import inspect_scan_checkpoint; "
+            f"inspect_scan_checkpoint({str(path)!r}, memory_budget_mib=8); assert 'torch' not in sys.modules")
+    result = subprocess.run([sys.executable, "-B", "-c", code], cwd=Path(__file__).resolve().parents[1],
+                            capture_output=True, text=True, check=False)
+    assert result.returncode == 0, result.stderr
+
+
+def test_manifest_cursor_or_filename_tampering_rejected(tmp_path):
+    values = _fixture()
+    path = tmp_path / "checkpoint"
+    manifest = checkpoint.save_scan_checkpoint(path, **values)
+    tampered = copy.deepcopy(manifest)
+    tampered["tensors"]["filename"] = "../other.pt"
+    tampered["commitment_sha256"] = checkpoint._digest({key: value for key, value in tampered.items()
+                                                       if key != "commitment_sha256"})
+    (path / "latest.json").write_text(json.dumps(tampered), encoding="utf-8")
+    with pytest.raises(ValueError, match="file record"):
+        _load(path, values)
+~~~~~~~~
+
+# tests/test_stream_scan_integration.py
+
+~~~~~~~~python
+"""Small synthetic CPU checks; no server, research data, or GPU execution."""
+
+import copy
+import json
+
+import pytest
+import torch
+
+from asgcn_unet import stream_preflight
+from asgcn_unet.batching import SequenceBatchSampler
+from tests.test_stream_preflight import (
+    SyntheticStreams,
+    _config,
+    _fixture_cpu_ram,
+    _fixture_provenance,
+)
+
+
+@pytest.fixture(autouse=True)
+def bounded_threads(monkeypatch):
+    prior = torch.get_num_threads()
+    torch.set_num_threads(1)
+    _fixture_cpu_ram(monkeypatch)
+    yield
+    torch.set_num_threads(prior)
+
+
+def test_observed_memory_impossibility_stops_after_first_complete_batch():
+    dataset = SyntheticStreams(frames=5)
+    config = _config()
+    progress, completed = {}, []
+    with pytest.raises(RuntimeError, match="first proven-impossible batch"):
+        stream_preflight._scan_stream_topology(
+            dataset, config, torch.device("cpu"), list(SequenceBatchSampler(dataset, 2)),
+            top_density_count=3, progress=progress, training_storage_budget_mib=1e-9,
+            on_batch_complete=lambda states, topology, cursor, finals: completed.append(cursor),
+        )
+    assert completed == [1]
+    assert progress["scanned_samples"] == 2
+    assert progress["scan_complete"] is False
+    assert progress["observed_training_storage_floor"]["measured_peak"] is False
+    assert progress["phase_timing_ms"]["total_input_ms"] >= 0
+    # Both two-node lanes are certified complete cells. The full counts still
+    # prove the storage floor, without individual pair-distance evaluations.
+    assert progress["candidate_pairs_visited"] == 0
+    assert progress["bulk_query_blocks"] > 0
+    assert progress["bulk_pairwise_evaluations_avoided"] == 2
+
+
+def test_implicit_storage_does_not_use_materialized_edge_memory_floor():
+    dataset, config = SyntheticStreams(), _config()
+    config["model"]["graph_storage"] = "implicit_radius"
+    progress = stream_preflight._scan_stream_topology(
+        dataset, config, torch.device("cpu"), list(SequenceBatchSampler(dataset, 2)),
+        top_density_count=3, training_storage_budget_mib=1e-9,
+    )
+    assert progress["scan_complete"]
+    assert "observed_training_storage_floor" not in progress
+    materialized = stream_preflight._graph_storage_floor(progress, list(SequenceBatchSampler(dataset, 2)))
+    implicit = stream_preflight._graph_storage_floor(progress, list(SequenceBatchSampler(dataset, 2)), "implicit_radius")
+    assert implicit["bytes"] < materialized["bytes"]
+    assert implicit["total_training_peak_estimate"] is False
+
+
+def test_interrupted_preflight_resumes_raw_checkpoint_without_recounting_prefix(monkeypatch, tmp_path):
+    dataset, config = SyntheticStreams(frames=4), _config()
+    _fixture_provenance(monkeypatch, dataset)
+    original_scan = stream_preflight._scan_stream_topology
+    first_checkpoint = tmp_path / "first-checkpoint"
+    seen_first, seen_resumed = [], []
+
+    def interrupt_after_checkpoint(*args, **kwargs):
+        complete = kwargs["on_batch_complete"]
+        def completed(states, topology, cursor, finals):
+            complete(states, topology, cursor, finals)
+            seen_first.append(cursor)
+            raise KeyboardInterrupt()
+        kwargs["on_batch_complete"] = completed
+        return original_scan(*args, **kwargs)
+
+    monkeypatch.setattr(stream_preflight, "_scan_stream_topology", interrupt_after_checkpoint)
+    with pytest.raises(KeyboardInterrupt):
+        stream_preflight.streaming_training_preflight(
+            config, tmp_path / "interrupted.json", require_cuda=False,
+            profile_samples=1, top_density_count=2, scan_checkpoint_dir=first_checkpoint,
+        )
+    saved = json.loads((tmp_path / "interrupted.json").read_text(encoding="utf-8"))
+    assert saved["status"] == "interrupted" and not saved["report_eligible"]
+    assert seen_first == [1]
+    assert (first_checkpoint / "latest.json").is_file()
+    preserved = (first_checkpoint / "latest.json").read_bytes()
+
+    def observe_resumed(*args, **kwargs):
+        assert kwargs["resume_state"]["completed_batches"] == 1
+        complete = kwargs["on_batch_complete"]
+        def completed(states, topology, cursor, finals):
+            complete(states, topology, cursor, finals)
+            seen_resumed.append(cursor)
+        kwargs["on_batch_complete"] = completed
+        return original_scan(*args, **kwargs)
+
+    monkeypatch.setattr(stream_preflight, "_scan_stream_topology", observe_resumed)
+    report = stream_preflight.streaming_training_preflight(
+        config, tmp_path / "resumed.json", require_cuda=False, profile_samples=1, top_density_count=2,
+        scan_checkpoint_dir=tmp_path / "new-checkpoint", resume_checkpoint=first_checkpoint,
+    )
+    assert report["passed"], report["failure"]
+    assert not report["report_eligible"]
+    assert seen_resumed == [2, 3, 4]
+    assert report["topology"]["resumed_completed_batches"] == 1
+    assert (first_checkpoint / "latest.json").read_bytes() == preserved
+
+
+def test_partial_json_alone_is_not_accepted_as_raw_resume(monkeypatch, tmp_path):
+    dataset, config = SyntheticStreams(), _config()
+    _fixture_provenance(monkeypatch, dataset)
+    partial = tmp_path / "no-state"
+    partial.mkdir()
+    (partial / "stream-profile.json").write_text('{"topology":{"scanned_samples":2}}', encoding="utf-8")
+    report = stream_preflight.streaming_training_preflight(
+        config, tmp_path / "refused.json", require_cuda=False, profile_samples=1, top_density_count=2,
+        resume_checkpoint=partial,
+    )
+    assert not report["passed"] and report["stage"] == "restore_scan_checkpoint"
+    assert report["topology"] is None and report["batch_training_probe"] is None
+
+
+def test_resume_impossible_saved_floor_refuses_before_any_gpu_transfer(monkeypatch):
+    dataset, config = SyntheticStreams(frames=3), _config()
+    batches = list(SequenceBatchSampler(dataset, 2))
+    captured = {}
+    def checkpoint(states, topology, cursor, finals):
+        captured.update(states=states.copy(), topology=copy.deepcopy(topology), completed_batches=cursor)
+    with pytest.raises(RuntimeError, match="first proven-impossible batch"):
+        stream_preflight._scan_stream_topology(
+            dataset, config, torch.device("cpu"), batches, top_density_count=2,
+            on_batch_complete=checkpoint, training_storage_budget_mib=1e-9,
+        )
+    def forbidden(*args, **kwargs):
+        raise AssertionError("The failed resume must not load a next frame")
+    monkeypatch.setattr("asgcn_unet.stream_scan_loader.iter_scan_batches", forbidden)
+    # CPU-only test: reaching any transfer to this fake CUDA device would fail.
+    with pytest.raises(RuntimeError, match="no saved nodes were transferred"):
+        stream_preflight._scan_stream_topology(
+            dataset, config, torch.device("cuda:0"), batches, top_density_count=2,
+            resume_state=captured, training_storage_budget_mib=1e-9,
+        )
+
+
+def test_complete_raw_scan_is_copied_without_scanning_again(monkeypatch, tmp_path):
+    dataset, config = SyntheticStreams(), _config()
+    _fixture_provenance(monkeypatch, dataset)
+    first = tmp_path / "first-checkpoint"
+    report = stream_preflight.streaming_training_preflight(
+        config, tmp_path / "first.json", require_cuda=False, profile_samples=1,
+        top_density_count=2, scan_checkpoint_dir=first,
+    )
+    assert report["passed"], report["failure"]
+    preserved = (first / "latest.json").read_bytes()
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Completed topology must not be recounted")
+    monkeypatch.setattr("asgcn_unet.stream_topology.count_stream_topology_update", forbidden)
+    report = stream_preflight.streaming_training_preflight(
+        config, tmp_path / "second.json", require_cuda=False, profile_samples=1,
+        top_density_count=2, scan_checkpoint_dir=tmp_path / "second-checkpoint", resume_checkpoint=first,
+    )
+    assert report["passed"], report["failure"]
+    assert report["topology"]["resumed_completed_batches"] == 3
+    assert report["scan_checkpoint"]["completed_batches"] == 3
+    assert (tmp_path / "second-checkpoint" / "latest.json").is_file()
+    assert (first / "latest.json").read_bytes() == preserved
+~~~~~~~~
+
+# tests/test_stream_scan_loader.py
+
+~~~~~~~~python
+"""Synthetic CPU-only scan loading tests; no production dataset or GPU runs."""
+
+from __future__ import annotations
+
+import copy
+import os
+
+import h5py
+import numpy as np
+import pytest
+import torch
+from torch.utils.data import Dataset
+
+from asgcn_unet import stream_scan_loader as loading
+from asgcn_unet.stream_input import PHYSICAL_EVENT_TIME_CONTRACT
+
+
+class TinyPhysicalDataset(Dataset):
+    event_time_contract = PHYSICAL_EVENT_TIME_CONTRACT
+    target_channels = 1
+    crop_size = None
+
+    def __init__(self):
+        self.samples = [
+            {"start_idx": index * 3, "end_idx": index * 3 + index % 3,
+             "sensor_size": (2, 3), "sequence_index": index, "scene": str(index % 2)}
+            for index in range(6)
+        ]
+        self.accessed = []
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, index):
+        self.accessed.append(index)
+        count = index % 3
+        return {
+            "events": torch.full((count, 4), float(index), dtype=torch.float64),
+            "event_ids": torch.full((count, 2), index, dtype=torch.long),
+            "target": torch.full((1, 2, 3), float(index), dtype=torch.float32),
+            "sensor_size": (2, 3), "sample_id": str(index),
+            "metadata": {"index": index, "worker_pid": os.getpid(),
+                         "torch_threads": torch.get_num_threads(), "cuda_initialized": torch.cuda.is_initialized()},
+        }
+
+
+@pytest.fixture(autouse=True)
+def single_cpu_thread(monkeypatch):
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    monkeypatch.setattr(loading, "collect_runtime_resources", lambda **kwargs: _resources())
+    yield
+    torch.set_num_threads(previous)
+
+
+def _resources():
+    return {
+        "synthetic_cpu_test_only": True, "allocation_limits_verified": True,
+        "cpu": {"effective_cpu_limit": 8},
+        "memory": {"effective_available_bytes": 1024**3, "process_rss_bytes": 8 * 1024**2},
+    }
+
+
+def _config(workers=0):
+    return {"batch_size": 2, "num_workers": workers, "persistent_workers": True,
+            "prefetch_factor": 2, "pin_memory": False}
+
+
+def _loader(dataset=None, *, start=0, workers=0, batches=None, **options):
+    return loading.iter_scan_batches(
+        TinyPhysicalDataset() if dataset is None else dataset,
+        [[0, 3], [1, 4], [2, 5]] if batches is None else batches,
+        start, torch.device("cpu"), _config(workers), seed=2026, resource_snapshot=_resources(), **options,
+    )
+
+
+def test_schedule_cursor_and_all_events_targets_are_preserved():
+    dataset = TinyPhysicalDataset()
+    with _loader(dataset, start=1) as iterator:
+        assert iterator.plan["start_batch"] == 1 and iterator.plan["schedule_changed"] is False
+        actual = list(iterator)
+    assert [indices for indices, _, _ in actual] == [[1, 4], [2, 5]]
+    assert dataset.accessed == [1, 4, 2, 5]
+    for indices, batch, timing in actual:
+        assert batch.event_counts == tuple(index % 3 for index in indices)
+        for index, sample in zip(indices, batch, strict=True):
+            assert torch.all(sample["events"] == index)
+            assert torch.all(sample["event_ids"] == index)
+            assert torch.all(sample["target"] == index)
+        assert timing["prefetch_wait_ms"] >= 0 and timing["worker_decode_ms"] >= 0
+        assert timing["cpu_collate_and_pin_ms"] >= 0 and timing["host_to_device_ms"] >= 0
+        assert "not_additive" in timing["timing_scope"]
+    assert iterator.closed and iterator.iterator is None
+
+
+def test_exact_completed_cursor_does_not_start_a_dataloader(monkeypatch):
+    monkeypatch.setattr(loading, "DataLoader", lambda **kwargs: pytest.fail("completed cursor cannot spawn"))
+    with _loader(start=3, workers=4) as iterator:
+        assert list(iterator) == []
+        assert iterator.plan["planned_host_bytes"] == 0
+        assert iterator.plan["workers_started"] is False
+
+
+@pytest.mark.parametrize("schedule", [[[0, 3], [1, 4]], [[0, 3], [1, 4], [2, 2]],
+                                      [[0, 3], [1, 4], [2, 8]], [[], [0, 1, 2, 3, 4, 5]],
+                                      [[False, 3], [1, 4], [2, 5]]])
+def test_partial_duplicate_or_rebatched_schedule_is_rejected(schedule):
+    with pytest.raises(ValueError):
+        _loader(batches=schedule)
+
+
+@pytest.mark.parametrize("start", [-1, 4, True])
+def test_invalid_cursor_is_not_silently_reset(start):
+    with pytest.raises(ValueError):
+        _loader(start=start)
+
+
+def test_worker_prefetch_and_pinning_options_are_preserved_without_spawning():
+    iterator = _loader(workers=3)
+    assert iterator.plan["num_workers"] == 3
+    assert iterator.plan["persistent_workers"] is True
+    assert iterator.plan["prefetch_factor"] == 2 and iterator.plan["prefetch_slots"] == 6
+    assert iterator.plan["multiprocessing_context"] == "spawn" and iterator.plan["pin_memory"] is False
+    assert iterator.plan["worker_baseline_estimate_bytes"] == 3 * 8 * 1024**2
+    assert iterator.plan["measured_peak_memory"] is False
+
+
+def test_actual_cpu_allocation_refuses_oversubscription_without_reducing_workers():
+    with pytest.raises(RuntimeError, match="no worker or batch size was reduced"):
+        _loader(workers=8)
+
+
+def test_input_memory_budget_refusal_happens_before_decode_or_spawn(monkeypatch):
+    dataset = TinyPhysicalDataset()
+    monkeypatch.setattr(loading, "DataLoader", lambda **kwargs: pytest.fail("cannot spawn above budget"))
+    with pytest.raises(RuntimeError, match="No worker, prefetch, batch or data was reduced"):
+        _loader(dataset, workers=2, memory_budget_mib=0.01)
+    assert dataset.accessed == []
+
+
+def test_live_ram_reserve_failure_never_advances_consumed_cursor(monkeypatch):
+    with _loader() as iterator:
+        constrained = _resources()
+        constrained["memory"]["effective_available_bytes"] = 1
+        monkeypatch.setattr(loading, "collect_runtime_resources", lambda **kwargs: constrained)
+        with pytest.raises(RuntimeError, match="live RAM reserve"):
+            next(iterator)
+        assert iterator.cursor == 0
+
+
+def test_no_cuda_is_queried_for_cpu_scan(monkeypatch):
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: pytest.fail("CPU scan must not initialize/query CUDA"))
+    monkeypatch.setattr(torch.cuda, "synchronize", lambda *args: pytest.fail("CPU scan cannot synchronize CUDA"))
+    with _loader() as iterator:
+        assert len(list(iterator)) == 3
+
+
+def test_full_resolution_hdf5_metadata_is_used_without_decoding_pixels(tmp_path):
+    path = tmp_path / "synthetic.h5"
+    with h5py.File(path, "w") as handle:
+        handle.create_dataset("images/frame", data=np.zeros((8, 9, 3), dtype=np.uint16))
+    dataset = TinyPhysicalDataset()
+    dataset.crop_size = (2, 3)
+    for record in dataset.samples:
+        record.pop("sensor_size")
+        record.update(path=path, image_key="frame")
+    bounds = loading._sample_memory_bounds(dataset)
+    assert dataset.accessed == []
+    # Even a cropped output retains full-resolution decoding conversion scratch.
+    assert bounds[0][1] >= 8 * 9 * 3 * (4 * 4 + 2)
+
+
+def test_missing_size_contract_fails_instead_of_sampling_a_small_frame():
+    dataset = TinyPhysicalDataset()
+    dataset.samples[2].pop("end_idx")
+    with pytest.raises(ValueError, match="end_idx"):
+        _loader(dataset)
+    assert dataset.accessed == []
+
+
+def test_normal_context_cleanup_closes_its_own_worker_even_on_consumer_error():
+    dataset = TinyPhysicalDataset()
+    with pytest.raises(RuntimeError, match="synthetic consumer failure"), _loader(dataset, workers=1) as iterator:
+        workers = list(iterator.iterator._workers)
+        indices, packed, _ = next(iterator)
+        assert indices == [0, 3]
+        assert packed[0]["metadata"]["worker_pid"] != os.getpid()
+        assert packed[0]["metadata"]["torch_threads"] == 1
+        assert packed[0]["metadata"]["cuda_initialized"] is False
+        assert iterator.cursor == 1  # dispatched prefetch must not advance this cursor
+        raise RuntimeError("synthetic consumer failure")
+    assert all(not worker.is_alive() for worker in workers)
+    assert iterator.closed
+    assert dataset.accessed == []  # decoding occurred only in the spawned CPU process
+
+
+@pytest.mark.parametrize("key,value", [("num_workers", True), ("persistent_workers", "true"),
+                                       ("prefetch_factor", 0), ("pin_memory", "true")])
+def test_loader_flags_are_validated_without_coercion(key, value):
+    config = _config()
+    config[key] = value
+    with pytest.raises(ValueError):
+        loading.iter_scan_batches(TinyPhysicalDataset(), [[0, 3], [1, 4], [2, 5]], 0,
+                                  "cpu", config, seed=2026, resource_snapshot=_resources())
+
+
+def test_config_and_full_schedule_remain_unchanged():
+    config, schedule = _config(), [[0, 3], [1, 4], [2, 5]]
+    originals = copy.deepcopy((config, schedule))
+    with loading.iter_scan_batches(TinyPhysicalDataset(), schedule, 1, "cpu", config,
+                                   seed=2026, resource_snapshot=_resources()) as iterator:
+        list(iterator)
+    assert (config, schedule) == originals
+
+
+def test_windows_unmeasured_job_limits_are_not_assumed_safe(monkeypatch):
+    monkeypatch.setattr(loading.os, "name", "nt")
+    snapshot = _resources()
+    snapshot.pop("allocation_limits_verified")
+    with pytest.raises(RuntimeError, match="Windows Job"):
+        loading.iter_scan_batches(TinyPhysicalDataset(), [[0, 3], [1, 4], [2, 5]], 0,
+                                  "cpu", _config(), seed=2026, resource_snapshot=snapshot)
+
+
+@pytest.mark.parametrize("workers", [0, 1])
+def test_loader_base_seed_does_not_consume_parent_torch_rng(workers):
+    before = torch.random.get_rng_state().clone()
+    with _loader(workers=workers) as iterator:
+        assert iterator.plan["isolated_loader_seed"] == 2026
+        assert len(list(iterator)) == 3
+    assert torch.equal(torch.random.get_rng_state(), before)
+
+
+def test_loader_seed_has_no_implicit_default():
+    with pytest.raises(TypeError, match="seed"):
+        loading.iter_scan_batches(TinyPhysicalDataset(), [[0, 3], [1, 4], [2, 5]], 0,
+                                  "cpu", _config(), resource_snapshot=_resources())
+~~~~~~~~
+
 # tests/test_stream_topology.py
 
 ~~~~~~~~python
@@ -67705,10 +75877,10 @@ def test_single_dense_cell_chunks_candidate_pairs_without_truncation(monkeypatch
     kept = int(mask.sum())
     assert result.union_directed_edges.tolist() == [count * (count - 1)]
     assert result.readout_directed_edges.tolist() == [kept * (kept - 1)]
-    assert result.candidate_pairs_visited == count**2
-    assert result.peak_candidate_pairs == budget
-    assert result.candidate_chunks == (count**2 + budget - 1) // budget
-    assert observed_norm_rows and max(observed_norm_rows) <= budget
+    assert result.candidate_pairs_visited == result.peak_candidate_pairs == result.candidate_chunks == 0
+    assert result.bulk_query_blocks == count
+    assert result.bulk_pairwise_evaluations_avoided == count * (count - 1) // 2
+    assert observed_norm_rows == []
     assert all(getattr(result, field.name).shape == (1,) for field in fields(result)
                if isinstance(getattr(result, field.name), torch.Tensor))
 
@@ -67753,7 +75925,8 @@ def test_no_edges_or_readout_nodes_are_not_substituted():
     result = _count([[0, 0, 0, 0], [5, 5, 5, 0]], mask=[False, False], candidate_pair_budget=1)
     assert result.union_nodes.tolist() == [2]
     assert result.union_directed_edges.tolist() == result.readout_nodes.tolist() == result.readout_directed_edges.tolist() == [0]
-    assert result.candidate_pairs_visited == 2  # Self candidates are examined, never edges.
+    assert result.candidate_pairs_visited == 0  # Isolated cells are bulk-counted, self edges still excluded.
+    assert result.bulk_pairwise_evaluations_avoided == 0
 
 
 def test_inputs_are_unchanged_and_no_autograd_history_is_retained():
@@ -67876,10 +76049,12 @@ def test_incremental_dense_queries_only_changed_endpoints_and_respects_budget(mo
         )
     assert result.union_directed_edges.tolist() == [21 * 20]
     assert result.readout_directed_edges.tolist() == [20 * 19]
-    assert result.candidate_pairs_visited == selected_count * count < count**2
+    assert result.candidate_pairs_visited == 0
     expected_incident_pairs = selected_count * (count - selected_count) + selected_count * (selected_count - 1) // 2
-    assert sum(observed) == expected_incident_pairs
-    assert result.peak_candidate_pairs == budget
+    assert observed == []
+    assert result.bulk_pairwise_evaluations_avoided == expected_incident_pairs
+    assert result.bulk_query_blocks == selected_count
+    assert result.peak_candidate_pairs == 0
     assert cached.tolist() == [old_count * (old_count - 1)]
 
 
@@ -67991,6 +76166,131 @@ def test_inconsistent_cache_failure_does_not_mutate_any_inputs():
         count_stream_topology_update(positions, batches, mask, mask, mask, cached, batch_size=1, radius=1)
     for value, snapshot in zip((positions, batches, mask, cached), snapshots, strict=True):
         torch.testing.assert_close(value, snapshot, rtol=0, atol=0)
+~~~~~~~~
+
+# tests/test_stream_topology_bulk.py
+
+~~~~~~~~python
+"""Tiny CPU exact-count oracles, never real-data throughput certification."""
+
+from __future__ import annotations
+
+import pytest
+import torch
+
+from asgcn_unet import stream_topology as topology
+
+
+@pytest.fixture(autouse=True)
+def bounded_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _brute(positions, batches, mask, *, radius, dimensions, batch_size):
+    coordinates = positions[:, :dimensions].double()
+    distance = torch.linalg.vector_norm((coordinates[:, None] - coordinates[None, :]) / radius, dim=-1)
+    edges = ((distance < 1) & (batches[:, None] == batches[None, :])
+             & mask[:, None] & mask[None, :])
+    edges.fill_diagonal_(False)
+    source = edges.nonzero(as_tuple=True)[0]
+    return torch.bincount(batches[source], minlength=batch_size)
+
+
+@pytest.mark.parametrize("dimensions", [1, 2, 3, 4])
+@pytest.mark.parametrize("seed", range(8))
+def test_incremental_bulk_mixed_cells_lanes_and_masks_matches_pairwise_oracle(dimensions, seed):
+    generator = torch.Generator().manual_seed(seed + 902)
+    # Interleaved old/arrival IDs and independent streams invalidate any shortcut
+    # that assumes old nodes form a prefix, or cells consist of one ownership set.
+    count, batch_size = 37, 4
+    cluster = torch.randint(0, 4, (count,), generator=generator)
+    positions = torch.rand((count, 4), generator=generator, dtype=torch.float64) * 0.08
+    positions[:, 0] += cluster.double() * 1.23
+    batches = torch.randint(0, batch_size - 1, (count,), generator=generator)
+    arrival = torch.rand(count, generator=generator) > 0.65
+    union = torch.rand(count, generator=generator) > 0.15
+    readout = union & (torch.rand(count, generator=generator) > 0.25)
+    options = {"radius": 0.5, "position_dims": dimensions, "batch_size": batch_size,
+               "chunk_size": 3, "candidate_pair_budget": 5}
+    cached = _brute(positions, batches, ~arrival, radius=0.5, dimensions=dimensions, batch_size=batch_size)
+    result = topology.count_stream_topology_update(positions, batches, union, readout, arrival, cached, **options)
+    torch.testing.assert_close(result.union_directed_edges,
+                               _brute(positions, batches, union, radius=0.5, dimensions=dimensions, batch_size=batch_size))
+    torch.testing.assert_close(result.readout_directed_edges,
+                               _brute(positions, batches, readout, radius=0.5, dimensions=dimensions, batch_size=batch_size))
+    assert result.bulk_query_blocks > 0
+    assert result.peak_candidate_pairs <= 5
+
+
+@pytest.mark.parametrize("dimensions", [1, 2, 3, 4])
+def test_bulk_and_forced_exact_fallback_have_identical_counts(monkeypatch, dimensions):
+    generator = torch.Generator().manual_seed(239)
+    positions = torch.rand((73, 4), generator=generator, dtype=torch.float64) * 2.2
+    # Dense subclusters plus uncertain border cells exercise both paths together.
+    positions[:24] *= 0.01
+    batches = torch.arange(73) % 3
+    mask = torch.arange(73) % 4 != 0
+    args = {"batch_size": 3, "radius": 1.0, "position_dims": dimensions,
+            "chunk_size": 7, "candidate_pair_budget": 11}
+    fast = topology.count_stream_topology(positions, batches, mask, **args)
+    with monkeypatch.context() as patch:
+        patch.setattr(topology._BulkCellCounts, "certified_inside",
+                      lambda self, positions, sources, cell_ids, radius, position_dims: torch.zeros_like(cell_ids, dtype=torch.bool))
+        baseline = topology.count_stream_topology(positions, batches, mask, **args)
+    torch.testing.assert_close(fast.union_directed_edges, baseline.union_directed_edges)
+    torch.testing.assert_close(fast.readout_directed_edges, baseline.readout_directed_edges)
+    assert fast.candidate_pairs_visited < baseline.candidate_pairs_visited
+    assert fast.bulk_pairwise_evaluations_avoided > 0
+    assert baseline.bulk_pairwise_evaluations_avoided == 0
+
+
+def test_large_dense_complete_cell_counts_all_edges_without_pair_expansion(monkeypatch):
+    # Deliberately more edges than signed int32, but only 50,000 stored nodes.
+    count = 50_000
+    positions = torch.zeros((count, 4), dtype=torch.float64)
+    batches = torch.zeros(count, dtype=torch.long)
+    mask = torch.arange(count) % 2 == 0
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("A certified complete cell must not evaluate pair distances")
+
+    monkeypatch.setattr(torch.linalg, "vector_norm", forbidden)
+    result = topology.count_stream_topology(positions, batches, mask, batch_size=1, radius=1,
+                                            candidate_pair_budget=1)
+    assert result.union_directed_edges.tolist() == [count * (count - 1)]
+    assert result.readout_directed_edges.tolist() == [(count // 2) * (count // 2 - 1)]
+    assert result.candidate_pairs_visited == result.candidate_chunks == result.peak_candidate_pairs == 0
+    assert result.bulk_query_blocks == count
+    assert result.bulk_pairwise_evaluations_avoided == count * (count - 1) // 2
+
+
+def test_uncertain_one_ulp_radius_boundary_is_not_bulk_certified():
+    inside = torch.nextafter(torch.tensor(1.0, dtype=torch.float64), torch.tensor(0.0)).item()
+    outside = torch.nextafter(torch.tensor(1.0, dtype=torch.float64), torch.tensor(2.0)).item()
+    positions = torch.tensor([[0, 0, 0, 0], [inside, 0, 0, 0],
+                              [1, 0, 0, 0], [outside, 0, 0, 0]], dtype=torch.float64)
+    batches = torch.zeros(4, dtype=torch.long)
+    mask = torch.ones(4, dtype=torch.bool)
+    result = topology.count_stream_topology(positions, batches, mask, batch_size=1, radius=1,
+                                            candidate_pair_budget=2)
+    torch.testing.assert_close(result.union_directed_edges,
+                               _brute(positions, batches, mask, radius=1, dimensions=3, batch_size=1))
+    assert result.candidate_pairs_visited > 0
+
+
+@pytest.mark.parametrize("radius,origin", [(2e200, 1e200), (2e-200, 1e-200)])
+def test_bulk_bounds_preserve_extreme_finite_coordinate_scales(radius, origin):
+    positions = torch.tensor([[origin, 0, 0, 0], [origin * 1.1, 0, 0, 0],
+                              [origin * 1.2, 0, 0, 0]], dtype=torch.float64)
+    batches = torch.zeros(3, dtype=torch.long)
+    mask = torch.ones(3, dtype=torch.bool)
+    result = topology.count_stream_topology(positions, batches, mask, batch_size=1, radius=radius)
+    torch.testing.assert_close(result.union_directed_edges,
+                               _brute(positions, batches, mask, radius=radius, dimensions=3, batch_size=1))
+    assert result.bulk_pairwise_evaluations_avoided == 3
 ~~~~~~~~
 
 # tests/test_summarize_eval.py

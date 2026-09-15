@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-12T09:23:14Z",
+    "generated_utc": "2026-09-15T07:28:37Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "9d4678a0335c7fc4350b5eb16aadde014bdae39d",
-    "source_tree_at_generation": "65cebe3dae39947952295382512f2a5440112734",
+    "source_commit_at_generation": "10f25909de4a3dbf3e4c2b5994bd62176f96a7d7",
+    "source_tree_at_generation": "5be3db0d72083aa93c67b71384b41188fbf99ab0",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -201,9 +201,14 @@
         "sha256": "37fd353fe5840854b0aaeb6164be8becaa3b6d25fbedab051da07cf9727acf7a"
       },
       {
-        "bytes": 9232,
+        "bytes": 22753,
+        "path": "docs/GRAPH_CONSTRUCTION_AUDIT.md",
+        "sha256": "1260b15620efc0cd1a6ad5859c4243cd0fbb574c968e2a30d26b854fc8e56320"
+      },
+      {
+        "bytes": 9457,
         "path": "docs/HIERARCHICAL_ASGCN.md",
-        "sha256": "e02a6bbbe1db2427e448d1a8e812b87da980a425e5550e550229cfb9912cf090"
+        "sha256": "545acdcad20c88671e9dcb2f173bc1543fc773335ffcdaaa259935f7a9d419cb"
       },
       {
         "bytes": 12422,
@@ -254,6 +259,11 @@
         "bytes": 882,
         "path": "pyproject.toml",
         "sha256": "9671f27b47edb302cafc2bd8ad8b9d2d0eb5be24c85f1c38f441887a9e3923f5"
+      },
+      {
+        "bytes": 27875,
+        "path": "scripts/audit_raw_event_graph.py",
+        "sha256": "3307ba35e8c8a8de02c12be1663356d52211b3a7d7b4946cf417eba87327c6a1"
       },
       {
         "bytes": 40507,
@@ -316,9 +326,14 @@
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
-        "bytes": 3583,
+        "bytes": 12324,
+        "path": "scripts/inspect_streaming_graph.py",
+        "sha256": "3035d9562a498a821d22992dac7cafcb1f6c6bb984f4a8bc51c9a917ae498e01"
+      },
+      {
+        "bytes": 3664,
         "path": "scripts/prepare_streaming_experiment.py",
-        "sha256": "6c93c0aa8321decf068e6066e99720f05fe2fe55e08ae826571c63bacb651674"
+        "sha256": "02bc484438403385652cf74c69a753f1cd0981fa8c8690065ce52f624a1b99ab"
       },
       {
         "bytes": 3141,
@@ -471,14 +486,14 @@
         "sha256": "e259ee172a19c33c916cde39ef7ca8423d243b9f4e16d0c7c003e9707f3cc3f9"
       },
       {
-        "bytes": 30472,
+        "bytes": 32970,
         "path": "src/asgcn_unet/data/eventhdr.py",
-        "sha256": "b8bc909026a7824f453d6990a0a01172afac2b9bc9a78c06399d8f06f581c34c"
+        "sha256": "4d96b9bca82379a47987148c261e3f73448b04530825c028c7363f8b33eeffd0"
       },
       {
-        "bytes": 11448,
+        "bytes": 11614,
         "path": "src/asgcn_unet/data/factory.py",
-        "sha256": "5123502b1f7ccc4c206c985ebf0493815158a773b4d5f0fcc4ea20c739a306e4"
+        "sha256": "131e8f84931d65c69117a3ff4e3ef6d1b2ff7da96afd3d13207a442aa13793ba"
       },
       {
         "bytes": 14486,
@@ -556,9 +571,9 @@
         "sha256": "f18ea0defae9382d51e08303df6e9ce6ee556d46c82b0a6cd19118532ee2b7b5"
       },
       {
-        "bytes": 6996,
+        "bytes": 7427,
         "path": "src/asgcn_unet/implicit_stream.py",
-        "sha256": "357053edd304f616564d68eb685a172b2f95a3df52cc73036939703b47c64a76"
+        "sha256": "96a4654a830acf61fd1d03bfba1e5b6a2a04243639b4797d4800bb6892162d4d"
       },
       {
         "bytes": 16670,
@@ -651,9 +666,14 @@
         "sha256": "ce5ce3725e274619e906602ef323675d49a6690b3d2cddfdf08a9d9fac51f33f"
       },
       {
-        "bytes": 14913,
+        "bytes": 6018,
+        "path": "src/asgcn_unet/stream_geometry.py",
+        "sha256": "f87df846a005f2c98f64d68f48096e1c26b70cac8dd2a0b689911b9f50789a36"
+      },
+      {
+        "bytes": 15383,
         "path": "src/asgcn_unet/stream_graph.py",
-        "sha256": "8533da699418ca582a77c99416bccad508685c8dd142049232503bde06e8fcba"
+        "sha256": "cda7ce600ebc6f09998e560bec416aade7f73a0e8e5007baaaf5b3ddac0974b8"
       },
       {
         "bytes": 10889,
@@ -661,14 +681,14 @@
         "sha256": "57074e5be5fb2009ddfb009c5c4b8a5290675b489c7a1e54f068d2d3fc3805d6"
       },
       {
-        "bytes": 9960,
+        "bytes": 10503,
         "path": "src/asgcn_unet/stream_input.py",
-        "sha256": "e9396b0d0f767bd21f64c4e01453d8bd37b06c876167dd58dfbf5f49abd4f242"
+        "sha256": "95027bb603a1c97b7f2bb7e2a54f516a077ca9cc328583ea6c1b8701f36426ea"
       },
       {
-        "bytes": 30035,
+        "bytes": 27638,
         "path": "src/asgcn_unet/stream_model.py",
-        "sha256": "ca7bec384cca78f0d68b5dd4950bfbd355cd836835a8db762ed2655f7be2cd9f"
+        "sha256": "81d42fb8aa5562ccf44c9d3068bd2703951bbf4e275e75ad36dd410c46296235"
       },
       {
         "bytes": 92708,
@@ -896,6 +916,11 @@
         "sha256": "11ef80df4106e856dceb7e9065275278aa6ad99c16df5c6adeaba9e2cfa93764"
       },
       {
+        "bytes": 3983,
+        "path": "tests/test_dataset_input_settings.py",
+        "sha256": "ddaf9113486d3bf9e00cbbfa2b8867969728b552e6335911052400b2a9f9c019"
+      },
+      {
         "bytes": 10345,
         "path": "tests/test_diagnostic_graph.py",
         "sha256": "705020f396f79d6f47bdddab1fba05d8ecb3282dd221c310ded39e0a86e73ca5"
@@ -1071,6 +1096,11 @@
         "sha256": "4f2bde00e6fc80e3e898611e8b6d9319efe63eb83ac204a915b672bec0dbe4a7"
       },
       {
+        "bytes": 9045,
+        "path": "tests/test_inspect_streaming_graph.py",
+        "sha256": "2093fd395fcf67732c3861d77c7170dddd5d0c5e2a8ffae26ca9ba8979b2c527"
+      },
+      {
         "bytes": 5199,
         "path": "tests/test_metrics_ssim.py",
         "sha256": "d4f8e6da6d6ea92f9d70723b34d61016b4230c66d067bfe242329834005c84ae"
@@ -1129,6 +1159,11 @@
         "bytes": 4396,
         "path": "tests/test_radius_candidate_pruning.py",
         "sha256": "865bf5473301d28f7e12d85384af6040da8e0120499f949bb1cc6b377d3781fe"
+      },
+      {
+        "bytes": 24069,
+        "path": "tests/test_raw_graph_audit.py",
+        "sha256": "6a1880306b7dd76bdd4c936a330b47ac2b435cd15a1364cc1477cc3664069505"
       },
       {
         "bytes": 17682,
@@ -1216,6 +1251,11 @@
         "sha256": "b14e85c43b9a6f43af9736c0a635493bda15f55c2a3df292b0bcc68ace53a698"
       },
       {
+        "bytes": 9053,
+        "path": "tests/test_stream_clock_precision.py",
+        "sha256": "b71776205964f4ecf2eb9b275b85ab7d79c270b971ef323008d98c59a0caa2cc"
+      },
+      {
         "bytes": 2721,
         "path": "tests/test_stream_diagnostic_guards.py",
         "sha256": "0af10f34589e5c7833f8e1cbd026f89c89b1fc408ce5b84481fe307c2c561526"
@@ -1234,6 +1274,16 @@
         "bytes": 13045,
         "path": "tests/test_stream_graph.py",
         "sha256": "7fce08d04a55f9f2d97fd4e8beb78f361cf8e4cf60d29db4f4d07362f5b2c9d5"
+      },
+      {
+        "bytes": 11029,
+        "path": "tests/test_stream_graph_input_path.py",
+        "sha256": "0c308dd3cb1caf1d3052fa1060ffa71edfe97d107cbef449f6fdfe851f43217b"
+      },
+      {
+        "bytes": 3381,
+        "path": "tests/test_stream_graph_namespace_regression.py",
+        "sha256": "794ba2f33b8251cb925bdf9d2253d030096eca2851805556635e4f7ebc99f456"
       },
       {
         "bytes": 9207,
@@ -1381,9 +1431,9 @@
         "sha256": "13102c5eba21b14b23bbb932bb0d7a6822f93c34b5c4fa465cd92b01130475d0"
       }
     ],
-    "included_file_count": 273,
+    "included_file_count": 283,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "a545d783acd780f5d4f2a8499c9177a00b116b23ef80a3a46f32de9b7348ac85"
+    "snapshot_sha256": "55ccc7a9ce71f0c1a163898f00218e310d753f1eefb49c0a93c96c4f21b789f9"
   }
 }
 -->
@@ -5989,10 +6039,330 @@ validation 완료 여부와 epoch를 봉인한다. 40 epoch 최종 평가를 이
   설정을 고친 뒤 새 artifact로 실행한다.
 ~~~~~~~~
 
+# docs/GRAPH_CONSTRUCTION_AUDIT.md
+
+~~~~~~~~markdown
+# 그래프 생성 감사: 원 논문 조건과 현재 구현의 구분
+
+최초 감사 기준: 2026-09-12, 실행 코드 `34b0487`. 2026-09-13의 실제 입력 수정은
+마지막 절에 별도로 기록한다. 이 문서는 학습 완료 보고서가 아니다.
+현재 구현을 **ASGCN 저자의 실험 조건과 완전히 동일하다고 판정할 수 없다.**
+현재 반경·시간 축척·샘플링·풀링의 선택을 확인하지 않은 상태에서 대규모
+학습을 재시작하거나, 저장 방식을 바꿨다는 이유로 문제 해결을 주장하면 안 된다.
+
+## 1. 원문에서 확인한 것과 확인하지 못한 것
+
+[ASGCN 원문](https://ojs.aaai.org/index.php/AAAI/article/download/32154/34309)의
+pp.1622–1624, Table 4와 현재 코드를 대조했다.
+
+| 항목 | 원문에서 확인되는 범위 | 현재 구현 / 판정 |
+|---|---|---|
+| 입력 | `(x,y,t,p)` 이벤트 | 해당 형식으로 변환 |
+| 샘플링 | 그래프 생성 전 균일 샘플링 R | sequence ordinal `0,R,2R,...`; R=1이면 전부 유지 |
+| 연결 | 유클리드 거리 `< D`, 무방향 그래프 | 3축 정규화 거리, 양방향 저장/계수 |
+| 좌표 단위 | 사용 축·축척을 확정할 충분한 명세 미확인 | `x/(W-1), y/(H-1), (t-origin)/s_t`는 프로젝트 선택 |
+| 시간 창 | sliding window ΔT | 수치와 경계 정책은 프로젝트의 명시적 선택 |
+| 국소 계산 | 새 노드의 K-hop 영향 범위 | 현재 구현의 실제 연산량은 별도 검증 대상 |
+| 중간 pooling | 평균 feature, 원본 edge의 cluster 연결로 remap | 4층 뒤 pooling, 셀 크기·edge feature 집계는 프로젝트 선택 |
+| 과제 | 이벤트 분류 | U-Net 영상 복원은 별도 응용, 원 실험 재현이 아님 |
+
+Table 4는 N-Cars에서 R=10…80, D=2…9를 비교한다. R=10과 D=2를 모든
+데이터셋의 고정 조건으로 해석하거나, D=2를 곧바로 2픽셀로 해석할 수 없다.
+EventHDR/EventAid에 그대로 적용할 근거도 아니다.
+
+[공식 논문 페이지](https://ojs.aaai.org/index.php/AAAI/article/view/32154),
+[공식 Poster 연결](https://underline.io/lecture/111062-leveraging-asynchronous-spiking-neural-networks-for-ultra-efficient-event-based-visual-processing),
+[교신저자 공식 소개](https://yjsjy.uestc.edu.cn/gmis/jcsjgl/dsfc/dsgrjj/20675?yxsh=08)
+및 제목·저자명 검색에서 저자 구현 저장소나 추가 설정 명세를 확인하지 못했다.
+이는 공개 코드가 어디에도 없다는 증명이 아니다. 동명의 감성분석 ASGCN 코드를
+이 논문의 저자 코드로 사용하지 않는다.
+
+## 2. 현재 코드가 만드는 그래프의 정확한 의미
+
+관련 코드: `data/eventhdr.py`, `data/eventaid_r.py`, `stream_model.py::_prepared`,
+`stream_graph.py`, `implicit_radius.py`, `stream_sampling.py` (모두 `src/asgcn_unet` 아래).
+
+현재 3축 설정에서 서로 다른 노드 i,j의 연결 조건은 다음과 같다.
+
+```text
+((x_i-x_j)/(W-1))² + ((y_i-y_j)/(H-1))² + ((t_i-t_j)/s_t)² < r²
+```
+
+실제 부동소수점 판정은 float64 좌표의 `norm((pos_i-pos_j)/r) < 1`이다.
+경계 등호는 제외한다. polarity는 노드 feature에 있지만 3축 거리에는 없다.
+서로 다른 시퀀스는 연결하지 않고, self-edge는 제외한다. 동일 값의 이벤트가
+원본에 두 행으로 있으면 두 노드이며, 서로의 거리가 0인 연결이 가능하다.
+원본 행을 임의로 중복 제거하지 않는다.
+
+시간 원점은 시퀀스에 고정된다. window가 움직일 때 기존 노드의 좌표를
+다시 min/max 정규화하지 않는다. 노드 feature의 시간은 그 노드가 전달된
+프레임 구간의 시작 기준이고, topology 시간은 고정 시퀀스 원점 기준이다.
+이 둘은 코드에서 서로 다른 용도로 사용된다.
+
+readout 시각 q에서 `t >= q - window_seconds`인 전달 완료 노드가 남는다.
+cutoff와 정확히 같은 이벤트는 유지된다. **EventHDR에서는 타임스탬프만으로
+원본 전체를 자르면 안 된다.** 해당 프레임의 `end_idx`까지 전달된 원본 prefix
+`[0:end_idx)` 안에서 window를 골라야 한다. 공식 predecessor index 방식 때문에
+시각은 readout 이전이지만 아직 해당 프레임에서 전달하지 않은 행이 있을 수 있다.
+
+R은 데이터셋/프레임마다 카운터를 리셋하지 않는 시퀀스 균일 샘플링이다.
+R=1, `max_events=null`, full-resolution/no-ROI 조건에서는 원본 이벤트를 유지한다.
+이 조건은 과거 정적 모델의 8,192 이벤트 제한과 동일하지 않다.
+
+## 3. 왜 수억 edge가 될 수 있는가
+
+다음은 `r=0.08`, `s_t=0.05초`라는 **조건부 기하 계산**이다.
+현재 서버의 설정 파일을 새로 읽어 검증한 측정치가 아니다.
+
+| 센서 크기 W×H | 같은 시각의 x축 한계 | 같은 시각의 y축 한계 | 같은 위치의 시간 차 한계 |
+|---|---:|---:|---:|
+| 320×240 | 25.52 px | 19.12 px | 4 ms |
+| 1180×720 | 94.32 px | 57.52 px | 4 ms |
+
+위 값들은 타원체의 개별 축 절편이며 직육면체 안의 모든 쌍이 연결된다는 뜻은 아니다.
+고정 정규화 반경은 큰 센서에서 더 넓은 픽셀 범위를 연결한다. 50 ms의 노드
+수명과 4 ms의 같은 위치 연결 범위도 서로 다른 양이다.
+
+R=1의 높은 이벤트 밀도와 위 거리 규칙이 결합하면 한 노드의 이웃 수가 커진다.
+노드 수 N, 평균 차수 d의 양방향 edge 수는 `N*d`이다. 같은 graph를
+무방향 한 쌍씩 세면 그 절반이다. 저장 방식이 `implicit_radius`여도 이 수는
+줄지 않는다. SNN의 spike가 희소해도 정의된 graph 자체의 차수가 자동 감소하지 않는다.
+4층 뒤 pooling은 첫 4층이 보는 raw graph를 없애지 않는다.
+
+사용자가 제공한 과거 v3 보고서의 raw readout은 424,096,036 directed edges,
+prefix-union 상한은 440,677,422였다. 상한은 실제 한 arrival prefix의 측정 최대와
+다르다. 현재 v4의 182-batch 로그는 topology 구간 1,151,127 ms / batch wall
+1,155,176 ms로 약 99.65%이다. 이는 graph 관련 구간이 병목이라는 근거이지
+순수 CUDA kernel 시간이나 GPU utilization 측정은 아니다. 이 감사에서 속도 문제가
+해결되었다고 주장하지 않는다.
+
+## 4. 원본 데이터의 시간 단위 확인
+
+### EventHDR: 저자 입력 코드가 초 단위를 뒷받침함
+
+[저자 loader의 고정 revision](https://github.com/yunhao-zou/EventHDR/blob/151d0b6d05dfc39d0acce276796a30e9ac3ac5ac/data_loader/dataset.py)은
+원본 `events/ts`와 image timestamp를 별도 배율 없이 읽고, 원본 시간에
+초 단위 구간을 더한다. [공식 README](https://github.com/yunhao-zou/EventHDR)가
+연결하는 [rosbag 변환 코드](https://github.com/TimoStoff/event_utils/blob/dc0a0712156bb0c3659d90b33e211fa58a83a75f/lib/data_formats/rosbag_to_h5.py)는
+`secs + nsecs/1e9`로 이벤트와 프레임 시간을 만든다.
+[H5 packager](https://github.com/TimoStoff/event_utils/blob/dc0a0712156bb0c3659d90b33e211fa58a83a75f/lib/data_formats/event_packagers.py)는
+이를 그대로 저장한다. 따라서 이 형식의 두 배율 1.0을 뒷받침하는 근거가 있다.
+모든 배포 파일의 실제 생성 revision까지 입증한 것은 아니다.
+
+로컬 `data/EventHDR/train/26.h5`의 제한된 metadata/원본 slice 확인 결과:
+events 1,118,211개, ts float64, 약 1.000001초 구간, image 간격 약 0.002초,
+센서 320×240이다. 이는 저자 코드와 일치하지만 전체 서버 데이터 검사 결과는 아니다.
+
+### EventAid-R: 필드명은 단위의 증거가 아님
+
+[공식 배포 페이지](https://sites.google.com/view/eventaid-benchmark)에서 이번 조사로
+시간 단위 명세/변환 코드를 확인하지 못했다. 로컬 R-bear의 frame/event 시간은
+공유하는 정수 기반으로 보이지만, 그것만으로 마이크로초를 증명할 수 없다.
+우리 코드의 `t0_us/t1_us`라는 이름도 독립적인 근거가 아니다.
+따라서 `1e-6`의 author-format 근거는 **미확인**으로 남긴다.
+두 시계를 같은 잘못된 배율로 변환해도 내부 정합성 검사는 통과할 수 있다.
+
+[저자 공개 논문 미러](https://liboyu02.github.io/assets/pdf/Duan_TPAMI25.pdf)의
+동기화·timestamp 대응 설명과 [arXiv 원문](https://arxiv.org/html/2312.08220)에서도
+배포 TXT 열의 저장 단위는 확인하지 못했다. 저자 출판 목록이 연결한 보충자료는
+읽기 실패/HTTP 403으로 내용을 확인하지 못했다. 센서 응답 정밀도나 FPS는 저장
+단위의 증명이 아니다.
+
+로컬 R-bear의 PNG는 1265×705로, 모든 Aid를 1180×720으로 취급해서는 안 된다.
+일부 연속 동일 이벤트 행도 확인했지만 전체 중복 빈도는 측정하지 않았다.
+
+## 5. 학습과 분리한 원본 graph 진단
+
+`scripts/audit_raw_event_graph.py`는 명시적으로 지정한 EventHDR H5의 한 readout을
+진단한다. 모델, checkpoint, U-Net, CUDA, 학습, SSH 또는 웹 서버를 실행하지 않는다.
+R=1의 전체 전달 완료 window를 후보 노드 집합으로 유지하고, 사용자가 지정한
+query 노드의 이웃을 production radius index와 독립적인 전 후보 거리 계산으로
+대조한다. query 수를 줄이는 것은 **진단 범위 제한**이지 실제 graph의 node/edge cap이 아니다.
+
+결과에는 원본 행 번호, raw/seconds/정규화 시간, 위치, 이웃 ID와 거리,
+query별 차수, 실제 검사 범위가 포함된다. 전체 directed edge 수를 계산하지 않았다면
+`null`로 기록한다. 한 query/한 window의 통과를 전체 graph, 전체 데이터,
+비동기 state update, 모델 정확도 또는 논문 완전 재현으로 보고하지 않는다.
+항상 `report_eligible=false`, `paper_exact=false`인 diagnostic 결과이다.
+
+원본 값 상세는 query와 그 이웃에 대해 기록한다. 나머지 노드도 후보 검사에는
+포함되지만 JSON 상세에서는 생략된다. 3축 topology만 검사하므로 프레임별 polarity
+정규화나 전체 모델 feature의 동등성을 보증하지 않는다. 원본 integer timestamp는
+JSON에서 보존하고, 서로 다른 연속 시간이 float64 변환에서 합쳐지면 거부한다.
+파일 크기·수정 시각은 metadata identity이며 내용 hash가 아니다. 코드 hash도 명시한
+진단/geometry 파일들의 부분 식별자이며 전체 실행 소스의 증명이 아니다.
+
+실행 인자는 원본 파일/프레임, 두 시간 배율, 시간 창, 시간 축척, 반경,
+query 선택, CPU thread, RAM budget/reserve와 새 output을 명시한다.
+`--help`로 실제 인자를 확인한다. EventAid까지 검증한다고 표현하지 않는다.
+출력은 새 파일만 생성하며 기존 실험/원본/output을 덮어쓰지 않는다.
+원본 metadata를 확인한 뒤 decode/전체 window 배치 전에 메모리 계획을 검사한다.
+
+현재 로컬 Windows 환경에서는 기존 안전 검사에서 Job Object 소속은 확인되지만
+중첩 RAM/CPU 제한을 검증할 수 없어 실제 데이터 실행이 거부되었다.
+이 보호를 우회하거나 실제 실행에 resource mock을 적용하지 않는다.
+작은 synthetic CPU tests의 통과와 실제 원본 graph 진단 완료를 구분한다.
+
+2026-09-12 최초 진단의 검증 상태 (후속 수정의 테스트 수는 마지막 절과 별개):
+
+- 새 진단의 synthetic CPU tests: 26개 통과 (저장/복원 predecessor 인덱스 포함).
+- 기존 radius/input/EventHDR topology/resource 회귀 tests: 193개 통과.
+- 변경 Python 파일 Ruff, CLI `--help`, diff whitespace 검사: 통과.
+- 실제 원본 graph 실행: Windows 자원 검사에서 거부; 미완료.
+- 전체 학습/평가, CUDA 측정, 저자 실험 재현: 실행하지 않음 / 미검증.
+- 서버 작업, 기존 실험 종료/삭제/덮어쓰기, commit/push: 수행하지 않음.
+
+## 6. 다음 판단의 조건
+
+1. 실제 데이터의 단위와 해당 실행 config를 확정한다. EventAid 단위 미확인을 숨기지 않는다.
+2. 한 raw window의 좌표·경계·이웃 연결부터 검증하고 실제 N/차수를 읽는다.
+3. 원 논문 조건을 확정할 추가 자료가 없으면 연구용 복원 adaptation의 거리/샘플링
+   선택을 별도로 정당화하고 사용자 승인을 받는다. 임의로 R=10이나 작은 반경을 적용하지 않는다.
+4. 이후에만 전체 구조의 correctness와 자원 측정으로 진행한다. 작은 진단 통과는
+   기존 full preflight/학습 계약의 면제 사유가 아니다.
+
+최초 9월 12일 변경은 기존 `src`/모델/학습 config를 수정하지 않았다. 진단을 `scripts`에
+분리해 `src/**/*.py` 기반 source hash에 포함시키지 않는다. Git revision까지 포함한
+실행 식별자는 별개이므로, 실행 중인 서버에 자동 pull/push하거나 checkpoint 호환을
+임의 보장하지 않는다. 기존 실험의 중단·삭제·재시작은 수행하지 않았다.
+
+## 7. 2026-09-13: 실제 입력 수정과 설정 기반 진단 전환
+
+### 실제 입력 경로 수정
+
+`stream_input.to_physical_seconds`가 먼저 float64로 변환하면 원본의 서로 다른 큰
+정수 시간이 같은 값이 되는 경우를 검사에서 놓쳤다. 원본 dtype/값의 차이를
+보존한 상태로 시간 변환을 검사하도록 수정했다. EventHDR의 원본 이벤트 읽기,
+프레임 timestamp attribute, 경계 인덱스 검사 및 인덱스 복원 청크 경계도 포함한다.
+정상적으로 표현 가능한 입력의 시간 배율·출력 좌표·프레임 인덱스 정책은 유지한다.
+원본의 서로 다른 시간이 합쳐지는 경우에만 명시적으로 거부하며, 시간 offset을
+추측하거나 이벤트를 합치고 버리는 방법으로 처리하지 않는다.
+
+또한 같은 EventHDR 시퀀스의 H/W가 바뀌면 학습 측 상태 초기화와 scanner의
+이전 좌표 재사용이 달라질 수 있었다. 물리 스트리밍 입력에서는 한 H5 안의
+모든 프레임 H/W가 같은지 이미지 metadata만으로 확인하고, 다르면 그래프 계산 전에
+명시적으로 거부한다. 건너뛰는 프레임도 검사한다. 리사이즈·노드 삭제·조용한 상태
+초기화를 적용하지 않는다. 기존 비스트리밍 입력의 가변 크기 지원은 유지한다.
+실제 데이터에서 해상도가 변한다고 확인된 것은 아니다.
+
+이 검사는 실제 `src` 경로의 수정이다. **소스 해시가 달라지므로 기존 preflight나
+정확 재개 기록을 새 코드의 검증 결과로 재사용하면 안 된다.** 기존 기록과 checkpoint는
+보존한다. 이 수정이 관측된 수억 edge의 원인이나 성능 문제를 해결했다는 뜻은 아니다.
+EventAid TXT가 float64로 이미 파싱된 뒤에는 원본 문자열 단계의 정밀도 손실을
+이 공통 helper만으로 복구/검증할 수 없다. 그 경로의 전체 단위·직렬화 검증 완료를
+주장하지 않는다.
+
+### 현재 학습 설정을 그대로 읽는 진단
+
+`scripts/inspect_streaming_graph.py`는 기존 training JSON을 읽어 다음 값을 전달한다.
+
+- `model.graph_radius`, `model.stream_config.window_seconds`, `time_scale_seconds`
+- dataset의 event/frame 시간 배율 및 training root
+- 명시적으로 선택한 파일과 파일 내부 프레임 번호
+
+지원 범위는 현재 R=1, 3축, 전체 센서, frame_stride=1인 EventHDR 물리 스트리밍이다.
+다른 설정이면 R/반경/해상도를 자동 대체하지 않고 이유를 밝히고 거부한다. 분할
+manifest 또는 `allowed_files`에 포함된 파일인지 확인한다. 설정과 manifest hash는
+진단 전후에 확인하고 결과에 기록한다. 전체 분할 재검증이나 학습 인증은 아니다.
+
+아래는 이 코드가 서버에 배포된 뒤 저장소 루트에서 실행하는 **진단 예시**다.
+`26.h5`의 25번 프레임은 검사 대상 선택이지 최종 학습 데이터 축소가 아니다.
+반경이나 시간 배율을 이 명령에서 다시 정하지 않는다.
+
+```bash
+python -B scripts/inspect_streaming_graph.py --config runs/streaming-v4-34b0487/configs/train.json --source-file 26.h5 --frame-index 25 --cpu-threads 4 --memory-budget-mib 1024 --reserve-memory-mib 1024
+```
+
+이 실행은 새 `runs/graph-inspection-*/graph.json`만 생성한다. 기존 학습을 실행,
+재개 또는 종료하지 않는다. GPU 번호를 설정하거나 SSH/웹 서버를 열지 않는다.
+CPU/RAM 검사가 거부하면 이를 우회하지 않는다.
+
+진단 완료 시 터미널의 `GRAPH_INSPECTION_SUMMARY` 아래에 노드 수, 검사한 query별
+이웃 수와 일치 여부, 경과 시간을 출력한다. 거대한 이웃 목록을 채팅에 복사할 필요가 없다.
+기본 실행의 전체 edge 수 `null`은 미측정이지 0이 아니다. 원본 행/이웃 전체 추적은
+같은 새 결과 폴더의 `graph.json`에 보존한다.
+
+### 전체 윈도우 차수의 명시적 검사
+
+`--count-all-nodes`를 추가하면 같은 한 윈도우의 모든 노드 차수를 집계한다.
+`full_count`에 N, directed/undirected E, 최소·평균·최대 차수, 고립 노드 수,
+집계 시간과 candidate 작업량을 기록한다. 엣지 배열 전체를 보관하지 않으며,
+선택된 query의 차수는 독립 거리 oracle 결과와 다시 비교한다. 전체 노드에 대한
+독립 oracle 비교가 아니므로 `full_graph_oracle_verified=false`이다.
+
+전체 차수 집계는 실제 E에 비례한 시간이 들 수 있다. 기본 선택-query 검사에
+몰래 추가하지 않고 opt-in으로 분리했다. 미측정 전체 E는 계속 null이며, 고립 노드가
+없는 것처럼 0을 반환하지 않는다. 빈 그래프를 실제 집계했을 때만 N=E=0이며
+차수 최소/평균/최대는 null이다. 어느 경우에도 full-training preflight가 아니다.
+
+### 이번 수정의 검증 상태
+
+최종 수정본에서 합성 CPU 회귀 테스트 488개가 통과했다. 입력/시간/해상도 경계,
+radius·topology·preflight, 실제 forward를 사용하는 합성 모델 테스트,
+학습 상태와 checkpoint/scan 재개 테스트, 두 진단 실행기의 테스트를 포함한다.
+변경 Python 파일의 Ruff와 whitespace 검사, 실행기 `--help`도 통과했다.
+이는 실제 데이터 학습·평가나 CUDA 측정이 아니다. 기존 Windows 자원 검사
+제약을 우회하지 않았으며, 실제 원본 graph 진단·저자 조건 동등성·관측된 dense
+graph의 처리 속도 개선은 여전히 검증되지 않았다. 기존 모델 폭/깊이, 반경,
+시간 창, R, 해상도, 데이터 및 학습 epoch/physical batch 설정은 변경하지 않았다.
+
+## 8. 2026-09-15: 검사 도구가 아닌 실제 생성 경로 수정
+
+`stream_geometry.physical_node_positions`와 `prepare_stream_nodes`가 실제 모델의
+원본 이벤트 검증·고정 좌표 변환을 담당한다. 모델 `_prepared`와 preflight는 이 경로를
+사용하며, raw 진단의 별도 좌표 수식도 제거해 같은 좌표 빌더를 호출한다. 이벤트별
+그룹 라벨은 Python 리스트로 확장하지 않고 packed tensor에서 한 번에 만든다.
+정상 입력의 기존 거리 수식과 노드 선택은 유지한다. 입력 float64를 조용히 복구한
+것처럼 취급하지 않으며, float32 feature overflow는 graph 생성 전에 거부한다.
+
+생성 및 입력 경로에서 확인한 다음 결함을 수정했다.
+
+- 이전 materialized graph가 독립 stream을 가로질러 연결되어 있으면 거부한다.
+- implicit graph 내부 stream ID와 바깥 상태 ID가 다르면 cached degree를 재사용하지 않는다.
+- 모델이 scanner와 마찬가지로 이전 readout보다 앞에서 시작하는 겹친 frame interval을
+  거부한다. EventHDR의 원본 predecessor index에 따른 지연 전달 이벤트는 계속 허용한다.
+- factory가 명시적인 `random_crop=False`를 무시하지 않는다. 미지정 때의 split 기본값은
+  유지한다. EventHDR의 잘못된 frame_stride는 int 변환/1로 clamp하지 않고 거부한다.
+- 설정 기반 진단은 target normalization/channel/tone map 설정도 실제 loader에 전달한다.
+
+현재 전체 센서·R=1·stride=1인 실행의 반경/시간 창/모델/학습 batch는 바꾸지 않았다.
+이 수정들이 서버의 수억 edge를 유발했다고 확인된 것은 아니다. 거리·시간 단위를
+원문과 동일하다고 새로 인증하지 않으며, 반경을 pixel로 재해석하거나 R을 임의로
+높이지 않는다. `r=0.08, s_t=0.05`의 축 절편은 앞 절의 값 그대로다.
+
+### 실제 생성 경로를 사용하는 합성 CPU 회귀
+
+`tests/test_stream_graph_input_path.py`는 작은 synthetic HDF5를 실제 EventHDR 로더와
+6층·64채널 모델에 넣는다. 저장/복원 predecessor index, v3/v4, materialized/implicit,
+ANN 학습-mode/inference-mode의 16가지 조합에서 각 readout의 **실제 persistent graph**
+노드·전체 edge·거리·degree를 원본 전달 prefix에서 독립적으로 계산한 all-pairs oracle과
+대조한다. 별도 2가지 v4 storage 테스트는 실제 `_update` 호출을 관찰해 같은 timestamp의
+arrival 직후와 expiry/readout 직후도 모두 비교한다. empty interval과 cutoff equality,
+아직 전달하지 않은 predecessor 행도 포함한다. 초기화/도착/만료를 테스트용 다른 builder로
+대체하지 않는다. 작은 합성 입력은 correctness 검사이며 데이터셋 축소 학습이 아니다.
+
+이 테스트는 원본 서버 데이터의 밀도·시간 단위·GPU 처리량이나 저자 실험 동등성의
+검증이 아니다. Windows 실제 데이터 자원 검사 제한은 우회하지 않았다. 기존 실험과
+checkpoint는 보존하며, 수정 전 source hash의 preflight를 새 코드 인증으로 재사용하지 않는다.
+
+최종 검증: 위 생성 경로 테스트와 입력/namespace/반경/preflight/모델/학습 상태 및
+checkpoint 회귀를 포함한 합성 CPU 테스트 **588 passed (50.95s)**. 변경 Python 파일의
+Ruff와 `git diff --check` 통과. 첫 sandbox 실행은 585 passed/1 failed였으며 실패는
+기존 provenance 검사의 Git subprocess stdout 읽기에서 Windows 파일/pipe 오류가 난
+경우였다(초기 access-violation 진단도 출력됨). 소스나 assertion을 우회하지 않고 로컬
+실행 권한을 사용해 동일 회귀에 arrival-prefix 2개를 더한 최종 실행은 588개 모두
+통과했고 해당 런타임 진단이 재출력되지 않았다. 실제 데이터/GPU/전체 학습·평가,
+commit/push, 서버 작업 중단·재시작은 수행하지 않았다.
+~~~~~~~~
+
 # docs/HIERARCHICAL_ASGCN.md
 
 ~~~~~~~~markdown
 # Hierarchical ASGCN reconstruction (architecture v4)
+
+For the source-by-source graph geometry and raw clock audit, see
+[Graph construction audit](GRAPH_CONSTRUCTION_AUDIT.md). Paper hyperparameter
+equivalence and full real-data correctness are not established by this document.
 
 ## What is now connected
 
@@ -9103,6 +9473,507 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+~~~~~~~~
+
+# scripts/audit_raw_event_graph.py
+
+~~~~~~~~python
+"""Selected-query audit of one real uncapped EventHDR window; no training/GPU.
+
+This script is intentionally outside the production package/source commitment.
+Heavy imports occur only after the existing fail-closed resource preflight.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import math
+import os
+import sys
+import time
+from pathlib import Path
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / "src"))
+
+from asgcn_unet.diagnostic_resources import preflight
+
+
+def _positive(value, name):
+    if (isinstance(value, bool) or not isinstance(value, (int, float))
+            or not math.isfinite(value) or value <= 0):
+        raise ValueError(f"{name} must be finite and positive")
+
+
+def _integer(value, name, minimum=0):
+    if type(value) is not int or value < minimum:
+        raise ValueError(f"{name} must be an integer >= {minimum}")
+    return value
+
+
+def _code_identity():
+    """Bounded hashes of explicitly named diagnostic/geometry files, not a full tree."""
+    names = ["scripts/audit_raw_event_graph.py", "src/asgcn_unet/implicit_radius.py",
+             "src/asgcn_unet/radius_candidates.py", "src/asgcn_unet/stream_graph.py",
+             "src/asgcn_unet/data/eventhdr.py", "src/asgcn_unet/data/common.py",
+             "src/asgcn_unet/stream_input.py", "src/asgcn_unet/stream_geometry.py",
+             "src/asgcn_unet/diagnostic_resources.py",
+             "src/asgcn_unet/resources.py"]
+    hashes = {}
+    for name in names:
+        path = PROJECT / name
+        if path.stat().st_size > 1024**2:
+            raise MemoryError("Diagnostic code identity exceeds its 1-MiB per-file read budget")
+        hashes[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return {"kind": "partial_code_identity", "complete_source_tree": False,
+            "script_sha256": hashes[names[0]], "file_sha256": hashes}
+
+
+def select_window_rows(raw_timestamps, *, timestamp_scale_to_seconds,
+                       readout_seconds, window_seconds):
+    """Filter only the DELIVERED prefix; retain cutoff equality and duplicate rows."""
+    import numpy as np
+
+    from asgcn_unet.stream_input import to_physical_seconds
+
+    _positive(timestamp_scale_to_seconds, "timestamp_scale_to_seconds")
+    _positive(window_seconds, "window_seconds")
+    if not math.isfinite(readout_seconds):
+        raise ValueError("readout_seconds must be finite")
+    original = np.asarray(raw_timestamps)
+    if (original.ndim != 1 or original.dtype.kind not in "iuf"
+            or not np.all(np.isfinite(original)) or np.any(original[1:] < original[:-1])):
+        raise ValueError("Delivered prefix timestamps must be finite and chronological")
+    raw = np.asarray(original, dtype=np.float64)
+    if np.any((original[1:] != original[:-1]) & (raw[1:] == raw[:-1])):
+        raise ValueError("Float64 timestamp conversion loses distinct source timestamp resolution")
+    seconds = to_physical_seconds(raw, timestamp_scale_to_seconds, source="selected prefix")
+    if np.any(seconds > readout_seconds):
+        raise ValueError("Delivered prefix includes events after the declared readout")
+    rows = np.flatnonzero(seconds >= readout_seconds - window_seconds)
+    return rows.astype(np.int64, copy=False), seconds[rows]
+
+
+def normalized_positions(events, sensor_size, *, origin_seconds, time_scale_seconds):
+    """Use the model's production geometry; do not reimplement its transform."""
+    import torch
+
+    from asgcn_unet.stream_geometry import physical_node_positions
+
+    return physical_node_positions(
+        torch.as_tensor(events, dtype=torch.float64, device="cpu"), sensor_size,
+        origin_seconds=origin_seconds, time_scale_seconds=time_scale_seconds,
+    )
+
+
+def query_neighbors(positions, raw_ids, query_indices, *, radius, candidate_pair_budget, index=None):
+    """Compare selected incoming queries with ALL sources using independent brute force."""
+    import torch
+
+    from asgcn_unet.implicit_radius import ImplicitRadiusIndex
+
+    _positive(radius, "radius")
+    _integer(candidate_pair_budget, "candidate_pair_budget", 1)
+    if positions.device.type != "cpu" or positions.dtype != torch.float64:
+        raise ValueError("Query audit requires float64 CPU positions")
+    ids = torch.as_tensor(raw_ids, dtype=torch.long, device="cpu")
+    if ids.shape != (len(positions),) or ids.unique().numel() != ids.numel():
+        raise ValueError("raw_ids must identify every node uniquely")
+    queries = [_integer(value, "query index") for value in query_indices]
+    if len(set(queries)) != len(queries) or any(value >= len(positions) for value in queries):
+        raise ValueError("Query indices must be unique and inside the complete window")
+    if index is None:
+        index = ImplicitRadiusIndex(
+            positions, torch.zeros(len(positions), dtype=torch.long), batch_size=1,
+            radius=radius, position_dims=3, chunk_size=1,
+            candidate_pair_budget=candidate_pair_budget,
+        )
+    elif (not isinstance(index, ImplicitRadiusIndex) or index.positions is not positions
+          or index.radius != radius or index.position_dims != 3 or index.batch_size != 1):
+        raise ValueError("Reused query index does not match this complete window geometry")
+    results = []
+    for query in queries:
+        sources, distances, stats = [], [], {}
+        for source, destination, distance in index.iter_directed_neighbors(
+            torch.tensor([query]), stats=stats,
+        ):
+            if not bool((destination == query).all()):
+                raise RuntimeError("Production query returned a different destination")
+            sources.append(source)
+            distances.append(distance.flatten())
+        actual = torch.cat(sources) if sources else torch.empty(0, dtype=torch.long)
+        actual_distance = torch.cat(distances) if distances else torch.empty(0, dtype=torch.float64)
+        order = actual.argsort()
+        actual, actual_distance = actual[order], actual_distance[order]
+        # The oracle uses no production cell index, candidate filter, or degree.
+        oracle_distance = torch.linalg.vector_norm(
+            (positions[:, :3] - positions[query, :3]) / radius, dim=1,
+        )
+        mask = oracle_distance < 1
+        mask[query] = False
+        expected = torch.nonzero(mask, as_tuple=True)[0]
+        if (not torch.equal(actual, expected)
+                or not torch.equal(actual_distance, oracle_distance[expected])):
+            raise RuntimeError(f"Production query differs from brute-force oracle: {query}")
+        results.append({
+            "node_index": query, "raw_row_id": int(ids[query]),
+            "in_degree": len(actual), "all_window_sources_checked": len(positions),
+            "oracle_match": True, "production_work": stats,
+            "neighbors": [
+                {"node_index": int(node), "raw_row_id": int(ids[node]),
+                 "distance_over_radius": distance, "distance": distance * radius}
+                for node, distance in zip(actual.tolist(), actual_distance.tolist(), strict=True)
+            ],
+        })
+    return results
+
+
+def count_all_degrees(index):
+    """Count all production incoming queries with O(N) degrees, never retain E edges.
+
+    This is explicitly O(E) query work in the dense case, not the bulk total-only
+    topology counter. It is not an independent full-graph oracle.
+    """
+    import torch
+
+    from asgcn_unet.implicit_radius import ImplicitRadiusIndex
+
+    if (not isinstance(index, ImplicitRadiusIndex) or index.positions.device.type != "cpu"
+            or index.positions.dtype != torch.float64 or index.batch_size != 1
+            or index.position_dims != 3):
+        raise ValueError("Full degree audit requires one complete float64 CPU window index")
+    count = len(index.positions)
+    degrees = torch.zeros(count, dtype=torch.long)
+    stats = {}
+    started = time.perf_counter()
+    for source, destination, distance in index.iter_directed_neighbors(stats=stats):
+        degrees.index_add_(0, destination, torch.ones_like(destination))
+        # Only the current bounded chunk is retained, never a whole E-sized list.
+        del source, destination, distance
+    total = int(degrees.sum())
+    if (total % 2 or total > count * max(0, count - 1)
+            or bool((degrees < 0).any()) or bool((degrees >= max(count, 1)).any())):
+        raise RuntimeError("Full radius degree count violates no-self/symmetric graph invariants")
+    return degrees, {
+        "nodes": count, "directed_edges": total, "undirected_edges": total // 2,
+        "degree_min": int(degrees.min()) if count else None,
+        "degree_mean": total / count if count else None,
+        "degree_max": int(degrees.max()) if count else None,
+        "isolated_nodes": int((degrees == 0).sum()),
+        "count_time_s": time.perf_counter() - started,
+        "production_work": stats, "all_nodes_counted": True,
+        "edge_list_materialized": False, "full_graph_oracle_verified": False,
+        "method": "production index iter_directed_neighbors + incoming degree index_add_",
+        "scope": "All nodes of this one selected delivered window, not the whole dataset",
+        "complexity_note": "Potentially O(E) time; O(N) degree storage plus bounded candidate scratch",
+        "symmetry_check": "Even directed total under the symmetric radius rule; not a reciprocity proof",
+    }
+
+
+def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scale_seconds,
+                          radius, timestamp_scale_to_seconds, interval_timestamp_scale_to_seconds,
+                          cpu_threads, memory_budget_bytes, reserve_memory_bytes, query_indices=None,
+                          count_all_nodes=False, target_options=None):
+    """Preserve every R=1 event in one explicit frame's delivered physical window."""
+    audit_started = time.perf_counter()
+    if type(count_all_nodes) is not bool:
+        raise TypeError("count_all_nodes must be an explicit boolean")
+    if target_options is None:
+        target_options = {}
+    if (not isinstance(target_options, dict) or set(target_options) - {
+            "target_channels", "target_normalization", "tone_map", "tone_map_mu"}):
+        raise ValueError("Only explicit target-reader settings can be forwarded")
+    for value, name in ((window_seconds, "window_seconds"), (time_scale_seconds, "time_scale_seconds"),
+                        (radius, "radius"), (timestamp_scale_to_seconds, "timestamp_scale_to_seconds"),
+                        (interval_timestamp_scale_to_seconds, "interval_timestamp_scale_to_seconds")):
+        _positive(value, name)
+    _integer(frame_index, "frame_index")
+    _integer(memory_budget_bytes, "memory_budget_bytes", 1)
+    _integer(reserve_memory_bytes, "reserve_memory_bytes", 1)
+    _integer(cpu_threads, "cpu_threads", 1)
+    resource = preflight(budget_bytes=memory_budget_bytes, reserve_bytes=reserve_memory_bytes,
+                         cpu_threads=cpu_threads)
+    overhead = 256 * 1024**2
+    if memory_budget_bytes < overhead:
+        raise MemoryError("Budget is below the explicit 256-MiB library/index planning allowance")
+    # Only this new CPU diagnostic process's thread pools are configured.
+    for key in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
+        os.environ[key] = str(cpu_threads)
+    import h5py
+    import numpy as np
+    import torch
+
+    from asgcn_unet.data.common import normalize_polarity
+    from asgcn_unet.data.eventhdr import EventHDRDataset, _validate_event_values
+    from asgcn_unet.implicit_radius import ImplicitRadiusIndex
+    from asgcn_unet.stream_input import PHYSICAL_EVENT_TIME_CONTRACT, to_physical_seconds
+
+    torch.set_num_threads(cpu_threads)
+    path = Path(source_file).expanduser().resolve(strict=True)
+    if not path.is_file() or path.suffix.lower() not in {".h5", ".hdf5"}:
+        raise ValueError("source_file must be one explicit EventHDR HDF5 file")
+    source_stat = path.stat()
+    estimates = []
+
+    def guard(estimate, stage):
+        estimates.append({"stage": stage, "estimated_working_bytes": estimate})
+        if estimate > memory_budget_bytes:
+            raise MemoryError(f"{stage}: planned {estimate:,} bytes exceeds budget "
+                              f"{memory_budget_bytes:,}; no graph reduction was applied")
+        preflight(budget_bytes=memory_budget_bytes, reserve_bytes=reserve_memory_bytes,
+                  cpu_threads=cpu_threads)
+
+    guard(overhead, "HDF5 metadata open and library allowance")
+    with h5py.File(path, "r", rdcc_nbytes=1024**2) as handle:
+        for group in ("events", "images"):
+            if (not isinstance(handle.get(group, getlink=True), h5py.HardLink)
+                    or not isinstance(handle.get(group), h5py.Group)):
+                raise TypeError("EventHDR requires local hard-linked events/images groups")
+        arrays = []
+        for name in ("xs", "ys", "ts", "ps"):
+            if not isinstance(handle["events"].get(name, getlink=True), h5py.HardLink):
+                raise TypeError("External/soft HDF5 event links are unsupported")
+            array = handle["events"].get(name)
+            if not isinstance(array, h5py.Dataset) or array.ndim != 1:
+                raise ValueError("EventHDR arrays must be one-dimensional")
+            arrays.append(array)
+        chunks = sum(math.prod(array.chunks or (1,)) * array.dtype.itemsize for array in arrays)
+        metadata_cost = overhead + len(handle["images"]) * 4096 + chunks
+        # Existing missing-index recovery reads bounded timestamp chunks.
+        guard(metadata_cost + min(len(arrays[2]), 1_048_576) * 128,
+              "Single-file index and optional timestamp-index recovery")
+        for key in handle["images"]:
+            if not isinstance(handle["images"].get(key, getlink=True), h5py.HardLink):
+                raise TypeError("External/soft HDF5 image links are unsupported")
+    dataset = EventHDRDataset(
+        path.parent, allowed_files=[path.name], max_events=None, crop_size=None, random_crop=False,
+        event_time_contract=PHYSICAL_EVENT_TIME_CONTRACT,
+        timestamp_scale_to_seconds=timestamp_scale_to_seconds,
+        interval_timestamp_scale_to_seconds=interval_timestamp_scale_to_seconds,
+        **target_options,
+    )
+    try:
+        if frame_index >= len(dataset):
+            raise ValueError(f"frame_index must be below selected file's {len(dataset)} frames")
+        item = dataset.samples[frame_index]
+        end = item["end_idx"]
+        handle = dataset._get_handle(path)
+        image = handle["images"][item["image_key"]]
+        sensor_size = dataset._topology_image_size(image, source=item["image_key"])
+        readout = float(to_physical_seconds(
+            item["timestamp"], interval_timestamp_scale_to_seconds, source=path.name,
+        ))
+        guard(metadata_cost + end * 80, "Delivered-prefix timestamps before payload read")
+        timestamps = np.asarray(handle["events/ts"][:end])
+        rows, seconds = select_window_rows(
+            timestamps, timestamp_scale_to_seconds=timestamp_scale_to_seconds,
+            readout_seconds=readout, window_seconds=window_seconds,
+        )
+        raw_timestamps = timestamps[rows].copy()
+        del timestamps
+        count = len(rows)
+        queries = sorted({0, count // 2, count - 1}) if count else []
+        if query_indices is not None:
+            queries = list(query_indices)
+        for query in queries:
+            _integer(query, "query index")
+        if len(set(queries)) != len(queries) or any(query >= count for query in queries):
+            raise ValueError("Query indices must be unique and inside the complete window")
+        # Reserve all N-1 possible neighbors per query, including JSON serialization.
+        degree_scratch = count * 64 if count_all_nodes else 0
+        persistent = metadata_cost + count * (4096 + len(queries) * 1536) + degree_scratch
+        guard(persistent, "Complete window, query output, index and oracle")
+        start = int(rows[0]) if count else end
+        original_xs = np.asarray(handle["events/xs"][start:end])
+        original_ys = np.asarray(handle["events/ys"][start:end])
+        xs = original_xs.astype(np.float32)
+        ys = original_ys.astype(np.float32)
+        ps = np.asarray(handle["events/ps"][start:end])
+        _validate_event_values(original_xs, original_ys, seconds, ps, expected=count,
+                               height=sensor_size[0], width=sensor_size[1], source=path.name)
+        events = np.column_stack((xs, ys, seconds, normalize_polarity(ps)))
+        positions = normalized_positions(events, sensor_size,
+                                         origin_seconds=item["sequence_origin_seconds"],
+                                         time_scale_seconds=time_scale_seconds)
+        # Candidate chunking limits scratch only, not graph nodes or edges.
+        candidate_budget = max(1, min(65_536, (memory_budget_bytes - persistent) // 256))
+        guard(persistent + candidate_budget * 256, "Exact selected-query scratch")
+        index_started = time.perf_counter()
+        index = ImplicitRadiusIndex(
+            positions, torch.zeros(count, dtype=torch.long), batch_size=1,
+            radius=radius, position_dims=3, chunk_size=128 if count_all_nodes else 1,
+            candidate_pair_budget=candidate_budget,
+        )
+        index_time = time.perf_counter() - index_started
+        full_count = None
+        degrees = None
+        if count_all_nodes:
+            guard(persistent + candidate_budget * 256, "All-node degree count scratch (no E storage)")
+            degrees, full_count = count_all_degrees(index)
+        query_started = time.perf_counter()
+        queries_report = query_neighbors(positions, rows, queries, radius=radius,
+                                         candidate_pair_budget=candidate_budget, index=index)
+        query_time = time.perf_counter() - query_started
+        if full_count is not None:
+            for query in queries_report:
+                if int(degrees[query["node_index"]]) != query["in_degree"]:
+                    raise RuntimeError("Full degree count differs from selected independent oracle")
+            full_count["selected_oracle_queries_checked"] = len(queries_report)
+            full_count["selected_oracle_degree_sum"] = sum(q["in_degree"] for q in queries_report)
+            full_count["selected_oracle_degrees_match"] = True
+        guard(persistent + candidate_budget * 256, "Raw-to-graph trace JSON construction")
+        detailed_nodes = set(queries)
+        for query in queries_report:
+            detailed_nodes.update(neighbor["node_index"] for neighbor in query["neighbors"])
+        node_details = {
+            str(node): {
+                "node_index": node, "raw_row_id": int(rows[node]),
+                "original_source": {"x": original_xs[node].item(),
+                                    "y": original_ys[node].item(),
+                                    "timestamp": raw_timestamps[node].item(),
+                                    "polarity": ps[node].item()},
+                "preprocessed": {"x": float(xs[node]), "y": float(ys[node]),
+                                 "timestamp_seconds": float(seconds[node])},
+                "normalized_topology_coordinates": positions[node, :3].tolist(),
+            }
+            for node in sorted(detailed_nodes)
+        }
+        final_stat = path.stat()
+        if (final_stat.st_size, final_stat.st_mtime_ns) != (
+            source_stat.st_size, source_stat.st_mtime_ns,
+        ):
+            raise RuntimeError("Selected HDF5 file metadata changed during the diagnostic")
+        return {
+            "schema": "asgcn_raw_graph_audit_v1", "report_eligible": False,
+            "paper_exact": False,
+            "total_directed_edges": full_count["directed_edges"] if full_count else None,
+            "count_all_nodes": count_all_nodes, "full_count": full_count,
+            "scope": ("Full-window production degree count plus selected independent query oracles"
+                      if count_all_nodes else
+                      "Selected incoming queries against all nodes of one complete delivered window"),
+            "source": {"file_name": path.name, "frame_index": frame_index,
+                       "size_bytes": source_stat.st_size, "mtime_ns": source_stat.st_mtime_ns,
+                       "identity": "metadata_only_not_content_verified",
+                       "image_key": item["image_key"], "delivery_end_idx_exclusive": end,
+                       "event_idx_source": item["event_idx_source"],
+                       "validated_timestamp_prefix_rows": end},
+            "window": {"nodes": count, "sensor_size": list(sensor_size),
+                       "readout_seconds": readout, "cutoff_seconds": readout - window_seconds,
+                       "window_seconds": window_seconds, "cutoff_inclusive": True,
+                       "first_raw_row_id": int(rows[0]) if count else None,
+                       "last_raw_row_id": int(rows[-1]) if count else None,
+                       "sampling_factor": 1, "max_events": None, "crop": None},
+            "geometry": {"radius": radius, "position_dims": 3,
+                          "position_builder": "asgcn_unet.stream_geometry.physical_node_positions",
+                         "polarity_in_topology": False, "feature_parity_audited": False,
+                         "time_scale_seconds": time_scale_seconds,
+                         "sequence_origin_seconds": item["sequence_origin_seconds"],
+                         "timestamp_scale_to_seconds": timestamp_scale_to_seconds,
+                         "interval_timestamp_scale_to_seconds": interval_timestamp_scale_to_seconds,
+                         "clock_arithmetic": "IEEE float64; distinct consecutive timestamp collapse refused",
+                         "coordinates": "x/(W-1), y/(H-1), (t-fixed_origin)/time_scale",
+                         "predicate": "float64 norm((source-destination)/radius) < 1; no self edges"},
+            "queries": queries_report,
+            "code_identity": _code_identity(),
+            "timings": {"index_build_time_s": index_time, "selected_queries_time_s": query_time,
+                        "count_time_s": full_count["count_time_s"] if full_count else None,
+                        "audit_elapsed_s": time.perf_counter() - audit_started,
+                        "scope": "CPU wall times; excludes report JSON serialization and writing"},
+            "node_details": node_details,
+            "target_reader_options": target_options,
+            "node_details_coverage": (
+                "Every requested node and every reported incoming neighbor; unrelated nodes "
+                "are omitted from JSON details but were included in the complete-source queries."
+            ),
+            "resources": {"preflight": resource, "planning_estimates": estimates,
+                          "cpu_threads": cpu_threads, "cuda_queried": False,
+                          "all_node_degree_scratch_bytes": degree_scratch},
+            "limitations": [
+                "Selected independent queries are not a full-graph oracle correctness proof.",
+                "Total E is measured only with explicit count_all_nodes; that may require O(E) time.",
+                "This checks executable geometry, not its identity to a paper's design.",
+                "Per-delivered-frame polarity normalization and model feature parity are not audited.",
+                "No model, training, quality evaluation, GPU fit or throughput was evaluated.",
+                "RAM checks are snapshots and planning estimates, not hard isolation.",
+                "Chronology covers the delivered prefix; no whole-dataset validation.",
+            ],
+        }
+    finally:
+        dataset.close()
+
+
+def save_report(report, output, *, workspace):
+    """Create a new workspace JSON; no overwrite or arbitrary parent creation."""
+    root = Path(workspace).resolve(strict=True)
+    path = Path(output)
+    path = (root / path).resolve(strict=False) if not path.is_absolute() else path.resolve(strict=False)
+    if not path.is_relative_to(root) or path.suffix.lower() != ".json":
+        raise ValueError("Output must be a new JSON path inside the workspace")
+    if not path.parent.is_dir():
+        raise ValueError("Output parent must already exist inside the workspace")
+    encoded = json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False)
+    with path.open("x", encoding="utf-8", newline="\n") as handle:
+        handle.write(encoded + "\n")
+    return path
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source-file", required=True, type=Path)
+    parser.add_argument("--frame-index", required=True, type=int,
+                        help="Zero-based selected HDF5 file frame; frame_stride=1")
+    for name in ("window-seconds", "time-scale-seconds", "radius",
+                 "timestamp-scale-to-seconds", "interval-timestamp-scale-to-seconds"):
+        parser.add_argument("--" + name, required=True, type=float)
+    parser.add_argument("--cpu-threads", required=True, type=int)
+    parser.add_argument("--memory-budget-mib", required=True, type=int)
+    parser.add_argument("--reserve-memory-mib", required=True, type=int)
+    parser.add_argument("--query-indices", nargs="+", type=int,
+                        help="Window-local nodes; omitted selects unique first/middle/last")
+    parser.add_argument("--count-all-nodes", action="store_true",
+                        help="Opt in to O(E)-time full-window degrees; no full edge list is stored")
+    parser.add_argument("--output", required=True, type=Path)
+    return parser
+
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
+    try:
+        output = args.output if args.output.is_absolute() else PROJECT / args.output
+        output = output.resolve(strict=False)
+        if (not output.is_relative_to(PROJECT) or output.suffix.lower() != ".json"
+                or output.exists() or not output.parent.is_dir()):
+            raise ValueError("Choose a new project JSON in an existing directory")
+        if args.count_all_nodes:
+            print("Explicit all-node count: one complete selected window, potentially O(E) time; "
+                  "bounded scratch, no full edge list, no training/GPU.", flush=True)
+        report = audit_raw_event_graph(
+            source_file=args.source_file, frame_index=args.frame_index,
+            window_seconds=args.window_seconds, time_scale_seconds=args.time_scale_seconds,
+            radius=args.radius, timestamp_scale_to_seconds=args.timestamp_scale_to_seconds,
+            interval_timestamp_scale_to_seconds=args.interval_timestamp_scale_to_seconds,
+            cpu_threads=args.cpu_threads, memory_budget_bytes=args.memory_budget_mib * 1024**2,
+            reserve_memory_bytes=args.reserve_memory_mib * 1024**2, query_indices=args.query_indices,
+            count_all_nodes=args.count_all_nodes,
+        )
+        saved = save_report(report, output, workspace=PROJECT)
+        print(f"Complete window: {report['window']['nodes']:,} nodes; "
+              f"{len(report['queries'])} selected queries matched the independent oracle.")
+        edge_label = (f"{report['total_directed_edges']:,} directed"
+                      if report["count_all_nodes"] else "not measured")
+        print(f"Total graph edges: {edge_label}. Paper equivalence: not established. Report: {saved}")
+        return 0
+    except (OSError, ValueError, TypeError, RuntimeError, MemoryError) as error:
+        print(f"Raw graph audit failed: {error}", file=sys.stderr)
+        print("No training, GPU selection, graph reduction or source/result overwrite occurred.",
+              file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 ~~~~~~~~
 
 # scripts/bench.py
@@ -13155,6 +14026,233 @@ def download_dataset(
         return counts
 ~~~~~~~~
 
+# scripts/inspect_streaming_graph.py
+
+~~~~~~~~python
+"""Inspect one complete raw graph window using an existing training configuration.
+
+This is a CPU diagnostic, not training, preflight certification, or model inference.
+It does not stop jobs, choose a GPU, modify a configuration, or resume a checkpoint.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import sys
+import tempfile
+from pathlib import Path, PurePosixPath
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / "src"))
+sys.path.insert(0, str(PROJECT / "scripts"))
+
+from audit_raw_event_graph import audit_raw_event_graph, save_report
+
+from asgcn_unet.diagnostic_resources import preflight
+from asgcn_unet.stream_preflight import validate_streaming_contract
+
+
+def _read_object(path):
+    # Only configuration metadata is read here, never HDF5 payloads.
+    if path.stat().st_size > 1024**2:
+        raise ValueError("Configuration/manifest exceeds the 1-MiB diagnostic metadata budget")
+    raw = path.read_bytes()
+    value = json.loads(raw)
+    if not isinstance(value, dict):
+        raise TypeError("Configuration/manifest must contain a JSON object")
+    return value, hashlib.sha256(raw).hexdigest()
+
+
+def _resolve(value, project):
+    if not isinstance(value, (str, Path)) or not str(value).strip():
+        raise ValueError("An explicit nonempty path is required")
+    path = Path(os.path.expandvars(str(value))).expanduser()
+    return (path if path.is_absolute() else project / path).resolve(strict=True)
+
+
+def _file_keys(values):
+    if not isinstance(values, list) or not values:
+        raise ValueError("Declared training files must be a nonempty list")
+    normalized = []
+    for value in values:
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError("Training file keys must be nonempty strings")
+        key = PurePosixPath(value.replace("\\", "/"))
+        if (key.is_absolute() or ".." in key.parts or not key.name
+                or ":" in key.parts[0] or key.suffix.lower() not in {".h5", ".hdf5"}):
+            raise ValueError("Training file keys must be relative HDF5 paths")
+        normalized.append(key.as_posix())
+    if len(set(normalized)) != len(normalized):
+        raise ValueError("Duplicate normalized training file keys")
+    return normalized
+
+
+def load_plan(config_path, source_file, frame_index, *, workspace=PROJECT):
+    """Read immutable settings; refuse unsupported semantics instead of substituting."""
+    project = Path(workspace).resolve(strict=True)
+    config_path = _resolve(config_path, project)
+    if not config_path.is_relative_to(project):
+        raise ValueError("Use the existing training config inside this checkout")
+    # Match experiment_base_dir's nearest pyproject rule without heavy utils imports.
+    owner = next((parent for parent in config_path.parents
+                  if (parent / "pyproject.toml").is_file()), config_path.parent)
+    if owner != project:
+        raise ValueError("Configuration belongs to a different checkout")
+    config, config_hash = _read_object(config_path)
+    if not isinstance(config.get("train"), dict):
+        raise TypeError("This entry point requires a training config, not an evaluation config")
+    validate_streaming_contract(config, training=True)
+    data, model = config["dataset"], config["model"]
+    if (model["event_sampling_factor"] != 1 or model.get("graph_position_dims") != 3
+            or data.get("crop_size") is not None or data.get("random_crop", False)
+            or data.get("frame_stride") != 1):
+        raise ValueError("This diagnostic supports the current R=1, 3-axis, full-sensor, stride-1 "
+                         "contract only; unsupported settings were not replaced")
+    radius = model.get("graph_radius")
+    if (isinstance(radius, bool) or not isinstance(radius, (int, float))
+            or not 0 < radius < float("inf")):
+        raise ValueError("model.graph_radius must be explicitly finite and positive")
+    if type(frame_index) is not int or frame_index < 0:
+        raise ValueError("frame_index must be an explicit nonnegative file-local frame")
+    root = _resolve(data.get("root"), project)
+    if not root.is_dir():
+        raise ValueError("Training dataset root must be an existing directory")
+    key = Path(_file_keys([str(source_file)])[0])
+    if key.is_absolute() or ".." in key.parts or key.suffix.lower() not in {".h5", ".hdf5"}:
+        raise ValueError("source_file must be a relative HDF5 key within dataset.root")
+    source = (root / key).resolve(strict=True)
+    if not source.is_relative_to(root) or not source.is_file():
+        raise ValueError("Selected HDF5 source must remain inside dataset.root")
+    manifest_record = None
+    identity_inputs = [(config_path, config_hash)]
+    if data.get("split_manifest"):
+        manifest_path = _resolve(data["split_manifest"], project)
+        manifest, manifest_hash = _read_object(manifest_path)
+        files = _file_keys(manifest.get("train_files"))
+        if (manifest.get("status") != "final"
+                or manifest.get("split_schema") != "official_separate_roots_v1"
+                or key.as_posix() not in files):
+            raise ValueError("Selected source is not a member of the declared final training split")
+        manifest_record = {"sha256": manifest_hash, "declared_training_files": len(files),
+                           "coverage": "selected file membership only; full split not validated"}
+        identity_inputs.append((manifest_path, manifest_hash))
+    elif data.get("allowed_files") is not None:
+        files = _file_keys(data["allowed_files"])
+        if key.as_posix() not in files:
+            raise ValueError("Selected source is excluded by dataset.allowed_files")
+        manifest_record = {"selection": "dataset.allowed_files", "declared_training_files": len(files),
+                           "coverage": "selected file membership only; full split not validated"}
+    stream = model["stream_config"]
+    arguments = {
+        "source_file": source, "frame_index": frame_index,
+        "window_seconds": stream["window_seconds"], "time_scale_seconds": stream["time_scale_seconds"],
+        "radius": radius, "timestamp_scale_to_seconds": data["timestamp_scale_to_seconds"],
+        "interval_timestamp_scale_to_seconds": data["interval_timestamp_scale_to_seconds"],
+        "target_options": {key: data[key] for key in
+                           ("target_channels", "target_normalization", "tone_map", "tone_map_mu") if key in data},
+    }
+    return {
+        "arguments": arguments,
+        "identity_inputs": identity_inputs,
+        "contract": {
+            "config": config_path.relative_to(project).as_posix(), "config_sha256": config_hash,
+            "source_key": key.as_posix(), "split": "train", "manifest": manifest_record,
+            "settings_changed": False, "architecture_version": model["architecture_version"],
+            "sampling_factor": model["event_sampling_factor"], "position_dims": model["graph_position_dims"],
+            "graph_storage_in_training": model.get("graph_storage", "materialized"),
+            "graph_scope": "fine input radius graph before learned convolution or pooling",
+            "existing_max_graph_edges": model.get("max_graph_edges"),
+            "existing_guard_policy": "recorded only; diagnostic counts do not truncate or certify training",
+            "training_executed": False, "full_preflight_executed": False,
+        },
+    }
+
+
+def compact_report(report):
+    """Pasteable measured results without expanding the potentially large edge trace."""
+    return {
+        "nodes": report["window"]["nodes"],
+        "total_directed_edges": report["total_directed_edges"],
+        "queries": [{key: query[key] for key in
+                     ("raw_row_id", "in_degree", "all_window_sources_checked", "oracle_match")}
+                    for query in report["queries"]],
+        "audit_elapsed_s": report["timings"]["audit_elapsed_s"],
+        "full_graph_oracle_verified": False,
+        "note": "null edge total means not measured; selected queries are not whole-graph certification",
+    }
+
+
+def inspect_graph(*, config_path, source_file, frame_index, cpu_threads, memory_budget_mib,
+                  reserve_memory_mib, count_all_nodes=False, workspace=PROJECT):
+    for name, value in (("cpu_threads", cpu_threads), ("memory_budget_mib", memory_budget_mib),
+                        ("reserve_memory_mib", reserve_memory_mib)):
+        if type(value) is not int or value < 1:
+            raise ValueError(f"{name} must be an explicit positive integer")
+    project = Path(workspace).resolve(strict=True)
+    preflight(budget_bytes=memory_budget_mib * 1024**2, reserve_bytes=reserve_memory_mib * 1024**2,
+              cpu_threads=cpu_threads)
+    plan = load_plan(config_path, source_file, frame_index, workspace=project)
+    print("CPU graph inspection only: one selected file/window, not the full training scan.", flush=True)
+    print(json.dumps({**plan["contract"], "geometry": {
+        key: value for key, value in plan["arguments"].items() if key != "source_file"
+    }, "count_all_nodes": count_all_nodes}, indent=2, ensure_ascii=False, allow_nan=False), flush=True)
+    if count_all_nodes:
+        print("Exact all-node degree counting requested: work can scale with all edges in this window. "
+              "No full edge array will be retained; no time or GPU-fit guarantee.", flush=True)
+    report = audit_raw_event_graph(
+        **plan["arguments"], cpu_threads=cpu_threads, memory_budget_bytes=memory_budget_mib * 1024**2,
+        reserve_memory_bytes=reserve_memory_mib * 1024**2, count_all_nodes=count_all_nodes,
+    )
+    # Refuse attaching a now-stale config identity to a successful graph audit.
+    for input_path, recorded_hash in plan["identity_inputs"]:
+        _, current_hash = _read_object(input_path)
+        if current_hash != recorded_hash:
+            raise RuntimeError("Training config/manifest changed during inspection; no report was saved")
+    report["training_config_inspection"] = plan["contract"]
+    runs = project / "runs"
+    if runs.resolve() != runs:
+        raise ValueError("Diagnostic output runs directory must remain inside this checkout")
+    runs.mkdir(exist_ok=True)
+    destination = Path(tempfile.mkdtemp(prefix="graph-inspection-", dir=runs))
+    saved = save_report(report, destination / "graph.json", workspace=project)
+    print(f"Graph inspection saved: {saved}", flush=True)
+    print("GRAPH_INSPECTION_SUMMARY", flush=True)
+    print(json.dumps(compact_report(report), indent=2, ensure_ascii=False, allow_nan=False), flush=True)
+    print("Existing training/checkpoints/results unchanged. This report does not authorize training.", flush=True)
+    return saved
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", required=True, type=Path)
+    parser.add_argument("--source-file", required=True,
+                        help="HDF5 key within the configured training root, e.g. 26.h5")
+    parser.add_argument("--frame-index", required=True, type=int,
+                        help="Explicit zero-based frame in that file (diagnostic selection, not training subset)")
+    parser.add_argument("--cpu-threads", required=True, type=int)
+    parser.add_argument("--memory-budget-mib", required=True, type=int)
+    parser.add_argument("--reserve-memory-mib", required=True, type=int)
+    parser.add_argument("--count-all-nodes", action="store_true",
+                        help="Explicitly count every node degree in this one window; may be expensive")
+    args = parser.parse_args(argv)
+    try:
+        inspect_graph(config_path=args.config, source_file=args.source_file, frame_index=args.frame_index,
+                      cpu_threads=args.cpu_threads, memory_budget_mib=args.memory_budget_mib,
+                      reserve_memory_mib=args.reserve_memory_mib, count_all_nodes=args.count_all_nodes)
+    except (OSError, ValueError, TypeError, KeyError, RuntimeError, MemoryError) as error:
+        print(f"Graph inspection failed: {error}", file=sys.stderr)
+        print("No job was stopped, no training started, and no existing experiment was overwritten.", file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+~~~~~~~~
+
 # scripts/prepare_streaming_experiment.py
 
 ~~~~~~~~python
@@ -13189,7 +14287,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--aid-timestamp-scale-to-seconds", type=float, required=True)
     parser.add_argument("--hdr-interval-timestamp-scale-to-seconds", type=float, required=True)
     parser.add_argument("--aid-interval-timestamp-scale-to-seconds", type=float, required=True,
-                        help="separate frame-boundary scale; EventAid t0_us/t1_us fields are microseconds (1e-6)")
+                        help="explicit frame-clock storage-unit conversion; verify the original dataset format, "
+                             "not this project's legacy t0_us/t1_us field names")
     args = parser.parse_args(argv)
     try:
         hierarchy_config = None
@@ -20717,9 +21816,14 @@ def _recover_event_indices(
     previous_last = None
     first_timestamp = None
     for start in range(0, event_count, _TIMESTAMP_CHUNK_SIZE):
-        block = np.asarray(event_ts[start : start + _TIMESTAMP_CHUNK_SIZE])
+        # Physical conversion also checks the original pair spanning two
+        # chunks; otherwise distinct integer timestamps could collapse across
+        # that boundary while both individual chunks appeared valid.
+        read_start = max(0, start - 1) if timestamp_scale_to_seconds is not None else start
+        block = np.asarray(event_ts[read_start : start + _TIMESTAMP_CHUNK_SIZE])
         if timestamp_scale_to_seconds is not None:
             block = to_physical_seconds(block, timestamp_scale_to_seconds, source=str(path))
+            block = block[start - read_start :]
         if not np.all(np.isfinite(block)):
             raise _invalid_file(path, "events/ts timestamps must be finite to recover event_idx")
         if np.any(block[1:] < block[:-1]) or (
@@ -20751,7 +21855,9 @@ def _invalid_file(path: Path, detail: str) -> ValueError:
     return ValueError(f"Invalid EventHDR file {path}: {detail}")
 
 
-def _numeric_scalar_attr(node: h5py.Dataset, name: str, path: Path) -> float:
+def _numeric_scalar_attr(
+    node: h5py.Dataset, name: str, path: Path, *, preserve_integer: bool = False,
+) -> float | int:
     if name not in node.attrs:
         raise _invalid_file(path, f"images/{node.name.rsplit('/', 1)[-1]} is missing '{name}'")
     raw = np.asarray(node.attrs[name])
@@ -20760,7 +21866,8 @@ def _numeric_scalar_attr(node: h5py.Dataset, name: str, path: Path) -> float:
             path,
             f"images/{node.name.rsplit('/', 1)[-1]} attribute '{name}' must be one number",
         )
-    value = float(raw.reshape(-1)[0])
+    scalar = raw.reshape(-1)[0]
+    value = int(scalar) if preserve_integer and raw.dtype.kind in "iu" else float(scalar)
     if not np.isfinite(value):
         raise _invalid_file(
             path,
@@ -20846,7 +21953,9 @@ class EventHDRDataset(Dataset):
         self.target_channels = int(target_channels)
         self.max_events = max_events
         self.crop_size = tuple(crop_size) if crop_size else None
-        self.frame_stride = max(1, int(frame_stride))
+        if type(frame_stride) is not int or frame_stride < 1:
+            raise ValueError("frame_stride must be an explicit positive integer, not bool")
+        self.frame_stride = frame_stride
         self.tone_map = tone_map
         self.tone_map_mu = float(tone_map_mu)
         self.target_normalization = validate_target_normalization(target_normalization)
@@ -20964,13 +22073,30 @@ class EventHDRDataset(Dataset):
                 if not numeric_image_keys:
                     raise _invalid_file(path, "group 'images' contains no image arrays")
                 image_keys = [numeric_image_keys[index] for index in sorted(numeric_image_keys)]
-                frames: list[tuple[str, float, int | None]] = []
-                previous_timestamp: float | None = None
+                physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+                frames: list[tuple[str, float | int, int | None]] = []
+                previous_timestamp: float | int | None = None
+                sequence_sensor_size: tuple[int, int] | None = None
                 for key in image_keys:
                     node = images_group[key]
                     if not isinstance(node, h5py.Dataset):
                         raise _invalid_file(path, f"images/{key} must be an image array")
-                    timestamp = _numeric_scalar_attr(node, "timestamp", path)
+                    if physical:
+                        # A live physical graph retains normalized coordinates
+                        # across readouts; changing H/W would change their basis.
+                        # Check only metadata, before any graph or pixel decode.
+                        sensor_size = self._topology_image_size(node, source=f"{path}::{key}")
+                        if sequence_sensor_size is None:
+                            sequence_sensor_size = sensor_size
+                        elif sensor_size != sequence_sensor_size:
+                            raise _invalid_file(
+                                path, f"physical_seconds_v1 requires fixed sensor_size within "
+                                f"each sequence: images/{key} has {sensor_size}, expected "
+                                f"{sequence_sensor_size}; no resize or state reset was applied",
+                            )
+                    timestamp = _numeric_scalar_attr(
+                        node, "timestamp", path, preserve_integer=physical,
+                    )
                     if previous_timestamp is not None and timestamp < previous_timestamp:
                         raise _invalid_file(
                             path, "image timestamps must be monotonically non-decreasing"
@@ -20989,7 +22115,17 @@ class EventHDRDataset(Dataset):
                             )
                     frames.append((key, timestamp, end_idx))
                 missing_count = sum(end is None for _, _, end in frames)
-                physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+                # Object storage preserves mixed integer/float attribute values
+                # until conversion, including exact comparisons of large ints.
+                frame_timestamps = np.asarray(
+                    [timestamp for _, timestamp, _ in frames],
+                    dtype=object if physical else np.float64,
+                )
+                if physical:
+                    to_physical_seconds(
+                        frame_timestamps, self.interval_timestamp_scale_to_seconds,
+                        source=f"{path}::image timestamps",
+                    )
                 recovery_options = (
                     {"timestamp_scale_to_seconds": self.timestamp_scale_to_seconds,
                      "interval_timestamp_scale_to_seconds": self.interval_timestamp_scale_to_seconds}
@@ -20998,7 +22134,7 @@ class EventHDRDataset(Dataset):
                 recovered = (
                     _recover_event_indices(
                         events_group["ts"],
-                        np.asarray([timestamp for _, timestamp, _ in frames], dtype=np.float64),
+                        frame_timestamps,
                         path,
                         **recovery_options,
                     )
@@ -21011,7 +22147,7 @@ class EventHDRDataset(Dataset):
                     "derived_images": missing_count,
                 }
                 selected_start_idx = 0
-                selected_start_timestamp: float | None = None
+                selected_start_timestamp: float | int | None = None
                 selected_sequence_index = 0
                 if physical:
                     first_frame = float(to_physical_seconds(
@@ -21130,9 +22266,10 @@ class EventHDRDataset(Dataset):
         item = self.samples[index]
         h5 = self._get_handle(item["path"])
         start, end = item["start_idx"], item["end_idx"]
+        physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
         xs = np.asarray(h5["events/xs"][start:end], dtype=np.float32)
         ys = np.asarray(h5["events/ys"][start:end], dtype=np.float32)
-        ts = np.asarray(h5["events/ts"][start:end], dtype=np.float64)
+        ts = np.asarray(h5["events/ts"][start:end], dtype=None if physical else np.float64)
         raw_ps = np.asarray(h5["events/ps"][start:end])
         image_node = h5["images"][item["image_key"]]
         source = f"{item['path']}::{item['image_key']}"
@@ -21161,7 +22298,10 @@ class EventHDRDataset(Dataset):
         )
         ps = normalize_polarity(raw_ps)
         events = np.column_stack((xs, ys, ts, ps))
-        physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+        if physical:
+            # Small integer timestamp dtypes must not make the whole event
+            # matrix float32 before physical seconds are assigned below.
+            events = events.astype(np.float64, copy=False)
         event_ids = None
         stream_time = None
         if physical:
@@ -21472,7 +22612,9 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
     root = cfg.pop("root")
     cfg.pop("val_root", None)
     split_manifest = cfg.pop("split_manifest", None)
-    cfg["random_crop"] = split == "train" and cfg.get("crop_size") is not None
+    # Apply the historical split default only when no explicit ROI policy was
+    # supplied. In particular, random_crop=False must remain a centered crop.
+    cfg.setdefault("random_crop", split == "train" and cfg.get("crop_size") is not None)
     if dataset_type == "eventhdr":
         eventhdr_group_semantics: str | None = None
         if split_manifest and split in {"train", "val", "calibration"}:
@@ -31177,6 +32319,12 @@ def evolve(previous, features, positions, timestamps, node_batch, cutoffs, *,
         _validate_nodes(previous.graph.node_features, previous.graph.positions,
                         previous.timestamps, previous.node_batch, cutoffs)
         old_graph = previous.graph
+        # Cached degrees and the occupied-cell index belong to the graph's
+        # original namespace. Re-labelling only the surrounding StreamGraph
+        # would silently reuse cross-stream edges/degrees in different lanes.
+        old_graph.validate_integrity()
+        if not torch.equal(old_graph.node_batch, previous.node_batch):
+            raise ValueError("Implicit graph and previous stream node namespaces disagree")
         if (old_graph.radius != radius or old_graph.position_dims != position_dims
                 or old_graph.node_features.dtype != features.dtype
                 or old_graph.positions.dtype != positions.dtype):
@@ -38922,6 +40070,117 @@ def update_encoder(
     )
 ~~~~~~~~
 
+# src/asgcn_unet/stream_geometry.py
+
+~~~~~~~~python
+"""Physical-event geometry shared by the model and graph inspection.
+
+The sensor-normalized metric is this project's explicit adaptation, not an
+assertion about the ASGCN authors' undocumented coordinate units. This module
+does not select events, infer clock units, choose a radius, or reset an origin.
+"""
+
+from __future__ import annotations
+
+import math
+
+import torch
+
+
+def physical_node_positions(events, sensor_size, *, origin_seconds, time_scale_seconds):
+    """Map every supplied event to fixed float64 graph coordinates, without a cap.
+
+    ``origin_seconds`` may be one fixed scalar or one origin per packed node.
+    Polarity is retained as coordinate four; the configured radius builder alone
+    chooses whether that coordinate participates in the distance.
+    """
+    if (isinstance(time_scale_seconds, bool) or not isinstance(time_scale_seconds, (int, float))
+            or not math.isfinite(time_scale_seconds) or time_scale_seconds <= 0):
+        raise ValueError("time_scale_seconds must be explicitly finite and positive")
+    if (len(sensor_size) != 2
+            or any(type(size) is not int or size < 1 for size in sensor_size)):
+        raise ValueError("sensor_size must contain positive integer height and width")
+    if (not isinstance(events, torch.Tensor) or events.layout != torch.strided
+            or events.ndim != 2 or events.shape[1] != 4 or events.dtype != torch.float64):
+        raise ValueError("Physical graph events must be float64 [N,4]; no implicit time conversion")
+    height, width = sensor_size
+    origin = torch.as_tensor(origin_seconds, dtype=torch.float64, device=events.device)
+    if origin.ndim != 0 and origin.shape != (len(events),):
+        raise ValueError("Use one fixed origin or one origin per packed node")
+    if not bool(torch.stack((
+        torch.isfinite(events).all(), torch.isfinite(origin).all(),
+        ((events[:, 0] >= 0) & (events[:, 0] < width)).all(),
+        ((events[:, 1] >= 0) & (events[:, 1] < height)).all(),
+        ((events[:, 3] == -1) | (events[:, 3] == 1)).all(),
+        (events[:, 2] >= origin).all(),
+    )).all()):
+        raise ValueError("Invalid physical sensor event values or sequence origin")
+    positions = torch.stack((
+        events[:, 0] / max(width - 1, 1),
+        events[:, 1] / max(height - 1, 1),
+        (events[:, 2] - origin) / time_scale_seconds,
+        (events[:, 3] + 1) / 2,
+    ), dim=1)
+    if not bool(torch.isfinite(positions).all()):
+        raise ValueError("Normalized graph coordinates overflowed")
+    return positions
+
+
+def prepare_stream_nodes(packed, records, *, time_scale_seconds):
+    """Validate and prepare all packed raw nodes used by the actual model.
+
+    Metadata records contain identity, sequence index, start, end, fixed origin,
+    and equal-timestamp group counts. Preparation precedes any explicit ordinal
+    sampling, so sampling cannot conceal malformed raw input.
+    """
+    device, events = packed.events.device, packed.events
+    if len(records) != len(packed):
+        raise ValueError("One physical clock record is required per packed stream")
+    counts = torch.tensor(packed.event_counts, device=device, dtype=torch.long)
+    node_batch = torch.repeat_interleave(torch.arange(len(packed), device=device), counts,
+                                         output_size=len(events))
+    groups = []
+    for record, count in zip(records, packed.event_counts, strict=True):
+        if (len(record) != 6 or not isinstance(record[5], (tuple, list))
+                or any(type(size) is not int or size < 1 for size in record[5])
+                or sum(record[5]) != count):
+            raise ValueError("Physical arrival grouping must cover every input event")
+        if (any(isinstance(value, bool) or not isinstance(value, (int, float))
+                or not math.isfinite(value) for value in record[2:5])
+                or not record[4] <= record[2] <= record[3]):
+            raise ValueError("Invalid physical interval or fixed sequence origin")
+        groups.extend(record[5])
+    ids = packed.event_ids
+    if (ids is None or ids.shape != (len(events), 2) or ids.dtype != torch.long
+            or ids.device != device):
+        raise ValueError("Physical nodes require same-device int64 event_ids [N,2]")
+    origin = torch.tensor([record[4] for record in records], device=device, dtype=torch.float64)[node_batch]
+    positions = physical_node_positions(events, packed.sensor_size, origin_seconds=origin,
+                                        time_scale_seconds=time_scale_seconds)
+    # Expand group labels once on the device, not as a Python integer per event.
+    group_ids = torch.repeat_interleave(
+        torch.arange(len(groups), device=device), torch.tensor(groups, device=device, dtype=torch.long),
+        output_size=len(events),
+    )
+    if len(events) > 1:
+        same_stream = node_batch[1:] == node_batch[:-1]
+        delta = events[1:, 2] - events[:-1, 2]
+        same_group = group_ids[1:] == group_ids[:-1]
+        increasing_id = (ids[1:, 0] > ids[:-1, 0]) | (
+            (ids[1:, 0] == ids[:-1, 0]) & (ids[1:, 1] > ids[:-1, 1]))
+        if not bool(((~same_stream) | ((delta >= 0) & (same_group == (delta == 0)) & increasing_id)).all()):
+            raise ValueError("Physical event order, identity or equal-timestamp grouping is invalid")
+    interval_start = events.new_tensor([record[2] for record in records])[node_batch]
+    interval_end = events.new_tensor([record[3] for record in records])[node_batch]
+    if not bool((events[:, 2] <= interval_end).all()):
+        raise ValueError("Physical event timestamp is after its readout (future leakage)")
+    features = torch.stack((positions[:, 0], positions[:, 1],
+                            (events[:, 2] - interval_start) / time_scale_seconds, events[:, 3]), dim=1).float()
+    if not bool(torch.isfinite(features).all()):
+        raise ValueError("Physical node features overflowed float32; no graph was constructed")
+    return features, positions, events[:, 2], node_batch
+~~~~~~~~
+
 # src/asgcn_unet/stream_graph.py
 
 ~~~~~~~~python
@@ -39126,6 +40385,12 @@ def evolve_stream_graph(
             torch.isfinite(old_graph.edge_attr).all(),
         )).all()):
             raise ValueError("Previous stream edges contain invalid indices or attributes")
+        # A packed state must remain a disjoint union. Index bounds alone do
+        # not catch a changed outer namespace that splits previously adjacent
+        # nodes across independent streams before the cached edges are reused.
+        if not torch.equal(previous.node_batch[old_graph.edge_index[0]],
+                           previous.node_batch[old_graph.edge_index[1]]):
+            raise ValueError("Previous graph edges cross independent stream namespaces")
         retained = torch.nonzero(
             previous.timestamps >= cutoffs[previous.node_batch], as_tuple=True,
         )[0]
@@ -39500,10 +40765,19 @@ def validate_event_time_contract(
 
 
 def to_physical_seconds(values: Any, scale: float, *, source: str) -> np.ndarray:
-    """Apply the declared source unit scale without inferring a clock offset."""
-    original = np.asarray(values, dtype=np.float64)
+    """Apply the declared source unit scale without inferring a clock offset.
+
+    Keep the source dtype until resolution has been checked. In particular,
+    adjacent int64 values above 2**53 can become equal during the float64 cast,
+    before multiplication has a chance to detect a collision. Callers must not
+    cast raw timestamp arrays before this check.
+    """
+    # A mixed Python int/float container can lose distinct integer values in
+    # np.asarray's dtype inference itself. Arrays retain their native fast path.
+    original = np.asarray(values, dtype=object) if isinstance(values, (list, tuple)) else np.asarray(values)
+    converted = np.asarray(original, dtype=np.float64)
     with np.errstate(over="ignore", invalid="ignore", under="ignore"):
-        result = original * scale
+        result = converted * scale
     if not np.all(np.isfinite(result)):
         raise ValueError(f"Invalid physical clock in {source}: seconds must be finite")
     if np.any((original != 0) & (result == 0)) or (
@@ -39552,7 +40826,7 @@ can be delivered by the next frame after that row's physical timestamp.
     if count == 0:
         return "empty_event_stream"
     lo, hi = max(0, index - 1), min(count, index + 2)
-    neighbors = np.asarray(timestamps[lo:hi], dtype=np.float64)
+    neighbors = np.asarray(timestamps[lo:hi])
     neighbors = to_physical_seconds(neighbors, timestamp_scale_to_seconds, source=source)
     if not np.all(np.isfinite(neighbors)) or np.any(neighbors[1:] < neighbors[:-1]):
         raise ValueError(f"Invalid EventHDR boundary timestamp rows in {source}")
@@ -39847,7 +41121,7 @@ def _metadata(model, samples, states):
                 raise TypeError("Static decoder state cannot be reused for event-driven ASGCN")
             if (previous.contract != contract or previous.sequence_identity != identity
                     or previous.sequence_index + 1 != index or previous.origin_seconds != origin
-                    or previous.watermark_seconds > t1):
+                    or previous.watermark_seconds > t0):
                 raise ValueError("Streaming state/config/clock/sequence continuity mismatch")
         records.append((identity, index, t0, t1, origin, tuple(groups)))
     if len({record[0] for record in records}) != len(records):
@@ -39856,46 +41130,9 @@ def _metadata(model, samples, states):
 
 
 def _prepared(model, packed, records):
-    device = packed.events.device
-    counts = torch.tensor(packed.event_counts, device=device)
-    node_batch = torch.repeat_interleave(torch.arange(len(packed), device=device), counts)
-    height, width = packed.sensor_size
-    events = packed.events
-    if not bool(torch.stack((torch.isfinite(events).all(),
-                            ((events[:, 0] >= 0) & (events[:, 0] < width)).all(),
-                            ((events[:, 1] >= 0) & (events[:, 1] < height)).all(),
-                            ((events[:, 3] == 1) | (events[:, 3] == -1)).all())).all()):
-        raise ValueError("Invalid physical sensor event values")
-    # Validate the claimed arrival grouping once on the whole physical batch.
-    # Metadata only determines scheduling; it cannot authorize coalescing two
-    # distinct timestamps or silently reversing their order.
-    groups = []
-    group_offset = 0
-    for record in records:
-        for index, count in enumerate(record[5]):
-            groups.extend([group_offset + index] * count)
-        group_offset += len(record[5])
-    group_ids = torch.tensor(groups, device=device, dtype=torch.long)
-    if len(events) > 1:
-        same_stream = node_batch[1:] == node_batch[:-1]
-        delta = events[1:, 2] - events[:-1, 2]
-        same_group = group_ids[1:] == group_ids[:-1]
-        ids = packed.event_ids
-        increasing_id = (ids[1:, 0] > ids[:-1, 0]) | (
-            (ids[1:, 0] == ids[:-1, 0]) & (ids[1:, 1] > ids[:-1, 1]))
-        if not bool(((~same_stream) | ((delta >= 0) & (same_group == (delta == 0)) & increasing_id)).all()):
-            raise ValueError("Physical event order, identity or equal-timestamp grouping is invalid")
-    x, y = events[:, 0] / max(width - 1, 1), events[:, 1] / max(height - 1, 1)
-    origin = events.new_tensor([record[4] for record in records])[node_batch]
-    interval_start = events.new_tensor([record[2] for record in records])[node_batch]
-    interval_end = events.new_tensor([record[3] for record in records])[node_batch]
-    if not bool(((events[:, 2] >= origin) & (events[:, 2] <= interval_end)).all()):
-        raise ValueError("Physical event timestamp is before its origin or after its readout (future leakage)")
-    scale = model.stream_config["time_scale_seconds"]
-    polarity = torch.where(events[:, 3] > 0, 1.0, -1.0)
-    features = torch.stack((x, y, (events[:, 2] - interval_start) / scale, polarity), dim=1).float()
-    positions = torch.stack((x, y, (events[:, 2] - origin) / scale, (polarity + 1) / 2), dim=1)
-    return features, positions, events[:, 2], node_batch
+    from .stream_geometry import prepare_stream_nodes
+
+    return prepare_stream_nodes(packed, records, time_scale_seconds=model.stream_config["time_scale_seconds"])
 
 
 def _update(model, previous, features, positions, timestamps, node_batch, cutoffs):
@@ -53308,6 +54545,108 @@ def test_eventaid_full_inspect_reports_timestamp_relationship_without_assuming_u
     assert diagnostics["strict_interval_validation"] is False
 ~~~~~~~~
 
+# tests/test_dataset_input_settings.py
+
+~~~~~~~~python
+"""Small synthetic CPU input-setting regressions; no model or real data runs."""
+
+from __future__ import annotations
+
+import h5py
+import numpy as np
+import pytest
+
+from asgcn_unet.data import EventHDRDataset, build_dataset
+
+
+def _synthetic_hdr(root):
+    with h5py.File(root / "synthetic-settings.h5", "x") as handle:
+        events = handle.create_group("events")
+        events.create_dataset("xs", data=np.arange(8, dtype=np.int16))
+        events.create_dataset("ys", data=np.arange(8, dtype=np.int16))
+        events.create_dataset("ts", data=np.arange(8, dtype=np.float64))
+        events.create_dataset("ps", data=np.zeros(8, dtype=np.bool_))
+        images = handle.create_group("images")
+        for index, (timestamp, endpoint) in enumerate(((3, 4), (7, 8))):
+            image = images.create_dataset(
+                f"image{index:09d}", data=np.zeros((8, 8), dtype=np.uint8),
+            )
+            image.attrs["timestamp"] = timestamp
+            image.attrs["event_idx"] = endpoint
+
+
+def _config(root, **overrides):
+    return {
+        "type": "eventhdr", "root": str(root), "max_events": None,
+        "event_time_contract": "physical_seconds_v1",
+        "timestamp_scale_to_seconds": 1.0,
+        "interval_timestamp_scale_to_seconds": 1.0,
+        "crop_size": [4, 4], "frame_stride": 1, **overrides,
+    }
+
+
+@pytest.mark.parametrize("split", ["train", "val", "calibration"])
+def test_explicit_false_is_preserved_and_actual_crop_is_centered(tmp_path, split):
+    _synthetic_hdr(tmp_path)
+    config = _config(tmp_path, random_crop=False)
+    dataset = build_dataset(config, split=split)
+    try:
+        assert dataset.random_crop is False
+        assert config["random_crop"] is False
+        first = dataset.get_topology_sample(0)
+        second = dataset.get_topology_sample(1)
+        expected_crop = {"left": 2, "top": 2, "width": 4, "height": 4}
+        assert first["metadata"]["crop"] == expected_crop
+        assert second["metadata"]["crop"] == expected_crop
+        assert first["event_ids"].tolist() == [[0, 2], [0, 3]]
+        assert second["event_ids"].tolist() == [[0, 4], [0, 5]]
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("split", ["train", "val", "calibration"])
+@pytest.mark.parametrize("crop_size", [None, [4, 4]])
+def test_unspecified_random_crop_preserves_existing_split_default(tmp_path, split, crop_size):
+    _synthetic_hdr(tmp_path)
+    config = _config(tmp_path, crop_size=crop_size)
+    dataset = build_dataset(config, split=split)
+    try:
+        assert dataset.random_crop is (split == "train" and crop_size is not None)
+        assert "random_crop" not in config
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("split", ["train", "val", "calibration"])
+def test_explicit_true_is_not_replaced_by_a_split_default(tmp_path, split):
+    _synthetic_hdr(tmp_path)
+    dataset = build_dataset(_config(tmp_path, random_crop=True), split=split)
+    try:
+        assert dataset.random_crop is True
+    finally:
+        dataset.close()
+
+
+@pytest.mark.parametrize("stride", [0, -1, 1.5, 2.0, True, False, "2", None, np.int64(2)])
+def test_invalid_frame_stride_is_refused_before_dataset_discovery(tmp_path, stride):
+    # The directory deliberately has no dataset. A settings error must not be
+    # hidden by clamping/coercion or turn into a later missing-data exception.
+    with pytest.raises(ValueError, match="frame_stride.*positive integer"):
+        EventHDRDataset(tmp_path, frame_stride=stride)
+
+
+@pytest.mark.parametrize("stride,ends", [(1, [4, 8]), (2, [4])])
+def test_valid_frame_stride_keeps_existing_readout_indices(tmp_path, stride, ends):
+    _synthetic_hdr(tmp_path)
+    dataset = build_dataset(_config(tmp_path, frame_stride=stride, crop_size=None))
+    try:
+        assert dataset.frame_stride == stride
+        assert [sample["end_idx"] for sample in dataset.samples] == ends
+        assert dataset.get_topology_sample(0)["sensor_size"] == (8, 8)
+    finally:
+        dataset.close()
+~~~~~~~~
+
 # tests/test_diagnostic_graph.py
 
 ~~~~~~~~python
@@ -62114,6 +63453,193 @@ def test_inspect_uses_separate_validation_root(tmp_path) -> None:
     assert result["splits"]["val"]["preview"][0]["metadata"]["source"].endswith("val.h5")
 ~~~~~~~~
 
+# tests/test_inspect_streaming_graph.py
+
+~~~~~~~~python
+"""Synthetic config/workflow tests; no original data, training or GPU execution."""
+
+from __future__ import annotations
+
+import importlib.util
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "inspect_streaming_graph.py"
+SPEC = importlib.util.spec_from_file_location("inspect_streaming_graph", SCRIPT)
+inspect = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(inspect)
+
+
+@pytest.fixture
+def study(tmp_path):
+    (tmp_path / "pyproject.toml").write_text("# synthetic checkout", encoding="utf-8")
+    data = tmp_path / "data"
+    data.mkdir()
+    (data / "26.h5").write_bytes(b"synthetic placeholder never opened as HDF5")
+    config = {
+        "dataset": {"type": "eventhdr", "root": "data", "max_events": None,
+                    "event_time_contract": "physical_seconds_v1", "timestamp_scale_to_seconds": 0.5,
+                    "interval_timestamp_scale_to_seconds": 0.25, "crop_size": None, "frame_stride": 1},
+        "model": {"architecture_version": 3, "graph_execution": "event_driven", "encoder_kind": "graph",
+                  "event_sampling_factor": 1, "graph_position_dims": 3, "graph_radius": 0.125,
+                  "max_graph_edges": 17, "stream_config": {
+                      "window_seconds": 0.03125, "time_scale_seconds": 0.0625,
+                      "node_time_feature": "physical_frame_offset", "clock": "event_local_pending_off_v1",
+                      "arrival_policy": "simultaneous_equal_timestamp"}},
+        "train": {"batching": "independent_sequences", "validation_context_frames": None},
+    }
+    path = tmp_path / "train.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+    return tmp_path, path, config
+
+
+def test_import_does_not_load_gpu_or_model_libraries():
+    code = f"import runpy,sys; runpy.run_path({str(SCRIPT)!r},run_name='synthetic'); " \
+           "assert not {'torch','numpy','h5py'} & set(sys.modules)"
+    completed = subprocess.run([sys.executable, "-B", "-c", code], capture_output=True, text=True,
+                               timeout=30, check=False)
+    assert completed.returncode == 0, completed.stderr
+
+
+def test_plan_inherits_actual_geometry_without_defaults_or_source_change(study):
+    root, path, _ = study
+    before = path.read_bytes()
+    plan = inspect.load_plan(path, "26.h5", 37, workspace=root)
+    assert plan["arguments"] == {
+        "source_file": root / "data" / "26.h5", "frame_index": 37,
+        "window_seconds": 0.03125, "time_scale_seconds": 0.0625, "radius": 0.125,
+        "timestamp_scale_to_seconds": 0.5, "interval_timestamp_scale_to_seconds": 0.25,
+        "target_options": {},
+    }
+    assert plan["contract"]["settings_changed"] is False
+    assert plan["contract"]["existing_max_graph_edges"] == 17
+    assert plan["contract"]["training_executed"] is False
+    assert path.read_bytes() == before
+
+
+def test_plan_preserves_explicit_target_metadata_contract(study):
+    root, path, config = study
+    options = {"target_channels": 3, "target_normalization": {"mode": "known_scale", "scale": 2.0},
+               "tone_map": "linear", "tone_map_mu": 3000.0}
+    config["dataset"].update(options)
+    path.write_text(json.dumps(config), encoding="utf-8")
+    plan = inspect.load_plan(path, "26.h5", 0, workspace=root)
+    assert plan["arguments"]["target_options"] == options
+
+
+@pytest.mark.parametrize("section,key,value", [
+    ("dataset", "max_events", 8192), ("dataset", "frame_stride", 2),
+    ("dataset", "crop_size", [16, 16]), ("model", "graph_position_dims", 4),
+    ("model", "event_sampling_factor", 2), ("model", "graph_radius", float("nan")),
+])
+def test_unsupported_contract_is_rejected_not_replaced(study, section, key, value):
+    root, path, config = study
+    config[section][key] = value
+    path.write_text(json.dumps(config), encoding="utf-8")
+    before = path.read_bytes()
+    with pytest.raises((ValueError, TypeError)):
+        inspect.load_plan(path, "26.h5", 0, workspace=root)
+    assert path.read_bytes() == before
+
+
+def test_selected_file_must_belong_to_declared_training_split(study):
+    root, path, config = study
+    config["dataset"]["split_manifest"] = "split.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+    manifest = {"status": "final", "split_schema": "official_separate_roots_v1", "train_files": ["1.h5"]}
+    (root / "split.json").write_text(json.dumps(manifest), encoding="utf-8")
+    with pytest.raises(ValueError, match="training split"):
+        inspect.load_plan(path, "26.h5", 0, workspace=root)
+
+
+def test_allowed_files_is_honored_without_split_manifest(study):
+    root, path, config = study
+    config["dataset"]["allowed_files"] = ["1.h5"]
+    path.write_text(json.dumps(config), encoding="utf-8")
+    with pytest.raises(ValueError, match="allowed_files"):
+        inspect.load_plan(path, "26.h5", 0, workspace=root)
+
+
+def test_file_key_normalization_matches_production():
+    assert inspect._file_keys(["part\\26.h5", "./27.h5"]) == ["part/26.h5", "27.h5"]
+    with pytest.raises(ValueError, match="Duplicate"):
+        inspect._file_keys(["part\\26.h5", "part/26.h5"])
+
+
+def test_manifest_change_refuses_success_report(monkeypatch, study):
+    root, path, config = study
+    config["dataset"]["split_manifest"] = "split.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+    manifest = {"status": "final", "split_schema": "official_separate_roots_v1", "train_files": ["26.h5"]}
+    manifest_path = root / "split.json"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    monkeypatch.setattr(inspect, "preflight", lambda **kwargs: {"synthetic": True})
+    def mutate_manifest(**kwargs):
+        manifest["train_files"] = ["1.h5"]
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        return {"synthetic": True}
+    monkeypatch.setattr(inspect, "audit_raw_event_graph", mutate_manifest)
+    with pytest.raises(RuntimeError, match="manifest changed"):
+        inspect.inspect_graph(config_path=path, source_file="26.h5", frame_index=0, cpu_threads=1,
+                              memory_budget_mib=512, reserve_memory_mib=128, workspace=root)
+    assert not (root / "runs").exists()
+
+
+def test_resource_refusal_precedes_config_and_dataset_reads(monkeypatch, study):
+    root, path, _ = study
+    def refuse(**kwargs):
+        raise RuntimeError("synthetic resource refusal")
+    def no_plan(*args, **kwargs):
+        pytest.fail("Plan read after a resource refusal")
+    monkeypatch.setattr(inspect, "preflight", refuse)
+    monkeypatch.setattr(inspect, "load_plan", no_plan)
+    with pytest.raises(RuntimeError, match="resource refusal"):
+        inspect.inspect_graph(config_path=path, source_file="26.h5", frame_index=0, cpu_threads=1,
+                              memory_budget_mib=512, reserve_memory_mib=128, workspace=root)
+    assert not (root / "runs").exists()
+
+
+def test_workflow_uses_new_output_and_no_training(monkeypatch, study):
+    root, path, _ = study
+    calls = []
+    monkeypatch.setattr(inspect, "preflight", lambda **kwargs: {"synthetic": True})
+    def synthetic_audit(**kwargs):
+        calls.append(kwargs)
+        return {"synthetic": True, "report_eligible": False, "total_directed_edges": None,
+                "window": {"nodes": 0}, "queries": [], "timings": {"audit_elapsed_s": 0.0}}
+    monkeypatch.setattr(inspect, "audit_raw_event_graph", synthetic_audit)
+    original = path.read_bytes()
+    first = inspect.inspect_graph(config_path=path, source_file="26.h5", frame_index=0, cpu_threads=1,
+                                  memory_budget_mib=512, reserve_memory_mib=128, workspace=root)
+    second = inspect.inspect_graph(config_path=path, source_file="26.h5", frame_index=0, cpu_threads=1,
+                                   memory_budget_mib=512, reserve_memory_mib=128, workspace=root,
+                                   count_all_nodes=True)
+    assert first != second and first.is_file() and second.is_file()
+    assert calls[0]["count_all_nodes"] is False
+    assert calls[1]["count_all_nodes"] is True
+    assert calls[0]["radius"] == 0.125
+    assert json.loads(first.read_text())["training_config_inspection"]["training_executed"] is False
+    assert path.read_bytes() == original
+
+
+def test_terminal_summary_retains_unmeasured_total_and_omits_large_neighbor_trace():
+    report = {"window": {"nodes": 8}, "total_directed_edges": None,
+              "timings": {"audit_elapsed_s": 0.25}, "queries": [{
+                  "raw_row_id": 10, "in_degree": 2, "all_window_sources_checked": 8,
+                  "oracle_match": True, "neighbors": [{"synthetic_trace": "not for terminal"}],
+              }]}
+    summary = inspect.compact_report(report)
+    assert summary["nodes"] == 8
+    assert summary["total_directed_edges"] is None
+    assert summary["queries"] == [{"raw_row_id": 10, "in_degree": 2,
+                                   "all_window_sources_checked": 8, "oracle_match": True}]
+    assert summary["full_graph_oracle_verified"] is False
+~~~~~~~~
+
 # tests/test_metrics_ssim.py
 
 ~~~~~~~~python
@@ -66662,6 +68188,567 @@ def test_source_mask_is_validated_even_on_empty_graph():
     for active in (torch.empty(0), torch.ones(1, dtype=torch.bool), [False]):
         with pytest.raises(ValueError, match="active_sources"):
             list(index.iter_directed_neighbors(active_sources=active))
+~~~~~~~~
+
+# tests/test_raw_graph_audit.py
+
+~~~~~~~~python
+"""Synthetic CPU diagnostic tests, not real-data or model/GPU validation.
+
+All data below are deliberately tiny, locally generated fixtures. Resource
+snapshots are mocked only for these synthetic tests; no real-data safety check
+is bypassed and no experiment configuration or stored result is changed.
+"""
+
+from __future__ import annotations
+
+import importlib.util
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+import numpy as np
+import pytest
+
+from asgcn_unet import diagnostic_resources
+from asgcn_unet.diagnostic_resources import DiagnosticResourceError
+
+SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "audit_raw_event_graph.py"
+_SPEC = importlib.util.spec_from_file_location("audit_raw_event_graph", SCRIPT)
+assert _SPEC is not None and _SPEC.loader is not None
+audit = importlib.util.module_from_spec(_SPEC)
+sys.modules[_SPEC.name] = audit
+_SPEC.loader.exec_module(audit)
+
+
+def test_import_is_stdlib_only_and_does_not_import_models_or_cuda():
+    code = f"""
+import sys
+import runpy
+runpy.run_path({str(SCRIPT)!r}, run_name='synthetic_import_check')
+for name in sys.modules:
+    assert name.split('.')[0] not in {{'torch', 'numpy', 'h5py'}}, name
+    assert not name.startswith(('asgcn_unet.model', 'asgcn_unet.stream_model',
+                                'asgcn_unet.implicit_model')), name
+"""
+    result = subprocess.run(
+        [sys.executable, "-B", "-c", code], capture_output=True, text=True,
+        check=False, timeout=30,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_window_is_inclusive_at_both_physical_time_boundaries():
+    raw = np.array([99, 100, 101, 102], dtype=np.float64)
+    rows, seconds = audit.select_window_rows(
+        raw, timestamp_scale_to_seconds=0.5,
+        readout_seconds=51.0, window_seconds=1.0,
+    )
+    np.testing.assert_array_equal(rows, [1, 2, 3])
+    np.testing.assert_array_equal(seconds, [50.0, 50.5, 51.0])
+    assert rows.dtype == np.int64
+    assert seconds.dtype == np.float64
+
+
+def test_delivered_prefix_with_future_events_is_refused_not_silently_filtered():
+    with pytest.raises(ValueError, match="after.*readout"):
+        audit.select_window_rows(
+            np.array([99.0, 100.0, 103.0]), timestamp_scale_to_seconds=0.5,
+            readout_seconds=51.0, window_seconds=1.0,
+        )
+
+
+def test_window_keeps_duplicate_records_as_distinct_source_rows():
+    rows, seconds = audit.select_window_rows(
+        np.array([1.0, 1.0, 1.0]), timestamp_scale_to_seconds=1.0,
+        readout_seconds=1.0, window_seconds=0.5,
+    )
+    np.testing.assert_array_equal(rows, [0, 1, 2])
+    np.testing.assert_array_equal(seconds, [1.0, 1.0, 1.0])
+
+
+def test_window_has_no_8192_event_cap_or_hidden_sampling():
+    # Larger than the old static-profile event cap, but only a small CPU vector.
+    raw = np.arange(9001, dtype=np.float64)
+    rows, seconds = audit.select_window_rows(
+        raw, timestamp_scale_to_seconds=1.0,
+        readout_seconds=9000.0, window_seconds=9000.0,
+    )
+    np.testing.assert_array_equal(rows, np.arange(9001, dtype=np.int64))
+    np.testing.assert_array_equal(seconds, raw)
+
+
+@pytest.mark.parametrize("raw", [[0.0, 2.0, 1.0], [0.0, np.nan], [0.0, np.inf]])
+def test_full_supplied_clock_is_checked_even_outside_selected_window(raw):
+    with pytest.raises((ValueError, RuntimeError)):
+        audit.select_window_rows(
+            np.array(raw), timestamp_scale_to_seconds=1.0,
+            readout_seconds=100.0, window_seconds=1.0,
+        )
+
+
+@pytest.mark.parametrize("scale", [0.0, -1.0, float("nan"), float("inf")])
+def test_timestamp_scale_is_explicit_finite_and_positive(scale):
+    with pytest.raises((ValueError, RuntimeError)):
+        audit.select_window_rows(
+            np.array([0.0, 1.0]), timestamp_scale_to_seconds=scale,
+            readout_seconds=1.0, window_seconds=1.0,
+        )
+
+
+def test_distinct_int64_timestamps_that_collapse_in_float64_are_refused():
+    with pytest.raises(ValueError):
+        audit.select_window_rows(
+            np.array([2**53, 2**53 + 1], dtype=np.int64),
+            timestamp_scale_to_seconds=1.0, readout_seconds=float(2**53 + 4),
+            window_seconds=8.0,
+        )
+
+
+def test_normalized_geometry_uses_sensor_axes_and_fixed_sequence_origin():
+    import torch
+
+    events = np.array([[100.0, 50.0, 1001.0, -1.0],
+                       [50.0, 25.0, 1002.0, 1.0]], dtype=np.float64)
+    positions = audit.normalized_positions(
+        events, (101, 201), origin_seconds=1000.0, time_scale_seconds=2.0,
+    )
+    assert positions.dtype == torch.float64
+    assert positions.device.type == "cpu"
+    torch.testing.assert_close(
+        positions, torch.tensor([[0.5, 0.5, 0.5, 0.0],
+                                 [0.25, 0.25, 1.0, 1.0]], dtype=torch.float64),
+        rtol=0, atol=0,
+    )
+    # The second event gets identical geometry when queried in another window.
+    second = audit.normalized_positions(
+        events[1:], (101, 201), origin_seconds=1000.0, time_scale_seconds=2.0,
+    )
+    torch.testing.assert_close(second[0], positions[1], rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("pair_budget", [1, 3, 100])
+def test_query_uses_all_sources_strict_boundary_and_distinct_duplicate_rows(pair_budget):
+    import torch
+
+    radius = 0.25
+    positions = torch.tensor(
+        [[0.0, 0.0, 0.0, 0.0],
+         [0.0, 0.0, 0.0, 1.0],  # Opposite polarity, same geometric position.
+         [np.nextafter(radius, 0.0), 0.0, 0.0, 0.0],
+         [radius, 0.0, 0.0, 0.0],  # Exactly on boundary: no edge.
+         [np.nextafter(radius, np.inf), 0.0, 0.0, 0.0]],
+        dtype=torch.float64,
+    )
+    raw_ids = np.arange(40, 45, dtype=np.int64)
+    result = audit.query_neighbors(
+        positions, raw_ids, [0], radius=radius, candidate_pair_budget=pair_budget,
+    )
+    assert len(result) == 1
+    neighbors = result[0]["neighbors"]
+    assert {row["node_index"] for row in neighbors} == {1, 2}
+    assert {row["raw_row_id"] for row in neighbors} == {41, 42}
+    assert all(row["node_index"] != 0 for row in neighbors)
+    by_node = {row["node_index"]: row for row in neighbors}
+    assert by_node[1]["distance_over_radius"] == 0.0
+    assert by_node[2]["distance_over_radius"] < 1.0
+    # Neither source was a requested destination, so this also checks against
+    # erroneously building an induced graph over the selected query subset.
+
+
+def test_multiple_queries_match_independent_full_source_cpu_oracle():
+    import torch
+
+    positions = torch.tensor(
+        [[0, 0, 0, 0], [0.1, 0.1, 0.0, 1], [0.2, 0, 0.1, 0],
+         [1, 1, 1, 1], [0, 0, 0.1, 1]], dtype=torch.float64,
+    )
+    raw_ids = np.array([101, 105, 112, 129, 131], dtype=np.int64)
+    radius = 0.2
+    queries = [2, 0]
+    result = audit.query_neighbors(
+        positions, raw_ids, queries, radius=radius, candidate_pair_budget=2,
+    )
+    assert len(result) == len(queries)
+    for query, report in zip(queries, result, strict=True):
+        distances = torch.linalg.vector_norm(
+            (positions[:, :3] - positions[query, :3]) / radius, dim=1,
+        )
+        expected = {
+            index for index, distance in enumerate(distances.tolist())
+            if index != query and distance < 1.0
+        }
+        assert {row["node_index"] for row in report["neighbors"]} == expected
+        for row in report["neighbors"]:
+            assert row["raw_row_id"] == raw_ids[row["node_index"]]
+            assert row["distance_over_radius"] == pytest.approx(
+                float(distances[row["node_index"]]), rel=0, abs=1e-15,
+            )
+
+
+def test_existing_output_is_never_overwritten(tmp_path):
+    output = tmp_path / "synthetic-report.json"
+    original = b'{"original": true}\n'
+    output.write_bytes(original)
+    with pytest.raises((FileExistsError, ValueError, RuntimeError)):
+        audit.save_report({"synthetic": True}, output, workspace=tmp_path)
+    assert output.read_bytes() == original
+
+
+def test_new_report_is_written_once_as_json(tmp_path):
+    output = tmp_path / "synthetic-report.json"
+    report = {"synthetic": True, "report_eligible": False, "queries": []}
+    audit.save_report(report, output, workspace=tmp_path)
+    assert json.loads(output.read_text(encoding="utf-8")) == report
+    with pytest.raises((FileExistsError, ValueError, RuntimeError)):
+        audit.save_report(report, output, workspace=tmp_path)
+
+
+def test_report_cannot_escape_explicit_workspace(tmp_path):
+    workspace = tmp_path / "workspace"
+    workspace.mkdir()
+    output = tmp_path / "outside.json"
+    with pytest.raises((ValueError, RuntimeError)):
+        audit.save_report({"synthetic": True}, output, workspace=workspace)
+    assert not output.exists()
+
+
+def test_memory_refusal_happens_before_dataset_open(monkeypatch, tmp_path):
+    import h5py
+
+    calls = []
+
+    def refuse_synthetic_budget(**kwargs):
+        calls.append(kwargs)
+        raise DiagnosticResourceError("synthetic resource shortfall")
+
+    def dataset_must_not_open(*args, **kwargs):
+        pytest.fail("Dataset read happened after a failed resource preflight")
+
+    monkeypatch.setattr(audit, "preflight", refuse_synthetic_budget)
+    monkeypatch.setattr(h5py, "File", dataset_must_not_open)
+    with pytest.raises(DiagnosticResourceError, match="synthetic resource shortfall"):
+        audit.audit_raw_event_graph(
+            source_file=tmp_path / "not-read.h5", frame_index=0,
+            window_seconds=0.05, time_scale_seconds=0.05, radius=0.08,
+            timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=1.0,
+            cpu_threads=1, memory_budget_bytes=1024, reserve_memory_bytes=1024,
+        )
+    assert len(calls) == 1
+    assert calls[0]["budget_bytes"] == 1024
+    assert calls[0]["reserve_bytes"] == 1024
+
+
+@pytest.fixture
+def synthetic_resource_snapshot(monkeypatch):
+    """Explicit fake allocation only for the small synthetic HDF5 tests below."""
+    import torch
+
+    def snapshot():
+        return {
+            "headroom_bytes": 2 * 1024**3,
+            "system": {"total_bytes": 4 * 1024**3, "available_bytes": 2 * 1024**3,
+                       "process_rss_bytes": 32 * 1024**2},
+            "cpu": {"effective_cores": 4, "affinity_count": 4},
+            "cgroup": {"memory_headroom_bytes": 2 * 1024**3},
+        }
+
+    monkeypatch.setattr(diagnostic_resources, "_snapshot", snapshot)
+    # The standalone command owns its CPU pools. Restore them after the
+    # in-process synthetic test so other tests do not inherit these settings.
+    for key in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
+        monkeypatch.setenv(key, os.environ.get(key, "1"))
+    previous_threads = torch.get_num_threads()
+    yield
+    torch.set_num_threads(previous_threads)
+
+
+def _synthetic_hdr(path, *, stored_indices=True):
+    import h5py
+
+    with h5py.File(path, "x") as handle:
+        events = handle.create_group("events")
+        events.create_dataset("xs", data=np.ones(8, dtype=np.int16))
+        events.create_dataset("ys", data=np.ones(8, dtype=np.int16))
+        events.create_dataset("ps", data=np.zeros(8, dtype=np.bool_))
+        events.create_dataset("ts", data=np.array(
+            [9.0, 10.0, 10.5, 10.5, 10.75, 10.875, 11.0, 11.125], dtype=np.float64,
+        ))
+        images = handle.create_group("images")
+        for index, (timestamp, end) in enumerate(((11.0, 5), (11.125, 7))):
+            image = images.create_dataset(f"image{index:09d}", data=np.zeros((5, 7), np.uint8))
+            # Different event/frame source units exercise independent scales.
+            image.attrs["timestamp"] = timestamp * 2
+            if stored_indices:
+                image.attrs["event_idx"] = end
+    return path
+
+
+def _audit_synthetic(path, *, frame_index=0):
+    return audit.audit_raw_event_graph(
+        source_file=path, frame_index=frame_index,
+        window_seconds=0.5, time_scale_seconds=1.0, radius=1.0,
+        timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=0.5,
+        cpu_threads=1, memory_budget_bytes=512 * 1024**2,
+        reserve_memory_bytes=128 * 1024**2,
+    )
+
+
+def test_float_target_metadata_uses_explicit_training_reader_settings(tmp_path, synthetic_resource_snapshot):
+    import h5py
+
+    path = tmp_path / "synthetic-float-target.h5"
+    with h5py.File(path, "x") as handle:
+        events = handle.create_group("events")
+        for name in ("xs", "ys", "ps"):
+            events.create_dataset(name, data=np.ones(2, dtype=np.int16))
+        events.create_dataset("ts", data=np.array([0.0, 0.125], dtype=np.float64))
+        image = handle.create_group("images").create_dataset(
+            "image000000000", data=np.ones((4, 4, 3), dtype=np.float32),
+        )
+        image.attrs["timestamp"] = 0.25
+        image.attrs["event_idx"] = 2
+    options = {"target_channels": 3, "target_normalization": {"mode": "known_scale", "scale": 2.0},
+               "tone_map": "linear"}
+    report = audit.audit_raw_event_graph(
+        source_file=path, frame_index=0, window_seconds=0.5, time_scale_seconds=1.0,
+        radius=1.0, timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=1.0,
+        cpu_threads=1, memory_budget_bytes=512 * 1024**2, reserve_memory_bytes=128 * 1024**2,
+        target_options=options,
+    )
+    assert report["window"]["nodes"] == 2
+    assert report["target_reader_options"] == options
+
+
+def test_diagnostic_calls_production_coordinate_builder(monkeypatch):
+    import torch
+
+    from asgcn_unet import stream_geometry
+
+    original = stream_geometry.physical_node_positions
+    calls = []
+
+    def observed(*args, **kwargs):
+        calls.append(kwargs)
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(stream_geometry, "physical_node_positions", observed)
+    coordinates = audit.normalized_positions(np.array([[1.0, 1.0, 10.0, -1.0]]), (4, 4),
+                                             origin_seconds=9.0, time_scale_seconds=2.0)
+    assert len(calls) == 1
+    assert torch.equal(coordinates, torch.tensor([[1 / 3, 1 / 3, 0.5, 0.0]], dtype=torch.float64))
+
+
+@pytest.mark.parametrize("stored_indices", [True, False])
+def test_hdr_predecessor_end_is_exclusive_no_undelivered_or_future_nodes(
+    tmp_path, synthetic_resource_snapshot, stored_indices,
+):
+    path = _synthetic_hdr(tmp_path / "synthetic.h5", stored_indices=stored_indices)
+    original = path.read_bytes()
+    report = _audit_synthetic(path)
+    assert report["source"]["frame_index"] == 0
+    assert report["source"]["delivery_end_idx_exclusive"] == 5
+    assert report["source"]["validated_timestamp_prefix_rows"] == 5
+    assert report["window"]["nodes"] == 3
+    assert report["window"]["first_raw_row_id"] == 2
+    assert report["window"]["last_raw_row_id"] == 4
+    assert report["window"]["cutoff_inclusive"] is True
+    assert report["window"]["cutoff_seconds"] == 10.5
+    assert report["window"]["readout_seconds"] == 11.0
+    assert report["window"]["sampling_factor"] == 1
+    assert report["window"]["max_events"] is None
+    assert report["window"]["crop"] is None
+    assert report["geometry"]["sequence_origin_seconds"] == 9.0
+    trace = report["node_details"]["0"]
+    assert trace["raw_row_id"] == 2
+    assert trace["original_source"] == {
+        "x": 1, "y": 1, "timestamp": 10.5, "polarity": False,
+    }
+    assert trace["preprocessed"] == {
+        "x": 1.0, "y": 1.0, "timestamp_seconds": 10.5,
+    }
+    assert report["geometry"]["polarity_in_topology"] is False
+    assert report["geometry"]["feature_parity_audited"] is False
+    np.testing.assert_allclose(
+        trace["normalized_topology_coordinates"], [1 / 6, 1 / 4, 1.5], rtol=0, atol=0,
+    )
+    assert {query["raw_row_id"] for query in report["queries"]} == {2, 3, 4}
+    for query in report["queries"]:
+        expected = {2, 3, 4} - {query["raw_row_id"]}
+        assert {neighbor["raw_row_id"] for neighbor in query["neighbors"]} == expected
+        assert query["in_degree"] == 2
+        assert query["all_window_sources_checked"] == 3
+        assert query["oracle_match"] is True
+    # Row5's time precedes readout but its delivery is later: do not reconstruct
+    # a different graph by including every timestamp <= readout independently
+    # of the authoritative exclusive delivery index.
+    assert report["schema"] == "asgcn_raw_graph_audit_v1"
+    assert report["report_eligible"] is False
+    assert report["paper_exact"] is False
+    assert report["total_directed_edges"] is None
+    assert path.read_bytes() == original
+
+
+def test_sequence_origin_does_not_shift_between_frames_and_cuda_is_not_queried(
+    monkeypatch, tmp_path, synthetic_resource_snapshot,
+):
+    import torch
+
+    def cuda_must_not_be_called(*args, **kwargs):
+        pytest.fail("CPU graph diagnostic attempted a CUDA operation")
+
+    for name in ("is_available", "device_count", "_lazy_init", "mem_get_info"):
+        monkeypatch.setattr(torch.cuda, name, cuda_must_not_be_called)
+    path = _synthetic_hdr(tmp_path / "synthetic.h5")
+    first = _audit_synthetic(path, frame_index=0)
+    second = _audit_synthetic(path, frame_index=1)
+    assert first["geometry"]["sequence_origin_seconds"] == 9.0
+    assert second["geometry"]["sequence_origin_seconds"] == 9.0
+    assert first["window"]["cutoff_seconds"] != second["window"]["cutoff_seconds"]
+    assert second["window"]["first_raw_row_id"] == 4
+    assert second["window"]["last_raw_row_id"] == 6
+    assert first["resources"]["cuda_queried"] is False
+    assert second["resources"]["cuda_queried"] is False
+
+
+def test_original_int64_timestamp_trace_is_not_reconstructed_from_float64(
+    tmp_path, synthetic_resource_snapshot,
+):
+    import h5py
+
+    path = tmp_path / "synthetic-integer-clock.h5"
+    original_timestamp = 2**53 + 1
+    with h5py.File(path, "x") as handle:
+        events = handle.create_group("events")
+        for name in ("xs", "ys", "ps"):
+            events.create_dataset(name, data=np.zeros(2, dtype=np.int16))
+        events.create_dataset("ts", data=np.array([original_timestamp] * 2, dtype=np.int64))
+        image = handle.create_group("images").create_dataset(
+            "image000000000", data=np.zeros((2, 2), np.uint8),
+        )
+        image.attrs["timestamp"] = float(2**53 + 4)
+        image.attrs["event_idx"] = 2
+    report = audit.audit_raw_event_graph(
+        source_file=path, frame_index=0, window_seconds=8.0, time_scale_seconds=1.0,
+        radius=1.0, timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=1.0,
+        cpu_threads=1, memory_budget_bytes=512 * 1024**2,
+        reserve_memory_bytes=128 * 1024**2,
+    )
+    # This is a preservation check, not a claim that float64 geometry retains
+    # every bit of a large integer timestamp. JSON rawtrace must retain it.
+    for node in report["node_details"].values():
+        raw_timestamp = node["original_source"]["timestamp"]
+        assert type(raw_timestamp) is int
+        assert raw_timestamp == original_timestamp
+
+
+@pytest.mark.parametrize("coordinates", [
+    [], [[0.0, 0.0, 0.0]],
+    [[0.0, 0.0, 0.0]] * 7,
+    [[0.0, 0.0, 0.0], [0.1, 0.0, 0.0], [0.25, 0.0, 0.0], [3.0, 2.0, 1.0]],
+])
+@pytest.mark.parametrize("pair_budget", [1, 11])
+def test_full_count_matches_independent_small_full_oracle(coordinates, pair_budget):
+    import torch
+
+    from asgcn_unet.implicit_radius import ImplicitRadiusIndex
+
+    positions = torch.zeros((len(coordinates), 4), dtype=torch.float64)
+    if coordinates:
+        positions[:, :3] = torch.tensor(coordinates, dtype=torch.float64)
+    radius = 0.25
+    index = ImplicitRadiusIndex(
+        positions, torch.zeros(len(positions), dtype=torch.long), batch_size=1,
+        radius=radius, position_dims=3, chunk_size=3, candidate_pair_budget=pair_budget,
+    )
+    degrees, result = audit.count_all_degrees(index)
+    # This full NxN oracle is intentionally only a tiny synthetic test fixture.
+    distances = torch.linalg.vector_norm(
+        (positions[:, None, :3] - positions[None, :, :3]) / radius, dim=-1,
+    )
+    expected_edges = distances < 1
+    expected_edges.fill_diagonal_(False)
+    expected = expected_edges.sum(dim=0)
+    torch.testing.assert_close(degrees, expected, rtol=0, atol=0)
+    assert result["nodes"] == len(positions)
+    assert result["directed_edges"] == int(expected.sum())
+    assert result["undirected_edges"] * 2 == result["directed_edges"]
+    assert result["isolated_nodes"] == int((expected == 0).sum())
+    assert result["degree_min"] == (int(expected.min()) if len(expected) else None)
+    assert result["degree_max"] == (int(expected.max()) if len(expected) else None)
+    assert result["degree_mean"] == (int(expected.sum()) / len(expected) if len(expected) else None)
+    assert result["count_time_s"] >= 0
+    assert result["all_nodes_counted"] is True
+    assert result["edge_list_materialized"] is False
+    assert result["full_graph_oracle_verified"] is False
+
+
+def test_default_selected_query_mode_does_not_count_all_nodes(
+    tmp_path, monkeypatch, synthetic_resource_snapshot,
+):
+    def forbidden_count(*args, **kwargs):
+        pytest.fail("Default selected-query diagnostic unexpectedly counted every node")
+
+    monkeypatch.setattr(audit, "count_all_degrees", forbidden_count)
+    report = _audit_synthetic(_synthetic_hdr(tmp_path / "synthetic.h5"))
+    assert report["count_all_nodes"] is False
+    assert report["full_count"] is None
+    assert report["total_directed_edges"] is None
+    assert report["timings"]["count_time_s"] is None
+    assert report["resources"]["all_node_degree_scratch_bytes"] == 0
+
+
+def test_opt_in_counts_full_window_and_reuses_one_index_for_selected_oracle(
+    tmp_path, monkeypatch, synthetic_resource_snapshot,
+):
+    from asgcn_unet.implicit_radius import ImplicitRadiusGraph, ImplicitRadiusIndex
+
+    calls = []
+    original_init = ImplicitRadiusIndex.__init__
+
+    def observed_init(index, *args, **kwargs):
+        calls.append(len(args[0]))
+        original_init(index, *args, **kwargs)
+
+    def no_graph_materialization(*args, **kwargs):
+        pytest.fail("Count-only diagnostic attempted to construct a model graph")
+
+    monkeypatch.setattr(ImplicitRadiusIndex, "__init__", observed_init)
+    monkeypatch.setattr(ImplicitRadiusGraph, "from_counted_nodes", no_graph_materialization)
+    path = _synthetic_hdr(tmp_path / "synthetic.h5")
+    report = audit.audit_raw_event_graph(
+        source_file=path, frame_index=0, window_seconds=0.5, time_scale_seconds=1.0,
+        radius=1.0, timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=0.5,
+        cpu_threads=1, memory_budget_bytes=512 * 1024**2,
+        reserve_memory_bytes=128 * 1024**2, query_indices=[0], count_all_nodes=True,
+    )
+    assert calls == [3]
+    assert report["count_all_nodes"] is True
+    assert report["total_directed_edges"] == 6
+    full = report["full_count"]
+    assert (full["nodes"], full["degree_min"], full["degree_mean"], full["degree_max"]) == (3, 2, 2, 2)
+    assert full["isolated_nodes"] == 0
+    assert full["selected_oracle_queries_checked"] == 1
+    assert full["selected_oracle_degree_sum"] == 2
+    assert full["selected_oracle_degrees_match"] is True
+    assert full["full_graph_oracle_verified"] is False
+    assert len(report["queries"]) == 1  # No all-node neighbor JSON expansion.
+    assert report["report_eligible"] is False
+    assert report["paper_exact"] is False
+    assert report["timings"]["count_time_s"] >= 0
+    assert report["resources"]["all_node_degree_scratch_bytes"] == 3 * 64
+
+
+def test_count_mode_flag_is_explicit_opt_in():
+    arguments = ["--source-file", "synthetic.h5", "--frame-index", "0",
+                 "--window-seconds", "0.05", "--time-scale-seconds", "0.05", "--radius", "0.08",
+                 "--timestamp-scale-to-seconds", "1", "--interval-timestamp-scale-to-seconds", "1",
+                 "--cpu-threads", "1", "--memory-budget-mib", "512", "--reserve-memory-mib", "128",
+                 "--output", "synthetic.json"]
+    assert audit.build_parser().parse_args(arguments).count_all_nodes is False
+    assert audit.build_parser().parse_args([*arguments, "--count-all-nodes"]).count_all_nodes is True
 ~~~~~~~~
 
 # tests/test_recovery.py
@@ -71624,6 +73711,224 @@ def test_empty_graph_with_previous_last_id_can_be_restored_after_expiration():
     assert len(restored.graph.timestamps) == 0 and restored.last_event_id == (0, 1)
 ~~~~~~~~
 
+# tests/test_stream_clock_precision.py
+
+~~~~~~~~python
+"""Synthetic CPU timestamp precision regressions; no real data/model/GPU run."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import h5py
+import numpy as np
+import pytest
+import torch
+
+from asgcn_unet.data import EventHDRDataset, eventhdr
+from asgcn_unet.stream_input import (
+    PHYSICAL_EVENT_TIME_CONTRACT,
+    hdr_boundary_policy,
+    to_physical_seconds,
+)
+
+
+def _physical(scale=1.0):
+    return {
+        "event_time_contract": PHYSICAL_EVENT_TIME_CONTRACT,
+        "max_events": None,
+        "timestamp_scale_to_seconds": scale,
+        "interval_timestamp_scale_to_seconds": scale,
+    }
+
+
+def _hdr(root: Path, timestamps: np.ndarray, boundaries, *, image_shapes=None):
+    """Write a small fixture preserving its explicit source timestamp dtype."""
+    path = root / "synthetic-clock.h5"
+    with h5py.File(path, "x") as handle:
+        events = handle.create_group("events")
+        events.create_dataset("ts", data=timestamps)
+        events.create_dataset("xs", data=np.arange(len(timestamps), dtype=np.int16) % 8)
+        events.create_dataset("ys", data=np.zeros(len(timestamps), dtype=np.int16))
+        events.create_dataset("ps", data=np.zeros(len(timestamps), dtype=np.bool_))
+        images = handle.create_group("images")
+        for index, (timestamp, endpoint) in enumerate(boundaries):
+            shape = image_shapes[index] if image_shapes is not None else (8, 8)
+            image = images.create_dataset(
+                f"image{index:09d}", data=np.zeros(shape, dtype=np.uint8),
+            )
+            image.attrs["timestamp"] = timestamp
+            if endpoint is not None:
+                image.attrs["event_idx"] = endpoint
+    return path
+
+
+@pytest.mark.parametrize("values", [
+    np.array([2**53, 2**53 + 1], dtype=np.int64),
+    np.array([-2**53 - 1, -2**53], dtype=np.int64),
+    np.array([2**64 - 2, 2**64 - 1], dtype=np.uint64),
+    np.array([float(2**53), 2**53 + 1], dtype=object),
+])
+def test_raw_values_are_compared_before_float64_cast(values):
+    with pytest.raises(ValueError, match="loses timestamp resolution"):
+        to_physical_seconds(values, 1.0, source="synthetic raw clock")
+
+
+@pytest.mark.parametrize("container", [list, tuple])
+def test_native_mixed_python_container_cannot_coerce_away_integer_distinction(container):
+    values = container([float(2**53), 2**53 + 1])
+    with pytest.raises(ValueError, match="loses timestamp resolution"):
+        to_physical_seconds(values, 1.0, source="synthetic mixed Python clock")
+
+
+@pytest.mark.parametrize("container", [list, tuple])
+def test_valid_native_mixed_python_container_keeps_float64_output(container):
+    values = container([0, 1.0, 2, 2.5])
+    actual = to_physical_seconds(values, 1e-6, source="synthetic mixed Python clock")
+    assert actual.dtype == np.float64
+    np.testing.assert_array_equal(actual, np.asarray(values, dtype=np.float64) * 1e-6)
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64, np.int16, np.int64, np.uint64])
+def test_valid_source_values_keep_existing_float64_results(dtype):
+    original = np.array([0, 1, 1, 10, 100], dtype=dtype)
+    expected = np.asarray(original, dtype=np.float64) * 1e-6
+    actual = to_physical_seconds(original, 1e-6, source="synthetic exact clock")
+    assert actual.dtype == np.float64
+    np.testing.assert_array_equal(actual, expected)
+
+
+def test_equal_large_integer_timestamps_remain_equal_not_deduplicated():
+    original = np.array([2**53 + 1, 2**53 + 1, 2**53 + 4], dtype=np.int64)
+    actual = to_physical_seconds(original, 1.0, source="synthetic duplicate clock")
+    np.testing.assert_array_equal(actual, original.astype(np.float64))
+    assert len(actual) == len(original)
+
+
+def test_boundary_validation_cannot_hide_original_integer_collision():
+    with pytest.raises(ValueError, match="loses timestamp resolution"):
+        hdr_boundary_policy(
+            np.array([2**53, 2**53 + 1, 2**53 + 4], dtype=np.int64),
+            1, 2**53 + 4, source="synthetic boundary",
+        )
+
+
+@pytest.mark.parametrize("topology_only", [False, True])
+def test_hdr_payload_rejects_interior_collision_before_model_or_crop(tmp_path, topology_only):
+    # Stored boundary checks inspect only endpoint neighbors. The corrupt pair
+    # is inside the delivered block, so actual payload conversion must catch it.
+    raw = np.array([0, 2**53, 2**53 + 1, 2**53 + 4, 2**53 + 8], dtype=np.int64)
+    path = _hdr(tmp_path, raw, [(2**53 + 10, len(raw))])
+    original_bytes = path.read_bytes()
+    dataset = EventHDRDataset(tmp_path, **_physical(), crop_size=(2, 2))
+    try:
+        with pytest.raises(ValueError, match="loses timestamp resolution"):
+            if topology_only:
+                dataset.get_topology_sample(0)
+            else:
+                dataset[0]
+    finally:
+        dataset.close()
+    assert path.read_bytes() == original_bytes
+
+
+def test_recovered_index_checks_integer_collision_across_chunk_boundary(tmp_path, monkeypatch):
+    monkeypatch.setattr(eventhdr, "_TIMESTAMP_CHUNK_SIZE", 2)
+    path = _hdr(
+        tmp_path, np.array([0, 2**53, 2**53 + 1, 2**53 + 4], dtype=np.int64),
+        [(2**53 + 4, None)],
+    )
+    original_bytes = path.read_bytes()
+    with pytest.raises(ValueError, match="loses timestamp resolution"):
+        EventHDRDataset(tmp_path, **_physical())
+    assert path.read_bytes() == original_bytes
+
+
+@pytest.mark.parametrize("stored", [False, True])
+@pytest.mark.parametrize("first_boundary", [2**53, float(2**53)])
+def test_hdr_frame_attributes_are_checked_before_integer_cast_loss(
+    tmp_path, stored, first_boundary,
+):
+    endpoint = 0 if stored else None
+    _hdr(tmp_path, np.array([], dtype=np.int64),
+         [(first_boundary, endpoint), (2**53 + 1, endpoint)])
+    with pytest.raises(ValueError, match="loses timestamp resolution"):
+        EventHDRDataset(tmp_path, **_physical())
+
+
+@pytest.mark.parametrize("dtype", [np.int16, np.int64, np.float64])
+def test_hdr_valid_source_dtype_keeps_float64_samples_ids_and_boundary_policy(tmp_path, dtype):
+    raw = np.array([0, 1, 1, 2, 3, 4], dtype=dtype)
+    _hdr(tmp_path, raw, [(2, 3), (4, 6)])
+    dataset = EventHDRDataset(tmp_path, **_physical(1e-6))
+    try:
+        for index, row_ids in enumerate(([0, 1, 2], [3, 4, 5])):
+            sample = dataset[index]
+            expected = torch.from_numpy(raw[row_ids].astype(np.float64) * 1e-6)
+            assert sample["events"].dtype == torch.float64
+            assert torch.equal(sample["events"][:, 2], expected)
+            assert sample["event_ids"].tolist() == [[0, row] for row in row_ids]
+        assert dataset.samples[0]["end_idx"] == 3
+        assert dataset.samples[1]["end_idx"] == 6
+    finally:
+        dataset.close()
+
+
+def _forbid_image_pixel_reads(monkeypatch):
+    """Index validation may read image metadata but never image payloads."""
+    def guard(original):
+        def checked(dataset, *args, **kwargs):
+            if dataset.name.startswith("/images/"):
+                pytest.fail("Physical index validation must not decode image pixels")
+            return original(dataset, *args, **kwargs)
+        return checked
+
+    for name in ("__getitem__", "__array__", "read_direct"):
+        monkeypatch.setattr(h5py.Dataset, name, guard(getattr(h5py.Dataset, name)))
+
+
+@pytest.mark.parametrize("second_shape", [(9, 8), (8, 9)])
+@pytest.mark.parametrize("frame_stride", [1, 2])
+def test_physical_sequence_sensor_change_is_rejected_from_metadata_before_graph(
+    tmp_path, monkeypatch, second_shape, frame_stride,
+):
+    path = _hdr(tmp_path, np.array([0, 1, 2, 3], dtype=np.float64), [(2, 2), (3, 4)],
+                image_shapes=[(8, 8), second_shape])
+    original_bytes = path.read_bytes()
+    _forbid_image_pixel_reads(monkeypatch)
+    with pytest.raises(ValueError, match="requires fixed sensor_size"):
+        EventHDRDataset(tmp_path, **_physical(), frame_stride=frame_stride)
+    assert path.read_bytes() == original_bytes
+
+
+@pytest.mark.parametrize("second_shape", [(8, 8), (8, 8, 1), (8, 8, 3)])
+@pytest.mark.parametrize("target_channels", [1, 3])
+def test_same_physical_sensor_allows_existing_hw_hwc_layouts_without_pixel_read(
+    tmp_path, monkeypatch, second_shape, target_channels,
+):
+    _hdr(tmp_path, np.array([0, 1, 2, 3], dtype=np.float64), [(2, 2), (3, 4)],
+         image_shapes=[(8, 8), second_shape])
+    _forbid_image_pixel_reads(monkeypatch)
+    dataset = EventHDRDataset(tmp_path, **_physical(), target_channels=target_channels)
+    try:
+        assert len(dataset) == 2
+        assert dataset.get_topology_sample(0)["sensor_size"] == (8, 8)
+        assert dataset.get_topology_sample(1)["sensor_size"] == (8, 8)
+    finally:
+        dataset.close()
+
+
+def test_legacy_frame_input_still_allows_variable_sensor_sizes(tmp_path):
+    _hdr(tmp_path, np.array([0, 1, 2, 3], dtype=np.float64), [(2, 2), (3, 4)],
+         image_shapes=[(8, 8), (9, 8)])
+    dataset = EventHDRDataset(tmp_path, max_events=None)
+    try:
+        assert dataset[0]["sensor_size"] == (8, 8)
+        assert dataset[1]["sensor_size"] == (9, 8)
+    finally:
+        dataset.close()
+~~~~~~~~
+
 # tests/test_stream_diagnostic_guards.py
 
 ~~~~~~~~python
@@ -72368,6 +74673,307 @@ def test_invalid_node_identity_or_nonfinite_input_is_rejected():
     with pytest.raises(ValueError, match="float64"):
         values = _arrival([])
         evolve_stream_graph(None, *values, torch.tensor([-1.0]), radius=1.0, max_graph_edges=None)
+~~~~~~~~
+
+# tests/test_stream_graph_input_path.py
+
+~~~~~~~~python
+"""Small synthetic CPU regressions through the real loader/model graph path.
+
+No original dataset, GPU, training run, quality result or paper-equivalence claim.
+The model retains its six 64-channel layers; tiny HDF5 inputs are test fixtures.
+"""
+
+from __future__ import annotations
+
+from types import SimpleNamespace
+
+import h5py
+import numpy as np
+import pytest
+import torch
+
+from asgcn_unet.batching import pack_samples
+from asgcn_unet.data.eventhdr import EventHDRDataset
+from asgcn_unet.model import ASGCNUNet
+from asgcn_unet.stream_geometry import physical_node_positions, prepare_stream_nodes
+from asgcn_unet.stream_model import _metadata, _prepared
+
+
+@pytest.fixture(autouse=True)
+def synthetic_cpu_threads():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(2)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _model(storage, architecture=3):
+    options = {} if architecture == 3 else {"hierarchy_config": {
+        "after_layer": 4, "spatial_cell_pixels": 4, "temporal_cell_seconds": 0.004,
+        "edge_pseudo": "mean_fine_distance_over_radius",
+    }}
+    return ASGCNUNet(
+        architecture_version=architecture, graph_execution="event_driven", graph_storage=storage,
+        event_sampling_factor=1, graph_radius=0.3, graph_position_dims=3,
+        max_graph_edges=2_000_000, spline_backend="torch", stream_config={
+            "window_seconds": 0.5, "time_scale_seconds": 1.0,
+            "node_time_feature": "physical_frame_offset", "clock": "event_local_pending_off_v1",
+            "arrival_policy": "simultaneous_equal_timestamp",
+        }, **options,
+    )
+
+
+def _fixture_h5(path, stored_indices):
+    raw = np.array([[1, 1, 9.0, -1], [1, 1, 10.0, 1], [2, 1, 10.5, -1],
+                    [2, 1, 10.5, 1], [2, 2, 10.75, 1], [3, 2, 10.875, -1],
+                    [3, 3, 11.0, 1], [6, 3, 11.125, -1]], dtype=np.float64)
+    with h5py.File(path, "x") as handle:
+        events = handle.create_group("events")
+        for index, name in enumerate(("xs", "ys", "ts", "ps")):
+            events.create_dataset(name, data=raw[:, index])
+        for index, (readout, end) in enumerate(((11.0, 5), (11.125, 7), (12.0, 7))):
+            image = handle.create_group("images") if index == 0 else handle["images"]
+            image = image.create_dataset(f"image{index:09d}", data=np.zeros((32, 32), np.uint8))
+            image.attrs["timestamp"] = readout * 2
+            if stored_indices:
+                image.attrs["event_idx"] = end
+    return raw
+
+
+def _edges(graph, storage):
+    if storage == "materialized":
+        return graph.edge_index, graph.edge_attr[:, 0]
+    chunks = list(graph.index.iter_directed_neighbors())
+    if not chunks:
+        return torch.empty((2, 0), dtype=torch.long), torch.empty(0, dtype=torch.float64)
+    return (torch.stack((torch.cat([value[0] for value in chunks]),
+                         torch.cat([value[1] for value in chunks]))),
+            torch.cat([value[2].flatten() for value in chunks]))
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("storage", ["materialized", "implicit_radius"])
+@pytest.mark.parametrize("architecture", [3, 4])
+@pytest.mark.parametrize("training", [False, True])
+@pytest.mark.parametrize("stored_indices", [False, True])
+def test_original_rows_to_actual_model_graph_match_full_independent_oracle(
+    tmp_path, storage, architecture, training, stored_indices,
+):
+    raw = _fixture_h5(tmp_path / "synthetic.h5", stored_indices)
+    dataset = EventHDRDataset(tmp_path, max_events=None, crop_size=None, frame_stride=1,
+                              event_time_contract="physical_seconds_v1",
+                              timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=0.5)
+    net = _model(storage, architecture).train(training)
+    assert len(net.encoder.layers) == 6 and net.encoder.hidden_dim == 64
+    state = None
+    try:
+        for frame_index in range(len(dataset)):
+            full, topology = dataset[frame_index], dataset.get_topology_sample(frame_index)
+            assert torch.equal(full["events"], topology["events"])
+            assert torch.equal(full["event_ids"], topology["event_ids"])
+            packed = pack_samples([topology])
+            records, _ = _metadata(net, packed, [state])
+            model_nodes = _prepared(net, packed, records)
+            direct_nodes = prepare_stream_nodes(packed, records, time_scale_seconds=1.0)
+            for actual, expected in zip(model_nodes, direct_nodes, strict=True):
+                torch.testing.assert_close(actual, expected, rtol=0, atol=0)
+            _, details = net.forward_sample(full, recurrent_state=state)
+            state = details["recurrent_state"]
+            # Independently reconstruct from authoritative delivered source rows,
+            # not the production coordinates, index, sampling or retained mask.
+            end = dataset.samples[frame_index]["end_idx"]
+            delivered = torch.from_numpy(raw[:end].copy())
+            selected = delivered[delivered[:, 2] >= records[0][3] - 0.5]
+            expected_positions = torch.stack((selected[:, 0] / 31, selected[:, 1] / 31,
+                                               selected[:, 2] - 9.0, (selected[:, 3] + 1) / 2), dim=1)
+            torch.testing.assert_close(state.graph.timestamps, selected[:, 2], atol=0, rtol=0)
+            torch.testing.assert_close(state.graph.graph.positions, expected_positions, atol=0, rtol=0)
+            distance = torch.linalg.vector_norm(
+                (expected_positions[:, None, :3] - expected_positions[None, :, :3]) / 0.3, dim=-1)
+            adjacency = distance < 1
+            adjacency.fill_diagonal_(False)
+            expected_edges = adjacency.nonzero().t()
+            edges, attributes = _edges(state.graph.graph, storage)
+            count = len(selected)
+            order = torch.argsort(edges[0] * max(count, 1) + edges[1])
+            assert torch.equal(edges[:, order], expected_edges)
+            torch.testing.assert_close(attributes[order], distance[adjacency], atol=0, rtol=0)
+            assert torch.equal(state.graph.graph.in_degree, adjacency.sum(0))
+            assert details["nodes"] == count
+    finally:
+        dataset.close()
+
+
+def test_overlapping_frame_interval_rejected_by_actual_model_metadata():
+    net = _model("materialized")
+    sample = {"events": torch.empty((0, 4), dtype=torch.float64),
+              "event_ids": torch.empty((0, 2), dtype=torch.long), "sensor_size": (32, 32),
+              "metadata": {"sequence_id": "synthetic", "sequence_index": 0, "stream_time": {
+                  "schema": "physical_seconds_v1", "interval_start_seconds": 0.0,
+                  "interval_end_seconds": 1.0, "sequence_origin_seconds": 0.0,
+                  "arrival_group_counts": (),
+              }}}
+    with torch.no_grad():
+        _, details = net.forward_sample(sample)
+    sample["metadata"]["sequence_index"] = 1
+    sample["metadata"]["stream_time"].update(interval_start_seconds=0.5, interval_end_seconds=2.0)
+    with pytest.raises(ValueError, match="continuity"):
+        _metadata(net, pack_samples([sample]), [details["recurrent_state"]])
+
+
+def test_feature_overflow_refused_before_graph_construction():
+    sample = {"events": torch.tensor([[0, 0, 1, 1]], dtype=torch.float64),
+              "event_ids": torch.tensor([[0, 0]]), "sensor_size": (32, 32)}
+    packed = pack_samples([sample])
+    records = [(('synthetic', ''), 0, 0.0, 1.0, 0.0, (1,))]
+    # Finite float64 positions but unrepresentable float32 features.
+    with pytest.raises(ValueError, match="features overflowed"):
+        _prepared(SimpleNamespace(stream_config={"time_scale_seconds": 1e-40}), packed, records)
+
+
+def test_physical_builder_does_not_accept_already_reduced_clock_precision():
+    with pytest.raises(ValueError, match="float64"):
+        physical_node_positions(torch.tensor([[0, 0, 1, 1]], dtype=torch.float32), (32, 32),
+                                origin_seconds=0.0, time_scale_seconds=1.0)
+
+
+@torch.no_grad()
+@pytest.mark.parametrize("storage", ["materialized", "implicit_radius"])
+def test_each_actual_arrival_and_expiration_matches_raw_prefix_oracle(tmp_path, monkeypatch, storage):
+    from asgcn_unet import stream_model
+
+    raw = torch.from_numpy(_fixture_h5(tmp_path / "synthetic.h5", True))
+    dataset = EventHDRDataset(tmp_path, max_events=None, crop_size=None, frame_stride=1,
+                              event_time_contract="physical_seconds_v1",
+                              timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=0.5)
+    net, original_update = _model(storage, 4).eval(), stream_model._update
+    cursor, watermark, readout, checked = 0, 9.0, None, 0
+
+    def raw_positions(rows):
+        return torch.stack((rows[:, 0] / 31, rows[:, 1] / 31, rows[:, 2] - 9.0,
+                            (rows[:, 3] + 1) / 2), dim=1)
+
+    def observed(model, previous, features, positions, timestamps, node_batch, cutoffs):
+        nonlocal cursor, watermark, checked
+        if len(timestamps):
+            arriving = raw[cursor:cursor + len(timestamps)]
+            assert torch.equal(timestamps, arriving[:, 2])
+            torch.testing.assert_close(positions, raw_positions(arriving), rtol=0, atol=0)
+            cursor += len(timestamps)
+            watermark = max(watermark, float(arriving[-1, 2]))
+        else:
+            watermark = readout
+        assert torch.equal(cutoffs, torch.tensor([watermark - 0.5], dtype=torch.float64))
+        update = original_update(model, previous, features, positions, timestamps, node_batch, cutoffs)
+        selected = raw[:cursor][raw[:cursor, 2] >= watermark - 0.5]
+        expected = raw_positions(selected)
+        torch.testing.assert_close(update.state.graph.positions, expected, rtol=0, atol=0)
+        assert torch.equal(update.state.timestamps, selected[:, 2])
+        distances = torch.linalg.vector_norm((expected[:, None, :3] - expected[None, :, :3]) / 0.3, dim=-1)
+        adjacency = distances < 1
+        adjacency.fill_diagonal_(False)
+        edges, attributes = _edges(update.state.graph, storage)
+        order = torch.argsort(edges[0] * max(len(selected), 1) + edges[1])
+        assert torch.equal(edges[:, order], adjacency.nonzero().t())
+        torch.testing.assert_close(attributes[order], distances[adjacency], rtol=0, atol=0)
+        assert torch.equal(update.state.graph.in_degree, adjacency.sum(0))
+        checked += 1
+        return update
+
+    monkeypatch.setattr(stream_model, "_update", observed)
+    state = None
+    try:
+        for index in range(len(dataset)):
+            sample = dataset[index]
+            readout = sample["metadata"]["stream_time"]["interval_end_seconds"]
+            _, details = net.forward_sample(sample, recurrent_state=state)
+            state = details["recurrent_state"]
+        assert cursor == 7  # Row7 is a legitimate not-yet-delivered predecessor.
+        assert checked == 9  # Six equal-timestamp arrivals plus three readouts.
+        assert len(state.graph.timestamps) == 0
+    finally:
+        dataset.close()
+~~~~~~~~
+
+# tests/test_stream_graph_namespace_regression.py
+
+~~~~~~~~python
+"""Tiny synthetic CPU namespace regressions, not data/model performance checks."""
+
+import pytest
+import torch
+
+from asgcn_unet.stream_graph import StreamGraph, evolve_stream_graph
+
+
+@pytest.fixture(autouse=True)
+def _one_cpu_thread():
+    previous = torch.get_num_threads()
+    torch.set_num_threads(1)
+    yield
+    torch.set_num_threads(previous)
+
+
+def _update(previous, positions, timestamps, batches, cutoffs, storage):
+    positions = torch.as_tensor(positions, dtype=torch.float64).reshape(-1, 4)
+    return evolve_stream_graph(
+        previous, positions.float(), positions,
+        torch.tensor(timestamps, dtype=torch.float64),
+        torch.tensor(batches, dtype=torch.long),
+        torch.tensor(cutoffs, dtype=torch.float64),
+        radius=1.0, position_dims=3, max_graph_edges=None, chunk_size=2,
+        graph_storage=storage,
+    )
+
+
+@pytest.mark.parametrize("storage", ["implicit_radius", "materialized"])
+def test_previous_namespace_mismatch_cannot_reuse_cross_stream_degrees(storage):
+    original = _update(
+        None, [[0, 0, 0, 0], [.2, 0, 0, 0], [10, 0, 0, 0], [10.2, 0, 0, 0]],
+        [0] * 4, [0] * 4, [-1, -1], storage,
+    ).state
+    # Splitting each nearby pair across lanes leaves no valid edges. Stale
+    # degrees nevertheless pass nonnegative/even/per-lane cardinality checks.
+    wrong_batch = torch.tensor([0, 1, 0, 1], dtype=torch.long)
+    malformed = StreamGraph(original.graph, wrong_batch, original.timestamps)
+    before_degree = original.graph.in_degree.clone()
+    with pytest.raises(ValueError, match="namespace|independent stream"):
+        _update(malformed, [], [], [], [-1, -1], storage)
+    assert torch.equal(original.graph.in_degree, before_degree)
+    assert torch.equal(original.node_batch, torch.zeros(4, dtype=torch.long))
+    assert torch.equal(malformed.node_batch, wrong_batch)
+
+
+@pytest.mark.parametrize("storage", ["implicit_radius", "materialized"])
+def test_valid_independent_stream_updates_match_full_distance_oracle(storage):
+    state = None
+    frames = [
+        ([[0, 0, 0, 0], [.2, 0, 0, 0], [0, 0, 0, 0], [.2, 0, 0, 0]],
+         [0, 0, 0, 0], [0, 0, 1, 1], [-1, -1, -1]),
+        ([[.4, 0, 0, 0], [.4, 0, 0, 0]], [1, 1], [0, 1], [0, 0, -1]),
+        ([[.6, 0, 0, 0], [.6, 0, 0, 0]], [2, 2], [0, 2], [1, 0, 2]),
+        ([], [], [], [1, 3, 2]),
+        ([], [], [], [9, 9, 9]),
+    ]
+    for positions, timestamps, batches, cutoffs in frames:
+        state = _update(state, positions, timestamps, batches, cutoffs, storage).state
+        graph = state.graph
+        points = graph.positions[:, :3]
+        distances = torch.linalg.vector_norm(points[:, None] - points[None, :], dim=2)
+        expected = (distances < 1) & (state.node_batch[:, None] == state.node_batch[None, :])
+        expected.fill_diagonal_(False)
+        assert torch.equal(graph.in_degree, expected.sum(0))
+        if storage == "implicit_radius":
+            actual = torch.zeros_like(expected)
+            for source, destination, _distance in graph.iter_directed_neighbors():
+                actual[source, destination] = True
+            assert graph.edge_count == int(expected.sum())
+        else:
+            actual = torch.zeros_like(expected)
+            actual[graph.edge_index[0], graph.edge_index[1]] = True
+            assert graph.edge_index.shape[1] == int(expected.sum())
+        assert torch.equal(actual, expected)
 ~~~~~~~~
 
 # tests/test_stream_guard_recovery.py

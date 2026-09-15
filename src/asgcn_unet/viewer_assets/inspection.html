@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>실제 이벤트 그래프 · 오프라인 검사</title>
+  <style>__INSPECTION_CSS__</style>
+</head>
+<body>
+  <main id="graph-inspection">
+    <header class="page-header">
+      <div><p class="eyebrow">RAW EVENTS → RADIUS GRAPH</p><h1>실제 이벤트 그래프</h1><p id="source-label" class="subtle">저장된 검사 결과를 읽는 중…</p></div>
+      <span class="offline-label">오프라인 · 네트워크 사용 없음</span>
+    </header>
+    <div id="inspection-error" class="notice danger" role="alert" hidden></div>
+    <noscript><p class="notice danger">그래프를 표시하려면 브라우저에서 JavaScript를 허용해야 합니다. 서버 연결은 필요하지 않습니다.</p></noscript>
+    <div id="inspection-content" hidden>
+      <p id="fixture-notice" class="notice danger" hidden>합성 테스트 자료입니다. 실제 데이터셋의 그래프나 실험 결과가 아닙니다.</p>
+      <p id="coverage-notice" class="notice"></p>
+      <section class="summary" aria-label="표시 범위와 측정값">
+        <div><span>파일에 포함된 노드 / 윈도우 전체 N</span><strong id="node-count"></strong></div>
+        <div><span>선택한 기준 노드의 이웃 수</span><strong id="degree-count"></strong></div>
+        <div><span>윈도우 전체 방향 엣지 E</span><strong id="edge-count"></strong></div>
+      </section>
+      <section class="query-bar" aria-label="검증된 기준 노드 선택">
+        <label for="query-select">검증된 기준 노드<select id="query-select"></select></label>
+        <p id="query-status" aria-live="polite"></p>
+      </section>
+      <div class="view-controls"><button id="focus-neighbors" type="button" aria-pressed="false">선택 이웃 확대</button><button id="show-all" type="button" aria-pressed="true">전체 노드 보기</button><p id="view-scope" aria-live="polite"></p></div>
+      <div class="plots">
+        <section class="plot-panel" aria-labelledby="xy-title">
+          <div class="plot-heading"><h2 id="xy-title">센서 위의 이벤트</h2><span>XY · 픽셀 좌표</span></div>
+          <canvas id="xy-canvas" role="img" aria-label="실제 이벤트의 센서 XY 위치와 선택한 기준 노드의 검증된 이웃 연결" aria-describedby="graph-legend">캔버스 그래프를 표시할 수 없습니다. 아래 노드 상세와 측정값을 확인하세요.</canvas>
+          <p class="plot-caption">센서의 왼쪽 위가 (0, 0)입니다. 점을 클릭하면 원본 행과 전처리 좌표를 확인합니다.</p>
+        </section>
+        <section class="plot-panel" aria-labelledby="space-title">
+          <div class="plot-heading"><h2 id="space-title">시공간 그래프</h2><span>3D · 실제 그래프 좌표</span></div>
+          <canvas id="space-canvas" role="img" aria-label="고정 원점의 시공간 그래프. 드래그 또는 아래 회전 슬라이더로 회전" aria-describedby="metric-explanation graph-legend">캔버스 그래프를 표시할 수 없습니다. 아래 노드 상세와 측정값을 확인하세요.</canvas>
+          <div class="rotation-controls">
+            <label for="yaw">좌우 회전 <output id="yaw-value" for="yaw">35°</output><input id="yaw" type="range" min="-180" max="180" value="35" step="1"></label>
+            <label for="pitch">상하 회전 <output id="pitch-value" for="pitch">25°</output><input id="pitch" type="range" min="-85" max="85" value="25" step="1"></label>
+            <button id="reset-view" type="button">시점 초기화</button>
+          </div>
+          <p id="metric-explanation" class="plot-caption">X=x/(W−1), Y=y/(H−1), T=(t−고정 원점)/시간 척도: 모두 무차원 그래프 좌표입니다. 세 축은 동일 배율이며, 화면 맞춤·회전은 연결 규칙을 바꾸지 않습니다.</p>
+          <p id="metric-ranges" class="plot-caption mono"></p>
+        </section>
+      </div>
+      <p id="graph-legend" class="legend"><span><i class="positive"></i>극성 p &gt; 0 · 원</span><span><i class="negative"></i>극성 p ≤ 0 · 사각형</span><span><i class="target"></i>기준 노드 · 테두리</span><span><i class="neighbor"></i>검증된 이웃 → 기준 노드</span></p>
+      <p class="plot-caption">배경 점은 제공된 모든 노드입니다. 선은 선택한 기준 노드로 들어오는 검증된 이웃 전체이며, 다른 노드 사이의 엣지는 이 화면에서 추정하거나 생성하지 않습니다. 겹친 점·선은 하나처럼 보일 수 있습니다.</p>
+      <section class="detail-panel" aria-labelledby="detail-title">
+        <div class="detail-heading"><h2 id="detail-title">노드·원본 행 추적</h2><form id="node-form"><label for="node-index">윈도우 내 노드 번호</label><input id="node-index" type="number" min="0" step="1" required><button type="submit">확인</button></form></div>
+        <p id="node-status" aria-live="polite"></p>
+        <dl id="node-detail"></dl>
+      </section>
+      <details class="provenance"><summary>시간·반경·검사 범위</summary><dl id="contract-detail"></dl><p>이 화면은 저장된 수치 검사 결과입니다. 논문과의 구조 동일성, 전체 데이터셋 검증, 학습 정확도, GPU 속도·메모리를 증명하지 않습니다.</p></details>
+    </div>
+  </main>
+  <script id="inspection-data" type="application/json">__INSPECTION_DATA__</script>
+  <script>__INSPECTION_JS__</script>
+</body>
+</html>

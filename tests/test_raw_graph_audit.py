@@ -291,14 +291,16 @@ def _synthetic_hdr(path, *, stored_indices=True):
     return path
 
 
-def _audit_synthetic(path, *, frame_index=0):
-    return audit.audit_raw_event_graph(
-        source_file=path, frame_index=frame_index,
-        window_seconds=0.5, time_scale_seconds=1.0, radius=1.0,
-        timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=0.5,
-        cpu_threads=1, memory_budget_bytes=512 * 1024**2,
-        reserve_memory_bytes=128 * 1024**2,
-    )
+def _audit_synthetic(path, *, frame_index=0, **overrides):
+    arguments = {
+        "source_file": path, "frame_index": frame_index,
+        "window_seconds": 0.5, "time_scale_seconds": 1.0, "radius": 1.0,
+        "timestamp_scale_to_seconds": 1.0, "interval_timestamp_scale_to_seconds": 0.5,
+        "cpu_threads": 1, "memory_budget_bytes": 512 * 1024**2,
+        "reserve_memory_bytes": 128 * 1024**2,
+    }
+    arguments.update(overrides)
+    return audit.audit_raw_event_graph(**arguments)
 
 
 def test_float_target_metadata_uses_explicit_training_reader_settings(tmp_path, synthetic_resource_snapshot):
@@ -503,6 +505,90 @@ def test_default_selected_query_mode_does_not_count_all_nodes(
     assert report["total_directed_edges"] is None
     assert report["timings"]["count_time_s"] is None
     assert report["resources"]["all_node_degree_scratch_bytes"] == 0
+    assert "point_cloud" not in report
+    assert report["resources"]["point_cloud_payload_and_serialization_bytes"] == 0
+
+
+def test_point_cloud_exports_every_retained_actual_node_without_full_edge_count(
+    tmp_path, monkeypatch, synthetic_resource_snapshot,
+):
+    def forbidden_count(*args, **kwargs):
+        pytest.fail("Point-cloud export must not implicitly count all graph edges")
+
+    monkeypatch.setattr(audit, "count_all_degrees", forbidden_count)
+    path = _synthetic_hdr(tmp_path / "synthetic-point-cloud.h5")
+    source_before = path.read_bytes()
+    report = _audit_synthetic(path, include_point_cloud=True, query_indices=[])
+    cloud = report["point_cloud"]
+    assert cloud["schema"] == "asgcn_graph_point_cloud_v1"
+    assert cloud["columns"] == [
+        "node_index", "raw_row_id", "x", "y", "timestamp_seconds", "polarity",
+        "position_x", "position_y", "position_t",
+    ]
+    assert cloud["coverage"] == "all_window_nodes"
+    assert cloud["nodes"] == report["window"]["nodes"] == 3
+    assert cloud["rows"] == [
+        [0, 2, 1.0, 1.0, 10.5, -1.0, 1 / 6, 1 / 4, 1.5],
+        [1, 3, 1.0, 1.0, 10.5, -1.0, 1 / 6, 1 / 4, 1.5],
+        [2, 4, 1.0, 1.0, 10.75, -1.0, 1 / 6, 1 / 4, 1.75],
+    ]
+    # Duplicate event records remain distinct nodes; unrelated nodes are not
+    # omitted merely because no node was selected for the neighbor oracle.
+    assert report["queries"] == []
+    assert report["node_details"] == {}
+    assert report["total_directed_edges"] is None
+    assert report["count_all_nodes"] is False
+    assert report["resources"]["point_cloud_payload_and_serialization_bytes"] == (
+        3 * audit.POINT_CLOUD_PLANNING_BYTES_PER_NODE
+    )
+    assert any(estimate["stage"] == "All-window point cloud payload and JSON serialization"
+               for estimate in report["resources"]["planning_estimates"])
+    saved = audit.save_report(report, "point-cloud.json", workspace=tmp_path)
+    assert json.loads(saved.read_text(encoding="utf-8"))["point_cloud"] == cloud
+    assert all(type(row[0]) is int and type(row[1]) is int for row in cloud["rows"])
+    assert path.read_bytes() == source_before
+
+
+def test_point_cloud_empty_window_stays_empty_without_substitution(tmp_path, synthetic_resource_snapshot):
+    report = _audit_synthetic(
+        _synthetic_hdr(tmp_path / "synthetic-empty-cloud.h5"),
+        include_point_cloud=True, window_seconds=0.125,
+    )
+    assert report["point_cloud"]["nodes"] == 0
+    assert report["point_cloud"]["rows"] == []
+    assert report["point_cloud"]["coverage"] == "all_window_nodes"
+    assert report["resources"]["point_cloud_payload_and_serialization_bytes"] == 0
+
+
+def test_point_cloud_extra_payload_budget_is_refused_before_coordinate_payload_read(
+    tmp_path, monkeypatch, synthetic_resource_snapshot,
+):
+    import h5py
+
+    path = _synthetic_hdr(tmp_path / "synthetic-cloud-budget.h5")
+    baseline = _audit_synthetic(path)
+    persistent = next(
+        estimate["estimated_working_bytes"]
+        for estimate in baseline["resources"]["planning_estimates"]
+        if estimate["stage"] == "Complete window, query output, index and oracle"
+    )
+    extra = baseline["window"]["nodes"] * audit.POINT_CLOUD_PLANNING_BYTES_PER_NODE
+    original_read = h5py.Dataset.__getitem__
+
+    def no_coordinate_payload_read(dataset, *args, **kwargs):
+        if dataset.name in {"/events/xs", "/events/ys", "/events/ps"}:
+            pytest.fail("Point-cloud RAM refusal happened after coordinate/polarity payload read")
+        return original_read(dataset, *args, **kwargs)
+
+    monkeypatch.setattr(h5py.Dataset, "__getitem__", no_coordinate_payload_read)
+    with pytest.raises(MemoryError, match="Complete window.*no graph reduction"):
+        _audit_synthetic(path, include_point_cloud=True, memory_budget_bytes=persistent + extra - 1)
+
+
+@pytest.mark.parametrize("value", [None, 0, 1, "true"])
+def test_point_cloud_flag_rejects_non_boolean_before_input_read(tmp_path, value):
+    with pytest.raises(TypeError, match="include_point_cloud must be an explicit boolean"):
+        _audit_synthetic(tmp_path / "nonexistent.h5", include_point_cloud=value)
 
 
 def test_opt_in_counts_full_window_and_reuses_one_index_for_selected_oracle(
@@ -554,3 +640,5 @@ def test_count_mode_flag_is_explicit_opt_in():
                  "--output", "synthetic.json"]
     assert audit.build_parser().parse_args(arguments).count_all_nodes is False
     assert audit.build_parser().parse_args([*arguments, "--count-all-nodes"]).count_all_nodes is True
+    assert audit.build_parser().parse_args(arguments).include_point_cloud is False
+    assert audit.build_parser().parse_args([*arguments, "--include-point-cloud"]).include_point_cloud is True

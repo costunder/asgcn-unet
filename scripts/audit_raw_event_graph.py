@@ -20,6 +20,11 @@ sys.path.insert(0, str(PROJECT / "src"))
 
 from asgcn_unet.diagnostic_resources import preflight
 
+# Separate from graph/query storage: all Python rows/scalars, temporary list
+# conversions, and overlapping indented JSON/UTF-8 serialization buffers.
+# This is a conservative planning allowance, not a node cap or hard isolation.
+POINT_CLOUD_PLANNING_BYTES_PER_NODE = 4096
+
 
 def _positive(value, name):
     if (isinstance(value, bool) or not isinstance(value, (int, float))
@@ -195,11 +200,13 @@ def count_all_degrees(index):
 def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scale_seconds,
                           radius, timestamp_scale_to_seconds, interval_timestamp_scale_to_seconds,
                           cpu_threads, memory_budget_bytes, reserve_memory_bytes, query_indices=None,
-                          count_all_nodes=False, target_options=None):
+                          count_all_nodes=False, target_options=None, include_point_cloud=False):
     """Preserve every R=1 event in one explicit frame's delivered physical window."""
     audit_started = time.perf_counter()
     if type(count_all_nodes) is not bool:
         raise TypeError("count_all_nodes must be an explicit boolean")
+    if type(include_point_cloud) is not bool:
+        raise TypeError("include_point_cloud must be an explicit boolean")
     if target_options is None:
         target_options = {}
     if (not isinstance(target_options, dict) or set(target_options) - {
@@ -303,7 +310,9 @@ def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scal
             raise ValueError("Query indices must be unique and inside the complete window")
         # Reserve all N-1 possible neighbors per query, including JSON serialization.
         degree_scratch = count * 64 if count_all_nodes else 0
-        persistent = metadata_cost + count * (4096 + len(queries) * 1536) + degree_scratch
+        point_cloud_bytes = count * POINT_CLOUD_PLANNING_BYTES_PER_NODE if include_point_cloud else 0
+        persistent = (metadata_cost + count * (4096 + len(queries) * 1536)
+                      + degree_scratch + point_cloud_bytes)
         guard(persistent, "Complete window, query output, index and oracle")
         start = int(rows[0]) if count else end
         original_xs = np.asarray(handle["events/xs"][start:end])
@@ -360,12 +369,31 @@ def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scal
             }
             for node in sorted(detailed_nodes)
         }
+        point_cloud = None
+        if include_point_cloud:
+            guard(persistent + candidate_budget * 256,
+                  "All-window point cloud payload and JSON serialization")
+            # Keep IDs as integers: a homogeneous NumPy matrix would coerce
+            # large raw row IDs to float64. These are CPU serialization loops,
+            # not graph processing or a sampled display subset.
+            point_cloud = {
+                "schema": "asgcn_graph_point_cloud_v1",
+                "columns": ["node_index", "raw_row_id", "x", "y", "timestamp_seconds", "polarity",
+                            "position_x", "position_y", "position_t"],
+                "rows": [
+                    [node, raw_id, *event, *position]
+                    for node, (raw_id, event, position) in enumerate(zip(
+                        rows.tolist(), events.tolist(), positions[:, :3].tolist(), strict=True,
+                    ))
+                ],
+                "coverage": "all_window_nodes", "nodes": count,
+            }
         final_stat = path.stat()
         if (final_stat.st_size, final_stat.st_mtime_ns) != (
             source_stat.st_size, source_stat.st_mtime_ns,
         ):
             raise RuntimeError("Selected HDF5 file metadata changed during the diagnostic")
-        return {
+        report = {
             "schema": "asgcn_raw_graph_audit_v1", "report_eligible": False,
             "paper_exact": False,
             "total_directed_edges": full_count["directed_edges"] if full_count else None,
@@ -409,7 +437,8 @@ def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scal
             ),
             "resources": {"preflight": resource, "planning_estimates": estimates,
                           "cpu_threads": cpu_threads, "cuda_queried": False,
-                          "all_node_degree_scratch_bytes": degree_scratch},
+                          "all_node_degree_scratch_bytes": degree_scratch,
+                          "point_cloud_payload_and_serialization_bytes": point_cloud_bytes},
             "limitations": [
                 "Selected independent queries are not a full-graph oracle correctness proof.",
                 "Total E is measured only with explicit count_all_nodes; that may require O(E) time.",
@@ -420,6 +449,9 @@ def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scal
                 "Chronology covers the delivered prefix; no whole-dataset validation.",
             ],
         }
+        if include_point_cloud:
+            report["point_cloud"] = point_cloud
+        return report
     finally:
         dataset.close()
 
@@ -454,6 +486,8 @@ def build_parser():
                         help="Window-local nodes; omitted selects unique first/middle/last")
     parser.add_argument("--count-all-nodes", action="store_true",
                         help="Opt in to O(E)-time full-window degrees; no full edge list is stored")
+    parser.add_argument("--include-point-cloud", action="store_true",
+                        help="Export every retained node's actual coordinates; extra payload/JSON RAM is planned")
     parser.add_argument("--output", required=True, type=Path)
     return parser
 
@@ -477,6 +511,7 @@ def main(argv=None):
             cpu_threads=args.cpu_threads, memory_budget_bytes=args.memory_budget_mib * 1024**2,
             reserve_memory_bytes=args.reserve_memory_mib * 1024**2, query_indices=args.query_indices,
             count_all_nodes=args.count_all_nodes,
+            include_point_cloud=args.include_point_cloud,
         )
         saved = save_report(report, output, workspace=PROJECT)
         print(f"Complete window: {report['window']['nodes']:,} nodes; "

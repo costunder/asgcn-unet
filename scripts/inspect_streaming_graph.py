@@ -21,6 +21,7 @@ sys.path.insert(0, str(PROJECT / "scripts"))
 from audit_raw_event_graph import audit_raw_event_graph, save_report
 
 from asgcn_unet.diagnostic_resources import preflight
+from asgcn_unet.graph_inspection_view import save_html
 from asgcn_unet.stream_preflight import validate_streaming_contract
 
 
@@ -174,6 +175,7 @@ def inspect_graph(*, config_path, source_file, frame_index, cpu_threads, memory_
     report = audit_raw_event_graph(
         **plan["arguments"], cpu_threads=cpu_threads, memory_budget_bytes=memory_budget_mib * 1024**2,
         reserve_memory_bytes=reserve_memory_mib * 1024**2, count_all_nodes=count_all_nodes,
+        include_point_cloud=True,
     )
     # Refuse attaching a now-stale config identity to a successful graph audit.
     for input_path, recorded_hash in plan["identity_inputs"]:
@@ -188,6 +190,12 @@ def inspect_graph(*, config_path, source_file, frame_index, cpu_threads, memory_
     destination = Path(tempfile.mkdtemp(prefix="graph-inspection-", dir=runs))
     saved = save_report(report, destination / "graph.json", workspace=project)
     print(f"Graph inspection saved: {saved}", flush=True)
+    visual = save_html(report, destination / "graph.html", workspace=project,
+                       memory_budget_bytes=memory_budget_mib * 1024**2,
+                       reserve_memory_bytes=reserve_memory_mib * 1024**2, cpu_threads=cpu_threads)
+    print(f"Offline graph saved: {visual}", flush=True)
+    print("Open graph.html locally: all window nodes + every recorded neighbor of each audited query. "
+          "No full-edge scan, web server or SSH tunnel is needed.", flush=True)
     print("GRAPH_INSPECTION_SUMMARY", flush=True)
     print(json.dumps(compact_report(report), indent=2, ensure_ascii=False, allow_nan=False), flush=True)
     print("Existing training/checkpoints/results unchanged. This report does not authorize training.", flush=True)

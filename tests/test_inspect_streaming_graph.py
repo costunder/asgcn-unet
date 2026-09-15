@@ -154,6 +154,11 @@ def test_workflow_uses_new_output_and_no_training(monkeypatch, study):
         return {"synthetic": True, "report_eligible": False, "total_directed_edges": None,
                 "window": {"nodes": 0}, "queries": [], "timings": {"audit_elapsed_s": 0.0}}
     monkeypatch.setattr(inspect, "audit_raw_event_graph", synthetic_audit)
+    visual_calls = []
+    def synthetic_html(report, output, **kwargs):
+        visual_calls.append((report, output, kwargs))
+        return output
+    monkeypatch.setattr(inspect, "save_html", synthetic_html)
     original = path.read_bytes()
     first = inspect.inspect_graph(config_path=path, source_file="26.h5", frame_index=0, cpu_threads=1,
                                   memory_budget_mib=512, reserve_memory_mib=128, workspace=root)
@@ -162,6 +167,9 @@ def test_workflow_uses_new_output_and_no_training(monkeypatch, study):
                                    count_all_nodes=True)
     assert first != second and first.is_file() and second.is_file()
     assert calls[0]["count_all_nodes"] is False
+    assert all(call["include_point_cloud"] is True for call in calls)
+    assert len(visual_calls) == 2
+    assert visual_calls[0][1] == first.with_suffix(".html")
     assert calls[1]["count_all_nodes"] is True
     assert calls[0]["radius"] == 0.125
     assert json.loads(first.read_text())["training_config_inspection"]["training_executed"] is False

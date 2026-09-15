@@ -229,7 +229,7 @@ manifest 또는 `allowed_files`에 포함된 파일인지 확인한다. 설정�
 python -B scripts/inspect_streaming_graph.py --config runs/streaming-v4-34b0487/configs/train.json --source-file 26.h5 --frame-index 25 --cpu-threads 4 --memory-budget-mib 1024 --reserve-memory-mib 1024
 ```
 
-이 실행은 새 `runs/graph-inspection-*/graph.json`만 생성한다. 기존 학습을 실행,
+이 실행은 새 `runs/graph-inspection-*/graph.json`과 `graph.html`을 생성한다. 기존 학습을 실행,
 재개 또는 종료하지 않는다. GPU 번호를 설정하거나 SSH/웹 서버를 열지 않는다.
 CPU/RAM 검사가 거부하면 이를 우회하지 않는다.
 
@@ -237,6 +237,48 @@ CPU/RAM 검사가 거부하면 이를 우회하지 않는다.
 이웃 수와 일치 여부, 경과 시간을 출력한다. 거대한 이웃 목록을 채팅에 복사할 필요가 없다.
 기본 실행의 전체 edge 수 `null`은 미측정이지 0이 아니다. 원본 행/이웃 전체 추적은
 같은 새 결과 폴더의 `graph.json`에 보존한다.
+
+### 실제 그래프를 오프라인으로 보기
+
+같은 진단 명령이 이제 전체 윈도우의 **실제 노드 좌표를 빠짐없이** 저장하고
+`graph.html`에 데이터와 화면 코드를 모두 내장한다. 터미널 숫자만으로 가상의
+그래프를 그리지 않는다. MobaXterm의 파일 패널에서 출력된 `graph.html` 한 파일을
+로컬로 가져와 브라우저로 열면 된다. 원본 H5나 전체 실험 폴더를 옮길 필요가 없고,
+웹 서버·SSH 터널·네트워크 요청·GPU·모델 추론을 사용하지 않는다.
+
+- XY: 실제 센서 픽셀 위치와 이벤트 분포.
+- 시공간 3D: 고정 원점과 학습 설정의 시간 배율을 적용한 실제 거리 좌표의 회전 투영.
+- 선택 query: 저장된 모든 incoming 이웃과 이웃→선택 노드 연결선. 세 query 사이를
+  바꾸어 보고 노드의 원본 행 번호·픽셀·시간·거리 좌표를 확인할 수 있다.
+- 전체 노드 N과 화면에 제공된 노드 수, 선택 query의 차수, 전체 E의 측정 여부를
+  구분한다. 모든 N개 점을 그려도 모든 E개 선을 그렸다는 뜻은 아니다.
+
+모든 노드의 좌표를 저장하는 것은 O(N) 출력이며 전체 엣지를 열거하는
+`--count-all-nodes`를 자동 실행하지 않는다. 표시 배율·시점 변경은 그래프 반경,
+시간 창, sampling이나 모델 설정을 바꾸지 않는다. 좌표·JSON·HTML용 메모리도
+명시적 예산에 포함하고 초과하면 노드를 줄이는 대신 거부한다.
+
+이미 저장된 구형 `graph.json`만 변환할 수도 있다. 이 경우 저장된 query+이웃
+좌표만 표시하며 **부분 노드 / 전체 N**을 항상 구분한다. 없는 좌표를 복구하거나
+추정하지 않으므로 전체 점구름을 보려면 위 진단을 새 폴더로 한 번 실행한다.
+
+```bash
+python -B scripts/export_graph_inspection.py --report runs/graph-inspection-9dc1ihfc/graph.json --cpu-threads 4 --memory-budget-mib 1024 --reserve-memory-mib 1024
+```
+
+변환기는 새 `runs/graph-view-*/graph.html`만 생성하고 기존 보고서는 보존한다.
+저장된 oracle 일치 기록을 보여주는 것이며 원본 데이터 재검증이나 ASGCN 논문과의
+완전한 동등성을 인증하지 않는다. 진단용 합성 browser fixture는 `SYNTHETIC`으로
+명확히 표시되며 실제 실험 결과로 제공하지 않는다.
+
+시각화 변경의 로컬 검증: 합성 CPU 회귀 테스트 200개, 전체 Python Ruff,
+변경한 12개 파일의 privacy scan 및 whitespace 검사가 통과했다. 실제 모델 입력
+경로의 기존 합성 회귀도 포함한다. 별도 headless Chrome에서 28,879개 합성 노드의
+두 캔버스, query 전환, 이웃 확대, 회전, 좌표 조회, partial/empty,
+320/390/1360px와 dark mode를 확인했고 페이지 오류·외부 요청은 0건이었다.
+합성 스크린샷도 확인했다. 초기 Windows sandbox 실행의 access-violation 진단과
+pytest cache 접근 경고는 최종 실행에서는 발생하지 않았다. 실제 서버 데이터로
+HTML을 생성하거나 전체 학습·평가를 실행한 것은 아니다.
 
 ### 전체 윈도우 차수의 명시적 검사
 

@@ -22,6 +22,12 @@ def evolve(previous, features, positions, timestamps, node_batch, cutoffs, *,
         _validate_nodes(previous.graph.node_features, previous.graph.positions,
                         previous.timestamps, previous.node_batch, cutoffs)
         old_graph = previous.graph
+        # Cached degrees and the occupied-cell index belong to the graph's
+        # original namespace. Re-labelling only the surrounding StreamGraph
+        # would silently reuse cross-stream edges/degrees in different lanes.
+        old_graph.validate_integrity()
+        if not torch.equal(old_graph.node_batch, previous.node_batch):
+            raise ValueError("Implicit graph and previous stream node namespaces disagree")
         if (old_graph.radius != radius or old_graph.position_dims != position_dims
                 or old_graph.node_features.dtype != features.dtype
                 or old_graph.positions.dtype != positions.dtype):

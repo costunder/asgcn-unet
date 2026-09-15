@@ -167,7 +167,9 @@ def build_dataset(config: dict[str, Any], split: str = "train"):
     root = cfg.pop("root")
     cfg.pop("val_root", None)
     split_manifest = cfg.pop("split_manifest", None)
-    cfg["random_crop"] = split == "train" and cfg.get("crop_size") is not None
+    # Apply the historical split default only when no explicit ROI policy was
+    # supplied. In particular, random_crop=False must remain a centered crop.
+    cfg.setdefault("random_crop", split == "train" and cfg.get("crop_size") is not None)
     if dataset_type == "eventhdr":
         eventhdr_group_semantics: str | None = None
         if split_manifest and split in {"train", "val", "calibration"}:

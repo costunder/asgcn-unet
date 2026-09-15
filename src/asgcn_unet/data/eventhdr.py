@@ -62,9 +62,14 @@ def _recover_event_indices(
     previous_last = None
     first_timestamp = None
     for start in range(0, event_count, _TIMESTAMP_CHUNK_SIZE):
-        block = np.asarray(event_ts[start : start + _TIMESTAMP_CHUNK_SIZE])
+        # Physical conversion also checks the original pair spanning two
+        # chunks; otherwise distinct integer timestamps could collapse across
+        # that boundary while both individual chunks appeared valid.
+        read_start = max(0, start - 1) if timestamp_scale_to_seconds is not None else start
+        block = np.asarray(event_ts[read_start : start + _TIMESTAMP_CHUNK_SIZE])
         if timestamp_scale_to_seconds is not None:
             block = to_physical_seconds(block, timestamp_scale_to_seconds, source=str(path))
+            block = block[start - read_start :]
         if not np.all(np.isfinite(block)):
             raise _invalid_file(path, "events/ts timestamps must be finite to recover event_idx")
         if np.any(block[1:] < block[:-1]) or (
@@ -96,7 +101,9 @@ def _invalid_file(path: Path, detail: str) -> ValueError:
     return ValueError(f"Invalid EventHDR file {path}: {detail}")
 
 
-def _numeric_scalar_attr(node: h5py.Dataset, name: str, path: Path) -> float:
+def _numeric_scalar_attr(
+    node: h5py.Dataset, name: str, path: Path, *, preserve_integer: bool = False,
+) -> float | int:
     if name not in node.attrs:
         raise _invalid_file(path, f"images/{node.name.rsplit('/', 1)[-1]} is missing '{name}'")
     raw = np.asarray(node.attrs[name])
@@ -105,7 +112,8 @@ def _numeric_scalar_attr(node: h5py.Dataset, name: str, path: Path) -> float:
             path,
             f"images/{node.name.rsplit('/', 1)[-1]} attribute '{name}' must be one number",
         )
-    value = float(raw.reshape(-1)[0])
+    scalar = raw.reshape(-1)[0]
+    value = int(scalar) if preserve_integer and raw.dtype.kind in "iu" else float(scalar)
     if not np.isfinite(value):
         raise _invalid_file(
             path,
@@ -191,7 +199,9 @@ class EventHDRDataset(Dataset):
         self.target_channels = int(target_channels)
         self.max_events = max_events
         self.crop_size = tuple(crop_size) if crop_size else None
-        self.frame_stride = max(1, int(frame_stride))
+        if type(frame_stride) is not int or frame_stride < 1:
+            raise ValueError("frame_stride must be an explicit positive integer, not bool")
+        self.frame_stride = frame_stride
         self.tone_map = tone_map
         self.tone_map_mu = float(tone_map_mu)
         self.target_normalization = validate_target_normalization(target_normalization)
@@ -309,13 +319,30 @@ class EventHDRDataset(Dataset):
                 if not numeric_image_keys:
                     raise _invalid_file(path, "group 'images' contains no image arrays")
                 image_keys = [numeric_image_keys[index] for index in sorted(numeric_image_keys)]
-                frames: list[tuple[str, float, int | None]] = []
-                previous_timestamp: float | None = None
+                physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+                frames: list[tuple[str, float | int, int | None]] = []
+                previous_timestamp: float | int | None = None
+                sequence_sensor_size: tuple[int, int] | None = None
                 for key in image_keys:
                     node = images_group[key]
                     if not isinstance(node, h5py.Dataset):
                         raise _invalid_file(path, f"images/{key} must be an image array")
-                    timestamp = _numeric_scalar_attr(node, "timestamp", path)
+                    if physical:
+                        # A live physical graph retains normalized coordinates
+                        # across readouts; changing H/W would change their basis.
+                        # Check only metadata, before any graph or pixel decode.
+                        sensor_size = self._topology_image_size(node, source=f"{path}::{key}")
+                        if sequence_sensor_size is None:
+                            sequence_sensor_size = sensor_size
+                        elif sensor_size != sequence_sensor_size:
+                            raise _invalid_file(
+                                path, f"physical_seconds_v1 requires fixed sensor_size within "
+                                f"each sequence: images/{key} has {sensor_size}, expected "
+                                f"{sequence_sensor_size}; no resize or state reset was applied",
+                            )
+                    timestamp = _numeric_scalar_attr(
+                        node, "timestamp", path, preserve_integer=physical,
+                    )
                     if previous_timestamp is not None and timestamp < previous_timestamp:
                         raise _invalid_file(
                             path, "image timestamps must be monotonically non-decreasing"
@@ -334,7 +361,17 @@ class EventHDRDataset(Dataset):
                             )
                     frames.append((key, timestamp, end_idx))
                 missing_count = sum(end is None for _, _, end in frames)
-                physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+                # Object storage preserves mixed integer/float attribute values
+                # until conversion, including exact comparisons of large ints.
+                frame_timestamps = np.asarray(
+                    [timestamp for _, timestamp, _ in frames],
+                    dtype=object if physical else np.float64,
+                )
+                if physical:
+                    to_physical_seconds(
+                        frame_timestamps, self.interval_timestamp_scale_to_seconds,
+                        source=f"{path}::image timestamps",
+                    )
                 recovery_options = (
                     {"timestamp_scale_to_seconds": self.timestamp_scale_to_seconds,
                      "interval_timestamp_scale_to_seconds": self.interval_timestamp_scale_to_seconds}
@@ -343,7 +380,7 @@ class EventHDRDataset(Dataset):
                 recovered = (
                     _recover_event_indices(
                         events_group["ts"],
-                        np.asarray([timestamp for _, timestamp, _ in frames], dtype=np.float64),
+                        frame_timestamps,
                         path,
                         **recovery_options,
                     )
@@ -356,7 +393,7 @@ class EventHDRDataset(Dataset):
                     "derived_images": missing_count,
                 }
                 selected_start_idx = 0
-                selected_start_timestamp: float | None = None
+                selected_start_timestamp: float | int | None = None
                 selected_sequence_index = 0
                 if physical:
                     first_frame = float(to_physical_seconds(
@@ -475,9 +512,10 @@ class EventHDRDataset(Dataset):
         item = self.samples[index]
         h5 = self._get_handle(item["path"])
         start, end = item["start_idx"], item["end_idx"]
+        physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
         xs = np.asarray(h5["events/xs"][start:end], dtype=np.float32)
         ys = np.asarray(h5["events/ys"][start:end], dtype=np.float32)
-        ts = np.asarray(h5["events/ts"][start:end], dtype=np.float64)
+        ts = np.asarray(h5["events/ts"][start:end], dtype=None if physical else np.float64)
         raw_ps = np.asarray(h5["events/ps"][start:end])
         image_node = h5["images"][item["image_key"]]
         source = f"{item['path']}::{item['image_key']}"
@@ -506,7 +544,10 @@ class EventHDRDataset(Dataset):
         )
         ps = normalize_polarity(raw_ps)
         events = np.column_stack((xs, ys, ts, ps))
-        physical = self.event_time_contract == PHYSICAL_EVENT_TIME_CONTRACT
+        if physical:
+            # Small integer timestamp dtypes must not make the whole event
+            # matrix float32 before physical seconds are assigned below.
+            events = events.astype(np.float64, copy=False)
         event_ids = None
         stream_time = None
         if physical:

@@ -199,6 +199,12 @@ def evolve_stream_graph(
             torch.isfinite(old_graph.edge_attr).all(),
         )).all()):
             raise ValueError("Previous stream edges contain invalid indices or attributes")
+        # A packed state must remain a disjoint union. Index bounds alone do
+        # not catch a changed outer namespace that splits previously adjacent
+        # nodes across independent streams before the cached edges are reused.
+        if not torch.equal(previous.node_batch[old_graph.edge_index[0]],
+                           previous.node_batch[old_graph.edge_index[1]]):
+            raise ValueError("Previous graph edges cross independent stream namespaces")
         retained = torch.nonzero(
             previous.timestamps >= cutoffs[previous.node_batch], as_tuple=True,
         )[0]

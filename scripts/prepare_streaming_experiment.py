@@ -29,7 +29,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--aid-timestamp-scale-to-seconds", type=float, required=True)
     parser.add_argument("--hdr-interval-timestamp-scale-to-seconds", type=float, required=True)
     parser.add_argument("--aid-interval-timestamp-scale-to-seconds", type=float, required=True,
-                        help="separate frame-boundary scale; EventAid t0_us/t1_us fields are microseconds (1e-6)")
+                        help="explicit frame-clock storage-unit conversion; verify the original dataset format, "
+                             "not this project's legacy t0_us/t1_us field names")
     args = parser.parse_args(argv)
     try:
         hierarchy_config = None

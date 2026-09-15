@@ -216,7 +216,7 @@ def _metadata(model, samples, states):
                 raise TypeError("Static decoder state cannot be reused for event-driven ASGCN")
             if (previous.contract != contract or previous.sequence_identity != identity
                     or previous.sequence_index + 1 != index or previous.origin_seconds != origin
-                    or previous.watermark_seconds > t1):
+                    or previous.watermark_seconds > t0):
                 raise ValueError("Streaming state/config/clock/sequence continuity mismatch")
         records.append((identity, index, t0, t1, origin, tuple(groups)))
     if len({record[0] for record in records}) != len(records):
@@ -225,46 +225,9 @@ def _metadata(model, samples, states):
 
 
 def _prepared(model, packed, records):
-    device = packed.events.device
-    counts = torch.tensor(packed.event_counts, device=device)
-    node_batch = torch.repeat_interleave(torch.arange(len(packed), device=device), counts)
-    height, width = packed.sensor_size
-    events = packed.events
-    if not bool(torch.stack((torch.isfinite(events).all(),
-                            ((events[:, 0] >= 0) & (events[:, 0] < width)).all(),
-                            ((events[:, 1] >= 0) & (events[:, 1] < height)).all(),
-                            ((events[:, 3] == 1) | (events[:, 3] == -1)).all())).all()):
-        raise ValueError("Invalid physical sensor event values")
-    # Validate the claimed arrival grouping once on the whole physical batch.
-    # Metadata only determines scheduling; it cannot authorize coalescing two
-    # distinct timestamps or silently reversing their order.
-    groups = []
-    group_offset = 0
-    for record in records:
-        for index, count in enumerate(record[5]):
-            groups.extend([group_offset + index] * count)
-        group_offset += len(record[5])
-    group_ids = torch.tensor(groups, device=device, dtype=torch.long)
-    if len(events) > 1:
-        same_stream = node_batch[1:] == node_batch[:-1]
-        delta = events[1:, 2] - events[:-1, 2]
-        same_group = group_ids[1:] == group_ids[:-1]
-        ids = packed.event_ids
-        increasing_id = (ids[1:, 0] > ids[:-1, 0]) | (
-            (ids[1:, 0] == ids[:-1, 0]) & (ids[1:, 1] > ids[:-1, 1]))
-        if not bool(((~same_stream) | ((delta >= 0) & (same_group == (delta == 0)) & increasing_id)).all()):
-            raise ValueError("Physical event order, identity or equal-timestamp grouping is invalid")
-    x, y = events[:, 0] / max(width - 1, 1), events[:, 1] / max(height - 1, 1)
-    origin = events.new_tensor([record[4] for record in records])[node_batch]
-    interval_start = events.new_tensor([record[2] for record in records])[node_batch]
-    interval_end = events.new_tensor([record[3] for record in records])[node_batch]
-    if not bool(((events[:, 2] >= origin) & (events[:, 2] <= interval_end)).all()):
-        raise ValueError("Physical event timestamp is before its origin or after its readout (future leakage)")
-    scale = model.stream_config["time_scale_seconds"]
-    polarity = torch.where(events[:, 3] > 0, 1.0, -1.0)
-    features = torch.stack((x, y, (events[:, 2] - interval_start) / scale, polarity), dim=1).float()
-    positions = torch.stack((x, y, (events[:, 2] - origin) / scale, (polarity + 1) / 2), dim=1)
-    return features, positions, events[:, 2], node_batch
+    from .stream_geometry import prepare_stream_nodes
+
+    return prepare_stream_nodes(packed, records, time_scale_seconds=model.stream_config["time_scale_seconds"])
 
 
 def _update(model, previous, features, positions, timestamps, node_batch, cutoffs):

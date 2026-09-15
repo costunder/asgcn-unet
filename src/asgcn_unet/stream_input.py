@@ -69,10 +69,19 @@ def validate_event_time_contract(
 
 
 def to_physical_seconds(values: Any, scale: float, *, source: str) -> np.ndarray:
-    """Apply the declared source unit scale without inferring a clock offset."""
-    original = np.asarray(values, dtype=np.float64)
+    """Apply the declared source unit scale without inferring a clock offset.
+
+    Keep the source dtype until resolution has been checked. In particular,
+    adjacent int64 values above 2**53 can become equal during the float64 cast,
+    before multiplication has a chance to detect a collision. Callers must not
+    cast raw timestamp arrays before this check.
+    """
+    # A mixed Python int/float container can lose distinct integer values in
+    # np.asarray's dtype inference itself. Arrays retain their native fast path.
+    original = np.asarray(values, dtype=object) if isinstance(values, (list, tuple)) else np.asarray(values)
+    converted = np.asarray(original, dtype=np.float64)
     with np.errstate(over="ignore", invalid="ignore", under="ignore"):
-        result = original * scale
+        result = converted * scale
     if not np.all(np.isfinite(result)):
         raise ValueError(f"Invalid physical clock in {source}: seconds must be finite")
     if np.any((original != 0) & (result == 0)) or (
@@ -121,7 +130,7 @@ can be delivered by the next frame after that row's physical timestamp.
     if count == 0:
         return "empty_event_stream"
     lo, hi = max(0, index - 1), min(count, index + 2)
-    neighbors = np.asarray(timestamps[lo:hi], dtype=np.float64)
+    neighbors = np.asarray(timestamps[lo:hi])
     neighbors = to_physical_seconds(neighbors, timestamp_scale_to_seconds, source=source)
     if not np.all(np.isfinite(neighbors)) or np.any(neighbors[1:] < neighbors[:-1]):
         raise ValueError(f"Invalid EventHDR boundary timestamp rows in {source}")

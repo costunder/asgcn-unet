@@ -1,5 +1,9 @@
 # Hierarchical ASGCN reconstruction (architecture v4)
 
+For the source-by-source graph geometry and raw clock audit, see
+[Graph construction audit](GRAPH_CONSTRUCTION_AUDIT.md). Paper hyperparameter
+equivalence and full real-data correctness are not established by this document.
+
 ## What is now connected
 
 The complete reconstruction path is:

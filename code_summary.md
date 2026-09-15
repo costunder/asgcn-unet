@@ -4,10 +4,10 @@
   "generator": "python scripts/build_code_summary.py",
   "provenance": {
     "branch_at_generation": "main",
-    "generated_utc": "2026-09-15T07:28:37Z",
+    "generated_utc": "2026-09-15T11:00:37Z",
     "note": "Dirty snapshots omit commit/tree identity; snapshot_sha256 is the verification identity.",
-    "source_commit_at_generation": "10f25909de4a3dbf3e4c2b5994bd62176f96a7d7",
-    "source_tree_at_generation": "5be3db0d72083aa93c67b71384b41188fbf99ab0",
+    "source_commit_at_generation": "02a2d55e5ab3ca386c0a2b3b6d6f06141b2b4b48",
+    "source_tree_at_generation": "ba1371461b8a2e036f39530cb4b879fef53632de",
     "timestamp_source": "source_commit_time",
     "tracked_tree_dirty_at_generation": false
   },
@@ -201,9 +201,9 @@
         "sha256": "37fd353fe5840854b0aaeb6164be8becaa3b6d25fbedab051da07cf9727acf7a"
       },
       {
-        "bytes": 22753,
+        "bytes": 25926,
         "path": "docs/GRAPH_CONSTRUCTION_AUDIT.md",
-        "sha256": "1260b15620efc0cd1a6ad5859c4243cd0fbb574c968e2a30d26b854fc8e56320"
+        "sha256": "fcd46a1eef1435e41e7bcdd04d998392b543aa446520f911a71ff8921c2119b0"
       },
       {
         "bytes": 9457,
@@ -261,9 +261,9 @@
         "sha256": "9671f27b47edb302cafc2bd8ad8b9d2d0eb5be24c85f1c38f441887a9e3923f5"
       },
       {
-        "bytes": 27875,
+        "bytes": 29914,
         "path": "scripts/audit_raw_event_graph.py",
-        "sha256": "3307ba35e8c8a8de02c12be1663356d52211b3a7d7b4946cf417eba87327c6a1"
+        "sha256": "de532fd5dcd571e27c1d01d1a1c3f6d61c40089d3304073e93caa9c15201acbf"
       },
       {
         "bytes": 40507,
@@ -296,6 +296,11 @@
         "sha256": "3a3eb48997ca6f02e7b83d53d163678450b2780febd171ca554524d8c1b8894f"
       },
       {
+        "bytes": 1958,
+        "path": "scripts/export_graph_inspection.py",
+        "sha256": "34d7cdbf062765f99512b6c87b0b9ec7f60a9efc3bb73dcd395c31f369c012ed"
+      },
+      {
         "bytes": 3134,
         "path": "scripts/export_results_html.py",
         "sha256": "451e95f74ebaa85345e7b24b09e947f1d57091006c380a26b3fabd133637760d"
@@ -326,9 +331,9 @@
         "sha256": "cdd2fcdf21c24c57f4ab24c7bf429e5f3725e2276052bead33cadbbcf7541f22"
       },
       {
-        "bytes": 12324,
+        "bytes": 12902,
         "path": "scripts/inspect_streaming_graph.py",
-        "sha256": "3035d9562a498a821d22992dac7cafcb1f6c6bb984f4a8bc51c9a917ae498e01"
+        "sha256": "c686b6d2a8d0de471b5bd58664ecf852758eb0a0e303d2830b88b854e1d23b73"
       },
       {
         "bytes": 3664,
@@ -529,6 +534,11 @@
         "bytes": 52448,
         "path": "src/asgcn_unet/graph.py",
         "sha256": "9442b9f0975dbc055222e7eeca955b50e7b9e725fe7a35cacc06e8fd26a03dda"
+      },
+      {
+        "bytes": 15335,
+        "path": "src/asgcn_unet/graph_inspection_view.py",
+        "sha256": "c16b7a5540dcae5b2a2b1b8c6cc54e5890396cab3bfd230d30ac0109d15005b3"
       },
       {
         "bytes": 27261,
@@ -761,6 +771,21 @@
         "sha256": "7561d75f758a760283231e75f1fe8b64a09996863da61cfced943cb63d822cb4"
       },
       {
+        "bytes": 5771,
+        "path": "src/asgcn_unet/viewer_assets/inspection.css",
+        "sha256": "43918ebc8cdbcce74b6060c2323e6aaf82a0d2e8972d1481a188e6cfa6cff86c"
+      },
+      {
+        "bytes": 5646,
+        "path": "src/asgcn_unet/viewer_assets/inspection.html",
+        "sha256": "e454de5153d551f1de650358e2199563d242910e4b16b983544271b4d76654b6"
+      },
+      {
+        "bytes": 20348,
+        "path": "src/asgcn_unet/viewer_assets/inspection.js",
+        "sha256": "646e413f155e7066a80f457239a46fad3f20b2d4cf8053498e507e27e67789d0"
+      },
+      {
         "bytes": 7482,
         "path": "src/asgcn_unet/viewer_assets/offline.css",
         "sha256": "b789429e7d24ea3bd58fdcbbe66ab2f68abfa3147c37af6f293b9edc72897083"
@@ -799,6 +824,11 @@
         "bytes": 3101,
         "path": "tests/fixtures.py",
         "sha256": "5cb5ebff9b794834a77fd38d6402aab04ce413e7f0d464789f9abbafebe30661"
+      },
+      {
+        "bytes": 8652,
+        "path": "tests/graph_inspection_browser_smoke.cjs",
+        "sha256": "ffe2b158cb832746eed673c38bc771e5df8dc378a954a9b3ea11f59726cf6d6a"
       },
       {
         "bytes": 3554,
@@ -996,6 +1026,11 @@
         "sha256": "bc9f28698e6a4ac009809984a5bdd9c336acfddaa3143b490dc0d32a7a79d591"
       },
       {
+        "bytes": 12043,
+        "path": "tests/test_graph_inspection_view.py",
+        "sha256": "565770960a56ed2d93fa0413b09d01ec1e248eb6de91f5e6ca6d0c2d44e0184d"
+      },
+      {
         "bytes": 9935,
         "path": "tests/test_graph_lookup.py",
         "sha256": "76be30a63ede0ea69c5270ddfae0c42611431e1fcaa5d04670d903b1ce8191e2"
@@ -1096,9 +1131,9 @@
         "sha256": "4f2bde00e6fc80e3e898611e8b6d9319efe63eb83ac204a915b672bec0dbe4a7"
       },
       {
-        "bytes": 9045,
+        "bytes": 9419,
         "path": "tests/test_inspect_streaming_graph.py",
-        "sha256": "2093fd395fcf67732c3861d77c7170dddd5d0c5e2a8ffae26ca9ba8979b2c527"
+        "sha256": "3695ddb2901d44a5ad6360e18294298859f3fca251a3c2218200a9d843cd5360"
       },
       {
         "bytes": 5199,
@@ -1161,9 +1196,9 @@
         "sha256": "865bf5473301d28f7e12d85384af6040da8e0120499f949bb1cc6b377d3781fe"
       },
       {
-        "bytes": 24069,
+        "bytes": 28507,
         "path": "tests/test_raw_graph_audit.py",
-        "sha256": "6a1880306b7dd76bdd4c936a330b47ac2b435cd15a1364cc1477cc3664069505"
+        "sha256": "e06f77ee3cc576e97554bf3ed08a866593846bde571de041b52910642ba68af8"
       },
       {
         "bytes": 17682,
@@ -1431,9 +1466,9 @@
         "sha256": "13102c5eba21b14b23bbb932bb0d7a6822f93c34b5c4fa465cd92b01130475d0"
       }
     ],
-    "included_file_count": 283,
+    "included_file_count": 290,
     "skipped_binary_paths": [],
-    "snapshot_sha256": "55ccc7a9ce71f0c1a163898f00218e310d753f1eefb49c0a93c96c4f21b789f9"
+    "snapshot_sha256": "8c56e5a6692ac4ea095e188e7160c05d7bc874c0909fd5f16d07cc0cbbd9b413"
   }
 }
 -->
@@ -6273,7 +6308,7 @@ manifest 또는 `allowed_files`에 포함된 파일인지 확인한다. 설정�
 python -B scripts/inspect_streaming_graph.py --config runs/streaming-v4-34b0487/configs/train.json --source-file 26.h5 --frame-index 25 --cpu-threads 4 --memory-budget-mib 1024 --reserve-memory-mib 1024
 ```
 
-이 실행은 새 `runs/graph-inspection-*/graph.json`만 생성한다. 기존 학습을 실행,
+이 실행은 새 `runs/graph-inspection-*/graph.json`과 `graph.html`을 생성한다. 기존 학습을 실행,
 재개 또는 종료하지 않는다. GPU 번호를 설정하거나 SSH/웹 서버를 열지 않는다.
 CPU/RAM 검사가 거부하면 이를 우회하지 않는다.
 
@@ -6281,6 +6316,48 @@ CPU/RAM 검사가 거부하면 이를 우회하지 않는다.
 이웃 수와 일치 여부, 경과 시간을 출력한다. 거대한 이웃 목록을 채팅에 복사할 필요가 없다.
 기본 실행의 전체 edge 수 `null`은 미측정이지 0이 아니다. 원본 행/이웃 전체 추적은
 같은 새 결과 폴더의 `graph.json`에 보존한다.
+
+### 실제 그래프를 오프라인으로 보기
+
+같은 진단 명령이 이제 전체 윈도우의 **실제 노드 좌표를 빠짐없이** 저장하고
+`graph.html`에 데이터와 화면 코드를 모두 내장한다. 터미널 숫자만으로 가상의
+그래프를 그리지 않는다. MobaXterm의 파일 패널에서 출력된 `graph.html` 한 파일을
+로컬로 가져와 브라우저로 열면 된다. 원본 H5나 전체 실험 폴더를 옮길 필요가 없고,
+웹 서버·SSH 터널·네트워크 요청·GPU·모델 추론을 사용하지 않는다.
+
+- XY: 실제 센서 픽셀 위치와 이벤트 분포.
+- 시공간 3D: 고정 원점과 학습 설정의 시간 배율을 적용한 실제 거리 좌표의 회전 투영.
+- 선택 query: 저장된 모든 incoming 이웃과 이웃→선택 노드 연결선. 세 query 사이를
+  바꾸어 보고 노드의 원본 행 번호·픽셀·시간·거리 좌표를 확인할 수 있다.
+- 전체 노드 N과 화면에 제공된 노드 수, 선택 query의 차수, 전체 E의 측정 여부를
+  구분한다. 모든 N개 점을 그려도 모든 E개 선을 그렸다는 뜻은 아니다.
+
+모든 노드의 좌표를 저장하는 것은 O(N) 출력이며 전체 엣지를 열거하는
+`--count-all-nodes`를 자동 실행하지 않는다. 표시 배율·시점 변경은 그래프 반경,
+시간 창, sampling이나 모델 설정을 바꾸지 않는다. 좌표·JSON·HTML용 메모리도
+명시적 예산에 포함하고 초과하면 노드를 줄이는 대신 거부한다.
+
+이미 저장된 구형 `graph.json`만 변환할 수도 있다. 이 경우 저장된 query+이웃
+좌표만 표시하며 **부분 노드 / 전체 N**을 항상 구분한다. 없는 좌표를 복구하거나
+추정하지 않으므로 전체 점구름을 보려면 위 진단을 새 폴더로 한 번 실행한다.
+
+```bash
+python -B scripts/export_graph_inspection.py --report runs/graph-inspection-9dc1ihfc/graph.json --cpu-threads 4 --memory-budget-mib 1024 --reserve-memory-mib 1024
+```
+
+변환기는 새 `runs/graph-view-*/graph.html`만 생성하고 기존 보고서는 보존한다.
+저장된 oracle 일치 기록을 보여주는 것이며 원본 데이터 재검증이나 ASGCN 논문과의
+완전한 동등성을 인증하지 않는다. 진단용 합성 browser fixture는 `SYNTHETIC`으로
+명확히 표시되며 실제 실험 결과로 제공하지 않는다.
+
+시각화 변경의 로컬 검증: 합성 CPU 회귀 테스트 200개, 전체 Python Ruff,
+변경한 12개 파일의 privacy scan 및 whitespace 검사가 통과했다. 실제 모델 입력
+경로의 기존 합성 회귀도 포함한다. 별도 headless Chrome에서 28,879개 합성 노드의
+두 캔버스, query 전환, 이웃 확대, 회전, 좌표 조회, partial/empty,
+320/390/1360px와 dark mode를 확인했고 페이지 오류·외부 요청은 0건이었다.
+합성 스크린샷도 확인했다. 초기 Windows sandbox 실행의 access-violation 진단과
+pytest cache 접근 경고는 최종 실행에서는 발생하지 않았다. 실제 서버 데이터로
+HTML을 생성하거나 전체 학습·평가를 실행한 것은 아니다.
 
 ### 전체 윈도우 차수의 명시적 검사
 
@@ -9500,6 +9577,11 @@ sys.path.insert(0, str(PROJECT / "src"))
 
 from asgcn_unet.diagnostic_resources import preflight
 
+# Separate from graph/query storage: all Python rows/scalars, temporary list
+# conversions, and overlapping indented JSON/UTF-8 serialization buffers.
+# This is a conservative planning allowance, not a node cap or hard isolation.
+POINT_CLOUD_PLANNING_BYTES_PER_NODE = 4096
+
 
 def _positive(value, name):
     if (isinstance(value, bool) or not isinstance(value, (int, float))
@@ -9675,11 +9757,13 @@ def count_all_degrees(index):
 def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scale_seconds,
                           radius, timestamp_scale_to_seconds, interval_timestamp_scale_to_seconds,
                           cpu_threads, memory_budget_bytes, reserve_memory_bytes, query_indices=None,
-                          count_all_nodes=False, target_options=None):
+                          count_all_nodes=False, target_options=None, include_point_cloud=False):
     """Preserve every R=1 event in one explicit frame's delivered physical window."""
     audit_started = time.perf_counter()
     if type(count_all_nodes) is not bool:
         raise TypeError("count_all_nodes must be an explicit boolean")
+    if type(include_point_cloud) is not bool:
+        raise TypeError("include_point_cloud must be an explicit boolean")
     if target_options is None:
         target_options = {}
     if (not isinstance(target_options, dict) or set(target_options) - {
@@ -9783,7 +9867,9 @@ def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scal
             raise ValueError("Query indices must be unique and inside the complete window")
         # Reserve all N-1 possible neighbors per query, including JSON serialization.
         degree_scratch = count * 64 if count_all_nodes else 0
-        persistent = metadata_cost + count * (4096 + len(queries) * 1536) + degree_scratch
+        point_cloud_bytes = count * POINT_CLOUD_PLANNING_BYTES_PER_NODE if include_point_cloud else 0
+        persistent = (metadata_cost + count * (4096 + len(queries) * 1536)
+                      + degree_scratch + point_cloud_bytes)
         guard(persistent, "Complete window, query output, index and oracle")
         start = int(rows[0]) if count else end
         original_xs = np.asarray(handle["events/xs"][start:end])
@@ -9840,12 +9926,31 @@ def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scal
             }
             for node in sorted(detailed_nodes)
         }
+        point_cloud = None
+        if include_point_cloud:
+            guard(persistent + candidate_budget * 256,
+                  "All-window point cloud payload and JSON serialization")
+            # Keep IDs as integers: a homogeneous NumPy matrix would coerce
+            # large raw row IDs to float64. These are CPU serialization loops,
+            # not graph processing or a sampled display subset.
+            point_cloud = {
+                "schema": "asgcn_graph_point_cloud_v1",
+                "columns": ["node_index", "raw_row_id", "x", "y", "timestamp_seconds", "polarity",
+                            "position_x", "position_y", "position_t"],
+                "rows": [
+                    [node, raw_id, *event, *position]
+                    for node, (raw_id, event, position) in enumerate(zip(
+                        rows.tolist(), events.tolist(), positions[:, :3].tolist(), strict=True,
+                    ))
+                ],
+                "coverage": "all_window_nodes", "nodes": count,
+            }
         final_stat = path.stat()
         if (final_stat.st_size, final_stat.st_mtime_ns) != (
             source_stat.st_size, source_stat.st_mtime_ns,
         ):
             raise RuntimeError("Selected HDF5 file metadata changed during the diagnostic")
-        return {
+        report = {
             "schema": "asgcn_raw_graph_audit_v1", "report_eligible": False,
             "paper_exact": False,
             "total_directed_edges": full_count["directed_edges"] if full_count else None,
@@ -9889,7 +9994,8 @@ def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scal
             ),
             "resources": {"preflight": resource, "planning_estimates": estimates,
                           "cpu_threads": cpu_threads, "cuda_queried": False,
-                          "all_node_degree_scratch_bytes": degree_scratch},
+                          "all_node_degree_scratch_bytes": degree_scratch,
+                          "point_cloud_payload_and_serialization_bytes": point_cloud_bytes},
             "limitations": [
                 "Selected independent queries are not a full-graph oracle correctness proof.",
                 "Total E is measured only with explicit count_all_nodes; that may require O(E) time.",
@@ -9900,6 +10006,9 @@ def audit_raw_event_graph(*, source_file, frame_index, window_seconds, time_scal
                 "Chronology covers the delivered prefix; no whole-dataset validation.",
             ],
         }
+        if include_point_cloud:
+            report["point_cloud"] = point_cloud
+        return report
     finally:
         dataset.close()
 
@@ -9934,6 +10043,8 @@ def build_parser():
                         help="Window-local nodes; omitted selects unique first/middle/last")
     parser.add_argument("--count-all-nodes", action="store_true",
                         help="Opt in to O(E)-time full-window degrees; no full edge list is stored")
+    parser.add_argument("--include-point-cloud", action="store_true",
+                        help="Export every retained node's actual coordinates; extra payload/JSON RAM is planned")
     parser.add_argument("--output", required=True, type=Path)
     return parser
 
@@ -9957,6 +10068,7 @@ def main(argv=None):
             cpu_threads=args.cpu_threads, memory_budget_bytes=args.memory_budget_mib * 1024**2,
             reserve_memory_bytes=args.reserve_memory_mib * 1024**2, query_indices=args.query_indices,
             count_all_nodes=args.count_all_nodes,
+            include_point_cloud=args.include_point_cloud,
         )
         saved = save_report(report, output, workspace=PROJECT)
         print(f"Complete window: {report['window']['nodes']:,} nodes; "
@@ -12685,6 +12797,55 @@ if __name__ == "__main__":
         raise SystemExit(f"evaluation resume refused: {error}") from None
 ~~~~~~~~
 
+# scripts/export_graph_inspection.py
+
+~~~~~~~~python
+"""Export saved raw graph coordinates/queries as one offline HTML, without inference."""
+
+from __future__ import annotations
+
+import argparse
+import sys
+import tempfile
+from pathlib import Path
+
+PROJECT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT / "src"))
+
+from asgcn_unet.graph_inspection_view import export_saved_report
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--report", required=True, type=Path)
+    parser.add_argument("--cpu-threads", required=True, type=int)
+    parser.add_argument("--memory-budget-mib", required=True, type=int)
+    parser.add_argument("--reserve-memory-mib", required=True, type=int)
+    args = parser.parse_args(argv)
+    try:
+        runs = PROJECT / "runs"
+        if runs.resolve() != runs:
+            raise ValueError("Output runs directory must remain inside this checkout")
+        runs.mkdir(exist_ok=True)
+        destination = Path(tempfile.mkdtemp(prefix="graph-view-", dir=runs)) / "graph.html"
+        output = export_saved_report(args.report, destination, workspace=PROJECT,
+                                     memory_budget_bytes=args.memory_budget_mib * 1024**2,
+                                     reserve_memory_bytes=args.reserve_memory_mib * 1024**2,
+                                     cpu_threads=args.cpu_threads)
+        print(f"Offline graph saved: {output}")
+        print("Open this single HTML locally. No web server, SSH tunnel, GPU or model is needed.")
+        print("Old reports show only their saved query neighborhoods; missing nodes are not invented.")
+    except (OSError, ValueError, TypeError, KeyError, RuntimeError, MemoryError) as error:
+        print(f"Graph export failed: {error}", file=sys.stderr)
+        print("Source reports and existing experiments unchanged. No job was stopped.", file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+~~~~~~~~
+
 # scripts/export_results_html.py
 
 ~~~~~~~~python
@@ -14052,6 +14213,7 @@ sys.path.insert(0, str(PROJECT / "scripts"))
 from audit_raw_event_graph import audit_raw_event_graph, save_report
 
 from asgcn_unet.diagnostic_resources import preflight
+from asgcn_unet.graph_inspection_view import save_html
 from asgcn_unet.stream_preflight import validate_streaming_contract
 
 
@@ -14205,6 +14367,7 @@ def inspect_graph(*, config_path, source_file, frame_index, cpu_threads, memory_
     report = audit_raw_event_graph(
         **plan["arguments"], cpu_threads=cpu_threads, memory_budget_bytes=memory_budget_mib * 1024**2,
         reserve_memory_bytes=reserve_memory_mib * 1024**2, count_all_nodes=count_all_nodes,
+        include_point_cloud=True,
     )
     # Refuse attaching a now-stale config identity to a successful graph audit.
     for input_path, recorded_hash in plan["identity_inputs"]:
@@ -14219,6 +14382,12 @@ def inspect_graph(*, config_path, source_file, frame_index, cpu_threads, memory_
     destination = Path(tempfile.mkdtemp(prefix="graph-inspection-", dir=runs))
     saved = save_report(report, destination / "graph.json", workspace=project)
     print(f"Graph inspection saved: {saved}", flush=True)
+    visual = save_html(report, destination / "graph.html", workspace=project,
+                       memory_budget_bytes=memory_budget_mib * 1024**2,
+                       reserve_memory_bytes=reserve_memory_mib * 1024**2, cpu_threads=cpu_threads)
+    print(f"Offline graph saved: {visual}", flush=True)
+    print("Open graph.html locally: all window nodes + every recorded neighbor of each audited query. "
+          "No full-edge scan, web server or SSH tunnel is needed.", flush=True)
     print("GRAPH_INSPECTION_SUMMARY", flush=True)
     print(json.dumps(compact_report(report), indent=2, ensure_ascii=False, allow_nan=False), flush=True)
     print("Existing training/checkpoints/results unchanged. This report does not authorize training.", flush=True)
@@ -30892,6 +31061,281 @@ class ASGCNEncoder(nn.Module):
         return self.layers[-1].normalization_scale.to(reference)
 ~~~~~~~~
 
+# src/asgcn_unet/graph_inspection_view.py
+
+~~~~~~~~python
+"""Offline display of recorded raw-window coordinates and audited query edges.
+
+Standard library only: no dataset, model, torch, network or CUDA access. This
+module does not rebuild a graph or treat stored oracle claims as revalidation.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import math
+import os
+import re
+import tempfile
+from pathlib import Path
+
+from .diagnostic_resources import preflight
+
+COLUMNS = ["node_index", "raw_row_id", "x", "y", "timestamp_seconds", "polarity",
+           "position_x", "position_y", "position_t"]
+ASSETS = Path(__file__).with_name("viewer_assets")
+
+
+def _integer(value, label, minimum=0):
+    if type(value) is not int or not minimum <= value <= 2**53 - 1:
+        raise ValueError(f"{label} must be a safely representable integer >= {minimum}")
+    return value
+
+
+def _number(value, label, positive=False):
+    if (isinstance(value, bool) or not isinstance(value, (int, float))
+            or not math.isfinite(value) or (positive and value <= 0)):
+        raise ValueError(f"{label} must be finite" + (" and positive" if positive else ""))
+    return value
+
+
+def display_payload(report):
+    """Validate identities/coverage without inventing absent nodes or edges."""
+    if not isinstance(report, dict) or report.get("schema") != "asgcn_raw_graph_audit_v1":
+        raise ValueError("Expected an asgcn_raw_graph_audit_v1 report")
+    window, geometry = report["window"], report["geometry"]
+    if not isinstance(window, dict) or not isinstance(geometry, dict):
+        raise TypeError("Window and geometry must be objects")
+    count = _integer(window["nodes"], "window.nodes")
+    height, width = window["sensor_size"]
+    _integer(height, "sensor height", 2)
+    _integer(width, "sensor width", 2)
+    cutoff = _number(window["cutoff_seconds"], "cutoff_seconds")
+    readout = _number(window["readout_seconds"], "readout_seconds")
+    duration = _number(window["window_seconds"], "window_seconds", True)
+    if cutoff > readout or not math.isclose(readout - duration, cutoff, rel_tol=0, abs_tol=1e-12):
+        raise ValueError("Window clocks are inconsistent")
+    scale = _number(geometry["time_scale_seconds"], "time_scale_seconds", True)
+    origin = _number(geometry["sequence_origin_seconds"], "sequence_origin_seconds")
+    _number(geometry["radius"], "radius", True)
+    if geometry.get("position_dims") != 3 or geometry.get("polarity_in_topology") is not False:
+        raise ValueError("Only the recorded 3D spatial/physical-time graph is supported")
+    cloud = report.get("point_cloud")
+    if cloud is not None:
+        if not isinstance(cloud, dict):
+            raise TypeError("Point cloud must be an object")
+        _integer(cloud.get("nodes"), "point cloud nodes")
+        if (cloud.get("schema") != "asgcn_graph_point_cloud_v1" or cloud.get("columns") != COLUMNS
+                or cloud.get("coverage") != "all_window_nodes" or cloud.get("nodes") != count):
+            raise ValueError("Point cloud schema or coverage is inconsistent")
+        nodes = cloud["rows"]
+        coverage = "all_window_nodes"
+        if len(nodes) != count:
+            raise ValueError("Point cloud must contain every window node; no subset is substituted")
+    else:
+        coverage = "query_neighborhoods_only"
+        nodes = []
+        if not isinstance(report["node_details"], dict):
+            raise TypeError("node_details must be an object")
+        for key, detail in report["node_details"].items():
+            if str(detail["node_index"]) != key:
+                raise ValueError("node_details key differs from its node identity")
+            raw, prep = detail["original_source"], detail["preprocessed"]
+            polarity = int(raw["polarity"]) if isinstance(raw["polarity"], bool) else _number(
+                raw["polarity"], "source polarity")
+            if polarity not in {-1, 0, 1}:
+                raise ValueError("Unsupported raw polarity")
+            nodes.append([detail["node_index"], detail["raw_row_id"], prep["x"], prep["y"],
+                          prep["timestamp_seconds"], 1 if polarity > 0 else -1,
+                          *detail["normalized_topology_coordinates"]])
+    if not isinstance(nodes, list):
+        raise TypeError("Node rows must be a list")
+    by_id, source_ids = {}, set()
+    for row in nodes:
+        if not isinstance(row, list) or len(row) != len(COLUMNS):
+            raise ValueError("Each node must contain exactly the declared nine columns")
+        node = _integer(row[0], "node index")
+        raw_id = _integer(row[1], "raw row id")
+        if node >= count or node in by_id or raw_id in source_ids:
+            raise ValueError("Node/source identity is duplicate or outside the window")
+        for value in row[2:]:
+            _number(value, "node coordinate")
+        if (not 0 <= row[2] <= width - 1 or not 0 <= row[3] <= height - 1
+                or not cutoff <= row[4] <= readout or row[4] < origin or row[5] not in {-1, 1}):
+            raise ValueError("Node is outside the declared sensor/window or has invalid polarity")
+        expected = [row[2] / (width - 1), row[3] / (height - 1), (row[4] - origin) / scale]
+        if any(not math.isclose(a, b, rel_tol=1e-14, abs_tol=1e-14)
+               for a, b in zip(row[6:], expected, strict=True)):
+            raise ValueError("Recorded physical and topology coordinates disagree")
+        by_id[node] = row
+        source_ids.add(raw_id)
+    first_id, last_id = window.get("first_raw_row_id"), window.get("last_raw_row_id")
+    delivered_end = report["source"].get("delivery_end_idx_exclusive")
+    if first_id is not None or last_id is not None:
+        _integer(first_id, "first raw row")
+        _integer(last_id, "last raw row")
+        if last_id - first_id + 1 != count or any(row[1] != first_id + row[0] for row in nodes):
+            raise ValueError("Node/source mapping disagrees with the retained delivered suffix")
+    if delivered_end is not None:
+        _integer(delivered_end, "delivered end")
+        if any(row[1] >= delivered_end for row in nodes):
+            raise ValueError("Raw source identity lies outside the delivered prefix")
+    if cloud is not None:
+        for key, detail in report.get("node_details", {}).items():
+            node = detail["node_index"]
+            if (str(node) != key or node not in by_id or by_id[node][1] != detail["raw_row_id"]
+                    or by_id[node][2:5] != [detail["preprocessed"][name]
+                                           for name in ("x", "y", "timestamp_seconds")]
+                    or by_id[node][6:] != detail["normalized_topology_coordinates"]):
+                raise ValueError("Point cloud disagrees with saved node_details")
+    queries, seen_queries = [], set()
+    for query in report["queries"]:
+        target = _integer(query["node_index"], "query node")
+        _integer(query["raw_row_id"], "query raw row")
+        _integer(query.get("all_window_sources_checked"), "checked source count")
+        if (target not in by_id or target in seen_queries
+                or query["raw_row_id"] != by_id[target][1]
+                or query.get("oracle_match") is not True
+                or query.get("all_window_sources_checked") != count):
+            raise ValueError("Query identity or stored all-source oracle claim is inconsistent")
+        seen_queries.add(target)
+        neighbors = []
+        seen_neighbors = set()
+        for edge in query["neighbors"]:
+            source = _integer(edge["node_index"], "neighbor node")
+            _integer(edge["raw_row_id"], "neighbor raw row")
+            if (source not in by_id or source == target or source in seen_neighbors
+                    or edge["raw_row_id"] != by_id[source][1]):
+                raise ValueError("Neighbor is missing, duplicated, self-linked or misidentified")
+            distance = _number(edge["distance_over_radius"], "distance_over_radius")
+            if not 0 <= distance < 1:
+                raise ValueError("Recorded neighbor lies outside the strict radius")
+            absolute = _number(edge["distance"], "distance")
+            if not math.isclose(absolute, distance * geometry["radius"], rel_tol=1e-14, abs_tol=1e-14):
+                raise ValueError("Saved edge distances disagree with recorded radius")
+            coordinate_distance = math.hypot(*[(a - b) / geometry["radius"]
+                                                for a, b in zip(by_id[source][6:], by_id[target][6:],
+                                                                strict=True)])
+            if not math.isclose(coordinate_distance, distance, rel_tol=1e-12, abs_tol=1e-14):
+                raise ValueError("Saved edge distance disagrees with endpoint coordinates")
+            neighbors.append(source)
+            seen_neighbors.add(source)
+        if _integer(query["in_degree"], "in_degree") != len(neighbors):
+            raise ValueError("All recorded query neighbors must be present")
+        queries.append({"node_index": target, "raw_row_id": by_id[target][1],
+                        "in_degree": len(neighbors), "oracle_match": True, "neighbors": neighbors})
+    total = report.get("total_directed_edges")
+    if total is not None:
+        _integer(total, "total_directed_edges")
+        full = report.get("full_count")
+        if (not isinstance(full, dict) or full.get("all_nodes_counted") is not True
+                or full.get("directed_edges") != total or full.get("nodes") != count
+                or total % 2 or total > count * max(0, count - 1)
+                or total < sum(q["in_degree"] for q in queries)):
+            raise ValueError("Total edge count has no consistent complete counting record")
+    source = report["source"]
+    if not isinstance(source["file_name"], str):
+        raise TypeError("source.file_name must be text")
+    _integer(source["frame_index"], "frame_index")
+    return {"schema": "asgcn_graph_inspection_view_v1", "nodes": nodes, "queries": queries,
+            "window": window, "geometry": geometry,
+            "source": {key: source[key] for key in ("file_name", "frame_index", "identity")},
+            "coverage": coverage, "total_directed_edges": total,
+            "synthetic_fixture": report.get("synthetic_fixture") is True,
+            "saved_report_sha256": report.get("saved_report_sha256"),
+            "provenance_note": "Stored diagnostic only; original data and oracle not revalidated. "
+                               "Selected incoming edges only, not the full edge set. Not paper-exact."}
+
+
+def _working_estimate(report):
+    cloud = report.get("point_cloud")
+    nodes = cloud.get("rows", []) if isinstance(cloud, dict) else report.get("node_details", {})
+    queries = report.get("queries", [])
+    # Conservative allowance for Python objects, indexing, JSON, escaped Unicode,
+    # template copies and UTF-8 encoding. A budget failure never samples the graph.
+    return 64 * 1024**2 + len(nodes) * 8192 + sum(len(q["neighbors"]) for q in queries) * 2048
+
+
+def save_html(report, output, *, workspace, memory_budget_bytes, reserve_memory_bytes, cpu_threads):
+    """Write one self-contained new HTML; no overwrite, network or full E build."""
+    root = Path(workspace).resolve(strict=True)
+    output = Path(output)
+    output = (output if output.is_absolute() else root / output).resolve(strict=False)
+    if (not output.is_relative_to(root) or output.suffix.lower() != ".html"
+            or not output.parent.is_dir()):
+        raise ValueError("Output must be a new HTML in an existing workspace directory")
+    if output.exists():
+        raise FileExistsError(f"Offline graph output already exists: {output}")
+    preflight(budget_bytes=memory_budget_bytes, reserve_bytes=reserve_memory_bytes,
+              cpu_threads=cpu_threads)
+    if _working_estimate(report) > memory_budget_bytes:
+        raise MemoryError("Offline graph payload exceeds the explicit RAM planning budget; no nodes omitted")
+    payload = display_payload(report)
+    encoded = json.dumps(payload, ensure_ascii=True, separators=(",", ":"), allow_nan=False)
+    encoded = encoded.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e")
+    template = (ASSETS / "inspection.html").read_text(encoding="utf-8")
+    replacements = {"__INSPECTION_CSS__": (ASSETS / "inspection.css").read_text(encoding="utf-8"),
+                    "__INSPECTION_JS__": (ASSETS / "inspection.js").read_text(encoding="utf-8"),
+                    "__INSPECTION_DATA__": encoded}
+    # Split before insertion: source strings resembling a placeholder are data,
+    # and are never recursively interpreted as a template directive.
+    html = re.sub("|".join(replacements), lambda match: replacements[match[0]], template)
+    preflight(budget_bytes=memory_budget_bytes, reserve_bytes=reserve_memory_bytes,
+              cpu_threads=cpu_threads)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="\n",
+                                         dir=output.parent, prefix=".graph-view-", suffix=".tmp",
+                                         delete=False) as handle:
+            temporary = Path(handle.name)
+            handle.write(html)
+            handle.flush()
+            os.fsync(handle.fileno())
+        # Atomic publication without replacing an existing experiment/artifact.
+        os.link(temporary, output)
+    finally:
+        if temporary is not None:
+            temporary.unlink()
+    return output
+
+
+def export_saved_report(source, output, *, workspace, memory_budget_bytes,
+                        reserve_memory_bytes, cpu_threads):
+    """Read a bounded saved report, then export its actual available coordinates."""
+    preflight(budget_bytes=memory_budget_bytes, reserve_bytes=reserve_memory_bytes,
+              cpu_threads=cpu_threads)
+    source = Path(source).resolve(strict=True)
+    if not source.is_file() or source.suffix.lower() != ".json":
+        raise ValueError("Input must be an existing diagnostic JSON")
+    before = source.stat()
+    read_budget = max(0, (memory_budget_bytes - 64 * 1024**2) // 32)
+    if before.st_size > read_budget:
+        raise MemoryError("Saved report exceeds the explicit JSON decoding memory budget")
+    with source.open("rb") as handle:
+        raw = handle.read(read_budget + 1)
+    after = source.stat()
+    if (len(raw) > read_budget or len(raw) != before.st_size
+            or (before.st_size, before.st_mtime_ns) != (after.st_size, after.st_mtime_ns)):
+        raise RuntimeError("Saved graph report changed while reading")
+    def unique_keys(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError(f"Duplicate JSON key: {key}")
+            result[key] = value
+        return result
+    def reject_constant(value):
+        raise ValueError(f"Non-finite JSON value: {value}")
+    report = json.loads(raw, object_pairs_hook=unique_keys, parse_constant=reject_constant)
+    if not isinstance(report, dict):
+        raise TypeError("Graph report must be an object")
+    report["saved_report_sha256"] = hashlib.sha256(raw).hexdigest()
+    del raw
+    return save_html(report, output, workspace=workspace, memory_budget_bytes=memory_budget_bytes,
+                     reserve_memory_bytes=reserve_memory_bytes, cpu_threads=cpu_threads)
+~~~~~~~~
+
 # src/asgcn_unet/graph_pool.py
 
 ~~~~~~~~python
@@ -46042,6 +46486,381 @@ def atomic_torch_save(value: Any, path: str | Path) -> None:
 </html>
 ~~~~~~~~
 
+# src/asgcn_unet/viewer_assets/inspection.css
+
+~~~~~~~~text
+:root{color-scheme:light dark;--page:#f5f7fb;--surface:#fff;--ink:#172033;--muted:#56647b;--line:#d6deea;--grid:#e9edf4;--accent:#334fcc;--positive:#cb3d59;--negative:#237dc1;--neighbor:#b96800;--focus:#6d42c3;--notice:#fff5dc;--notice-ink:#735100;--danger:#ffe8e8;--danger-ink:#a01e30}
+.view-controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin:0 0 18px}.view-controls p{flex:1;min-width:180px;font-size:12px;color:var(--muted);margin:0}.view-controls button[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 -2px var(--accent)}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif}main{max-width:1440px;margin:auto;padding:30px clamp(16px,3vw,48px) 40px}.page-header,.plot-heading,.detail-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}.page-header{align-items:flex-start;margin-bottom:22px}.eyebrow{font-size:11px;letter-spacing:.14em;color:var(--muted);margin:0 0 4px}h1{font-size:27px;letter-spacing:-.04em;margin:0}h2{font-size:17px;letter-spacing:-.025em;margin:0}.subtle{color:var(--muted);margin:5px 0 0;overflow-wrap:anywhere}.offline-label{font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:6px;white-space:nowrap}.notice{background:var(--notice);color:var(--notice-ink);border-left:3px solid currentColor;padding:12px 15px;margin:14px 0;overflow-wrap:anywhere}.danger{background:var(--danger);color:var(--danger-ink)}[hidden]{display:none!important}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:18px 0}.summary>div{background:var(--surface);padding:14px 18px}.summary span{display:block;font-size:12px;color:var(--muted)}.summary strong{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.query-bar{display:flex;align-items:center;gap:20px;margin:18px 0}.query-bar label{display:flex;align-items:center;gap:10px;font-size:13px}.query-bar p{margin:0;color:var(--muted);font-size:13px}.plots{display:grid;grid-template-columns:1fr 1fr;gap:20px}.plot-panel{min-width:0}.plot-heading{margin:0 0 8px}.plot-heading span{font-size:12px;color:var(--muted)}canvas{display:block;width:100%;height:380px;background:var(--surface);border:1px solid var(--line);border-radius:8px}#space-canvas{cursor:grab;touch-action:none}#space-canvas:active{cursor:grabbing}.plot-caption{font-size:12px;color:var(--muted);margin:8px 0;overflow-wrap:anywhere}.mono,dd{font-variant-numeric:tabular-nums}.rotation-controls{display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin:12px 0}.rotation-controls label{flex:1;min-width:100px;font-size:12px}.rotation-controls output{float:right;font-variant-numeric:tabular-nums}.rotation-controls input{display:block;width:100%;margin:4px 0;accent-color:var(--accent)}button,input,select{font:inherit;color:var(--ink)}button,select,input[type=number]{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:7px 10px;min-height:38px}button{cursor:pointer;white-space:nowrap}button:hover{border-color:var(--accent)}button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px}select{max-width:100%}.legend{display:flex;flex-wrap:wrap;gap:9px 22px;font-size:12px;margin:18px 0 6px}.legend span{display:flex;align-items:center;gap:7px}.legend i{width:9px;height:9px;display:inline-block;background:var(--positive);border-radius:50%}.legend .negative{background:var(--negative);border-radius:0}.legend .target{background:transparent;border:2px solid var(--ink);width:12px;height:12px}.legend .neighbor{height:2px;width:20px;background:var(--neighbor);border-radius:0}.detail-panel{margin-top:22px;border-top:1px solid var(--line);padding-top:20px}.detail-heading form{display:flex;align-items:center;gap:8px;font-size:13px}.detail-heading input{width:105px}#node-status{font-size:13px;margin:10px 0;color:var(--muted)}dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 22px;margin:12px 0}dl>div{min-width:0}dt{font-size:12px;color:var(--muted)}dd{margin:2px 0;font-size:14px;overflow-wrap:anywhere}.provenance{border-top:1px solid var(--line);padding-top:15px;margin-top:22px;font-size:13px}.provenance summary{cursor:pointer}.provenance p{color:var(--muted)}.provenance dl{grid-template-columns:repeat(3,minmax(0,1fr))}@media(prefers-color-scheme:dark){:root{--page:#111723;--surface:#182130;--ink:#e6edf7;--muted:#a4b3c9;--line:#344256;--grid:#293448;--accent:#9babff;--positive:#ff8c9f;--negative:#79c3ff;--neighbor:#efb557;--focus:#c4a7ff;--notice:#302815;--notice-ink:#f0cd87;--danger:#3e222b;--danger-ink:#ffaaba}}@media(max-width:950px){.plots{grid-template-columns:1fr}canvas{height:410px}.detail-heading{align-items:flex-start;flex-direction:column}dl{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:560px){main{padding:18px 14px 28px}.page-header{flex-direction:column;gap:8px}h1{font-size:24px}.summary{grid-template-columns:1fr}.summary>div{padding:9px 13px}.summary strong{font-size:20px}.query-bar,.query-bar label{align-items:flex-start;flex-direction:column;gap:8px}.query-bar label{width:100%}select{width:100%}canvas{height:320px}.plot-heading{gap:6px;align-items:flex-start;flex-direction:column}.detail-heading form{flex-wrap:wrap}.detail-heading form label{width:100%}dl,.provenance dl{grid-template-columns:repeat(2,minmax(0,1fr))}.rotation-controls{gap:10px}.rotation-controls button{width:100%}.legend{gap:8px 15px}}@media(pointer:coarse){button,select,input[type=number]{min-height:44px}.rotation-controls input{min-height:24px}}
+~~~~~~~~
+
+# src/asgcn_unet/viewer_assets/inspection.html
+
+~~~~~~~~text
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>실제 이벤트 그래프 · 오프라인 검사</title>
+  <style>__INSPECTION_CSS__</style>
+</head>
+<body>
+  <main id="graph-inspection">
+    <header class="page-header">
+      <div><p class="eyebrow">RAW EVENTS → RADIUS GRAPH</p><h1>실제 이벤트 그래프</h1><p id="source-label" class="subtle">저장된 검사 결과를 읽는 중…</p></div>
+      <span class="offline-label">오프라인 · 네트워크 사용 없음</span>
+    </header>
+    <div id="inspection-error" class="notice danger" role="alert" hidden></div>
+    <noscript><p class="notice danger">그래프를 표시하려면 브라우저에서 JavaScript를 허용해야 합니다. 서버 연결은 필요하지 않습니다.</p></noscript>
+    <div id="inspection-content" hidden>
+      <p id="fixture-notice" class="notice danger" hidden>합성 테스트 자료입니다. 실제 데이터셋의 그래프나 실험 결과가 아닙니다.</p>
+      <p id="coverage-notice" class="notice"></p>
+      <section class="summary" aria-label="표시 범위와 측정값">
+        <div><span>파일에 포함된 노드 / 윈도우 전체 N</span><strong id="node-count"></strong></div>
+        <div><span>선택한 기준 노드의 이웃 수</span><strong id="degree-count"></strong></div>
+        <div><span>윈도우 전체 방향 엣지 E</span><strong id="edge-count"></strong></div>
+      </section>
+      <section class="query-bar" aria-label="검증된 기준 노드 선택">
+        <label for="query-select">검증된 기준 노드<select id="query-select"></select></label>
+        <p id="query-status" aria-live="polite"></p>
+      </section>
+      <div class="view-controls"><button id="focus-neighbors" type="button" aria-pressed="false">선택 이웃 확대</button><button id="show-all" type="button" aria-pressed="true">전체 노드 보기</button><p id="view-scope" aria-live="polite"></p></div>
+      <div class="plots">
+        <section class="plot-panel" aria-labelledby="xy-title">
+          <div class="plot-heading"><h2 id="xy-title">센서 위의 이벤트</h2><span>XY · 픽셀 좌표</span></div>
+          <canvas id="xy-canvas" role="img" aria-label="실제 이벤트의 센서 XY 위치와 선택한 기준 노드의 검증된 이웃 연결" aria-describedby="graph-legend">캔버스 그래프를 표시할 수 없습니다. 아래 노드 상세와 측정값을 확인하세요.</canvas>
+          <p class="plot-caption">센서의 왼쪽 위가 (0, 0)입니다. 점을 클릭하면 원본 행과 전처리 좌표를 확인합니다.</p>
+        </section>
+        <section class="plot-panel" aria-labelledby="space-title">
+          <div class="plot-heading"><h2 id="space-title">시공간 그래프</h2><span>3D · 실제 그래프 좌표</span></div>
+          <canvas id="space-canvas" role="img" aria-label="고정 원점의 시공간 그래프. 드래그 또는 아래 회전 슬라이더로 회전" aria-describedby="metric-explanation graph-legend">캔버스 그래프를 표시할 수 없습니다. 아래 노드 상세와 측정값을 확인하세요.</canvas>
+          <div class="rotation-controls">
+            <label for="yaw">좌우 회전 <output id="yaw-value" for="yaw">35°</output><input id="yaw" type="range" min="-180" max="180" value="35" step="1"></label>
+            <label for="pitch">상하 회전 <output id="pitch-value" for="pitch">25°</output><input id="pitch" type="range" min="-85" max="85" value="25" step="1"></label>
+            <button id="reset-view" type="button">시점 초기화</button>
+          </div>
+          <p id="metric-explanation" class="plot-caption">X=x/(W−1), Y=y/(H−1), T=(t−고정 원점)/시간 척도: 모두 무차원 그래프 좌표입니다. 세 축은 동일 배율이며, 화면 맞춤·회전은 연결 규칙을 바꾸지 않습니다.</p>
+          <p id="metric-ranges" class="plot-caption mono"></p>
+        </section>
+      </div>
+      <p id="graph-legend" class="legend"><span><i class="positive"></i>극성 p &gt; 0 · 원</span><span><i class="negative"></i>극성 p ≤ 0 · 사각형</span><span><i class="target"></i>기준 노드 · 테두리</span><span><i class="neighbor"></i>검증된 이웃 → 기준 노드</span></p>
+      <p class="plot-caption">배경 점은 제공된 모든 노드입니다. 선은 선택한 기준 노드로 들어오는 검증된 이웃 전체이며, 다른 노드 사이의 엣지는 이 화면에서 추정하거나 생성하지 않습니다. 겹친 점·선은 하나처럼 보일 수 있습니다.</p>
+      <section class="detail-panel" aria-labelledby="detail-title">
+        <div class="detail-heading"><h2 id="detail-title">노드·원본 행 추적</h2><form id="node-form"><label for="node-index">윈도우 내 노드 번호</label><input id="node-index" type="number" min="0" step="1" required><button type="submit">확인</button></form></div>
+        <p id="node-status" aria-live="polite"></p>
+        <dl id="node-detail"></dl>
+      </section>
+      <details class="provenance"><summary>시간·반경·검사 범위</summary><dl id="contract-detail"></dl><p>이 화면은 저장된 수치 검사 결과입니다. 논문과의 구조 동일성, 전체 데이터셋 검증, 학습 정확도, GPU 속도·메모리를 증명하지 않습니다.</p></details>
+    </div>
+  </main>
+  <script id="inspection-data" type="application/json">__INSPECTION_DATA__</script>
+  <script>__INSPECTION_JS__</script>
+</body>
+</html>
+~~~~~~~~
+
+# src/asgcn_unet/viewer_assets/inspection.js
+
+~~~~~~~~text
+/* Offline inspection only. No request, model, neighbor inference, or node cap. */
+(() => {
+  "use strict";
+  const root = document.getElementById("graph-inspection");
+  const el = id => document.getElementById(id);
+  const integer = value => Number.isSafeInteger(value) && value >= 0;
+  const finite = value => typeof value === "number" && Number.isFinite(value);
+  const number = value => finite(value) ? value.toLocaleString("en-US", {maximumFractionDigits: 9}) : "미측정";
+  const exact = value => String(value);
+  const put = (id, value) => { el(id).textContent = value; };
+  const fail = message => {
+    put("inspection-error", `그래프 표시를 중단했습니다: ${message}`);
+    el("inspection-error").hidden = false;
+    el("inspection-content").hidden = true;
+  };
+  let data, nodes, nodeMap, queries;
+  try {
+    data = JSON.parse(el("inspection-data").textContent);
+    if (data.schema !== "asgcn_graph_inspection_view_v1" || !Array.isArray(data.nodes)
+        || !Array.isArray(data.queries) || !data.window || !data.geometry || !data.source
+        || !["all_window_nodes", "query_neighborhoods_only"].includes(data.coverage)
+        || typeof data.synthetic_fixture !== "boolean") throw Error("지원하지 않는 검사 자료 형식입니다.");
+    const size = data.window.sensor_size;
+    if (!Array.isArray(size) || size.length !== 2 || !size.every(value => integer(value) && value > 0)
+        || !integer(data.window.nodes) || ![data.window.readout_seconds, data.window.cutoff_seconds,
+          data.window.window_seconds, data.geometry.radius, data.geometry.time_scale_seconds,
+          data.geometry.sequence_origin_seconds].every(finite)
+        || data.window.window_seconds <= 0 || data.geometry.radius <= 0 || data.geometry.time_scale_seconds <= 0)
+      throw Error("센서 크기 또는 시간·반경 기록이 올바르지 않습니다.");
+    nodes = data.nodes;
+    nodeMap = new Map();
+    const rowIds = new Set();
+    for (const node of nodes) {
+      if (!Array.isArray(node) || node.length !== 9 || !integer(node[0]) || !integer(node[1])
+          || !node.slice(2).every(finite) || node[0] >= data.window.nodes
+          || nodeMap.has(node[0]) || rowIds.has(node[1]) || ![-1, 0, 1].includes(node[5])
+          || node[2] < 0 || node[2] >= size[1] || node[3] < 0 || node[3] >= size[0])
+        throw Error("노드 좌표·원시 행 번호가 잘못되었거나 중복되었습니다.");
+      nodeMap.set(node[0], node);
+      rowIds.add(node[1]);
+    }
+    if (nodes.length > data.window.nodes
+        || (data.coverage === "all_window_nodes" && nodes.length !== data.window.nodes))
+      throw Error("표시 노드 수와 선언한 검사 범위가 일치하지 않습니다.");
+    if (data.total_directed_edges !== null && !integer(data.total_directed_edges))
+      throw Error("전체 엣지 수 기록이 올바르지 않습니다.");
+    queries = data.queries;
+    const queryIds = new Set();
+    for (const query of queries) {
+      if (!nodeMap.has(query.node_index) || queryIds.has(query.node_index)
+          || query.raw_row_id !== nodeMap.get(query.node_index)[1]
+          || query.oracle_match !== true || !integer(query.in_degree)
+          || !Array.isArray(query.neighbors) || query.in_degree !== query.neighbors.length
+          || new Set(query.neighbors).size !== query.neighbors.length
+          || query.neighbors.some(id => !integer(id) || id === query.node_index || !nodeMap.has(id)))
+        throw Error("검증된 기준 노드와 이웃 목록이 일치하지 않습니다. 미검증 연결은 표시하지 않습니다.");
+      queryIds.add(query.node_index);
+    }
+  } catch (error) { fail(error.message); return; }
+
+  const [sensorH, sensorW] = data.window.sensor_size;
+  let activeQuery = queries[0] || null;
+  let inspected = activeQuery ? activeQuery.node_index : (nodes[0]?.[0] ?? null);
+  let yaw = 35, pitch = 25, scheduled = false, focused = false;
+  const canvases = [el("xy-canvas"), el("space-canvas")];
+  const projected = new Map();
+  const hitBounds = new Map();
+  const nodeOffsets = new Map(nodes.map((node, index) => [node[0], index]));
+  const colors = () => {
+    const style = getComputedStyle(root);
+    return Object.fromEntries(["surface", "ink", "muted", "line", "grid", "positive", "negative", "neighbor", "focus"]
+      .map(name => [name, style.getPropertyValue(`--${name}`).trim()]));
+  };
+  const bounds = [[Infinity, -Infinity], [Infinity, -Infinity], [Infinity, -Infinity]];
+  for (const node of nodes) for (let axis = 0; axis < 3; axis++) {
+    bounds[axis][0] = Math.min(bounds[axis][0], node[6 + axis]);
+    bounds[axis][1] = Math.max(bounds[axis][1], node[6 + axis]);
+  }
+  if (!nodes.length) bounds.forEach(range => { range[0] = range[1] = 0; });
+  function viewNodes() { return focused && activeQuery ? [activeQuery.node_index, ...activeQuery.neighbors].map(id => nodeMap.get(id)) : nodes; }
+  function viewBounds(offset) {
+    const result = Array.from({length: 3}, () => [Infinity, -Infinity]);
+    for (const node of viewNodes()) for (let axis = 0; axis < 3; axis++) {
+      result[axis][0] = Math.min(result[axis][0], node[offset + axis]);
+      result[axis][1] = Math.max(result[axis][1], node[offset + axis]);
+    }
+    if (!viewNodes().length) result.forEach(range => { range[0] = range[1] = 0; });
+    return result;
+  }
+
+  put("source-label", `${data.source.file_name || "원본 파일"} · 파일 내 프레임 ${data.source.frame_index ?? "미기록"} · readout ${exact(data.window.readout_seconds)} s`);
+  el("fixture-notice").hidden = !data.synthetic_fixture;
+  put("coverage-notice", data.coverage === "all_window_nodes"
+    ? "이 파일에는 윈도우의 모든 노드가 포함되어 있습니다. 전체 엣지 그림이 아니라, 선택한 기준 노드의 검증된 이웃 연결만 표시합니다."
+    : "부분 표시: 검증한 기준 노드들과 그 이웃만 포함되어 있습니다. 전체 윈도우의 이벤트 분포나 전체 그래프 모습으로 해석하면 안 됩니다.");
+  put("node-count", `${number(nodes.length)} / ${number(data.window.nodes)}`);
+  put("edge-count", data.total_directed_edges === null ? "미측정 · 알 수 없음" : number(data.total_directed_edges));
+  put("metric-ranges", bounds.map((range, index) => `${["X", "Y", "T"][index]}: ${number(range[0])} … ${number(range[1])}`).join("  |  "));
+  const select = el("query-select");
+  for (const query of queries) {
+    const option = document.createElement("option");
+    option.value = String(query.node_index);
+    option.textContent = `노드 ${query.node_index} · 원시 행 ${query.raw_row_id} · 이웃 ${number(query.in_degree)}`;
+    select.append(option);
+  }
+  if (!queries.length) {
+    const option = document.createElement("option");
+    option.textContent = "검증된 기준 노드 없음";
+    select.append(option);
+    select.disabled = true;
+    el("focus-neighbors").disabled = true;
+  }
+  const addDetails = (target, rows) => {
+    target.replaceChildren();
+    for (const [label, value] of rows) {
+      const item = document.createElement("div"), term = document.createElement("dt"), detail = document.createElement("dd");
+      term.textContent = label; detail.textContent = value; item.append(term, detail); target.append(item);
+    }
+  };
+  addDetails(el("contract-detail"), [
+    ["윈도우", `${exact(data.window.cutoff_seconds)} ≤ t ≤ ${exact(data.window.readout_seconds)} s (이미 전달된 이벤트)`],
+    ["시간 길이", `${exact(data.window.window_seconds)} s`], ["고정 시간 원점", `${exact(data.geometry.sequence_origin_seconds)} s`],
+    ["시간 척도", `${exact(data.geometry.time_scale_seconds)} s`], ["연결 반경", `${exact(data.geometry.radius)} (그래프 좌표 단위)`],
+    ["거리 조건", data.geometry.predicate || "저장된 반경 조건 미기록"], ["센서 H × W", `${sensorH} × ${sensorW} px`],
+    ["표시 연결 방향", "각 이웃(source) → 선택한 기준 노드(target)"],
+    ["전체 엣지 수", data.total_directed_edges === null ? "미측정: 이웃 수를 전체 E로 대체하지 않음" : `${number(data.total_directed_edges)} 방향 엣지`],
+  ]);
+  function updateNode() {
+    const node = nodeMap.get(inspected);
+    if (!node) { put("node-status", "표시할 노드가 없습니다."); el("node-detail").replaceChildren(); return; }
+    el("node-index").value = String(node[0]);
+    put("node-status", `노드 ${node[0]} · 원시 행 ${node[1]}${activeQuery?.node_index === node[0] ? " · 현재 검증 기준 노드" : " · 상세 선택은 표시 연결의 기준을 바꾸지 않습니다."}`);
+    addDetails(el("node-detail"), [["윈도우 내 노드 번호", exact(node[0])], ["원본 이벤트 행", exact(node[1])],
+      ["센서 X · 전처리 후", `${exact(node[2])} px`], ["센서 Y · 전처리 후", `${exact(node[3])} px`],
+      ["물리 timestamp", `${exact(node[4])} s`], ["표시용 극성 부호", exact(node[5])],
+      ["그래프 좌표 X / Y", `${exact(node[6])} / ${exact(node[7])}`], ["그래프 시간 좌표 T", exact(node[8])]]);
+  }
+  function updateQuery() {
+    put("degree-count", activeQuery ? `${number(activeQuery.in_degree)}개` : "기준 노드 없음");
+    put("query-status", activeQuery ? `저장된 독립 검사 결과: 일치 · ${number(activeQuery.in_degree)}개 이웃 전체 → 노드 ${activeQuery.node_index}` : "검증된 이웃 연결 기록이 없습니다.");
+    updateNode(); updateViewScope(); schedule();
+  }
+  function updateViewScope() {
+    root.dataset.viewScope = focused ? "query_neighborhood" : "available_nodes";
+    el("focus-neighbors").setAttribute("aria-pressed", String(focused));
+    el("show-all").setAttribute("aria-pressed", String(!focused));
+    put("view-scope", focused
+      ? "선택 노드와 모든 검증 이웃이 보이도록 화면만 확대합니다. 화면 밖 노드는 잘릴 수 있으며, 원본 노드·연결은 변경하지 않습니다."
+      : "XY는 전체 센서, 3D는 파일에 포함된 전체 노드 범위입니다. 확대하면 선택 이웃의 연결 모양을 자세히 볼 수 있습니다.");
+  }
+  function setup(canvas) {
+    const width = canvas.clientWidth, height = canvas.clientHeight;
+    const ratio = window.devicePixelRatio || 1;
+    canvas.width = Math.max(1, Math.round(width * ratio)); canvas.height = Math.max(1, Math.round(height * ratio));
+    const ctx = canvas.getContext("2d");
+    if (!ctx) throw Error("이 브라우저에서 2D 캔버스를 사용할 수 없습니다.");
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.font = "12px system-ui, sans-serif"; ctx.lineWidth = 1;
+    return {ctx, width, height};
+  }
+  function cloud(ctx, points, palette) {
+    // Every exported node is drawn. No downsampling, nearest-neighbor inference,
+    // hidden edge/node limit, or CPU graph reconstruction occurs in this view.
+    for (const positive of [false, true]) {
+      ctx.fillStyle = positive ? palette.positive : palette.negative; ctx.globalAlpha = 0.58; ctx.beginPath();
+      for (let i = 0; i < nodes.length; i++) if ((nodes[i][5] > 0) === positive) {
+        const [x, y] = points[i];
+        if (positive) { ctx.moveTo(x + 1.7, y); ctx.arc(x, y, 1.7, 0, Math.PI * 2); }
+        else ctx.rect(x - 1.5, y - 1.5, 3, 3);
+      }
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    const pointFor = id => points[nodeOffsets.get(id)];
+    if (activeQuery) {
+      const target = pointFor(activeQuery.node_index);
+      ctx.strokeStyle = palette.neighbor; ctx.lineWidth = 1; ctx.globalAlpha = 0.45; ctx.beginPath();
+      for (const id of activeQuery.neighbors) {
+        const point = pointFor(id), dx = target[0] - point[0], dy = target[1] - point[1], length = Math.hypot(dx, dy);
+        ctx.moveTo(point[0], point[1]); ctx.lineTo(target[0], target[1]);
+        if (length > 12) {
+          const ux = dx / length, uy = dy / length, ax = target[0] - ux * 5, ay = target[1] - uy * 5;
+          ctx.moveTo(ax - ux * 5 - uy * 2.5, ay - uy * 5 + ux * 2.5); ctx.lineTo(ax, ay);
+          ctx.lineTo(ax - ux * 5 + uy * 2.5, ay - uy * 5 - ux * 2.5);
+        }
+      }
+      ctx.stroke(); ctx.globalAlpha = 1;
+      ctx.fillStyle = palette.neighbor; ctx.beginPath();
+      for (const id of activeQuery.neighbors) { const p = pointFor(id); ctx.moveTo(p[0] + 2, p[1]); ctx.arc(p[0], p[1], 2, 0, Math.PI * 2); }
+      ctx.fill();
+      ctx.fillStyle = palette.surface; ctx.strokeStyle = palette.ink; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.arc(target[0], target[1], 5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    }
+    if (nodeOffsets.has(inspected) && inspected !== activeQuery?.node_index) {
+      const point = pointFor(inspected); ctx.strokeStyle = palette.focus; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(point[0], point[1], 6, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+  function drawXY(palette) {
+    const canvas = canvases[0], {ctx, width, height} = setup(canvas);
+    const ranges = focused ? viewBounds(2).slice(0, 2).map(range => {
+      const pad = Math.max(0.75, (range[1] - range[0]) * 0.12);
+      return [range[0] - pad, range[1] + pad];
+    }) : [[0, sensorW - 1], [0, sensorH - 1]];
+    const [xRange, yRange] = ranges;
+    const spanX = Math.max(xRange[1] - xRange[0], 1), spanY = Math.max(yRange[1] - yRange[0], 1);
+    const availableW = Math.max(1, width - 84), availableH = Math.max(1, height - 76);
+    const scale = Math.min(availableW / spanX, availableH / spanY);
+    const plotW = spanX * scale, plotH = spanY * scale;
+    const left = 54 + (availableW - plotW) / 2, top = 18 + (availableH - plotH) / 2;
+    ctx.fillStyle = palette.muted; ctx.strokeStyle = palette.grid;
+    for (let i = 0; i <= 3; i++) {
+      const x = left + plotW * i / 3, y = top + plotH * i / 3;
+      ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, top + plotH); ctx.moveTo(left, y); ctx.lineTo(left + plotW, y); ctx.stroke();
+      ctx.textAlign = "center"; ctx.fillText(Number((xRange[0] + (xRange[1] - xRange[0]) * i / 3).toFixed(2)).toString(), x, top + plotH + 20);
+      ctx.textAlign = "right"; ctx.fillText(Number((yRange[0] + (yRange[1] - yRange[0]) * i / 3).toFixed(2)).toString(), left - 9, y + 4);
+    }
+    ctx.strokeStyle = palette.line; ctx.strokeRect(left, top, plotW, plotH);
+    ctx.fillStyle = palette.ink; ctx.textAlign = "center"; ctx.fillText("x [px] →", left + plotW / 2, top + plotH + 43);
+    ctx.save(); ctx.translate(15, top + plotH / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("y [px] ↓", 0, 0); ctx.restore();
+    const points = nodes.map(node => [left + (node[2] - xRange[0]) * scale, top + (node[3] - yRange[0]) * scale]);
+    projected.set(canvas, points); hitBounds.set(canvas, [left, top, left + plotW, top + plotH]);
+    ctx.save(); ctx.beginPath(); ctx.rect(left - 6, top - 6, plotW + 12, plotH + 12); ctx.clip(); cloud(ctx, points, palette); ctx.restore();
+    if (!nodes.length) { ctx.textAlign = "center"; ctx.fillStyle = palette.muted; ctx.fillText("이 윈도우에 유지된 노드가 없습니다", width / 2, height / 2); }
+  }
+  function drawSpace(palette) {
+    const canvas = canvases[1], {ctx, width, height} = setup(canvas);
+    const visibleBounds = focused ? viewBounds(6) : bounds;
+    const center = visibleBounds.map(range => range[0] + (range[1] - range[0]) / 2);
+    const diameter = Math.hypot(...visibleBounds.map(range => range[1] - range[0]));
+    const ry = yaw * Math.PI / 180, rp = pitch * Math.PI / 180;
+    const scale = Math.min(width - 92, height - 80) * 0.8 / (diameter || 1);
+    function project(point) {
+      const [x, y, t] = point.map((value, axis) => value - center[axis]);
+      const xx = Math.cos(ry) * x - Math.sin(ry) * t, depth = Math.sin(ry) * x + Math.cos(ry) * t;
+      const yy = Math.cos(rp) * y - Math.sin(rp) * depth;
+      return [width / 2 + xx * scale, height / 2 + yy * scale];
+    }
+    const base = visibleBounds.map(range => range[0]);
+    const axisEnds = visibleBounds.map((range, axis) => base.map((value, index) => index === axis ? range[1] : value));
+    const origin = project(base);
+    ctx.strokeStyle = palette.line; ctx.fillStyle = palette.muted; ctx.textAlign = "center";
+    for (let axis = 0; axis < 3; axis++) {
+      const end = project(axisEnds[axis]); ctx.beginPath(); ctx.moveTo(...origin); ctx.lineTo(...end); ctx.stroke();
+      ctx.fillText(["X", "Y", "T"][axis], end[0], end[1] - 10 - (diameter === 0 ? axis * 16 : 0));
+    }
+    const points = nodes.map(node => project(node.slice(6, 9)));
+    projected.set(canvas, points); hitBounds.set(canvas, [0, 0, width, height]); cloud(ctx, points, palette);
+    ctx.fillStyle = palette.muted; ctx.textAlign = "left"; ctx.fillText("동일 배율 · 직교 투영 · 드래그로 회전", 16, height - 16);
+    if (!nodes.length) { ctx.textAlign = "center"; ctx.fillText("이 윈도우에 유지된 노드가 없습니다", width / 2, height / 2); }
+  }
+  function schedule() {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => { scheduled = false; try { const palette = colors(); drawXY(palette); drawSpace(palette); } catch (error) { fail(error.message); } });
+  }
+  function inspectAt(canvas, event) {
+    const rect = canvas.getBoundingClientRect(), x = event.clientX - rect.left, y = event.clientY - rect.top;
+    let best = 12 * 12, selected = null;
+    (projected.get(canvas) || []).forEach((point, index) => {
+      const [left, top, right, bottom] = hitBounds.get(canvas);
+      if (point[0] < left || point[0] > right || point[1] < top || point[1] > bottom) return;
+      const squared = (point[0] - x) ** 2 + (point[1] - y) ** 2;
+      if (squared <= best) { best = squared; selected = nodes[index][0]; }
+    });
+    if (selected !== null) { inspected = selected; updateNode(); schedule(); }
+  }
+  select.addEventListener("change", () => { activeQuery = queries.find(query => query.node_index === Number(select.value)); inspected = activeQuery.node_index; updateQuery(); });
+  el("focus-neighbors").addEventListener("click", () => { focused = true; updateViewScope(); schedule(); });
+  el("show-all").addEventListener("click", () => { focused = false; updateViewScope(); schedule(); });
+  el("node-form").addEventListener("submit", event => {
+    event.preventDefault(); const id = Number(el("node-index").value);
+    if (!integer(id) || !nodeMap.has(id)) { put("node-status", "해당 번호는 이 파일에 포함된 노드가 아닙니다. 누락된 노드나 이웃을 생성하지 않습니다."); return; }
+    inspected = id; updateNode(); schedule();
+  });
+  function rotate() { yaw = Number(el("yaw").value); pitch = Number(el("pitch").value); put("yaw-value", `${yaw}°`); put("pitch-value", `${pitch}°`); schedule(); }
+  el("yaw").addEventListener("input", rotate); el("pitch").addEventListener("input", rotate);
+  el("reset-view").addEventListener("click", () => { el("yaw").value = "35"; el("pitch").value = "25"; rotate(); });
+  canvases[0].addEventListener("click", event => inspectAt(canvases[0], event));
+  let drag = null;
+  canvases[1].addEventListener("pointerdown", event => { if (event.button !== 0) return; drag = {id: event.pointerId, x: event.clientX, y: event.clientY, yaw, pitch, moved: false}; canvases[1].setPointerCapture(event.pointerId); });
+  canvases[1].addEventListener("pointermove", event => {
+    if (!drag || drag.id !== event.pointerId) return;
+    const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+    if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true;
+    el("yaw").value = String(Math.round(((drag.yaw + dx * 0.5 + 540) % 360) - 180));
+    el("pitch").value = String(Math.max(-85, Math.min(85, Math.round(drag.pitch - dy * 0.5)))); rotate();
+  });
+  canvases[1].addEventListener("pointerup", event => { if (!drag || drag.id !== event.pointerId) return; const clicked = !drag.moved; drag = null; if (canvases[1].hasPointerCapture(event.pointerId)) canvases[1].releasePointerCapture(event.pointerId); if (clicked) inspectAt(canvases[1], event); });
+  canvases[1].addEventListener("pointercancel", () => { drag = null; });
+  const observer = new ResizeObserver(schedule); canvases.forEach(canvas => observer.observe(canvas));
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", schedule);
+  el("inspection-content").hidden = false;
+  updateQuery();
+})();
+~~~~~~~~
+
 # src/asgcn_unet/viewer_assets/offline.css
 
 ~~~~~~~~text
@@ -47347,6 +48166,141 @@ def make_eventaid(root: Path, frames: int = 4) -> Path:
             ]
             zf.writestr(f"event/{index:06d}.txt", "\n".join(rows) + "\n")
     return path
+~~~~~~~~
+
+# tests/graph_inspection_browser_smoke.cjs
+
+~~~~~~~~text
+/* Synthetic-only file:// smoke. No server, real data, network, or model. */
+"use strict";
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const {pathToFileURL} = require("node:url");
+
+async function main() {
+  const input = process.argv[2];
+  assert(input, "Usage: node graph_inspection_browser_smoke.cjs <synthetic graph.html>");
+  const file = path.resolve(input);
+  const html = fs.readFileSync(file, "utf8");
+  const match = html.match(/<script\s+id="inspection-data"\s+type="application\/json">([\s\S]*?)<\/script>/);
+  assert(match, "A self-contained inspection payload is required");
+  const fixture = JSON.parse(match[1]);
+  assert.equal(fixture.schema, "asgcn_graph_inspection_view_v1");
+  assert.equal(fixture.synthetic_fixture, true, "Refusing to open anything except an explicitly synthetic fixture");
+  assert(fixture.nodes.length > 0 && fixture.nodes.length <= 32768,
+    "Test-only workload bound: this synthetic browser smoke accepts at most 32768 fixture nodes; production display has no node cap");
+  assert(fixture.queries.length > 0, "Fixture must include an audited query");
+  const modulePath = process.env.ASGCN_PLAYWRIGHT_MODULE;
+  assert(modulePath, "Set ASGCN_PLAYWRIGHT_MODULE to the installed Playwright package; no package download is performed");
+  const {chromium} = require(modulePath);
+  const browser = await chromium.launch({headless: true, args: ["--disable-gpu"],
+    ...(process.env.ASGCN_BROWSER_EXECUTABLE ? {executablePath: process.env.ASGCN_BROWSER_EXECUTABLE} : {})});
+  const pageErrors = [], forbiddenRequests = [];
+  try {
+    const context = await browser.newContext({viewport: {width: 1360, height: 1040}, colorScheme: "light"});
+    const page = await context.newPage();
+    page.on("pageerror", error => pageErrors.push(error.message));
+    await context.route("**/*", route => {
+      if (route.request().url() === pathToFileURL(file).href) return route.continue();
+      forbiddenRequests.push(route.request().url());
+      return route.abort();
+    });
+    await page.goto(pathToFileURL(file).href, {waitUntil: "load"});
+    assert.equal(await page.locator("#inspection-error").isVisible(), false,
+      await page.locator("#inspection-error").textContent());
+    await page.locator("#inspection-content").waitFor({state: "visible"});
+    assert.equal(await page.locator("#fixture-notice").isVisible(), true);
+    await page.waitForFunction(() => ["xy-canvas", "space-canvas"].every(id => {
+      const canvas = document.getElementById(id);
+      const pixels = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height).data;
+      let painted = 0;
+      for (let index = 3; index < pixels.length; index += 4) if (pixels[index]) painted++;
+      return painted > 40;
+    }));
+    assert.equal(await page.locator("#query-select option").count(), fixture.queries.length);
+    for (const query of fixture.queries) {
+      await page.locator("#query-select").selectOption(String(query.node_index));
+      assert((await page.locator("#query-status").textContent()).includes(`노드 ${query.node_index}`));
+      assert((await page.locator("#degree-count").textContent()).includes(query.in_degree.toLocaleString("en-US")));
+    }
+    const chosen = fixture.queries[fixture.queries.length - 1];
+    const selectedValue = await page.locator("#query-select").inputValue();
+    await page.locator("#focus-neighbors").click();
+    assert.equal(await page.locator("#graph-inspection").getAttribute("data-view-scope"), "query_neighborhood");
+    assert.equal(await page.locator("#focus-neighbors").getAttribute("aria-pressed"), "true");
+    assert.equal(await page.locator("#query-select").inputValue(), selectedValue);
+    const before = await page.locator("#space-canvas").evaluate(canvas => canvas.toDataURL());
+    await page.locator("#yaw").focus();
+    await page.keyboard.press("ArrowRight");
+    assert.equal(await page.locator("#yaw-value").textContent(), "36°");
+    await page.waitForFunction(old => document.getElementById("space-canvas").toDataURL() !== old, before);
+    await page.locator("#reset-view").click();
+    assert.equal(await page.locator("#yaw").inputValue(), "35");
+    await page.locator("#show-all").click();
+    assert.equal(await page.locator("#graph-inspection").getAttribute("data-view-scope"), "available_nodes");
+    const inspected = fixture.nodes.find(node => node[0] !== chosen.node_index) || fixture.nodes[0];
+    await page.locator("#node-index").fill(String(inspected[0]));
+    await page.locator("#node-form button").click();
+    assert((await page.locator("#node-status").textContent()).includes(`원시 행 ${inspected[1]}`));
+    assert.equal(await page.locator("#query-select").inputValue(), selectedValue, "Node inspection must not invent a new query");
+    await page.locator("#node-index").fill(String(fixture.window.nodes + 10));
+    await page.locator("#node-form button").click();
+    assert((await page.locator("#node-status").textContent()).includes("포함된 노드가 아닙니다"));
+    assert((await page.locator("#edge-count").textContent()).includes(
+      fixture.total_directed_edges === null ? "미측정" : fixture.total_directed_edges.toLocaleString("en-US")));
+    for (const width of [1360, 390, 320]) {
+      await page.setViewportSize({width, height: 1040});
+      await page.waitForFunction(() => document.documentElement.scrollWidth <= window.innerWidth + 1);
+    }
+    await page.emulateMedia({colorScheme: "dark"});
+    await page.locator("#focus-neighbors").click();
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    assert.equal(await page.locator("#inspection-error").isVisible(), false);
+    // The screenshot is a new test artifact only, never an original run/result.
+    await page.emulateMedia({colorScheme: "light"});
+    await page.setViewportSize({width: 1360, height: 1040});
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    const screenshot = path.join(path.dirname(file), "inspection-browser-synthetic.png");
+    assert(!fs.existsSync(screenshot), "Refusing to overwrite an existing screenshot");
+    await page.screenshot({path: screenshot, fullPage: true});
+    for (const variant of ["partial", "empty"]) {
+      const sibling = path.join(path.dirname(file), `${variant}.html`);
+      const siblingHtml = fs.readFileSync(sibling, "utf8");
+      const siblingMatch = siblingHtml.match(/<script\s+id="inspection-data"\s+type="application\/json">([\s\S]*?)<\/script>/);
+      assert(siblingMatch, `${variant} fixture must contain inline data`);
+      const siblingData = JSON.parse(siblingMatch[1]);
+      assert.equal(siblingData.synthetic_fixture, true, "Variant must also be explicitly synthetic");
+      assert(siblingData.nodes.length <= 32768, "Variant exceeds the synthetic-only test workload");
+      await context.unroute("**/*");
+      await context.route("**/*", route => {
+        if (route.request().url() === pathToFileURL(sibling).href) return route.continue();
+        forbiddenRequests.push(route.request().url()); return route.abort();
+      });
+      await page.goto(pathToFileURL(sibling).href, {waitUntil: "load"});
+      await page.locator("#inspection-content").waitFor({state: "visible"});
+      await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+      assert.equal(await page.locator("#inspection-error").isVisible(), false);
+      assert.equal(await page.locator("#fixture-notice").isVisible(), true);
+      if (variant === "partial") {
+        assert.equal(siblingData.coverage, "query_neighborhoods_only");
+        assert((await page.locator("#coverage-notice").textContent()).includes("부분 표시"));
+      } else {
+        assert.equal(siblingData.nodes.length, 0);
+        assert.equal(await page.locator("#query-select").isDisabled(), true);
+        assert.equal(await page.locator("#focus-neighbors").isDisabled(), true);
+        assert((await page.locator("#node-count").textContent()).includes("0 / 0"));
+      }
+    }
+    assert.deepEqual(pageErrors, []);
+    assert.deepEqual(forbiddenRequests, [], "No extra file/network requests are permitted");
+    console.log(`Synthetic-only offline graph browser smoke passed: ${fixture.nodes.length} nodes, 2 canvases, query/focus/rotation/node controls, partial/empty views, 320px layout, zero network requests. Screenshot: ${screenshot}`);
+  } finally {
+    await browser.close();
+  }
+}
+
+main().catch(error => { console.error(error); process.exitCode = 1; });
 ~~~~~~~~
 
 # tests/offline_browser_fixture.py
@@ -58923,6 +59877,265 @@ def test_cli_nonreporting_bypass_is_warned_and_embedded_in_training_config(
     assert "WARNING" in capsys.readouterr().err
 ~~~~~~~~
 
+# tests/test_graph_inspection_view.py
+
+~~~~~~~~python
+"""Tiny SYNTHETIC display fixtures only. No original data or GPU/model execution."""
+
+from __future__ import annotations
+
+import copy
+import json
+import math
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+from asgcn_unet import graph_inspection_view as view
+
+
+def synthetic_report():
+    # Two coincident events are distinct nodes; a third node is unrelated.
+    rows = [[0, 10, 2.0, 3.0, 100.0, -1, 0.2, 0.3, 0.0],
+            [1, 11, 2.0, 3.0, 100.0, 1, 0.2, 0.3, 0.0],
+            [2, 12, 9.0, 9.0, 100.5, 1, 0.9, 0.9, 0.5]]
+    return {
+        "schema": "asgcn_raw_graph_audit_v1", "synthetic_fixture": True,
+        "report_eligible": False, "total_directed_edges": None,
+        "window": {"nodes": 3, "sensor_size": [11, 11], "readout_seconds": 101.0,
+                   "cutoff_seconds": 100.0, "window_seconds": 1.0},
+        "geometry": {"radius": 0.1, "position_dims": 3, "polarity_in_topology": False,
+                     "time_scale_seconds": 1.0, "sequence_origin_seconds": 100.0},
+        "source": {"file_name": "SYNTHETIC.h5", "frame_index": 0,
+                   "identity": "synthetic_only"},
+        "point_cloud": {"schema": "asgcn_graph_point_cloud_v1", "columns": view.COLUMNS,
+                        "rows": rows, "nodes": 3, "coverage": "all_window_nodes"},
+        "node_details": {str(row[0]): {
+            "node_index": row[0], "raw_row_id": row[1],
+            "original_source": {"x": row[2], "y": row[3], "timestamp": row[4], "polarity": row[5]},
+            "preprocessed": {"x": row[2], "y": row[3], "timestamp_seconds": row[4]},
+            "normalized_topology_coordinates": row[6:]} for row in rows[:2]},
+        "queries": [{"node_index": 0, "raw_row_id": 10, "in_degree": 1,
+                     "oracle_match": True, "all_window_sources_checked": 3,
+                     "neighbors": [{"node_index": 1, "raw_row_id": 11,
+                                    "distance_over_radius": 0.0, "distance": 0.0}]}],
+    }
+
+
+@pytest.fixture
+def report():
+    return synthetic_report()
+
+
+@pytest.fixture
+def budget(monkeypatch):
+    monkeypatch.setattr(view, "preflight", lambda **kwargs: {"synthetic": True})
+    return {"memory_budget_bytes": 128 * 1024**2,
+            "reserve_memory_bytes": 64 * 1024**2, "cpu_threads": 1}
+
+
+def test_full_cloud_and_zero_length_edge_keep_distinct_source_nodes(report):
+    before = copy.deepcopy(report)
+    payload = view.display_payload(report)
+    assert payload["nodes"] == report["point_cloud"]["rows"]
+    assert payload["coverage"] == "all_window_nodes"
+    assert payload["total_directed_edges"] is None
+    assert payload["queries"][0]["neighbors"] == [1]
+    assert report == before
+
+
+def test_old_saved_report_displays_only_available_neighborhoods(report):
+    del report["point_cloud"]
+    payload = view.display_payload(report)
+    assert payload["coverage"] == "query_neighborhoods_only"
+    assert len(payload["nodes"]) == 2
+    assert payload["window"]["nodes"] == 3
+    assert payload["total_directed_edges"] is None
+
+
+def test_boolean_source_polarities_in_old_hdf5_audit_are_valid(report):
+    del report["point_cloud"]
+    report["node_details"]["0"]["original_source"]["polarity"] = False
+    report["node_details"]["1"]["original_source"]["polarity"] = True
+    assert [row[5] for row in view.display_payload(report)["nodes"]] == [-1, 1]
+
+
+def test_edge_distance_must_match_endpoints_not_just_saved_radius(report):
+    report["queries"][0]["neighbors"][0].update(node_index=2, raw_row_id=12)
+    with pytest.raises(ValueError, match="endpoint"):
+        view.display_payload(report)
+
+
+def test_large_epoch_does_not_relax_physical_window_validation(report):
+    report["window"].update(readout_seconds=1e9, cutoff_seconds=1e9 - 0.5, window_seconds=0.05)
+    with pytest.raises(ValueError, match="clocks"):
+        view.display_payload(report)
+
+
+def test_full_cloud_raw_lineage_cannot_leave_delivered_suffix(report):
+    report["window"].update(first_raw_row_id=10, last_raw_row_id=12)
+    report["point_cloud"]["rows"][2][1] = 13
+    with pytest.raises(ValueError, match="suffix"):
+        view.display_payload(report)
+
+
+@pytest.mark.parametrize("mutation", [
+    lambda r: r["point_cloud"]["rows"].pop(),
+    lambda r: r["point_cloud"]["rows"][1].__setitem__(0, 0),
+    lambda r: r["point_cloud"]["rows"][1].__setitem__(1, 10),
+    lambda r: r["point_cloud"]["rows"][1].__setitem__(0, True),
+    lambda r: r["point_cloud"]["rows"][1].__setitem__(1, 2**53),
+    lambda r: r["point_cloud"]["rows"][1].__setitem__(2, float("nan")),
+    lambda r: r["point_cloud"]["rows"][1].__setitem__(2, 50),
+    lambda r: r["point_cloud"]["rows"][1].__setitem__(8, 8),
+    lambda r: r["queries"][0].__setitem__("in_degree", 0),
+    lambda r: r["queries"][0].__setitem__("raw_row_id", True),
+    lambda r: r["queries"][0].__setitem__("all_window_sources_checked", True),
+    lambda r: r["queries"][0]["neighbors"][0].__setitem__("raw_row_id", True),
+    lambda r: r["queries"][0].__setitem__("oracle_match", False),
+    lambda r: r["queries"][0].__setitem__("all_window_sources_checked", 2),
+    lambda r: r["queries"][0]["neighbors"][0].__setitem__("node_index", 0),
+    lambda r: r["queries"][0]["neighbors"][0].__setitem__("node_index", 4),
+    lambda r: r["queries"][0]["neighbors"][0].__setitem__("distance_over_radius", 1),
+    lambda r: r["queries"][0]["neighbors"].append(r["queries"][0]["neighbors"][0]),
+    lambda r: r["node_details"]["1"].__setitem__("raw_row_id", 555),
+    lambda r: r.__setitem__("total_directed_edges", 2),
+])
+def test_invalid_or_misleading_graph_data_is_refused(report, mutation):
+    mutation(report)
+    with pytest.raises((ValueError, TypeError)):
+        view.display_payload(report)
+
+
+def test_recorded_complete_edge_total_is_allowed_but_not_invented(report):
+    report.update(total_directed_edges=2,
+                  full_count={"all_nodes_counted": True, "directed_edges": 2, "nodes": 3})
+    assert view.display_payload(report)["total_directed_edges"] == 2
+
+
+def test_html_is_offline_and_data_cannot_escape_script(report, budget, tmp_path):
+    attack = '</script><script>window.PWNED=true</script> __INSPECTION_JS__'
+    report["source"]["file_name"] = attack
+    output = view.save_html(report, tmp_path / "graph.html", workspace=tmp_path, **budget)
+    html = output.read_text(encoding="utf-8")
+    assert attack not in html
+    assert "\\u003c/script\\u003e" in html
+    assert 'src="https://' not in html and 'href="http' not in html
+    assert "fetch(" not in html and "WebSocket(" not in html
+    assert "asgcn_graph_inspection_view_v1" in html
+    before = output.read_bytes()
+    with pytest.raises(FileExistsError):
+        view.save_html(report, output, workspace=tmp_path, **budget)
+    assert output.read_bytes() == before
+    assert not list(tmp_path.glob(".graph-view-*.tmp"))
+
+
+def test_output_cannot_escape_workspace(report, budget, tmp_path):
+    with pytest.raises(ValueError, match="workspace"):
+        view.save_html(report, tmp_path.parent / "escaped.html", workspace=tmp_path, **budget)
+
+
+def test_budget_refusal_has_no_partial_output(report, budget, tmp_path):
+    budget["memory_budget_bytes"] = 1024
+    with pytest.raises(MemoryError):
+        view.save_html(report, tmp_path / "graph.html", workspace=tmp_path, **budget)
+    assert not list(tmp_path.iterdir())
+
+
+def test_source_json_is_preserved_on_export(report, budget, tmp_path):
+    source = tmp_path / "graph.json"
+    source.write_text(json.dumps(report), encoding="utf-8")
+    before = source.read_bytes()
+    view.export_saved_report(source, tmp_path / "graph.html", workspace=tmp_path, **budget)
+    assert source.read_bytes() == before
+
+
+@pytest.mark.parametrize("raw", ['{"schema":1,"schema":2}', '{"nodes":NaN}'])
+def test_invalid_json_refuses_before_output(raw, budget, tmp_path):
+    source = tmp_path / "graph.json"
+    source.write_text(raw, encoding="utf-8")
+    with pytest.raises(ValueError):
+        view.export_saved_report(source, tmp_path / "graph.html", workspace=tmp_path, **budget)
+    assert not (tmp_path / "graph.html").exists()
+
+
+def test_resource_refusal_precedes_saved_report_read(monkeypatch, tmp_path):
+    def refuse(**kwargs):
+        raise RuntimeError("synthetic resource refusal")
+    monkeypatch.setattr(view, "preflight", refuse)
+    with pytest.raises(RuntimeError, match="resource refusal"):
+        view.export_saved_report(tmp_path / "not-read.json", tmp_path / "out.html", workspace=tmp_path,
+                                 memory_budget_bytes=1024, reserve_memory_bytes=1024, cpu_threads=1)
+
+
+def test_script_import_does_not_load_model_or_cuda():
+    script = Path(__file__).resolve().parents[1] / "scripts/export_graph_inspection.py"
+    code = f"import runpy,sys; runpy.run_path({str(script)!r},run_name='synthetic'); " \
+           "assert not {'torch','numpy','h5py'} & set(sys.modules)"
+    result = subprocess.run([sys.executable, "-B", "-c", code], capture_output=True,
+                            text=True, timeout=30, check=False)
+    assert result.returncode == 0, result.stderr
+
+
+def test_browser_fixture(report, budget, tmp_path):
+    """Synthetic display stress fixture, not original events or a quality result."""
+    stress = copy.deepcopy(report)
+    count = 28879
+    rows = [[i, i, i % 320, (i // 320) % 240, 100 + (i % 129) / 256, 1 if i % 2 else -1,
+             (i % 320) / 319, ((i // 320) % 240) / 239, (i % 129) / 256] for i in range(count)]
+    stress["window"].update(nodes=count, sensor_size=[240, 320])
+    stress["point_cloud"].update(nodes=count, rows=rows)
+    stress["source"]["file_name"] = "SYNTHETIC_BROWSER_STRESS.h5"
+    stress["node_details"] = {}
+    queries = []
+    for target in (0, count // 2, count - 1):
+        neighbors = []
+        for row in rows:
+            distance = math.hypot(*[(a - b) / 0.1 for a, b in zip(row[6:], rows[target][6:], strict=True)])
+            if row[0] != target and distance < 1:
+                neighbors.append({"node_index": row[0], "raw_row_id": row[1],
+                                  "distance_over_radius": distance, "distance": distance * 0.1})
+        queries.append({"node_index": target, "raw_row_id": target, "in_degree": len(neighbors),
+                        "oracle_match": True, "all_window_sources_checked": count, "neighbors": neighbors})
+    stress["queries"] = queries
+    view.save_html(stress, tmp_path / "graph.html", workspace=tmp_path,
+                   **{**budget, "memory_budget_bytes": 512 * 1024**2})
+    partial = copy.deepcopy(report)
+    del partial["point_cloud"]
+    view.save_html(partial, tmp_path / "partial.html", workspace=tmp_path, **budget)
+    empty = copy.deepcopy(report)
+    empty["window"]["nodes"] = 0
+    empty["point_cloud"].update(rows=[], nodes=0)
+    empty.update(queries=[], node_details={})
+    view.save_html(empty, tmp_path / "empty.html", workspace=tmp_path, **budget)
+
+
+def test_synthetic_hdf5_to_report_to_html_uses_actual_audited_rows(monkeypatch, budget, tmp_path):
+    import torch
+
+    from tests.test_raw_graph_audit import _audit_synthetic, _synthetic_hdr, audit
+
+    monkeypatch.setattr(audit, "preflight", lambda **kwargs: {"synthetic": True})
+    for key in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
+        monkeypatch.setenv(key, "1")
+    threads = torch.get_num_threads()
+    try:
+        report = _audit_synthetic(_synthetic_hdr(tmp_path / "SYNTHETIC.h5"), include_point_cloud=True)
+        report["synthetic_fixture"] = True
+        payload = view.display_payload(report)
+        assert payload["coverage"] == "all_window_nodes"
+        assert len(payload["nodes"]) == report["window"]["nodes"]
+        assert payload["nodes"] == report["point_cloud"]["rows"]
+        view.save_html(report, tmp_path / "graph.html", workspace=tmp_path, **budget)
+        # Backward-compatible saved reports preserve bool source polarity, too.
+        del report["point_cloud"]
+        view.save_html(report, tmp_path / "legacy.html", workspace=tmp_path, **budget)
+    finally:
+        torch.set_num_threads(threads)
+~~~~~~~~
+
 # tests/test_graph_lookup.py
 
 ~~~~~~~~python
@@ -63612,6 +64825,11 @@ def test_workflow_uses_new_output_and_no_training(monkeypatch, study):
         return {"synthetic": True, "report_eligible": False, "total_directed_edges": None,
                 "window": {"nodes": 0}, "queries": [], "timings": {"audit_elapsed_s": 0.0}}
     monkeypatch.setattr(inspect, "audit_raw_event_graph", synthetic_audit)
+    visual_calls = []
+    def synthetic_html(report, output, **kwargs):
+        visual_calls.append((report, output, kwargs))
+        return output
+    monkeypatch.setattr(inspect, "save_html", synthetic_html)
     original = path.read_bytes()
     first = inspect.inspect_graph(config_path=path, source_file="26.h5", frame_index=0, cpu_threads=1,
                                   memory_budget_mib=512, reserve_memory_mib=128, workspace=root)
@@ -63620,6 +64838,9 @@ def test_workflow_uses_new_output_and_no_training(monkeypatch, study):
                                    count_all_nodes=True)
     assert first != second and first.is_file() and second.is_file()
     assert calls[0]["count_all_nodes"] is False
+    assert all(call["include_point_cloud"] is True for call in calls)
+    assert len(visual_calls) == 2
+    assert visual_calls[0][1] == first.with_suffix(".html")
     assert calls[1]["count_all_nodes"] is True
     assert calls[0]["radius"] == 0.125
     assert json.loads(first.read_text())["training_config_inspection"]["training_executed"] is False
@@ -68486,14 +69707,16 @@ def _synthetic_hdr(path, *, stored_indices=True):
     return path
 
 
-def _audit_synthetic(path, *, frame_index=0):
-    return audit.audit_raw_event_graph(
-        source_file=path, frame_index=frame_index,
-        window_seconds=0.5, time_scale_seconds=1.0, radius=1.0,
-        timestamp_scale_to_seconds=1.0, interval_timestamp_scale_to_seconds=0.5,
-        cpu_threads=1, memory_budget_bytes=512 * 1024**2,
-        reserve_memory_bytes=128 * 1024**2,
-    )
+def _audit_synthetic(path, *, frame_index=0, **overrides):
+    arguments = {
+        "source_file": path, "frame_index": frame_index,
+        "window_seconds": 0.5, "time_scale_seconds": 1.0, "radius": 1.0,
+        "timestamp_scale_to_seconds": 1.0, "interval_timestamp_scale_to_seconds": 0.5,
+        "cpu_threads": 1, "memory_budget_bytes": 512 * 1024**2,
+        "reserve_memory_bytes": 128 * 1024**2,
+    }
+    arguments.update(overrides)
+    return audit.audit_raw_event_graph(**arguments)
 
 
 def test_float_target_metadata_uses_explicit_training_reader_settings(tmp_path, synthetic_resource_snapshot):
@@ -68698,6 +69921,90 @@ def test_default_selected_query_mode_does_not_count_all_nodes(
     assert report["total_directed_edges"] is None
     assert report["timings"]["count_time_s"] is None
     assert report["resources"]["all_node_degree_scratch_bytes"] == 0
+    assert "point_cloud" not in report
+    assert report["resources"]["point_cloud_payload_and_serialization_bytes"] == 0
+
+
+def test_point_cloud_exports_every_retained_actual_node_without_full_edge_count(
+    tmp_path, monkeypatch, synthetic_resource_snapshot,
+):
+    def forbidden_count(*args, **kwargs):
+        pytest.fail("Point-cloud export must not implicitly count all graph edges")
+
+    monkeypatch.setattr(audit, "count_all_degrees", forbidden_count)
+    path = _synthetic_hdr(tmp_path / "synthetic-point-cloud.h5")
+    source_before = path.read_bytes()
+    report = _audit_synthetic(path, include_point_cloud=True, query_indices=[])
+    cloud = report["point_cloud"]
+    assert cloud["schema"] == "asgcn_graph_point_cloud_v1"
+    assert cloud["columns"] == [
+        "node_index", "raw_row_id", "x", "y", "timestamp_seconds", "polarity",
+        "position_x", "position_y", "position_t",
+    ]
+    assert cloud["coverage"] == "all_window_nodes"
+    assert cloud["nodes"] == report["window"]["nodes"] == 3
+    assert cloud["rows"] == [
+        [0, 2, 1.0, 1.0, 10.5, -1.0, 1 / 6, 1 / 4, 1.5],
+        [1, 3, 1.0, 1.0, 10.5, -1.0, 1 / 6, 1 / 4, 1.5],
+        [2, 4, 1.0, 1.0, 10.75, -1.0, 1 / 6, 1 / 4, 1.75],
+    ]
+    # Duplicate event records remain distinct nodes; unrelated nodes are not
+    # omitted merely because no node was selected for the neighbor oracle.
+    assert report["queries"] == []
+    assert report["node_details"] == {}
+    assert report["total_directed_edges"] is None
+    assert report["count_all_nodes"] is False
+    assert report["resources"]["point_cloud_payload_and_serialization_bytes"] == (
+        3 * audit.POINT_CLOUD_PLANNING_BYTES_PER_NODE
+    )
+    assert any(estimate["stage"] == "All-window point cloud payload and JSON serialization"
+               for estimate in report["resources"]["planning_estimates"])
+    saved = audit.save_report(report, "point-cloud.json", workspace=tmp_path)
+    assert json.loads(saved.read_text(encoding="utf-8"))["point_cloud"] == cloud
+    assert all(type(row[0]) is int and type(row[1]) is int for row in cloud["rows"])
+    assert path.read_bytes() == source_before
+
+
+def test_point_cloud_empty_window_stays_empty_without_substitution(tmp_path, synthetic_resource_snapshot):
+    report = _audit_synthetic(
+        _synthetic_hdr(tmp_path / "synthetic-empty-cloud.h5"),
+        include_point_cloud=True, window_seconds=0.125,
+    )
+    assert report["point_cloud"]["nodes"] == 0
+    assert report["point_cloud"]["rows"] == []
+    assert report["point_cloud"]["coverage"] == "all_window_nodes"
+    assert report["resources"]["point_cloud_payload_and_serialization_bytes"] == 0
+
+
+def test_point_cloud_extra_payload_budget_is_refused_before_coordinate_payload_read(
+    tmp_path, monkeypatch, synthetic_resource_snapshot,
+):
+    import h5py
+
+    path = _synthetic_hdr(tmp_path / "synthetic-cloud-budget.h5")
+    baseline = _audit_synthetic(path)
+    persistent = next(
+        estimate["estimated_working_bytes"]
+        for estimate in baseline["resources"]["planning_estimates"]
+        if estimate["stage"] == "Complete window, query output, index and oracle"
+    )
+    extra = baseline["window"]["nodes"] * audit.POINT_CLOUD_PLANNING_BYTES_PER_NODE
+    original_read = h5py.Dataset.__getitem__
+
+    def no_coordinate_payload_read(dataset, *args, **kwargs):
+        if dataset.name in {"/events/xs", "/events/ys", "/events/ps"}:
+            pytest.fail("Point-cloud RAM refusal happened after coordinate/polarity payload read")
+        return original_read(dataset, *args, **kwargs)
+
+    monkeypatch.setattr(h5py.Dataset, "__getitem__", no_coordinate_payload_read)
+    with pytest.raises(MemoryError, match="Complete window.*no graph reduction"):
+        _audit_synthetic(path, include_point_cloud=True, memory_budget_bytes=persistent + extra - 1)
+
+
+@pytest.mark.parametrize("value", [None, 0, 1, "true"])
+def test_point_cloud_flag_rejects_non_boolean_before_input_read(tmp_path, value):
+    with pytest.raises(TypeError, match="include_point_cloud must be an explicit boolean"):
+        _audit_synthetic(tmp_path / "nonexistent.h5", include_point_cloud=value)
 
 
 def test_opt_in_counts_full_window_and_reuses_one_index_for_selected_oracle(
@@ -68749,6 +70056,8 @@ def test_count_mode_flag_is_explicit_opt_in():
                  "--output", "synthetic.json"]
     assert audit.build_parser().parse_args(arguments).count_all_nodes is False
     assert audit.build_parser().parse_args([*arguments, "--count-all-nodes"]).count_all_nodes is True
+    assert audit.build_parser().parse_args(arguments).include_point_cloud is False
+    assert audit.build_parser().parse_args([*arguments, "--include-point-cloud"]).include_point_cloud is True
 ~~~~~~~~
 
 # tests/test_recovery.py

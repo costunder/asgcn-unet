@@ -1,0 +1,503 @@
+{
+  "schema": "asgcn_offline_results_v1",
+  "title": "ASGCN · 복원 결과",
+  "created_utc": null,
+  "readonly": true,
+  "notes": [
+    "출처: 사용자가 대화에 붙여 넣은 runs/fast/eval-2960f09의 EventAid-R / EventHDR 평가표입니다. 원본 보고서와 다시 대조한 값은 아닙니다.",
+    "현재 파일에는 실제 GT·복원 PNG와 그래프 데이터가 없습니다. 평가표만 포함하며, PC의 PNG를 직접 선택해 비교할 수 있습니다.",
+    "이 표의 Quality/Bench=yes를 report_eligible=true로 옮겼습니다. 독립 검증이나 화질 보증이 아닙니다.",
+    "원본 표의 I/O=excluded입니다. 속도·VRAM은 별도 벤치마크 값이고 전체 평가의 end-to-end 측정이나 최대 메모리가 아닙니다.",
+    "예전 eval-recovery-7475202 결과는 중복 비교를 피하기 위해 이 자료에 넣지 않았습니다. 두 결과를 합치거나 평균내지 않았습니다."
+  ],
+  "warnings": [
+    "실제 이미지/그래프 미포함. 합성 예측이나 추정 그래프는 넣지 않았습니다."
+  ],
+  "datasets": [
+    {
+      "id": "aid",
+      "label": "EventAid-R",
+      "total_frames": 51512,
+      "frames": [],
+      "modes": [
+        {
+          "id": "ann",
+          "label": "ann",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 10.59523,
+              "ssim": 0.73928
+            },
+            "macro": {
+              "psnr": 11.21929,
+              "ssim": 0.77621
+            }
+          },
+          "benchmark": {
+            "mean_ms": 49.72505,
+            "fps": 20.11059,
+            "peak_gpu_memory_mb": 199.8042,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_literal_eq15_T4",
+          "label": "snn_literal_eq15_T4",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 11.72167,
+              "ssim": 0.75323
+            },
+            "macro": {
+              "psnr": 12.33199,
+              "ssim": 0.78836
+            }
+          },
+          "benchmark": {
+            "mean_ms": 72.7854,
+            "fps": 13.73902,
+            "peak_gpu_memory_mb": 198.07471,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_literal_eq15_T8",
+          "label": "snn_literal_eq15_T8",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 11.72521,
+              "ssim": 0.75329
+            },
+            "macro": {
+              "psnr": 12.33574,
+              "ssim": 0.78842
+            }
+          },
+          "benchmark": {
+            "mean_ms": 101.57528,
+            "fps": 9.84491,
+            "peak_gpu_memory_mb": 199.36475,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_literal_eq15_T16",
+          "label": "snn_literal_eq15_T16",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 11.73745,
+              "ssim": 0.75348
+            },
+            "macro": {
+              "psnr": 12.34599,
+              "ssim": 0.78861
+            }
+          },
+          "benchmark": {
+            "mean_ms": 159.91612,
+            "fps": 6.25328,
+            "peak_gpu_memory_mb": 199.77539,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_literal_eq15_T32",
+          "label": "snn_literal_eq15_T32",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 11.745,
+              "ssim": 0.75354
+            },
+            "macro": {
+              "psnr": 12.35255,
+              "ssim": 0.78867
+            }
+          },
+          "benchmark": {
+            "mean_ms": 275.59548,
+            "fps": 3.62851,
+            "peak_gpu_memory_mb": 198.90088,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_standard_if_T4",
+          "label": "snn_standard_if_T4",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 10.78392,
+              "ssim": 0.74535
+            },
+            "macro": {
+              "psnr": 11.4127,
+              "ssim": 0.78223
+            }
+          },
+          "benchmark": {
+            "mean_ms": 71.51724,
+            "fps": 13.98264,
+            "peak_gpu_memory_mb": 198.31494,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_standard_if_T8",
+          "label": "snn_standard_if_T8",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 10.67141,
+              "ssim": 0.74277
+            },
+            "macro": {
+              "psnr": 11.30324,
+              "ssim": 0.77978
+            }
+          },
+          "benchmark": {
+            "mean_ms": 99.97736,
+            "fps": 10.00226,
+            "peak_gpu_memory_mb": 198.81543,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_standard_if_T16",
+          "label": "snn_standard_if_T16",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 10.64745,
+              "ssim": 0.74164
+            },
+            "macro": {
+              "psnr": 11.27418,
+              "ssim": 0.77859
+            }
+          },
+          "benchmark": {
+            "mean_ms": 157.53902,
+            "fps": 6.34763,
+            "peak_gpu_memory_mb": 198.31494,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_standard_if_T32",
+          "label": "snn_standard_if_T32",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 51512,
+            "micro": {
+              "psnr": 10.60262,
+              "ssim": 0.74019
+            },
+            "macro": {
+              "psnr": 11.22988,
+              "ssim": 0.77714
+            }
+          },
+          "benchmark": {
+            "mean_ms": 271.9064,
+            "fps": 3.67774,
+            "peak_gpu_memory_mb": 198.31494,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hdr",
+      "label": "EventHDR",
+      "total_frames": 7619,
+      "frames": [],
+      "modes": [
+        {
+          "id": "ann",
+          "label": "ann",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 14.78788,
+              "ssim": 0.60197
+            },
+            "macro": {
+              "psnr": 14.78788,
+              "ssim": 0.60197
+            }
+          },
+          "benchmark": {
+            "mean_ms": 17.22128,
+            "fps": 58.06769,
+            "peak_gpu_memory_mb": 173.13232,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_literal_eq15_T4",
+          "label": "snn_literal_eq15_T4",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 12.87699,
+              "ssim": 0.55968
+            },
+            "macro": {
+              "psnr": 12.87699,
+              "ssim": 0.55968
+            }
+          },
+          "benchmark": {
+            "mean_ms": 33.17656,
+            "fps": 30.14176,
+            "peak_gpu_memory_mb": 176.97168,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_literal_eq15_T8",
+          "label": "snn_literal_eq15_T8",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 12.87574,
+              "ssim": 0.55971
+            },
+            "macro": {
+              "psnr": 12.87574,
+              "ssim": 0.55971
+            }
+          },
+          "benchmark": {
+            "mean_ms": 52.91009,
+            "fps": 18.89999,
+            "peak_gpu_memory_mb": 176.97168,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_literal_eq15_T16",
+          "label": "snn_literal_eq15_T16",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 12.86774,
+              "ssim": 0.5593
+            },
+            "macro": {
+              "psnr": 12.86774,
+              "ssim": 0.5593
+            }
+          },
+          "benchmark": {
+            "mean_ms": 92.3886,
+            "fps": 10.82385,
+            "peak_gpu_memory_mb": 176.97168,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_literal_eq15_T32",
+          "label": "snn_literal_eq15_T32",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 12.85758,
+              "ssim": 0.55881
+            },
+            "macro": {
+              "psnr": 12.85758,
+              "ssim": 0.55881
+            }
+          },
+          "benchmark": {
+            "mean_ms": 171.53963,
+            "fps": 5.82956,
+            "peak_gpu_memory_mb": 176.97168,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_standard_if_T4",
+          "label": "snn_standard_if_T4",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 13.99369,
+              "ssim": 0.5885
+            },
+            "macro": {
+              "psnr": 13.99369,
+              "ssim": 0.5885
+            }
+          },
+          "benchmark": {
+            "mean_ms": 32.83565,
+            "fps": 30.4547,
+            "peak_gpu_memory_mb": 172.84766,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_standard_if_T8",
+          "label": "snn_standard_if_T8",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 14.29968,
+              "ssim": 0.59582
+            },
+            "macro": {
+              "psnr": 14.29968,
+              "ssim": 0.59582
+            }
+          },
+          "benchmark": {
+            "mean_ms": 52.2397,
+            "fps": 19.14253,
+            "peak_gpu_memory_mb": 172.84766,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_standard_if_T16",
+          "label": "snn_standard_if_T16",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 14.52576,
+              "ssim": 0.59928
+            },
+            "macro": {
+              "psnr": 14.52576,
+              "ssim": 0.59928
+            }
+          },
+          "benchmark": {
+            "mean_ms": 91.00497,
+            "fps": 10.98841,
+            "peak_gpu_memory_mb": 172.84766,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        },
+        {
+          "id": "snn_standard_if_T32",
+          "label": "snn_standard_if_T32",
+          "saved_frames": 0,
+          "report_eligible": true,
+          "quality": {
+            "frames": 7619,
+            "micro": {
+              "psnr": 14.68938,
+              "ssim": 0.60108
+            },
+            "macro": {
+              "psnr": 14.68938,
+              "ssim": 0.60108
+            }
+          },
+          "benchmark": {
+            "mean_ms": 168.54609,
+            "fps": 5.9331,
+            "peak_gpu_memory_mb": 172.84766,
+            "report_eligible": true
+          },
+          "protocol": {
+            "verification": "user_pasted_summary_only"
+          }
+        }
+      ]
+    }
+  ],
+  "images": {}
+}
